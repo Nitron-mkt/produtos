@@ -12,11 +12,11 @@
 
 | Janela 12M | Faturamento PA |
 |---|---|
-| ago/23–jul/24 | R$ 122,0 M |
-| ago/24–jul/25 | R$ 113,4 M |
+| ago/23–jul/24 | R$ 122,7 M |
+| ago/24–jul/25 | R$ 117,6 M |
 | ago/25–jul/26 | **R$ 94,9 M** |
 
-**A casa caiu 22% em dois anos** — e caiu enquanto lançava mais SKUs do que nunca. Esse é o fato central do projeto.
+**A casa caiu 23% em dois anos** — e caiu enquanto lançava mais SKUs do que nunca. Esse é o fato central do projeto.
 
 ### A única linha que cresce é Frasqueiras
 
@@ -51,7 +51,7 @@
 | 2025 | 337 | 12 | 3,6% | 284 (84%) |
 | 2026 (parcial) | 93 | 1 | 1,1% | 90 |
 
-Os **190 SKUs de 2021 geraram R$96,7 M**. Os **775 SKUs de 2024–2025 geraram R$48,6 M**. Quatro vezes mais lançamentos, metade do resultado.
+Os **190 SKUs de 2021 geraram R$96,7 M**. Os **682 SKUs de 2024–2025 geraram R$48,6 M**. Quatro vezes mais lançamentos, metade do resultado.
 
 Ressalva honesta: safras de 2024–2026 tiveram menos tempo para maturar, então parte da queda é efeito de maturidade. Mas 302 dos 345 SKUs de 2024 não passaram de R$100 mil em mais de dois anos de vida — isso não é maturidade, é proliferação. **A recomendação nº 1 deste projeto é lançar menos e melhor.**
 
@@ -94,7 +94,7 @@ Dois vetores adicionais valem registro: **texturas juta** (Cesto Europa Juta 5,3
 
 ## 3. Recomendação — 3 candidatos + 1 certeiro por linha
 
-Priorizei as **8 linhas que concentram R$ 40,7 M dos R$ 44,7 M de lucro bruto** da casa. O "certeiro" de cada linha é sempre o de menor risco: **molde existente + vetor comprovado**, ou seja, o investimento é pigmento, embalagem e cadastro — não CAPEX de ferramentaria.
+Priorizei as **8 linhas que concentram R$ 40,7 M dos R$ 44,6 M de lucro bruto** (91%) da casa. O "certeiro" de cada linha é sempre o de menor risco: **molde existente + vetor comprovado**, ou seja, o investimento é pigmento, embalagem e cadastro — não CAPEX de ferramentaria.
 
 ### 3.1 Organização — R$ 22,9 M · MB 52,6% · LB R$ 11,8 M
 *Maior pool de lucro da casa. Queda vem do Kit Nitronbox B2B (R$3,85M→R$2,68M) e da Caixa 16L branca (R$1,09M→R$563k), não da linha toda: gaveteiros crescem.*
