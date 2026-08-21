@@ -1,0 +1,7 @@
+# Parque de injetoras e ocupacao. Fonte: VW_MAQUINA_CAPACIDADE + AD_APONTACICLO (ago/25-jul/26)
+# RESSALVA: horas = DHTERMINOPRODUCAO - DHPRODUCAO, pode incluir tempo morto. Ocupacao contra 24/7 (8.760h/ano).
+faixa;maquinas_cadastradas;maquinas_com_apontamento;maquinas_paradas;produtos;horas_apontadas;horas_por_maquina;ocupacao_24h_pct
+ate 260t (pequenas);15;8;7;135;39860;4982;56,9
+261-1100t (medias);6;1;5;23;6689;6689;76,4
+1101-2000t (grandes);23;23;0;249;147993;6434;73,5
+acima 2000t (XL);12;12;0;157;76382;6365;72,7

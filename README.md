@@ -12,6 +12,11 @@ por linha, seleção de candidatos a lançamento e validação de mercado.
   - `03-vetores-crescimento.csv` — SKUs em crescimento agrupados por vetor
   - `04-migracao-tabelas.csv` — prova de que a queda da padrão é migração, não demanda
   - `05-teto-preco-margem-padrao.csv` — preço e MB na tabela cheia por produto
+  - `06-performance-por-cor.csv` — as 16 cores do portfólio; só chumbo e laranja cresceram
+  - `07-chumbo-renomeacao-cinza.csv` — evidência de que parte do chumbo é recadastro de "cinza"
+  - `08-capacidade-injetoras.csv` — ocupação por faixa de tonelagem
+  - `09-parque-por-tonelagem.csv` — as 66 injetoras (Nitron-Fábrica + Tanamu)
+  - `10-chumbo-cobertura-por-linha.csv` — onde o chumbo já existe e onde falta
 - `analise/` — diagnóstico e recomendações
   - `01-diagnostico-e-recomendacoes.md` — Fase 1: curvas, vetores, 3+1 produtos por linha
 
@@ -44,3 +49,17 @@ Ver `dados/04-migracao-tabelas.csv`.
 1. ✅ Diagnóstico das curvas e seleção de candidatos
 2. ⏳ Raspagem de mercado para validar/matar cada candidato
 3. ⏳ Business case e priorização por CAPEX/tonelagem
+
+## Lacuna de master data (bloqueia o ranking por tonelagem)
+
+| Campo | Preenchido |
+|---|---|
+| `TGFPRO.AD_TONELAGEMMIN/MAX` | 10 de 4.252 |
+| `TGFPRO.AD_QTDCAVIDADE` | 52 de 4.252 |
+| `TGFPRO.AD_CODCORPROD` | 0 |
+| `AD_FICHATECNICA` | 4 linhas |
+| `TPRCPR` (roteiro) | 0 linhas |
+
+O apontamento real (`AD_APONTACICLO`, 37 mil registros) tem produto, máquina, ciclo e cor — mas 99,7%
+dos registros são em Produto Intermediário, e a estrutura PA→PI não foi localizada numa view direta.
+Daí a ocupação sair por faixa de tonelagem, e não por produto acabado.

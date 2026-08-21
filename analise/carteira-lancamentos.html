@@ -233,6 +233,25 @@ footer b{color:var(--ink-2);font-weight:600}
 .cut p:last-child{margin-bottom:0}
 .cut .yes{color:var(--pos);font-weight:600;font-family:Archivo,sans-serif;font-size:12px}
 .cut .no{color:var(--neg);font-weight:600;font-family:Archivo,sans-serif;font-size:12px}
+/* color diverging bars */
+.cbar{display:flex;align-items:center;gap:0;height:20px;min-width:150px}
+.cbar .neg{flex:1;display:flex;justify-content:flex-end}
+.cbar .pos{flex:1}
+.cbar span{display:block;height:12px;border-radius:1px}
+.cbar .neg span{background:var(--neg)}
+.cbar .pos span{background:var(--pos)}
+.cbar .axis{width:1px;height:20px;background:var(--rule-2);flex:none}
+/* occupancy meter */
+.occ{display:flex;align-items:center;gap:9px;min-width:150px}
+.occtrack{flex:1;height:18px;background:var(--surface-2);border-radius:1px;position:relative;overflow:hidden}
+.occfill{height:100%;background:var(--bar-lead);border-radius:1px}
+.occ.slack .occfill{background:var(--pos)}
+.occ b{font-family:Archivo,sans-serif;font-size:12px;font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+/* wrong/right certeiro */
+.wrong{margin:0;border-top:1px solid var(--rule);background:var(--neg-soft);border-left:4px solid var(--neg);padding:15px 22px}
+.wrong .wtag{font-family:Archivo,sans-serif;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--neg);display:block;margin-bottom:6px}
+.wrong .wn{font-family:Archivo,sans-serif;font-weight:700;font-size:.98rem;display:block;margin-bottom:5px;text-decoration:line-through;text-decoration-color:var(--neg);color:var(--muted)}
+.wrong p{margin:0;font-size:.93rem;color:var(--ink-2);max-width:76ch}
 /* correction list */
 .corrs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 20px}
 .cr{background:var(--surface);display:grid;grid-template-columns:34px 1fr;gap:0}
@@ -257,9 +276,9 @@ footer b{color:var(--ink-2);font-weight:600}
 
 <header class="mast">
   <p class="kicker">Desenvolvimento de Produtos · Fase 1</p>
-  <span class="rev">Revisão 2 · filtro de tabela de preço</span>
+  <span class="rev">Revisão 3 · auditoria de cor + capacidade</span>
   <h1>Carteira de Lançamentos Nitron</h1>
-  <p class="standfirst">Refeita com filtro de tabela de preço para tirar Avon/Natura da conta. A curva limpa, os oito vetores que resistiram ao corte, o teto de margem por produto, e 32 candidatos — 3 mais 1 certeiro para cada uma das oito linhas que concentram 91% do lucro bruto.</p>
+  <p class="standfirst">Curva limpa sem Avon/Natura, os oito vetores que resistiram ao corte, o teto de margem por produto, a auditoria completa do vetor cor, a ocupação real das 56 injetoras — e 32 candidatos, com dois certeiros corrigidos porque os produtos que eu propus já existiam.</p>
   <div class="meta">
     <div><span>Fonte</span><b>Sankhya · produção</b></div>
     <div><span>Escopo</span><b>Nitronplast (emp. 1, 2, 14)</b></div>
@@ -436,7 +455,7 @@ footer b{color:var(--ink-2);font-weight:600}
 <section>
   <div class="shead"><span class="snum">06</span><h2>A carteira: 3 candidatos e 1 certeiro por linha</h2></div>
 
-  <p class="lede">Oito linhas, <strong>R$ 37,7 M dos R$ 41,4 M de lucro bruto — 91%</strong>. Cada certeiro cruza <strong>molde existente com vetor comprovado</strong>: o investimento é pigmento, embalagem e cadastro, não CAPEX de ferramentaria. As recomendações da revisão 1 se mantêm, porque os vetores sobreviveram ao corte — o que mudou foram os números de suporte.</p>
+  <p class="lede">Oito linhas, <strong>R$ 37,7 M dos R$ 41,4 M de lucro bruto — 91%</strong>. Cada certeiro cruza <strong>molde existente com vetor comprovado</strong>: o investimento é pigmento, embalagem e cadastro, não CAPEX de ferramentaria. Seis das oito recomendações se mantêm; <strong>dois certeiros estavam errados</strong> porque os produtos que propus já existem no catálogo — a auditoria de cor da seção 07 pegou isso, e as correções estão marcadas nos painéis.</p>
 
   <div class="panel">
     <div class="phead"><h3>Organização</h3><div class="pstats"><span>R$ <b>22,1 M</b></span><span>MB <b>54,2%</b></span><span>LB <b>R$ 11,8 M</b></span><span><b>292</b> SKUs</span><span><b>3.634</b> clientes</span></div></div>
@@ -446,7 +465,8 @@ footer b{color:var(--ink-2);font-weight:600}
       <li><span><span class="pn">Gaveteiro Modular Rattan chumbo + torre de 3 módulos pré-montada</span><span class="pr">Modular transparente <b>+29%</b>, 4 gavetas rosa <b>+110%</b>. Gaveteiro é o subgrupo que cresce; falta a cor do momento e o kit.</span></span></li>
       <li><span><span class="pn">Organizador Multiuso Rattan 3 divisórias — versão com tampa / empilhável</span><span class="pr">1.732 clientes e <b>78,8% de margem na tabela padrão</b> — o segundo produto mais rentável da casa.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Caixa Organizadora Rattan com Tampa em chumbo — 4L e 16L</span><p>A dupla preta mais branca do 16L faz <b>R$ 1,13 M</b>. Chumbo entregou <b>+208%</b> na lixeira do mesmo período. Molde existe; custo de entrada é pigmento e etiqueta.</p></div>
+    <div class="wrong"><span class="wtag">Certeiro da revisão 2 — errado</span><span class="wn">Caixa Organizadora Rattan com Tampa em chumbo — 4L e 16L</span><p>Já existe em 2L, 4L, 8L e 16L (R$ 35 k, 64 k, 89 k e 81 k, crescendo 44% a 96%). A auditoria de cor mostrou que eu propus lançar um produto que está no catálogo.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro corrigido</span><span class="cn">Gaveteiro em chumbo — 4 gavetas e Modular Rattan 8,2L</span><p>É o <b>único buraco de chumbo na linha</b>: 13 SKUs chumbo em Organização e nenhum gaveteiro. E gaveteiro é justamente o subgrupo que cresce — 4 gavetas preta R$ 753 k (+22%), branca R$ 471 k (+22%), rosa <b>+110%</b>, Modular transparente R$ 390 k (+29%). Molde existe, cor comprovada, gap explícito.</p></div>
   </div>
 
   <div class="panel">
@@ -479,7 +499,7 @@ footer b{color:var(--ink-2);font-weight:600}
       <li><span><span class="pn">Nitronfort expandido — 6L intermediário, maleta com bandeja, versão grafite</span><span class="pr">O 2,2L fez <b>+111%</b> e o 16L <b>+74%</b>.</span></span></li>
       <li><span><span class="pn">Frasqueira Oval com bandeja — ampliar tamanhos e cores</span><span class="pr">A branca fez <b>+177%</b> partindo de base pequena, com 296 clientes.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro · menor risco do portfólio</span><span class="cn">Frasqueira Medicamentos 2,8L e 6,2L em chumbo / grafite</span><p>O 2,8L branca é o maior SKU de marca própria da casa. E o vetor V8 dá três provas independentes no mesmo período: <b>Mega Luxo vermelha 12L +183%</b>, <b>Oval branca +177%</b>, e a <b>vermelha 2,8L já vendendo na tabela padrão</b> com 95 clientes e 63,3% de margem. Molde existe, linha em crescimento.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro nº 1 do projeto</span><span class="cn">Frasqueira Medicamentos 2,8L e 6,2L em chumbo / grafite</span><p>O 2,8L branca é o maior SKU de marca própria da casa. E o vetor V8 dá três provas independentes no mesmo período: <b>Mega Luxo vermelha 12L +183%</b>, <b>Oval branca +177%</b>, e a <b>vermelha 2,8L já vendendo na tabela padrão</b> com 95 clientes e 63,3% de margem. Molde existe, linha em crescimento.</p></div>
   </div>
 
   <div class="panel">
@@ -490,7 +510,8 @@ footer b{color:var(--ink-2);font-weight:600}
       <li><span><span class="pn">Lixeira seletiva / duo com dois compartimentos</span><span class="pr">Ausente do portfólio. Coleta seletiva doméstica é tendência estrutural e sustenta ticket alto.</span></span></li>
       <li><span><span class="pn">Lixeira Vime em chumbo</span><span class="pr">A preta 12L faz R$ 720 k e vende a <b>R$ 27,18 na tabela padrão</b>.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Lixeira Basculante Rattan chumbo 4,5L e Lixeira Rattan com Pedal chumbo 12L</span><p>Chumbo tem o maior crescimento comprovado da casa — <b>+208%</b> e <b>+196%</b>. A basculante 4,5L preta faz R$ 550 k com 926 clientes e cresce <b>+21%</b>; o pedal 12L é o buraco óbvio, porque chumbo hoje só existe no 6L. Os dois moldes existem.</p></div>
+    <div class="wrong"><span class="wtag">Certeiro da revisão 2 — parcialmente errado</span><span class="wn">Lixeira Basculante Rattan chumbo 4,5L</span><p>A basculante chumbo 4,5L já existe: R$ 141 k, +67%, 329 clientes. Lixeiras é a linha mais coberta de chumbo da casa, com 12 SKUs.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro corrigido</span><span class="cn">Lixeira Rattan com Pedal chumbo nos volumes que faltam — 12L e acima</span><p>O Rattan c/ Pedal chumbo <b>6L é o maior sucesso de chumbo da casa</b>: R$ 554 k e 711 clientes partindo de zero. Mas a família só tem chumbo no 6L — o 12L chumbo existe em Juta e em Vime, não em Rattan. Mesma família, mesmo padrão, gap explícito. <b>Ressalva:</b> lixeira grande roda em injetora de 1.101 t+, faixa onde não há máquina livre — este certeiro compete por capacidade já ocupada.</p></div>
   </div>
 
   <div class="panel">
@@ -523,12 +544,131 @@ footer b{color:var(--ink-2);font-weight:600}
       <li><span><span class="pn">Utensílios de hambúrguer e churrasco — prensa dupla, formador de kibe</span><span class="pr">A Hamburgueira faz R$ 243 k com <b>755 clientes</b> e <b>68,7% de margem na padrão</b>.</span></span></li>
       <li><span><span class="pn">Espremedores e cortadores — família em cores</span><span class="pr">Hoje quase todo o subgrupo é branco.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro · maior retorno sobre CAPEX</span><span class="cn">Família "Fácil": Coxinha &amp; Croquete Fácil e Pastel Fácil</span><p><b>O Kit Churros Fácil rende 81,5% de margem a R$ 14,49 na tabela padrão — é o produto mais rentável da casa</b> — e saltou de 342 para <b>842 clientes</b> em doze meses. Molde pequeno, tonelagem baixa, CAPEX baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do país e não tem utensílio dominante no varejo de utilidades.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro nº 2 · melhor viabilidade de máquina</span><span class="cn">Família "Fácil": Coxinha &amp; Croquete Fácil e Pastel Fácil</span><p><b>O Kit Churros Fácil rende 81,5% de margem a R$ 14,49 na tabela padrão — é o produto mais rentável da casa</b> — e saltou de 342 para <b>842 clientes</b> em doze meses. Molde pequeno, tonelagem baixa, CAPEX baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do país e não tem utensílio dominante no varejo de utilidades. E Decor Util aponta <b>100% das suas horas de injeção em máquina ≤260 t</b> — exatamente a faixa com 7 injetoras paradas e 57% de ocupação.</p></div>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">07</span><h2>Onde não lançar</h2></div>
+  <div class="shead"><span class="snum">07</span><h2>Auditoria do vetor cor: sim e não</h2></div>
+
+  <p class="lede">Pergunta justa — eu apoiei o vetor chumbo em <strong>dois SKUs</strong>. Testei todas as cores do portfólio, e a resposta tem as duas metades.</p>
+
+  <h3>Sim: chumbo e laranja foram as duas únicas cores que cresceram</h3>
+
+  <div class="scroll">
+  <table>
+    <caption>Corte B, marca própria. Barra proporcional ao ganho ou perda absoluta em reais. Das dezesseis cores do portfólio, catorze caíram.</caption>
+    <thead><tr><th>Cor</th><th class="n">SKUs</th><th class="n">23/24</th><th class="n">24/25</th><th class="n">25/26</th><th>Ganho / perda</th><th class="n">Var</th><th class="n">R$/SKU</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="name">CHUMBO</td><td class="n">44</td><td class="n">—</td><td class="n">1,33 M</td><td class="n"><b>2,57 M</b></td><td><span class="cbar"><span class="neg"></span><span class="axis"></span><span class="pos"><span style="width:100%"></span></span></span></td><td class="n up"><b>+93,1%</b></td><td class="n">58 k</td></tr>
+      <tr class="hl"><td class="name">LARANJA</td><td class="n">3</td><td class="n">0,48 M</td><td class="n">0,38 M</td><td class="n"><b>0,70 M</b></td><td><span class="cbar"><span class="neg"></span><span class="axis"></span><span class="pos"><span style="width:25%"></span></span></span></td><td class="n up"><b>+81,7%</b></td><td class="n"><b>233 k</b></td></tr>
+      <tr><td class="name">Transparente</td><td class="n">118</td><td class="n">9,65 M</td><td class="n">11,02 M</td><td class="n">10,31 M</td><td><span class="cbar"><span class="neg"><span style="width:16%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−6,4%</td><td class="n">87 k</td></tr>
+      <tr><td class="name">Areia / bege</td><td class="n">6</td><td class="n">1,69 M</td><td class="n">1,38 M</td><td class="n">1,25 M</td><td><span class="cbar"><span class="neg"><span style="width:3%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−9,9%</td><td class="n">208 k</td></tr>
+      <tr><td class="name">Branco</td><td class="n">284</td><td class="n">24,18 M</td><td class="n">25,01 M</td><td class="n">21,83 M</td><td><span class="cbar"><span class="neg"><span style="width:71%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−12,7%</td><td class="n">77 k</td></tr>
+      <tr><td class="name">Preto</td><td class="n">254</td><td class="n">28,65 M</td><td class="n">30,61 M</td><td class="n">26,09 M</td><td><span class="cbar"><span class="neg"><span style="width:100%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−14,8%</td><td class="n">103 k</td></tr>
+      <tr><td class="name">Fumê</td><td class="n">8</td><td class="n">0,84 M</td><td class="n">0,76 M</td><td class="n">0,59 M</td><td><span class="cbar"><span class="neg"><span style="width:4%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−22,8%</td><td class="n">74 k</td></tr>
+      <tr><td class="name">Vermelho</td><td class="n">77</td><td class="n">4,34 M</td><td class="n">2,84 M</td><td class="n">2,14 M</td><td><span class="cbar"><span class="neg"><span style="width:15%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−24,5%</td><td class="n">28 k</td></tr>
+      <tr><td class="name">Rosa</td><td class="n">98</td><td class="n">2,80 M</td><td class="n">2,18 M</td><td class="n">1,36 M</td><td><span class="cbar"><span class="neg"><span style="width:18%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−37,8%</td><td class="n">14 k</td></tr>
+      <tr><td class="name">Azul</td><td class="n">21</td><td class="n">1,23 M</td><td class="n">0,58 M</td><td class="n">0,29 M</td><td><span class="cbar"><span class="neg"><span style="width:7%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−50,7%</td><td class="n">14 k</td></tr>
+      <tr><td class="name">Amarelo</td><td class="n">4</td><td class="n">0,09 M</td><td class="n">0,02 M</td><td class="n">0,01 M</td><td><span class="cbar"><span class="neg"><span style="width:1%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn">−64,4%</td><td class="n">1,6 k</td></tr>
+      <tr><td class="name">Verde</td><td class="n">102</td><td class="n">3,65 M</td><td class="n">0,88 M</td><td class="n">0,16 M</td><td><span class="cbar"><span class="neg"><span style="width:16%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn"><b>−81,7%</b></td><td class="n">1,6 k</td></tr>
+      <tr><td class="name">Marrom / terracota</td><td class="n">34</td><td class="n">2,45 M</td><td class="n">0,78 M</td><td class="n">0,08 M</td><td><span class="cbar"><span class="neg"><span style="width:16%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn"><b>−89,9%</b></td><td class="n">2,3 k</td></tr>
+      <tr><td class="name">Cinza / grafite</td><td class="n">19</td><td class="n">0,90 M</td><td class="n">0,41 M</td><td class="n">0,03 M</td><td><span class="cbar"><span class="neg"><span style="width:8%"></span></span><span class="axis"></span><span class="pos"></span></span></td><td class="n dn"><b>−92,7%</b></td><td class="n">1,6 k</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Não: eu exagerei o chumbo de três maneiras</h3>
+
+  <div class="corrs">
+    <div class="cr"><div class="ci">1</div><div class="cb"><b>Não são 2 SKUs — são 44. O rollout já aconteceu.</b> Chumbo está em 12 SKUs de Lixeiras, 13 de Organização, 12 de Cozinha, 3 de Banheiro e 1 de Limpeza, cadastrados em bloco (CODPROD 11806–12072) na safra 2024/2025. <b>Dois dos meus certeiros eram produtos que já existem</b> — corrigidos na seção 09.</div></div>
+    <div class="cr"><div class="ci">2</div><div class="cb"><b>Parte do "+93%" é renomeação, não demanda nova.</b> Os SKUs "CINZA" antigos foram substituídos por SKUs "CHUMBO" novos, par a par — e "LISO" virou "FLAT". Cinza perdeu R$ 868 k enquanto chumbo ganhou R$ 2,57 M: <b>o ganho líquido da família cinza+chumbo é +R$ 1,70 M (+189%)</b>, ainda excelente, mas não os R$ 2,57 M que o número do chumbo sozinho sugere.</div></div>
+    <div class="cr"><div class="ci">3</div><div class="cb"><b>Um SKU é 45% do crescimento.</b> A Lixeira Rattan c/ Pedal chumbo 6L faz R$ 554 k dos R$ 2,57 M. A média dos 44 SKUs chumbo é <b>R$ 58 k</b>, e 36 deles estão abaixo de R$ 100 k. É o mesmo padrão de cauda longa que diagnostiquei na seção 03: o rollout de chumbo produziu <b>um acerto e 43 produtos pequenos</b>.</div></div>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <caption>A prova da renomeação: SKUs antigos "CINZA" e "LISO" morrendo enquanto os novos "CHUMBO" e "FLAT" sobem, par a par.</caption>
+    <thead><tr><th>Antigo (cinza / liso)</th><th class="n">23/24</th><th class="n">25/26</th><th>Novo (chumbo / flat)</th><th class="n">24/25</th><th class="n">25/26</th></tr></thead>
+    <tbody>
+      <tr><td class="name">Organizador Multiuso Rattan CINZA</td><td class="n">91 k</td><td class="n dn">3,5 k</td><td class="name">Organizador Multiuso 3 div CHUMBO</td><td class="n">68 k</td><td class="n up">93 k</td></tr>
+      <tr><td class="name">Organizador Rattan 6 div CINZA</td><td class="n">86 k</td><td class="n dn">3,3 k</td><td class="name">Organizador Multiuso 6 div CHUMBO</td><td class="n">58 k</td><td class="n up">77 k</td></tr>
+      <tr><td class="name">Cesto Organizador Rattan G CINZA</td><td class="n">149 k</td><td class="n dn">3,0 k</td><td class="name">Caixa Organizadora Rattan CHUMBO 16L</td><td class="n">50 k</td><td class="n up">81 k</td></tr>
+      <tr><td class="name">Porta Escova LISO CINZA</td><td class="n">12 k</td><td class="n dn">0,8 k</td><td class="name">Porta Escova FLAT CHUMBO</td><td class="n">23 k</td><td class="n up">32 k</td></tr>
+      <tr><td class="name">Porta Sabão Líquido LISO CINZA</td><td class="n">20 k</td><td class="n dn">0</td><td class="name">Porta Sabão Líquido FLAT CHUMBO</td><td class="n">31 k</td><td class="n up">29 k</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>O que eu não tinha visto, e é mais importante que o chumbo</h3>
+
+  <p class="lede"><strong>O portfólio está consolidando numa paleta neutra, e o lado colorido está morrendo.</strong></p>
+
+  <div class="figs">
+    <div class="fig hero"><span class="label">Paleta neutra</span><span class="metric">73%</span><span class="sub">preto + branco + transparente + chumbo = R$ 60,8 M de R$ 83,1 M</span></div>
+    <div class="fig"><span class="label">Cores decorativas em queda</span><span class="metric">−90% a −25%</span><span class="sub dn">marrom, verde, amarelo, azul, rosa, vermelho</span></div>
+    <div class="fig"><span class="label">Cor mais produtiva por SKU</span><span class="metric">Laranja</span><span class="sub">R$ 233 k/SKU — 4× o chumbo</span></div>
+  </div>
+
+  <p>Isso muda a diretriz de projeto: <strong>não é "lançar chumbo", é "parar de lançar cor".</strong> Chumbo é o único entrante novo no conjunto neutro. E laranja sobrevive por um motivo diferente de todos os outros: <strong>não é cor decorativa, é sinalização funcional</strong> — laranja quer dizer ferramenta, é a Nitronfort. Com R$ 233 k por SKU contra R$ 58 k do chumbo, é a cor mais produtiva do portfólio.</p>
+
+  <div class="scroll">
+  <table>
+    <caption>Onde o chumbo já chegou e onde não. Frasqueiras é o vazio que importa.</caption>
+    <thead><tr><th>Linha</th><th class="n">SKUs chumbo</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="name">Lixeiras</td><td class="n">12</td><td>Coberta — a linha mais saturada de chumbo da casa</td></tr>
+      <tr><td class="name">Organização</td><td class="n">13</td><td>Coberta, <b>menos gaveteiro</b> — que é o subgrupo que cresce</td></tr>
+      <tr><td class="name">Cozinha</td><td class="n">12</td><td>Coberta</td></tr>
+      <tr><td class="name">Banheiro</td><td class="n">3</td><td>Só os Flat. <b>Falta o Porta Escovas c/ Tampa</b> — o SKU de R$ 536 k</td></tr>
+      <tr><td class="name">Limpeza</td><td class="n">1</td><td><b>Falta Porta Vassouras e Porta Sabão em Pó</b></td></tr>
+      <tr class="hl"><td class="name">Frasqueiras</td><td class="n"><b>0</b></td><td><b>Vazia — e é a única linha em crescimento da casa</b></td></tr>
+      <tr class="dim"><td class="name">Potes, Jarras, Micro-ondas, Decor Util, Geladeira</td><td class="n">0</td><td>Vazias</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">08</span><h2>Capacidade das injetoras: a folga está nas máquinas pequenas</h2></div>
+
+  <p class="lede">Levantei o parque e a ocupação real a partir do apontamento de produção. É isso que ranqueia a carteira por viabilidade, e não por desejo.</p>
+
+  <div class="scroll">
+  <table>
+    <caption>56 injetoras na Nitron-Fábrica (mais 10 na Tanamu). Ocupação a partir de 37 mil apontamentos de ago/25 a jul/26.</caption>
+    <thead><tr><th>Faixa de tonelagem</th><th class="n">Máquinas</th><th class="n">Com apontamento</th><th class="n">Paradas</th><th>Ocupação 24/7</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="name">≤ 260 t (pequenas)</td><td class="n">15</td><td class="n">8</td><td class="n"><b>7</b></td><td><span class="occ slack"><span class="occtrack"><span class="occfill" style="width:56.9%"></span></span><b>56,9%</b></span></td></tr>
+      <tr class="hl"><td class="name">261–1.100 t (médias)</td><td class="n">6</td><td class="n">1</td><td class="n"><b>5</b></td><td><span class="occ slack"><span class="occtrack"><span class="occfill" style="width:76.4%"></span></span><b>76,4%</b></span></td></tr>
+      <tr><td class="name">1.101–2.000 t (grandes)</td><td class="n">23</td><td class="n">23</td><td class="n">0</td><td><span class="occ"><span class="occtrack"><span class="occfill" style="width:73.5%"></span></span><b>73,5%</b></span></td></tr>
+      <tr><td class="name">&gt; 2.000 t (XL)</td><td class="n">12</td><td class="n">12</td><td class="n">0</td><td><span class="occ"><span class="occtrack"><span class="occfill" style="width:72.7%"></span></span><b>72,7%</b></span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><strong>Doze injetoras não têm um único apontamento no ano</strong> — sete pequenas e cinco médias — e as pequenas em uso rodam a 57% contra 73% das grandes. Nas faixas grande e XL, o parque inteiro está em uso.</p>
+
+  <p>Ressalvas de método, porque importam: as horas vêm de <code>DHTERMINOPRODUCAO − DHPRODUCAO</code> no apontamento, o que pode incluir tempo morto dentro da ordem — a ocupação real é provavelmente <em class="q">menor</em> que a tabela. E a base é 24/7 (8.760 h/ano); se a fábrica não roda três turnos em todas as faixas, os percentuais sobem proporcionalmente. A comparação <strong>entre</strong> faixas e o fato de doze máquinas estarem sem apontamento são robustos de qualquer forma.</p>
+
+  <h3>O que isso faz com a carteira</h3>
+
+  <div class="corrs">
+    <div class="cr"><div class="ci">↑</div><div class="cb"><b>Família "Fácil" (Coxinha, Pastel) — melhor viabilidade real do projeto.</b> Decor Util aponta <b>100% das suas horas de injeção em máquina ≤260 t</b>, exatamente a faixa com 7 injetoras paradas e 57% de ocupação. É a linha de 81,5% de margem rodando na faixa mais ociosa da fábrica.</div></div>
+    <div class="cr"><div class="ci">↑</div><div class="cb"><b>Frasqueiras — segunda melhor.</b> Tamanhos de 1,4L a 12L devem cair entre as pequenas e as médias, onde estão as doze máquinas paradas.</div></div>
+    <div class="cr"><div class="ci">↓</div><div class="cb"><b>Caixas organizadoras 16L, lixeiras grandes, Nitronbox — 1.101 t e acima, onde não há máquina livre.</b> Um lançamento nessa faixa desloca produção existente em vez de adicionar. Não é impedimento, é custo de oportunidade que precisa entrar no business case.</div></div>
+  </div>
+
+  <div class="callout">
+    <span class="label">A lacuna de dado que preciso reportar</span>
+    <p>Prometi ranquear <strong>todos</strong> os candidatos por tonelagem. Não consigo com os dados atuais, porque o cadastro está vazio: <code>AD_TONELAGEMMIN/MAX</code> tem <strong>10 de 4.252</strong> produtos preenchidos, <code>AD_QTDCAVIDADE</code> tem 52, <code>AD_CODCORPROD</code> tem <strong>zero</strong>, a <code>AD_FICHATECNICA</code> (ciclo, cavidades, molde, injetora) tem <strong>4 linhas</strong> e o roteiro <code>TPRCPR</code> está vazio.</p>
+    <p>O apontamento real existe e é bom — 37 mil registros com produto, máquina, ciclo e até cor. Mas <strong>99,7% dos apontamentos são em Produto Intermediário</strong>, porque a injetora produz peça PI e a montagem vira PA, e não localizei a estrutura PA→PI numa view direta. É por isso que consegui ocupação por faixa mas não tonelagem por produto acabado.</p>
+    <p>Duas saídas, e a escolha é sua: <strong>(a)</strong> me indicar onde está a estrutura PA→PI — tabela ou view — e eu fecho o ranking completo; ou <strong>(b)</strong> preencher a ficha técnica dos ~35 candidatos da carteira. São 35 fichas, não 4.252 — dá para fazer à mão e resolve o planejamento de capacidade deste projeto.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">09</span><h2>Onde não lançar</h2></div>
 
   <div class="scroll">
   <table>
@@ -549,13 +689,13 @@ footer b{color:var(--ink-2);font-weight:600}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">08</span><h2>Sobre o período: 3 anos bastam, com uma exceção</h2></div>
+  <div class="shead"><span class="snum">10</span><h2>Sobre o período: 3 anos bastam, com uma exceção</h2></div>
   <p><strong>Três anos são suficientes para a curva</strong> — três janelas móveis de doze meses, sazonalidade neutralizada.</p>
   <p><strong>Para o histórico de lançamentos eu precisei de 2021 em diante</strong>, e foi isso que revelou a queda de 28% para 0,7% na taxa de acerto. Com apenas três anos de janela eu concluiria que 3% é o normal da casa. Sugiro manter 2021 como marco nessa métrica específica.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">09</span><h2>O que eu preciso de você para seguir</h2></div>
+  <div class="shead"><span class="snum">11</span><h2>O que eu preciso de você para seguir</h2></div>
 
   <div class="qgroup">
     <span class="label">Bloqueantes — mudam a recomendação</span>
@@ -586,7 +726,7 @@ footer b{color:var(--ink-2);font-weight:600}
 
 <footer>
   <p><b>Metodologia.</b> Faturamento de <code>TGFCAB</code> e <code>TGFITE</code> com <code>TIPMOV</code> em V/D, <code>STATUSNOTA = 'L'</code> e apenas tipos de operação que atualizam o financeiro. Devoluções abatidas com sinal negativo. Transferências entre empresas do grupo excluídas (TOPs 3316, 3300, 3261, 3242, 3310, 3322). Escopo de empresas 1 (Matriz), 2 (Filial) e 14 (Extrema), grupo de produto 1000000–1009999. Tabela de preço resolvida por <code>TGFITE.NUTAB → TGFTAB.NUTAB → CODTAB</code>, nome em <code>TGFNTA</code>. <b>Corte A</b> = <code>CODTAB = 0</code> (PV0003). <b>Corte B</b> = todas as tabelas exceto <code>CODTAB 84</code> (PV0134 Avon/Natura) e <code>CODTAB 3</code> (Exportação). Margem bruta com <code>TGFCUS.CUSGER</code>, último registro de 2026 na empresa 1, local 0. Janelas móveis: ago/23–jul/24, ago/24–jul/25, ago/25–jul/26.</p>
-  <p><b>Fase 1 de 3 · revisão 2.</b> Diagnóstico e seleção de candidatos concluídos. Fase 2: raspagem de mercado. Fase 3: business case e priorização por CAPEX e tonelagem.</p>
+  <p><b>Fase 1 de 3 · revisão 3.</b> Diagnóstico e seleção de candidatos concluídos. Capacidade das injetoras levantada de <code>VW_MAQUINA_CAPACIDADE</code> e <code>AD_APONTACICLO</code>. Cor derivada da descrição do produto, porque <code>AD_CODCORPROD</code> está vazio. Fase 2: raspagem de mercado. Fase 3: business case.</p>
 </footer>
 
 </div>

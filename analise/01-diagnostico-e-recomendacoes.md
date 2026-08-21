@@ -5,8 +5,9 @@
 **Escopo:** Nitronplast (empresas 1 Matriz, 2 Filial, 14 Extrema) — grupo "Produto Acabado (PA)/Revenda"
 **Período:** 36 meses em janelas móveis de 12 meses (ago/23–jul/24, ago/24–jul/25, ago/25–jul/26)
 
-> **Revisão 2** — refeita com filtro de tabela de preço, conforme solicitado. Os números da revisão 1
-> (curva global) estão substituídos. Onde uma conclusão mudou, está marcada com **[CORRIGIDO]**.
+> **Revisão 3** — auditoria do vetor cor e levantamento de capacidade das injetoras.
+> **Dois certeiros da revisão 2 estavam errados** (produtos que eu propus lançar já existem).
+> Correções marcadas com **[CORRIGIDO]**.
 
 ---
 
@@ -332,3 +333,179 @@ Com o OEM fora, **os dois maiores produtos da linha são exatamente o conceito "
 propósito. Com 0,7% de acerto na safra 2025, reconstruir a pontaria vem antes de gastar em
 ferramentaria. Se você esperava produtos genuinamente novos, eu reordeno para uma carteira mais
 agressiva — mas quero que essa troca de risco seja decisão sua.
+
+---
+
+## 9. Auditoria do vetor cor — "só o chumbo performou bem mesmo?"
+
+Pergunta justa: eu apoiei o vetor chumbo em **2 SKUs**. Testei todas as cores do portfólio.
+A resposta é **sim e não**.
+
+### Sim: chumbo e laranja foram as únicas duas cores que cresceram
+
+| Cor | SKUs | 23/24 | 24/25 | 25/26 | Ganho abs. | Var | R$/SKU |
+|---|---|---|---|---|---|---|---|
+| **CHUMBO** | 44 | — | 1,33 M | **2,57 M** | **+1,24 M** | **+93,1%** | 58 k |
+| **LARANJA** | 3 | 0,48 M | 0,38 M | **0,70 M** | **+0,31 M** | **+81,7%** | **233 k** |
+| Transparente | 118 | 9,65 M | 11,02 M | 10,31 M | −0,71 M | −6,4% | 87 k |
+| Areia/bege | 6 | 1,69 M | 1,38 M | 1,25 M | −0,14 M | −9,9% | 208 k |
+| Branco | 284 | 24,18 M | 25,01 M | 21,83 M | −3,19 M | −12,7% | 77 k |
+| Preto | 254 | 28,65 M | 30,61 M | 26,09 M | −4,52 M | −14,8% | 103 k |
+| Sortido | 19 | 0,82 M | 0,62 M | 0,51 M | −0,11 M | −17,0% | 27 k |
+| Fumê | 8 | 0,84 M | 0,76 M | 0,59 M | −0,17 M | −22,8% | 74 k |
+| Vermelho | 77 | 4,34 M | 2,84 M | 2,14 M | −0,70 M | −24,5% | 28 k |
+| Rosa | 98 | 2,80 M | 2,18 M | 1,36 M | −0,83 M | −37,8% | 14 k |
+| Azul | 21 | 1,23 M | 0,58 M | 0,29 M | −0,30 M | −50,7% | 14 k |
+| Amarelo | 4 | 0,09 M | 0,02 M | 0,01 M | −0,01 M | −64,4% | 1,6 k |
+| Verde | 102 | 3,65 M | 0,88 M | 0,16 M | −0,72 M | **−81,7%** | 1,6 k |
+| Marrom/terracota | 34 | 2,45 M | 0,78 M | 0,08 M | −0,70 M | **−89,9%** | 2,3 k |
+| Cinza/grafite | 19 | 0,90 M | 0,41 M | 0,03 M | −0,38 M | **−92,7%** | 1,6 k |
+
+### Não: eu exagerei o chumbo de três maneiras
+
+**1. Não são 2 SKUs — são 44. O rollout já aconteceu.**
+Chumbo está em 12 SKUs de Lixeiras, 13 de Organização, 12 de Cozinha, 3 de Banheiro e 1 de Limpeza.
+Foram cadastrados em bloco (CODPROD 11806–12072), na safra 2024/2025.
+
+**2. Parte do "+93%" é renomeação, não demanda nova.**
+Os SKUs "CINZA" antigos foram substituídos por SKUs "CHUMBO" novos, par a par — e "LISO" virou "FLAT":
+
+| Antigo (cinza) | 23/24 → 25/26 | Novo (chumbo) | 24/25 → 25/26 |
+|---|---|---|---|
+| Organizador Multiuso Rattan CINZA | 91 k → 3,5 k | Organizador Multiuso 3 div CHUMBO | 68 k → 93 k |
+| Organizador Rattan 6 div CINZA | 86 k → 3,3 k | Organizador Multiuso 6 div CHUMBO | 58 k → 77 k |
+| Cesto Organizador Rattan G CINZA | 149 k → 3,0 k | Caixa Organizadora Rattan CHUMBO 16L | 50 k → 81 k |
+| Porta Escova LISO CINZA | 12 k → 0,8 k | Porta Escova FLAT CHUMBO | 23 k → 32 k |
+| Porta Sabão Líquido LISO CINZA | 20 k → 0 | Porta Sabão Líquido FLAT CHUMBO | 31 k → 29 k |
+
+Cinza perdeu R$ 868 k enquanto chumbo ganhou R$ 2,57 M. **O ganho líquido da família cinza+chumbo é
+de +R$ 1,70 M (+189%)** — ainda excelente, mas não os +R$ 2,57 M que o número do chumbo sozinho sugere.
+
+**3. Um SKU é 45% do crescimento.** A Lixeira Rattan c/ Pedal chumbo 6L faz R$ 554 k dos R$ 2,57 M.
+A média dos 44 SKUs chumbo é **R$ 58 k** — 36 deles estão abaixo de R$ 100 k. É o mesmo padrão de
+cauda longa que eu critiquei na seção 2. O rollout de chumbo produziu **um acerto e 43 produtos pequenos.**
+
+### O que eu não tinha visto e é mais importante
+
+**O portfólio está consolidando numa paleta neutra, e o lado colorido está morrendo.**
+
+Preto + branco + transparente + chumbo = **R$ 60,8 M dos R$ 83,1 M (73%)**. E as quedas mais fundas
+são todas do lado colorido: marrom −90%, verde −82%, amarelo −64%, azul −51%, rosa −38%, vermelho −25%.
+
+Isso muda a diretriz: **não é "lançar chumbo", é "parar de lançar cor".** Chumbo é o único entrante
+novo no conjunto neutro. E laranja sobrevive porque **não é cor decorativa, é sinalização funcional**
+(Nitronfort = ferramenta) — com **R$ 233 k por SKU, é a cor mais produtiva do portfólio, 4× o chumbo.**
+
+### Onde o chumbo ainda não chegou
+
+| Linha | SKUs chumbo | Status |
+|---|---|---|
+| Lixeiras | 12 | coberta |
+| Organização | 13 | coberta — **falta gaveteiro** |
+| Cozinha | 12 | coberta |
+| Banheiro | 3 (só os Flat) | **falta o Porta Escovas c/ Tampa** (o SKU de R$ 536 k) |
+| Limpeza | 1 | **falta Porta Vassouras e Porta Sabão em Pó** |
+| **Frasqueiras** | **0** | **vazia — e é a única linha em crescimento** |
+| Potes, Jarras, Micro-ondas, Decor Util, Geladeira | 0 | vazias |
+
+---
+
+## 10. Capacidade das injetoras
+
+### O parque
+
+**56 injetoras na Nitron-Fábrica** e 10 na Tanamu:
+
+| Faixa | Máquinas | Detalhe |
+|---|---|---|
+| ≤ 260 t (pequenas) | 15 | 80t(2) 130t(2) 160t(2) 200t(3) 250t(3) 258t(2) 260t(1) |
+| 261–1.100 t (médias) | 6 | 398t(1) 600t(1) 650t(2) 800t(1) 1.100t(1) |
+| 1.101–2.000 t (grandes) | 23 | 1.200t(5) 1.600t(6) 2.000t(12) |
+| > 2.000 t (XL) | 12 | 2.500t(6) 2.800t(1) 3.000t(1) 3.800t(3) 6.000t(1) |
+
+### A ocupação — e é aqui que a carteira se ranqueia
+
+| Faixa | Cadastradas | Com apontamento | **Paradas** | Ocupação 24/7 |
+|---|---|---|---|---|
+| ≤ 260 t | 15 | 8 | **7** | **56,9%** |
+| 261–1.100 t | 6 | 1 | **5** | 76,4% |
+| 1.101–2.000 t | 23 | 23 | 0 | 73,5% |
+| > 2.000 t | 12 | 12 | 0 | 72,7% |
+
+**A folga está toda nas máquinas pequenas e médias: 12 injetoras sem um único apontamento no ano,**
+e as pequenas em uso rodam a 57% contra 73% das grandes. As grandes e XL estão com o parque inteiro
+em uso.
+
+Ressalvas de método: as horas vêm de `DHTERMINOPRODUCAO − DHPRODUCAO` no apontamento, o que pode
+incluir tempo morto dentro da ordem — então a ocupação real é provavelmente **menor** que a tabela.
+E a base é 24/7 (8.760 h/ano); se a fábrica não roda três turnos em todas as faixas, os percentuais
+sobem proporcionalmente. A comparação **entre** faixas e o fato de 12 máquinas não terem apontamento
+nenhum são robustos independentemente disso.
+
+### O que isso faz com a carteira
+
+- **Família "Fácil" (Coxinha, Pastel) → melhor viabilidade real do projeto.** Decor Util aponta
+  **100% das suas horas em máquina ≤260 t**, exatamente a faixa com 7 máquinas paradas e 57% de
+  ocupação. É a linha de 81,5% de margem rodando na faixa mais ociosa da fábrica.
+- **Frasqueiras** → tamanhos de 1,4L a 12L devem cair entre pequenas e médias, onde estão as 12
+  máquinas paradas. Segunda melhor viabilidade.
+- **Caixas organizadoras 16L, lixeiras grandes, Nitronbox** → 1.101 t+, onde **não há máquina livre**.
+  Um lançamento aqui desloca produção existente, não adiciona.
+
+### A lacuna de dado que preciso reportar
+
+Prometi ranquear todos os candidatos por tonelagem. **Não consigo com os dados atuais**, porque o
+cadastro está vazio:
+
+| Campo | Preenchido |
+|---|---|
+| `TGFPRO.AD_TONELAGEMMIN/MAX` | **10 de 4.252** produtos |
+| `TGFPRO.AD_QTDCAVIDADE` | 52 de 4.252 |
+| `TGFPRO.AD_CODCORPROD` | **0** |
+| `AD_FICHATECNICA` (ciclo, cavidades, molde, injetora) | **4 linhas** |
+| `AD_INJETORAFICHA` | 1 linha |
+| `TPRCPR` (roteiro) | 0 linhas |
+
+O apontamento real (`AD_APONTACICLO`, 37 mil registros) tem produto, máquina, ciclo e até cor — mas
+**99,7% dos apontamentos são em Produto Intermediário (PI)**, e não achei a estrutura PA→PI numa
+view direta. É por isso que consegui ocupação por faixa mas não tonelagem por produto acabado.
+
+Duas saídas, e é decisão sua qual seguir:
+1. **Me indicar onde está a estrutura PA→PI** (nome da tabela ou view) — daí eu fecho o ranking completo.
+2. **Preencher a ficha técnica** dos ~35 candidatos da carteira (molde, cavidades, ciclo, injetora).
+   São 35 fichas, não 4.252 — dá para fazer manualmente e resolve o planejamento de capacidade do projeto.
+
+---
+
+## 11. [CORRIGIDO] Dois certeiros da revisão 2 estavam errados
+
+A auditoria de cor mostrou que **eu propus lançar produtos que já existem**. As correções:
+
+### Organização — o certeiro anterior já existe
+❌ *"Caixa Organizadora Rattan c/ Tampa em CHUMBO (4L e 16L)"* — **já existe em 2L, 4L, 8L e 16L**
+(R$ 35 k, 64 k, 89 k e 81 k, crescendo 44% a 96%).
+
+⭐ **NOVO CERTEIRO — Gaveteiro em CHUMBO (4 gavetas e Modular Rattan 8,2L)**
+É o **único buraco de chumbo na linha**: 13 SKUs chumbo em Organização e nenhum gaveteiro. E gaveteiro
+é justamente o subgrupo que cresce — 4 gavetas preta R$ 753 k (+22%), branca R$ 471 k (+22%), rosa
++110%, Modular transparente R$ 390 k (+29%). Molde existe, cor comprovada, gap claro.
+
+### Lixeiras — o certeiro anterior já existe
+❌ *"Lixeira Basculante Rattan CHUMBO 4,5L"* — **já existe** (R$ 141 k, +67%, 329 clientes).
+
+⭐ **NOVO CERTEIRO — Lixeira Rattan c/ Pedal CHUMBO nos volumes que faltam (12L e acima)**
+O Rattan c/ Pedal chumbo **6L é o maior sucesso de chumbo da casa**: R$ 554 k e 711 clientes partindo
+de zero. Mas a família só tem chumbo no 6L — o 12L chumbo existe em Juta e em Vime, não em Rattan.
+Mesma família, mesmo padrão de sucesso, gap explícito. **Ressalva:** lixeira grande roda em máquina
+1.101 t+, onde não há folga — então este certeiro compete por capacidade ocupada.
+
+### Os outros seis se mantêm — e três ficam mais fortes
+- **Frasqueiras** (chumbo 2,8L e 6,2L): a linha tem **zero SKUs chumbo**, é a única em crescimento,
+  e roda em faixa com máquina parada. **Passa a ser o certeiro nº 1 do projeto.**
+- **Decor Util** (Coxinha & Pastel Fácil): 81,5% de margem e 100% das horas na faixa mais ociosa.
+  **Certeiro nº 2.**
+- **Limpeza** (Porta Vassouras chumbo): confirmado que não existe. Mantido.
+- **Banheiro** (Kit 3 peças): o Porta Escovas c/ Tampa chumbo também não existe — vale somar ao kit.
+- **Cozinha** (Flat 3 peças): o chumbo do 2 peças já existe (R$ 107 k, 434 clientes); o **3 peças** não.
+  Mantido no 3 peças.
+- **Potes** (Kit Mantimentos acoplado c/ rosca): nunca dependeu de cor. Mantido.
