@@ -218,6 +218,31 @@ ol.qs p{margin:0;font-size:.97rem;color:var(--ink-2)}
 footer{margin-top:76px;padding-top:22px;border-top:2px solid var(--ink);font-family:Archivo,sans-serif;font-size:11.5px;color:var(--muted);line-height:1.7}
 footer b{color:var(--ink-2);font-weight:600}
 
+
+/* revision badge */
+.rev{display:inline-flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ground);background:var(--accent);padding:4px 9px;border-radius:2px;margin-bottom:16px}
+.corr{display:inline-block;font-family:Archivo,sans-serif;font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:2px 5px;border-radius:2px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+/* two-cut comparison */
+.cuts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 26px}
+.cut{background:var(--surface);padding:20px 22px}
+.cut.pick{border-top:3px solid var(--accent)}
+.cut .ct{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+.cut.pick .ct{color:var(--accent)}
+.cut .cd{font-family:Archivo,sans-serif;font-weight:700;font-size:1.02rem;letter-spacing:-.015em;display:block;margin-bottom:10px;line-height:1.3}
+.cut p{margin:0 0 9px;font-size:.94rem;color:var(--ink-2);max-width:none}
+.cut p:last-child{margin-bottom:0}
+.cut .yes{color:var(--pos);font-weight:600;font-family:Archivo,sans-serif;font-size:12px}
+.cut .no{color:var(--neg);font-weight:600;font-family:Archivo,sans-serif;font-size:12px}
+/* correction list */
+.corrs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 20px}
+.cr{background:var(--surface);display:grid;grid-template-columns:34px 1fr;gap:0}
+.cr > *{padding:15px 16px}
+.cr .ci{font-family:Archivo,sans-serif;font-size:12px;font-weight:800;color:var(--accent)}
+.cr .cb{font-family:Archivo,sans-serif;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.cr .cb b{color:var(--ink);font-weight:700}
+.cr .cb s{color:var(--muted);text-decoration-color:var(--neg)}
+@media (max-width:720px){.cr{grid-template-columns:28px 1fr}}
+
 @media (max-width:720px){
   body{font-size:16px}
   .wrap{padding:0 18px 70px}
@@ -232,8 +257,9 @@ footer b{color:var(--ink-2);font-weight:600}
 
 <header class="mast">
   <p class="kicker">Desenvolvimento de Produtos · Fase 1</p>
+  <span class="rev">Revisão 2 · filtro de tabela de preço</span>
   <h1>Carteira de Lançamentos Nitron</h1>
-  <p class="standfirst">Leitura de 36 meses de curva por linha, os sete vetores que estão realmente crescendo, e uma carteira de 32 candidatos — 3 mais 1 certeiro para cada uma das oito linhas que concentram 91% do lucro bruto da casa.</p>
+  <p class="standfirst">Refeita com filtro de tabela de preço para tirar Avon/Natura da conta. A curva limpa, os oito vetores que resistiram ao corte, o teto de margem por produto, e 32 candidatos — 3 mais 1 certeiro para cada uma das oito linhas que concentram 91% do lucro bruto.</p>
   <div class="meta">
     <div><span>Fonte</span><b>Sankhya · produção</b></div>
     <div><span>Escopo</span><b>Nitronplast (emp. 1, 2, 14)</b></div>
@@ -243,242 +269,301 @@ footer b{color:var(--ink-2);font-weight:600}
 </header>
 
 <section>
-  <div class="shead"><span class="snum">01</span><h2>A casa caiu 23% enquanto lançava mais do que nunca</h2></div>
+  <div class="shead"><span class="snum">01</span><h2>O filtro de tabela: você estava certo, e há uma ressalva</h2></div>
 
-  <div class="figs">
-    <div class="fig"><span class="label">Faturamento 23/24</span><span class="metric">R$ 122,7 M</span><span class="sub">16 linhas ativas</span></div>
-    <div class="fig"><span class="label">Faturamento 24/25</span><span class="metric">R$ 117,6 M</span><span class="sub">−4,2% no ano</span></div>
-    <div class="fig hero"><span class="label">Faturamento 25/26</span><span class="metric">R$ 94,9 M</span><span class="sub dn">−19,3% no ano · −23% em dois anos</span></div>
-    <div class="fig"><span class="label">Lucro bruto 25/26</span><span class="metric">R$ 44,6 M</span><span class="sub">margem média 47%</span></div>
-  </div>
+  <p class="lede">A "003 – tabela padrão" é <strong><code>CODTAB = 0</code></strong>, cadastrada como <code>PV0003 - TABELA PADRÃO</code>. Vale registrar a armadilha: <code>CODTAB = 3</code> é a <em class="q">TABELA EXPORTAÇÃO NITRON</em> — se eu tivesse assumido o número 3, teria trazido a curva errada. A tabela usada na venda fica em <code>TGFITE.NUTAB</code> e se resolve por <code>TGFTAB</code>.</p>
 
-  <p class="lede">Comparei três janelas móveis de 12 meses para neutralizar sazonalidade e anos parciais. Abati devoluções, excluí transferências entre empresas do grupo e considerei apenas operações que atualizam o financeiro. O resultado é uma queda consistente e ampla: <strong>de dezessete linhas, apenas duas crescem.</strong></p>
+  <p><strong>A distorção que você apontou é real e é grande:</strong> a tabela <code>PV0134 - AVON</code> fez <strong>R$ 8,97 M em apenas 580 itens</strong> nos últimos doze meses. É o cliente Natura/Avon. Todos os SKUs "Candy" e com referência de seis a oito dígitos que apareciam no topo da revisão 1 saem com esse filtro.</p>
+
+  <p><strong>Mas o corte só na tabela padrão tem um problema que preciso registrar antes de qualquer conclusão.</strong> A padrão caiu de R$ 48,3 M para R$ 13,2 M — 73% — e isso é <strong>migração de tabela, não queda de demanda</strong>. As tabelas que nasceram ou cresceram no período somam cerca de R$ 37 M, praticamente os R$ 35 M que a padrão perdeu.</p>
 
   <div class="scroll">
   <table>
-    <caption>Curva por linha em janelas móveis de 12 meses. Margem bruta calculada com custo gerencial (TGFCUS) da empresa 1. Ordenado por lucro bruto.</caption>
+    <caption>Extrema (empresa 14) abriu em 2025 e o programa Clube Nitron nasceu no último ciclo. Os clientes saíram da tabela padrão sem sair do mercado.</caption>
+    <thead><tr><th>Tabela de preço</th><th class="n">23/24</th><th class="n">24/25</th><th class="n">25/26</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="name">PV0003 — TABELA PADRÃO</td><td class="n">48,3 M</td><td class="n">30,6 M</td><td class="n"><b>13,2 M</b></td></tr>
+      <tr><td class="name">FAT EXTREMA SIMPLES NACIONAL</td><td class="n">—</td><td class="n">8,9 M</td><td class="n up">10,2 M</td></tr>
+      <tr><td class="name">FOB ESPECIAL NORDESTE</td><td class="n">0,9 M</td><td class="n">5,8 M</td><td class="n up">7,5 M</td></tr>
+      <tr><td class="name">AMIGÃO</td><td class="n">0,4 M</td><td class="n">2,9 M</td><td class="n up">3,5 M</td></tr>
+      <tr><td class="name">ESPECIAL DISTRIBUIDORA</td><td class="n">0,25 M</td><td class="n">0,8 M</td><td class="n up">3,0 M</td></tr>
+      <tr><td class="name">CLUBE NITRON (4 tabelas)</td><td class="n">—</td><td class="n">—</td><td class="n up">5,6 M</td></tr>
+      <tr><td class="name">RED-141 EXTREMA SIMPLES NACIONAL</td><td class="n">—</td><td class="n">0,2 M</td><td class="n up">2,6 M</td></tr>
+      <tr><td class="name">TUBARÃO / LOJAS G / SHOPPING UD</td><td class="n">—</td><td class="n">—</td><td class="n up">3,0 M</td></tr>
+      <tr class="dim"><td class="name">CLIENTES FORA DA PROMOÇÃO</td><td class="n">8,2 M</td><td class="n">4,4 M</td><td class="n dn">0,29 M</td></tr>
+      <tr class="dim"><td class="name">PV0134 — AVON <span class="chip b">excluída</span></td><td class="n">20,4 M</td><td class="n">18,6 M</td><td class="n">8,97 M</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Por isso trabalho com <strong>dois cortes</strong>, cada um para o que ele mede bem:</p>
+
+  <div class="cuts">
+    <div class="cut"><span class="ct">Corte A · o que você pediu</span><span class="cd">Tabela padrão PV0003</span>
+      <p><span class="yes">Serve para</span> — teto de preço e de margem: quanto o produto rende vendido sem desconto negociado. É a régua para precificar lançamento.</p>
+      <p><span class="no">Não serve para</span> — tendência. Está contaminado por migração de tabela: Extrema e Clube Nitron distorcem o último ciclo.</p>
+    </div>
+    <div class="cut pick"><span class="ct">Corte B · curva principal deste relatório</span><span class="cd">Mercado limpo — tudo menos Avon/Natura e exportação</span>
+      <p><span class="yes">Serve para</span> — curva, tendência, vetores de crescimento e histórico de lançamento.</p>
+      <p>Tira a distorção que você apontou e <strong>mantém todo o canal real</strong>: Modenuti, Kalunga, Centerlar, Lojas Mel, Tambasa, Clube Nitron, Amigão, Leroy.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">02</span><h2>A curva limpa: a queda é de 18%, não 23%</h2></div>
+
+  <div class="figs">
+    <div class="fig"><span class="label">Mercado limpo 23/24</span><span class="metric">R$ 101,4 M</span><span class="sub">global era 122,7 M</span></div>
+    <div class="fig"><span class="label">Mercado limpo 24/25</span><span class="metric">R$ 96,1 M</span><span class="sub">−5,2% no ano</span></div>
+    <div class="fig hero"><span class="label">Mercado limpo 25/26</span><span class="metric">R$ 83,1 M</span><span class="sub dn">−13,5% no ano · −18,0% em dois anos</span></div>
+    <div class="fig"><span class="label">Lucro bruto 25/26</span><span class="metric">R$ 41,4 M</span><span class="sub">margem média 49,8%</span></div>
+  </div>
+
+  <p class="lede">Cinco dos 23 pontos de queda que reportei na revisão 1 eram o desmonte do contrato Avon/Natura — que é conversa de conta-chave, não de desenvolvimento de produto. A queda de marca própria é de 18% em dois anos.</p>
+
+  <div class="scroll">
+  <table>
+    <caption>Corte B — mercado limpo. Margem bruta com custo gerencial (TGFCUS). Ordenado por lucro bruto.</caption>
     <thead><tr>
       <th>Linha</th><th class="n">23/24</th><th class="n">24/25</th><th class="n">25/26</th>
       <th>Curva</th><th class="n">Var 2a</th><th class="n">MB</th><th class="n">Lucro bruto</th>
     </tr></thead>
     <tbody>
-      <tr><td class="name">Organização</td><td class="n">30,2 M</td><td class="n">27,3 M</td><td class="n">22,9 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:90%"></i><i style="height:76%"></i></span></td><td class="n dn">−24%</td><td class="n"><span class="chip g">52,6%</span></td><td class="n"><b>11,8 M</b></td></tr>
-      <tr><td class="name">Potes</td><td class="n">33,0 M</td><td class="n">29,2 M</td><td class="n">20,5 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:88%"></i><i style="height:62%"></i></span></td><td class="n dn">−38%</td><td class="n"><span class="chip n">43,6%</span></td><td class="n"><b>8,2 M</b></td></tr>
-      <tr><td class="name">Cozinha</td><td class="n">15,7 M</td><td class="n">15,1 M</td><td class="n">14,1 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:96%"></i><i style="height:90%"></i></span></td><td class="n dn">−10%</td><td class="n"><span class="chip g">52,8%</span></td><td class="n"><b>7,3 M</b></td></tr>
-      <tr><td class="name">Lixeiras</td><td class="n">9,1 M</td><td class="n">10,9 M</td><td class="n">9,3 M</td><td><span class="tb"><i style="height:83%"></i><i style="height:100%"></i><i style="height:85%"></i></span></td><td class="n">+2%</td><td class="n"><span class="chip n">42,1%</span></td><td class="n"><b>3,9 M</b></td></tr>
-      <tr class="hl"><td class="name">Frasqueiras</td><td class="n">6,3 M</td><td class="n">7,0 M</td><td class="n">7,2 M</td><td><span class="tb"><i style="height:87%"></i><i style="height:97%"></i><i style="height:100%"></i></span></td><td class="n up"><b>+14%</b></td><td class="n"><span class="chip g">54,4%</span></td><td class="n"><b>3,9 M</b></td></tr>
-      <tr><td class="name">Banheiro</td><td class="n">5,3 M</td><td class="n">4,8 M</td><td class="n">4,1 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:90%"></i><i style="height:77%"></i></span></td><td class="n dn">−23%</td><td class="n"><span class="chip g">55,0%</span></td><td class="n"><b>2,3 M</b></td></tr>
-      <tr><td class="name">Limpeza</td><td class="n">4,3 M</td><td class="n">4,4 M</td><td class="n">3,6 M</td><td><span class="tb"><i style="height:98%"></i><i style="height:100%"></i><i style="height:83%"></i></span></td><td class="n dn">−15%</td><td class="n"><span class="chip g">54,7%</span></td><td class="n"><b>2,0 M</b></td></tr>
-      <tr class="hl"><td class="name">Decor Util</td><td class="n">1,2 M</td><td class="n">2,3 M</td><td class="n">2,3 M</td><td><span class="tb"><i style="height:51%"></i><i style="height:98%"></i><i style="height:100%"></i></span></td><td class="n up"><b>+96%</b></td><td class="n"><span class="chip g">65,4%</span></td><td class="n"><b>1,3 M</b></td></tr>
-      <tr><td class="name">Jarras</td><td class="n">3,7 M</td><td class="n">3,0 M</td><td class="n">2,6 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:82%"></i><i style="height:72%"></i></span></td><td class="n dn">−28%</td><td class="n"><span class="chip n">42,7%</span></td><td class="n">1,1 M</td></tr>
-      <tr><td class="name">Micro-ondas</td><td class="n">4,9 M</td><td class="n">4,5 M</td><td class="n">3,3 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:92%"></i><i style="height:68%"></i></span></td><td class="n dn">−32%</td><td class="n"><span class="chip b">29,8%</span></td><td class="n">0,9 M</td></tr>
-      <tr><td class="name">Teca</td><td class="n">1,2 M</td><td class="n">2,3 M</td><td class="n">2,0 M</td><td><span class="tb"><i style="height:53%"></i><i style="height:100%"></i><i style="height:89%"></i></span></td><td class="n up">+65%</td><td class="n"><span class="chip b">18,8%</span></td><td class="n">0,4 M</td></tr>
-      <tr><td class="name">ECO</td><td class="n">2,1 M</td><td class="n">2,1 M</td><td class="n">0,8 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:98%"></i><i style="height:37%"></i></span></td><td class="n dn">−63%</td><td class="n"><span class="chip g">56,2%</span></td><td class="n">0,4 M</td></tr>
-      <tr><td class="name">Coloratto</td><td class="n">1,7 M</td><td class="n">2,7 M</td><td class="n">0,8 M</td><td><span class="tb"><i style="height:63%"></i><i style="height:100%"></i><i style="height:28%"></i></span></td><td class="n dn">−55%</td><td class="n"><span class="chip g">56,2%</span></td><td class="n">0,4 M</td></tr>
-      <tr><td class="name">Geladeira</td><td class="n">0,8 M</td><td class="n">0,7 M</td><td class="n">0,6 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:91%"></i><i style="height:80%"></i></span></td><td class="n dn">−20%</td><td class="n"><span class="chip g">51,5%</span></td><td class="n">0,3 M</td></tr>
-      <tr><td class="name">Infantil</td><td class="n">2,6 M</td><td class="n">1,2 M</td><td class="n">0,5 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:45%"></i><i style="height:19%"></i></span></td><td class="n dn"><b>−81%</b></td><td class="n"><span class="chip g">60,9%</span></td><td class="n">0,3 M</td></tr>
-      <tr class="dim"><td class="name">Realce</td><td class="n">0,5 M</td><td class="n">0,2 M</td><td class="n">0,06 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:33%"></i><i style="height:13%"></i></span></td><td class="n dn">−87%</td><td class="n"><span class="chip n">41,0%</span></td><td class="n">0,02 M</td></tr>
+      <tr><td class="name">Organização</td><td class="n">29,2 M</td><td class="n">26,2 M</td><td class="n">22,1 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:90%"></i><i style="height:76%"></i></span></td><td class="n dn">−24%</td><td class="n"><span class="chip g">54,2%</span></td><td class="n"><b>11,8 M</b></td></tr>
+      <tr><td class="name">Potes</td><td class="n">18,9 M</td><td class="n">17,2 M</td><td class="n">16,0 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:91%"></i><i style="height:85%"></i></span></td><td class="n dn">−15%<span class="corr">corrigido</span></td><td class="n"><span class="chip n">45,1%</span></td><td class="n"><b>7,2 M</b></td></tr>
+      <tr><td class="name">Cozinha</td><td class="n">15,1 M</td><td class="n">13,8 M</td><td class="n">12,4 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:91%"></i><i style="height:82%"></i></span></td><td class="n dn">−18%</td><td class="n"><span class="chip n">49,9%</span></td><td class="n"><b>6,2 M</b></td></tr>
+      <tr><td class="name">Lixeiras</td><td class="n">9,0 M</td><td class="n">10,7 M</td><td class="n">9,1 M</td><td><span class="tb"><i style="height:84%"></i><i style="height:100%"></i><i style="height:85%"></i></span></td><td class="n up">+0,2%</td><td class="n"><span class="chip n">43,0%</span></td><td class="n"><b>3,9 M</b></td></tr>
+      <tr class="hl"><td class="name">Frasqueiras</td><td class="n">6,3 M</td><td class="n">7,0 M</td><td class="n">6,9 M</td><td><span class="tb"><i style="height:90%"></i><i style="height:100%"></i><i style="height:98%"></i></span></td><td class="n up"><b>+8,6%</b></td><td class="n"><span class="chip g">53,7%</span></td><td class="n"><b>3,7 M</b></td></tr>
+      <tr><td class="name">Banheiro</td><td class="n">4,2 M</td><td class="n">4,7 M</td><td class="n">4,1 M</td><td><span class="tb"><i style="height:90%"></i><i style="height:100%"></i><i style="height:86%"></i></span></td><td class="n">−3,5%<span class="corr">corrigido</span></td><td class="n"><span class="chip g">55,0%</span></td><td class="n"><b>2,3 M</b></td></tr>
+      <tr><td class="name">Limpeza</td><td class="n">4,3 M</td><td class="n">4,4 M</td><td class="n">3,6 M</td><td><span class="tb"><i style="height:98%"></i><i style="height:100%"></i><i style="height:83%"></i></span></td><td class="n dn">−15%</td><td class="n"><span class="chip g">54,8%</span></td><td class="n"><b>2,0 M</b></td></tr>
+      <tr><td class="name">Jarras</td><td class="n">3,6 M</td><td class="n">2,6 M</td><td class="n">2,6 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:73%"></i><i style="height:71%"></i></span></td><td class="n dn">−29%</td><td class="n"><span class="chip n">43,1%</span></td><td class="n">1,1 M</td></tr>
+      <tr class="hl"><td class="name">Micro-ondas</td><td class="n">1,8 M</td><td class="n">1,7 M</td><td class="n">1,7 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:95%"></i><i style="height:91%"></i></span></td><td class="n">−8,7%<span class="corr">corrigido</span></td><td class="n"><span class="chip g">53,6%</span></td><td class="n">0,9 M</td></tr>
+      <tr class="hl"><td class="name">Decor Util</td><td class="n">1,2 M</td><td class="n">1,7 M</td><td class="n">1,4 M</td><td><span class="tb"><i style="height:68%"></i><i style="height:100%"></i><i style="height:82%"></i></span></td><td class="n up"><b>+21%</b><span class="corr">corrigido</span></td><td class="n"><span class="chip g">59,6%</span></td><td class="n">0,8 M</td></tr>
+      <tr><td class="name">Teca</td><td class="n">1,1 M</td><td class="n">1,7 M</td><td class="n">1,3 M</td><td><span class="tb"><i style="height:67%"></i><i style="height:100%"></i><i style="height:74%"></i></span></td><td class="n up">+10%</td><td class="n"><span class="chip b">36,8%</span><span class="corr">corrigido</span></td><td class="n">0,5 M</td></tr>
+      <tr><td class="name">ECO</td><td class="n">2,1 M</td><td class="n">2,1 M</td><td class="n">0,8 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:99%"></i><i style="height:36%"></i></span></td><td class="n dn">−64%</td><td class="n"><span class="chip g">57,0%</span></td><td class="n">0,4 M</td></tr>
+      <tr><td class="name">Infantil</td><td class="n">2,6 M</td><td class="n">1,2 M</td><td class="n">0,5 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:45%"></i><i style="height:19%"></i></span></td><td class="n dn"><b>−81%</b></td><td class="n"><span class="chip g">61,4%</span></td><td class="n">0,3 M</td></tr>
+      <tr><td class="name">Geladeira</td><td class="n">0,8 M</td><td class="n">0,5 M</td><td class="n">0,4 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:64%"></i><i style="height:58%"></i></span></td><td class="n dn">−42%</td><td class="n"><span class="chip g">58,4%</span></td><td class="n">0,3 M</td></tr>
+      <tr><td class="name">Coloratto</td><td class="n">0,7 M</td><td class="n">0,5 M</td><td class="n">0,3 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:70%"></i><i style="height:49%"></i></span></td><td class="n dn">−51%</td><td class="n"><span class="chip g">55,8%</span></td><td class="n">0,2 M</td></tr>
+      <tr class="dim"><td class="name">Realce</td><td class="n">0,5 M</td><td class="n">0,2 M</td><td class="n">0,06 M</td><td><span class="tb"><i style="height:100%"></i><i style="height:34%"></i><i style="height:13%"></i></span></td><td class="n dn">−87%</td><td class="n"><span class="chip n">41,5%</span></td><td class="n">0,02 M</td></tr>
       <tr class="dim"><td class="name">POP</td><td class="n">—</td><td class="n">—</td><td class="n">0,04 M</td><td><span class="tb"><i style="height:2%"></i><i style="height:2%"></i><i style="height:100%"></i></span></td><td class="n">nova</td><td class="n"><span class="chip b">19,7%</span></td><td class="n">0,01 M</td></tr>
     </tbody>
   </table>
   </div>
-</section>
 
-<section>
-  <div class="shead"><span class="snum">02</span><h2>O problema não é falta de lançamento — é pontaria</h2></div>
+  <h3>Quatro conclusões da revisão 1 que estavam erradas</h3>
 
-  <p class="lede">Este é o achado que muda a natureza do projeto. Cruzei a data do primeiro faturamento de cada SKU com o faturamento acumulado que ele gerou na vida. A taxa de acerto desmoronou.</p>
-
-  <div class="hit">
-    <div class="hrow"><span class="yr">2021</span><div class="htrack"><div class="hbar" style="width:100%"></div></div><span class="rt">28,9% · 55/190</span></div>
-    <div class="hrow"><span class="yr">2022</span><div class="htrack"><div class="hbar" style="width:43%"></div></div><span class="rt">12,5% · 56/447</span></div>
-    <div class="hrow"><span class="yr">2023</span><div class="htrack"><div class="hbar" style="width:37%"></div></div><span class="rt">10,7% · 56/521</span></div>
-    <div class="hrow crit"><span class="yr">2024</span><div class="htrack"><div class="hbar" style="width:10%"></div></div><span class="rt">2,9% · 10/345</span></div>
-    <div class="hrow crit"><span class="yr">2025</span><div class="htrack"><div class="hbar" style="width:12%"></div></div><span class="rt">3,6% · 12/337</span></div>
-    <div class="hrow crit"><span class="yr">2026</span><div class="htrack"><div class="hbar" style="width:4%"></div></div><span class="rt">1,1% · 1/93</span></div>
-    <p class="hlegend">Percentual de SKUs de cada safra que acumularam R$ 500 mil ou mais de faturamento na vida. Barra proporcional à taxa de acerto. 2026 é safra parcial.</p>
+  <div class="corrs">
+    <div class="cr"><div class="ci">1</div><div class="cb"><b>Potes caiu 15%, não 38%.</b> Os R$ 12,5 M de queda que reportei eram quase todos rotação de private label — o Kit Potes Candy. A linha de marca própria está bem menos machucada do que parecia, e com o OEM fora <b>o topo de Potes é kit e pote funcional</b>, exatamente onde estão os vetores de crescimento.</div></div>
+    <div class="cr"><div class="ci">2</div><div class="cb"><b>Micro-ondas tem margem de 53,6%, não 29,8%</b>, e cai 8,7%, não 32%. A margem ruim <em class="q">era o contrato OEM</em>, não a linha. Micro-ondas <b>sai da lista de "não lançar"</b> e volta a ser candidata: a Caçarola 2,6L cresce 50% com 664 clientes.</div></div>
+    <div class="cr"><div class="ci">3</div><div class="cb"><b>Decor Util cresce 21%, não 96%</b>, com MB de 59,6% e não 65,4%. O +96% estava inflado pelo Cortador Dupla Face, que é OEM. Continua sendo a melhor margem entre as linhas que crescem, e o caso se sustenta — apenas menor do que parecia.</div></div>
+    <div class="cr"><div class="ci">4</div><div class="cb"><b>Teca tem MB de 36,8%, não 18,8%.</b> Parte do problema de margem também era OEM. Ainda está 13 pontos abaixo da média da casa, mas não é catastrófico como eu reportei.</div></div>
   </div>
 
-  <p>Os <strong>190 SKUs da safra 2021 geraram R$ 96,7 M</strong>. Os <strong>682 SKUs de 2024 e 2025 geraram R$ 48,6 M</strong>. Quatro vezes mais lançamentos, metade do resultado.</p>
-
-  <p>A ressalva honesta: safras recentes tiveram menos tempo para maturar, então parte da queda é efeito de maturidade e não de qualidade. Mas <strong>302 dos 345 SKUs de 2024 — 88% — não passaram de R$ 100 mil em mais de dois anos de vida.</strong> Isso não é maturidade, é proliferação de cadastro. A recomendação nº 1 deste projeto, antes de qualquer produto específico, é lançar menos e melhor.</p>
+  <p>Confirmados como colapso real de marca própria: <strong>Infantil (−81%), Realce (−87%), ECO (−64%), Coloratto (−51%) e Geladeira (−42%)</strong>. E <strong>Banheiro está praticamente estável em −3,5%</strong>, não caindo 23%.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">03</span><h2>Uma correção necessária na leitura: private label</h2></div>
+  <div class="shead"><span class="snum">03</span><h2>O achado principal piora no corte limpo</h2></div>
 
-  <p class="lede">Vários dos "top produtos" da curva têm <strong>um único cliente</strong> e trazem o código de referência do cliente no próprio nome. Não são produtos de marca Nitron — são OEM, e entram na curva inflando linhas inteiras.</p>
+  <p class="lede">Este é o teste que mais importava. Taxa de acerto de lançamento por safra, <strong>só marca própria</strong>:</p>
+
+  <div class="hit">
+    <div class="hrow"><span class="yr">2021</span><div class="htrack"><div class="hbar" style="width:100%"></div></div><span class="rt">28,0% · 52/186</span></div>
+    <div class="hrow"><span class="yr">2022</span><div class="htrack"><div class="hbar" style="width:44%"></div></div><span class="rt">12,2% · 55/452</span></div>
+    <div class="hrow"><span class="yr">2023</span><div class="htrack"><div class="hbar" style="width:28%"></div></div><span class="rt">7,8% · 39/500</span></div>
+    <div class="hrow crit"><span class="yr">2024</span><div class="htrack"><div class="hbar" style="width:12%"></div></div><span class="rt">3,4% · 12/357</span></div>
+    <div class="hrow crit"><span class="yr">2025</span><div class="htrack"><div class="hbar" style="width:3%"></div></div><span class="rt">0,7% · 2/278</span></div>
+    <div class="hrow crit"><span class="yr">2026</span><div class="htrack"><div class="hbar" style="width:1%"></div></div><span class="rt">0% · 0/96</span></div>
+    <p class="hlegend">Percentual de SKUs de cada safra que acumularam R$ 500 mil ou mais de faturamento na vida, excluindo Avon/Natura e exportação. Barra proporcional à taxa de acerto. 2026 é safra parcial.</p>
+  </div>
+
+  <p><strong>Dos 278 SKUs de marca própria lançados em 2025, dois passaram de R$ 500 mil.</strong> Os doze "acertos" que eu reportei na revisão 1 para essa safra incluíam SKUs OEM — tirando o private label, sobram dois.</p>
+
+  <p>A ressalva de maturidade continua valendo: safras recentes tiveram menos tempo para maturar. Mas <strong>304 dos 357 SKUs de 2024 não passaram de R$ 100 mil em mais de dois anos de vida.</strong> Isso é proliferação de cadastro, e é a razão pela qual a recomendação nº 1 deste projeto, antes de qualquer produto específico, é <strong>lançar menos e melhor</strong>.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><h2>Os vetores sobreviveram — e apareceu um oitavo</h2></div>
+
+  <p class="lede">Se os vetores de crescimento só existissem por causa do private label, a carteira toda cairia junto. Não é o caso: todos os sete resistem ao corte limpo, e dois ficam <strong>mais</strong> fortes.</p>
+
+  <div class="vecs">
+    <div class="vec"><div class="vid">V1</div><div class="vname">Válvula<span>vedação premium em potes</span></div><div class="vev">Pote Alto 2,9L <b>+1.297%</b> · Alto 4,6L <b>+1.032%</b> · Quadrado 3L <b>+495%</b> · Raso 3,2L <b>+73%</b> · Raso 1,9L <b>+56%</b></div></div>
+    <div class="vec"><div class="vid">V2</div><div class="vname">Cor chumbo<span>grafite substituindo preto no premium</span></div><div class="vev">Lixeira Rattan Pedal 6L <b>+208%</b> — R$ 554 k e 711 clientes partindo de zero · Lixeira Juta Pedal 12L <b>+196%</b></div></div>
+    <div class="vec"><div class="vid">V3</div><div class="vname">Acoplado + rosca<span>mantimentos empilháveis</span></div><div class="vev">Acoplado 2L <b>+566%</b> · Feijão 2L <b>+198%</b> · Açúcar 2L <b>+51%</b> · Café 2L <b>+44%</b></div></div>
+    <div class="vec"><div class="vid">V4</div><div class="vname">Flat / slim<span>perfil baixo para pia e bancada</span></div><div class="vev">Porta Detergente Flat 2 peças <b>+420%</b> — de 364 para <b>811 clientes</b> em doze meses</div></div>
+    <div class="vec"><div class="vid">V5</div><div class="vname">Nitronfort<span>ferramentas, categoria adjacente</span></div><div class="vev">Caixa 2,2L <b>+111%</b> · Caixa 16L <b>+74%</b></div></div>
+    <div class="vec"><div class="vid">V6</div><div class="vname">Gadget "Fácil"<span>utensílio de impulso, molde pequeno</span></div><div class="vev">Churros Fácil <b>+117%</b> — de 342 para <b>842 clientes</b> · Escorredor Multiuso <b>+110%</b> · Saleiro Premier <b>+101%</b></div></div>
+    <div class="vec"><div class="vid">V7</div><div class="vname">Kit / multipack<span>alavanca de ticket sem molde novo</span></div><div class="vev">Kit Acoplados 5 pçs preto <b>+99%</b> · Kit Potes Altos 3 pçs <b>+71%</b> · Kit Acoplados branco <b>+36%</b></div></div>
+    <div class="vec"><div class="vid">V8</div><div class="vname">Frasqueira: cor e formato<span>novo — a curva global escondia</span></div><div class="vev">Mega Luxo <b>vermelha</b> 12L <b>+183%</b> · Oval com bandeja <b>branca</b> <b>+177%</b> · a 2,8L branca <b>+33%</b></div></div>
+  </div>
+
+  <p>Ficaram mais fortes no corte limpo: <strong>Cesto Europa Juta +372%</strong> (era +230% na leitura global) e <strong>Pote Alto Válvula 2,9L +1.297%</strong>, que antes não aparecia no topo.</p>
+
+  <p>O <strong>V8 é o achado novo desta revisão</strong>: três variantes da mesma família crescendo forte ao mesmo tempo, dentro da única linha em alta da casa. É a evidência mais direta de toda a carteira — e é exatamente o certeiro de Frasqueiras.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">05</span><h2>O que a tabela padrão entrega: o teto de margem</h2></div>
+
+  <p class="lede">Aqui o corte que você pediu ganha valor próprio. A tabela padrão mostra quanto o produto rende <strong>sem desconto negociado</strong> — é a régua para precificar um lançamento.</p>
 
   <div class="scroll">
   <table>
-    <caption>SKUs de alto faturamento com concentração total em um cliente. Natura (Cabreúva) é o maior cliente da casa, com R$ 8,9 M no período.</caption>
-    <thead><tr><th>Produto</th><th>Linha</th><th class="n">25/26</th><th class="n">Clientes</th></tr></thead>
+    <caption>Preço e margem na tabela padrão PV0003 contra o preço médio praticado em todas as tabelas. Janela ago/25 – jul/26.</caption>
+    <thead><tr><th>Produto</th><th>Linha</th><th class="n">Preço padrão</th><th class="n">Preço médio</th><th class="n">MB padrão</th><th class="n">Clientes</th></tr></thead>
     <tbody>
-      <tr><td class="name">Kit 3 Potes Canelados Ovais Candy 2025</td><td>Potes</td><td class="n"><b>R$ 2,66 M</b></td><td class="n">1</td></tr>
-      <tr><td class="name">Porta Pão 2026</td><td>Cozinha</td><td class="n">R$ 744 k</td><td class="n">1</td></tr>
-      <tr><td class="name">Cortador Dupla Face</td><td>Decor Util</td><td class="n">R$ 632 k</td><td class="n">1</td></tr>
-      <tr><td class="name">Panela de Micro-ondas 1,5L Azul Candy</td><td>Micro-ondas</td><td class="n">R$ 523 k</td><td class="n">1</td></tr>
-      <tr><td class="name">Tampa de Micro-ondas Verde Candy</td><td>Micro-ondas</td><td class="n">R$ 430 k</td><td class="n">1</td></tr>
-      <tr><td class="name">Maleta para Esmalte Rosa</td><td>Frasqueiras</td><td class="n">R$ 290 k</td><td class="n">1</td></tr>
+      <tr class="hl"><td class="name">Kit Churros Fácil</td><td>Decor Util</td><td class="n">R$ 14,49</td><td class="n">R$ 8,51</td><td class="n"><b>81,5%</b></td><td class="n">405</td></tr>
+      <tr><td class="name">Organizador Multiuso Rattan 3 div.</td><td>Organização</td><td class="n">R$ 6,47</td><td class="n">R$ 4,02</td><td class="n"><b>78,8%</b></td><td class="n">448</td></tr>
+      <tr><td class="name">Porta Vassouras 4 encaixes preto</td><td>Limpeza</td><td class="n">R$ 10,11</td><td class="n">R$ 6,16</td><td class="n"><b>75,9%</b></td><td class="n">197</td></tr>
+      <tr><td class="name">Porta Sabão em Pó Dosador 2 kg preto</td><td>Limpeza</td><td class="n">R$ 20,11</td><td class="n">R$ 10,46</td><td class="n"><b>74,1%</b></td><td class="n">106</td></tr>
+      <tr><td class="name">Kit Biscoito Fácil</td><td>Decor Util</td><td class="n">R$ 11,96</td><td class="n">R$ 9,25</td><td class="n">73,2%</td><td class="n">52</td></tr>
+      <tr><td class="name">Porta Escovas c/ Tampa branco</td><td>Banheiro</td><td class="n">R$ 7,57</td><td class="n">R$ 4,80</td><td class="n">72,3%</td><td class="n">343</td></tr>
+      <tr><td class="name">Frasqueira Medicamentos 6,2L</td><td>Frasqueiras</td><td class="n">R$ 28,49</td><td class="n">R$ 19,07</td><td class="n">71,8%</td><td class="n">270</td></tr>
+      <tr><td class="name">Porta Talher 6 div. branco</td><td>Cozinha</td><td class="n">R$ 18,46</td><td class="n">R$ 12,19</td><td class="n">68,4%</td><td class="n">269</td></tr>
+      <tr><td class="name">Frasqueira Medicamentos 2,8L</td><td>Frasqueiras</td><td class="n">R$ 15,05</td><td class="n">R$ 11,61</td><td class="n">62,8%</td><td class="n">313</td></tr>
+      <tr class="hl"><td class="name">Frasqueira Medicamentos <b>vermelha</b> 2,8L</td><td>Frasqueiras</td><td class="n">R$ 15,24</td><td class="n">—</td><td class="n">63,3%</td><td class="n">95</td></tr>
     </tbody>
   </table>
   </div>
 
-  <p>É excelente negócio, mas obedece a uma lógica oposta: não se planeja com raspagem de mercado, se planeja com o cliente. <strong>Toda a carteira abaixo é de marca Nitron para o canal atacado e varejo de utilidades domésticas</strong> — Modenuti (R$ 4,8 M), Kalunga (R$ 3,0 M), Millenium (R$ 2,6 M), Centerlar, Tambasa, Lojas Mel, Big Lar, Carrefour, Atacadão.</p>
+  <p>Dois usos práticos. Primeiro: <strong>a margem-teto é de 60% a 80%</strong>, não os 45–55% da média — o desconto de canal come de 15 a 25 pontos. Um produto que consiga ser vendido majoritariamente na padrão vale muito mais do que o mesmo produto empurrado por tabela negociada.</p>
+
+  <p>Segundo: <strong>o Churros Fácil a 81,5% de margem é o produto mais rentável da casa</strong>. Isso reforça o certeiro de Decor Util mais do que qualquer outro dado do projeto. E a <strong>Frasqueira vermelha 2,8L já vende na padrão</strong> com 95 clientes e 63,3% de margem — a tese de variante de cor está validada na tabela cheia, não só na média.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">04</span><h2>Os sete vetores que estão funcionando</h2></div>
+  <div class="shead"><span class="snum">06</span><h2>A carteira: 3 candidatos e 1 certeiro por linha</h2></div>
 
-  <p class="lede">Antes de recomendar produto, extraí do banco <em class="q">o que</em> está crescendo e <em class="q">por quê</em>. Estes são padrões com evidência no faturamento, não hipóteses de tendência.</p>
-
-  <div class="vecs">
-    <div class="vec"><div class="vid">V1</div><div class="vname">Válvula<span>vedação premium em potes</span></div><div class="vev">Pote Alto 4,6L <b>+1.037%</b> · Quadrado 3L <b>+496%</b> · Raso 3,2L <b>+73%</b> · Raso 1,9L <b>+56%</b> · Raso 950ml <b>+47%</b></div></div>
-    <div class="vec"><div class="vid">V2</div><div class="vname">Cor chumbo<span>grafite substituindo preto no premium</span></div><div class="vev">Lixeira Rattan Pedal 6L <b>+209%</b> (R$ 556 k) · Lixeira Juta Pedal 12L <b>+203%</b></div></div>
-    <div class="vec"><div class="vid">V3</div><div class="vname">Acoplado + rosca<span>mantimentos empilháveis</span></div><div class="vev">Pote Acoplado Rosca 2L <b>+567%</b> · Açúcar 2L <b>+51%</b> · Café 2L <b>+44%</b> · Kits acoplados <b>+113%</b> e <b>+39%</b></div></div>
-    <div class="vec"><div class="vid">V4</div><div class="vname">Flat / slim<span>perfil baixo para pia e bancada</span></div><div class="vev">Conj. Porta Detergente Flat 2 peças <b>+420%</b> — de 364 para <b>812 clientes</b> em doze meses</div></div>
-    <div class="vec"><div class="vid">V5</div><div class="vname">Nitronfort<span>ferramentas, categoria adjacente</span></div><div class="vev">Caixa de Ferramentas 2,2L <b>+110%</b> · Caixa 16L <b>+74%</b></div></div>
-    <div class="vec"><div class="vid">V6</div><div class="vname">Gadget "Fácil"<span>utensílio de impulso, molde pequeno</span></div><div class="vev">Kit Churros Fácil <b>+117%</b> — de 342 para <b>842 clientes</b> · Escorredor Multiuso <b>+110%</b> · Saleiro Premier <b>+101%</b></div></div>
-    <div class="vec"><div class="vid">V7</div><div class="vname">Kit / multipack<span>alavanca de ticket sem molde novo</span></div><div class="vev">Kit Potes Acoplados 5 pçs <b>+113%</b> e <b>+39%</b> · Kit Mantimentos 5 pçs <b>+37%</b> — ticket 4 a 5× o do avulso</div></div>
-  </div>
-
-  <p>Dois vetores secundários valem registro: <strong>texturas juta</strong> (Cesto Europa Juta 5,3L +230%, Cesto Alongado 7,4L +47%) e <strong>Ultraforte</strong> (Pote Ultraforte Travas 2,1L +118%, 795 clientes).</p>
-
-  <p>A leitura estratégica: o consumidor está pagando por <strong>função</strong> — válvula, rosca, pedal, perfil flat — e por <strong>acabamento premium</strong> — chumbo, texturas. Não está pagando por SKU novo. E o kit é a alavanca de ticket mais barata que existe, porque não exige ferramentaria.</p>
-</section>
-
-<section>
-  <div class="shead"><span class="snum">05</span><h2>A carteira: 3 candidatos e 1 certeiro por linha</h2></div>
-
-  <p class="lede">Priorizei as oito linhas que concentram <strong>R$ 40,7 M dos R$ 44,6 M de lucro bruto</strong> da casa — 91%. O certeiro de cada linha é sempre o de menor risco: <strong>molde existente cruzado com vetor comprovado</strong>. O investimento é pigmento, embalagem e cadastro, não CAPEX de ferramentaria.</p>
+  <p class="lede">Oito linhas, <strong>R$ 37,7 M dos R$ 41,4 M de lucro bruto — 91%</strong>. Cada certeiro cruza <strong>molde existente com vetor comprovado</strong>: o investimento é pigmento, embalagem e cadastro, não CAPEX de ferramentaria. As recomendações da revisão 1 se mantêm, porque os vetores sobreviveram ao corte — o que mudou foram os números de suporte.</p>
 
   <div class="panel">
-    <div class="phead"><h3>Organização</h3><div class="pstats"><span>R$ <b>22,9 M</b></span><span>MB <b>52,6%</b></span><span>LB <b>R$ 11,8 M</b></span><span><b>307</b> SKUs</span><span><b>3.634</b> clientes</span></div></div>
-    <div class="pnote"><p>Maior pool de lucro da casa. A queda vem do Kit Nitronbox B2B (R$ 3,85 M → R$ 2,68 M) e da Caixa 16L branca (R$ 1,09 M → R$ 563 k), não da linha toda — os gaveteiros crescem.</p></div>
+    <div class="phead"><h3>Organização</h3><div class="pstats"><span>R$ <b>22,1 M</b></span><span>MB <b>54,2%</b></span><span>LB <b>R$ 11,8 M</b></span><span><b>292</b> SKUs</span><span><b>3.634</b> clientes</span></div></div>
+    <div class="pnote"><p>Maior pool de lucro da casa. Kit Nitronbox R$ 2,68 M (49 clientes, B2B) · Suporte Botijão areia R$ 1,25 M · Organizador Multiuso Rattan R$ 862 k com 1.732 clientes · Gaveteiro 4 gavetas preta R$ 753 k · Suporte Botijão preto R$ 650 k (+44%).</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Cesto Europa Juta — família 10,8L e 18,7L em preto</span><span class="pr">O 5,3L cresceu <b>+230%</b> e os moldes maiores já existem na linha Teca.</span></span></li>
-      <li><span><span class="pn">Gaveteiro Modular Rattan chumbo + torre de 3 módulos pré-montada</span><span class="pr">Modular transparente <b>+30%</b>, branco R$ 487 k, 4 gavetas rosa <b>+111%</b>. Gaveteiro é o subgrupo que cresce; falta a cor do momento e o kit.</span></span></li>
-      <li><span><span class="pn">Organizador Multiuso Rattan 3 divisórias — versão com tampa / empilhável</span><span class="pr"><b>1.732 clientes</b> e R$ 872 k — a segunda maior capilaridade da linha.</span></span></li>
+      <li><span><span class="pn">Cesto Europa Juta — 10,8L e 18,7L em preto</span><span class="pr">O 5,3L cresceu <b>+372%</b> e os moldes maiores já existem na linha Teca.</span></span></li>
+      <li><span><span class="pn">Gaveteiro Modular Rattan chumbo + torre de 3 módulos pré-montada</span><span class="pr">Modular transparente <b>+29%</b>, 4 gavetas rosa <b>+110%</b>. Gaveteiro é o subgrupo que cresce; falta a cor do momento e o kit.</span></span></li>
+      <li><span><span class="pn">Organizador Multiuso Rattan 3 divisórias — versão com tampa / empilhável</span><span class="pr">1.732 clientes e <b>78,8% de margem na tabela padrão</b> — o segundo produto mais rentável da casa.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Caixa Organizadora Rattan com Tampa em chumbo — 4L e 16L</span><p>A dupla preta mais branca do 16L faz <b>R$ 1,16 M</b>; o 4L preto cresceu <b>+26%</b>. Chumbo entregou <b>+209%</b> na lixeira do mesmo período. Molde existe, margem da linha em 52,6%. Custo de entrada: pigmento e etiqueta.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Caixa Organizadora Rattan com Tampa em chumbo — 4L e 16L</span><p>A dupla preta mais branca do 16L faz <b>R$ 1,13 M</b>. Chumbo entregou <b>+208%</b> na lixeira do mesmo período. Molde existe; custo de entrada é pigmento e etiqueta.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Potes</h3><div class="pstats"><span>R$ <b>20,5 M</b></span><span>MB <b>43,6%</b></span><span>LB <b>R$ 8,2 M</b></span><span><b>501</b> SKUs</span><span><b>4.505</b> clientes</span></div></div>
-    <div class="pnote"><p>Maior queda absoluta da casa — R$ 12,5 M em dois anos — e maior número de SKUs. Mas os vetores V1, V3 e V7 estão todos aqui, crescendo forte. É problema de foco, não de demanda.</p></div>
+    <div class="phead"><h3>Potes <span class="corr">corrigido</span></h3><div class="pstats"><span>R$ <b>16,0 M</b></span><span>MB <b>45,1%</b></span><span>LB <b>R$ 7,2 M</b></span><span><b>487</b> SKUs</span><span><b>4.504</b> clientes</span></div></div>
+    <div class="pnote"><p>Cai 15%, não 38% — a queda da revisão 1 era rotação de OEM. Com o private label fora, o topo é todo kit e pote funcional: Kit Potes Modulares R$ 593 k · Kit Potes Acoplados 5 pçs R$ 591 k (+36%) · Porta Pão 2,7L R$ 498 k com 1.097 clientes · Kit Mantimentos 5 pçs R$ 307 k (+37%).</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Família válvula completa, incluindo kit válvula 3 peças</span><span class="pr">Hoje existe 950ml, 1,9L e 3,2L raso, 3L quadrado e 4,6L alto. Faltam os intermediários e o kit. É o vetor com a maior taxa de crescimento do banco: <b>+1.037%</b>.</span></span></li>
-      <li><span><span class="pn">Linha Ultraforte ampliada — tamanhos e chumbo</span><span class="pr">O 2,1L preto fez <b>+118%</b> com <b>795 clientes</b> a partir de base pequena.</span></span></li>
-      <li><span><span class="pn">Potes de mantimento acoplados com rosca — arroz, feijão, farinha 3 a 5L</span><span class="pr">Hoje só existe açúcar 2L, café 2L e genérico 2L, todos crescendo entre <b>44%</b> e <b>567%</b>.</span></span></li>
+      <li><span><span class="pn">Família válvula completa, incluindo kit válvula 3 peças</span><span class="pr">Vetor mais forte do banco: <b>+1.297%</b> no Alto 2,9L e <b>+1.032%</b> no 4,6L. Faltam os tamanhos intermediários e o kit.</span></span></li>
+      <li><span><span class="pn">Linha Ultraforte ampliada — tamanhos e chumbo</span><span class="pr">O 2,1L preto fez <b>+117%</b> com 795 clientes; o 6,9L rende <b>66,3% na tabela padrão</b>.</span></span></li>
+      <li><span><span class="pn">Mantimentos acoplados com rosca — arroz e farinha 3 a 5L</span><span class="pr">Hoje só existe açúcar, café, feijão e genérico, todos crescendo entre <b>44%</b> e <b>566%</b>.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Kit Mantimentos acoplado com rosca, 4 a 5 peças</span><p>Combina os três vetores mais fortes da linha: acoplado-rosca, kit e vedação. Os três avulsos acoplados somam <b>R$ 638 k crescendo de 44% a 567%</b>; o Kit Mantimentos 5 peças preto já faz R$ 307 k (+37%) e o Kit Potes Acoplados 5 peças faz R$ 604 k mais R$ 215 k (+39% e +113%). O ticket sobe de cerca de R$ 5 para cerca de R$ 25 <b>usando moldes que já existem</b> — o investimento é composição e embalagem.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Kit Mantimentos acoplado com rosca, 4 a 5 peças</span><p>Combina os três vetores da linha — válvula, acoplado-rosca e kit. Os quatro avulsos acoplados somam <b>R$ 771 k crescendo de 44% a 566%</b>; os dois kits acoplados somam <b>R$ 792 k crescendo 36% e 99%</b>. O ticket sobe de cerca de R$ 5 para cerca de R$ 25 <b>usando moldes que já existem</b>.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Cozinha</h3><div class="pstats"><span>R$ <b>14,1 M</b></span><span>MB <b>52,8%</b></span><span>LB <b>R$ 7,3 M</b></span><span><b>200</b> SKUs</span><span><b>7.827</b> clientes</span></div></div>
-    <div class="pnote"><p>A linha mais resiliente, −10% em dois anos, e a de maior capilaridade da casa: 7.827 clientes.</p></div>
+    <div class="phead"><h3>Cozinha</h3><div class="pstats"><span>R$ <b>12,4 M</b></span><span>MB <b>49,9%</b></span><span>LB <b>R$ 6,2 M</b></span><span><b>194</b> SKUs</span><span><b>7.825</b> clientes</span></div></div>
+    <div class="pnote"><p>Maior capilaridade da casa. Forma de Gelo Firenze R$ 584 k · Porta Detergente Rattan R$ 516 k · Porta Frios c/ Pinça R$ 500 k · Porta Talher 6 div. preto R$ 440 k · Porta Óleo Italia R$ 439 k com <strong>1.735 clientes</strong>.</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Linha Flat de pia completa — 3 peças, branco e chumbo, organizador de pia</span><span class="pr">O conjunto de 2 peças foi de R$ 58 k para <b>R$ 301 k (+420%)</b> e de 364 para <b>812 clientes</b> em doze meses.</span></span></li>
-      <li><span><span class="pn">Porta Óleo Italia — família em branco e chumbo, mais conjunto azeite e vinagre</span><span class="pr">O preto tem <b>1.735 clientes</b>, a maior capilaridade unitária da casa inteira, a R$ 2,50 de ticket. É a porta de entrada perfeita para subir valor.</span></span></li>
-      <li><span><span class="pn">Escorredor de Pratos chumbo e versão com bandeja de escoamento</span><span class="pr">O preto fez R$ 388 k (+20%) e o escorredor multiuso <b>+110%</b>.</span></span></li>
+      <li><span><span class="pn">Linha Flat de pia completa — 3 peças, branco e chumbo</span><span class="pr">O conjunto de 2 peças fez <b>+420%</b> e saiu de 364 para <b>811 clientes</b> em doze meses.</span></span></li>
+      <li><span><span class="pn">Porta Óleo Italia — família em cores e conjunto azeite + vinagre</span><span class="pr"><b>1.735 clientes</b> a R$ 2,50 de ticket: a melhor porta de entrada da casa para subir valor.</span></span></li>
+      <li><span><span class="pn">Escorredor de Pratos chumbo e versão com bandeja de escoamento</span><span class="pr">O preto faz R$ 387 k; o Escorredor Multiuso cresceu <b>+110%</b>.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Conjunto Porta Detergente Flat 3 peças, mais versões branca e chumbo</span><p>O produto de adoção mais rápida da linha: <b>+420% e 448 clientes novos em um ano</b>. A extensão de 2 para 3 peças eleva o ticket sem molde novo, e as cores aproveitam o vetor chumbo. Molde existe.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Conjunto Porta Detergente Flat 3 peças, mais versões branca e chumbo</span><p>Adoção mais rápida da linha: <b>+420% e 447 clientes novos em um ano</b>. A extensão de 2 para 3 peças eleva o ticket sem molde novo, e as cores aproveitam o vetor chumbo.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Frasqueiras <span class="chip g" style="vertical-align:middle;margin-left:4px">única linha em alta</span></h3><div class="pstats"><span>R$ <b>7,2 M</b></span><span>MB <b>54,4%</b></span><span>LB <b>R$ 3,9 M</b></span><span><b>54</b> SKUs</span><span><b>3.306</b> clientes</span></div></div>
-    <div class="pnote"><p>A única linha crescendo e a mais produtiva por SKU da casa: <strong>R$ 134 k por SKU</strong> contra R$ 41 k em Potes. Se o projeto tiver que escolher uma só linha, é esta.</p></div>
+    <div class="phead"><h3>Frasqueiras <span class="chip g" style="vertical-align:middle;margin-left:4px">única linha em alta</span></h3><div class="pstats"><span>R$ <b>6,9 M</b></span><span>MB <b>53,7%</b></span><span>LB <b>R$ 3,7 M</b></span><span><b>52</b> SKUs</span><span><b>3.305</b> clientes</span></div></div>
+    <div class="pnote"><p><strong>R$ 132 k por SKU</strong> contra R$ 33 k em Potes — a linha mais produtiva da casa. 2,8L branca R$ 1,70 M (+33%, 1.181 clientes) · 6,2L branca R$ 1,41 M · 1,4L R$ 701 k · Mega Luxo 12L R$ 461 k · Nitronfort 2,2L R$ 274 k (+111%). Se o projeto tiver que escolher uma linha só, é esta.</p></div>
     <ol class="plist">
       <li><span><span class="pn">Frasqueira Medicamentos com divisórias removíveis / organizador semanal de comprimidos</span><span class="pr">Upgrade premium sobre o campeão absoluto da casa.</span></span></li>
-      <li><span><span class="pn">Nitronfort expandido — 6L intermediário, maleta com bandeja, versão grafite profissional</span><span class="pr">O 2,2L fez <b>+110%</b> e o 16L <b>+74%</b>.</span></span></li>
-      <li><span><span class="pn">Frasqueira Cristal com divisórias — novas cores</span><span class="pr">O rosa 1,5L faz R$ 247 k, <b>+28%</b>.</span></span></li>
+      <li><span><span class="pn">Nitronfort expandido — 6L intermediário, maleta com bandeja, versão grafite</span><span class="pr">O 2,2L fez <b>+111%</b> e o 16L <b>+74%</b>.</span></span></li>
+      <li><span><span class="pn">Frasqueira Oval com bandeja — ampliar tamanhos e cores</span><span class="pr">A branca fez <b>+177%</b> partindo de base pequena, com 296 clientes.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro · menor risco do portfólio</span><span class="cn">Frasqueira Medicamentos 2,8L e 6,2L em chumbo / grafite</span><p>O 2,8L branco isolado é o maior SKU de marca própria da casa: <b>R$ 1,70 M, +33%, 1.182 clientes</b>. O 6,2L faz R$ 1,46 M. E a versão <b>vermelha 6,2L cresceu +76%</b>, provando que cor nova vende nesta família específica. Molde existe, linha em crescimento, margem de 54,4%.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro · menor risco do portfólio</span><span class="cn">Frasqueira Medicamentos 2,8L e 6,2L em chumbo / grafite</span><p>O 2,8L branca é o maior SKU de marca própria da casa. E o vetor V8 dá três provas independentes no mesmo período: <b>Mega Luxo vermelha 12L +183%</b>, <b>Oval branca +177%</b>, e a <b>vermelha 2,8L já vendendo na tabela padrão</b> com 95 clientes e 63,3% de margem. Molde existe, linha em crescimento.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Lixeiras</h3><div class="pstats"><span>R$ <b>9,3 M</b></span><span>MB <b>42,1%</b></span><span>LB <b>R$ 3,9 M</b></span><span><b>97</b> SKUs</span><span>ticket <b>R$ 13,59</b></span></div></div>
-    <div class="pnote"><p>Onde o vetor chumbo nasceu. Ticket médio mais alto entre as linhas de volume.</p></div>
+    <div class="phead"><h3>Lixeiras</h3><div class="pstats"><span>R$ <b>9,1 M</b></span><span>MB <b>43,0%</b></span><span>LB <b>R$ 3,9 M</b></span><span><b>94</b> SKUs</span><span>estável <b>+0,2%</b></span></div></div>
+    <div class="pnote"><p>Onde o vetor chumbo nasceu. Rattan Pedal preta 6L R$ 1,01 M · branca 6L R$ 921 k (+30%) · Vime preta 12L R$ 720 k · <strong>Rattan Pedal chumbo 6L R$ 554 k, partindo de zero em dois anos</strong> · Basculante Rattan 4,5L R$ 550 k (+21%).</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Lixeira Flat com Pedal — família de tamanhos e cores</span><span class="pr">Hoje só existe a preta 7L, a <b>R$ 24,59</b> de ticket — um dos maiores da casa — com R$ 385 k.</span></span></li>
+      <li><span><span class="pn">Lixeira Flat com Pedal — família de tamanhos e cores</span><span class="pr">Hoje só existe a preta 7L, a <b>R$ 24,59</b> de ticket, com R$ 385 k.</span></span></li>
       <li><span><span class="pn">Lixeira seletiva / duo com dois compartimentos</span><span class="pr">Ausente do portfólio. Coleta seletiva doméstica é tendência estrutural e sustenta ticket alto.</span></span></li>
-      <li><span><span class="pn">Lixeira Vime em chumbo</span><span class="pr">A preta 12L faz R$ 724 k e a branca R$ 309 k.</span></span></li>
+      <li><span><span class="pn">Lixeira Vime em chumbo</span><span class="pr">A preta 12L faz R$ 720 k e vende a <b>R$ 27,18 na tabela padrão</b>.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Lixeira Basculante Rattan chumbo 4,5L e Lixeira Rattan com Pedal chumbo 12L</span><p>Chumbo é o vetor com maior crescimento comprovado da casa — <b>+209%</b> no Rattan Pedal 6L e <b>+203%</b> no Juta Pedal 12L. A basculante 4,5L preta faz R$ 594 k com 926 clientes e cresce +16%; o pedal 12L é o buraco óbvio, porque chumbo hoje só existe no 6L. Os dois moldes existem.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Lixeira Basculante Rattan chumbo 4,5L e Lixeira Rattan com Pedal chumbo 12L</span><p>Chumbo tem o maior crescimento comprovado da casa — <b>+208%</b> e <b>+196%</b>. A basculante 4,5L preta faz R$ 550 k com 926 clientes e cresce <b>+21%</b>; o pedal 12L é o buraco óbvio, porque chumbo hoje só existe no 6L. Os dois moldes existem.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Banheiro</h3><div class="pstats"><span>R$ <b>4,1 M</b></span><span>MB <b>55,0%</b></span><span>LB <b>R$ 2,3 M</b></span><span><b>52</b> SKUs</span><span><b>6.003</b> clientes</span></div></div>
-    <div class="pnote"><p>Segunda maior capilaridade da casa, mas ticket de apenas R$ 4,23 e cantoneiras em colapso — a branca caiu 45%.</p></div>
+    <div class="phead"><h3>Banheiro <span class="corr">corrigido</span></h3><div class="pstats"><span>R$ <b>4,1 M</b></span><span>MB <b>55,0%</b></span><span>LB <b>R$ 2,3 M</b></span><span><b>52</b> SKUs</span><span><b>6.002</b> clientes</span></div></div>
+    <div class="pnote"><p>Praticamente estável em −3,5%, não caindo 23%. Porta Escovas preto R$ 536 k (1.227 clientes) · branco R$ 493 k · fumê R$ 304 k — <strong>o trio faz R$ 1,33 M</strong>. Porta Shampoo Madri preto R$ 421 k. Cantoneiras em queda.</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Porta Escovas com Tampa em chumbo</span><span class="pr">O trio preto, branco e fumê faz <b>R$ 1,33 M</b> com cerca de 1.250 clientes cada. A prova de que cor vende neste SKU já foi dada três vezes.</span></span></li>
-      <li><span><span class="pn">Dispenser de sabonete líquido de bancada</span><span class="pr">Hoje só existe saboneteira de parede com ventosa (R$ 2,54) e com telinha (R$ 2,05). Gap total de ticket médio.</span></span></li>
-      <li><span><span class="pn">Organizador / bandeja de bancada de banheiro</span><span class="pr">Inexistente no portfólio. Ticket alto e aproveita as texturas rattan da casa.</span></span></li>
+      <li><span><span class="pn">Porta Escovas com Tampa em chumbo</span><span class="pr">O trio de cores prova três vezes que cor vende neste SKU; o branco rende <b>72,3% na tabela padrão</b>.</span></span></li>
+      <li><span><span class="pn">Dispenser de sabonete líquido de bancada</span><span class="pr">Hoje só existe saboneteira de parede, a R$ 2,05–2,54. Gap total de ticket médio.</span></span></li>
+      <li><span><span class="pn">Organizador / bandeja de bancada de banheiro</span><span class="pr">Inexistente no portfólio; aproveita as texturas rattan da casa.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Kit Banheiro coordenado 3 peças — porta escovas, saboneteira e porta algodão — nas 3 cores</span><p>Porta escovas é <b>R$ 1,33 M</b> em três cores e a saboneteira já existe. O kit eleva o ticket de cerca de R$ 5 para cerca de R$ 15 <b>sem um único molde novo</b> — só composição e embalagem — em cima da segunda maior base de clientes da casa.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Kit Banheiro coordenado 3 peças — porta escovas, saboneteira e porta algodão — nas 3 cores</span><p>Porta escovas é <b>R$ 1,33 M</b> em três cores e a saboneteira já existe. O kit eleva o ticket de cerca de R$ 5 para cerca de R$ 15 <b>sem um único molde novo</b>, em cima da segunda maior base de clientes da casa.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Limpeza</h3><div class="pstats"><span>R$ <b>3,6 M</b></span><span>MB <b>54,7%</b></span><span>LB <b>R$ 2,0 M</b></span><span><b>38</b> SKUs</span><span><b>2.521</b> clientes</span></div></div>
-    <div class="pnote"><p>A Pá de Lixo com Cabo move 202.775 unidades por ano — o maior volume unitário da linha, com 1.049 clientes.</p></div>
+    <div class="phead"><h3>Limpeza</h3><div class="pstats"><span>R$ <b>3,6 M</b></span><span>MB <b>54,8%</b></span><span>LB <b>R$ 2,0 M</b></span><span><b>38</b> SKUs</span><span><b>2.520</b> clientes</span></div></div>
+    <div class="pnote"><p>Pá de Lixo c/ Cabo R$ 889 k (+9%, 1.049 clientes) · Porta Vassouras preto R$ 628 k · branco R$ 405 k, caindo <strong>52%</strong> · Porta Sabão em Pó preto R$ 246 k (+23%).</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Porta Sabão em Pó com Dosador 5 kg</span><span class="pr">O 2 kg (preto e branco) faz R$ 453 k e o preto cresce <b>+24%</b>. Embalagem grande de sabão em pó é padrão no varejo brasileiro. <b>Exige molde novo</b> — é aposta, não certeiro.</span></span></li>
+      <li><span><span class="pn">Porta Sabão em Pó com Dosador 5 kg</span><span class="pr">O 2 kg rende <b>74,1% de margem a R$ 20,11 na padrão</b> — a maior da linha. <b>Exige molde novo</b>: é aposta, não certeiro.</span></span></li>
       <li><span><span class="pn">Kit Limpeza — pá, porta-vassouras e cestinho</span><span class="pr">Aplica o vetor kit sobre os dois campeões da linha.</span></span></li>
       <li><span><span class="pn">Balde espremedor / conjunto mop</span><span class="pr">Categoria adjacente ausente, ticket alto, sinergia total de canal.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Porta Vassouras com 4 encaixes em chumbo</span><p>O preto faz <b>R$ 628 k com 1.116 clientes</b>; o branco despencou <b>−51%</b>, que é sinal claro de saturação da cor e não do produto. Chumbo é para onde a demanda migrou. Molde existe e a margem da linha é de 54,7%.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro</span><span class="cn">Porta Vassouras com 4 encaixes em chumbo</span><p>O preto faz <b>R$ 628 k com 1.116 clientes</b> e rende <b>75,9% de margem na tabela padrão</b>. O branco despencou <b>52%</b> — saturação da cor, não do produto. Chumbo é para onde a demanda migrou, e o molde existe.</p></div>
   </div>
 
   <div class="panel">
-    <div class="phead"><h3>Decor Util <span class="chip g" style="vertical-align:middle;margin-left:4px">maior margem da casa</span></h3><div class="pstats"><span>R$ <b>2,3 M</b></span><span>MB <b>65,4%</b></span><span>LB <b>R$ 1,3 M</b></span><span><b>63</b> SKUs</span><span><b>+96%</b> em 2 anos</span></div></div>
-    <div class="pnote"><p>Segunda linha em crescimento e a mais rentável. Moldes pequenos, tonelagem baixa, CAPEX baixo, produto de impulso. Estrategicamente é onde o dinheiro de desenvolvimento rende mais por real investido.</p></div>
+    <div class="phead"><h3>Decor Util <span class="chip g" style="vertical-align:middle;margin-left:4px">maior margem entre as linhas que crescem</span> <span class="corr">corrigido</span></h3><div class="pstats"><span>R$ <b>1,4 M</b></span><span>MB <b>59,6%</b></span><span>LB <b>R$ 836 k</b></span><span><b>56</b> SKUs</span><span><b>+21%</b> em 2 anos</span></div></div>
+    <div class="pnote"><p>Com o OEM fora, os dois maiores produtos da linha <strong>são exatamente o conceito "Fácil"</strong>: Kit Churros Fácil R$ 602 k (+117%, 842 clientes) e Hamburgueira R$ 243 k (755 clientes). Moldes pequenos, tonelagem baixa, CAPEX baixo, produto de impulso.</p></div>
     <ol class="plist">
-      <li><span><span class="pn">Kit Confeitaria — bicos, saco, espátula e alisador</span><span class="pr">O subgrupo Decor-Confeitaria já existe no cadastro sem produto relevante. O Kit Biscoito Fácil (<b>+23%</b>) valida o apetite.</span></span></li>
-      <li><span><span class="pn">Utensílios de hambúrguer e churrasco ampliados — prensa dupla, formador de kibe</span><span class="pr">A Hamburgueira faz R$ 244 k com <b>756 clientes</b>.</span></span></li>
+      <li><span><span class="pn">Kit Confeitaria — bicos, saco, espátula e alisador</span><span class="pr">O subgrupo Decor-Confeitaria já existe no cadastro sem produto relevante. O Kit Biscoito Fácil rende <b>73,2% na padrão</b>.</span></span></li>
+      <li><span><span class="pn">Utensílios de hambúrguer e churrasco — prensa dupla, formador de kibe</span><span class="pr">A Hamburgueira faz R$ 243 k com <b>755 clientes</b> e <b>68,7% de margem na padrão</b>.</span></span></li>
       <li><span><span class="pn">Espremedores e cortadores — família em cores</span><span class="pr">Hoje quase todo o subgrupo é branco.</span></span></li>
     </ol>
-    <div class="certeiro"><span class="ctag">Certeiro · maior retorno sobre CAPEX</span><span class="cn">Família "Fácil": Coxinha &amp; Croquete Fácil e Pastel Fácil</span><p>O Kit Churros Fácil saltou de R$ 278 k para <b>R$ 602 k (+117%)</b> e de 342 para <b>842 clientes</b> em doze meses, dentro da linha de <b>65,4% de margem</b>. É o padrão de sucesso mais replicável do banco: molde pequeno, tonelagem baixa, CAPEX baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do país e não tem utensílio dominante no varejo de utilidades.</p></div>
+    <div class="certeiro"><span class="ctag">Certeiro · maior retorno sobre CAPEX</span><span class="cn">Família "Fácil": Coxinha &amp; Croquete Fácil e Pastel Fácil</span><p><b>O Kit Churros Fácil rende 81,5% de margem a R$ 14,49 na tabela padrão — é o produto mais rentável da casa</b> — e saltou de 342 para <b>842 clientes</b> em doze meses. Molde pequeno, tonelagem baixa, CAPEX baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do país e não tem utensílio dominante no varejo de utilidades.</p></div>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">06</span><h2>Onde não lançar — e o que fazer em vez disso</h2></div>
+  <div class="shead"><span class="snum">07</span><h2>Onde não lançar</h2></div>
 
   <div class="scroll">
   <table>
-    <caption>Linhas excluídas da carteira de lançamento, com a razão e o encaminhamento sugerido.</caption>
+    <caption>Situação no corte limpo. Micro-ondas sai desta lista em relação à revisão 1.</caption>
     <thead><tr><th>Linha</th><th>Situação</th><th>Encaminhamento</th></tr></thead>
     <tbody>
-      <tr><td class="name">Teca</td><td>Cresceu para R$ 2,0 M mas com <span class="chip b">MB 18,8%</span> contra 52% da casa</td><td>Revisar preço e custo antes de qualquer lançamento. R$ 2,0 M de receita gerando só R$ 379 k de lucro — está comprando faturamento.</td></tr>
-      <tr><td class="name">POP</td><td>Linha nova de 2026, 9 SKUs, R$ 36 k, <span class="chip b">MB 19,7%</span></td><td>Corrigir precificação antes de ampliar. Nasceu com margem de sobrevivência.</td></tr>
-      <tr><td class="name">Micro-ondas</td><td>−32%, <span class="chip b">MB 29,8%</span>, dependente de OEM (Candy = R$ 953 k em um cliente)</td><td>Não é linha de marca hoje. Renegociar o contrato OEM ou reposicionar a linha.</td></tr>
-      <tr><td class="name">Infantil</td><td><span class="chip g">MB 60,9%</span> — a segunda maior — mas receita <b>−81%</b></td><td>Reativação, não lançamento. O Copo Infantil com Alça ainda faz R$ 320 k com 628 clientes. Merece diagnóstico próprio.</td></tr>
-      <tr><td class="name">Realce</td><td>R$ 61 k com <b>47 SKUs</b> e 174 clientes — R$ 1,3 k por SKU</td><td>Candidata a descontinuação. Libera cadastro, estoque e atenção comercial.</td></tr>
-      <tr><td class="name">ECO / Coloratto</td><td>−63% e −55%, com <span class="chip g">MB 56,2%</span> em ambas</td><td>Margem boa, execução perdida. Investigar ruptura de estoque ou perda de cliente antes de concluir.</td></tr>
+      <tr><td class="name">Infantil</td><td><span class="chip g">MB 61,4%</span> com receita <b>−81%</b></td><td>Reativação, não lançamento. O Copo Infantil c/ Alça ainda faz R$ 320 k com 628 clientes. Merece diagnóstico próprio.</td></tr>
+      <tr><td class="name">Realce</td><td>R$ 60 k com <b>47 SKUs</b> e 174 clientes</td><td>Descontinuação. Libera cadastro, estoque e atenção comercial.</td></tr>
+      <tr><td class="name">ECO</td><td>−64%, <span class="chip g">MB 57,0%</span></td><td>Margem boa, execução perdida. Investigar ruptura de estoque ou perda de cliente antes de concluir.</td></tr>
+      <tr><td class="name">Geladeira</td><td>−42%, <span class="chip g">MB 58,4%</span></td><td>Mesmo padrão do ECO: margem preservada, volume evaporando.</td></tr>
+      <tr><td class="name">Coloratto</td><td>−51%, <span class="chip g">MB 55,8%</span></td><td>Idem. Diagnóstico de execução, não de produto.</td></tr>
+      <tr><td class="name">Teca <span class="corr">corrigido</span></td><td>+10% mas <span class="chip b">MB 36,8%</span> — a 2ª pior</td><td>Revisar preço e custo antes de ampliar. Melhor que os 18,8% que reportei, ainda 13 pontos abaixo da casa.</td></tr>
+      <tr><td class="name">POP</td><td>Nova, 9 SKUs, R$ 36 k, <span class="chip b">MB 19,7%</span></td><td>Corrigir precificação antes de ampliar. Nasceu com margem de sobrevivência.</td></tr>
+      <tr class="hl"><td class="name">Micro-ondas <span class="corr">corrigido</span></td><td>−8,7% com <span class="chip g">MB 53,6%</span></td><td><b>Sai desta lista.</b> A margem ruim era o contrato OEM, não a linha. A Caçarola 2,6L cresce 50% com 664 clientes. Elegível para a próxima rodada.</td></tr>
     </tbody>
   </table>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">07</span><h2>Sobre o período: 3 anos bastam, com uma exceção</h2></div>
-
-  <p><strong>Três anos são suficientes para a curva.</strong> Dão três janelas móveis de doze meses, o que já mostra tendência com sazonalidade neutralizada. Foi o que usei na análise principal.</p>
-
-  <p><strong>Mas para o histórico de lançamentos eu precisei voltar a 2021</strong> — cinco anos — e foi exatamente isso que revelou o achado mais importante do projeto: a taxa de acerto caindo de 28,9% para 2,9%. Com apenas três anos de janela eu não teria base de comparação e concluiria que 3% é o normal da casa. Sugiro manter 2021 como marco para essa métrica específica.</p>
+  <div class="shead"><span class="snum">08</span><h2>Sobre o período: 3 anos bastam, com uma exceção</h2></div>
+  <p><strong>Três anos são suficientes para a curva</strong> — três janelas móveis de doze meses, sazonalidade neutralizada.</p>
+  <p><strong>Para o histórico de lançamentos eu precisei de 2021 em diante</strong>, e foi isso que revelou a queda de 28% para 0,7% na taxa de acerto. Com apenas três anos de janela eu concluiria que 3% é o normal da casa. Sugiro manter 2021 como marco nessa métrica específica.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">08</span><h2>O que eu preciso de você para seguir</h2></div>
-
-  <p class="lede">A Fase 2 é a raspagem de mercado: para cada certeiro e cada candidato, verificar se existe demanda, quem já está lá, qual o preço-teto que sustenta margem acima de 50%, e o que o consumidor reclama nas avaliações dos concorrentes — que é onde sai o diferencial de projeto. Antes de rodar, preciso de sete definições.</p>
+  <div class="shead"><span class="snum">09</span><h2>O que eu preciso de você para seguir</h2></div>
 
   <div class="qgroup">
     <span class="label">Bloqueantes — mudam a recomendação</span>
     <ol class="qs">
-      <li><span><span class="qt">Marca própria ou private label?</span><p>Toda a carteira acima é de marca Nitron para atacado e varejo UD. Se o projeto também abrange OEM — e a Natura são R$ 8,9 M, o maior cliente da casa — a lógica é oposta: não se valida com raspagem, se valida com o cliente. Preciso saber se entra no escopo.</p></span></li>
-      <li><span><span class="qt">Teto de CAPEX por projeto e tonelagem disponível</span><p>É o que separa "cor nova em molde existente", que são todos os oito certeiros, de "molde novo", que são vários candidatos. Vi os campos <code>AD_TONELAGEMMIN/MAX</code> no cadastro de produto e existe a view <code>VW_MAQUINA_CAPACIDADE</code> — <strong>consigo levantar a capacidade ociosa por faixa de tonelagem no Sankhya se você autorizar</strong>, e aí ranqueio os candidatos por viabilidade real de máquina, não só por demanda de mercado.</p></span></li>
-      <li><span><span class="qt">Qual a meta do projeto?</span><p>Faturamento incremental em doze meses, recuperação de margem, ou redução de SKU count? O filtro muda bastante: se a meta é margem, Decor Util e Frasqueiras dominam a carteira; se é volume, Organização e Potes voltam ao centro.</p></span></li>
+      <li><span><span class="qt">Qual corte vale como número oficial?</span><p>Minha recomendação: <strong>corte B (mercado limpo) para tendência e seleção de produto; corte A (tabela padrão) para precificação e margem-teto.</strong> Se você quiser a padrão como número oficial de curva, eu uso — mas registro que ela mede migração de tabela junto com demanda, e que Extrema e Clube Nitron distorcem o último ciclo.</p></span></li>
+      <li><span><span class="qt">Escopo inclui private label?</span><p>A carteira acima é marca Nitron para atacado e varejo UD. Se OEM entra, a lógica é outra: valida-se com o cliente, não com raspagem de mercado.</p></span></li>
+      <li><span><span class="qt">Teto de CAPEX por projeto e tonelagem disponível</span><p>Separa "cor nova em molde existente" — os oito certeiros — de "molde novo". Vi os campos <code>AD_TONELAGEMMIN/MAX</code> no cadastro e existe a view <code>VW_MAQUINA_CAPACIDADE</code>: <strong>consigo levantar a capacidade ociosa por faixa de tonelagem se você autorizar</strong>, e aí ranqueio os candidatos por viabilidade real de máquina.</p></span></li>
+      <li><span><span class="qt">Qual a meta do projeto?</span><p>Faturamento incremental em doze meses, recuperação de margem, ou redução de SKU count? Se a meta é margem, Decor Util e Frasqueiras dominam; se é volume, Organização e Potes voltam ao centro.</p></span></li>
     </ol>
   </div>
 
@@ -486,22 +571,22 @@ footer b{color:var(--ink-2);font-weight:600}
     <span class="label">Para calibrar a raspagem</span>
     <ol class="qs">
       <li><span><span class="qt">Concorrentes-alvo</span><p>Minha lista de partida: Sanremo, Plasútil, Coza/OU, Martiplast, Arthi, Paramount, Vintage, Casambiente e Tramontina em utilidades. Confirma, corta ou adiciona? Inclui importado e chinês?</p></span></li>
-      <li><span><span class="qt">Onde raspar</span><p>Sugiro Mercado Livre, Amazon BR, Shopee e Magalu, mais dois de varejo físico com catálogo online — Havan e Casas Bahia. Prioriza algum canal?</p></span></li>
-      <li><span><span class="qt">Calendário de lançamento</span><p>Existe janela fixa — feira, coleção? Vi ciclos "Candy 2025" e "2026" no cadastro. É isso que define o prazo de ferramentaria para os candidatos que exigem molde novo.</p></span></li>
-      <li><span><span class="qt">O pigmento chumbo / grafite está homologado?</span><p>O vetor mais forte da casa aparece hoje em apenas dois SKUs. Se o pigmento já está aprovado e disponível em volume, <strong>cinco dos oito certeiros são executáveis quase imediatamente</strong>.</p></span></li>
+      <li><span><span class="qt">Onde raspar</span><p>Mercado Livre, Amazon BR, Shopee e Magalu, mais Havan e Casas Bahia no varejo físico com catálogo online. Prioriza algum canal?</p></span></li>
+      <li><span><span class="qt">Calendário de lançamento</span><p>Existe janela fixa — feira, coleção? Vi ciclos "Candy 2025" e "2026" no cadastro. É isso que define o prazo de ferramentaria dos candidatos que exigem molde novo.</p></span></li>
+      <li><span><span class="qt">O pigmento chumbo / grafite está homologado?</span><p>É o vetor mais forte da casa e aparece hoje em apenas dois SKUs. Se o pigmento já está aprovado e disponível em volume, <strong>cinco dos oito certeiros são executáveis quase imediatamente</strong>.</p></span></li>
     </ol>
   </div>
 
   <div class="callout">
     <span class="label">Uma escolha que quero deixar explícita</span>
-    <p>Os oito certeiros acima são, sem exceção, <strong>extensões de moldes existentes</strong>. Isso é de propósito: com uma taxa de acerto de 2,9% nos últimos dois anos, a prioridade é reconstruir a pontaria antes de gastar em ferramentaria nova.</p>
+    <p>Os oito certeiros são, sem exceção, <strong>extensões de moldes existentes</strong>. Isso é de propósito: com <strong>0,7% de acerto na safra 2025</strong>, a prioridade é reconstruir a pontaria antes de gastar em ferramentaria nova.</p>
     <p>Se a sua expectativa era de produtos genuinamente novos, me diga e eu reordeno para uma carteira mais agressiva. Mas quero que essa troca de risco seja uma decisão sua, e não uma surpresa no meio do projeto.</p>
   </div>
 </section>
 
 <footer>
-  <p><b>Metodologia.</b> Faturamento de <code>TGFCAB</code> e <code>TGFITE</code> com <code>TIPMOV</code> em V/D, <code>STATUSNOTA = 'L'</code> e apenas tipos de operação que atualizam o financeiro. Devoluções abatidas com sinal negativo. Transferências entre empresas do grupo excluídas (TOPs 3316, 3300, 3261, 3242, 3310, 3322). Escopo de empresas 1 (Matriz), 2 (Filial) e 14 (Extrema), grupo de produto 1000000–1009999. Margem bruta calculada com <code>TGFCUS.CUSGER</code>, último registro de 2026 na empresa 1, local 0 — cobre entre 92% e 99% da receita de cada linha. Janelas móveis: ago/23–jul/24, ago/24–jul/25, ago/25–jul/26.</p>
-  <p><b>Fase 1 de 3.</b> Diagnóstico e seleção de candidatos concluídos. Fase 2: raspagem de mercado. Fase 3: business case e priorização por CAPEX e tonelagem.</p>
+  <p><b>Metodologia.</b> Faturamento de <code>TGFCAB</code> e <code>TGFITE</code> com <code>TIPMOV</code> em V/D, <code>STATUSNOTA = 'L'</code> e apenas tipos de operação que atualizam o financeiro. Devoluções abatidas com sinal negativo. Transferências entre empresas do grupo excluídas (TOPs 3316, 3300, 3261, 3242, 3310, 3322). Escopo de empresas 1 (Matriz), 2 (Filial) e 14 (Extrema), grupo de produto 1000000–1009999. Tabela de preço resolvida por <code>TGFITE.NUTAB → TGFTAB.NUTAB → CODTAB</code>, nome em <code>TGFNTA</code>. <b>Corte A</b> = <code>CODTAB = 0</code> (PV0003). <b>Corte B</b> = todas as tabelas exceto <code>CODTAB 84</code> (PV0134 Avon/Natura) e <code>CODTAB 3</code> (Exportação). Margem bruta com <code>TGFCUS.CUSGER</code>, último registro de 2026 na empresa 1, local 0. Janelas móveis: ago/23–jul/24, ago/24–jul/25, ago/25–jul/26.</p>
+  <p><b>Fase 1 de 3 · revisão 2.</b> Diagnóstico e seleção de candidatos concluídos. Fase 2: raspagem de mercado. Fase 3: business case e priorização por CAPEX e tonelagem.</p>
 </footer>
 
 </div>

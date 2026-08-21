@@ -1,227 +1,334 @@
 # Projeto de Desenvolvimento de Produtos Nitron
 ## Fase 1 — Diagnóstico das curvas e recomendação de lançamentos
 
-**Fonte:** Sankhya (produção) — TGFCAB/TGFITE/TGFPRO/TGFGRU/TGFCUS
+**Fonte:** Sankhya (produção) — TGFCAB/TGFITE/TGFPRO/TGFGRU/TGFCUS/TGFTAB/TGFNTA
 **Escopo:** Nitronplast (empresas 1 Matriz, 2 Filial, 14 Extrema) — grupo "Produto Acabado (PA)/Revenda"
-**Período:** 36 meses em janelas móveis (ago/23–jul/24, ago/25–jul/25, ago/25–jul/26)
-**Critério de receita:** TIPMOV V/D, notas liberadas, apenas TOPs que atualizam financeiro; devoluções abatidas; transferências entre empresas do grupo excluídas.
+**Período:** 36 meses em janelas móveis de 12 meses (ago/23–jul/24, ago/24–jul/25, ago/25–jul/26)
+
+> **Revisão 2** — refeita com filtro de tabela de preço, conforme solicitado. Os números da revisão 1
+> (curva global) estão substituídos. Onde uma conclusão mudou, está marcada com **[CORRIGIDO]**.
 
 ---
 
-## 1. Leitura da curva — o quadro geral
+## 0. Sobre o filtro de tabela: o que encontrei
 
-| Janela 12M | Faturamento PA |
-|---|---|
-| ago/23–jul/24 | R$ 122,7 M |
-| ago/24–jul/25 | R$ 117,6 M |
-| ago/25–jul/26 | **R$ 94,9 M** |
+A "003 – tabela padrão" é **`CODTAB = 0`**, cadastrada como `PV0003 - TABELA PADRÃO`. Atenção:
+`CODTAB = 3` é a `TABELA EXPORTAÇÃO NITRON`. A tabela usada na venda fica em `TGFITE.NUTAB`,
+que se resolve via `TGFTAB.NUTAB → CODTAB`.
 
-**A casa caiu 23% em dois anos** — e caiu enquanto lançava mais SKUs do que nunca. Esse é o fato central do projeto.
+Você estava certo sobre a distorção. A tabela **`PV0134 - AVON` (CODTAB 84) fez R$ 8,97 M em apenas
+580 itens** nos últimos 12 meses — é o cliente Natura/Avon, e é ele que quebrava a curva. Todos os
+SKUs "Candy" e com referência de 6-8 dígitos que apareciam no topo da revisão 1 saem com esse filtro.
 
-### A única linha que cresce é Frasqueiras
+**Mas o corte só na tabela padrão tem um problema que preciso registrar:** a padrão caiu de
+R$ 48,3 M → R$ 30,6 M → R$ 13,2 M (−73%), e isso é **migração de tabela, não queda de demanda**.
+As tabelas que nasceram ou cresceram no período somam cerca de R$ 37 M — praticamente os R$ 35 M
+que a padrão perdeu:
+
+| Tabela | 23/24 | 24/25 | 25/26 |
+|---|---|---|---|
+| PV0003 – TABELA PADRÃO | 48,3 M | 30,6 M | **13,2 M** |
+| FAT EXTREMA SIMPLES NACIONAL | — | 8,9 M | 10,2 M |
+| FOB ESPECIAL NORDESTE | 0,9 M | 5,8 M | 7,5 M |
+| AMIGÃO | 0,4 M | 2,9 M | 3,5 M |
+| ESPECIAL DISTRIBUIDORA | 0,25 M | 0,8 M | 3,0 M |
+| RED-141 EXTREMA SIMPLES NACIONAL | — | 0,2 M | 2,6 M |
+| CLUBE NITRON (4 tabelas) | — | — | 5,6 M |
+| TUBARÃO / LOJAS G / SHOPPING UD | — | — | 3,0 M |
+| CLIENTES FORA DA PROMOÇÃO | 8,2 M | 4,4 M | 0,29 M |
+
+Extrema (empresa 14) abriu em 2025 e o programa **Clube Nitron** nasceu no último ciclo. Os clientes
+saíram da tabela padrão sem sair do mercado. Então trabalho com **dois cortes**, cada um para o que
+ele mede bem:
+
+| Corte | Definição | Serve para | Não serve para |
+|---|---|---|---|
+| **A — Tabela padrão** | `CODTAB = 0` | Teto de preço e de margem: quanto o produto rende quando vendido sem desconto negociado | Tendência — contaminado por migração de tabela |
+| **B — Mercado limpo** | tudo menos Avon/Natura (84) e exportação (3) | Curva, tendência, vetores, histórico de lançamento | Precificação de tabela cheia |
+
+O **corte B é a curva principal** deste relatório: tira a distorção que você apontou e mantém
+todo o canal real (Modenuti, Kalunga, Centerlar, Lojas Mel, Tambasa, Clube Nitron, Amigão, Leroy).
+
+---
+
+## 1. A curva limpa
+
+| Janela 12M | Corte B — mercado limpo | Global (revisão 1) |
+|---|---|---|
+| ago/23–jul/24 | R$ 101,4 M | R$ 122,7 M |
+| ago/24–jul/25 | R$ 96,1 M | R$ 117,6 M |
+| ago/25–jul/26 | **R$ 83,1 M** | R$ 94,9 M |
+| Variação 2 anos | **−18,0%** | −23% |
+
+**[CORRIGIDO]** A queda real é de 18%, não 23%. Cinco pontos dos 23 eram o desmonte do contrato
+Avon/Natura, que é uma conversa de conta-chave, não de desenvolvimento de produto.
 
 | Linha | 23/24 | 24/25 | 25/26 | Var 2a | MB % | Lucro bruto |
 |---|---|---|---|---|---|---|
-| Organização | 30,2 M | 27,3 M | 22,9 M | −24% | 52,6% | **11,8 M** |
-| Potes | 33,0 M | 29,2 M | 20,5 M | **−38%** | 43,6% | 8,2 M |
-| Cozinha | 15,7 M | 15,1 M | 14,1 M | −10% | 52,8% | 7,3 M |
-| Lixeiras | 9,1 M | 10,9 M | 9,3 M | +2% | 42,1% | 3,9 M |
-| **Frasqueiras** | 6,3 M | 7,0 M | **7,2 M** | **+14%** | 54,4% | 3,9 M |
-| Banheiro | 5,3 M | 4,8 M | 4,1 M | −23% | 55,0% | 2,3 M |
-| Limpeza | 4,3 M | 4,4 M | 3,6 M | −15% | 54,7% | 2,0 M |
-| Micro-ondas | 4,9 M | 4,5 M | 3,3 M | −32% | **29,8%** | 0,9 M |
-| Jarras | 3,7 M | 3,0 M | 2,6 M | −28% | 42,7% | 1,1 M |
-| **Decor Util** | 1,2 M | 2,3 M | 2,3 M | **+96%** | **65,4%** | 1,3 M |
-| Teca | 1,2 M | 2,3 M | 2,0 M | +65% | **18,8%** | 0,4 M |
-| ECO | 2,1 M | 2,1 M | 0,8 M | −63% | 56,2% | 0,4 M |
-| Coloratto | 1,7 M | 2,7 M | 0,8 M | −55% | 56,2% | 0,4 M |
-| Geladeira | 0,8 M | 0,7 M | 0,6 M | −20% | 51,5% | 0,3 M |
-| Infantil | 2,6 M | 1,2 M | 0,5 M | **−81%** | **60,9%** | 0,3 M |
-| Realce | 0,5 M | 0,2 M | 0,06 M | −87% | 41,0% | 0,02 M |
+| Organização | 29,2 M | 26,2 M | 22,1 M | −24% | 54,2% | **11,8 M** |
+| Potes | 18,9 M | 17,2 M | 16,0 M | **−15%** | 45,1% | 7,2 M |
+| Cozinha | 15,1 M | 13,8 M | 12,4 M | −18% | 49,9% | 6,2 M |
+| Lixeiras | 9,0 M | 10,7 M | 9,1 M | **+0,2%** | 43,0% | 3,9 M |
+| **Frasqueiras** | 6,3 M | 7,0 M | **6,9 M** | **+8,6%** | 53,7% | 3,7 M |
+| Banheiro | 4,2 M | 4,7 M | 4,1 M | **−3,5%** | 55,0% | 2,3 M |
+| Limpeza | 4,3 M | 4,4 M | 3,6 M | −15% | 54,8% | 2,0 M |
+| Jarras | 3,6 M | 2,6 M | 2,6 M | −29% | 43,1% | 1,1 M |
+| **Micro-ondas** | 1,8 M | 1,7 M | 1,7 M | **−8,7%** | **53,6%** | 0,9 M |
+| **Decor Util** | 1,2 M | 1,7 M | 1,4 M | **+21%** | **59,6%** | 0,8 M |
+| Teca | 1,1 M | 1,7 M | 1,3 M | +10% | **36,8%** | 0,5 M |
+| ECO | 2,1 M | 2,1 M | 0,8 M | −64% | 57,0% | 0,4 M |
+| Infantil | 2,6 M | 1,2 M | 0,5 M | **−81%** | 61,4% | 0,3 M |
+| Geladeira | 0,8 M | 0,5 M | 0,4 M | −42% | 58,4% | 0,3 M |
+| Coloratto | 0,7 M | 0,5 M | 0,3 M | −51% | 55,8% | 0,2 M |
+| Realce | 0,5 M | 0,2 M | 0,06 M | −87% | 41,5% | 0,02 M |
 | POP | — | — | 0,04 M | nova | 19,7% | 0,01 M |
 
-### O problema não é falta de lançamento — é pontaria
+### Quatro conclusões da revisão 1 que estavam erradas
 
-| Ano do 1º faturamento | SKUs lançados | Acertos (R$500k+ acum.) | Taxa | Abaixo de R$100k |
+1. **[CORRIGIDO] Potes caiu 15%, não 38%.** Os R$ 12,5 M de queda da revisão 1 eram quase todos
+   rotação de private label (Kit Potes Candy). A linha de marca própria está bem menos machucada.
+2. **[CORRIGIDO] Micro-ondas tem margem de 53,6%, não 29,8%,** e cai 8,7%, não 32%. A margem ruim
+   *era o contrato OEM*, não a linha. Micro-ondas sai da lista de "não lançar" e volta a ser
+   candidata — a Caçarola 2,6L cresce 50% com 664 clientes.
+3. **[CORRIGIDO] Decor Util cresce 21%, não 96%,** e tem MB de 59,6%, não 65,4%. Continua sendo a
+   melhor margem da casa entre as linhas que crescem, mas o +96% estava inflado pelo Cortador
+   Dupla Face (OEM). O caso ainda se sustenta — apenas menor do que parecia.
+4. **[CORRIGIDO] Teca tem MB de 36,8%, não 18,8%.** Abaixo da média da casa, mas não catastrófico.
+   Parte do problema de margem também era OEM.
+
+Confirmados como colapso real de marca própria: **Infantil (−81%), Realce (−87%), ECO (−64%),
+Geladeira (−42%), Coloratto (−51%)**. E **Banheiro está praticamente estável (−3,5%)**, não caindo
+23% — outra correção relevante.
+
+---
+
+## 2. O achado principal piora no corte limpo
+
+Taxa de acerto de lançamento por safra, **só marca própria**:
+
+| Safra | SKUs | Acertos (R$500k+) | Taxa | Abaixo de R$100k |
 |---|---|---|---|---|
-| 2021 | 190 | 55 | **28,9%** | 82 (43%) |
-| 2022 | 447 | 56 | 12,5% | 278 (62%) |
-| 2023 | 521 | 56 | 10,7% | 316 (61%) |
-| 2024 | 345 | 10 | **2,9%** | 302 (**88%**) |
-| 2025 | 337 | 12 | 3,6% | 284 (84%) |
-| 2026 (parcial) | 93 | 1 | 1,1% | 90 |
+| 2021 | 186 | 52 | **28,0%** | 82 (44%) |
+| 2022 | 452 | 55 | 12,2% | 285 (63%) |
+| 2023 | 500 | 39 | 7,8% | 318 (64%) |
+| 2024 | 357 | 12 | 3,4% | 304 (85%) |
+| 2025 | 278 | **2** | **0,7%** | 247 (89%) |
+| 2026 (parcial) | 96 | 0 | 0% | 95 |
 
-Os **190 SKUs de 2021 geraram R$96,7 M**. Os **682 SKUs de 2024–2025 geraram R$48,6 M**. Quatro vezes mais lançamentos, metade do resultado.
+**Dos 278 SKUs de marca própria lançados em 2025, dois passaram de R$ 500 mil.** Os 12 "acertos"
+que eu reportei na revisão 1 para essa safra incluíam SKUs OEM — tirando o private label, sobram 2.
 
-Ressalva honesta: safras de 2024–2026 tiveram menos tempo para maturar, então parte da queda é efeito de maturidade. Mas 302 dos 345 SKUs de 2024 não passaram de R$100 mil em mais de dois anos de vida — isso não é maturidade, é proliferação. **A recomendação nº 1 deste projeto é lançar menos e melhor.**
+A ressalva de maturidade continua valendo: safras recentes tiveram menos tempo. Mas 304 dos 357 SKUs
+de 2024 não passaram de R$ 100 mil em mais de dois anos. Isso é proliferação de cadastro.
 
-### Distorção a corrigir na leitura: private label
+**A recomendação nº 1 do projeto, antes de qualquer produto: lançar menos e melhor.**
 
-Vários "top produtos" da curva têm **um único cliente** e códigos de referência do cliente. Não são produtos de marca Nitron, são OEM:
+---
 
-| Produto | 25/26 | Clientes |
+## 3. Os 7 vetores — todos sobrevivem, alguns ficam mais fortes
+
+Este foi o teste mais importante da revisão: se os vetores só existiam por causa do private label,
+a carteira toda cairia. Não é o caso.
+
+| # | Vetor | Evidência no corte limpo (24/25 → 25/26) |
 |---|---|---|
-| KIT 3 POTES CANELADOS OVAIS CANDY 2025 – 1586649 | R$ 2,66 M | 1 |
-| PORTA PAO 2026 – 61002015 | R$ 744 k | 1 |
-| CORTADOR DUPLA FACE – 50583501 | R$ 632 k | 1 |
-| PANELA DE MICROONDAS 1.5L AZUL CANDY – 61028396 | R$ 523 k | 1 |
-| TAMPA DE MICROONDAS VERDE CANDY – 61028393 | R$ 430 k | 1 |
-| MALETA PARA ESMALTE ROSA – 61016687 | R$ 290 k | 1 |
+| **V1** | **Válvula** | Pote Alto 2,9L **+1.297%** · Alto 4,6L **+1.032%** · Quadrado 3L **+495%** · Raso 3,2L +73% · Raso 1,9L +56% |
+| **V2** | **Cor chumbo** | Lixeira Rattan Pedal 6L **+208%** (R$ 554 k, 711 clientes) · Juta Pedal 12L **+196%** |
+| **V3** | **Acoplado + rosca** | Acoplado 2L **+566%** · **Feijão 2L +198%** · Açúcar 2L +51% · Café 2L +44% |
+| **V4** | **Flat / slim** | Porta Detergente Flat 2 pçs **+420%** — 364 → **811 clientes** |
+| **V5** | **Nitronfort** | Caixa 2,2L **+111%** · Caixa 16L **+74%** |
+| **V6** | **Gadget "Fácil"** | Churros Fácil **+117%** (342 → **842 clientes**) · Escorredor Multiuso **+110%** · Saleiro Premier **+101%** |
+| **V7** | **Kit / multipack** | Kit Acoplados 5 pçs preto **+99%** · Kit Potes Altos 3 pçs **+71%** · Kit Acoplados branco +36% |
 
-Natura (Cabreúva) é o maior cliente da casa com **R$ 8,9 M**. Isso é excelente negócio, mas é uma lógica de venda totalmente diferente — não se planeja com raspagem de mercado, se planeja com o cliente. **Toda a recomendação abaixo é de marca Nitron para o canal atacado/varejo UD** (Modenuti R$4,8M, Kalunga R$3,0M, Millenium R$2,6M, Centerlar R$1,7M, Tambasa R$1,4M, Lojas Mel, Big Lar, Carrefour, Atacadão).
+Ficaram **mais** fortes no corte limpo: **Cesto Europa Juta +372%** (era +230%) e **Pote Alto
+Válvula 2,9L +1.297%**, que não aparecia antes. E surgiu um oitavo vetor que a curva global escondia:
+
+**V8 — Frasqueira, variante de cor e formato.** Mega Luxo **vermelha** 12L **+183%** · Oval com
+bandeja **branca** **+177%** · a 2,8L branca +33%. Três variantes da mesma família crescendo forte
+ao mesmo tempo, na única linha em alta. É a evidência mais direta da carteira.
 
 ---
 
-## 2. Os 7 vetores que estão funcionando
+## 4. Teto de preço e margem — o que o corte A entrega
 
-Antes de recomendar produto, extraí do banco **o que está crescendo e por quê**. Estes são os padrões com evidência estatística, não opinião:
+Aqui a tabela padrão ganha valor: mostra quanto o produto rende **sem desconto negociado**. É a
+régua para precificar lançamento.
 
-| # | Vetor | Evidência (var. 24/25 → 25/26) |
+| Produto | Preço padrão | Preço médio geral | MB padrão | Clientes na padrão |
+|---|---|---|---|---|
+| Kit Churros Fácil | R$ 14,49 | R$ 8,51 | **81,5%** | 405 |
+| Organizador Multiuso Rattan 3 div. | R$ 6,47 | R$ 4,02 | **78,8%** | 448 |
+| Porta Vassouras 4 encaixes preto | R$ 10,11 | R$ 6,16 | **75,9%** | 197 |
+| Porta Sabão em Pó Dosador 2 kg preto | R$ 20,11 | R$ 10,46 | **74,1%** | 106 |
+| Porta Escovas c/ Tampa branco | R$ 7,57 | R$ 4,80 | 72,3% | 343 |
+| Frasqueira Medicamentos 6,2L | R$ 28,49 | R$ 19,07 | 71,8% | 270 |
+| Porta Talher 6 div. branco | R$ 18,46 | R$ 12,19 | 68,4% | 269 |
+| Frasqueira Medicamentos 2,8L | R$ 15,05 | R$ 11,61 | 62,8% | 313 |
+| Frasqueira Medicamentos **vermelha** 2,8L | R$ 15,24 | — | 63,3% | 95 |
+
+Dois usos práticos:
+
+1. **A margem-teto é de 60% a 80%**, não os 45–55% da média. O desconto de canal come 15 a 25 pontos.
+   Um lançamento precificado na padrão e vendido majoritariamente na padrão vale muito mais.
+2. **O Churros Fácil a 81,5% de MB é o produto mais rentável da casa.** Isso reforça o certeiro de
+   Decor Util mais do que qualquer outro dado do projeto.
+
+E a **Frasqueira vermelha 2,8L já aparece na padrão** com 95 clientes e MB de 63,3% — a tese de
+variante de cor está validada na tabela cheia, não só na média.
+
+---
+
+## 5. A carteira — 3 candidatos + 1 certeiro por linha
+
+Oito linhas, **R$ 37,7 M dos R$ 41,4 M de lucro bruto (91%)**. Cada certeiro cruza **molde existente
+com vetor comprovado** — o investimento é pigmento, embalagem e cadastro, não ferramentaria.
+As recomendações da revisão 1 se mantêm: os vetores sobreviveram ao corte. O que mudou foram os
+números de suporte e a entrada de Micro-ondas como linha elegível.
+
+### 5.1 Organização — R$ 22,1 M · MB 54,2% · LB R$ 11,8 M · −24%
+Top: Kit Nitronbox R$ 2,68 M (49 clientes, B2B) · Suporte Botijão areia R$ 1,25 M · Organizador
+Multiuso Rattan R$ 862 k (1.732 clientes) · Gaveteiro 4 gavetas preta R$ 753 k · Suporte Botijão
+preto R$ 650 k (+44%).
+
+1. **Cesto Europa Juta — 10,8L e 18,7L em preto.** O 5,3L fez **+372%**; moldes maiores já existem na Teca.
+2. **Gaveteiro Modular Rattan chumbo + torre de 3 módulos.** Modular transparente +29%, 4 gavetas rosa +110%.
+3. **Organizador Multiuso Rattan com tampa / empilhável.** 1.732 clientes e **MB de 78,8% na padrão**.
+4. ⭐ **CERTEIRO — Caixa Organizadora Rattan c/ Tampa em CHUMBO (4L e 16L).**
+   A dupla preta + branca do 16L faz **R$ 1,13 M**. Chumbo entregou +208% na lixeira do mesmo período.
+   Molde existe; entrada = pigmento e etiqueta.
+
+### 5.2 Potes — R$ 16,0 M · MB 45,1% · LB R$ 7,2 M · −15% **[CORRIGIDO]**
+Top: Kit Potes Modulares 6 pçs R$ 593 k · Kit Potes Acoplados 5 pçs R$ 591 k (+36%) · Porta Pão
+2,7L R$ 498 k (1.097 clientes) · Pote Raso Travas 1,1L R$ 331 k · Kit Mantimentos 5 pçs R$ 307 k (+37%).
+Com o OEM fora, **o topo de Potes é kit e pote funcional** — exatamente onde estão os vetores.
+
+1. **Família válvula completa + kit válvula 3 peças.** Vetor mais forte do banco: **+1.297%** no 2,9L.
+2. **Linha Ultraforte ampliada (tamanhos e chumbo).** O 2,1L preto +117%, 795 clientes; o 6,9L rende **66,3% na padrão**.
+3. **Mantimentos acoplados com rosca — arroz e farinha 3–5L.** Hoje só açúcar, café, feijão e genérico, todos crescendo 44–566%.
+4. ⭐ **CERTEIRO — Kit Mantimentos acoplado com rosca, 4–5 peças.**
+   Combina V1 + V3 + V7. Os quatro avulsos acoplados somam **R$ 771 k crescendo 44% a 566%**; os dois
+   kits acoplados somam R$ 792 k crescendo 36% e 99%. Ticket de ~R$ 5 para ~R$ 25 **com moldes existentes**.
+
+### 5.3 Cozinha — R$ 12,4 M · MB 49,9% · LB R$ 6,2 M · −18%
+Top: Forma de Gelo Firenze R$ 584 k · Porta Detergente Rattan R$ 516 k · Porta Frios c/ Pinça
+R$ 500 k · Porta Talher 6 div. preto R$ 440 k · **Porta Óleo Italia R$ 439 k com 1.735 clientes**.
+7.825 clientes — maior capilaridade da casa.
+
+1. **Linha Flat de pia completa — 3 peças, branco, chumbo.** O 2 peças fez **+420%** e 364 → 811 clientes.
+2. **Porta Óleo Italia — família e conjunto azeite + vinagre.** 1.735 clientes a R$ 2,50: a melhor porta de entrada para subir ticket.
+3. **Escorredor de Pratos chumbo + versão com bandeja.** Preto R$ 387 k; Escorredor Multiuso +110%.
+4. ⭐ **CERTEIRO — Conjunto Porta Detergente FLAT 3 peças (+ branco e chumbo).**
+   Adoção mais rápida da linha: **+420% e 447 clientes novos em um ano**. 2→3 peças eleva ticket sem molde novo.
+
+### 5.4 Frasqueiras — R$ 6,9 M · MB 53,7% · LB R$ 3,7 M · **+8,6% — única linha em alta**
+Top: 2,8L branca **R$ 1,70 M (+33%, 1.181 clientes)** · 6,2L branca R$ 1,41 M · 1,4L R$ 701 k ·
+Mega Luxo 12L R$ 461 k · Nitronfort 2,2L R$ 274 k (+111%) · Frasqueira Cristal rosa R$ 232 k (+27%).
+**R$ 132 k por SKU** contra R$ 33 k em Potes. Se o projeto escolher uma linha só, é esta.
+
+1. **Frasqueira Medicamentos com divisórias removíveis / organizador semanal de comprimidos.**
+2. **Nitronfort expandido — 6L intermediário, maleta com bandeja, versão grafite.** 2,2L +111%, 16L +74%.
+3. **Frasqueira Oval com bandeja — ampliar tamanhos e cores.** A branca fez **+177%** partindo de base pequena.
+4. ⭐ **CERTEIRO — Frasqueira Medicamentos 2,8L e 6,2L em CHUMBO/GRAFITE.**
+   O 2,8L branca é o maior SKU de marca própria da casa. **Três variantes da família já provaram
+   a tese no mesmo período: vermelha 12L +183%, oval branca +177%, e a vermelha 2,8L já vende na
+   tabela padrão com 63,3% de MB.** Menor risco do portfólio inteiro.
+
+### 5.5 Lixeiras — R$ 9,1 M · MB 43,0% · LB R$ 3,9 M · **+0,2% (estável)**
+Top: Rattan Pedal preta 6L R$ 1,01 M · branca 6L R$ 921 k (+30%) · Vime preta 12L R$ 720 k ·
+**Rattan Pedal CHUMBO 6L R$ 554 k, de zero em dois anos** · Basculante Rattan 4,5L R$ 550 k (+21%).
+
+1. **Lixeira Flat c/ Pedal — família de tamanhos e cores.** Hoje só a preta 7L, a R$ 24,59 de ticket.
+2. **Lixeira seletiva / duo com 2 compartimentos.** Ausente do portfólio; ticket alto.
+3. **Lixeira Vime em chumbo.** Preta 12L R$ 720 k, branca R$ 54 k na padrão a R$ 26,48.
+4. ⭐ **CERTEIRO — Lixeira Basculante Rattan CHUMBO 4,5L + Rattan c/ Pedal CHUMBO 12L.**
+   Chumbo é o vetor com maior crescimento comprovado: **+208%** e **+196%**. A basculante 4,5L
+   preta faz R$ 550 k (+21%, 926 clientes) e o pedal 12L é o buraco óbvio. Moldes existem.
+
+### 5.6 Banheiro — R$ 4,1 M · MB 55,0% · LB R$ 2,3 M · **−3,5% [CORRIGIDO]**
+Top: Porta Escovas preto R$ 536 k (1.227 clientes) · branco R$ 493 k · fumê R$ 304 k — **o trio faz
+R$ 1,33 M**. Porta Shampoo Madri preto R$ 421 k. Cantoneiras caindo. 6.002 clientes.
+
+1. **Porta Escovas c/ Tampa em CHUMBO.** O trio prova três vezes que cor vende neste SKU; MB de 72,3% na padrão.
+2. **Dispenser de sabonete líquido de bancada.** Hoje só saboneteira de parede a R$ 2,05–2,54. Gap total de ticket médio.
+3. **Organizador / bandeja de bancada.** Inexistente; aproveita as texturas rattan.
+4. ⭐ **CERTEIRO — Kit Banheiro coordenado 3 peças (porta escovas + saboneteira + porta algodão), nas 3 cores.**
+   Ticket de ~R$ 5 para ~R$ 15 **sem um molde novo**, sobre a 2ª maior base de clientes da casa.
+
+### 5.7 Limpeza — R$ 3,6 M · MB 54,8% · LB R$ 2,0 M · −15%
+Top: Pá de Lixo c/ Cabo R$ 889 k (+9%, 1.049 clientes) · Porta Vassouras preto R$ 628 k ·
+branco R$ 405 k (**−52%**) · Porta Sabão em Pó preto R$ 246 k (+23%).
+
+1. **Porta Sabão em Pó c/ Dosador 5 kg.** O 2 kg rende **74,1% de MB a R$ 20,11 na padrão** — a maior margem da linha. Exige molde novo: é aposta.
+2. **Kit Limpeza (pá + porta-vassouras + cestinho).** Aplica V7 sobre os dois campeões.
+3. **Balde espremedor / conjunto mop.** Categoria adjacente ausente, ticket alto.
+4. ⭐ **CERTEIRO — Porta Vassouras 4 encaixes em CHUMBO.**
+   O preto faz R$ 628 k com 1.116 clientes e **75,9% de MB na padrão**; o branco despencou **52%** —
+   saturação da cor, não do produto. Molde existe.
+
+### 5.8 Decor Util — R$ 1,4 M · **MB 59,6% (maior entre as linhas que crescem)** · +21% **[CORRIGIDO]**
+Top: **Kit Churros Fácil R$ 602 k (+117%, 842 clientes)** · Hamburgueira R$ 243 k (755 clientes) ·
+Cortador e Ralador de Legumes R$ 62 k · Kit Biscoito Fácil R$ 36 k.
+Com o OEM fora, **os dois maiores produtos da linha são exatamente o conceito "Fácil"**.
+
+1. **Kit Confeitaria (bicos + saco + espátula + alisador).** O subgrupo Decor-Confeitaria existe no cadastro sem produto relevante; Biscoito Fácil rende **73,2% na padrão**.
+2. **Utensílios de hambúrguer e churrasco — prensa dupla, formador de kibe.** Hamburgueira: 755 clientes, 68,7% de MB na padrão.
+3. **Espremedores e cortadores em cores.** Hoje quase todo o subgrupo é branco.
+4. ⭐ **CERTEIRO — Família "Fácil": Coxinha & Croquete Fácil e Pastel Fácil.**
+   **O Churros Fácil rende 81,5% de MB a R$ 14,49 na tabela padrão — o produto mais rentável da
+   casa** — e saltou de 342 para 842 clientes em doze meses. Molde pequeno, tonelagem baixa, CAPEX
+   baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do país e não tem
+   utensílio dominante no varejo UD.
+
+---
+
+## 6. Onde não lançar
+
+| Linha | Situação no corte limpo | Encaminhamento |
 |---|---|---|
-| **V1** | **Válvula** (vedação premium em potes) | Pote Alto Válvula 4,6L **+1.037%** · Quadrado Válvula 3L **+496%** · Raso 3,2L +73% · 1,9L +56% · 950ml +47% |
-| **V2** | **Cor CHUMBO/grafite** | Lixeira Rattan Pedal 6L **+209%** (R$556k) · Lixeira Juta Pedal 12L **+203%** |
-| **V3** | **Acoplado + rosca** | Pote Acoplado Rosca 2L **+567%** · Açúcar 2L +51% · Café 2L +44% · Kits acoplados +39% e +113% |
-| **V4** | **Flat / slim** | Conj. Porta Detergente Flat 2pçs **+420%** (de 364 para **812 clientes** em 12 meses) |
-| **V5** | **Nitronfort** (ferramentas) | Caixa Ferramentas 2,2L **+110%** · 16L **+74%** |
-| **V6** | **Gadget "Fácil"** | Kit Churros Fácil **+117%** (de 342 para **842 clientes**) · Escorredor Multiuso +110% · Saleiro Premier +101% |
-| **V7** | **Kit / multipack** | Kit Potes Acoplados 5pçs +39% e +113% · Kit Mantimentos 5pçs +37% — ticket 4–5× o do avulso |
-
-Dois vetores adicionais valem registro: **texturas juta** (Cesto Europa Juta 5,3L +230%, Cesto Alongado Juta 7,4L +47%) e **Ultraforte** (Pote Ultraforte Travas 2,1L +118%, 795 clientes).
-
-**A leitura estratégica:** o consumidor está pagando por *função* (válvula, rosca, pedal, flat) e por *acabamento premium* (chumbo, texturas), não por SKU novo. E o kit é o alavancador de ticket mais barato que existe — não precisa de molde.
+| **Infantil** | MB 61,4%, receita **−81%** | Reativação, não lançamento. Copo Infantil c/ Alça ainda faz R$ 320 k com 628 clientes. Diagnóstico próprio. |
+| **Realce** | R$ 60 k com **47 SKUs** e 174 clientes | Descontinuação. Libera cadastro, estoque e atenção comercial. |
+| **ECO** | −64%, MB 57,0% | Margem boa, execução perdida. Investigar ruptura ou perda de cliente. |
+| **Geladeira** | −42%, MB 58,4% | Mesmo padrão do ECO. Margem preservada, volume evaporando. |
+| **Coloratto** | −51%, MB 55,8% | Idem. |
+| **Teca** | +10% mas MB **36,8%** — a 2ª pior | Revisar preço e custo antes de ampliar. Melhor do que os 18,8% da revisão 1, ainda 17 pontos abaixo da casa. |
+| **POP** | Nova, 9 SKUs, R$ 36 k, MB **19,7%** | Corrigir precificação antes de ampliar. Nasceu com margem de sobrevivência. |
+| **Micro-ondas** | **[CORRIGIDO]** −8,7%, MB **53,6%** | **Sai desta lista.** A margem ruim era o OEM. Caçarola 2,6L +50% com 664 clientes. Elegível para a próxima rodada. |
 
 ---
 
-## 3. Recomendação — 3 candidatos + 1 certeiro por linha
+## 7. Sobre o período
 
-Priorizei as **8 linhas que concentram R$ 40,7 M dos R$ 44,6 M de lucro bruto** (91%) da casa. O "certeiro" de cada linha é sempre o de menor risco: **molde existente + vetor comprovado**, ou seja, o investimento é pigmento, embalagem e cadastro — não CAPEX de ferramentaria.
-
-### 3.1 Organização — R$ 22,9 M · MB 52,6% · LB R$ 11,8 M
-*Maior pool de lucro da casa. Queda vem do Kit Nitronbox B2B (R$3,85M→R$2,68M) e da Caixa 16L branca (R$1,09M→R$563k), não da linha toda: gaveteiros crescem.*
-
-1. **Cesto Europa Juta — família de tamanhos (10,8L e 18,7L) em preto** — o 5,3L cresceu **+230%**; os moldes maiores já existem na Teca.
-2. **Gaveteiro Modular Rattan CHUMBO + torre de 3 módulos pré-montada** — modular transparente +30%, branco R$487k, 4 gavetas rosa +111%. Gaveteiro é o subgrupo que cresce; falta a cor do momento e o kit.
-3. **Organizador Multiuso Rattan 3 divisórias — versão com tampa/empilhável** — 1.732 clientes (2ª maior capilaridade da linha), R$872k.
-4. ⭐ **CERTEIRO — Caixa Organizadora Rattan c/ Tampa em CHUMBO (4L e 16L)**
-   A dupla preta+branca do 16L faz **R$ 1,16 M**; o 4L preto cresceu +26%. Chumbo entregou +209% na lixeira do mesmo período. Molde existe, MB da linha 52,6%. Custo de entrada: pigmento + etiqueta.
-
-### 3.2 Potes — R$ 20,5 M · MB 43,6% · LB R$ 8,2 M
-*Maior queda absoluta da casa (−R$12,5 M em 2 anos) e maior nº de SKUs (501). Mas os vetores V1/V3/V7 estão todos aqui, crescendo forte. É uma linha com problema de foco, não de demanda.*
-
-1. **Família VÁLVULA completa** — hoje existe 950ml/1,9L/3,2L raso, 3L quadrado, 4,6L alto. Faltam os intermediários e o **kit válvula 3 peças**. Vetor mais forte do banco (+1.037%).
-2. **Linha ULTRAFORTE ampliada** (tamanhos + chumbo) — o 2,1L preto fez +118% com 795 clientes a partir de base pequena.
-3. **Potes de mantimento acoplados com rosca — arroz/feijão/farinha 3–5L** — hoje só existe açúcar 2L, café 2L e genérico 2L, todos crescendo 44–567%.
-4. ⭐ **CERTEIRO — Kit Mantimentos ACOPLADO COM ROSCA, 4–5 peças**
-   Combina os três vetores mais fortes da linha (V3 acoplado-rosca + V7 kit + V1 vedação). Os três avulsos acoplados somam **R$ 638 k crescendo 44% a 567%**; o Kit Mantimentos 5pçs preto já faz R$307k (+37%) e o Kit Potes Acoplados 5pçs faz R$604k+R$215k (+39%/+113%). Ticket sobe de ~R$5 para ~R$25 usando **moldes que já existem** — o investimento é composição e embalagem.
-
-### 3.3 Cozinha — R$ 14,1 M · MB 52,8% · LB R$ 7,3 M
-*A linha mais resiliente (−10%) e a de maior capilaridade: 7.827 clientes.*
-
-1. **Linha FLAT de pia completa** — Flat 3 peças (detergente+sabão+esponja), Flat branco e chumbo, organizador de pia Flat. O 2 peças foi de R$58k a **R$301k (+420%)** e de 364 a 812 clientes em 12 meses.
-2. **Porta Óleo Italia — família** (branco, chumbo) + **conjunto azeite+vinagre** — o preto tem **1.735 clientes**, a maior capilaridade da casa inteira, a R$2,50 de ticket. É a porta de entrada perfeita para subir ticket.
-3. **Escorredor de Pratos CHUMBO + versão com bandeja/canaleta de escoamento** — o preto fez R$388k (+20%); escorredor multiuso +110%.
-4. ⭐ **CERTEIRO — Conjunto Porta Detergente FLAT 3 peças (+ branco e chumbo)**
-   O produto de adoção mais rápida da linha: **+420% e +448 clientes novos em um ano**. A extensão 2→3 peças eleva ticket sem molde novo, e as cores usam o vetor V2. Molde existe.
-
-### 3.4 Frasqueiras — R$ 7,2 M · MB 54,4% · LB R$ 3,9 M · **+14%**
-*A única linha crescendo, a mais produtiva por SKU da casa: **R$134 k por SKU** contra R$41 k em Potes. Se o projeto tiver que escolher uma só linha, é esta.*
-
-1. **Frasqueira Medicamentos com divisórias removíveis / organizador semanal de comprimidos** — upgrade premium sobre o campeão absoluto.
-2. **NITRONFORT expandido** — 6L intermediário, maleta com bandeja, versão preta/grafite profissional. O 2,2L fez +110% e o 16L +74%.
-3. **Frasqueira Cristal com divisórias — novas cores** (o rosa 1,5L fez R$247k, +28%).
-4. ⭐ **CERTEIRO — Frasqueira Medicamentos 2,8L e 6,2L em CHUMBO/GRAFITE**
-   O 2,8L branco isolado é o maior SKU de marca própria da casa: **R$ 1,70 M, +33%, 1.182 clientes**. O 6,2L faz R$1,46M. A versão **vermelha 6,2L cresceu +76%**, provando que cor nova vende nesta família específica. Molde existe, linha em crescimento, MB 54,4%. É o lançamento de menor risco do portfólio inteiro.
-
-### 3.5 Lixeiras — R$ 9,3 M · MB 42,1% · LB R$ 3,9 M · +2%
-*Onde o vetor chumbo nasceu. Ticket médio mais alto da casa: R$13,59.*
-
-1. **Lixeira FLAT c/ Pedal — família de tamanhos e cores** — hoje só preta 7L, a **R$24,59 de ticket** (um dos maiores da casa) e R$385k.
-2. **Lixeira seletiva / duo (2 compartimentos)** — ausente do portfólio; coleta seletiva doméstica é tendência estrutural e permite ticket alto.
-3. **Lixeira Vime — chumbo** (a preta 12L faz R$724k, a branca R$309k).
-4. ⭐ **CERTEIRO — Lixeira Basculante Rattan CHUMBO 4,5L + Lixeira Rattan c/ Pedal CHUMBO 12L**
-   Chumbo é o vetor com maior taxa de crescimento comprovada da casa (**+209%** no Rattan Pedal 6L, **+203%** no Juta Pedal 12L). A basculante 4,5L preta faz R$594k com 926 clientes e cresce +16%; o pedal 12L é o buraco óbvio (chumbo só existe em 6L). Moldes existem.
-
-### 3.6 Banheiro — R$ 4,1 M · MB 55,0% · LB R$ 2,3 M
-*6.003 clientes — 2ª maior capilaridade. Mas ticket de R$4,23 e cantoneiras em colapso (branca −45%).*
-
-1. **Porta Escovas c/ Tampa em CHUMBO** — o trio preto+branco+fumê faz **R$ 1,33 M** com ~1.250 clientes cada. A prova de que cor vende neste SKU já está dada 3 vezes.
-2. **Dispenser de sabonete líquido de bancada** — hoje só existe saboneteira de parede com ventosa (R$2,54) e com telinha (R$2,05). Gap total de ticket médio.
-3. **Organizador de bancada / bandeja de pia de banheiro** — inexistente; ticket alto, aproveita texturas rattan.
-4. ⭐ **CERTEIRO — Kit Banheiro coordenado 3 peças (porta escovas + saboneteira + porta algodão) nas 3 cores**
-   Porta escovas é R$1,33M em três cores; a saboneteira já existe. O kit eleva ticket de ~R$5 para ~R$15 **sem um único molde novo** — só composição e embalagem — em cima da 2ª maior base de clientes da casa. Vetores V7 + V2.
-
-### 3.7 Limpeza — R$ 3,6 M · MB 54,7% · LB R$ 2,0 M
-*Pá de Lixo c/ Cabo move 202.775 unidades/ano — o maior volume unitário da linha.*
-
-1. **Porta Sabão em Pó c/ Dosador 5 kg** — o 2kg (preto+branco) faz R$453k e o preto cresce +24%. Embalagem grande de sabão em pó é padrão no varejo brasileiro. (Requer molde novo — é aposta, não certeiro.)
-2. **Kit Limpeza (pá + porta-vassouras + cestinho)** — usa V7 sobre os dois campeões da linha.
-3. **Balde espremedor / conjunto mop** — categoria adjacente ausente, ticket alto, sinergia de canal total.
-4. ⭐ **CERTEIRO — Porta Vassouras 4 encaixes em CHUMBO**
-   O preto faz **R$628k com 1.116 clientes**; o branco despencou **−51%** (sinal claro de saturação da cor branca, não do produto). Chumbo é onde a demanda migrou. Molde existe, MB 54,7%.
-
-### 3.8 Decor Util — R$ 2,3 M · **MB 65,4% (a maior da casa)** · +96%
-*Segunda linha em crescimento e a mais rentável. Moldes pequenos, baixa tonelagem, baixo CAPEX, produto de impulso. Estrategicamente é a linha onde o dinheiro de desenvolvimento rende mais.*
-
-1. **Kit Confeitaria** (bicos + saco + espátula + alisador) — o subgrupo "Decor-Confeitaria" já existe no cadastro sem produto relevante. Kit Biscoito Fácil +23% valida o apetite.
-2. **Utensílios de hambúrguer/churrasco ampliados** — prensa dupla, formador de kibe/almôndega. A Hamburgueira faz R$244k com 756 clientes.
-3. **Espremedor / cortador — família em cores** (hoje quase tudo é branco).
-4. ⭐ **CERTEIRO — Família "FÁCIL": Coxinha & Croquete Fácil e Pastel Fácil**
-   O Kit Churros Fácil saltou de **R$278k para R$602k (+117%)** e de **342 para 842 clientes** em 12 meses, dentro da linha de **65,4% de margem**. É o padrão de sucesso mais replicável que existe no banco: molde pequeno, tonelagem baixa, CAPEX baixo, giro alto, compra por impulso. Coxinha é o salgado mais consumido do Brasil e não tem utensílio dominante no varejo UD.
+**3 anos bastam para a curva** — três janelas móveis de 12 meses, sazonalidade neutralizada.
+**Para o histórico de lançamentos precisei de 2021 em diante**, e foi isso que revelou a queda de
+28% para 0,7% na taxa de acerto. Com 3 anos eu concluiria que 3% é o normal da casa. Sugiro manter
+2021 como marco nessa métrica.
 
 ---
 
-## 4. Onde NÃO lançar (e o que fazer em vez disso)
+## 8. Fase 2 — o que preciso de você
 
-| Linha | Situação | Recomendação |
-|---|---|---|
-| **Teca** | Cresceu para R$2,0M **mas com MB de 18,8%** vs 52% da casa | **Revisar preço/custo antes de qualquer lançamento.** Está comprando faturamento com margem. R$2,0M de receita gerando só R$379k de lucro. |
-| **POP** | Linha nova (2026), 9 SKUs, R$36k, **MB 19,7%** | Corrigir precificação antes de ampliar. Nasceu com margem de sobrevivência. |
-| **Micro-ondas** | −32%, **MB 29,8%**, dependente de OEM (Candy = R$953k em 1 cliente) | Não é linha de marca hoje. Renegociar OEM ou reposicionar. |
-| **Infantil** | **MB 60,9%** (2ª maior) mas receita **−81%** | **Reativação, não lançamento.** Margem excelente abandonada — Copo Infantil c/ Alça ainda faz R$320k com 628 clientes. Vale um diagnóstico próprio. |
-| **Realce** | R$61k com **47 SKUs** e 174 clientes = R$1,3k/SKU | Candidata a descontinuação. Libera cadastro, estoque e atenção comercial. |
-| **ECO / Coloratto** | −63% e −55%, MB 56,2% em ambas | Margem boa, execução perdida. Investigar se é ruptura de estoque ou perda de cliente antes de concluir. |
+**Bloqueantes:**
 
----
-
-## 5. Resposta à sua pergunta sobre o período
-
-**3 anos são suficientes para a curva** — dá três janelas móveis de 12 meses, o que já mostra tendência com sazonalidade neutralizada. Mantive isso na análise principal.
-
-**Mas para o histórico de lançamentos eu precisei voltar a 2021** (5 anos), e foi o que revelou o achado mais importante do projeto: a taxa de acerto caiu de 28,9% para 2,9%. Com 3 anos eu não teria a base de comparação. Sugiro manter 2021+ para essa métrica específica.
-
----
-
-## 6. Fase 2 — Protocolo da raspagem de mercado
-
-O objetivo da raspagem é **matar ou confirmar** cada um dos 8 certeiros e dos 24 candidatos, com quatro perguntas por produto:
-
-1. **Existe demanda?** Volume de oferta e de avaliações nos marketplaces para o termo (proxy de demanda).
-2. **Quem já está lá?** Concorrentes, preço praticado, posicionamento, quantos vendedores.
-3. **Qual o preço-teto?** Faixa de preço no varejo → sustenta a MB alvo da linha (>50%)?
-4. **Qual o gap?** O que o consumidor reclama nas avaliações dos concorrentes (é aqui que sai o diferencial de projeto).
-
-Preciso das suas definições antes de rodar — as perguntas estão na seção 7.
-
----
-
-## 7. O que eu preciso saber para seguir
-
-**Bloqueantes (mudam a recomendação):**
-
-1. **Marca própria ou private label?** Toda a análise acima é de marca Nitron para o canal atacado/varejo UD. Se o projeto também abrange OEM (Natura é R$8,9M, o maior cliente da casa), a lógica é oposta — não se valida com raspagem de mercado, se valida com o cliente. Preciso saber se entra no escopo.
-
-2. **Teto de CAPEX por projeto e tonelagem disponível.** É o que separa "cor nova em molde existente" (todos os 8 certeiros) de "molde novo" (vários candidatos). Vi no cadastro os campos `AD_TONELAGEMMIN/MAX` e existe a view `VW_MAQUINA_CAPACIDADE` — **consigo levantar a capacidade ociosa por faixa de tonelagem no Sankhya se você autorizar**, e aí eu ranqueio os candidatos por viabilidade real de máquina, não só por demanda.
-
-3. **Qual a meta do projeto?** Faturamento incremental em 12 meses? Recuperação de margem? Redução de SKU count? O filtro muda bastante: se a meta é margem, Decor Util e Frasqueiras dominam; se é volume, Organização e Potes.
+1. **Qual corte vale como oficial?** Entreguei os dois. Minha recomendação: **corte B (mercado limpo)
+   para tendência e seleção de produto; corte A (tabela padrão) para precificação e margem-teto.**
+   Se você quiser a padrão como número oficial de curva, eu uso — mas registro que ela mede migração
+   de tabela junto com demanda, e o Clube Nitron e Extrema distorcem o último ciclo.
+2. **Escopo inclui private label?** A carteira acima é marca Nitron para atacado e varejo UD. Se OEM
+   entra, a lógica é outra: valida-se com o cliente, não com raspagem.
+3. **Teto de CAPEX e tonelagem disponível.** Separa "cor nova em molde existente" (os 8 certeiros)
+   de "molde novo". Vi `AD_TONELAGEMMIN/MAX` no cadastro e a view `VW_MAQUINA_CAPACIDADE` —
+   **consigo levantar a capacidade ociosa por faixa de tonelagem se você autorizar.**
+4. **Meta do projeto:** faturamento incremental, margem, ou redução de SKU count?
 
 **Para calibrar a raspagem:**
 
-4. **Concorrentes-alvo.** Minha lista: Sanremo, Plasútil, Coza/OU, Martiplast, Arthi, Paramount, Vintage, Casambiente, Tramontina (utilidades). Confirma, corta ou adiciona? Inclui importado/chinês?
+5. **Concorrentes:** Sanremo, Plasútil, Coza/OU, Martiplast, Arthi, Paramount, Vintage, Casambiente,
+   Tramontina utilidades. Confirma, corta, adiciona? Inclui importado?
+6. **Canais:** Mercado Livre, Amazon BR, Shopee, Magalu + Havan e Casas Bahia. Prioriza algum?
+7. **Calendário de lançamento** e **se o pigmento chumbo/grafite está homologado** — se estiver,
+   5 dos 8 certeiros são executáveis quase imediatamente.
 
-5. **Onde raspar.** Sugiro Mercado Livre, Amazon BR, Shopee, Magalu e mais dois de varejo físico (Havan, Casas Bahia). Prioriza algum?
-
-6. **Calendário de lançamento.** Existe janela fixa (feira, coleção)? Vi ciclos "Candy 2025" e "2026" no cadastro. Isso define o prazo de ferramentaria.
-
-7. **Pigmento chumbo/grafite está homologado?** O vetor mais forte da casa aparece em apenas 2 SKUs. Se o pigmento já está aprovado e disponível, 5 dos 8 certeiros são executáveis quase imediatamente.
-
-**Uma pergunta de fundo:** os 8 certeiros acima são, sem exceção, **extensões de moldes existentes**. Isso é de propósito — com uma taxa de acerto de 2,9% nos últimos dois anos, a prioridade é reconstruir a pontaria antes de gastar em ferramentaria. Se a sua expectativa era de produtos genuinamente novos, me diga: eu reordeno para uma carteira mais agressiva, mas quero que a troca de risco seja uma escolha sua e não uma surpresa.
+**A escolha que quero deixar explícita:** os 8 certeiros são todos extensão de molde existente, de
+propósito. Com 0,7% de acerto na safra 2025, reconstruir a pontaria vem antes de gastar em
+ferramentaria. Se você esperava produtos genuinamente novos, eu reordeno para uma carteira mais
+agressiva — mas quero que essa troca de risco seja decisão sua.
