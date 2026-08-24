@@ -1,0 +1,4 @@
+frontend/config.js
+node_modules/
+.env
+.env.*

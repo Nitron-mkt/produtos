@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Lançamento Nitron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+
+:root{
+  --ground:#F4F4F6; --surface:#FFFFFF; --surface-2:#EDEDF0;
+  --ink:#191A1D; --ink-2:#41444A; --muted:#6A6D74;
+  --rule:#E1E2E5; --rule-2:#CFD1D6;
+  --accent:#B84E17;
+  --good:#0C6E42; --good-bg:#DCEDE4;
+  --warn:#8A6410; --warn-bg:#F5EBD3;
+  --bad:#A32820;  --bad-bg:#F5DEDC;
+  --mark:#52565E; --mark-2:#B4B7BD;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --mark:#9096A0; --mark-2:#3E4249;
+}}
+:root[data-theme="dark"]{
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --mark:#9096A0; --mark-2:#3E4249;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 90px}
+.serif{font-family:"Source Serif 4",Georgia,serif}
+.tnum{font-variant-numeric:tabular-nums}
+
+header.mast{border-bottom:2px solid var(--ink);padding:52px 0 20px;margin-bottom:34px}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.03;margin:0 0 18px;text-wrap:balance}
+.standfirst{font-family:"Source Serif 4",Georgia,serif;font-size:1.14rem;color:var(--ink-2);max-width:64ch;margin:0 0 22px;line-height:1.6}
+.meta{display:flex;flex-wrap:wrap;gap:0 28px;font-size:11.5px;color:var(--muted)}
+.meta b{color:var(--ink-2);font-weight:600}
+
+h2{font-size:clamp(1.3rem,2.6vw,1.7rem);font-weight:700;letter-spacing:-.022em;margin:0;line-height:1.15}
+section{padding-top:52px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule-2);padding-bottom:11px;margin-bottom:24px}
+.snum{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.1em;padding-top:5px;flex:none}
+p{margin:0 0 15px;max-width:78ch}
+.lede{font-family:"Source Serif 4",Georgia,serif;font-size:1.05rem;color:var(--ink-2);line-height:1.62}
+strong,b{font-weight:700;color:var(--ink)}
+
+/* verdict chips */
+.chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 8px;border-radius:2px;white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+
+/* headline cards */
+.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:16px}
+.card{background:var(--surface);padding:20px 21px 21px;display:flex;flex-direction:column;gap:10px}
+.card .rk{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .rn{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted)}
+.card .cn{font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.card .pd{font-size:1.06rem;font-weight:700;letter-spacing:-.018em;line-height:1.3}
+.card .rz{font-family:"Source Serif 4",Georgia,serif;font-size:.94rem;color:var(--ink-2);line-height:1.55;margin:0}
+.card .kv{display:flex;gap:0 14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:auto}
+.card .kv b{color:var(--ink-2)}
+
+/* legend of criteria */
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:14px}
+.crit div{background:var(--surface);padding:14px 16px}
+.crit .cl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.crit .cx{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+/* score dots */
+.sc{display:inline-flex;gap:2px;margin-right:7px;vertical-align:middle}
+.sc i{display:block;width:5px;height:11px;border-radius:1px;background:var(--mark-2)}
+.sc i.on{background:var(--mark)}
+.tot{font-size:13px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:3px}
+
+/* decision table */
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:1080px}
+thead th{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:11px 11px;border-bottom:1.5px solid var(--rule-2);background:var(--surface-2);white-space:nowrap;vertical-align:bottom}
+thead th .h2l{display:block;font-size:9.5px;letter-spacing:.06em;font-weight:600;color:var(--muted);text-transform:none;margin-top:3px}
+td{padding:14px 11px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:13px}
+tbody tr:last-child td{border-bottom:0}
+td.cat{white-space:nowrap;min-width:144px}
+td.cat b{display:block;font-size:14px;letter-spacing:-.012em}
+td.cat .sub{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:3px}
+td.vd{white-space:nowrap}
+td.sc-cell{white-space:nowrap;min-width:134px}
+td.what{font-weight:600;min-width:176px;line-height:1.45;color:var(--ink)}
+td.why{font-family:"Source Serif 4",Georgia,serif;font-size:.93rem;line-height:1.55;color:var(--ink-2);min-width:214px}
+td.why.yes{border-left:3px solid var(--good-bg)}
+td.why.no{border-left:3px solid var(--bad-bg)}
+
+/* chart */
+figure{margin:0;border:1px solid var(--rule);background:var(--surface);padding:22px 20px 14px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.grid line{stroke:var(--rule);stroke-width:1}
+.axis line{stroke:var(--rule-2);stroke-width:1}
+.axis text{fill:var(--muted);font-size:11px;font-family:Archivo,sans-serif}
+.axttl{fill:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;font-family:Archivo,sans-serif}
+.pt circle{fill:var(--mark);fill-opacity:.5;stroke:var(--surface);stroke-width:2;transition:fill-opacity .12s}
+.pt text{fill:var(--ink-2);font-size:11.5px;font-weight:600;font-family:Archivo,sans-serif;pointer-events:none}
+.pt:hover circle{fill-opacity:.85}
+.zone text{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Archivo,sans-serif}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.5;padding-top:13px;margin-top:12px;border-top:1px solid var(--rule)}
+#tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .1s;background:var(--ink);color:var(--ground);
+  font-size:11.5px;padding:7px 10px;border-radius:3px;z-index:99;font-variant-numeric:tabular-nums;line-height:1.45;max-width:230px}
+#tip b{color:var(--ground);font-weight:700}
+
+.callout{border:1px solid var(--rule-2);border-left:4px solid var(--accent);background:var(--surface);padding:19px 21px;margin-top:26px}
+.callout .cl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.callout p{font-family:"Source Serif 4",Georgia,serif;font-size:.97rem;color:var(--ink-2);line-height:1.6}
+.callout p:last-child{margin-bottom:0}
+
+footer{margin-top:60px;padding-top:20px;border-top:2px solid var(--ink);font-size:11.5px;color:var(--muted);line-height:1.7}
+footer b{color:var(--ink-2)}
+
+@media (max-width:720px){
+  body{font-size:14.5px}.wrap{padding:0 15px 60px}
+  td.why{min-width:250px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* app states */
+.state{padding:70px 24px;text-align:center;border:1px solid var(--rule);background:var(--surface)}
+.state .t{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.state .d{font-size:.95rem;color:var(--muted);max-width:60ch;margin:0 auto 14px;font-family:"Source Serif 4",Georgia,serif}
+.state code{background:var(--surface-2);padding:2px 5px;border-radius:2px;font-size:.86em}
+.spin{width:22px;height:22px;border:2.5px solid var(--rule-2);border-top-color:var(--accent);border-radius:50%;margin:0 auto 16px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.bar button{font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;padding:7px 13px;
+  border:1px solid var(--rule-2);background:var(--surface);color:var(--ink-2);border-radius:2px;cursor:pointer}
+.bar button:hover{border-color:var(--accent);color:var(--accent)}
+.bar button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.bar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bar .sep{flex:1}
+.bar .stamp{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.concs{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <p class="kicker">Nitron · Desenvolvimento de Produtos</p>
+    <h1>Painel de Lançamento Nitron</h1>
+    <p class="standfirst">As 17 linhas com veredito de lançar ou não, o produto de cada uma e as razões dos dois lados. Dados ao vivo do Supabase.</p>
+    <div class="meta" id="kpis"></div>
+  </header>
+
+  <div id="app"><div class="state"><div class="spin"></div><div class="t">Carregando</div><div class="d">Lendo as tabelas <code>pdp_*</code> do Supabase.</div></div></div>
+</div>
+<div id="tip"></div>
+
+<script src="config.js" onerror="console.warn('config.js nao encontrado - defina window.PDP_CONFIG de outra forma')"></script>
+<script>
+(function(){
+  'use strict';
+  var app = document.getElementById('app'), kpis = document.getElementById('kpis');
+  var C = window.PDP_CONFIG || {};
+
+  function state(t, d){ app.innerHTML = '<div class="state"><div class="t">'+t+'</div><div class="d">'+d+'</div></div>'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function brl(v){ if(v==null) return '—'; var n=Number(v); return n>=1e6 ? 'R$ '+(n/1e6).toFixed(2).replace('.',',')+' M' : n>=1e3 ? 'R$ '+Math.round(n/1e3)+' k' : 'R$ '+n; }
+  function pct(v){ return v==null ? '—' : (v>0?'+':'')+String(v).replace('.',',')+'%'; }
+
+  if (!C.SUPABASE_URL || !C.SUPABASE_KEY || C.SUPABASE_KEY.indexOf('COLE_A') === 0) {
+    state('Falta configurar a chave',
+      'Copie <code>config.example.js</code> para <code>config.js</code> e preencha <code>SUPABASE_KEY</code>. ' +
+      'Leia o <code>README.md</code> antes de publicar: este projeto tem tabelas com RLS desligado.');
+    return;
+  }
+
+  function get(table, query){
+    return fetch(C.SUPABASE_URL + '/rest/v1/' + table + '?' + query, {
+      headers: { apikey: C.SUPABASE_KEY, Authorization: 'Bearer ' + C.SUPABASE_KEY }
+    }).then(function(r){
+      if (!r.ok) return r.text().then(function(t){ throw new Error(table + ' → HTTP ' + r.status + ' · ' + t.slice(0,160)); });
+      return r.json();
+    });
+  }
+
+  Promise.all([
+    get('pdp_linha', 'select=*&order=score_total.desc'),
+    get('pdp_linha_concorrente', 'select=linha,concorrente'),
+    get('pdp_capacidade', 'select=*&order=ton_min.asc')
+  ]).then(render).catch(function(e){
+    state('Não deu para carregar', esc(e.message) + '<br><br>Verifique a chave em <code>config.js</code> e se as políticas de leitura das tabelas <code>pdp_*</code> estão ativas.');
+  });
+
+  var VER = {
+    'LANCAR':['LANÇAR','good'], 'REATIVAR':['REATIVAR','warn'], 'SELETIVO':['SELETIVO','warn'],
+    'SO KIT':['SÓ KIT','warn'], 'SO EXTENSAO':['SÓ EXTENSÃO','warn'], 'DEFENDER':['DEFENDER','bad'],
+    'CORRIGIR ANTES':['CORRIGIR ANTES','bad'], 'NAO LANCAR':['NÃO LANÇAR','bad'], 'DESCONTINUAR':['DESCONTINUAR','bad']
+  };
+  function chip(v){ var m = VER[v] || [v,'warn']; return '<span class="chip '+m[1]+'">'+esc(m[0])+'</span>'; }
+  function dots(v){ var s='<span class="sc">'; for(var i=0;i<5;i++) s += '<i class="'+(i<v?'on':'off')+'"></i>'; return s+'</span>'; }
+
+  var LINHAS = [], CONC = {}, CAP = [], filtro = 'todos';
+
+  function render(res){
+    LINHAS = res[0];
+    res[1].forEach(function(r){ (CONC[r.linha] = CONC[r.linha] || []).push(r.concorrente); });
+    CAP = res[2];
+
+    var fat = LINHAS.reduce(function(a,l){ return a + Number(l.fat_25_26||0); }, 0);
+    var lb  = LINHAS.reduce(function(a,l){ return a + Number(l.lucro_bruto||0); }, 0);
+    var go  = LINHAS.filter(function(l){ return l.veredito==='LANCAR'; }).length;
+    var paradas = CAP.reduce(function(a,c){ return a + Number(c.maquinas_paradas||0); }, 0);
+    kpis.innerHTML =
+      '<div><span>Faturamento 12M</span> <b>'+brl(fat)+'</b></div>' +
+      '<div><span>Lucro bruto</span> <b>'+brl(lb)+'</b></div>' +
+      '<div><span>Linhas para lançar</span> <b>'+go+' de '+LINHAS.length+'</b></div>' +
+      '<div><span>Injetoras paradas</span> <b>'+paradas+'</b></div>';
+
+    app.innerHTML =
+      '<section style="padding-top:0"><div class="shead"><span class="snum">01</span><h2>Comece por estes</h2></div><div class="top" id="cards"></div></section>' +
+      '<section><div class="shead"><span class="snum">02</span><h2>Onde está o espaço livre</h2></div>' +
+        '<figure><svg id="chart" viewBox="0 0 780 590" role="img" aria-label="Saturação competitiva contra margem bruta por linha"></svg>' +
+        '<figcaption>Cada bolha é uma linha; o tamanho é o lucro bruto. Eixo X é contagem discreta de concorrentes Tier A — linhas com a mesma contagem recebem leve deslocamento para não se sobrepor. A tabela abaixo traz todos os números.</figcaption></figure></section>' +
+      '<section><div class="shead"><span class="snum">03</span><h2>As 17 linhas</h2></div>' +
+        '<div class="bar" role="group" aria-label="Filtrar por veredito">' +
+          '<button data-f="todos" aria-pressed="true">Todas</button>' +
+          '<button data-f="lancar" aria-pressed="false">Lançar</button>' +
+          '<button data-f="seletivo" aria-pressed="false">Seletivo / reativar</button>' +
+          '<button data-f="nao" aria-pressed="false">Não lançar</button>' +
+          '<span class="sep"></span><span class="stamp" id="stamp"></span>' +
+        '</div>' +
+        '<div class="scroll"><table><thead><tr>' +
+          '<th>Linha<span class="h2l">faturamento · margem · curva</span></th><th>Veredito</th>' +
+          '<th>Score<span class="h2l">curva · margem · espaço · máquina</span></th>' +
+          '<th>O que lançar</th><th>Por que sim</th><th>Por que não</th>' +
+        '</tr></thead><tbody id="rows"></tbody></table></div></section>';
+
+    var upd = LINHAS.map(function(l){ return l.atualizado_em; }).sort().pop();
+    document.getElementById('stamp').textContent = upd ? 'atualizado em ' + new Date(upd).toLocaleString('pt-BR') : '';
+
+    cards(); chart(); rows();
+    Array.prototype.forEach.call(document.querySelectorAll('.bar button'), function(b){
+      b.addEventListener('click', function(){
+        filtro = b.dataset.f;
+        Array.prototype.forEach.call(document.querySelectorAll('.bar button'), function(x){
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        rows();
+      });
+    });
+  }
+
+  function cards(){
+    document.getElementById('cards').innerHTML = LINHAS.filter(function(l){ return l.veredito==='LANCAR'; })
+      .map(function(l,i){
+        return '<div class="card"><div class="rk"><span class="rn">0'+(i+1)+' · SCORE '+l.score_total+'/20</span>'+chip(l.veredito)+'</div>' +
+          '<span class="cn">'+esc(l.linha)+'</span><span class="pd">'+esc(l.o_que_lancar)+'</span>' +
+          '<p class="rz">'+esc(l.porque_sim)+'</p>' +
+          '<div class="kv"><span>MB <b>'+String(l.mb_pct).replace('.',',')+'%</b></span>' +
+          '<span>Curva <b>'+pct(l.var_2a_pct)+'</b></span>' +
+          '<span>Concorrentes <b>'+l.concorrentes_tier_a+'</b></span></div></div>';
+      }).join('');
+  }
+
+  // colisao de rotulo: tenta r, l, t, b e usa a primeira posicao livre.
+  // reserva as bolhas primeiro, para o rotulo nao atravessar nenhuma.
+  function place(pts){
+    var used = pts.map(function(p){
+      return { x1:p.x-p.r-2, x2:p.x+p.r+2, y1:p.y-p.r-2, y2:p.y+p.r+2 };
+    });
+    function hits(b){ return used.some(function(u){
+      return !(b.x2 < u.x1 || b.x1 > u.x2 || b.y2 < u.y1 || b.y1 > u.y2); }); }
+    pts.forEach(function(p){
+      var w = p.n.length * 6.4, h = 13, d = p.r * 0.72, opts = [
+        {an:'start',  tx:p.x+p.r+6, ty:p.y+4},
+        {an:'end',    tx:p.x-p.r-6, ty:p.y+4},
+        {an:'middle', tx:p.x,       ty:p.y-p.r-9},
+        {an:'middle', tx:p.x,       ty:p.y+p.r+16},
+        {an:'start',  tx:p.x+d+5,   ty:p.y-p.r-6},
+        {an:'end',    tx:p.x-d-5,   ty:p.y-p.r-6},
+        {an:'start',  tx:p.x+d+5,   ty:p.y+p.r+14},
+        {an:'end',    tx:p.x-d-5,   ty:p.y+p.r+14},
+        {an:'middle', tx:p.x,       ty:p.y-p.r-24},
+        {an:'middle', tx:p.x,       ty:p.y+p.r+30}
+      ];
+      for (var i=0;i<opts.length;i++){
+        var o = opts[i];
+        var x1 = o.an==='start' ? o.tx : o.an==='end' ? o.tx-w : o.tx-w/2;
+        var box = {x1:x1, x2:x1+w, y1:o.ty-h, y2:o.ty+3};
+        if (box.x1 < 34 || box.x2 > 772) continue;
+        if (!hits(box)) { p.lab = o; used.push(box); return; }
+      }
+      p.lab = opts[0]; used.push({x1:p.x, x2:p.x+w, y1:p.y-h, y2:p.y+3});
+    });
+    return pts;
+  }
+
+  function chart(){
+    var maxC = 16, X = function(c){ return 95 + (c/maxC)*600; }, Y = function(m){ return 520 - ((m-15)/50)*480; };
+    var byC = {};
+    var pts = LINHAS.map(function(l){
+      var c = Number(l.concorrentes_tier_a||0);
+      byC[c] = (byC[c]||0) + 1;
+      return { n:l.linha, c:c, mb:Number(l.mb_pct), lb:Number(l.lucro_bruto||0), ver:l.veredito, i:byC[c]-1 };
+    });
+    pts.sort(function(a,b){ return b.lb - a.lb; });   // bolha grande primeiro fica com a melhor posicao
+    pts.forEach(function(p){
+      var n = byC[p.c], off = n>1 ? (p.i - (n-1)/2) * 26 : 0;
+      p.x = X(p.c) + off; p.y = Y(p.mb); p.r = 5 + Math.sqrt(p.lb/1e6) * 5.5;
+    });
+    place(pts);
+
+    var g = '', ticks = [15,25,35,45,55,65];
+    g += '<g class="grid">' + ticks.map(function(m){ return '<line x1="60" y1="'+Y(m).toFixed(0)+'" x2="720" y2="'+Y(m).toFixed(0)+'"/>'; }).join('') + '</g>';
+    g += '<g class="zone"><text x="66" y="32" fill="var(--good)">ESPAÇO LIVRE · MARGEM ALTA</text>' +
+         '<text x="714" y="32" fill="var(--bad)" text-anchor="end">SATURADO</text></g>';
+    g += '<g class="axis"><line x1="60" y1="520" x2="720" y2="520"/><line x1="60" y1="40" x2="60" y2="520"/>' +
+         ticks.map(function(m){ return '<text x="52" y="'+(Y(m)+4).toFixed(0)+'" text-anchor="end">'+m+'%</text>'; }).join('') +
+         [0,3,6,9,12,15].map(function(c){ return '<text x="'+X(c).toFixed(0)+'" y="546" text-anchor="middle">'+c+'</text>'; }).join('') + '</g>';
+    g += '<text class="axttl" x="390" y="574" text-anchor="middle">Concorrentes Tier A que declaram a categoria</text>';
+    g += '<text class="axttl" x="16" y="280" text-anchor="middle" transform="rotate(-90 16 280)">Margem bruta</text>';
+    g += pts.map(function(p){
+      return '<g class="pt" data-n="'+esc(p.n)+'" data-c="'+p.c+'" data-mb="'+p.mb+'" data-lb="'+(p.lb/1e6).toFixed(2)+'">' +
+        '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+p.r.toFixed(1)+'"/>' +
+        '<text x="'+p.lab.tx.toFixed(1)+'" y="'+p.lab.ty.toFixed(1)+'" text-anchor="'+p.lab.an+'">'+esc(p.n)+'</text></g>';
+    }).join('');
+    document.getElementById('chart').innerHTML = g;
+    hover();
+  }
+
+  function rows(){
+    var f = { lancar:['LANCAR'], seletivo:['SELETIVO','REATIVAR','SO KIT','SO EXTENSAO'],
+              nao:['NAO LANCAR','DEFENDER','CORRIGIR ANTES','DESCONTINUAR'] }[filtro];
+    var list = f ? LINHAS.filter(function(l){ return f.indexOf(l.veredito) >= 0; }) : LINHAS;
+    document.getElementById('rows').innerHTML = list.map(function(l){
+      var cs = (CONC[l.linha]||[]);
+      return '<tr><td class="cat"><b>'+esc(l.linha)+'</b><span class="sub">'+brl(l.fat_25_26)+' · MB '+String(l.mb_pct).replace('.',',')+'% · '+pct(l.var_2a_pct)+'</span>' +
+        (cs.length ? '<span class="concs">'+esc(cs.slice(0,3).join(', '))+(cs.length>3 ? ' +'+(cs.length-3) : '')+'</span>' : '<span class="concs">sem concorrente Tier A</span>') +
+        '</td><td class="vd">'+chip(l.veredito)+'</td>' +
+        '<td class="sc-cell">'+dots(l.sc_curva)+dots(l.sc_margem)+dots(l.sc_espaco)+dots(l.sc_maquina)+'<b class="tot">'+l.score_total+'</b></td>' +
+        '<td class="what">'+esc(l.o_que_lancar)+'</td>' +
+        '<td class="why yes">'+esc(l.porque_sim)+'</td>' +
+        '<td class="why no">'+esc(l.porque_nao)+'</td></tr>';
+    }).join('') || '<tr><td colspan="6" style="padding:26px;color:var(--muted)">Nenhuma linha neste filtro.</td></tr>';
+  }
+
+  function hover(){
+    var tip = document.getElementById('tip');
+    Array.prototype.forEach.call(document.querySelectorAll('.pt'), function(g){
+      g.addEventListener('mouseenter', function(){
+        tip.innerHTML = '<b>'+g.dataset.n+'</b><br>Margem bruta: '+g.dataset.mb+'%<br>Concorrentes Tier A: '+g.dataset.c+'<br>Lucro bruto: R$ '+g.dataset.lb+' M';
+        tip.style.opacity = 1;
+      });
+      g.addEventListener('mousemove', function(e){
+        var x = e.clientX+14, y = e.clientY+14;
+        if (x > innerWidth-250) x = e.clientX-244;
+        if (y > innerHeight-90) y = e.clientY-86;
+        tip.style.left = x+'px'; tip.style.top = y+'px';
+      });
+      g.addEventListener('mouseleave', function(){ tip.style.opacity = 0; });
+    });
+  }
+})();
+</script>
+</body>
+</html>
