@@ -1,0 +1,20 @@
+# Saturacao competitiva: nº de concorrentes Tier A que DECLARAM sobreposicao na categoria
+# Fonte: mapa_concorrentes_nitron.md (secao 2, Tier A - 15 concorrentes)
+categoria_nitron;concorrentes_tier_a;quais;grau
+Organizacao;15;Plasutil Sanremo Plasvale Ou Paramount UZ Plastutti Plasduran Pleion Uninjet Rischioto Jaguar Arthi Rainha Injetemp;SATURADA
+Cozinha;12;Plasutil Sanremo Plasvale Ou Paramount UZ Plastutti Plasduran Uninjet Rischioto Jaguar Arthi;SATURADA
+Potes;9;Plasutil Sanremo Ou Plastutti(hermeticos) Pleion Uninjet Jaguar Arthi Rainha(c/trava);DISPUTADA
+Teca/Madeira;7;Tramontina Stolf Debiase OesteWood Copa&Cia MOR Golden (Tier D);DISPUTADA
+Limpeza;4;Sanremo Plasduran Uninjet Jaguar;MODERADA
+Lixeiras;4;Ou Plastutti Pleion Arthi;MODERADA
+Banheiro;3;Ou UZ Arthi;MODERADA
+Geladeira;2;Ou Plastutti;LIVRE
+ECO/Caixas organizadoras;2;Pleion Rainha;LIVRE
+Infantil;1;Plasutil;LIVRE
+Frasqueiras;0;nenhum concorrente Tier A declara sobreposicao;VAZIA
+Micro-ondas;0;nenhum concorrente Tier A declara sobreposicao;VAZIA
+Jarras;0;nenhum (Plasduran declara Garrafas, categoria adjacente);VAZIA
+Decor Util;0;nenhum concorrente Tier A declara utensilio/gadget de cozinha;VAZIA
+Coloratto;9;herda saturacao de Potes;DISPUTADA
+POP;9;herda saturacao de Potes;DISPUTADA
+Realce;9;herda saturacao de Potes;DISPUTADA

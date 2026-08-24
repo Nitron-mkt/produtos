@@ -17,8 +17,12 @@ por linha, seleção de candidatos a lançamento e validação de mercado.
   - `08-capacidade-injetoras.csv` — ocupação por faixa de tonelagem
   - `09-parque-por-tonelagem.csv` — as 66 injetoras (Nitron-Fábrica + Tanamu)
   - `10-chumbo-cobertura-por-linha.csv` — onde o chumbo já existe e onde falta
+  - `11-cruzamento-concorrencia.csv` — saturação por categoria (nº de Tier A que declaram)
+  - `mapa_concorrentes_nitron.md` — mapa competitivo fornecido (fonte do cruzamento)
 - `analise/` — diagnóstico e recomendações
   - `01-diagnostico-e-recomendacoes.md` — Fase 1: curvas, vetores, 3+1 produtos por linha
+  - `painel-lancamento.html` — **painel de decisão**: 17 linhas, veredito, produto e razões
+  - `carteira-lancamentos.html` — relatório completo (deep-dive)
 
 ## Metodologia da extração
 

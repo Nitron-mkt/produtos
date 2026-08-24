@@ -1,0 +1,442 @@
+<title>Painel de Lançamento Nitron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#F4F4F6; --surface:#FFFFFF; --surface-2:#EDEDF0;
+  --ink:#191A1D; --ink-2:#41444A; --muted:#6A6D74;
+  --rule:#E1E2E5; --rule-2:#CFD1D6;
+  --accent:#B84E17;
+  --good:#0C6E42; --good-bg:#DCEDE4;
+  --warn:#8A6410; --warn-bg:#F5EBD3;
+  --bad:#A32820;  --bad-bg:#F5DEDC;
+  --mark:#52565E; --mark-2:#B4B7BD;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --mark:#9096A0; --mark-2:#3E4249;
+}}
+:root[data-theme="dark"]{
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --mark:#9096A0; --mark-2:#3E4249;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 90px}
+.serif{font-family:"Source Serif 4",Georgia,serif}
+.tnum{font-variant-numeric:tabular-nums}
+
+header.mast{border-bottom:2px solid var(--ink);padding:52px 0 20px;margin-bottom:34px}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.03;margin:0 0 18px;text-wrap:balance}
+.standfirst{font-family:"Source Serif 4",Georgia,serif;font-size:1.14rem;color:var(--ink-2);max-width:64ch;margin:0 0 22px;line-height:1.6}
+.meta{display:flex;flex-wrap:wrap;gap:0 28px;font-size:11.5px;color:var(--muted)}
+.meta b{color:var(--ink-2);font-weight:600}
+
+h2{font-size:clamp(1.3rem,2.6vw,1.7rem);font-weight:700;letter-spacing:-.022em;margin:0;line-height:1.15}
+section{padding-top:52px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule-2);padding-bottom:11px;margin-bottom:24px}
+.snum{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.1em;padding-top:5px;flex:none}
+p{margin:0 0 15px;max-width:78ch}
+.lede{font-family:"Source Serif 4",Georgia,serif;font-size:1.05rem;color:var(--ink-2);line-height:1.62}
+strong,b{font-weight:700;color:var(--ink)}
+
+/* verdict chips */
+.chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 8px;border-radius:2px;white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+
+/* headline cards */
+.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:16px}
+.card{background:var(--surface);padding:20px 21px 21px;display:flex;flex-direction:column;gap:10px}
+.card .rk{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .rn{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted)}
+.card .cn{font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.card .pd{font-size:1.06rem;font-weight:700;letter-spacing:-.018em;line-height:1.3}
+.card .rz{font-family:"Source Serif 4",Georgia,serif;font-size:.94rem;color:var(--ink-2);line-height:1.55;margin:0}
+.card .kv{display:flex;gap:0 14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:auto}
+.card .kv b{color:var(--ink-2)}
+
+/* legend of criteria */
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:14px}
+.crit div{background:var(--surface);padding:14px 16px}
+.crit .cl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.crit .cx{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+/* score dots */
+.sc{display:inline-flex;gap:2px;margin-right:7px;vertical-align:middle}
+.sc i{display:block;width:5px;height:11px;border-radius:1px;background:var(--mark-2)}
+.sc i.on{background:var(--mark)}
+.tot{font-size:13px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:3px}
+
+/* decision table */
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:1080px}
+thead th{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:11px 11px;border-bottom:1.5px solid var(--rule-2);background:var(--surface-2);white-space:nowrap;vertical-align:bottom}
+thead th .h2l{display:block;font-size:9.5px;letter-spacing:.06em;font-weight:600;color:var(--muted);text-transform:none;margin-top:3px}
+td{padding:14px 11px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:13px}
+tbody tr:last-child td{border-bottom:0}
+td.cat{white-space:nowrap;min-width:144px}
+td.cat b{display:block;font-size:14px;letter-spacing:-.012em}
+td.cat .sub{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:3px}
+td.vd{white-space:nowrap}
+td.sc-cell{white-space:nowrap;min-width:134px}
+td.what{font-weight:600;min-width:176px;line-height:1.45;color:var(--ink)}
+td.why{font-family:"Source Serif 4",Georgia,serif;font-size:.93rem;line-height:1.55;color:var(--ink-2);min-width:214px}
+td.why.yes{border-left:3px solid var(--good-bg)}
+td.why.no{border-left:3px solid var(--bad-bg)}
+
+/* chart */
+figure{margin:0;border:1px solid var(--rule);background:var(--surface);padding:22px 20px 14px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.grid line{stroke:var(--rule);stroke-width:1}
+.axis line{stroke:var(--rule-2);stroke-width:1}
+.axis text{fill:var(--muted);font-size:11px;font-family:Archivo,sans-serif}
+.axttl{fill:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;font-family:Archivo,sans-serif}
+.pt circle{fill:var(--mark);fill-opacity:.5;stroke:var(--surface);stroke-width:2;transition:fill-opacity .12s}
+.pt text{fill:var(--ink-2);font-size:11.5px;font-weight:600;font-family:Archivo,sans-serif;pointer-events:none}
+.pt:hover circle{fill-opacity:.85}
+.zone text{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Archivo,sans-serif}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.5;padding-top:13px;margin-top:12px;border-top:1px solid var(--rule)}
+#tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .1s;background:var(--ink);color:var(--ground);
+  font-size:11.5px;padding:7px 10px;border-radius:3px;z-index:99;font-variant-numeric:tabular-nums;line-height:1.45;max-width:230px}
+#tip b{color:var(--ground);font-weight:700}
+
+.callout{border:1px solid var(--rule-2);border-left:4px solid var(--accent);background:var(--surface);padding:19px 21px;margin-top:26px}
+.callout .cl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.callout p{font-family:"Source Serif 4",Georgia,serif;font-size:.97rem;color:var(--ink-2);line-height:1.6}
+.callout p:last-child{margin-bottom:0}
+
+footer{margin-top:60px;padding-top:20px;border-top:2px solid var(--ink);font-size:11.5px;color:var(--muted);line-height:1.7}
+footer b{color:var(--ink-2)}
+
+@media (max-width:720px){
+  body{font-size:14.5px}.wrap{padding:0 15px 60px}
+  td.why{min-width:250px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <p class="kicker">Nitron · Desenvolvimento de Produtos · Fase 1</p>
+  <h1>Painel de Lançamento Nitron</h1>
+  <p class="standfirst">As 17 linhas, com veredito de lançar ou não lançar, o produto específico de cada uma, e as duas razões — a favor e contra. Cruzamento de três anos de Sankhya com o mapa competitivo, a ocupação das injetoras e a margem de tabela cheia.</p>
+  <div class="meta">
+    <div><span>Faturamento base</span> <b>R$ 83,1 M</b> (12M, sem Avon/Natura)</div>
+    <div><span>Lucro bruto</span> <b>R$ 41,4 M</b></div>
+    <div><span>Concorrentes cruzados</span> <b>15 Tier A + 7 Tier D</b></div>
+  </div>
+</header>
+
+<section style="padding-top:0">
+  <div class="shead"><span class="snum">01</span><h2>Comece por estes quatro</h2></div>
+  <p class="lede">Ordenados por atratividade composta. Todos os quatro têm <strong>margem acima de 53%</strong>, <strong>concorrência declarada baixa ou nula</strong> e <strong>máquina livre</strong> na faixa de tonelagem que usam. Nenhum exige molde novo.</p>
+
+  <div class="top">
+    <div class="card">
+      <div class="rk"><span class="rn">01 · SCORE 19/20</span><span class="chip good">LANÇAR</span></div>
+      <span class="cn">Decor Util</span>
+      <span class="pd">Coxinha &amp; Croquete Fácil<br>+ Pastel Fácil</span>
+      <p class="rz">O Churros Fácil saltou de 342 para <b>842 clientes</b> em doze meses e rende <b>81,5% de margem</b> na tabela cheia — é o produto mais rentável da casa. Molde pequeno, CAPEX baixo, e roda na faixa de injetora com 7 máquinas paradas.</p>
+      <div class="kv"><span>MB <b>59,6%</b></span><span>Curva <b>+21%</b></span><span>Concorrentes <b>0</b></span></div>
+    </div>
+    <div class="card">
+      <div class="rk"><span class="rn">02 · SCORE 17/20</span><span class="chip good">LANÇAR</span></div>
+      <span class="cn">Frasqueiras</span>
+      <span class="pd">Frasqueira Medicamentos<br>2,8L e 6,2L em chumbo</span>
+      <p class="rz">A <b>única linha em alta</b> da casa, com R$ 132 k por SKU — quatro vezes Potes. Três variantes já provaram a tese no mesmo período, e a linha tem <b>zero SKUs chumbo</b> e <b>zero concorrente Tier A</b>.</p>
+      <div class="kv"><span>MB <b>53,7%</b></span><span>Curva <b>+8,6%</b></span><span>Concorrentes <b>0</b></span></div>
+    </div>
+    <div class="card">
+      <div class="rk"><span class="rn">03 · SCORE 16/20</span><span class="chip good">LANÇAR</span></div>
+      <span class="cn">Banheiro</span>
+      <span class="pd">Kit coordenado 3 peças<br>+ Porta Escovas chumbo</span>
+      <p class="rz">Segunda maior base de clientes da casa (<b>6.002</b>). O trio de cores do porta escovas faz R$ 1,33 M. O kit sobe o ticket de ~R$ 5 para ~R$ 15 <b>sem um molde novo</b>.</p>
+      <div class="kv"><span>MB <b>55,0%</b></span><span>Curva <b>−3,5%</b></span><span>Concorrentes <b>3</b></span></div>
+    </div>
+    <div class="card">
+      <div class="rk"><span class="rn">04 · SCORE 15/20</span><span class="chip good">LANÇAR</span></div>
+      <span class="cn">Micro-ondas</span>
+      <span class="pd">Kit Micro-ondas: caçarola<br>+ tampa + omeleteira</span>
+      <p class="rz">Categoria que ninguém no seu mapa declara. A margem real é <b>53,6%</b> — os 29,8% que reportei antes eram o contrato OEM, não a linha. A Caçarola 2,6L cresce 50% com 664 clientes.</p>
+      <div class="kv"><span>MB <b>53,6%</b></span><span>Curva <b>−8,7%</b></span><span>Concorrentes <b>0</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">02</span><h2>Onde está o espaço livre</h2></div>
+  <p class="lede">Cada bolha é uma linha. Quanto mais à <strong>esquerda</strong>, menos concorrentes Tier A declaram sobreposição. Quanto mais <strong>alto</strong>, melhor a margem. O tamanho é o lucro bruto que a linha gera hoje.</p>
+
+  <figure>
+    <svg viewBox="0 0 780 590" role="img" aria-label="Dispersão de saturação competitiva contra margem bruta por linha de produto">
+      <g class="grid">
+        <line x1="60" y1="520" x2="720" y2="520"/>
+        <line x1="60" y1="424" x2="720" y2="424"/>
+        <line x1="60" y1="328" x2="720" y2="328"/>
+        <line x1="60" y1="232" x2="720" y2="232"/>
+        <line x1="60" y1="136" x2="720" y2="136"/>
+        <line x1="60" y1="40" x2="720" y2="40"/>
+      </g>
+      <g class="zone">
+        <text x="66" y="32" fill="var(--good)">ESPAÇO LIVRE · MARGEM ALTA</text>
+        <text x="714" y="32" fill="var(--bad)" text-anchor="end">SATURADO</text>
+      </g>
+      <g class="axis">
+        <line x1="60" y1="520" x2="720" y2="520"/><line x1="60" y1="40" x2="60" y2="520"/>
+        <text x="52" y="524" text-anchor="end">15%</text>
+        <text x="52" y="428" text-anchor="end">25%</text>
+        <text x="52" y="332" text-anchor="end">35%</text>
+        <text x="52" y="236" text-anchor="end">45%</text>
+        <text x="52" y="140" text-anchor="end">55%</text>
+        <text x="52" y="44" text-anchor="end">65%</text>
+        <text x="95" y="546" text-anchor="middle">0</text>
+        <text x="208" y="546" text-anchor="middle">3</text>
+        <text x="320" y="546" text-anchor="middle">6</text>
+        <text x="432" y="546" text-anchor="middle">9</text>
+        <text x="545" y="546" text-anchor="middle">12</text>
+        <text x="658" y="546" text-anchor="middle">15</text>
+      </g>
+      <text class="axttl" x="390" y="574" text-anchor="middle">Concorrentes Tier A que declaram a categoria</text>
+      <text class="axttl" x="16" y="280" text-anchor="middle" transform="rotate(-90 16 280)">Margem bruta</text>
+    <g class="pt" data-n="Decor Util" data-c="0" data-mb="59.6" data-lb="0.84"><circle cx="95.0" cy="91.8" r="10.0"/><text x="95.0" y="72.8" text-anchor="middle">Decor Util</text></g>
+    <g class="pt" data-n="Frasqueiras" data-c="0" data-mb="53.7" data-lb="3.66"><circle cx="77.0" cy="148.5" r="15.5"/><text x="77.0" y="124.0" text-anchor="middle">Frasqueiras</text></g>
+    <g class="pt" data-n="Micro-ondas" data-c="0" data-mb="53.6" data-lb="0.89"><circle cx="125.0" cy="149.4" r="10.2"/><text x="125.0" y="175.6" text-anchor="middle">Micro-ondas</text></g>
+    <g class="pt" data-n="Jarras" data-c="0" data-mb="43.1" data-lb="1.10"><circle cx="95.0" cy="250.2" r="10.8"/><text x="111.8" y="254.2" text-anchor="start">Jarras</text></g>
+    <g class="pt" data-n="Infantil" data-c="1" data-mb="61.4" data-lb="0.29"><circle cx="132.5" cy="74.6" r="8.0"/><text x="146.5" y="78.6" text-anchor="start">Infantil</text></g>
+    <g class="pt" data-n="Geladeira" data-c="2" data-mb="58.4" data-lb="0.26"><circle cx="162.0" cy="103.4" r="7.8"/><text x="148.2" y="107.4" text-anchor="end">Geladeira</text></g>
+    <g class="pt" data-n="ECO" data-c="2" data-mb="57.0" data-lb="0.43"><circle cx="186.0" cy="116.8" r="8.6"/><text x="186.0" y="99.2" text-anchor="middle">ECO</text></g>
+    <g class="pt" data-n="Banheiro" data-c="3" data-mb="55.0" data-lb="2.25"><circle cx="207.5" cy="136.0" r="13.2"/><text x="207.5" y="165.2" text-anchor="middle">Banheiro</text></g>
+    <g class="pt" data-n="Limpeza" data-c="4" data-mb="54.8" data-lb="1.96"><circle cx="245.0" cy="137.9" r="12.7"/><text x="263.7" y="141.9" text-anchor="start">Limpeza</text></g>
+    <g class="pt" data-n="Lixeiras" data-c="4" data-mb="43.0" data-lb="3.89"><circle cx="245.0" cy="251.2" r="15.8"/><text x="266.8" y="255.2" text-anchor="start">Lixeiras</text></g>
+    <g class="pt" data-n="Teca" data-c="7" data-mb="36.8" data-lb="0.48"><circle cx="357.5" cy="310.7" r="8.8"/><text x="372.3" y="314.7" text-anchor="start">Teca</text></g>
+    <g class="pt" data-n="Potes" data-c="9" data-mb="45.1" data-lb="7.16"><circle cx="432.5" cy="231.0" r="19.7"/><text x="458.2" y="235.0" text-anchor="start">Potes</text></g>
+    <g class="pt" data-n="Coloratto" data-c="9" data-mb="55.8" data-lb="0.17"><circle cx="432.5" cy="128.3" r="7.3"/><text x="445.8" y="132.3" text-anchor="start">Coloratto</text></g>
+    <g class="pt" data-n="POP" data-c="9" data-mb="19.7" data-lb="0.01"><circle cx="432.5" cy="474.9" r="5.5"/><text x="444.1" y="478.9" text-anchor="start">POP</text></g>
+    <g class="pt" data-n="Realce" data-c="9" data-mb="41.5" data-lb="0.02"><circle cx="432.5" cy="265.6" r="5.8"/><text x="432.5" y="287.4" text-anchor="middle">Realce</text></g>
+    <g class="pt" data-n="Cozinha" data-c="12" data-mb="49.9" data-lb="6.19"><circle cx="545.0" cy="185.0" r="18.7"/><text x="569.7" y="189.0" text-anchor="start">Cozinha</text></g>
+    <g class="pt" data-n="Organização" data-c="15" data-mb="54.2" data-lb="11.77"><circle cx="657.5" cy="143.7" r="23.9"/><text x="627.6" y="147.7" text-anchor="end">Organização</text></g>
+    </svg>
+    <figcaption>Bolha proporcional ao lucro bruto (Organização R$ 11,8 M · POP R$ 7 k). Linhas com a mesma contagem de concorrentes recebem um leve deslocamento horizontal para não se sobrepor — o eixo X é uma contagem discreta. Passe o mouse para os valores; a tabela da seção 04 traz todos os números.</figcaption>
+  </figure>
+
+  <p style="margin-top:20px">A leitura é dura: <strong>as três maiores linhas da casa — Organização (R$ 11,8 M de lucro), Potes (R$ 7,2 M) e Cozinha (R$ 6,2 M) — estão todas em território disputado</strong>, à direita do gráfico. E o espaço livre à esquerda é quase todo de bolha pequena. A única exceção é <strong>Frasqueiras</strong>: zero concorrente declarado e R$ 3,7 M de lucro bruto. É por isso que ela é o lançamento número um.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">03</span><h2>Como o veredito é calculado</h2></div>
+  <p class="lede">Quatro critérios, nota de 0 a 5 cada, soma de 0 a 20. Nada de peso escondido — se você discordar de um critério, o número recalcula na hora.</p>
+  <div class="crit">
+    <div><span class="cl">Curva</span><span class="cx">Variação de faturamento em 24 meses, marca própria, janelas móveis de 12 meses.</span></div>
+    <div><span class="cl">Margem</span><span class="cx">Margem bruta com custo gerencial do Sankhya. ≥60% = 5; abaixo de 40% = 0.</span></div>
+    <div><span class="cl">Espaço</span><span class="cx">Inverso da saturação: quantos dos 15 concorrentes Tier A declaram a categoria no seu mapa. Zero = 5.</span></div>
+    <div><span class="cl">Máquina</span><span class="cx">Folga na faixa de tonelagem que a linha usa. ≤260 t = 5 (7 injetoras paradas); 1.101 t+ = 2 (nenhuma livre).</span></div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted);max-width:82ch">Veredito: <b>15–20</b> lançar · <b>11–14</b> seletivo ou reativar · <b>0–10</b> não lançar. A nota de Máquina é <b>medida</b> só para Decor Util, que aponta 100% das horas em injetora ≤260 t; para as outras linhas é <b>estimada</b> pelo tamanho da peça, porque o cadastro de tonelagem está preenchido em apenas 10 dos 4.252 produtos.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><h2>As 17 linhas, com o porquê de cada lado</h2></div>
+  <div class="scroll">
+    <table>
+      <thead><tr>
+        <th>Linha<span class="h2l">faturamento · margem · curva · concorrentes</span></th>
+        <th>Veredito</th>
+        <th>Score<span class="h2l">curva · margem · espaço · máquina</span></th>
+        <th>O que lançar</th>
+        <th>Por que sim</th>
+        <th>Por que não</th>
+      </tr></thead>
+      <tbody>
+<tr>
+  <td class="cat"><b>Decor Util</b><span class="sub">R$ 1.41 M · MB 59.6% · +21% · 0 conc.</span></td>
+  <td class="vd"><span class="chip good">LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b class="tot">19</b></td>
+  <td class="what">Coxinha &amp; Croquete Fácil + Pastel Fácil</td>
+  <td class="why yes">Churros Fácil fez <b>+117%</b> e saiu de 342 para <b>842 clientes</b> em 12 meses. Rende <b>81,5% de margem</b> na tabela cheia — o produto mais rentável da casa. <b>Zero concorrente Tier A</b> declara utensílio de cozinha. E roda em injetora ≤260 t, a faixa com 7 máquinas paradas.</td>
+  <td class="why no">Linha pequena: R$ 1,4 M não move o faturamento sozinha. É produto de impulso, depende de execução de PDV e embalagem.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Frasqueiras</b><span class="sub">R$ 6.85 M · MB 53.7% · +8,6% · 0 conc.</span></td>
+  <td class="vd"><span class="chip good">LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">17</b></td>
+  <td class="what">Frasqueira Medicamentos 2,8L e 6,2L em chumbo</td>
+  <td class="why yes"><b>Única linha em alta</b> da casa. R$ 132 k por SKU, 4× a produtividade de Potes. Três variantes provaram a tese no mesmo período: vermelha 12L <b>+183%</b>, oval branca <b>+177%</b>, e a vermelha 2,8L já vende na tabela cheia. <b>Zero SKUs chumbo</b> na linha e <b>zero concorrente Tier A</b>.</td>
+  <td class="why no">Risco de canibalizar a branca 2,8L, que sozinha faz R$ 1,70 M — em Lixeiras o chumbo tirou share do preto. Lançar como terceira cor, não como substituta.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Banheiro</b><span class="sub">R$ 4.09 M · MB 55.0% · −3,5% · 3 conc.</span></td>
+  <td class="vd"><span class="chip good">LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b class="tot">16</b></td>
+  <td class="what">Kit 3 peças coordenado + Porta Escovas c/ Tampa chumbo</td>
+  <td class="why yes"><b>6.002 clientes</b> — a segunda maior base da casa. O trio de cores do porta escovas faz <b>R$ 1,33 M</b> e rende 72,3% na tabela cheia. O kit sobe o ticket de ~R$ 5 para ~R$ 15 <b>sem um molde novo</b>. Peça pequena, máquina livre.</td>
+  <td class="why no">Ou, UZ e Arthi competem aqui — e a Ou é benchmark de design no seu próprio mapa. As cantoneiras já caem 45%: a linha tem produto envelhecendo.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Micro-ondas</b><span class="sub">R$ 1.67 M · MB 53.6% · −8,7% · 0 conc.</span></td>
+  <td class="vd"><span class="chip good">LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">15</b></td>
+  <td class="what">Kit Micro-ondas: caçarola + tampa + omeleteira</td>
+  <td class="why yes"><b>Zero concorrente Tier A</b> declara micro-ondas. A margem real é <b>53,6%</b> — os 29,8% que reportei antes eram o contrato OEM, não a linha. Caçarola 2,6L cresce <b>+50%</b> com 664 clientes, e a linha tem 3.558 clientes.</td>
+  <td class="why no">Linha pequena (R$ 1,7 M, 24 SKUs) e dependeu do OEM Candy que saiu. O kit precisa provar que o consumidor paga por conjunto nesta categoria.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Infantil</b><span class="sub">R$ 0.48 M · MB 61.4% · −81% · 1 conc.</span></td>
+  <td class="vd"><span class="chip warn">REATIVAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b class="tot">14</b></td>
+  <td class="what">Nada novo — reativar o Copo Infantil c/ Alça</td>
+  <td class="why yes"><b>Melhor margem da casa: 61,4%.</b> Só a Plasútil compete. Peça pequena, na faixa de máquina ociosa. O Copo Infantil c/ Alça ainda faz R$ 320 k com 628 clientes.</td>
+  <td class="why no">Caiu <b>81%</b> com a margem intacta — isso é execução comercial, não demanda. Lançar antes de entender a queda é repetir o erro que produziu 0,7% de acerto em 2025.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Geladeira</b><span class="sub">R$ 0.45 M · MB 58.4% · −42% · 2 conc.</span></td>
+  <td class="vd"><span class="chip warn">REATIVAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b class="tot">13</b></td>
+  <td class="what">Nada novo — diagnosticar a queda primeiro</td>
+  <td class="why yes">MB de 58,4% preservada. Só Ou e Plastutti competem. Organizador é peça pequena, roda na faixa com folga.</td>
+  <td class="why no">−42% com margem intacta é o padrão de ruptura de estoque ou perda de cliente, não de demanda. Produto novo não resolve problema de abastecimento.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Limpeza</b><span class="sub">R$ 3.63 M · MB 54.8% · −15% · 4 conc.</span></td>
+  <td class="vd"><span class="chip warn">SELETIVO</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">12</b></td>
+  <td class="what">Porta Vassouras 4 encaixes em chumbo</td>
+  <td class="why yes">O preto faz <b>R$ 628 k com 1.116 clientes</b> e rende <b>75,9% na tabela cheia</b>. O branco despencou <b>52%</b> — saturação da cor, não do produto. E chumbo praticamente não existe na linha: 1 SKU só.</td>
+  <td class="why no">Sanremo, Plasduran, Uninjet e Jaguar competem aqui. O Porta Sabão 5 kg, que teria a melhor margem, <b>exige molde novo</b> — fica fora desta rodada.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Jarras</b><span class="sub">R$ 2.56 M · MB 43.1% · −29% · 0 conc.</span></td>
+  <td class="vd"><span class="chip warn">SELETIVO</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">11</b></td>
+  <td class="what">Nada prioritário nesta rodada</td>
+  <td class="why yes"><b>Zero concorrente Tier A</b> declara jarras — é whitespace real, e a faixa de máquina tem folga.</td>
+  <td class="why no">Cai <b>29%</b> com MB de 43,1%. Whitespace com margem ruim costuma ser whitespace por um motivo. Vale investigar preço antes de produto.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Lixeiras</b><span class="sub">R$ 9.07 M · MB 43.0% · +0,2% · 4 conc.</span></td>
+  <td class="vd"><span class="chip warn">SELETIVO</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><b class="tot">10</b></td>
+  <td class="what">Rattan c/ Pedal chumbo nos volumes que faltam (12L+)</td>
+  <td class="why yes">Linha <b>estável</b> num portfólio que cai 18%. O Rattan Pedal chumbo 6L é o <b>maior sucesso de cor da casa</b>: R$ 554 k e 711 clientes partindo de zero. A família só tem chumbo no 6L.</td>
+  <td class="why no">MB de 43%, das mais baixas. Já é a linha <b>mais saturada de chumbo</b> (12 SKUs). E lixeira grande roda em 1.101 t+, onde <b>não há máquina livre</b> — este lançamento desloca produção existente.</td>
+</tr>
+<tr>
+  <td class="cat"><b>ECO</b><span class="sub">R$ 0.76 M · MB 57.0% · −64% · 2 conc.</span></td>
+  <td class="vd"><span class="chip bad">NÃO LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><b class="tot">10</b></td>
+  <td class="what">Nada</td>
+  <td class="why yes">Margem de 57% e só dois concorrentes.</td>
+  <td class="why no">Caiu <b>64%</b>. Margem boa com volume evaporando é sintoma de execução, não de portfólio. Investigar ruptura ou perda de cliente antes de qualquer lançamento.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Teca</b><span class="sub">R$ 1.26 M · MB 36.8% · +10% · 7 conc.</span></td>
+  <td class="vd"><span class="chip bad">CORRIGIR ANTES</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><b class="tot">9</b></td>
+  <td class="what">Nada até a margem virar</td>
+  <td class="why yes">Cresce 10% e tem apelo de material natural, que é tendência nos benchmarks do seu mapa.</td>
+  <td class="why no">MB de <b>36,8%</b> — 13 pontos abaixo da casa: cresce comprando faturamento. E Tramontina e Stolf são <b>prioridade máxima</b> no seu próprio mapa. Crescer contra os dois maiores com margem pior é o pior dos dois mundos.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Coloratto</b><span class="sub">R$ 0.32 M · MB 55.8% · −51% · 9 conc.</span></td>
+  <td class="vd"><span class="chip bad">NÃO LANÇAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">9</b></td>
+  <td class="what">Nada</td>
+  <td class="why yes">Margem de 55,8% preservada.</td>
+  <td class="why no">Caiu <b>51%</b> e herda a saturação de Potes: 9 concorrentes Tier A. Sublinha de cor dentro de categoria disputada é onde a briga de preço é pior.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Potes</b><span class="sub">R$ 15.99 M · MB 45.1% · −15% · 9 conc.</span></td>
+  <td class="vd"><span class="chip warn">SÓ KIT</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><b class="tot">8</b></td>
+  <td class="what">Kit Mantimentos acoplado c/ rosca, 4–5 peças — e nada de SKU avulso</td>
+  <td class="why yes">Aqui estão os <b>vetores mais fortes do banco</b>: válvula <b>+1.297%</b>, acoplado-rosca <b>+566%</b>. O kit sobe o ticket de ~R$ 5 para ~R$ 25 <b>usando moldes que já existem</b>.</td>
+  <td class="why no"><b>9 concorrentes Tier A</b> — e a Plastutti declara "potes herméticos" e a Rainha "potes com trava", que é exatamente o meu vetor. MB de 45,1% e <b>487 SKUs já cadastrados</b>. Mais um SKU avulso aqui é proliferação; kit é ticket.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Realce</b><span class="sub">R$ 0.06 M · MB 41.5% · −87% · 9 conc.</span></td>
+  <td class="vd"><span class="chip bad">DESCONTINUAR</span></td>
+  <td class="sc-cell"><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b class="tot">7</b></td>
+  <td class="what">Nada — encerrar a linha</td>
+  <td class="why yes">Nenhum argumento a favor sobreviveu aos dados.</td>
+  <td class="why no"><b>47 SKUs para R$ 60 k</b> — R$ 1,3 k por SKU — e 174 clientes. Caiu 87%. Encerrar libera cadastro, estoque, ferramentaria e atenção comercial para as quatro linhas de cima.</td>
+</tr>
+<tr>
+  <td class="cat"><b>POP</b><span class="sub">R$ 0.04 M · MB 19.7% · nova · 9 conc.</span></td>
+  <td class="vd"><span class="chip bad">CORRIGIR ANTES</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i></span><b class="tot">7</b></td>
+  <td class="what">Nada até o preço virar</td>
+  <td class="why yes">Linha nova, formato de kit transparente que acompanha tendência.</td>
+  <td class="why no">Nasceu com <b>MB de 19,7%</b> dentro da categoria com 9 concorrentes. Ampliar mix sobre margem de sobrevivência multiplica o prejuízo. Preço antes de produto.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Cozinha</b><span class="sub">R$ 12.43 M · MB 49.9% · −18% · 12 conc.</span></td>
+  <td class="vd"><span class="chip warn">SÓ EXTENSÃO</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><b class="tot">7</b></td>
+  <td class="what">Conj. Porta Detergente Flat 3 peças — extensão, não família nova</td>
+  <td class="why yes">O conjunto de 2 peças fez <b>+420%</b> e saiu de 364 para <b>811 clientes</b> em 12 meses. A linha tem <b>7.825 clientes</b>, a maior capilaridade da casa.</td>
+  <td class="why no"><b>12 dos 15 concorrentes Tier A</b> competem em cozinha, incluindo Plasvale que o seu mapa marca como competição por preço. É categoria de briga de margem: só extensão de produto que já provou, nunca abertura de família.</td>
+</tr>
+<tr>
+  <td class="cat"><b>Organização</b><span class="sub">R$ 22.08 M · MB 54.2% · −24% · 15 conc.</span></td>
+  <td class="vd"><span class="chip bad">DEFENDER</span></td>
+  <td class="sc-cell"><span class="sc"><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><span class="sc"><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i><i class="off"></i></span><b class="tot">6</b></td>
+  <td class="what">Gaveteiro em chumbo — o único buraco de cor na linha</td>
+  <td class="why yes">Maior pool de lucro da casa: <b>R$ 11,8 M</b>. Gaveteiro é o subgrupo que cresce: rosa <b>+110%</b>, preta +22%, modular +29%. E é o único produto da linha sem versão chumbo entre 13 SKUs.</td>
+  <td class="why no"><b>15 dos 15 concorrentes Tier A declaram Organização — é a categoria mais saturada do mercado.</b> Cai 24%, e roda em 1.101 t+ sem máquina livre. Aqui a jogada é <b>defender posição</b>, não abrir frente nova.</td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <span class="cl">O que o mapa de concorrentes respondeu — e o que não</span>
+    <p>O seu arquivo é um <strong>framework de monitoramento</strong>: define quem vigiar e o que perguntar, mas não traz preço, catálogo nem lançamento de ninguém. Então o cruzamento que fiz foi de <strong>saturação por categoria</strong> — quantos dos 15 concorrentes Tier A declaram sobreposição em cada linha minha. Isso é suficiente para decidir <em>onde</em> lançar, e é a coluna "Espaço" do score.</p>
+    <p>O que ainda falta, e é exatamente a Fase 2: <strong>preço-teto praticado</strong> por Plasútil, Sanremo, Plasvale, Ou, UZ e Plastutti nos produtos equivalentes; <strong>quantos vendedores</strong> disputam cada termo nos marketplaces; e <strong>o que o consumidor reclama nas avaliações deles</strong> — que é onde sai o diferencial de projeto de cada um dos quatro certeiros acima.</p>
+    <p>Duas coisas que já dá para adiantar do próprio mapa: a <strong>Ou</strong> aparece nas três frentes que eu recomendo mexer (Banheiro, Lixeiras, Organização) e é benchmark de design, não só de preço — vale olhar antes do Kit Banheiro. E em <strong>Teca</strong>, Tramontina e Stolf são prioridade máxima no seu documento: crescer contra os dois maiores com margem de 36,8% é a pior combinação da carteira.</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>Base.</b> Sankhya produção, empresas 1 (Matriz), 2 (Filial) e 14 (Extrema), grupo Produto Acabado/Revenda. Janela ago/25–jul/26 contra ago/23–jul/24. Devoluções abatidas, transferências intercompany excluídas, e <b>Avon/Natura (tabela PV0134) e exportação fora</b> — eram R$ 8,97 M em 580 itens que distorciam a curva. Margem por <code>TGFCUS.CUSGER</code>. Capacidade por <code>VW_MAQUINA_CAPACIDADE</code> e <code>AD_APONTACICLO</code>. Saturação competitiva derivada das áreas de sobreposição declaradas em <code>mapa_concorrentes_nitron.md</code>, Tier A e Tier D.</p>
+  <p><b>Fase 1 de 3.</b> O relatório completo, com os 32 candidatos, os oito vetores de crescimento, a auditoria de cor e o histórico de acerto de lançamentos, está no documento de diagnóstico. Fase 2: raspagem de preço e avaliações. Fase 3: business case.</p>
+</footer>
+</div>
+
+<div id="tip"></div>
+<script>
+(function(){
+  var tip=document.getElementById('tip');
+  document.querySelectorAll('.pt').forEach(function(g){
+    g.addEventListener('mouseenter',function(e){
+      tip.innerHTML='<b>'+g.dataset.n+'</b><br>Margem bruta: '+g.dataset.mb+'%<br>Concorrentes Tier A: '+g.dataset.c+'<br>Lucro bruto: R$ '+g.dataset.lb+' M';
+      tip.style.opacity=1;
+    });
+    g.addEventListener('mousemove',function(e){
+      var x=e.clientX+14, y=e.clientY+14;
+      if(x>window.innerWidth-250) x=e.clientX-244;
+      if(y>window.innerHeight-90) y=e.clientY-86;
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+    });
+    g.addEventListener('mouseleave',function(){tip.style.opacity=0});
+  });
+})();
+</script>
