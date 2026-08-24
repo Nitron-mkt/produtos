@@ -1,0 +1,636 @@
+﻿REFERENCIA;EAN;CATEGORIA;LAYOUT;PORQUE ESTE LAYOUT;NOME NA ORIGEM;NOME PT PROPOSTO;CARACTERES;LIMITE;ABREVIATURAS APLICADAS;SELOS COM EVIDENCIA NO TEXTO;SELOS CORTADOS PELO LIMITE;APLICACOES CORTADAS;ALERTAS
+002.036.002;7896779601813;Cozinha;1;face 13 cm2;Tábua Popular - Branca (018/B);Tábua Popular;13;28;;;LAV;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+003.006.002;7896779610433;Organização;4;categoria Organização;Gaveteiro com 3 Gavetas - Branca (004/3B);Gaveteiro com 3 Gavetas;23;44;;;;;SEM CAPACIDADE
+003.006.003;7896779620432;Organização;4;categoria Organização;Gaveteiro com 3 Gavetas - Preta (004/3P);Gaveteiro com 3 Gavetas;23;44;;;;;SEM CAPACIDADE
+003.006.012;7896779604371;Organização;4;categoria Organização;Gaveteiro com 3 Gavetas - Rosa;Gaveteiro com 3 Gavetas;23;44;;;;;SEM CAPACIDADE
+004.006.002;7896779620449;Organização;4;categoria Organização;Gaveteiro com 4 Gavetas - Branca (004/4B);Gaveteiro com 4 Gavetas;23;44;;;;;SEM CAPACIDADE
+004.006.003;7896779620456;Organização;4;categoria Organização;Gaveteiro com 4 Gavetas - Preta (004/4P);Gaveteiro com 4 Gavetas;23;44;;;;;SEM CAPACIDADE
+004.006.012;7896779604418;Organização;4;categoria Organização;Gaveteiro com 4 Gavetas - Rosa;Gaveteiro com 4 Gavetas;23;44;;;;;SEM CAPACIDADE
+006.030.998;7896779606207;Infantil;1;capacidade 250 ml;Copo Baby com Tampa - Cachorro/Panda 250 ml;Copo Baby c/ Tampa - Cachorro/Panda;35;28;com>c/;;LAV;;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (35>28) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+006.030.999;7896779600069;Infantil;1;capacidade 250 ml;Copo Baby com Tampa - Sortido 250 ml (006);Copo Baby com Tampa;19;28;;;LAV;;DIMENSAO E DIAMETRO
+008.012.002;7896779600823;Limpeza;3;face 518 cm2;Porta Sabão em Pó com Dosador - Branco 2 Kg;Porta Sabão em Pó com Dosador;29;40;;HIG;;;
+008.012.003;7896779600854;Limpeza;3;face 518 cm2;Porta Sabão em Pó com Dosador - Preto 2 Kg;Porta Sabão em Pó com Dosador;29;40;;HIG;;;
+010.001.003;7896779600021;Organização;4;categoria Organização;Caixa Expositora com 40 kits de 10 Cabides;Caixa Expositora com 40 kits de 10 Cabides;42;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+010.010.003;7896779600038;Organização;4;categoria Organização;Cabide com 10 Peças - Preto;Cabide com 10 Peças;19;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+010.012.001;7896779611058;Organização;4;categoria Organização;Cabide com 3 Peças - Transparente;Cabide com 3 Peças;18;44;;TRP;;;SEM CAPACIDADE
+011.036.001;7896779600113;Organização;4;categoria Organização;Organiza Tudo com 7 Divisórias (011);Organiza Tudo com 7 Divisórias;30;44;;HER;;;SEM CAPACIDADE
+012.012.016;7896779612222;Limpeza;2;face 200 cm2;Porta Sabão em Pó 600 g;Porta Sabão em Pó;17;34;;;;;
+013.050.003;7896779601387;Organização;4;categoria Organização;Suporte para Botijão - Preto;Suporte para Botijão;20;44;;;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+013.050.004;7896779600137;Organização;4;categoria Organização;Suporte para Botijão - Areia (013);Suporte para Botijão;20;44;;;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+015.012.002;7896779601547;Cozinha;2;capacidade 420 ml;Ralador Pratic com Pote - Branco 420ml;Ralador Pratic com Pote;23;34;;;;;
+015.012.003;7896779601554;Cozinha;2;capacidade 420 ml;Ralador Pratic com Pote - Preto 420ml;Ralador Pratic com Pote;23;34;;HIG;HIG;;
+016.012.002;7896779601677;Cozinha;3;face 324 cm2;Escorredor de Talheres Max - Branco (016/B);Escorredor de Talheres Max;26;40;;BPA,HIG;;;SEM CAPACIDADE
+016.012.003;7896779601684;Cozinha;3;face 324 cm2;Escorredor de Talheres Max - Preto;Escorredor de Talheres Max;26;40;;BPA,HIG;;;SEM CAPACIDADE
+016.012.086;7896779668656;Cozinha;3;face 324 cm2;Escorredor de Talheres Max - Chumbo (016/B);Escorredor de Talheres Max;26;40;;BPA,FCL;;;SEM CAPACIDADE
+017.024.999;7896779600175;Limpeza;3;face 328 cm2;Pá de Lixo Inova (017);Pá de Lixo Inova;16;40;;HIG;;;SEM CAPACIDADE
+018.012.002;7896779600182;Cozinha;1;face 8 cm2;Tábua Multiuso - Branca;Tábua Multiuso;14;28;;BPA;LAV;;SEM CAPACIDADE
+019.024.001;7896779600199;Organização;4;categoria Organização;Organiza Tudo com 10 Divisórias (019);Organiza Tudo com 10 Divisórias;31;44;;BPA;;;SEM CAPACIDADE
+020.024.001;7896779620005;Micro-ondas;3;capacidade 1900 ml;Forma de Pudim para Micro-ondas 1,9L (020);Forma de Pudim para Micro-ondas;31;40;;MIC;;;
+023.030.002;7896779600236;Cozinha;2;face 200 cm2;Ralador com 4 Faces (023);Ralador com 4 Faces;19;34;;BPA,HIG,FCL;HIG,FCL;;SEM CAPACIDADE
+024.012.002;7896779624102;Limpeza;3;face 362 cm2;Cestinho para Prendedor Floral - Branco;Cestinho para Prendedor Floral;30;40;;;;;SEM CAPACIDADE
+024.012.003;7896779624119;Limpeza;3;face 362 cm2;Cestinho para Prendedor Floral - Preto;Cestinho para Prendedor Floral;30;40;;;;;SEM CAPACIDADE
+027.012.001;7896779602711;Potes;3;capacidade 2700 ml;Porta Pão Armazena e Conserva - 2,7L (027);Porta Pão Armazena e Conserva;29;40;;ATX,BPA,HIG,FCL;FCL;MASS,BISC,TEMP;
+028.012.002;7896779602841;Cozinha;3;face 448 cm2;Escorredor de Arroz Tradicional - Branco;Escorredor de Arroz Tradicional;31;40;;HIG;;;SEM CAPACIDADE
+028.012.003;7896779602827;Cozinha;3;face 448 cm2;Escorredor de Arroz Tradicional - Preto;Escorredor de Arroz Tradicional;31;40;;HIG;;;SEM CAPACIDADE
+030.012.001;7896779607143;Potes;3;capacidade 1100 ml;Pote Monterey com 3 Divisórias - Transparente 1,1L (0307.012.001);Pote Monterey com 3 Divisórias;30;40;;BPA,TRP;;BISC,TEMP;
+030.012.003;7896779603046;Potes;3;capacidade 1100 ml;Pote Monterey com 3 Divisórias - Preto 1,1L;Pote Monterey com 3 Divisórias;30;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+032.012.002;7896779621248;Jarras;3;capacidade 2000 ml;Jarra com Tampa - Branco 2L;Jarra com Tampa;15;40;;HIG;;;
+032.012.547;7896779603244;Jarras;3;capacidade 2000 ml;Jarra com Tampa - Vermelho 2L;Jarra com Tampa;15;40;;FCL;;;
+033.012.002;7896779603329;Jarras;3;capacidade 2000 ml;Jarra com Espremedor - Branco 2L;Jarra com Espremedor;20;40;;BPA;;;
+033.012.547;7896779603336;Jarras;3;capacidade 2000 ml;Jarra com Espremedor - Vermelho 2L;Jarra com Espremedor;20;40;;BPA;;;
+034.012.001;7896779634149;Potes;2;capacidade 1000 ml;Pote Monaco com 3 Divisórias - Transparente 1L;Pote Monaco com 3 Divisórias;28;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+034.012.003;7896779603442;Potes;2;capacidade 1000 ml;Pote Monaco com 3 Divisórias - Preto 1L;Pote Monaco com 3 Divisórias;28;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+039.012.002;7896779603947;Cozinha;3;face 346 cm2;Escorredor Básico com Cabo - Branco;Escorredor Básico com Cabo;26;40;;HIG;;;SEM CAPACIDADE
+039.012.003;7896779603916;Cozinha;3;face 346 cm2;Escorredor Básico com Cabo - Preto;Escorredor Básico com Cabo;26;40;;HIG;;;SEM CAPACIDADE
+041.012.002;7896779604142;Organização;4;categoria Organização;Organizador Multiuso Rattan com 3 Divisórias - Branco (041/B);Organizador Multiuso Rattan com 3 Divisórias;44;44;;;;;SEM CAPACIDADE
+041.012.003;7896779604111;Organização;4;categoria Organização;Organizador Multiuso Rattan com 3 Divisórias - Preto (041/P);Organizador Multiuso Rattan com 3 Divisórias;44;44;;;;;SEM CAPACIDADE
+041.012.086;7896779641208;Organização;4;categoria Organização;Organizador Multiuso Rattan com 3 Divisórias - Chumbo;Organizador Multiuso Rattan com 3 Divisórias;44;44;;;;;SEM CAPACIDADE
+043.012.002;7896779604333;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Branca 1,4L (043/M);Frasqueira Medicamentos;23;44;;HIG;;;
+043.012.009;7896779604388;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Vermelha 1,4L;Frasqueira Medicamentos;23;44;;HIG;;;
+044.012.005;7896779600441;Cozinha;2;face 240 cm2;Porta Filtro para Café;Porta Filtro para Café;22;34;;BPA;;;SEM CAPACIDADE
+045.012.001;7896779604517;Micro-ondas;3;capacidade 1900 ml;Forma de Pudim para Micro-ondas com Tampa 1,9L (045);Forma de Pudim para Microondas com Tampa;40;40;Micro-ondas>Microondas;MIC,FCL;;;
+046.012.002;7896779660100;Cozinha;2;face 194 cm2;Porta Óleo Itália - Branco;Porta Óleo Itália;17;34;;;;;SEM CAPACIDADE
+046.012.003;7896779646012;Cozinha;2;face 194 cm2;Porta Óleo Itália - Preto;Porta Óleo Itália;17;34;;;;;SEM CAPACIDADE
+047.012.002;7896779630479;Organização;4;categoria Organização;Cesto Organizador Vime - Branco 7L (047/B);Cesto Organizador Vime;22;44;;BPA;;;
+047.012.003;7896779640478;Organização;4;categoria Organização;Cesto Organizador Vime - Preto 7L (047/P);Cesto Organizador Vime;22;44;;BPA;;;
+050.012.001;7896779605019;Potes;3;capacidade 1100 ml;Pote Premier com 4 Divisórias - Transparente 1,1L;Pote Premier com 4 Divisórias;29;40;;TRP;;BISC,TEMP;DIMENSAO E DIAMETRO
+050.012.003;7896779605095;Potes;3;capacidade 1100 ml;Pote Premier com 4 Divisórias - Preto 1,1L;Pote Premier com 4 Divisórias;29;40;;;;BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+051.012.002;7896779605149;Cozinha;2;face 182 cm2;Porta Detergente 3 em 1 - Branco (051/B);Porta Detergente 3 em 1;23;34;;BPA;;;SEM CAPACIDADE
+051.012.003;7896779605118;Cozinha;2;face 182 cm2;Porta Detergente 3 em 1 - Preto;Porta Detergente 3 em 1;23;34;;BPA,FCL;FCL;TEMP;SEM CAPACIDADE
+051.012.086;7896779618668;Cozinha;2;face 182 cm2;Porta Detergente 3 em 1 - Chumbo (051/B);Porta Detergente 3 em 1;23;34;;BPA,HIG;HIG;;SEM CAPACIDADE
+052.006.002;7896779605248;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Pedal - Branca 6L (052/B);Lixeira Rattan com Pedal;24;40;;PED,ATX,HIG,FCL;;;
+052.006.003;7896779650521;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Pedal - Preta 6L (052/B);Lixeira Rattan com Pedal;24;40;;PED,HIG,FCL;;;
+052.006.086;7896779605231;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Pedal - Chumbo 6L (052/B);Lixeira Rattan com Pedal;24;40;;PED,HIG,FCL;;;
+053.004.002;7896779605347;Organização;4;categoria Organização;Prateleira Multi uso com 4 Andares - Branca (053/B);Prateleira Multi uso com 4 Andares;34;44;;;;;SEM CAPACIDADE
+053.004.003;7896779650538;Organização;4;categoria Organização;Prateleira Multi uso com 4 Andares - Preta (053/P);Prateleira Multi uso com 4 Andares;34;44;;;;;SEM CAPACIDADE
+054.004.001;7896779600540;Limpeza;3;capacidade 47000 ml;Cesto de Roupas 47L (054);Cesto de Roupas;15;40;;BPA;;;
+054.004.003;7896779605422;Limpeza;3;capacidade 47000 ml;Cesto de Roupas 47L (054);Cesto de Roupas;15;40;;;;;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+055.012.002;7896779655106;Cozinha;3;face 494 cm2;Escorredor Multiúso - Branco;Escorredor Multiúso;19;40;;MIC,FRZ,BPA;;;SEM CAPACIDADE
+055.012.003;7896779605514;Cozinha;3;face 494 cm2;Escorredor Multiúso - Preto;Escorredor Multiúso;19;40;;MIC,FRZ,BPA;;;SEM CAPACIDADE
+056.012.002;7896779605644;Cozinha;3;face 443 cm2;Escorredor Luxo com Cabo - Branco;Escorredor Luxo com Cabo;24;40;;FCL;;;SEM CAPACIDADE
+056.012.003;7896779605613;Cozinha;3;face 443 cm2;Escorredor Luxo com Cabo - Preto;Escorredor Luxo com Cabo;24;40;;HIG;;;SEM CAPACIDADE
+059.012.002;7896779605941;Cozinha;3;face 401 cm2;Escorredor de Pratos - Branco (059/B);Escorredor de Pratos;20;40;;BPA,FCL;;;SEM CAPACIDADE
+059.012.003;7896779605910;Cozinha;3;face 401 cm2;Escorredor de Pratos - Preto (059/B);Escorredor de Pratos;20;40;;BPA,FCL;;;SEM CAPACIDADE
+059.012.086;7896779659180;Cozinha;3;face 401 cm2;Escorredor de Pratos - Chumbo (059/B);Escorredor de Pratos;20;40;;BPA,FCL;;;SEM CAPACIDADE
+060.012.002;7896779660216;Cozinha;2;face 162 cm2;Porta Talheres Paris com 4 Divisórias e Tampa - Branco;Porta Talher. Paris c/ 4 Div. e Tampa;37;34;"Divisórias>Div.; com>c/; Talheres>Talher.";BPA;;;SEM CAPACIDADE | NOME PT EXCEDE LIMITE (37>34)
+060.012.003;7896779660919;Cozinha;2;face 162 cm2;Porta Talheres Paris com 4 Divisórias e Tampa - Preto;Porta Talher. Paris c/ 4 Div. e Tampa;37;34;"Divisórias>Div.; com>c/; Talheres>Talher.";BPA;;;SEM CAPACIDADE | NOME PT EXCEDE LIMITE (37>34)
+062.012.002;7896779606245;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Branca 4L;Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+062.012.003;7896779650620;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Preta 4L;Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+062.012.086;7896779628636;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Chumbo 4L;Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+064.012.002;7896779606429;Jarras;3;capacidade 2000 ml;Jarra com Tubo para Gelo - Branco 2L;Jarra com Tubo para Gelo;24;40;;FRZ,LAV,BPA;;;
+064.012.547;7896779664122;Jarras;3;capacidade 2000 ml;Jarra com Tubo para Gelo - Vermelho 2L;Jarra com Tubo para Gelo;24;40;;FRZ,LAV,BPA,HIG;;;
+065.012.002;7896779660650;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Branca 2L (065/B);Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+065.012.003;7896779670659;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Preta 2L (065/P);Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+065.012.086;7896779665204;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Chumbo 2L;Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+067.012.002;7896779606764;Cozinha;2;face 192 cm2;Saleiro - Transparente e Branco;Saleiro;7;34;;TBA,BPA,HIG,FCL,TRP;TBA,HIG,FCL,TRP;;
+067.012.003;7896779606726;Cozinha;2;face 192 cm2;Saleiro - Transparente e Preto;Saleiro;7;34;;TBA,BPA,HIG,FCL,TRP;TBA,HIG,FCL,TRP;;
+068.012.002;7896779606849;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Branca 8L (068/B);Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+068.012.003;7896779650682;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Preta 8L (068/P);Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+068.012.086;7896779668212;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Chumbo 8L;Caixa Organizadora Rattan com Tampa;35;44;;EMP;;;
+069.006.002;7896779603695;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Branca 16L (069/B);Caixa Organizadora Rattan com Tampa;35;44;;BPA;;;
+069.006.003;7896779607693;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Preta 16L (069/P);Caixa Organizadora Rattan com Tampa;35;44;;EMP,HIG;;;
+069.006.086;7896779606948;Organização;4;categoria Organização;Caixa Organizadora Rattan com Tampa - Chumbo 16L;Caixa Organizadora Rattan com Tampa;35;44;;;;;
+070.006.002;7896779607044;Cozinha;3;face 505 cm2;Escorredor Luxo - Branco;Escorredor Luxo;15;40;;BPA;;;SEM CAPACIDADE
+070.006.003;7896779607013;Cozinha;3;face 505 cm2;Escorredor Luxo - Preto;Escorredor Luxo;15;40;;BPA;;;SEM CAPACIDADE
+075.024.001;7896779600755;Potes;2;capacidade 600 ml;Sanduicheira Pratic - 600ml (075);Sanduicheira Pratic;19;34;;;EMP;FARI,MASS,BISC,TEMP;
+076.024.001;7896779607617;Banheiro;1;face 45 cm2;Saboneteira com Tampa - Transparente;Saboneteira com Tampa;21;28;;TRP;TRP,RCL;;SEM CAPACIDADE
+076.024.066;7896779607631;Banheiro;1;face 45 cm2;Saboneteira com Tampa - Fumê;Saboneteira com Tampa;21;28;;;RCL;;SEM CAPACIDADE
+077.012.002;7896779607747;Cozinha;3;face 267 cm2;Escorredor Ideal - Branco;Escorredor Ideal;16;40;;;;;SEM CAPACIDADE
+077.012.003;7896779607723;Cozinha;3;face 267 cm2;Escorredor Ideal - Preto;Escorredor Ideal;16;40;;;;;SEM CAPACIDADE
+078.036.001;7896779600786;Cozinha;2;face 108 cm2;Forma de Gelo Firenze (078);Forma de Gelo Firenze;21;34;;;;;SEM CAPACIDADE
+079.012.002;7896779607976;Banheiro;3;face 673 cm2;Porta Shampoo e Prateleira Madri - Branco (079/B);Porta Shampoo e Prateleira Madri;32;40;;BPA,FCL;;;SEM CAPACIDADE
+079.012.003;7896779607983;Banheiro;3;face 673 cm2;Porta Shampoo e Prateleira Madri - Preto (079/P);Porta Shampoo e Prateleira Madri;32;40;;BPA,HIG;;;SEM CAPACIDADE
+081.012.002;7896779608164;Cozinha;3;face 513 cm2;Porta Papel Toalha - Branco;Porta Papel Toalha;18;40;;;;;SEM CAPACIDADE
+081.012.003;7896779681105;Cozinha;3;face 513 cm2;Porta Papel Toalha - Preto;Porta Papel Toalha;18;40;;;;;SEM CAPACIDADE
+088.012.002;7896779608843;Jarras;3;capacidade 1600 ml;Jarra Estrela com Tampa - Branco 1,6L;Jarra Estrela com Tampa;23;40;;;;;
+088.012.547;7896779688159;Jarras;3;capacidade 1600 ml;Jarra Estrela com Tampa - Vermelho 1,6L;Jarra Estrela com Tampa;23;40;;;;;
+090.012.002;7896779609031;Cozinha;2;face 210 cm2;Saleiro Rubi - Transparente e Branco 1 Kg;Saleiro Rubi;12;34;;BPA,FCL,TRP;FCL,TRP;;
+090.012.003;7896779609055;Cozinha;2;face 210 cm2;Saleiro Rubi - Transparente e Preto 1 Kg;Saleiro Rubi;12;34;;TRP;TRP;;
+091.012.002;7896779609147;Lixeiras;3;categoria Lixeiras;Lixeira Verona - Branca 4L (091/B);Lixeira Verona;14;40;;HIG;;;
+091.012.003;7896779609178;Lixeiras;3;categoria Lixeiras;Lixeira Verona - Preta 4L;Lixeira Verona;14;40;;HIG;;;
+092.012.002;7896779609215;Banheiro;2;face 102 cm2;Saboneteira de Parede com Ventosa - Branco;Saboneteira de Parede com Ventosa;33;34;;;;;SEM CAPACIDADE
+092.012.003;7896779609222;Banheiro;2;face 102 cm2;Saboneteira de Parede com Ventosa - Preto;Saboneteira de Parede com Ventosa;33;34;;;;;SEM CAPACIDADE
+093.012.002;7896779609345;Organização;4;categoria Organização;Cestinho Versátil - Branco 4,2L (093/B);Cestinho Versátil;17;44;;HIG;;;
+093.012.003;7896779609314;Organização;4;categoria Organização;Cestinho Versátil - Preto 4,2L (093/P);Cestinho Versátil;17;44;;HIG;;;
+094.012.002;7896779609420;Cozinha;1;capacidade 350 ml;Açucareiro Doçura - Branco;Açucareiro Doçura;17;28;;;LAV;TEMP;
+094.012.003;7896779609444;Cozinha;1;capacidade 350 ml;Açucareiro Doçura - Preto;Açucareiro Doçura;17;28;;;LAV;TEMP;
+095.012.002;7896779609574;Banheiro;3;face 830 cm2;Cantoneira para Banheiro Premium - Branco (095/B);Cantoneira para Banheiro Premium;32;40;;ATX,HIG;;;SEM CAPACIDADE
+095.012.003;7896779609512;Banheiro;3;face 830 cm2;Cantoneira para Banheiro Premium- Preto (095/P);Cantoneira para Banheiro Premium;32;40;;;;;SEM CAPACIDADE
+096.012.002;7896779609642;Cozinha;3;face 330 cm2;Escorredor de Pratos Rattan - Branco (096/B);Escorredor de Pratos Rattan;27;40;;FCL;;;SEM CAPACIDADE
+096.012.003;7896779610969;Cozinha;3;face 330 cm2;Escorredor de Pratos Rattan - Preto (096/P);Escorredor de Pratos Rattan;27;40;;;;;SEM CAPACIDADE
+096.012.086;7896779696208;Cozinha;3;face 330 cm2;Escorredor de Pratos Rattan - Chumbo (096/B);Escorredor de Pratos Rattan;27;40;;;;;SEM CAPACIDADE
+097.012.001;7896779600977;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 10L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+098.012.999;7896779609840;Limpeza;3;capacidade 8000 ml;Balde Limpex - Sortido 8L;Balde Limpex;12;40;;;;;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+100.006.002;7896779610075;Lixeiras;3;categoria Lixeiras;Lixeira com Pedal - Branca 7L (100/B);Lixeira com Pedal;17;40;;PED,RCL,HIG;;;
+100.006.003;7896779600328;Lixeiras;3;categoria Lixeiras;Lixeira com Pedal - Preta 7L;Lixeira com Pedal;17;40;;PED,RCL,HIG;;;
+103.024.003;7896779610310;Potes;2;capacidade 780 ml;Marmibox com Divisória para Talheres - Preto 780ml;Marmibox com Div. para Talheres;31;34;Divisória>Div.;MIC,FRZ,HER;FRZ,HER,LAV,EMP;FARI,MASS,BISC,TEMP;
+105.024.003;7896779610518;Potes;2;capacidade 800 ml;Marmita Bom Apetite com Bandeija e Válvula - Preto 800ml;Marmita Bom Apetite c/ Bandeija e Válvula;41;34;com>c/;VLV;LAV,EMP;CAFE,ACUC,FARI,MASS,BISC,TEMP;NOME PT EXCEDE LIMITE (41>34)
+106.012.001;7896779601066;Organização;4;categoria Organização;Organiza Tudo com 16 Divisórias (106);Organiza Tudo com 16 Divisórias;31;44;;;;;SEM CAPACIDADE
+109.012.001;7896779601097;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 6L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+110.006.001;7896779601103;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 20L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+111.012.002;7896779611270;Jarras;2;capacidade 510 ml;Espremedor Portátil Fit - Branco 510ml;Espremedor Portátil Fit;23;34;;;;;
+111.012.549;7896779611133;Jarras;2;capacidade 510 ml;Espremedor Portátil Fit - Vermelho 510ml;Espremedor Portátil Fit;23;34;;;;;
+112.012.002;7896779612208;Jarras;2;capacidade 500 ml;Copo Medidor com Tampa - Branco 500ml;Copo Medidor com Tampa;22;34;;;;;
+112.012.547;7896779612147;Jarras;2;capacidade 500 ml;Copo Medidor com Tampa - Vermelho 500ml;Copo Medidor com Tampa;22;34;;;;;
+113.012.002;7896779611362;Limpeza;2;face 161 cm2;Tanquinho Porta Sabão em Barra - Branco;Tanquinho Porta Sabão em Barra;30;34;;HIG;RCL;;SEM CAPACIDADE
+113.012.003;7896779613106;Limpeza;2;face 161 cm2;Tanquinho Porta Sabão em Barra - Preto;Tanquinho Porta Sabão em Barra;30;34;;BPA;RCL;;SEM CAPACIDADE
+114.012.002;7896779611447;Jarras;2;capacidade 500 ml;Jarrinha com Espremedor - Branco 500ml;Jarrinha com Espremedor;23;34;;;;;
+114.012.547;7896779611416;Jarras;2;capacidade 500 ml;Jarrinha com Espremedor - Vermelho 500ml;Jarrinha com Espremedor;23;34;;;;;
+116.012.002;7896779611645;Cozinha;2;face 150 cm2;Porta Detergente com Telinha - Branco (116/B);Porta Detergente com Telinha;28;34;;BPA,HIG;HIG;;SEM CAPACIDADE
+116.012.003;7896779611676;Cozinha;2;face 150 cm2;Porta Detergente com Telinha - Preto;Porta Detergente com Telinha;28;34;;BPA,FCL;FCL;;SEM CAPACIDADE
+116.012.086;7896779668663;Cozinha;2;face 150 cm2;Porta Detergente com Telinha - Chumbo (116/B);Porta Detergente com Telinha;28;34;;BPA,HIG;HIG;;SEM CAPACIDADE
+117.012.002;7896779601172;Cozinha;1;face 20 cm2;Tábua Extra Grande - Branca (117);Tábua Extra Grande;18;28;;;LAV;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+120.006.001;7896779612086;Frasqueiras;4;categoria Frasqueiras;Frasqueira com Bandeja - Rosa 2,8L;Frasqueira com Bandeja;22;44;;;;;SEM DESCRICAO NA ORIGEM
+120.006.012;7896779612024;Frasqueiras;4;categoria Frasqueiras;Frasqueira com Bandeja - Rosa 2,8L;Frasqueira com Bandeja;22;44;;;;;
+121.012.002;7896779621057;Cozinha;3;face 373 cm2;Escorredor de Arroz Caribe - Branco;Escorredor de Arroz Caribe;26;40;;HIG;;;SEM CAPACIDADE
+121.012.003;7896779610068;Cozinha;3;face 373 cm2;Escorredor de Arroz Caribe - Preto;Escorredor de Arroz Caribe;26;40;;HIG;;;SEM CAPACIDADE
+122.012.002;7896779626618;Banheiro;2;face 232 cm2;Porta Escovas com Tampa - Branco;Porta Escovas com Tampa;23;34;;;;;SEM CAPACIDADE
+122.012.003;7896779622726;Banheiro;2;face 232 cm2;Porta Escovas com Tampa - Preto;Porta Escovas com Tampa;23;34;;BPA,HIG;RCL;;SEM CAPACIDADE
+122.012.066;7896779626625;Banheiro;2;face 232 cm2;Porta Escovas com Tampa - Fumê;Porta Escovas com Tampa;23;34;;;;;SEM CAPACIDADE
+123.012.027;7896779612338;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Amarela 2,2L;Caixa de Ferramentas Nitronfort;31;44;;;;;
+123.012.028;7896779612345;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Laranja 2,2L;Caixa de Ferramentas Nitronfort;31;44;;;;;
+123.012.045;7896779612314;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Azul 2,2L;Caixa de Ferramentas Nitronfort;31;44;;;;;
+124.012.003;7896779612451;Potes;2;capacidade 780 ml;Kit Marmita com Talheres - Preto 780ml;Kit Marmita com Talheres;24;34;;;EMP;ACUC,FARI,MASS,BISC,TEMP;
+125.012.001;7896779601257;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 4,3L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+126.006.001;7896779612697;Frasqueiras;4;categoria Frasqueiras;Frasqueira com Bandeja - Rosa 6,2L;Frasqueira com Bandeja;22;44;;;;;SEM DESCRICAO NA ORIGEM
+126.006.619;7896779612635;Frasqueiras;4;categoria Frasqueiras;Frasqueira com Bandeja - Rosa 6,2L;Frasqueira com Bandeja;22;44;;;;;
+128.012.002;7896779612826;Limpeza;3;face 264 cm2;Cestinho para Prendedor - Branco;Cestinho para Prendedor;23;40;;;;;SEM CAPACIDADE
+128.012.003;7896779612833;Limpeza;3;face 264 cm2;Cestinho para Prendedor - Preto;Cestinho para Prendedor;23;40;;;;;SEM CAPACIDADE
+129.012.002;7896779612949;Cozinha;2;face 126 cm2;Porta Talheres Stillo com 4 Divisórias - Branco;Porta Talheres Stillo com 4 Div.;32;34;Divisórias>Div.;;;;SEM CAPACIDADE
+129.012.003;7896779612918;Cozinha;2;face 126 cm2;Porta Talheres Stillo com 4 Divisórias - Preto;Porta Talheres Stillo com 4 Div.;32;34;Divisórias>Div.;;;;SEM CAPACIDADE
+130.012.002;7896779613045;Lixeiras;3;categoria Lixeiras;Lixeira Retrátil - Branca 4L (130/B);Lixeira Retrátil;16;40;;BPA,HIG;;;
+130.012.003;7896779613083;Lixeiras;3;categoria Lixeiras;Lixeira Retrátil - Preta 4L;Lixeira Retrátil;16;40;;BPA,HIG;;;
+131.012.002;7896779631018;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamento - Branca 2,2L;Frasqueira Medicamento;22;44;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+131.012.009;7896779631025;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamento - Vermelha 2,2L;Frasqueira Medicamento;22;44;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+132.036.683;7896779601325;Cozinha;1;face 61 cm2;Prato Unitário (132);Prato Unitário;14;28;;;LAV;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+133.012.002;7896779613342;Cozinha;2;face 138 cm2;Porta Detergente Rattan com Base - Branco (133/B);Porta Detergente Rattan com Base;32;34;;;;;SEM CAPACIDADE
+133.012.003;7896779641338;Cozinha;2;face 138 cm2;Porta Detergente Rattan com Base - Preto (133/B);Porta Detergente Rattan com Base;32;34;;FCL;FCL;TEMP;SEM CAPACIDADE
+133.012.086;7896779633203;Cozinha;2;face 138 cm2;Porta Detergente Rattan com Base - Chumbo (133/B);Porta Detergente Rattan com Base;32;34;;FCL;FCL;TEMP;SEM CAPACIDADE
+134.012.002;7896779613441;Lixeiras;3;categoria Lixeiras;Lixeira Basculante Rattan - Branca 4,5L (134/B);Lixeira Basculante Rattan;25;40;;TBA,BPA,HIG;;;
+134.012.003;7896779651344;Lixeiras;3;categoria Lixeiras;Lixeira Basculante Rattan - Preta 4,5L (134/B);Lixeira Basculante Rattan;25;40;;TBA,BPA,HIG;;;
+134.012.086;7896779634194;Lixeiras;3;categoria Lixeiras;Lixeira Basculante Rattan - Chumbo 4,5L (134/B);Lixeira Basculante Rattan;25;40;;TBA,BPA;;;
+135.024.001;7896779601356;Micro-ondas;2;face 173 cm2;Tampa para Micro-ondas - Transparente (135);Tampa para Micro-ondas;22;34;;MIC,LAV,HIG,TRP;LAV,HIG,TRP;;SEM CAPACIDADE
+136.024.001;7896779601363;Micro-ondas;3;capacidade 1500 ml;Travessa Micro-ondas com Tampa - Transparente 1,5L (136);Travessa Micro-ondas com Tampa;30;40;;MIC,TRP;;;
+137.012.002;7896779601370;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Branca 2,8L (137);Frasqueira Medicamentos;23;44;;;;;
+137.012.009;7896779613717;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Vermelha 2,8L;Frasqueira Medicamentos;23;44;;;;;
+138.012.001;7896779613809;Organização;4;categoria Organização;Organiza Tudo com 11 Divisórias (138);Organiza Tudo com 11 Divisórias;31;44;;BPA;;;SEM CAPACIDADE
+139.012.001;7896779639144;Potes;3;capacidade 1100 ml;Pote com 3 Divisórias - Transparente 1,1L;Pote com 3 Divisórias;21;40;;TRP;;BISC,TEMP;
+139.012.003;7896779613977;Potes;3;capacidade 1100 ml;Pote com 3 Divisórias - Preto 1,1L;Pote com 3 Divisórias;21;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+140.012.001;7896779614042;Organização;4;categoria Organização;Estojo Multi uso - Transparente;Estojo Multi uso;16;44;;BPA,TRP;;;SEM CAPACIDADE
+140.012.066;7896779666140;Organização;4;categoria Organização;Estojo Multi uso - Fumê;Estojo Multi uso;16;44;;BPA;;;SEM CAPACIDADE
+142.006.002;7896779601424;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Branca 6,2L (142);Frasqueira Medicamentos;23;44;;;;;
+142.006.009;7896779614226;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos - Vermelha 6,2L;Frasqueira Medicamentos;23;44;;RCL,ATX;;;
+144.006.002;7896779614462;Cozinha;2;face 170 cm2;Porta Talheres com 6 Divisórias e Tampa - Branco;Porta Talheres com 6 Div. e Tampa;33;34;Divisórias>Div.;BPA,HIG;HIG;;SEM CAPACIDADE
+144.006.003;7896779614455;Cozinha;2;face 170 cm2;Porta Talheres com 6 Divisórias e Tampa - Preto;Porta Talheres com 6 Div. e Tampa;33;34;Divisórias>Div.;ATX,BPA;;;SEM CAPACIDADE
+146.024.001;7896779601462;Micro-ondas;2;face 108 cm2;Forma de Ovos e Omeleteira Micro-ondas (146);Forma de Ovos e Omelet. Microondas;34;34;"Micro-ondas>Microondas; Omeleteira>Omelet.";MIC;LAV;;SEM CAPACIDADE
+147.012.604;7896779614721;Frasqueiras;4;categoria Frasqueiras;Frasqueira Mini - Natural 1L;Frasqueira Mini;15;44;;HIG;;;
+147.012.607;7896779614738;Frasqueiras;4;categoria Frasqueiras;Frasqueira Mini - Rosa 1L;Frasqueira Mini;15;44;;;;;
+148.004.002;7896779648153;Lixeiras;3;categoria Lixeiras;Lixeira Basculante - Branca 14L;Lixeira Basculante;18;40;;TBA,RCL,ATX,HIG,FCL;;;
+148.004.003;7896779614868;Lixeiras;3;categoria Lixeiras;Lixeira Basculante - Preta 14L;Lixeira Basculante;18;40;;TBA,RCL,HIG;;;
+149.024.001;7896779601493;Micro-ondas;3;capacidade 2600 ml;Caçarola Legumix Micro-ondas - Transparente 2,6L (149);Caçarola Legumix Micro-ondas;28;40;;MIC,TRP;;;
+150.004.002;7896779615070;Lixeiras;3;categoria Lixeiras;Lixeira com Pedal - Branca 16L (150/B);Lixeira com Pedal;17;40;;PED,HIG;;;
+150.004.003;7896779650101;Lixeiras;3;categoria Lixeiras;Lixeira com Pedal - Preta 16L (150/B);Lixeira com Pedal;17;40;;PED,HIG;;;
+151.012.001;7896779651153;Potes;3;capacidade 4300 ml;Pote Alto com Travas - Transparente 4,3L;Pote Alto com Travas;20;40;;HER,BPA,FCL,TRP;FCL,TRP;BISC,TEMP;
+151.012.003;7896779651092;Potes;3;capacidade 4300 ml;Pote Alto com Travas - Preto 4,3L;Pote Alto com Travas;20;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+152.006.002;7896779615230;Potes;3;face 518 cm2;Kit Mantimentos com 5 Peças - Branco;Kit Mantimentos com 5 Peças;27;40;;;;BISC,TEMP;SEM CAPACIDADE
+152.006.003;7896779601523;Potes;3;face 518 cm2;Kit Mantimentos com 5 Peças - Preto (152);Kit Mantimentos com 5 Peças;27;40;;;;BISC,TEMP;SEM CAPACIDADE
+153.012.002;7896779615377;Jarras;3;capacidade 2000 ml;Jarra com Tampa Flip Top - Branco 2L;Jarra com Tampa Flip Top;24;40;;;;;
+153.012.546;7896779653157;Jarras;3;capacidade 2000 ml;Jarra com Tampa Flip Top - Vermelho 2L;Jarra com Tampa Flip Top;24;40;;;;;
+154.006.861;7896779686100;Coloratto;2;capacidade 460 ml;Kit Pote Alto Coloratto com 2 Peças - 460ml (286/K);Kit Pote Alto Coloratto com 2 Pçs;33;34;Peças>Pçs;HER,EMP,BPA,FCL;LAV,EMP,FCL;;
+154.012.001;7896779615414;Potes;2;capacidade 460 ml;Pote Alto com Travas - Transparente 460ml;Pote Alto com Travas;20;34;;HER,TRP;LAV,EMP,TRP;FARI,MASS,BISC,TEMP;
+154.012.003;7896779615490;Potes;2;capacidade 460 ml;Pote Alto com Travas - Preto 460ml;Pote Alto com Travas;20;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+155.006.861;7896779686131;Coloratto;2;capacidade 850 ml;Kit Pote Alto Coloratto com 2 Peças - 850 ml;Kit Pote Alto Coloratto com 2 Pçs;33;34;Peças>Pçs;LAV,BPA;EMP;;
+155.012.001;7896779655144;Potes;2;capacidade 850 ml;Pote Alto com Travas - Transparente 850ml;Pote Alto com Travas;20;34;;FRZ,HER,EMP,FCL,TRP;HER,LAV,EMP,FCL,TRP;ACUC,FARI,MASS,BISC;
+155.012.003;7896779615544;Potes;2;capacidade 850 ml;Pote Alto com Travas - Preto 850ml;Pote Alto com Travas;20;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+156.012.001;7896779656127;Potes;3;capacidade 2200 ml;Pote Alto com Travas - Transparente 2,2L;Pote Alto com Travas;20;40;;FRZ,HER,EMP,FCL,TRP;EMP,FCL,TRP;MASS,BISC;
+156.012.003;7896779615643;Potes;3;capacidade 2200 ml;Pote Alto com Travas - Preto 2,2L;Pote Alto com Travas;20;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+157.024.009;7896779615735;Potes;2;capacidade 850 ml;Pote Tomatinho com Travas - 850ml (157);Pote Tomatinho com Travas;25;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;
+158.024.029;7896779601585;Potes;2;capacidade 850 ml;Pote Feijão com Travas - 850ml (158);Pote Feijão com Travas;22;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;
+161.012.002;7896779616145;Organização;4;categoria Organização;Porta Tudo - Branco 1L (161/B);Porta Tudo;10;44;;;;;
+161.012.003;7896779616114;Organização;4;categoria Organização;Porta Tudo - Preto 1L (161/P);Porta Tudo;10;44;;;;;
+162.012.002;7896779616244;Organização;4;categoria Organização;Cesto com Alça - Branco 8,5L (162/P);Cesto com Alça;14;44;;HIG;;;
+162.012.003;7896779616213;Organização;4;categoria Organização;Cesto com Alça - Preto 8,5L (162/B);Cesto com Alça;14;44;;HIG;;;
+163.004.002;7896779641635;Lixeiras;3;categoria Lixeiras;Lixeira Vime - Branca 12L (163/B);Lixeira Vime;12;40;;PED,HIG;;;
+163.004.003;7896779651634;Lixeiras;3;categoria Lixeiras;Lixeira Vime - Preta 12L (163/B);Lixeira Vime;12;40;;PED,HIG;;;
+163.004.086;7896779663200;Lixeiras;3;categoria Lixeiras;Lixeira Vime - Chumbo 12L;Lixeira Vime;12;40;;PED,BPA,HIG;;;
+164.006.001;7896779616404;Organização;4;categoria Organização;Maleta Organiza Tudo com Divisórias Móveis (164);Maleta Organiza Tudo com Divisórias Móveis;42;44;;;;;SEM CAPACIDADE
+165.006.002;7896779616541;Cozinha;3;face 544 cm2;Escorredor de Pratos - Branco (165/B);Escorredor de Pratos;20;40;;;;;SEM CAPACIDADE
+165.006.003;7896779616510;Cozinha;3;face 544 cm2;Escorredor de Pratos - Preto;Escorredor de Pratos;20;40;;FCL;;;SEM CAPACIDADE
+165.006.086;7896779665198;Cozinha;3;face 544 cm2;Escorredor de Pratos - Chumbo (165/B);Escorredor de Pratos;20;40;;;;;SEM CAPACIDADE
+166.024.001;7896779616602;Potes;2;capacidade 650 ml;Porta Biscoitos e Terradas - 650ml (166);Porta Biscoitos e Terradas;26;34;;;EMP;ACUC,FARI,MASS,TEMP;
+167.010.003;7896779616756;Organização;4;categoria Organização;Cabide Still com 10 Peças - Preto;Cabide Still com 10 Peças;25;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+167.012.001;7896779616749;Organização;4;categoria Organização;Cabide Still com 3 Peças - Transparente;Cabide Still com 3 Peças;24;44;;TRP;;;SEM CAPACIDADE
+169.012.002;7896779616923;Cozinha;3;face 403 cm2;Boleira Barcelona com Alça - Branca;Boleira Barcelona com Alça;26;40;;;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+169.012.003;7896779616954;Cozinha;3;face 403 cm2;Boleira Barcelona com Alça - Preto;Boleira Barcelona com Alça;26;40;;;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+170.006.027;7896779617043;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Amarela 16L;Caixa de Ferramentas Nitronfort;31;44;;;;;
+170.006.028;7896779601707;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Laranja 16L (170);Caixa de Ferramentas Nitronfort;31;44;;;;;
+170.006.045;7896779670109;Organização;4;categoria Organização;Caixa de Ferramentas Nitronfort - Azul 16L;Caixa de Ferramentas Nitronfort;31;44;;;;;
+172.012.998;7896779617241;Limpeza;3;face 1638 cm2;Pá de Lixo com Cabo;Pá de Lixo com Cabo;19;40;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+172.012.999;7896779617203;Limpeza;3;face 1638 cm2;Pá de Lixo com Cabo (172);Pá de Lixo com Cabo;19;40;;;;;SEM CAPACIDADE
+173.012.002;7896779617340;Lixeiras;3;categoria Lixeiras;Lixeira Fenix - Branca 4,2L (173/B);Lixeira Fenix;13;40;;TBA,HIG;;;DIMENSAO E DIAMETRO
+173.012.003;7896779617357;Lixeiras;3;categoria Lixeiras;Lixeira Fenix - Preta 4,2L;Lixeira Fenix;13;40;;TBA,HIG,FCL;;;DIMENSAO E DIAMETRO
+176.024.001;7896779617609;Potes;2;capacidade 600 ml;Pote com Válvula e Travas - 600ml (176);Pote com Válvula e Travas;25;34;;VLV;LAV,EMP;FARI,MASS,BISC,TEMP;
+177.012.002;7896779617746;Organização;4;categoria Organização;Cesto com Alça - Branco 5L (177/B);Cesto com Alça;14;44;;;;;
+177.012.003;7896779617715;Organização;4;categoria Organização;Cesto com Alça - Preto 5L (177/P);Cesto com Alça;14;44;;;;;
+178.024.001;7896779617807;Micro-ondas;3;capacidade 1500 ml;Caçarola Micro-ondas - Transparente 1,5L (178);Caçarola Micro-ondas;20;40;;MIC,TRP;;;
+179.024.001;7896779617906;Cozinha;3;capacidade 1100 ml;Porta Frios com Pinça - 1,1L (179);Porta Frios com Pinça;21;40;;BPA,HIG;;;
+182.012.002;7896779618231;Jarras;3;capacidade 4000 ml;Jarra com Tampa Flip Top - Branco 4L;Jarra com Tampa Flip Top;24;40;;;;;
+182.012.546;7896779682157;Jarras;3;capacidade 4000 ml;Jarra com Tampa Flip Top - Vermelho 4L;Jarra com Tampa Flip Top;24;40;;;;;
+184.010.003;7896779618453;Organização;4;categoria Organização;Cabide com 10 Peças - Preto;Cabide com 10 Peças;19;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+184.016.001;7896779618446;Organização;4;categoria Organização;Cabide com 3 Peças - Transparente;Cabide com 3 Peças;18;44;;TRP;;;SEM CAPACIDADE
+185.012.002;7896779618545;Limpeza;2;face 170 cm2;Porta Vassouras com 9 Posições - Branco (185/B);Porta Vassouras com 9 Posições;30;34;;BPA;RCL;BANH;SEM CAPACIDADE
+185.012.003;7896779618514;Limpeza;2;face 170 cm2;Porta Vassouras com 9 Posições - Preto (185/P);Porta Vassouras com 9 Posições;30;34;;;;;SEM CAPACIDADE
+186.006.002;7896779618606;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos Mega Luxo - Branca 12L (186);Frasqueira Medicamentos Mega Luxo;33;44;;;;;
+186.006.009;7896779686940;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos Mega Luxo - Vermelha 12L;Frasqueira Medicamentos Mega Luxo;33;44;;BPA;;;
+187.006.001;7896779618705;Organização;4;categoria Organização;Organiza Tudo com Divisórias Móveis (187);Organiza Tudo com Divisórias Móveis;35;44;;;;;SEM CAPACIDADE
+188.012.002;7896779618842;Cozinha;3;face 378 cm2;Escorredor de Pratos Super Prático - Branco (188/B);Escorredor de Pratos Super Prático;34;40;;;;;SEM CAPACIDADE
+188.012.003;7896779618811;Cozinha;3;face 378 cm2;Escorredor de Pratos Super Prático - Preto (188/B);Escorredor de Pratos Super Prático;34;40;;;;;SEM CAPACIDADE
+188.012.086;7896779688203;Cozinha;3;face 378 cm2;Escorredor de Pratos Super Prático - Chumbo (188/B);Escorredor de Pratos Super Prático;34;40;;;;;SEM CAPACIDADE
+190.012.001;7896779619009;Potes;3;face 453 cm2;Kit Potes Altos com Travas e 3 Peças - Transparente (190);Kit Potes Altos com Travas e 3 Peças;36;40;;HER,TRP;TRP;BISC,TEMP;SEM CAPACIDADE
+190.012.003;7896779619092;Potes;3;face 453 cm2;Kit Potes Altos com Travas e 3 Peças - Preto;Kit Potes Altos com Travas e 3 Peças;36;40;;HER;;BISC,TEMP;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+191.012.001;7896779691142;Potes;2;capacidade 720 ml;Pote com 2 Divisórias - Transparente 720ml;Pote com 2 Divisórias;21;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+191.012.003;7896779691166;Potes;2;capacidade 720 ml;Pote com 2 Divisórias - Preto 720ml;Pote com 2 Divisórias;21;34;;;EMP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+193.024.001;7896779693153;Banheiro;1;face 45 cm2;Saboneteira com Telinha - Transparente;Saboneteira com Telinha;23;28;;HIG,TRP;TRP,RCL;;SEM CAPACIDADE
+193.024.066;7896779619320;Banheiro;1;face 45 cm2;Saboneteira com Telinha - Fumê;Saboneteira com Telinha;23;28;;HIG;RCL;;SEM CAPACIDADE
+194.012.009;7896779619405;Micro-ondas;3;capacidade 2600 ml;Caçarola Legumix Micro-ondas com Cesto - Transparente 2,6L (194);Caçarola Legumix Micro-ondas com Cesto;38;40;;MIC,ATX,BPA,TRP;;;
+195.006.012;7896779619535;Frasqueiras;4;categoria Frasqueiras;Frasqueira Cristal com Divisórias - Rosa 1,5L;Frasqueira Cristal com Divisórias;33;44;;HIG,FCL,TRP;;;
+195.006.609;7896779619511;Frasqueiras;4;categoria Frasqueiras;Frasqueira Cristal com Divisórias - Preto 1,5L;Frasqueira Cristal com Divisórias;33;44;;HIG,FCL,TRP;;;
+196.006.001;7896779696116;Potes;3;capacidade 7900 ml;Pote Premium - Transparente 7,9L;Pote Premium;12;40;;TRP;;BISC,TEMP;
+197.024.010;7896779619702;Potes;2;capacidade 600 ml;Marmita Due com Divisória Móvel - 600ml (197);Marmita Due com Divisória Móvel;31;34;;;EMP;ACUC,FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+198.012.001;7896779619849;Organização;4;categoria Organização;Estojo Super Prático - Transparente;Estojo Super Prático;20;44;;BPA,TRP;;;SEM CAPACIDADE
+198.012.066;7896779619856;Organização;4;categoria Organização;Estojo Super Prático - Fumê;Estojo Super Prático;20;44;;BPA;;;SEM CAPACIDADE
+199.006.001;7896779619900;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 27L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+200.004.001;7896779692002;Organização;4;categoria Organização;Caixa Organizadora Nitronbox - Transparente 50L;Caixa Organizadora Nitronbox;28;44;;TRP;;;
+202.006.001;7896779620296;Frasqueiras;4;categoria Frasqueiras;Frasqueira Oval com Bandeja - Rosa;Frasqueira Oval com Bandeja;27;44;;;;;SEM DESCRICAO NA ORIGEM
+202.006.002;7896779620234;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos Oval com Bandeja - Branca 4,4L;Frasqueira Medicamentos Oval com Bandeja;40;44;;;;;
+202.006.009;7896779620241;Frasqueiras;4;categoria Frasqueiras;Frasqueira Medicamentos Oval com Bandeja - Vermelha 4,4L;Frasqueira Medicamentos Oval com Bandeja;40;44;;;;;
+202.006.012;7896779620227;Frasqueiras;4;categoria Frasqueiras;Frasqueira Oval com Bandeja - Rosa;Frasqueira Oval com Bandeja;27;44;;;;;
+203.006.003;7896779620326;Potes;3;capacidade 4000 ml;Pote Ultraforte com Tela e Travas - Preto 4L;Pote Ultraforte com Tela e Travas;33;40;;;;BISC,TEMP;
+205.006.861;7896779685127;Coloratto;2;capacidade 450 ml;Kit Pote Fit Coloratto com 2 Peças - 450ml (285/K);Kit Pote Fit Coloratto com 2 Peças;34;34;;;EMP;;
+205.006.862;7896779629039;Coloratto;2;capacidade 450 ml;Kit Pote Fit Coloratto com 3 Peças - 450ml (290/K);Kit Pote Fit Coloratto com 3 Peças;34;34;;;EMP;;
+205.006.P01;7896779650057;POP;2;capacidade 450 ml;Kit POP com 6 Potes Fits - Transparente 450ml;Kit POP com 6 Potes Fits;24;34;;TRP;EMP,TRP;FARI,MASS;SEM DESCRICAO NA ORIGEM
+205.012.001;7896779620517;Potes;2;capacidade 450 ml;Pote Retangular Fit - Transparente 450ml;Pote Retangular Fit;19;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+205.012.003;7896779620593;Potes;2;capacidade 450 ml;Pote Retangular Fit - Preto 450ml;Pote Retangular Fit;19;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+207.012.002;7896779620746;Jarras;2;capacidade 850 ml;Jarra Medidora Top Mix - Branco 850ml;Jarra Medidora Top Mix;22;34;;;;;
+207.012.547;7896779620715;Jarras;2;capacidade 850 ml;Jarra Medidora Top Mix - Vermelho 850ml;Jarra Medidora Top Mix;22;34;;;;;
+207.024.001;7896779602070;Jarras;2;capacidade 850 ml;Jarra Medidora Top Mix - Transparente 850ml;Jarra Medidora Top Mix;22;34;;TRP;TRP;;SEM DESCRICAO NA ORIGEM
+209.012.003;7896779620913;Potes;2;capacidade 715 ml;Marmita com Porta Talheres - Preto 715ml;Marmita com Porta Talheres;26;34;;MIC,FRZ,HER,LAV,HIG;FRZ,HER,LAV,EMP,HIG;ACUC,FARI,MASS,BISC,TEMP;
+211.012.002;7896779621170;Banheiro;3;face 801 cm2;Cantoneira para banheiro Smart - Brancp (211/B);Cantoneira para banheiro Smart;30;40;;;;;SEM CAPACIDADE
+211.012.003;7896779621163;Banheiro;3;face 801 cm2;Cantoneira para banheiro Smart - Preto (211/B);Cantoneira para banheiro Smart;30;40;;;;;SEM CAPACIDADE
+212.012.003;7896779621217;Potes;2;capacidade 600 ml;Pote com Travas e 2 Divisórias - Preto 600ml;Pote com Travas e 2 Divisórias;30;34;;MIC,FRZ,HER,LAV;FRZ,HER,LAV,EMP;FARI,MASS,BISC,TEMP;
+214.006.002;7896779621446;Organização;4;categoria Organização;Organizador Multiuso Rattan com 6 Divisórias - Branco (214/B);Organizador Multiuso Rattan com 6 Divisórias;44;44;;;;;SEM CAPACIDADE
+214.006.003;7896779621415;Organização;4;categoria Organização;Organizador Multiuso Rattan com 6 Divisórias - Preto (214/B);Organizador Multiuso Rattan com 6 Divisórias;44;44;;;;;SEM CAPACIDADE
+214.006.086;7896779614202;Organização;4;categoria Organização;Organizador Multiuso Rattan com 6 Divisórias - Chumbo;Organizador Multiuso Rattan com 6 Divisórias;44;44;;;;;SEM CAPACIDADE
+215.012.003;7896779621514;Potes;3;capacidade 2100 ml;Pote Ultraforte com Travas - Preto 2,1L;Pote Ultraforte com Travas;26;40;;HER;;BISC,TEMP;
+216.012.003;7896779616039;Potes;3;capacidade 4000 ml;Pote Ultraforte com Travas - Preto 4L;Pote Ultraforte com Travas;26;40;;MIC,HER,LAV,BPA;EMP;BISC,TEMP;
+217.012.003;7896779621729;Potes;3;capacidade 6900 ml;Pote Ultraforte com Travas - Preto 6,9L;Pote Ultraforte com Travas;26;40;;MIC,HER,LAV,BPA;EMP;BISC,TEMP;
+219.006.563;7896779621941;Frasqueiras;4;categoria Frasqueiras;Frasqueira Rattan - Rosa 9,4L;Frasqueira Rattan;17;44;;HIG;;;
+221.012.002;7896779621071;Cozinha;2;face 205 cm2;Saleiro Premier com Alça - Transparente e Branco 1 Kg;Saleiro Premier com Alça;24;34;;TRP;TRP;;
+221.012.003;7896779610082;Cozinha;2;face 205 cm2;Saleiro Premier com Alça - Transparente e Preto 1 Kg;Saleiro Premier com Alça;24;34;;TRP;TRP;;
+222.012.002;7896779627219;Jarras;3;capacidade 1400 ml;Jarra com Tampa Flip Top - Branco 1,4L;Jarra com Tampa Flip Top;24;40;;;;;
+222.012.546;7896779622269;Jarras;3;capacidade 1400 ml;Jarra com Tampa Flip Top - Vermelho 1,4L;Jarra com Tampa Flip Top;24;40;;;;;
+2231.024.009;7896779622313;Cozinha;3;capacidade 1400 ml;Porta Frios com Tela;Porta Frios com Tela;20;40;;;;;
+2232.012.009;7896779622320;Cozinha;3;capacidade 2800 ml;Porta Frios Duplo com Tela;Porta Frios Duplo com Tela;26;40;;;;;
+224.012.002;7896779622474;Cozinha;3;face 444 cm2;Porta Talher Escorre e Guarda - Branco;Porta Talher Escorre e Guarda;29;40;;HIG,FCL;;;SEM CAPACIDADE
+224.012.003;7896779624126;Cozinha;3;face 444 cm2;Porta Talher Escorre e Guarda - Preto;Porta Talher Escorre e Guarda;29;40;;HIG,FCL;;;SEM CAPACIDADE
+224.012.086;7896779624201;Cozinha;3;face 444 cm2;Porta Talher Escorre e Guarda - Chumbo;Porta Talher Escorre e Guarda;29;40;;HIG;;;SEM CAPACIDADE
+227.036.998;7896779622795;Infantil;2;face 134 cm2;Copo Infantil com Alça - Sortido 320ml;Copo Infantil com Alça;22;34;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+227.036.999;7896779602278;Infantil;1;capacidade 320 ml;Copo Infantil com Alça - Sortido 320ml (227);Copo Infantil com Alça;22;28;;MIC,FRZ,LAV,BPA;MIC,FRZ,LAV;;
+2270.012.001;7896779627127;Potes;3;capacidade 2300 ml;Pote Redondo com Travas - Transparente 2,3L (022/7);Pote Redondo com Travas;23;40;;HER,EMP,HIG,TRP;HIG,TRP;ACUC,FARI,MASS,BISC,TEMP;
+2270.012.003;7896779627165;Potes;3;capacidade 2300 ml;Pote Redondo com Travas - Preto 2,3L;Pote Redondo com Travas;23;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+228.012.003;7896779622832;Potes;3;capacidade 1100 ml;Pote com Travas Laterais - Preto 1,1L;Pote com Travas Laterais;24;40;;HER;;BISC,TEMP;
+2280.012.001;7896779622818;Potes;3;capacidade 1100 ml;Pote Redondo com Travas - Transparente 1,1L (022/8);Pote Redondo com Travas;23;40;;HER,BPA,TRP;TRP;BISC,TEMP;
+2280.012.003;7896779622870;Potes;3;capacidade 1100 ml;Pote Redondo com Travas - Preto 1,1L;Pote Redondo com Travas;23;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+229.012.001;7896779602292;Micro-ondas;3;capacidade 3000 ml;Cook Freezer Micro-ondas com Cesto - Transparente 3L (229);Cook Freezer Micro-ondas com Cesto;34;40;;MIC,FRZ,TRP;TRP;;
+2290.006.862;7896779630417;Coloratto;2;capacidade 450 ml;Kit Pote Redondo Coloratto com 3 Peças - 450ml (304/K);Kit Pote Redondo Coloratto c/ 3 Pçs;35;34;"Peças>Pçs; com>c/";MIC,FRZ,ATX,BPA;FRZ,LAV,EMP;;NOME PT EXCEDE LIMITE (35>34)
+2290.012.001;7896779629145;Potes;2;capacidade 450 ml;Pote Redondo com Travas - Transparente 450ml (022/9);Pote Redondo com Travas;23;34;;HER,TRP;LAV,EMP,TRP;FARI,MASS,BISC,TEMP;
+2290.012.003;7896779622931;Potes;2;capacidade 450 ml;Pote Redondo com Travas - Preto 450ml;Pote Redondo com Travas;23;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+231.006.861;7896779689125;Coloratto;1;capacidade 270 ml;Kit Pote Raso Coloratto com 2 Peças - 270ml (289/K);Kit Pote Raso Coloratto c/ 2 Pçs;32;28;"Peças>Pçs; com>c/";;LAV,EMP;MASS;NOME PT EXCEDE LIMITE (32>28)
+231.006.862;7896779691111;Coloratto;1;capacidade 270 ml;Kit Pote Raso Coloratto com 3 Peças - 270ml (291/K);Kit Pote Raso Coloratto c/ 3 Pçs;32;28;"Peças>Pçs; com>c/";;LAV,EMP;MASS;NOME PT EXCEDE LIMITE (32>28)
+231.006.P01;7896779631032;POP;1;capacidade 270 ml;Kit POP com 6 Potes Retangular - Transparente 270ml;Kit POP com 6 Potes Retang.;27;28;Retangular>Retang.;TRP;LAV,EMP,TRP;ACUC,FARI,MASS;SEM DESCRICAO NA ORIGEM
+231.012.001;7896779631148;Potes;1;capacidade 270 ml;Pote Raso com Travas - Transparente 270ml;Pote Raso com Travas;20;28;;HER,TRP;HER,LAV,EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+231.012.003;7896779623181;Potes;1;capacidade 270 ml;Pote Raso com Travas - Preto 270ml;Pote Raso com Travas;20;28;;HER;HER,LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+232.006.861;7896779632824;Coloratto;2;capacidade 500 ml;Kit Pote Raso Coloratto com 2 Peças - 500ml;Kit Pote Raso Coloratto com 2 Pçs;33;34;Peças>Pçs;;EMP;;
+232.006.862;7896779632855;Coloratto;2;capacidade 500 ml;Kit Pote Raso Coloratto com 3 Peças - 500ml;Kit Pote Raso Coloratto com 3 Pçs;33;34;Peças>Pçs;;EMP;;
+232.012.001;7896779632145;Potes;2;capacidade 500 ml;Pote Raso com Travas - Transparente 500ml;Pote Raso com Travas;20;34;;HER,BPA,TRP;LAV,EMP,TRP;FARI,MASS,BISC,TEMP;
+232.012.003;7896779623297;Potes;2;capacidade 500 ml;Pote Raso com Travas - Preto 500ml;Pote Raso com Travas;20;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+233.012.001;7896779633111;Potes;3;capacidade 1100 ml;Pote Raso com Travas - Transparente 1,1L;Pote Raso com Travas;20;40;;HER,TRP;TRP;BISC,TEMP;
+233.012.003;7896779623396;Potes;3;capacidade 1100 ml;Pote Raso com Travas - Preto 1,1L;Pote Raso com Travas;20;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+234.012.001;7896779623419;Potes;3;capacidade 2300 ml;Pote Raso com Travas - Transparente 2,3L;Pote Raso com Travas;20;40;;HER,TRP;TRP;BISC,TEMP;
+234.012.003;7896779623495;Potes;3;capacidade 2300 ml;Pote Raso com Travas - Preto 2,3L;Pote Raso com Travas;20;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+235.012.001;7896779635207;Potes;2;capacidade 500 ml;Pote Acoplado com Rosca - Transparente 500ml;Pote Acoplado com Rosca;23;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+235.012.002;7896779623518;Potes;2;capacidade 500 ml;Pote Acoplado com Rosca - Branco 500ml;Pote Acoplado com Rosca;23;34;;HER,HIG;LAV,EMP,HIG;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+235.012.003;7896779623532;Potes;2;capacidade 500 ml;Pote Acoplado com Rosca - Preto 500ml;Pote Acoplado com Rosca;23;34;;;EMP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+235.012.671;7896779623563;Potes;2;capacidade 500 ml;Pote Acoplado com Rosca - Sal 500ml;Pote Acoplado com Rosca - Sal;29;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.001;7896779636211;Potes;2;capacidade 1000 ml;Pote Acoplado com Rosca - Transparente 1L;Pote Acoplado com Rosca;23;34;;MIC,FRZ,HER,LAV,TRP;FRZ,HER,LAV,EMP,TRP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+236.012.002;7896779623648;Potes;2;capacidade 1000 ml;Pote Acoplado com Rosca - Branco 1L;Pote Acoplado com Rosca;23;34;;HER,EMP,BPA,HIG;LAV,EMP,HIG;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+236.012.003;7896779623655;Potes;2;capacidade 1000 ml;Pote Acoplado com Rosca - Preto 1L;Pote Acoplado com Rosca;23;34;;;EMP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.667;7896779636129;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L (236/SG);Pote Sal Grosso Acoplado com Rosca;34;34;;;EMP;FARI,MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+236.012.668;7896779623679;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L Café;Pote Sal Grosso Acopl. c/ Rosca - Café;38;34;"com>c/; Acoplado>Acopl.";;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (38>34) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.669;7896779623686;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L Arroz;Pote Sal Grosso Acopl. c/ Rosca - Arroz;39;34;"com>c/; Acoplado>Acopl.";;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (39>34) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.670;7896779636105;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L Farinha;Pote Sal Grosso Acopl. c/ Rosca - Farinha;41;34;"com>c/; Acoplado>Acopl.";;EMP;CAFE,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (41>34) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.671;7896779636150;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L Feijão;Pote Sal Grosso Acopl. c/ Rosca - Feijão;40;34;"com>c/; Acoplado>Acopl.";;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (40>34) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+236.012.672;7896779636167;Potes;2;capacidade 1000 ml;Pote Sal Grosso Acoplado com Rosca - 1L Açucar;Pote Sal Grosso Acopl. c/ Rosca - Açucar;40;34;"com>c/; Acoplado>Acopl.";;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | NOME PT EXCEDE LIMITE (40>34) | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+237.006.002;7896779623754;Potes;3;capacidade 5800 ml;Pote Acoplado com Copo Medidor - Branco 5,8L;Pote Acoplado com Copo Medidor;30;40;;;;MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+237.006.003;7896779623778;Potes;3;capacidade 5800 ml;Pote Acoplado com Copo Medidor - Preto 5,8L;Pote Acoplado com Copo Medidor;30;40;;;;MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+238.012.001;7896779638192;Potes;3;capacidade 2000 ml;Pote Acoplado com Rosca - Transparente 2L;Pote Acoplado com Rosca;23;40;;HER,EMP,ATX,BPA,TRP;TRP;BISC,TEMP;DIMENSAO E DIAMETRO
+238.012.002;7896779628339;Potes;3;capacidade 2000 ml;Pote Acoplado com Rosca - Branco 2L;Pote Acoplado com Rosca;23;40;;HER,EMP,ATX,BPA;;BISC,TEMP;DIMENSAO E DIAMETRO
+238.012.003;7896779623860;Potes;3;capacidade 2000 ml;Pote Acoplado com Rosca - Preto 2L;Pote Acoplado com Rosca;23;40;;;;BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+239.012.001;7896779639205;Potes;3;capacidade 3000 ml;Pote Acoplado com Rosca - Transparente 3L;Pote Acoplado com Rosca;23;40;;TRP;;BISC,TEMP;DIMENSAO E DIAMETRO
+239.012.002;7896779623945;Potes;3;capacidade 3000 ml;Pote Acoplado com Rosca - Branco 3L;Pote Acoplado com Rosca;23;40;;;;BISC,TEMP;DIMENSAO E DIAMETRO
+239.012.003;7896779623952;Potes;3;capacidade 3000 ml;Pote Acoplado com Rosca - Preto 3L;Pote Acoplado com Rosca;23;40;;;;BISC,TEMP;DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+240.024.001;7896779602407;Micro-ondas;3;capacidade 3000 ml;Cook Freezer Micro-ondas - Transparente 3L;Cook Freezer Micro-ondas;24;40;;MIC,FRZ,TRP;TRP;;CATEGORIA NORMALIZADA (Microondas)
+241.006.P01;7896779624164;POP;2;capacidade 460 ml;Kit POP com 6 Potes com Valvula - Transparente 460ml;Kit POP com 6 Potes com Valvula;31;34;;VLV,TRP;LAV,EMP,TRP;FARI,MASS;SEM DESCRICAO NA ORIGEM
+241.024.001;7896779602414;Potes;2;capacidade 460 ml;Pote Raso com Válvula - 460ml (241);Pote Raso com Válvula;21;34;;VLV;LAV,EMP;FARI,MASS,BISC,TEMP;
+242.024.001;7896779602421;Potes;2;capacidade 950 ml;Pote Raso com Válvula - 950ml (242);Pote Raso com Válvula;21;34;;MIC,FRZ,HER,VLV,LAV,ATX,BPA,HIG;FRZ,HER,VLV,LAV,EMP,HIG;CAFE,ACUC,FARI,MASS,BISC,TEMP;
+243.024.001;7896779602438;Potes;3;capacidade 1900 ml;Pote Raso com Válvula - 1,9L (243);Pote Raso com Válvula;21;40;;MIC,FRZ,VLV,LAV,BPA;LAV,EMP;BISC,TEMP;
+244.012.001;7896779602445;Potes;3;capacidade 3200 ml;Pote Raso com Válvula - 3,2L (244);Pote Raso com Válvula;21;40;;MIC,FRZ,VLV,LAV,BPA;LAV,EMP;BISC,TEMP;
+245.012.029;7896779602452;Potes;2;capacidade 500 ml;Pote Feijão Acoplado com Rosca - 500ml (245);Pote Feijão Acoplado com Rosca;30;34;;HER,ATX,BPA,FCL;LAV,EMP,FCL;MANT,CAFE,ACUC,TEMP;DIMENSAO E DIAMETRO
+246.024.001;7896779602469;Potes;2;capacidade 868 ml;Pote Alto com Válvula - 868ml (246);Pote Alto com Válvula;21;34;;HER,VLV;VLV,LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;
+248.012.009;7896779602483;Potes;2;capacidade 500 ml;Pote Tomatinho Acoplado com Rosca - 500ml (248);Pote Tomatinho Acoplado com Rosca;33;34;;HER,EMP,ATX,BPA,FCL;LAV,EMP,FCL;ACUC,FARI,MASS,BISC;DIMENSAO E DIAMETRO
+249.012.020;7896779602490;Potes;2;capacidade 500 ml;Pote Temperos Acoplado com Rosca - 500ml (249);Pote Temperos Acoplado com Rosca;32;34;;;EMP;ACUC,FARI,MASS,BISC;DIMENSAO E DIAMETRO
+250.024.009;7896779612505;Micro-ondas;3;capacidade 1500 ml;Caçarola Micro-ondas com Cesto - Transparente 1,5L (250);Caçarola Micro-ondas com Cesto;30;40;;MIC,TRP;;;
+2500.012.001;7896779650156;Potes;2;capacidade 868 ml;Pote Raso Retangular - Transparente 868ml (250);Pote Raso Retangular;20;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+2500.012.003;7896779625093;Potes;2;capacidade 868 ml;Pote Raso Retangular - Preto 868ml;Pote Raso Retangular;20;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+251.012.001;7896779625178;Micro-ondas;2;capacidade 850 ml;Caçarola Mini Micro-ondas - Transparente 850ml;Caçarola Mini Micro-ondas;25;34;;MIC,TRP;LAV,TRP;;
+254.006.001;7896779654109;Organização;4;categoria Organização;Gaveteiro Modular Rattan - Transparente 8,2L (254/NT);Gaveteiro Modular Rattan;24;44;;TRP;;;
+254.006.002;7896779654123;Organização;4;categoria Organização;Gaveteiro Modular Rattan - Branco 8,2L (254/B);Gaveteiro Modular Rattan;24;44;;;;;
+254.006.003;7896779625413;Organização;4;categoria Organização;Gaveteiro Modular Rattan - Preto 8,2L (254/P);Gaveteiro Modular Rattan;24;44;;;;;
+2540.012.001;7896779602544;Potes;3;capacidade 1500 ml;Kit Potes Rasos Retang. com 3 Peças - Transparente (025/4);Kit Potes Rasos Retang. com 3 Peças;35;40;;TRP;;BISC,TEMP;CAPACIDADE MULTIPLA NA ORIGEM
+2540.012.003;7896779625499;Potes;3;capacidade 1500 ml;Kit Potes Rasos Retang. com 3 Peças - Preto;Kit Potes Rasos Retang. com 3 Peças;35;40;;;;BISC,TEMP;CAPACIDADE MULTIPLA NA ORIGEM | SEM DESCRICAO NA ORIGEM
+255.036.016;7896779602551;Cozinha;2;face 119 cm2;Forma de Gelo Firenze com Tampa (255);Forma de Gelo Firenze com Tampa;31;34;;FRZ,EMP,BPA,HIG;LAV,EMP,HIG;;SEM CAPACIDADE
+256.006.M02;7896779656042;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Branca 1,5L;Caixa Juta Alongada com Tampa Teca;34;44;;;;;
+256.006.M03;7896779656035;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Preta 1,5L;Caixa Juta Alongada com Tampa Teca;34;44;;;;;
+256.024.002;7896779625642;Organização;4;categoria Organização;Cesto Alongado Juta - Branco1,5L (256/B);Cesto Alongado Juta;19;44;;HIG;;;
+256.024.003;7896779625611;Organização;4;categoria Organização;Cesto Alongado Juta - Preto1,5L (256/B);Cesto Alongado Juta;19;44;;;;;
+256.024.086;7896779656202;Organização;4;categoria Organização;Cesto Alongado Juta - Chumbo1,5L (256/B);Cesto Alongado Juta;19;44;;;;;
+257.006.M02;7896779657049;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Branca 3,7L;Caixa Juta Alongada com Tampa Teca;34;44;;;;;
+257.006.M03;7896779657032;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Preta 3,7L;Caixa Juta Alongada com Tampa Teca;34;44;;;;;
+257.012.002;7896779625741;Organização;4;categoria Organização;Cesto Alongado Juta - Branco3,7L (257/B);Cesto Alongado Juta;19;44;;;;;
+257.012.003;7896779625710;Organização;4;categoria Organização;Cesto Alongado Juta - Preto3,7L (257/B);Cesto Alongado Juta;19;44;;;;;
+257.012.086;7896779657209;Organização;4;categoria Organização;Cesto Alongado Juta - Chumbo3,7L (257/B);Cesto Alongado Juta;19;44;;;;;
+2570.012.001;7896779602575;Potes;3;capacidade 4600 ml;Pote Raso Retangular - Transparente 4,6L (025/7);Pote Raso Retangular;20;40;;ATX,TRP;;FARI,BISC,TEMP;
+2570.012.003;7896779657162;Potes;3;capacidade 4600 ml;Pote Raso Retangular - Preto 4,6L;Pote Raso Retangular;20;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+258.004.M02;7896779658046;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Branca 7,4L;Caixa Juta Alongada com Tampa Teca;34;44;;FCL;;;CATEGORIA NORMALIZADA (teca)
+258.004.M03;7896779658039;Teca;4;categoria Teca;Caixa Juta Alongada com Tampa Teca - Preta 7,4L;Caixa Juta Alongada com Tampa Teca;34;44;;FCL;;;CATEGORIA NORMALIZADA (teca)
+258.006.002;7896779625840;Organização;4;categoria Organização;Cesto Alongado Juta - Branco 7,4L (258/B);Cesto Alongado Juta;19;44;;;;;
+258.006.003;7896779625819;Organização;4;categoria Organização;Cesto Alongado Juta - Preto 7,4L (258/B);Cesto Alongado Juta;19;44;;;;;
+258.006.086;7896779688623;Organização;4;categoria Organização;Cesto Alongado Juta - Chumbo 7,4L (258/B);Cesto Alongado Juta;19;44;;;;;
+2580.012.001;7896779658152;Potes;3;capacidade 2900 ml;Pote Raso Retangular - Transparente 2,9L (258/B);Pote Raso Retangular;20;40;;TRP;;BISC,TEMP;
+2580.012.003;7896779625895;Potes;3;capacidade 2900 ml;Pote Raso Retangular - Preto 2,9L;Pote Raso Retangular;20;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+259.012.002;7896779625949;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Branca 3,2L (259/B);Caixa Organizadora Baixa Rattan com Tampa;41;44;;;;;
+259.012.003;7896779625918;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Preta 3,2L (259/P);Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP;;;
+259.012.086;7896779659197;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Chumbo 3,2L;Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP,BPA;;;
+2590.012.001;7896779659142;Potes;3;capacidade 1500 ml;Pote Raso Retangular - Transparente 1,5L (259/B);Pote Raso Retangular;20;40;;TRP;;BISC,TEMP;
+2590.012.003;7896779625994;Potes;3;capacidade 1500 ml;Pote Raso Retangular - Preto 1,5L;Pote Raso Retangular;20;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+260.012.002;7896779626045;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Branca 4,5L (260/B);Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP;;;
+260.012.003;7896779660155;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Preta 4,5L;Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP;;;
+260.012.086;7896779660209;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Chumbo 4,5L;Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP,BPA,HIG;;;
+261.006.002;7896779626144;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Branca 7L (261/B);Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP;;;
+261.006.003;7896779626113;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Preta 7L;Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP,HIG;;;
+261.006.086;7896779618644;Organização;4;categoria Organização;Caixa Organizadora Baixa Rattan com Tampa - Chumbo 7L;Caixa Organizadora Baixa Rattan com Tampa;41;44;;EMP,BPA,HIG;;;
+268.006.M02;7896779668830;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - Branca 5,3L;Caixa Juta Europa com Tampa Teca;32;44;;EMP,HIG;;;
+268.006.M03;7896779668847;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - Preta 5,3L;Caixa Juta Europa com Tampa Teca;32;44;;EMP,HIG;;;
+268.012.002;7896779626847;Organização;4;categoria Organização;Cesto Europa Juta - Branco 5,3L (268/B);Cesto Europa Juta;17;44;;BPA;;;
+268.012.003;7896779626816;Organização;4;categoria Organização;Cesto Europa Juta - Preto 5,3L (268/B);Cesto Europa Juta;17;44;;;;;
+269.004.M02;7896779669936;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - Branca 10,8L;Caixa Juta Europa com Tampa Teca;32;44;;EMP,HIG;;;
+269.004.M03;7896779669943;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - Preta 10,8L;Caixa Juta Europa com Tampa Teca;32;44;;EMP,HIG;;;
+269.012.002;7896779626946;Organização;4;categoria Organização;Cesto Europa Juta - Branco 10,8L (269/B);Cesto Europa Juta;17;44;;;;;
+269.012.003;7896779626915;Organização;4;categoria Organização;Cesto Europa Juta - Preto 10,8L;Cesto Europa Juta;17;44;;;;;
+270.002.M02;7896779670086;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - BRANCA 18,7L;Caixa Juta Europa com Tampa Teca;32;44;;EMP;;;
+270.002.M03;7896779627059;Teca;4;categoria Teca;Caixa Juta Europa com Tampa Teca - PRETA18,7L;Caixa Juta Europa com Tampa Teca;32;44;;EMP,HIG;;;
+270.006.002;7896779627042;Organização;4;categoria Organização;Cesto Europa Juta - Branco 18,7L (270/B);Cesto Europa Juta;17;44;;BPA;;;
+270.006.003;7896779627011;Organização;4;categoria Organização;Cesto Europa Juta - Preto 18,7L;Cesto Europa Juta;17;44;;;;;
+277.012.002;7896779627745;Organização;4;categoria Organização;Cesto Juta com Alça - Branco 5,6L (277/B);Cesto Juta com Alça;19;44;;;;;
+277.012.003;7896779677146;Organização;4;categoria Organização;Cesto Juta com Alça - Preto 5,6L;Cesto Juta com Alça;19;44;;;;;
+279.012.024;7896779679126;Potes;2;capacidade 500 ml;Pote Alho Acoplado com Rosca - 500ml (279);Pote Alho Acoplado com Rosca;28;34;;MIC,FRZ,HER,EMP,BPA;FRZ,HER,LAV,EMP;CAFE,ACUC,FARI,MASS,BISC;DIMENSAO E DIAMETRO
+281.036.999;7896779681129;Potes;1;capacidade 150 ml;Concha para Cereais - Sortido - 150ml (281);Concha para Cereais;19;28;;BPA;LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;
+283.004.002;7896779628339;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Branca 12L;Lixeira Juta com Pedal;22;40;;PED,HIG;;;EAN DUPLICADO (tambem em 238.012.002)
+283.004.003;7896779683116;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Preta 12L;Lixeira Juta com Pedal;22;40;;HER,PED,HIG;;;
+283.004.086;7896779683215;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Chumbo 12L;Lixeira Juta com Pedal;22;40;;HER,PED,HIG;;;
+284.012.002;7896779628445;Limpeza;3;face 570 cm2;Cesto Transporta Tudo - Branco (284/B);Cesto Transporta Tudo;21;40;;;;;SEM CAPACIDADE
+284.012.003;7896779628414;Limpeza;3;face 570 cm2;Cesto Transporta Tudo - Preto (284/P);Cesto Transporta Tudo;21;40;;;;;SEM CAPACIDADE
+293.006.002;7896779693122;Potes;3;face 523 cm2;Kit Potes Acoplados com 5 Peças - Branco;Kit Potes Acoplados com 5 Peças;31;40;;HER;;BISC,TEMP;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+293.006.003;7896779629329;Potes;3;face 523 cm2;Kit Potes Acoplados com 5 Peças - Preto;Kit Potes Acoplados com 5 Peças;31;40;;HER;;MASS,BISC,TEMP;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+300.012.001;7896779630011;Potes;2;capacidade 460 ml;Pote Raso Retangular - Transparente 460ml;Pote Raso Retangular;20;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+300.012.003;7896779630097;Potes;2;capacidade 460 ml;Pote Raso Retangular - Preto 460ml;Pote Raso Retangular;20;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+301.012.001;7896779601158;Potes;2;capacidade 950 ml;Pote Raso Retangular - Transparente 950ml;Pote Raso Retangular;20;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+301.012.003;7896779630196;Potes;2;capacidade 950 ml;Pote Raso Retangular - Preto 950ml;Pote Raso Retangular;20;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+302.012.001;7896779630219;Potes;3;capacidade 1900 ml;Pote Raso Retangular - Transparente 1,9L;Pote Raso Retangular;20;40;;TRP;;BISC,TEMP;
+302.012.003;7896779630295;Potes;3;capacidade 1900 ml;Pote Raso Retangular - Preto 1,9L;Pote Raso Retangular;20;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+303.012.001;7896779603152;Potes;3;capacidade 3200 ml;Pote Raso Retangular - Transparente 3,2L;Pote Raso Retangular;20;40;;TRP;;BISC,TEMP;
+303.012.003;7896779630370;Potes;3;capacidade 3200 ml;Pote Raso Retangular - Preto 3,2L;Pote Raso Retangular;20;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+305.006.520;7896779605156;Cozinha;2;capacidade 650 ml;Travessa Oval Canelada com Tampa - Branca 650ml;Travessa Oval Canelada com Tampa;32;34;;;;;
+306.006.520;7896779630615;Cozinha;3;capacidade 1200 ml;Travessa Oval Canelada com Tampa - Branca 1,2L;Travessa Oval Canelada com Tampa;32;40;;;;;
+307.006.520;7896779630714;Cozinha;3;capacidade 2500 ml;Travessa Oval Canelada com Tampa - Branca 2,5L;Travessa Oval Canelada com Tampa;32;40;;;;;
+308.006.520;7896779630813;Organização;4;categoria Organização;Organiza e Guarda com 3 Divisórias;Organiza e Guarda com 3 Divisórias;34;44;;;;;SEM CAPACIDADE
+311.012.001;7896779600090;Potes;2;capacidade 780 ml;Mamita e Pote 2 em 1 - Transparente 780ml;Mamita e Pote 2 em 1;20;34;;TRP;EMP,TRP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+311.012.002;7896779618194;Potes;2;capacidade 780 ml;Mamita e Pote 2 em 1 - Branco 780ml;Mamita e Pote 2 em 1;20;34;;;EMP;FARI,MASS,BISC,TEMP;
+311.012.515;7896779611157;Potes;2;capacidade 780 ml;Mamita & Pote 2 em 1 - Rosa 780ml;Mamita & Pote 2 em 1;20;34;;;EMP;FARI,MASS,BISC,TEMP;
+311.012.517;7896779631131;Potes;2;capacidade 780 ml;Mamita & Pote 2 em 1 - Verde 780ml;Mamita & Pote 2 em 1;20;34;;;EMP;FARI,MASS,BISC,TEMP;
+313.006.560;7896779613038;Organização;4;categoria Organização;Organizador de Cosméticos com 2 Gavetas - Preta;Organizador de Cosméticos com 2 Gavetas;39;44;;;;;SEM CAPACIDADE
+313.006.561;7896779613076;Organização;4;categoria Organização;Organizador de Cosméticos com 2 Gavetas - Branca;Organizador de Cosméticos com 2 Gavetas;39;44;;;;;SEM CAPACIDADE
+313.006.562;7896779613052;Organização;4;categoria Organização;Organizador de Cosméticos com 2 Gavetas - Rosa;Organizador de Cosméticos com 2 Gavetas;39;44;;;;;SEM CAPACIDADE
+314.006.560;7896779614011;Organização;4;categoria Organização;Organizador de Cosméticos com 1 Gaveta - Preta;Organizador de Cosméticos com 1 Gaveta;38;44;;;;;SEM CAPACIDADE
+314.006.561;7896779614066;Organização;4;categoria Organização;Organizador de Cosméticos com 1 Gaveta - Branca;Organizador de Cosméticos com 1 Gaveta;38;44;;;;;SEM CAPACIDADE
+314.006.562;7896779614028;Organização;4;categoria Organização;Organizador de Cosméticos com 1 Gaveta - Rosa;Organizador de Cosméticos com 1 Gaveta;38;44;;;;;SEM CAPACIDADE
+317.006.P01;7896779631742;POP;2;capacidade 500 ml;Kit POP com 5 Marmitas Fits - Transparente 500ml;Kit POP com 5 Marmitas Fits;27;34;;TRP;EMP,TRP;ACUC,FARI,MASS;SEM DESCRICAO NA ORIGEM
+317.012.001;7896779617029;Potes;2;capacidade 500 ml;Marmita Fit - Transparente 500ml;Marmita Fit;11;34;;TRP;EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+317.012.003;7896779631711;Potes;2;capacidade 500 ml;Marmita Fit - Branco 500ml (317.012.001);Marmita Fit;11;34;;;EMP;ACUC,FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+319.006.P01;7896779631964;POP;1;capacidade 250 ml;Kit POP com 6 Potes Quadrados - Transparente 250ml;Kit POP c/ 6 Potes Quadrados;28;28;com>c/;TRP;LAV,EMP,TRP;ACUC,FARI,MASS;SEM DESCRICAO NA ORIGEM
+319.012.001;7896779619047;Potes;1;capacidade 250 ml;Pote Modular - Transparente 250ml;Pote Modular;12;28;;EMP,ATX,TRP;LAV,EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+319.012.003;7896779631926;Potes;1;capacidade 250 ml;Pote Modular - Preto 250ml;Pote Modular;12;28;;;LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+320.012.001;7896779620029;Potes;2;capacidade 450 ml;Pote Modular - Transparente 450ml;Pote Modular;12;34;;EMP,ATX,TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+320.012.003;7896779632022;Potes;2;capacidade 450 ml;Pote Modular - Preto 450ml;Pote Modular;12;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+321.012.001;7896779621040;Potes;2;capacidade 800 ml;Pote Modular - Transparente 800ml;Pote Modular;12;34;;EMP,ATX,TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+321.012.003;7896779632176;Potes;2;capacidade 800 ml;Pote Modular - Preto 800ml;Pote Modular;12;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+322.006.001;7896779622054;Potes;3;capacidade 1200 ml;Pote Modular - Transparente 1,2L;Pote Modular;12;40;;FRZ,EMP,ATX,TRP;TRP;BISC,TEMP;
+322.006.003;7896779632268;Potes;3;capacidade 1200 ml;Pote Modular - Preto 1,2L;Pote Modular;12;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+323.006.001;7896779623044;Potes;3;capacidade 2400 ml;Pote Modular - Transparente 2,4L;Pote Modular;12;40;;EMP,ATX,TRP;;BISC,TEMP;
+323.006.003;7896779632329;Potes;3;capacidade 2400 ml;Pote Modular - Preto 2,4L;Pote Modular;12;40;;;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+348.012.576;7896779634811;Cozinha;2;capacidade 460 ml;Porta Presunto com Tela;Porta Presunto com Tela;23;34;;;;;
+349.012.575;7896779634910;Cozinha;2;capacidade 460 ml;Porta Queijo com Tela;Porta Queijo com Tela;21;34;;;;;
+350.012.577;7896779635016;Cozinha;2;capacidade 460 ml;Porta Frios com Tela;Porta Frios com Tela;20;34;;;;;
+351.012.001;7896779635115;Potes;1;capacidade 250 ml;Kit Potes Modulares com 3 Peças - Transparente 250ml;Kit Potes Modulares c/ 3 Pçs;28;28;"Peças>Pçs; com>c/";EMP,ATX,BPA,TRP;LAV,EMP,TRP;CAFE,ACUC,FARI,MASS,BISC;
+351.012.003;7896779635177;Potes;1;capacidade 250 ml;Kit Potes Modulares com 3 Peças - Preto 250ml;Kit Potes Modulares c/ 3 Pçs;28;28;"Peças>Pçs; com>c/";;LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+352.012.001;7896779635214;Potes;2;capacidade 450 ml;Kit Potes Modulares com 3 Peças - Transparente 450ml;Kit Potes Modulares com 3 Peças;31;34;;EMP,BPA,TRP;EMP,TRP;FARI,MASS,BISC,TEMP;
+352.012.003;7896779635252;Potes;2;capacidade 450 ml;Kit Potes Modulares com 3 Peças - Preto 450ml;Kit Potes Modulares com 3 Peças;31;34;;;EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+353.006.001;7896779635313;Potes;2;capacidade 800 ml;Kit Potes Modulares com 6 Peças - Transparente;Kit Potes Modulares com 6 Peças;31;34;;HER,EMP,BPA,TRP;LAV,EMP,TRP;CAFE,ACUC,MASS,TEMP;CAPACIDADE MULTIPLA NA ORIGEM
+353.006.003;7896779635344;Potes;2;capacidade 800 ml;Kit Potes Modulares com 6 Peças - Preto;Kit Potes Modulares com 6 Peças;31;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | CAPACIDADE MULTIPLA NA ORIGEM | SEM DESCRICAO NA ORIGEM
+359.012.003;7896779623815;Potes;3;capacidade 2000 ml;Pote Arroz Acoplado com Rosca - 2L;Pote Arroz Acoplado com Rosca;29;40;;MIC,FRZ,HER,LAV;LAV,EMP;BISC,TEMP;DIMENSAO E DIAMETRO
+360.012.003;7896779623822;Potes;3;capacidade 2000 ml;Pote Feijão Acoplado com Rosca - 2L;Pote Feijão Acoplado com Rosca;30;40;;MIC,FRZ,HER,LAV,HIG;LAV,EMP,HIG;BISC,TEMP;DIMENSAO E DIAMETRO
+361.012.003;7896779638123;Potes;3;capacidade 2000 ml;Pote Farinha Acoplado com Rosca - 2L;Pote Farinha Acoplado com Rosca;31;40;;MIC,FRZ,HER,LAV,BPA,HIG;LAV,EMP,HIG;BISC,TEMP;DIMENSAO E DIAMETRO
+362.012.003;7896779622382;Potes;3;capacidade 2000 ml;Pote Açúcar Acoplado com Rosca - 2L;Pote Açúcar Acoplado com Rosca;30;40;;MIC,FRZ,HER,LAV,BPA;LAV,EMP;BISC,TEMP;DIMENSAO E DIAMETRO
+363.012.003;7896779632381;Potes;3;capacidade 2000 ml;Pote Café Acoplado com Rosca - 2L;Pote Café Acoplado com Rosca;28;40;;LAV,BPA,HIG;;BISC,TEMP;DIMENSAO E DIAMETRO
+369.006.001;7896779636945;Cozinha;2;capacidade 460 ml;Kit Porta Frios com 3 Peças;Kit Porta Frios com 3 Peças;27;34;;;;;
+3760.012.001;7896779603763;Potes;3;capacidade 3700 ml;Pote Quadrado com Travas - Transparente 3,7L (037/6);Pote Quadrado com Travas;24;40;;HER,TRP;TRP;BISC,TEMP;
+3760.012.003;7896779637645;Potes;3;capacidade 3700 ml;Pote Quadrado com Travas - Preto 3,7L;Pote Quadrado com Travas;24;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+3770.012.001;7896779677153;Potes;3;capacidade 1800 ml;Pote Quadrado com Travas - Transparente 1,8L (037/7);Pote Quadrado com Travas;24;40;;HER,TRP;TRP;BISC,TEMP;
+3770.012.003;7896779637744;Potes;3;capacidade 1800 ml;Pote Quadrado com Travas - Preto 1,8L;Pote Quadrado com Travas;24;40;;HER;;BISC,TEMP;SEM DESCRICAO NA ORIGEM
+3780.012.001;7896779678143;Potes;2;capacidade 860 ml;Pote Quadrado com Travas - Transparente 860ml (037/8);Pote Quadrado com Travas;24;34;;HER,TRP;LAV,EMP,TRP;FARI,MASS,BISC,TEMP;
+3780.012.003;7896779678167;Potes;2;capacidade 860 ml;Pote Quadrado com Travas - Preto 860 ml;Pote Quadrado com Travas;24;34;;HER;LAV,EMP;FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+3790.006.862;7896779679027;Coloratto;1;capacidade 360 ml;Kit Pote Quadrado Coloratto com 3 Peças - 360ml;Kit Pote Quad. Coloratto c/ 3 Pçs;33;28;"Peças>Pçs; com>c/; Quadrado>Quad.";;LAV,EMP;MASS;NOME PT EXCEDE LIMITE (33>28)
+3790.006.P01;7896779679041;POP;1;capacidade 360 ml;Kit POP 6 Potes Quadrados - Transparente 360ml;Kit POP 6 Potes Quadrados;25;28;;TRP;LAV,EMP,TRP;ACUC,FARI,MASS;SEM DESCRICAO NA ORIGEM
+3790.012.001;7896779679140;Potes;1;capacidade 360 ml;Pote Quadrado com Travas - Transparente 360ml (037/9);Pote Quadrado com Travas;24;28;;HER,TRP;HER,LAV,EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+3790.012.003;7896779637973;Potes;1;capacidade 360 ml;Pote Quadrado com Travas - Preto 360ml;Pote Quadrado com Travas;24;28;;HER;HER,LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM DESCRICAO NA ORIGEM
+380.024.001;7896779680191;Organização;4;categoria Organização;Organizador Mini Modular - Transparente 150ml;Organizador Mini Modular;24;44;;TRP;;;SEM DESCRICAO NA ORIGEM
+380.024.002;7896779638062;Organização;4;categoria Organização;Organizador Mini Modular - Branco 150ml;Organizador Mini Modular;24;44;;;;;SEM DESCRICAO NA ORIGEM
+380.024.003;7896779638055;Organização;4;categoria Organização;Organizador Mini Modular - Preto 150ml;Organizador Mini Modular;24;44;;;;;SEM DESCRICAO NA ORIGEM
+381.012.001;7896779681181;Organização;4;categoria Organização;Organizador Longo Modular - Transparente 850ml;Organizador Longo Modular;25;44;;TRP;;;
+381.012.002;7896779638130;Organização;4;categoria Organização;Organizador Longo Modular - Branco 850ml;Organizador Longo Modular;25;44;;;;;
+381.012.003;7896779638161;Organização;4;categoria Organização;Organizador Longo Modular - Preto 850ml;Organizador Longo Modular;25;44;;;;;
+382.012.001;7896779682218;Organização;4;categoria Organização;Organizador Quadrado Modular - Transparente 900ml;Organizador Quadrado Modular;28;44;;EMP,TRP;;;
+382.012.002;7896779638222;Organização;4;categoria Organização;Organizador Quadrado Modular - Branco 900ml;Organizador Quadrado Modular;28;44;;EMP;;;
+382.012.003;7896779638239;Organização;4;categoria Organização;Organizador Quadrado Modular - Preto 900ml;Organizador Quadrado Modular;28;44;;EMP;;;
+3820.016.644;7896779603824;Potes;3;capacidade 1600 ml;Kit Pote Café e Açúcar (038/2);Kit Pote Café e Açúcar;22;40;;BPA;;MASS,BISC,TEMP;DIMENSAO E DIAMETRO
+383.012.001;7896779683321;Organização;4;categoria Organização;Organizador Retangular Modular - Transparente 1,450L;Organizador Retangular Modular;30;44;;TRP;;;
+383.012.002;7896779638314;Organização;4;categoria Organização;Organizador Retangular Modular - Branco 1,450L;Organizador Retangular Modular;30;44;;;;;
+383.012.003;7896779638321;Organização;4;categoria Organização;Organizador Retangular Modular - Preto 1,450L;Organizador Retangular Modular;30;44;;;;;
+384.012.001;7896779684427;Organização;4;categoria Organização;Organizador Pequeno Modular - Transparente 400ml;Organizador Pequeno Modular;27;44;;TRP;;;
+384.012.002;7896779638420;Organização;4;categoria Organização;Organizador Pequeno Modular - Branco 400ml;Organizador Pequeno Modular;27;44;;;;;
+384.012.003;7896779638437;Organização;4;categoria Organização;Organizador Pequeno Modular - Preto 400ml;Organizador Pequeno Modular;27;44;;;;;
+3840.016.002;7896779684212;Potes;2;capacidade 785 ml;Kit Mantimentos com 3 Peças - Branco;Kit Mantimentos com 3 Peças;27;34;;;EMP;FARI,MASS,BISC,TEMP;CAPACIDADE MULTIPLA NA ORIGEM | DIMENSAO E DIAMETRO
+3840.016.003;7896779603848;Potes;2;capacidade 785 ml;Kit Mantimentos com 3 Peças - Preto (038/4);Kit Mantimentos com 3 Peças;27;34;;;EMP;FARI,MASS,BISC,TEMP;CAPACIDADE MULTIPLA NA ORIGEM | DIMENSAO E DIAMETRO
+385.006.M00;7896779638512;Teca;4;categoria Teca;Tábua de Corte Teca - M;Tábua de Corte Teca - M;23;44;;;;;SEM CAPACIDADE
+387.006.M00;7896779638710;Teca;4;categoria Teca;Tábua de Corte Teca - G;Tábua de Corte Teca - G;23;44;;;;;SEM CAPACIDADE
+390.012.M00;7896779639021;Teca;4;categoria Teca;Tábua com Cabo Teca - P;Tábua com Cabo Teca - P;23;44;;;;;SEM CAPACIDADE
+391.006.M00;7896779639137;Teca;4;categoria Teca;Tábua com Cabo Teca - M;Tábua com Cabo Teca - M;23;44;;;;;SEM CAPACIDADE
+392.006.M00;7896779639212;Teca;4;categoria Teca;Tábua com Cabo Teca - G;Tábua com Cabo Teca - G;23;44;;;;;SEM CAPACIDADE
+396.006.002;7896779639618;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Branca 7L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+396.006.003;7896779639625;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Preta 7L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+396.006.086;7896779696215;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Chumbo 7L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+397.004.002;7896779639755;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Branca 14L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+397.004.003;7896779639724;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Preta 14L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+397.004.086;7896779697212;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Pedal - Chumbo 14L;Lixeira Flat com Pedal;22;40;;PED,HIG;;;
+398.004.002;7896779639816;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Clique - Branca 12L;Lixeira Flat com Clique;23;40;;HIG;;;
+398.004.003;7896779639823;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Clique - Preta 12L;Lixeira Flat com Clique;23;40;;PED,HIG;;;
+398.004.086;7896779698219;Lixeiras;3;categoria Lixeiras;Lixeira Flat com Clique - Chumbo 12L;Lixeira Flat com Clique;23;40;;HER;;;
+399.012.007;7896779639922;Infantil;1;capacidade 280 ml;Porta Leite em Pó - Rosa 280ML;Porta Leite em Pó;17;28;;;LAV;;DIMENSAO E DIAMETRO
+399.012.008;7896779639939;Infantil;1;capacidade 280 ml;Porta Leite em Pó - Azul 280ML;Porta Leite em Pó;17;28;;;LAV;;DIMENSAO E DIAMETRO
+400.024.002;7896779640010;Decor-Chef;1;face 42 cm2;Abridor de Tampas Apertadas - Branco;Abridor de Tampas Apertadas;27;28;;;FCL;;SEM CAPACIDADE
+4010.012.003;7896779640102;Cozinha;2;capacidade 836 ml;Açucareiro com Tampa - Preto 836 ml (0401.012.003);Açucareiro com Tampa;20;34;;;;;
+403.024.002;7896779640324;Decor-Confeitaria;1;capacidade 240 ml;Kit Biscoito Facil - Branco;Kit Biscoito Facil;18;28;;;FCL;;DIMENSAO E DIAMETRO
+4030.012.003;7896779640119;Cozinha;2;capacidade 836 ml;Porta Farofa com Tampa - Preto 836 ml (0403.012.003);Porta Farofa com Tampa;22;34;;HIG;HIG;;
+4040.012.003;7896779640140;Cozinha;2;capacidade 836 ml;Saleiro com Tampa - Preto 836 ml (0404.012.003);Saleiro com Tampa;17;34;;BPA,HIG;HIG;;
+408.012.002;7896779640836;Decor-Confeitaria;3;face 388 cm2;Kit Churros Fácil - Branco;Kit Churros Fácil;17;40;;;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+419.024.002;7896779641918;Decor-Chef;1;face 62 cm2;Cortador de Batatas - Branco;Cortador de Batatas;19;28;;;FCL;;SEM CAPACIDADE
+421.024.002;7896779642120;Decor-Chef;1;face 51 cm2;Cortador e Ralador de Legumes - Branco;Cortador e Ralador de Legumes;29;28;;BPA;LAV,FCL;;SEM CAPACIDADE | NOME PT EXCEDE LIMITE (29>28)
+422.024.002;7896779642229;Decor-Confeitaria;1;face 100 cm2;Kit Decorador de Bolo com 7 Peças - Branco;Kit Decorador de Bolo c/ 7 Pçs;30;28;"Peças>Pçs; com>c/";FCL;FCL;;SEM CAPACIDADE | NOME PT EXCEDE LIMITE (30>28) | DIMENSAO E DIAMETRO
+423.024.002;7896779642311;Decor-Confeitaria;1;face 10 cm2;Conjunto Bico Russo Confeiteiro com 5 Peças - Branco;Conj. Bico Russo Confeit. c/ 5 Pçs;34;28;"Confeiteiro>Confeit.; Peças>Pçs; com>c/; Conjunto>Conj.";;FCL;;SEM CAPACIDADE | NOME PT EXCEDE LIMITE (34>28) | DIMENSAO E DIAMETRO
+427.024.002;7896779642731;Cozinha;3;face 280 cm2;Escorredor quadrado - Branco;Escorredor quadrado;19;40;;;;;SEM CAPACIDADE
+427.024.003;7896779642762;Cozinha;3;face 280 cm2;Escorredor quadrado - Preto;Escorredor quadrado;19;40;;;;;SEM CAPACIDADE
+429.024.002;7896779642915;Cozinha;1;face 37 cm2;Escorredor Meia Lua - Branco;Escorredor Meia Lua;19;28;;;LAV;;SEM CAPACIDADE
+429.024.003;7896779642922;Cozinha;1;face 37 cm2;Escorredor Meia Lua - Preto;Escorredor Meia Lua;19;28;;;LAV;;SEM CAPACIDADE
+434.024.002;7896779643424;Decor-Confeitaria;1;face 48 cm2;kit Donuts - Branco;kit Donuts;10;28;;HIG,FCL;HIG,FCL;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+435.012.002;7896779643523;Decor-Chef;2;face 110 cm2;Hamburgueira - Branca;Hamburgueira;12;34;;FCL;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+438.006.M00;7896779643813;Teca;4;categoria Teca;Tábua de Corte Teca Extra G;Tábua de Corte Teca Extra G;27;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+443.006.M00;7896779644315;Teca;4;categoria Teca;Tábua de Corte Teca G com Alça de Metal;Tábua de Corte Teca G com Alça de Metal;39;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+444.012.001;7896779644438;Organização;4;categoria Organização;Organizador para Gavetas;Organizador para Gavetas;24;44;;;;;SEM CAPACIDADE
+445.012.001;7896779644520;Organização;4;categoria Organização;Organizador de Cosméticos e Bijouterias;Organizador de Cosméticos e Bijouterias;39;44;;;;;SEM CAPACIDADE
+446.012.001;7896779644629;Organização;4;categoria Organização;Organizador de Pincéis e Acessórios;Organizador de Pincéis e Acessórios;35;44;;;;;SEM CAPACIDADE
+449.006.002;7896779644919;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Branca 6L;Lixeira Juta com Pedal;22;40;;HER,PED,RCL,HIG;;;
+449.006.003;7896779644926;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Preta 6L;Lixeira Juta com Pedal;22;40;;PED,HIG;;;
+449.006.086;7896779649204;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Pedal - Chumbo 6L;Lixeira Juta com Pedal;22;40;;HER,PED,RCL,HIG;;;
+450.012.002;7896779645015;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Clique - Branca 4,5L;Lixeira Juta com Clique;23;40;;;;;
+450.012.003;7896779645022;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Clique - Preta 4,5L;Lixeira Juta com Clique;23;40;;FCL;;;
+450.012.086;7896779608645;Lixeiras;3;categoria Lixeiras;Lixeira Juta com Clique - Chumbo 4,5L;Lixeira Juta com Clique;23;40;;HIG;;;
+453.012.002;7896779645336;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Clique - Branca 4,5L;Lixeira Rattan com Clique;25;40;;RCL,HIG;;;
+453.012.003;7896779645343;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Clique - Preta 4,5L;Lixeira Rattan com Clique;25;40;;RCL,HIG;;;
+453.012.086;7896779653201;Lixeiras;3;categoria Lixeiras;Lixeira Rattan com Clique - Chumbo 4,5L;Lixeira Rattan com Clique;25;40;;RCL,HIG;;;
+458.024.002;7896779645831;Cozinha;3;face 282 cm2;Porta Leite de Saquinho - Branco;Porta Leite de Saquinho;23;40;;;;;SEM CAPACIDADE
+458.024.003;7896779645824;Cozinha;3;face 282 cm2;Porta Leite de Saquinho - Preto;Porta Leite de Saquinho;23;40;;BPA,HIG;;;SEM CAPACIDADE
+501.012.001;7896779650170;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Transparente 2,35L;Caixa Organizadora Flat com Tampa;33;44;;TRP;;;
+501.012.002;7896779650132;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Branca 2,35L;Caixa Organizadora Flat com Tampa;33;44;;;;;
+501.012.003;7896779650163;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Preta 2,35L;Caixa Organizadora Flat com Tampa;33;44;;EMP,FCL;;;
+501.012.086;7896779686216;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Chumbo 2,35L;Caixa Organizadora Flat com Tampa;33;44;;EMP;;;
+502.012.001;7896779650231;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Transparente 3,75L;Caixa Organizadora Flat com Tampa;33;44;;TRP;;;
+502.012.002;7896779650224;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Branca 3,75L;Caixa Organizadora Flat com Tampa;33;44;;;;;
+502.012.003;7896779650217;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Preta 3,75L;Caixa Organizadora Flat com Tampa;33;44;;;;;
+502.012.086;7896779628629;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Chumbo 3,75L;Caixa Organizadora Flat com Tampa;33;44;;EMP;;;
+503.006.001;7896779650330;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Transparente 10,35L;Caixa Organizadora Flat com Tampa;33;44;;EMP,BPA,TRP;;;
+503.006.002;7896779650316;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Branca 10,35L;Caixa Organizadora Flat com Tampa;33;44;;;;;
+503.006.003;7896779650323;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Preta 10,35L;Caixa Organizadora Flat com Tampa;33;44;;EMP,BPA;;;
+503.006.086;7896779686193;Organização;4;categoria Organização;Caixa Organizadora Flat com Tampa - Chumbo 10,35L;Caixa Organizadora Flat com Tampa;33;44;;MIC,EMP,BPA;;;
+507.004.M03;7896779650729;Teca;4;categoria Teca;Tabua de Corte Teca com Gaveta de servir - Preta 2L;Tabua de Corte Teca com Gaveta de servir;40;44;;HIG,FCL;;;
+545.012.002;7896779654512;Cozinha;2;face 123 cm2;Porta Detergente e Esponja Flat - Branco;Porta Detergente e Esponja Flat;31;34;;;;TEMP;SEM CAPACIDADE
+545.012.003;7896779654529;Cozinha;2;face 123 cm2;Porta Detergente e Esponja Flat - Preto;Porta Detergente e Esponja Flat;31;34;;HIG;HIG;TEMP;SEM CAPACIDADE
+545.012.086;7896779654543;Cozinha;2;face 123 cm2;Porta Detergente e Esponja Flat - Chumbo;Porta Detergente e Esponja Flat;31;34;;HIG;HIG;TEMP;SEM CAPACIDADE
+546.012.002;7896779654611;Banheiro;2;face 166 cm2;Porta Escovas Flat - Branco;Porta Escovas Flat;18;34;;BPA,HIG;RCL;;SEM CAPACIDADE
+546.012.003;7896779654628;Banheiro;2;face 166 cm2;Porta Escovas Flat - Preto;Porta Escovas Flat;18;34;;HIG;;;SEM CAPACIDADE
+546.012.086;7896779646166;Banheiro;2;face 166 cm2;Porta Escova Flat - Chumbo;Porta Escova Flat;17;34;;REC,RCL,LAV,HIG;REC,RCL;COSM;SEM CAPACIDADE
+547.012.002;7896779654710;Banheiro;2;face 108 cm2;Porta Algodão e Cotonete Flat - Branco;Porta Algodão e Cotonete Flat;29;34;;BPA;RCL;;SEM CAPACIDADE
+547.012.003;7896779654727;Banheiro;2;face 108 cm2;Porta Algodão e Cotonete Flat - Preto;Porta Algodão e Cotonete Flat;29;34;;REC,RCL,LAV,HIG;REC,RCL;COSM;SEM CAPACIDADE
+547.012.086;7896779647194;Banheiro;2;face 108 cm2;Porta Algodão e Cotonete Flat - Chumbo;Porta Algodão e Cotonete Flat;29;34;;;;;SEM CAPACIDADE
+548.024.002;7896779654819;Banheiro;1;face 24 cm2;Saboneteira com Tela Flat - Branco;Saboneteira com Tela Flat;25;28;;HIG;RCL;;SEM CAPACIDADE
+548.024.003;7896779654826;Banheiro;1;face 24 cm2;Saboneteira com Tela Flat - Preto;Saboneteira com Tela Flat;25;28;;;RCL;;SEM CAPACIDADE
+548.024.086;7896779648160;Banheiro;1;face 24 cm2;Saboneteira com Tela Flat - Chumbo;Saboneteira com Tela Flat;25;28;;BPA,HIG;FCL,RCL;;SEM CAPACIDADE
+549.024.998;7896779654994;Realce;2;face 131 cm2;Copo Sem Tampa Sortido 600ml;Copo Sem Tampa;14;34;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+549.024.999;7896779649167;Realce;2;face 147 cm2;Copo Com Tampa Sortido 600ml;Copo Com Tampa;14;34;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | DIMENSAO E DIAMETRO | SEM DESCRICAO NA ORIGEM
+550.036.998;7896779650040;Realce;2;face 109 cm2;Caneca Sem Tampa Sortido 350ml;Caneca Sem Tampa;16;34;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+550.036.999;7896779655090;Realce;2;face 109 cm2;Caneca Com Tampa Sortido 350ml;Caneca Com Tampa;16;34;;;;;SEM NOME EN | SEM NOME ES | SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+552.002.M02;7896779652228;Teca;4;categoria Teca;Cesto de Roupas Empilhável com Tampa Teca - Branco 43,8L;Cesto de Roupas Empilhável com Tampa Teca;41;44;;EMP,REC,RCL;;;SEM NOME EN | SEM NOME ES
+552.002.M03;7896779652242;Teca;4;categoria Teca;Cesto de Roupas Empilhável com Tampa Teca - Preto 43,8L;Cesto de Roupas Empilhável com Tampa Teca;41;44;;EMP,RCL;;;SEM NOME EN | SEM NOME ES
+552.004.002;7896779655236;Limpeza;3;capacidade 43800 ml;Cesto de Roupas Empilhável - Branco 43,8L;Cesto de Roupas Empilhável;26;40;;EMP,RCL,HIG;;;
+552.004.003;7896779655243;Limpeza;3;capacidade 43800 ml;Cesto de Roupas Empilhável - Preto 43,8L;Cesto de Roupas Empilhável;26;40;;EMP,REC,RCL,HIG,FCL;RCL;;
+553.012.002;7896779655311;Cozinha;2;capacidade 500 ml;Porta Sabão Líquido Flat - Branco 500ml;Porta Sabão Líquido Flat;24;34;;HIG;HIG;MANT,TEMP;
+553.012.003;7896779655328;Cozinha;2;capacidade 500 ml;Porta Sabão Líquido Flat - Preto 500ml;Porta Sabão Líquido Flat;24;34;;EMP,REC,RCL,HIG,FCL;EMP,HIG,FCL,REC,RCL;COZI,MANT,TEMP;
+553.012.086;7896779655342;Cozinha;2;capacidade 500 ml;Porta Sabão Líquido Flat - Chumbo 500ml;Porta Sabão Líquido Flat;24;34;;BPA,HIG;HIG;TEMP;
+554.006.P01;7896779655472;POP;1;capacidade 330 ml;Kit POP com 6 Potes - Transparente 330ml;Kit POP com 6 Potes;19;28;;TRP;LAV,EMP,TRP;ACUC,FARI,MASS;SEM DESCRICAO NA ORIGEM
+554.012.001;7896779655410;Potes;1;capacidade 330 ml;Pote com Tampa Fixa - Transparente 330ml;Pote com Tampa Fixa;19;28;;HER,TRP;HER,LAV,EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+554.012.003;7896779655441;Potes;1;capacidade 330 ml;Pote com Tampa Fixa - Preto 330ml;Pote com Tampa Fixa;19;28;;;LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+555.006.P01;7896779655540;POP;2;capacidade 600 ml;Kit POP com 6 Potes - Transparente 600ml;Kit POP com 6 Potes;19;34;;TRP;EMP,TRP;FARI,MASS;SEM DESCRICAO NA ORIGEM
+555.012.001;7896779655519;Potes;2;capacidade 600 ml;Pote com Tampa Fixa - Transparente 600ml;Pote com Tampa Fixa;19;34;;HER,TRP;LAV,EMP,TRP;FARI,MASS,BISC,TEMP;
+555.012.003;7896779655595;Potes;2;capacidade 600 ml;Pote com Tampa Fixa - Preto 600ml;Pote com Tampa Fixa;19;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+556.012.001;7896779655618;Potes;2;capacidade 1000 ml;Pote com Tampa Fixa - Transparente 1L;Pote com Tampa Fixa;19;34;;HER,TRP;LAV,EMP,TRP;ACUC,FARI,MASS,BISC,TEMP;
+556.012.003;7896779655694;Potes;2;capacidade 1000 ml;Pote com Tampa Fixa - Preto 1L;Pote com Tampa Fixa;19;34;;;EMP;FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | SEM DESCRICAO NA ORIGEM
+562.004.M00;7896779656226;Teca;4;categoria Teca;Tábua de Pizza com Cabo Teca;Tábua de Pizza com Cabo Teca;28;44;;;;;SEM CAPACIDADE
+563.004.M00;7896779656318;Teca;4;categoria Teca;Tábua de Pizza Brotinho com Cabo Teca;Tábua de Pizza Brotinho com Cabo Teca;37;44;;;;;SEM CAPACIDADE
+6120.006.P01;7896779620098;POP;2;capacidade 500 ml;Kit POP com 6 Potes - Transparente 500ml;Kit POP com 6 Potes;19;34;;TRP;EMP,TRP;FARI,MASS;SEM DESCRICAO NA ORIGEM
+6120.050.001;7896779606122;Potes;2;capacidade 500 ml;Pote Raso Retangular com 2 Peças - 500ml (061/2);Pote Raso Retangular com 2 Peças;32;34;;;EMP;ACUC,FARI,MASS,BISC,TEMP;
+6130.030.001;7896779606139;Potes;2;capacidade 500 ml;Pote Raso Retangular com 3 Peças - 500ml (061/3);Pote Raso Retangular com 3 Peças;32;34;;BPA;EMP;FARI,MASS,BISC,TEMP;
+625.002.M00;7896779662517;Teca;4;categoria Teca;Tabua Multiuso Madeira Teca Grande Gourmet;Tabua Multiuso Madeira Teca Grande Gourmet;42;44;;LAV,FCL;;;SEM CAPACIDADE
+680.004.M00;7896779668038;Teca;4;categoria Teca;Boleira Teca Com Acrílico;Boleira Teca Com Acrílico;25;44;;FCL;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+681.004.M00;7896779668137;Teca;4;categoria Teca;Queijeira Teca Com Acrílico;Queijeira Teca Com Acrílico;27;44;;HIG,FCL;;;SEM CAPACIDADE | DIMENSAO E DIAMETRO
+682.004.M00;7896779668229;Teca;4;categoria Teca;Petisqueira Teca com 3 Molheiras;Petisqueira Teca com 3 Molheiras;32;44;;FCL;;;SEM CAPACIDADE
+683.004.M00;7896779668311;Teca;4;categoria Teca;Petisqueira Teca com 2 Molheiras;Petisqueira Teca com 2 Molheiras;32;44;;;;;SEM CAPACIDADE
+684.004.M00;7896779668410;Teca;4;categoria Teca;Tábua de Servir Teca Com Cabo e 2 Molheiras;Tábua de Servir Teca Com Cabo e 2 Molheiras;43;44;;HIG;;;SEM CAPACIDADE
+685.004.M00;7896779668519;Teca;4;categoria Teca;Tábua de Servir Teca Com 1 Molheira;Tábua de Servir Teca Com 1 Molheira;35;44;;HIG,FCL;;;SEM CAPACIDADE
+686.004.M00;7896779668687;Teca;4;categoria Teca;Tábua de Servir Teca com 3 Molheiras;Tábua de Servir Teca com 3 Molheiras;36;44;;;;;SEM CAPACIDADE
+689.004.M00;7896779668915;Teca;4;categoria Teca;Tábua Servir Teca Com Cabo e 1 Molheira;Tábua Servir Teca Com Cabo e 1 Molheira;39;44;;;;;SEM CAPACIDADE
+695.002.M00;7896779669516;Teca;4;categoria Teca;Tabua Multiuso Madeira Teca Quadrada Gourmet;Tabua Multiuso Madeira Teca Quadrada Gourmet;44;44;;;;;SEM CAPACIDADE | SEM DESCRICAO NA ORIGEM
+700.006.001;7896779670017;Geladeira;3;capacidade 7000 ml;Organizador de Geladeira Rattan - 7L;Organizador de Geladeira Rattan;31;40;;BPA;;;
+701.006.001;7896779670116;Geladeira;3;capacidade 4500 ml;Organizador de Geladeira Rattan - 4,5L;Organizador de Geladeira Rattan;31;40;;BPA;;;
+702.006.001;7896779670215;Geladeira;3;capacidade 3200 ml;Organizador de Geladeira Rattan - 3,2L;Organizador de Geladeira Rattan;31;40;;BPA;;;
+703.006.001;7896779670314;Geladeira;3;capacidade 4000 ml;Organizador de Geladeira Rattan - 4L;Organizador de Geladeira Rattan;31;40;;BPA;;;
+704.006.001;7896779670420;Geladeira;3;capacidade 2000 ml;Organizador de Geladeira Rattan - 2L;Organizador de Geladeira Rattan;31;40;;BPA,HIG;HIG;;
+705.006.001;7896779670512;Geladeira;3;capacidade 3700 ml;Organizador de Geladeira Juta - 3,7L;Organizador de Geladeira Juta;29;40;;RCL,BPA,HIG,FCL;HIG,FCL,RCL;;
+706.006.001;7896779670611;Geladeira;3;capacidade 1500 ml;Organizador de Geladeira Juta - 1,5L;Organizador de Geladeira Juta;29;40;;BPA;;;
+712.012.001;7896779628643;Geladeira;3;capacidade 2350 ml;Organizador de Geladeira Flat - 2,35L;Organizador de Geladeira Flat;29;40;;;;;
+713.012.001;7896779671311;Geladeira;3;capacidade 3750 ml;Organizador de Geladeira Flat - 3,75L;Organizador de Geladeira Flat;29;40;;RCL,HIG;HIG,RCL;;
+817.012.001;7896779681785;Potes;3;capacidade 1500 ml;Pote Alto com Válvula - Transparente 1,5L;Pote Alto com Válvula;21;40;;MIC,FRZ,HER,VLV,LAV,BPA,HIG,FCL,TRP;VLV,LAV,EMP,HIG,FCL,TRP;BISC,TEMP;
+818.012.001;7896779689194;Potes;3;capacidade 2900 ml;Pote Alto com Válvula - Transparente 2,9L;Pote Alto com Válvula;21;40;;MIC,FRZ,HER,VLV,LAV,BPA,HIG,TRP;VLV,LAV,EMP,HIG,TRP;BISC,TEMP;
+819.012.001;7896779681983;Potes;3;capacidade 4600 ml;Pote Alto com Válvula - Transparente 4,6L;Pote Alto com Válvula;21;40;;MIC,FRZ,HER,VLV,LAV,BPA,HIG,TRP;VLV,LAV,EMP,HIG,TRP;BISC,TEMP;
+820.006.002;7896779682010;Cozinha;3;face 498 cm2;Escorredor de Pratos Flat - Branco;Escorredor de Pratos Flat;25;40;;;;;SEM CAPACIDADE
+820.006.003;7896779682027;Cozinha;3;face 498 cm2;Escorredor de Pratos Flat - Preto;Escorredor de Pratos Flat;25;40;;;;;SEM CAPACIDADE
+820.006.086;7896779682034;Cozinha;3;face 498 cm2;Escorredor de Pratos Flat - Chumbo;Escorredor de Pratos Flat;25;40;;;;;SEM CAPACIDADE
+821.004.001;7896779682119;Potes;1;capacidade 330 ml;Kit Pote Tampa Fixa com 3 Peças - Transparente;Kit Pote Tampa Fixa c/ 3 Pçs;28;28;"Peças>Pçs; com>c/";MIC,FRZ,HER,LAV,ATX,BPA,TRP;MIC,FRZ,HER,LAV,EMP,TRP;GRAO,CAFE,ACUC,FARI,MASS,BISC,TEMP;CAPACIDADE MULTIPLA NA ORIGEM
+821.004.003;7896779682195;Potes;1;capacidade 330 ml;Kit Pote Tampa Fixa com 3 Peças - Preto;Kit Pote Tampa Fixa c/ 3 Pçs;28;28;"Peças>Pçs; com>c/";;LAV,EMP;ACUC,FARI,MASS,BISC,TEMP;SEM NOME EN | SEM NOME ES | CAPACIDADE MULTIPLA NA ORIGEM | SEM DESCRICAO NA ORIGEM
+822.006.002;IAGO;Cozinha;2;face 153 cm2;Escorredor de Talheres Flat - Branco;Escorredor de Talheres Flat;27;34;;HIG;HIG;;SEM CAPACIDADE | EAN INVALIDO
+822.006.003;7896779682232;Cozinha;2;face 153 cm2;Escorredor de Talheres Flat - Preto;Escorredor de Talheres Flat;27;34;;HIG;HIG;;SEM CAPACIDADE
+822.006.086;7896779682249;Cozinha;2;face 153 cm2;Escorredor de Talheres Flat - Chumbo;Escorredor de Talheres Flat;27;34;;HIG;HIG;;SEM CAPACIDADE
+850.004.N03;7896779685028;Nitron-Mob;4;categoria Nitron-Mob;Arara de Roupas Nitron-Mob;Arara de Roupas Nitron-Mob;26;44;;;;;SEM CAPACIDADE
+851.004.N03;7896779685110;Nitron-Mob;4;categoria Nitron-Mob;Organizador Multiuso P;Organizador Multiuso P;22;44;;HIG;;;SEM CAPACIDADE
+852.004.N03;7896779685226;Nitron-Mob;4;categoria Nitron-Mob;Organizador Multiuso G;Organizador Multiuso G;22;44;;HIG;;;SEM CAPACIDADE
+853.004.N03;7896779685325;Nitron-Mob;4;categoria Nitron-Mob;Kit Suporte Decorativo (M);Kit Suporte Decorativo;22;44;;;;;SEM CAPACIDADE
+855.004.N03;7896779685523;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso G 2P;Prateleira Multiuso G 2P;24;44;;;;;SEM CAPACIDADE
+856.004.N03;7896779685622;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso G 3P;Prateleira Multiuso G 3P;24;44;;;;;SEM CAPACIDADE
+857.004.N03;7896779685721;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso G 4P;Prateleira Multiuso G 4P;24;44;;;;;SEM CAPACIDADE
+858.004.N03;7896779685820;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso M 2P;Prateleira Multiuso M 2P;24;44;;;;;SEM CAPACIDADE
+859.004.N03;7896779685929;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso M 3P;Prateleira Multiuso M 3P;24;44;;;;;SEM CAPACIDADE
+860.004.N03;7896779686025;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso M 4P;Prateleira Multiuso M 4P;24;44;;;;;SEM CAPACIDADE
+861.004.N03;7896779686162;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso P 2P;Prateleira Multiuso P 2P;24;44;;;;;SEM CAPACIDADE
+862.004.N03;7896779686278;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso P 3P;Prateleira Multiuso P 3P;24;44;;;;;SEM CAPACIDADE
+863.004.N03;7896779686322;Nitron-Mob;4;categoria Nitron-Mob;Prateleira Multiuso P 4P;Prateleira Multiuso P 4P;24;44;;;;;SEM CAPACIDADE
+920.004.002;7896779692071;Cozinha;2;capacidade 500 ml;Kit Detergente Flat com 2 Peças - Branco 500ml;Kit Detergente Flat com 2 Peças;31;34;;;;;
+920.004.003;7896779608652;Cozinha;2;capacidade 500 ml;Kit Detergente Flat com 2 Peças - Preto 500ml;Kit Detergente Flat com 2 Peças;31;34;;;;;
+920.004.086;7896779608669;Cozinha;2;capacidade 500 ml;Kit Detergente Flat com 2 Peças - Chumbo 500ml;Kit Detergente Flat com 2 Peças;31;34;;;;;

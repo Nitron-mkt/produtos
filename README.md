@@ -19,6 +19,11 @@ por linha, seleção de candidatos a lançamento e validação de mercado.
   - `10-chumbo-cobertura-por-linha.csv` — onde o chumbo já existe e onde falta
   - `11-cruzamento-concorrencia.csv` — saturação por categoria (nº de Tier A que declaram)
   - `mapa_concorrentes_nitron.md` — mapa competitivo fornecido (fonte do cruzamento)
+- `etiquetas/` — sistema de etiqueta frontal padronizada: matriz de conteúdo por
+  SKU gerada a partir da folha de produtos, CSV de importação e auditoria do
+  preenchimento. Ver `etiquetas/README.md`
+- `scripts/etiquetas/` — gerador da matriz (`gerar_matriz.py`) e as regras de
+  layout, selos e aplicações (`regras.py`)
 - `analise/` — diagnóstico e recomendações
   - `01-diagnostico-e-recomendacoes.md` — Fase 1: curvas, vetores, 3+1 produtos por linha
   - `painel-lancamento.html` — **painel de decisão**: 17 linhas, veredito, produto e razões

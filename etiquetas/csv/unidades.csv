@@ -1,0 +1,8 @@
+﻿CODUNID;TIPO;SIMBOLO SI;SIMBOLO IMPERIAL;FATOR CONVERSAO;SINGULAR PT;PLURAL PT;SINGULAR EN;PLURAL EN;SINGULAR ES;PLURAL ES
+ML;V;ml;fl oz;0.033814;mililitro;mililitros;milliliter;milliliters;mililitro;mililitros
+L;V;L;qt;1.056688;litro;litros;quart;quarts;litro;litros
+CM;C;cm;in;0.393701;centimetro;centimetros;inch;inches;centimetro;centimetros
+MM;C;mm;in;0.03937;milimetro;milimetros;inch;inches;milimetro;milimetros
+G;P;g;oz;0.035274;grama;gramas;ounce;ounces;gramo;gramos
+KG;P;kg;lb;2.204623;quilograma;quilogramas;pound;pounds;kilogramo;kilogramos
+PC;Q;pc;pc;1.0;peca;pecas;piece;pieces;pieza;piezas

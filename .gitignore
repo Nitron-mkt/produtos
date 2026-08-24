@@ -2,3 +2,8 @@ frontend/config.js
 node_modules/
 .env
 .env.*
+__pycache__/
+*.pyc
+# a folha de produtos original tem 10 MB de imagens embutidas; fica de fora,
+# o extrato em CSV em etiquetas/fonte/ e que alimenta o gerador
+etiquetas/fonte/ProdutosNitron*.xlsx

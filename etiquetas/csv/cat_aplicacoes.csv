@@ -1,0 +1,38 @@
+﻿CODAPLIC;DESCRICAO PT;DESCRICAO EN;DESCRICAO ES;NOMEGRF;NOVO;ATIVO
+MANT;Mantimentos;Dry Goods;Alimentos secos;APLC0001;;S
+GRAO;Graos e cereais;Grains and Cereals;Granos y cereales;APLC0002;;S
+CAFE;Cafe;Coffee;Cafe;APLC0003;;S
+ACUC;Acucar;Sugar;Azucar;APLC0004;;S
+FARI;Farinha;Flour;Harina;APLC0005;;S
+MASS;Massas;Pasta;Pastas;APLC0006;;S
+BISC;Biscoitos;Biscuits;Galletas;APLC0007;;S
+TEMP;Temperos;Seasonings;Condimentos;APLC0008;;S
+FRIO;Frios e laticinios;Cold Cuts and Dairy;Fiambres y lacteos;APLC0009;;S
+SOBR;Sobras e marmita;Leftovers and Lunch;Sobras y vianda;APLC0010;;S
+FERR;Ferramentas;Tools;Herramientas;APLC0011;;S
+PREG;Pregos e parafusos;Nails and Screws;Clavos y tornillos;APLC0012;;S
+ELET;Material electrico;Electrical Supplies;Material electrico;APLC0013;;S
+CABO;Cabos e electronica;Cables and Electronics;Cables y electronica;APLC0014;;S
+PESC;Pesca;Fishing;Pesca;APLC0015;;S
+COST;Costura;Sewing;Costura;APLC0016;;S
+ARTE;Artesanato;Crafts;Manualidades;APLC0017;;S
+ESCR;Escritorio e papelaria;Office and Stationery;Oficina y papeleria;APLC0018;;S
+DOCU;Documentos;Documents;Documentos;APLC0019;;S
+BRIN;Brinquedos;Toys;Juguetes;APLC0020;;S
+PECA;Pecas pequenas;Small Parts;Piezas pequenas;APLC0021;;S
+COSM;Cosmeticos;Cosmetics;Cosmeticos;APLC0022;;S
+MAQU;Maquilhagem;Makeup;Maquillaje;APLC0023;;S
+HIGI;Higiene pessoal;Personal Care;Higiene personal;APLC0024;;S
+MEDI;Medicamentos;Medicines;Medicamentos;APLC0025;;S
+LIMP;Produtos de limpeza;Cleaning Products;Productos de limpieza;APLC0026;;S
+ROUP;Roupa;Clothing;Ropa;APLC0027;;S
+CALC;Calcado;Footwear;Calzado;APLC0028;;S
+PET;Racao e pet;Pet Food and Supplies;Alimento y mascotas;APLC0029;;S
+JARD;Jardinagem;Gardening;Jardineria;APLC0030;;S
+AUTO;Automovel;Automotive;Automovil;APLC0031;;S
+BANH;Banheiro;Bathroom;Bano;APLC0032;;S
+COZI;Cozinha;Kitchen;Cocina;APLC0033;;S
+LIXO;Residuos domesticos;Household Waste;Residuos domesticos;APLC0034;;S
+BEBI;Bebidas;Beverages;Bebidas;APLC0035;S;S
+CONF;Confeitaria e bolos;Baking and Cakes;Reposteria y tartas;APLC0036;S;S
+DECO;Decoracao;Home Decor;Decoracion;APLC0037;S;S
