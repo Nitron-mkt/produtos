@@ -1,0 +1,1012 @@
+<title>Linha Quadra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#E9EBEC;
+  --paper:#F8F9F9;
+  --panel:#DFE3E5;
+  --ink:#15181B;
+  --muted:#5B6672;
+  --faint:#8B959E;
+  --rule:#D0D6D9;
+  --rule-soft:#DEE3E5;
+  --teak:#A9662F;
+  --glass:#3D7189;
+  --studio-top:#DCE0E2;
+  --studio-bot:#C6CCCF;
+  --floor:#D5DADC;
+  --sw-glass:#CFE3EA;
+  --sw-rubber:#2C3034;
+  --sw-teak:#A9773F;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#111417;
+    --paper:#191D21;
+    --panel:#1F2428;
+    --ink:#E6E9EB;
+    --muted:#939FAA;
+    --faint:#6D7A85;
+    --rule:#292F35;
+    --rule-soft:#20262B;
+    --teak:#D08B4E;
+    --glass:#7FB6CE;
+    --studio-top:#1B2024;
+    --studio-bot:#0C0E10;
+    --floor:#15191C;
+    --sw-glass:#9FC4D2;
+    --sw-rubber:#525A61;
+    --sw-teak:#C98A4C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111417;
+  --paper:#191D21;
+  --panel:#1F2428;
+  --ink:#E6E9EB;
+  --muted:#939FAA;
+  --faint:#6D7A85;
+  --rule:#292F35;
+  --rule-soft:#20262B;
+  --teak:#D08B4E;
+  --glass:#7FB6CE;
+  --studio-top:#1B2024;
+  --studio-bot:#0C0E10;
+  --floor:#15191C;
+  --sw-glass:#9FC4D2;
+  --sw-rubber:#525A61;
+  --sw-teak:#C98A4C;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px 96px}
+
+/* ---------- type ---------- */
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;letter-spacing:-.035em;line-height:.94}
+h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+h3{font-size:1.06rem;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+p{margin:0}
+.lede{font-size:clamp(1.12rem,2vw,1.35rem);line-height:1.5;color:var(--ink);max-width:34ch}
+.body{max-width:66ch;color:var(--muted)}
+.body strong{color:var(--ink);font-weight:500}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--faint);
+}
+
+/* ---------- header ---------- */
+header{padding:64px 0 34px}
+.hd-meta{
+  display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;
+  border-top:1px solid var(--rule);margin-top:34px;padding-top:14px;
+}
+.hd-meta div{display:flex;gap:9px;align-items:baseline}
+.hd-meta .v{font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.title-row{display:flex;flex-wrap:wrap;gap:30px 60px;align-items:flex-end;margin-top:16px}
+
+/* ---------- studio ---------- */
+.studio{
+  position:relative;border:1px solid var(--rule);border-radius:3px;overflow:hidden;
+  background:var(--studio-bot);
+  aspect-ratio:16/10;min-height:340px;
+}
+@media (max-width:680px){.studio{aspect-ratio:4/5}}
+#gl{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+#gl.dragging{cursor:grabbing}
+.hud{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+.hud > *{pointer-events:auto}
+.bar{
+  display:flex;flex-wrap:wrap;gap:6px;padding:12px;
+}
+.bar.bottom{justify-content:space-between;align-items:flex-end;gap:12px}
+.seg{display:flex;background:color-mix(in srgb,var(--paper) 78%,transparent);border:1px solid var(--rule);border-radius:2px;overflow:hidden;backdrop-filter:blur(8px)}
+button{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+  background:transparent;color:var(--muted);border:0;padding:7px 12px;cursor:pointer;
+  border-right:1px solid var(--rule-soft);
+}
+.seg button:last-child{border-right:0}
+button:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+button:focus-visible{outline:2px solid var(--teak);outline-offset:-2px}
+.legend{
+  display:flex;flex-direction:column;gap:5px;
+  background:color-mix(in srgb,var(--paper) 78%,transparent);
+  border:1px solid var(--rule);border-radius:2px;padding:9px 11px;backdrop-filter:blur(8px);
+}
+.legend div{display:flex;align-items:center;gap:8px;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.05em;color:var(--muted)}
+.sw{width:9px;height:9px;border-radius:1px;flex:none;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 22%,transparent)}
+.sw-glass{background:var(--sw-glass)}
+.sw-rubber{background:var(--sw-rubber)}
+.sw-teak{background:var(--sw-teak)}
+.hint{
+  font-family:"IBM Plex Mono",monospace;font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);background:color-mix(in srgb,var(--paper) 70%,transparent);
+  padding:6px 9px;border:1px solid var(--rule);border-radius:2px;backdrop-filter:blur(8px);
+}
+.fallback{
+  position:absolute;inset:0;display:none;place-items:center;padding:32px;text-align:center;color:var(--muted);
+}
+
+/* ---------- sections ---------- */
+section{padding-top:76px}
+.sec-head{display:flex;gap:18px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:30px}
+.sec-head .tag{flex:none;padding-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr;gap:36px}}
+
+/* elevation drawing */
+.draw{width:100%;height:auto;overflow:visible}
+.draw-wrap{overflow-x:auto;padding:8px 0 4px}
+
+/* table */
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--rule-soft);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  font-size:.63rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500;
+  border-bottom:1px solid var(--rule);
+}
+tbody tr:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+td.k{color:var(--muted)}
+.tbl-wrap{overflow-x:auto}
+
+/* stack */
+.stack{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.layer{display:grid;grid-template-columns:130px 1fr;gap:24px;padding:22px 24px;border-bottom:1px solid var(--rule)}
+.layer:last-child{border-bottom:0}
+@media (max-width:620px){.layer{grid-template-columns:1fr;gap:12px}}
+.layer-id{display:flex;flex-direction:column;gap:6px}
+.layer-id .swatch{height:34px;border-radius:2px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.layer h3{margin-bottom:6px}
+.layer p{font-size:.94rem;color:var(--muted);max-width:56ch}
+.layer .cost{
+  margin-top:12px;font-size:.9rem;color:var(--ink);
+  border-left:2px solid var(--teak);padding-left:12px;
+}
+.layer .cost b{font-family:"IBM Plex Mono",monospace;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.11em;color:var(--teak);display:block;margin-bottom:3px;font-weight:500}
+
+/* notes */
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px}
+@media (max-width:900px){.notes{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.notes{grid-template-columns:1fr}}
+.note{background:var(--paper);padding:22px 22px 24px}
+.note .tag{display:block;margin-bottom:10px}
+.note h3{margin-bottom:8px}
+.note p{font-size:.94rem;color:var(--muted)}
+.note p + p{margin-top:9px}
+
+/* checks */
+.checks{list-style:none;margin:0;padding:0;counter-reset:c}
+.checks li{
+  display:grid;grid-template-columns:34px 1fr;gap:16px;
+  padding:18px 0;border-bottom:1px solid var(--rule-soft);
+}
+.checks li:before{
+  counter-increment:c;content:counter(c,decimal-leading-zero);
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--faint);padding-top:4px;
+}
+.checks b{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1rem;display:block;margin-bottom:3px}
+.checks span{font-size:.95rem;color:var(--muted)}
+.who{
+  display:inline-block;margin-top:7px;font-family:"IBM Plex Mono",monospace;
+  font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--glass);border:1px solid color-mix(in srgb,var(--glass) 40%,transparent);
+  padding:2px 7px;border-radius:2px;
+}
+footer{margin-top:80px;border-top:1px solid var(--rule);padding-top:20px}
+footer p{font-size:.86rem;color:var(--faint);max-width:70ch}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="tag">Estudo de produto &middot; Nitron &middot; agosto 2026</span>
+  <div class="title-row">
+    <h1>Linha<br>Quadra</h1>
+    <p class="lede">Três alturas sobre a mesma base quadrada. Corpo em Tritan transparente, tampa maciça de teca e vedação radial por anel de silicone.</p>
+  </div>
+  <div class="hd-meta">
+    <div><span class="tag">Base</span><span class="v">112 &times; 112 mm</span></div>
+    <div><span class="tag">Alturas</span><span class="v">3</span></div>
+    <div><span class="tag">Tampas</span><span class="v">1 (comum)</span></div>
+    <div><span class="tag">SKUs</span><span class="v">3</span></div>
+    <div><span class="tag">Status</span><span class="v">conceito &mdash; não aprovado</span></div>
+  </div>
+</header>
+
+<div class="studio">
+  <canvas id="gl"></canvas>
+  <div class="fallback" id="fb"><p>Este render precisa de WebGL. O desenho técnico e as medidas abaixo funcionam sem ele.</p></div>
+  <div class="hud">
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Tamanho">
+        <button data-size="all" aria-pressed="true">Todos</button>
+        <button data-size="0">0,7 L</button>
+        <button data-size="1">1,3 L</button>
+        <button data-size="2">2,0 L</button>
+      </div>
+      <div class="seg" role="group" aria-label="Vista">
+        <button id="bExp" aria-pressed="false">Explodir</button>
+        <button id="bCut" aria-pressed="false">Corte</button>
+        <button id="bSpin" aria-pressed="false">Girar</button>
+      </div>
+    </div>
+    <div class="bar bottom">
+      <div class="legend">
+        <div><span class="sw sw-glass"></span>Tritan &mdash; copoliéster</div>
+        <div><span class="sw sw-rubber"></span>Anel de silicone</div>
+        <div><span class="sw sw-teak"></span>Teca maciça</div>
+      </div>
+      <span class="hint">arraste para girar &middot; clique e use o scroll para aproximar</span>
+    </div>
+  </div>
+</div>
+
+<section id="alturas">
+  <div class="sec-head">
+    <span class="tag">01 / geometria</span>
+    <h2>Três alturas, uma base, uma tampa</h2>
+  </div>
+  <p class="body" style="margin-bottom:26px">A base é a decisão de projeto que importa. Fixando <strong>112 &times; 112 mm</strong> nas três alturas, a mesma tampa de teca serve os três corpos &mdash; uma peça de madeira no cadastro em vez de três &mdash; e os potes fecham em coluna na prateleira sem sobra lateral. O raio de canto de 14 mm existe para o desmoldar e para a limpeza; o ângulo de saída é de 1&deg; por lado, o mínimo prático para superfície transparente polida.</p>
+  <div class="draw-wrap"><svg id="elev" class="draw" role="img" aria-label="Desenho de elevação das três alturas com cotas"></svg></div>
+  <div class="tbl-wrap" style="margin-top:34px"><table id="spec"></table></div>
+</section>
+
+<section id="materiais">
+  <div class="sec-head">
+    <span class="tag">02 / materiais</span>
+    <h2>A pilha, de cima para baixo</h2>
+  </div>
+  <div class="stack">
+    <div class="layer">
+      <div class="layer-id">
+        <span class="swatch" style="background:linear-gradient(100deg,#b9873f,#8a5a2b 55%,#a97640)"></span>
+        <span class="tag">Teca maciça</span>
+        <span class="mono" style="font-size:.72rem;color:var(--muted)">116 &times; 116 &times; 16 mm &middot; ~195 g</span>
+      </div>
+      <div>
+        <h3>A tampa é o produto</h3>
+        <p>O corpo transparente é infraestrutura: mostra o conteúdo e some na prateleira. Quem justifica o preço é a madeira &mdash; é o que a foto vende e o que separa isso de um pote de PP. Teca porque tem óleo próprio, é estável em umidade e escurece bonito; não porque é a mais barata.</p>
+        <p class="cost"><b>Custo real</b>Madeira não é injeção. Precisa de fornecedor de usinagem, secagem controlada, acabamento e um controle de tolerância que a fábrica hoje não faz. Cada lote tem variação de cor &mdash; isso vira reclamação se a foto do anúncio não avisar.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-id">
+        <span class="swatch" style="background:#2c3034"></span>
+        <span class="tag">Silicone platínico</span>
+        <span class="mono" style="font-size:.72rem;color:var(--muted)">seção &oslash; 3,4 mm &middot; radial</span>
+      </div>
+      <div>
+        <h3>O anel veda por interferência, não por aperto</h3>
+        <p>Sem trava e sem clipe, não existe força de fechamento para comprimir uma junta de face. Então o anel não fica embaixo da tampa apoiado no aro: ele fica <strong>na saia da tampa, contra a parede interna do pote</strong>, comprimido no sentido radial. A vedação vira atrito, e o atrito é o que segura a tampa também.</p>
+        <p class="cost"><b>Consequência de projeto</b>A folga saia&ndash;parede passa a ser cota crítica (algo em torno de 0,4 a 0,6 mm de compressão). Isso é apertado para madeira usinada e para uma parede injetada de 195 mm de profundidade. É o principal risco técnico do conceito.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-id">
+        <span class="swatch" style="background:linear-gradient(160deg,#eaf3f6,#c3d9e1 60%,#dceaef)"></span>
+        <span class="tag">Tritan &mdash; copoliéster</span>
+        <span class="mono" style="font-size:.72rem;color:var(--muted)">parede 2,2 mm &middot; base 3,0 mm</span>
+      </div>
+      <div>
+        <h3>Transparência de vidro, resistência de plástico</h3>
+        <p>Tritan (copoliéster da Eastman, sem BPA) é o que permite parede fina, brilho de vidro e resistência a impacto e a lava-louças &mdash; coisas que PS cristal não entrega junto. É a razão de o pote ser transparente em vez de translúcido.</p>
+        <p class="cost"><b>Custo real</b>A resina custa múltiplos do PP e o parque da Nitron é PP/PS. Exige secagem antes de injetar, temperatura de massa mais alta e molde com polimento óptico. Não é troca de saco de material &mdash; é outro processo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fabrica">
+  <div class="sec-head">
+    <span class="tag">03 / fabricação</span>
+    <h2>O que a fábrica vai perguntar</h2>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="tag">Máquina</span>
+      <h3>A tonelagem cabe</h3>
+      <p>Área projetada de 125 cm&sup2;. Para copoliéster, isso dá algo entre 50 e 65 t de força de fechamento &mdash; com canal, uma máquina de 80 a 150 t.</p>
+      <p>Pela ocupação já medida neste projeto, a faixa <span class="mono">&le;260 t</span> roda a 56,9% com 7 de 15 máquinas paradas. Capacidade existe. Isso não é o gargalo.</p>
+    </div>
+    <div class="note">
+      <span class="tag">Parede</span>
+      <h3>2,2 mm em 195 mm é fundo</h3>
+      <p>O caminho de fluxo no 2,0 L passa de 250 mm, o que dá L/t próximo de 114. Para copoliéster isso é agressivo.</p>
+      <p>Cenário provável: a parede do 2,0 L sobe para 2,6&ndash;2,8 mm, ou entra câmara quente com bico valvulado. Um vai para o peso e o frete, o outro vai para o custo do molde.</p>
+    </div>
+    <div class="note">
+      <span class="tag">Molde</span>
+      <h3>Três moldes, um aro</h3>
+      <p>Altura diferente é molde diferente &mdash; não há como fazer as três com um postiço só. Mas a região do aro e da parede superior <strong>precisa ser rigorosamente igual</strong> nos três, senão a tampa comum deixa de ser comum.</p>
+      <p>Recomendação: postiço único de aro, usinado na mesma operação, replicado nos três moldes.</p>
+    </div>
+    <div class="note">
+      <span class="tag">Claim</span>
+      <h3>Não escreva "hermético"</h3>
+      <p>Dos 267 anúncios de concorrente já coletados, só 8 usam a palavra e os que somam "hermético + válvula" são de vidro com guarnição. Sanremo, em plástico, escreve "válvula micro-ondas" e desvia do termo.</p>
+      <p>Sem ensaio que sustente, o texto certo é <strong>"vedação com anel de silicone"</strong>. O art. 36 do CDC cobra o dado técnico de quem alega.</p>
+    </div>
+    <div class="note">
+      <span class="tag">Uso</span>
+      <h3>Madeira não vai na lava-louças</h3>
+      <p>O corpo em Tritan vai. A tampa de teca, não &mdash; lavagem à mão e óleo mineral de vez em quando. Isso tem que estar na embalagem e no anúncio, não no SAC.</p>
+      <p>Também não vai ao micro-ondas com a tampa. O corpo isolado aguenta; a madeira e o anel, não.</p>
+    </div>
+    <div class="note">
+      <span class="tag">Peso</span>
+      <h3>453 g o maior, montado</h3>
+      <p>258 g de Tritan mais 195 g de teca. É pesado para a categoria &mdash; ótimo para percepção na loja física, ruim para frete de marketplace.</p>
+      <p>Alívio possível: rebaixar o miolo da face inferior da tampa, tirando 30 a 40 g sem mexer na silhueta.</p>
+    </div>
+  </div>
+</section>
+
+<section id="antes">
+  <div class="sec-head">
+    <span class="tag">04 / pendências</span>
+    <h2>O que falta antes disto virar proposta</h2>
+  </div>
+  <p class="body" style="margin-bottom:22px">Isto é ilustração de conceito, não decisão de portfólio. A safra 2025 fechou com <strong>0,7% de acerto de lançamento</strong> (2 SKUs em 278), e Potes é a categoria com 9 concorrentes Tier A. O viés padrão do projeto é <strong>não lançar</strong> &mdash; então a barra para este conceito é alta, e ela ainda não foi transposta.</p>
+  <ul class="checks">
+    <li><div><b>Verificar se já existe</b><span>Buscar no cadastro pote quadrado de base 110&ndash;115 mm e qualquer item com tampa de madeira. Dois "certeiros" deste projeto foram publicados e estavam errados porque o produto já existia. Comparar por referência completa, no formato <span class="mono">NNN.012.001</span> &mdash; nunca truncada.</span><span class="who">analista-sankhya</span></div></li>
+    <li><div><b>Preço de prateleira do quadrado premium</b><span>Não existe preço de referência interno para Tritan + madeira. Precisa vir de fora: quanto cobram os potes de vidro com tampa de bambu, que é o concorrente funcional real deste conceito &mdash; não o pote de PP.</span><span class="who">radar-concorrencia</span></div></li>
+    <li><div><b>Fornecedor de madeira e tolerância</b><span>A folga radial de 0,4 a 0,6 mm precisa de um "sim" de quem vai usinar a teca antes de qualquer molde. Se a madeira só entrega &plusmn;0,5 mm, o anel tem que mudar de geometria ou de posição.</span><span class="who">engenheiro-molde</span></div></li>
+    <li><div><b>Payback dos três moldes</b><span>Molde é 30 a 40% do custo de um lançamento, e molde de superfície óptica é mais caro que molde de PP. Três moldes de uma vez, numa categoria saturada, é exatamente o padrão que produziu 0,7% de acerto. Uma altura primeiro é o caminho defensável.</span><span class="who">curador-portfolio &middot; veto</span></div></li>
+    <li><div><b>Ensaio de vedação</b><span>Sem laudo, o produto não pode alegar nada além de "com anel de vedação". Definir o ensaio (inversão com líquido por 24 h, e queda de 90 cm cheio) antes de escrever a arte.</span><span class="who">engenheiro-molde</span></div></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Render gerado em WebGL a partir da tabela de cotas desta própria página &mdash; girar, explodir e cortar mostram a mesma geometria descrita acima. Superfícies, raios e o desenho do anel são hipótese de conceito, não desenho de ferramentaria: espessuras, ângulo de saída e a folga de vedação mudam depois do primeiro estudo de fluxo. Nada aqui foi gravado em <span class="mono">pdp_lancamento</span> &mdash; proposta só entra com evidência e depois do crítico.</p>
+</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   Linha Quadra — fonte única de cotas
+   ============================================================ */
+const GEO = {
+  W: 112,        // base externa (mm)
+  R: 14,         // raio de canto externo
+  WALL: 2.2,     // parede
+  BASE: 3.0,     // fundo
+  DRAFT: 1.0,    // ângulo de saída (graus por lado)
+  LID_W: 116,    // tampa (2 mm de sobra por lado)
+  LID_R: 16,
+  LID_T: 16,     // espessura acima do aro
+  PLUG: 8,       // saia que entra no pote
+  CLEAR: 0.9,    // folga nominal saia/parede
+  GK: 1.7        // raio da seção do anel
+};
+const SIZES = [
+  { cod:'QD-07', nom:'0,7 L', H:70,  brim:0.75, gCorpo:121, gTampa:195 },
+  { cod:'QD-13', nom:'1,3 L', H:125, brim:1.34, gCorpo:181, gTampa:195 },
+  { cod:'QD-20', nom:'2,0 L', H:195, brim:2.07, gCorpo:258, gTampa:195 }
+];
+const K = Math.tan(GEO.DRAFT * Math.PI / 180);
+SIZES.forEach(s => {
+  s.alt      = s.H + GEO.LID_T;                    // altura montada
+  s.hInt     = s.H - GEO.BASE;                     // altura interna
+  s.intTopo  = GEO.W - 2 * GEO.WALL;               // vão interno no aro
+  s.intFundo = +(s.intTopo - 2 * K * s.hInt).toFixed(1);
+  s.gMont    = s.gCorpo + s.gTampa;
+});
+const nf = (v, d = 0) => v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+/* ============================================================
+   Tabela de especificação
+   ============================================================ */
+(function specTable() {
+  const cols = [
+    ['Tamanho',            s => `<strong>${s.nom}</strong>`],
+    ['Código',             s => s.cod],
+    ['Base externa',       () => '112 × 112'],
+    ['Altura do corpo',    s => nf(s.H)],
+    ['Altura montada',     s => nf(s.alt)],
+    ['Vão interno (aro)',  s => `${nf(s.intTopo,1)} × ${nf(s.intTopo,1)}`],
+    ['Volume até a borda', s => nf(s.brim, 2).replace('.', ',') + ' L'],
+    ['Corpo',              s => nf(s.gCorpo) + ' g'],
+    ['Montado',            s => nf(s.gMont) + ' g']
+  ];
+  const head = '<thead><tr>' + cols.map((c,i) =>
+    `<th>${c[0]}${i>=3&&i<=5 ? ' <span style="opacity:.6">mm</span>' : ''}</th>`).join('') + '</tr></thead>';
+  const rows = SIZES.map(s => '<tr>' + cols.map((c,i) =>
+    `<td class="${i>0?'k':''}">${c[1](s)}</td>`).join('') + '</tr>').join('');
+  document.getElementById('spec').innerHTML = head + '<tbody>' + rows + '</tbody>';
+})();
+
+/* ============================================================
+   Desenho de elevação (gerado das mesmas cotas)
+   ============================================================ */
+(function elevation() {
+  const svg = document.getElementById('elev');
+  const VW = 600, VH = 334, baseY = 262, step = 175, x0 = 118;
+  svg.setAttribute('viewBox', `0 0 ${VW} ${VH}`);
+  const E = [];
+  E.push(`<defs><pattern id="teca" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <rect width="6" height="6" fill="var(--teak)" opacity=".22"/>
+    <line x1="0" y1="0" x2="0" y2="6" stroke="var(--teak)" stroke-width=".8" opacity=".75"/>
+  </pattern></defs>`);
+  // linha de chão
+  E.push(`<line x1="34" y1="${baseY}" x2="${VW-18}" y2="${baseY}" stroke="var(--rule)" stroke-width="1"/>`);
+
+  SIZES.forEach((s, i) => {
+    const cx = x0 + i * step;
+    const yT = baseY - s.H, hwT = GEO.W / 2, hwB = hwT - K * s.H;
+    // corpo
+    E.push(`<path d="M${cx-hwT} ${yT} L${cx+hwT} ${yT} L${cx+hwB} ${baseY} L${cx-hwB} ${baseY} Z"
+      fill="var(--glass)" fill-opacity=".10" stroke="var(--ink)" stroke-width="1.1" stroke-linejoin="round"/>`);
+    // parede interna (tracejada)
+    const iT = hwT - GEO.WALL, iB = hwB - GEO.WALL, yF = baseY - GEO.BASE;
+    E.push(`<path d="M${cx-iT} ${yT} L${cx-iB} ${yF} L${cx+iB} ${yF} L${cx+iT} ${yT}"
+      fill="none" stroke="var(--muted)" stroke-width=".8" stroke-dasharray="4 2.5"/>`);
+    // tampa
+    E.push(`<rect x="${cx-GEO.LID_W/2}" y="${yT-GEO.LID_T}" width="${GEO.LID_W}" height="${GEO.LID_T}" rx="2"
+      fill="url(#teca)" stroke="var(--ink)" stroke-width="1.1"/>`);
+    // anel + saia
+    E.push(`<path d="M${cx-iT+1} ${yT} L${cx-iT+1} ${yT+GEO.PLUG} L${cx+iT-1} ${yT+GEO.PLUG} L${cx+iT-1} ${yT}"
+      fill="none" stroke="var(--faint)" stroke-width=".7"/>`);
+    E.push(`<circle cx="${cx-iT+1}" cy="${yT+4}" r="${GEO.GK}" fill="var(--ink)"/>`);
+    E.push(`<circle cx="${cx+iT-1}" cy="${yT+4}" r="${GEO.GK}" fill="var(--ink)"/>`);
+    // cota vertical
+    const dx = cx - GEO.LID_W/2 - 14, yTop = yT - GEO.LID_T;
+    E.push(`<line x1="${dx}" y1="${yTop}" x2="${dx}" y2="${baseY}" stroke="var(--faint)" stroke-width=".6"/>`);
+    [yTop, baseY].forEach(y => E.push(`<line x1="${dx-3}" y1="${y}" x2="${dx+3}" y2="${y}" stroke="var(--faint)" stroke-width=".9"/>`));
+    E.push(`<text x="${dx-4}" y="${(yTop+baseY)/2}" transform="rotate(-90 ${dx-4} ${(yTop+baseY)/2})"
+      text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--muted)">${s.alt}</text>`);
+    // rótulo
+    E.push(`<text x="${cx}" y="${baseY+18}" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif"
+      font-size="15" font-weight="700" fill="var(--ink)">${s.nom}</text>`);
+    E.push(`<text x="${cx}" y="${baseY+30}" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+      font-size="8" letter-spacing="1" fill="var(--faint)">${s.cod}</text>`);
+  });
+  // cota horizontal da base, sob o primeiro pote
+  const cy = baseY - 16, c1 = x0;
+  E.push(`<line x1="${c1-56}" y1="${baseY+38}" x2="${c1+56}" y2="${baseY+38}" stroke="var(--faint)" stroke-width=".6"/>`);
+  [c1-56, c1+56].forEach(x => E.push(`<line x1="${x}" y1="${baseY+35}" x2="${x}" y2="${baseY+41}" stroke="var(--faint)" stroke-width=".9"/>`));
+  E.push(`<text x="${c1}" y="${baseY+52}" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+    font-size="9" fill="var(--muted)">112 — igual nas três</text>`);
+  svg.innerHTML = E.join('');
+})();
+
+/* ============================================================
+   Render 3D — WebGL sem biblioteca externa
+   ============================================================ */
+(function render3d() {
+const cv = document.getElementById('gl');
+const gl = cv.getContext('webgl', { antialias: true, alpha: false, depth: true });
+if (!gl) { document.getElementById('fb').style.display = 'grid'; cv.style.display = 'none'; return; }
+
+/* ---------- álgebra ---------- */
+const M = {
+  mul(a, b) { const o = new Float32Array(16);
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) {
+      let v = 0; for (let k = 0; k < 4; k++) v += a[k * 4 + r] * b[c * 4 + k]; o[c * 4 + r] = v; } return o; },
+  ident() { return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]); },
+  trans(x, y, z) { const m = M.ident(); m[12] = x; m[13] = y; m[14] = z; return m; },
+  scale(x, y, z) { const m = M.ident(); m[0] = x; m[5] = y; m[10] = z; return m; },
+  persp(fovy, asp, n, f) { const t = 1 / Math.tan(fovy / 2); return new Float32Array(
+    [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0]); },
+  look(e, c, up) {
+    const z = norm([e[0]-c[0], e[1]-c[1], e[2]-c[2]]);
+    const x = norm(cross(up, z)), y = cross(z, x);
+    return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -dot(x,e), -dot(y,e), -dot(z,e), 1]); }
+};
+const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const norm = a => { const l = Math.hypot(a[0],a[1],a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; };
+
+/* ---------- perfil de retângulo arredondado ---------- */
+const SEG = 9;
+function profile(hw, r) {
+  const p = [], n = [];
+  const cx = [hw-r, -(hw-r), -(hw-r), hw-r], cz = [hw-r, hw-r, -(hw-r), -(hw-r)];
+  for (let c = 0; c < 4; c++) for (let i = 0; i <= SEG; i++) {
+    const a = c * Math.PI/2 + (i/SEG) * Math.PI/2;
+    const nx = Math.cos(a), nz = Math.sin(a);
+    p.push([cx[c] + r*nx, cz[c] + r*nz]); n.push([nx, nz]);
+  }
+  return { p, n, N: p.length };
+}
+
+/* ---------- construtor de malha ---------- */
+function Mesh() { this.v = []; this.n = []; this.i = []; }
+Mesh.prototype.add = function (x, y, z, nx, ny, nz) {
+  this.v.push(x, y, z); this.n.push(nx, ny, nz); return this.v.length/3 - 1; };
+Mesh.prototype.quad = function (a, b, c, d) { this.i.push(a, b, c, a, c, d); };
+Mesh.prototype.band = function (ringA, ringB) {           // dois anéis de mesmo comprimento
+  const N = ringA.length;
+  for (let i = 0; i < N; i++) { const j = (i+1) % N;
+    this.quad(ringA[i], ringB[i], ringB[j], ringA[j]); } };
+Mesh.prototype.ring = function (pr, y, radial, ny) {       // anel de vértices com normal analítica
+  const c = 1 / Math.hypot(1, ny), out = [];
+  for (let i = 0; i < pr.N; i++) {
+    const s = radial(i);
+    out.push(this.add(pr.p[i][0]*s.k, y, pr.p[i][1]*s.k,
+      pr.n[i][0]*c*s.dir, ny*c, pr.n[i][1]*c*s.dir));
+  } return out; };
+Mesh.prototype.cap = function (pr, y, scale, dirY) {
+  const ctr = this.add(0, y, 0, 0, dirY, 0), idx = [];
+  for (let i = 0; i < pr.N; i++) idx.push(this.add(pr.p[i][0]*scale, y, pr.p[i][1]*scale, 0, dirY, 0));
+  for (let i = 0; i < pr.N; i++) { const j = (i+1) % pr.N;
+    if (dirY > 0) this.i.push(ctr, idx[j], idx[i]); else this.i.push(ctr, idx[i], idx[j]); } };
+Mesh.prototype.flat = function (pr, y, sIn, sOut, dirY) {  // coroa entre dois raios
+  const a = [], b = [];
+  for (let i = 0; i < pr.N; i++) {
+    a.push(this.add(pr.p[i][0]*sIn, y, pr.p[i][1]*sIn, 0, dirY, 0));
+    b.push(this.add(pr.p[i][0]*sOut, y, pr.p[i][1]*sOut, 0, dirY, 0));
+  }
+  for (let i = 0; i < pr.N; i++) { const j = (i+1) % pr.N;
+    if (dirY > 0) this.quad(a[i], a[j], b[j], b[i]); else this.quad(a[i], b[i], b[j], a[j]); } };
+
+/* ---------- corpo do pote ---------- */
+function bodyMesh(H) {
+  const m = new Mesh(), hw = GEO.W/2, iw = hw - GEO.WALL, pr = profile(hw, GEO.R);
+  const sB = (hw - K*H)/hw;                       // escala no fundo (saída de molde)
+  const one = i => ({ k: 1, dir: 1 }), bot = i => ({ k: sB, dir: 1 });
+  // parede externa: normal inclina para baixo
+  const oTop = m.ring(pr, H, one, -K), oBot = m.ring(pr, 0, bot, -K);
+  m.band(oBot, oTop);
+  // aro
+  m.flat(pr, H, iw/hw, 1, 1);
+  // parede interna: normal para dentro e para cima
+  const iy = GEO.BASE, iwB = (iw - K*(H - iy))/hw;
+  const inTop = m.ring(pr, H, i => ({ k: iw/hw, dir: -1 }), K);
+  const inBot = m.ring(pr, iy, i => ({ k: iwB, dir: -1 }), K);
+  m.band(inTop, inBot);
+  m.cap(pr, iy, iwB, 1);                          // fundo interno
+  // pé levemente rebaixado: como na peça real, e evita face coplanar com o chão
+  const fy = 1.0, fs = (hw * sB - 1.6) / hw;
+  const fOut = m.ring(pr, 0, bot, -K);
+  const fIn = m.ring(pr, fy, () => ({ k: fs, dir: 1 }), -1);
+  m.band(fOut, fIn);
+  m.cap(pr, fy, fs, -1);                          // fundo externo, recuado
+  return m;
+}
+
+/* ---------- tampa de teca ---------- */
+function lidMesh() {
+  const m = new Mesh(), hw = GEO.LID_W/2, pr = profile(hw, GEO.LID_R);
+  const ch = 2, cs = (hw - ch)/hw;
+  const one = () => ({ k: 1, dir: 1 });
+  const a = m.ring(pr, 0, one, 0), b = m.ring(pr, GEO.LID_T - ch, one, 0);
+  m.band(a, b);                                   // lateral
+  const c = m.ring(pr, GEO.LID_T - ch, one, 1), d = m.ring(pr, GEO.LID_T, () => ({ k: cs, dir: 1 }), 1);
+  m.band(c, d);                                   // chanfro
+  m.cap(pr, GEO.LID_T, cs, 1);                    // topo
+  const pw = GEO.W/2 - GEO.WALL - GEO.CLEAR, ps = pw/hw;
+  m.flat(pr, 0, ps, 1, -1);                       // face inferior
+  const pa = m.ring(pr, 0, () => ({ k: ps, dir: 1 }), 0);
+  const pb = m.ring(pr, -GEO.PLUG, () => ({ k: ps, dir: 1 }), 0);
+  m.band(pb, pa);                                 // saia
+  m.cap(pr, -GEO.PLUG, ps, -1);
+  return m;
+}
+
+/* ---------- anel de vedação (varredura circular) ---------- */
+function gasketMesh() {
+  const m = new Mesh(), CS = 12, y0 = -4;
+  const pw = GEO.W/2 - GEO.WALL - GEO.CLEAR + 0.6;
+  const pr = profile(pw, GEO.LID_R - 4);
+  const rows = [];
+  for (let s = 0; s < CS; s++) {
+    const a = (s/CS) * Math.PI*2, ca = Math.cos(a), sa = Math.sin(a), row = [];
+    for (let i = 0; i < pr.N; i++) {
+      const nx = pr.n[i][0], nz = pr.n[i][1], off = GEO.GK*ca;
+      row.push(m.add(pr.p[i][0] + nx*off, y0 + GEO.GK*sa, pr.p[i][1] + nz*off, nx*ca, sa, nz*ca));
+    } rows.push(row);
+  }
+  for (let s = 0; s < CS; s++) m.band(rows[s], rows[(s+1)%CS]);
+  return m;
+}
+
+/* ---------- chão ---------- */
+function floorMesh() {
+  const m = new Mesh(), S = 620;
+  const a = m.add(-S,0,-S,0,1,0), b = m.add(S,0,-S,0,1,0), c = m.add(S,0,S,0,1,0), d = m.add(-S,0,S,0,1,0);
+  m.quad(a, d, c, b); return m;
+}
+
+/* ---------- shaders ---------- */
+const VS = `
+attribute vec3 aPos; attribute vec3 aNrm;
+uniform mat4 uMVP, uM; uniform mat3 uNM;
+varying vec3 vN, vW, vL;
+void main(){ vN = uNM * aNrm; vW = (uM * vec4(aPos,1.0)).xyz; vL = aPos;
+  gl_Position = uMVP * vec4(aPos,1.0); }`;
+
+const FS = `
+precision highp float;
+varying vec3 vN, vW, vL;
+uniform vec3 uCam, uColor, uColor2;
+uniform float uMode, uClipOn, uClipX, uRefl, uFootN;
+uniform vec4 uFoot[3];
+const vec3 KEY  = vec3(-0.4767, 0.7437, 0.4290);
+const vec3 FILL = vec3( 0.7581, 0.2317, 0.6098);
+const vec3 BACK = vec3( 0.1547, 0.3094, -0.9282);
+
+float sdRR(vec2 p, vec2 b, float r){
+  vec2 q = abs(p) - b + r;
+  return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r; }
+
+void main(){
+  if (uClipOn > 0.5 && vW.x > uClipX) discard;
+  vec3 N = normalize(vN);
+  if (!gl_FrontFacing) N = -N;
+  vec3 V = normalize(uCam - vW);
+
+  /* ---- chão com sombra suave ---- */
+  if (uMode > 3.5) {
+    float sh = 0.0;
+    for (int i = 0; i < 3; i++) {
+      if (float(i) >= uFootN) break;
+      vec4 f = uFoot[i];
+      float d = sdRR(vW.xz - f.xy, vec2(f.z), 14.0);
+      float core = 1.0 - smoothstep(-3.0, 8.0, d);
+      float soft = 1.0 - smoothstep(-8.0, 28.0 + f.w * 0.34, d);
+      sh = max(sh, core * 0.62 + soft * 0.38);
+    }
+    float rad = length(vW.xz) / 470.0;
+    float a = (1.0 - smoothstep(0.42, 1.0, rad)) * 0.95;
+    gl_FragColor = vec4(mix(uColor, uColor2, clamp(sh, 0.0, 1.0)), a);
+    return;
+  }
+
+  float lam = max(dot(N, KEY), 0.0);
+  float fil = max(dot(N, FILL), 0.0);
+  float bak = max(dot(N, BACK), 0.0);
+
+  /* ---- passe de reflexo: fosco e desbotado ---- */
+  if (uRefl > 0.5) {
+    vec3 c = uColor * (0.42 + 0.46 * lam + 0.20 * fil);
+    float fade = exp(vW.y * 0.036);
+    gl_FragColor = vec4(c, clamp(0.34 * fade, 0.0, 1.0));
+    return;
+  }
+
+  /* ---- Tritan translúcido ---- */
+  if (uMode < 1.5) {
+    float f = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 2.5);
+    vec3 h1 = normalize(KEY + V), h2 = normalize(BACK + V);
+    float s1 = pow(max(dot(N, h1), 0.0), 110.0);
+    float s2 = pow(max(dot(N, h2), 0.0), 34.0);
+    vec3 c = uColor * (0.58 + 0.34 * lam + 0.16 * fil + 0.22 * bak);
+    c = mix(c, vec3(1.0), f * 0.42);
+    c += vec3(1.0) * s1 * 0.85 + vec3(0.86, 0.94, 1.0) * s2 * 0.30;
+    float a = mix(0.075, 0.55, f) + s1 * 0.50 + s2 * 0.18;
+    gl_FragColor = vec4(c, clamp(a, 0.0, 0.98));
+    return;
+  }
+
+  /* ---- teca ---- */
+  if (uMode < 2.5) {
+    float wob = 0.86 * sin(vL.x * 0.030) + 0.44 * sin(vL.x * 0.0086 + 1.3)
+              + 0.24 * sin(vL.y * 0.055);
+    float t = vL.z * 0.098 + wob;
+    float g = pow(0.5 + 0.5 * sin(t * 2.3), 2.4);
+    float fine = 0.5 + 0.5 * sin(t * 7.0 + 2.2 * sin(vL.z * 0.17));
+    float wide = 0.5 + 0.5 * sin(vL.z * 0.026 + vL.x * 0.010);
+    vec3 base = mix(uColor, uColor2, clamp(g * 0.34 + fine * 0.07, 0.0, 1.0));
+    base = mix(base, base * 0.905, wide * 0.60);
+    vec3 h1 = normalize(KEY + V);
+    float sp = pow(max(dot(N, h1), 0.0), 30.0) * 0.17;
+    vec3 c = base * (0.34 + 0.62 * lam + 0.20 * fil + 0.10 * bak) + vec3(1.0, 0.96, 0.90) * sp;
+    gl_FragColor = vec4(c, 1.0);
+    return;
+  }
+
+  /* ---- corte: Tritan opaco, para ler a parede ---- */
+  if (uMode > 2.5 && uMode < 3.5) {
+    float inner = gl_FrontFacing ? 1.0 : 0.80;
+    vec3 c = uColor * (0.40 + 0.52 * lam + 0.22 * fil) * inner;
+    gl_FragColor = vec4(c, 1.0);
+    return;
+  }
+
+  /* ---- borracha fosca ---- */
+  vec3 h = normalize(KEY + V);
+  float sp = pow(max(dot(N, h), 0.0), 18.0) * 0.20;
+  vec3 c = uColor * (0.30 + 0.60 * lam + 0.24 * fil) + vec3(sp);
+  gl_FragColor = vec4(c, 1.0);
+}`;
+
+const BVS = `attribute vec2 aP; varying vec2 vP;
+void main(){ vP = aP; gl_Position = vec4(aP, 0.999, 1.0); }`;
+const BFS = `precision mediump float; varying vec2 vP;
+uniform vec3 uTop, uBot;
+void main(){
+  float t = clamp(vP.y * 0.5 + 0.5, 0.0, 1.0);
+  vec3 c = mix(uBot, uTop, pow(t, 0.85));
+  float glow = 1.0 - smoothstep(0.0, 1.15, length(vec2(vP.x * 1.05, (vP.y - 0.12) * 1.25)));
+  c += (uTop - uBot) * glow * 0.55;
+  gl_FragColor = vec4(c, 1.0); }`;
+
+function compile(src, type) {
+  const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh);
+  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh));
+  return sh;
+}
+function program(vs, fs) {
+  const p = gl.createProgram();
+  gl.attachShader(p, compile(vs, gl.VERTEX_SHADER));
+  gl.attachShader(p, compile(fs, gl.FRAGMENT_SHADER));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  return p;
+}
+const P = program(VS, FS), BP = program(BVS, BFS);
+const U = {}; ['uMVP','uM','uNM','uCam','uColor','uColor2','uMode','uClipOn','uClipX','uRefl','uFootN']
+  .forEach(k => U[k] = gl.getUniformLocation(P, k));
+U.uFoot = gl.getUniformLocation(P, 'uFoot[0]');
+const A = { pos: gl.getAttribLocation(P, 'aPos'), nrm: gl.getAttribLocation(P, 'aNrm') };
+const BU = { top: gl.getUniformLocation(BP, 'uTop'), bot: gl.getUniformLocation(BP, 'uBot') };
+const BA = gl.getAttribLocation(BP, 'aP');
+
+/* ---------- buffers ---------- */
+function upload(mesh) {
+  const o = {};
+  o.vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, o.vb);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh.v), gl.STATIC_DRAW);
+  o.nb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, o.nb);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh.n), gl.STATIC_DRAW);
+  o.ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, o.ib);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(mesh.i), gl.STATIC_DRAW);
+  o.n = mesh.i.length; return o;
+}
+const GBODY = SIZES.map(s => upload(bodyMesh(s.H)));
+const GLID = upload(lidMesh()), GGK = upload(gasketMesh()), GFLR = upload(floorMesh());
+const quadB = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, quadB);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+function bind(o) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, o.vb); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, o.nb); gl.vertexAttribPointer(A.nrm, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, o.ib);
+}
+
+/* ---------- cores do tema ---------- */
+function hex3(v) { const h = v.trim().replace('#',''); const n = h.length === 3
+  ? h.split('').map(c => c+c).join('') : h;
+  return [parseInt(n.slice(0,2),16)/255, parseInt(n.slice(2,4),16)/255, parseInt(n.slice(4,6),16)/255]; }
+let COL = {};
+function readTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  const top = hex3(cs.getPropertyValue('--studio-top') || '#DCE0E2');
+  const bot = hex3(cs.getPropertyValue('--studio-bot') || '#C6CCCF');
+  const flr = hex3(cs.getPropertyValue('--floor') || '#D5DADC');
+  const dark = (bot[0] + bot[1] + bot[2]) / 3 < 0.42;
+  COL = {
+    top, bot, floor: flr,
+    shadow: flr.map(v => v * (dark ? 0.28 : 0.58)),
+    glass: dark ? [0.58, 0.72, 0.79] : [0.83, 0.91, 0.945],
+    teakA: dark ? [0.78, 0.585, 0.35] : [0.725, 0.545, 0.329],
+    teakB: dark ? [0.44, 0.285, 0.135] : [0.40, 0.255, 0.115],
+    rubber: dark ? [0.20, 0.215, 0.235] : [0.165, 0.18, 0.196],
+    cut: dark ? [0.66, 0.76, 0.81] : [0.80, 0.87, 0.90]
+  };
+}
+readTheme();
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
+mq.addEventListener('change', () => { readTheme(); need = true; });
+new MutationObserver(() => { readTheme(); need = true; })
+  .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+/* ---------- estado ---------- */
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const st = { size: 'all', exp: false, cut: false, spin: false,
+  yaw: -0.44, pitch: 0.19, dist: 795, ty: 104,
+  yawT: -0.44, pitchT: 0.19, distT: 795, tyT: 104, lift: 0, liftT: 0 };
+let need = true, dragging = false, focused = false, last = null;
+
+function items() {
+  if (st.size === 'all') return SIZES.map((s, i) => ({ s, x: (i - 1) * 150, gi: i }));
+  return [{ s: SIZES[st.size], x: 0, gi: st.size }];
+}
+const TANH = Math.tan(13 * Math.PI / 180);
+function retarget(reorient) {
+  const it = items(), ex = st.exp ? 1 : 0;
+  // enquadra pela proporção real do canvas — em tela estreita a câmera recua
+  const asp = Math.max(0.45, (cv.clientWidth || 16) / (cv.clientHeight || 10));
+  const halfW = it.length > 1 ? 150 + GEO.LID_W/2 : GEO.LID_W/2;
+  const topY = Math.max.apply(null, it.map(o => o.s.H + ex * 74 + GEO.LID_T));
+  st.tyT = topY * 0.50;
+  st.distT = Math.max(300, halfW * 1.32 / (TANH * asp), topY * 0.50 * 1.30 / TANH);
+  st.liftT = ex;
+  if (reorient) {                       // no corte, a câmera vai para o lado do plano cortado
+    st.yawT = st.cut ? 0.86 : -0.44;
+    st.pitchT = st.cut ? 0.21 : 0.19;
+  }
+  if (reduce) { st.dist = st.distT; st.ty = st.tyT; st.lift = st.liftT;
+    st.yaw = st.yawT; st.pitch = st.pitchT; }
+  need = true;
+}
+
+/* ---------- controles ---------- */
+const bSize = [...document.querySelectorAll('[data-size]')];
+bSize.forEach(b => b.addEventListener('click', () => {
+  st.size = b.dataset.size === 'all' ? 'all' : +b.dataset.size;
+  if (st.size === 'all' && st.cut) { st.cut = false; syncCut(); }
+  bSize.forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+  retarget();
+}));
+const bExp = document.getElementById('bExp'), bCut = document.getElementById('bCut'), bSpin = document.getElementById('bSpin');
+function syncCut() { bCut.setAttribute('aria-pressed', String(st.cut)); }
+bExp.addEventListener('click', () => { st.exp = !st.exp;
+  bExp.setAttribute('aria-pressed', String(st.exp)); retarget(); });
+bCut.addEventListener('click', () => {
+  st.cut = !st.cut;
+  if (st.cut && st.size === 'all') {
+    st.size = 1;
+    bSize.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.size === '1')));
+  }
+  syncCut(); retarget(true);
+});
+bSpin.addEventListener('click', () => { st.spin = !st.spin;
+  bSpin.setAttribute('aria-pressed', String(st.spin)); need = true; });
+
+/* ---------- mouse / toque ---------- */
+cv.addEventListener('pointerdown', e => {
+  dragging = true; focused = true; last = [e.clientX, e.clientY];
+  cv.classList.add('dragging'); cv.setPointerCapture(e.pointerId);
+});
+cv.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  st.yaw -= (e.clientX - last[0]) * 0.008;
+  st.pitch = Math.max(0.03, Math.min(1.02, st.pitch + (e.clientY - last[1]) * 0.006));
+  st.yawT = st.yaw; st.pitchT = st.pitch;
+  last = [e.clientX, e.clientY]; need = true;
+});
+const stop = () => { dragging = false; cv.classList.remove('dragging'); };
+cv.addEventListener('pointerup', stop); cv.addEventListener('pointercancel', stop);
+document.addEventListener('pointerdown', e => { if (!cv.contains(e.target)) focused = false; }, true);
+cv.addEventListener('wheel', e => {
+  if (!focused) return;                                  // sem clicar, o scroll é da página
+  e.preventDefault();
+  st.distT = Math.max(210, Math.min(2800, st.distT * (1 + Math.sign(e.deltaY) * 0.09)));
+  if (reduce) st.dist = st.distT;
+  need = true;
+}, { passive: false });
+
+/* ---------- desenho ---------- */
+const NM_ID = new Float32Array([1,0,0, 0,1,0, 0,0,1]);
+const NM_MIR = new Float32Array([1,0,0, 0,-1,0, 0,0,1]);
+let PV = M.ident(), cam = [0,0,0];
+
+function drawObj(o, model, mode, c1, c2, refl, clip) {
+  gl.uniformMatrix4fv(U.uMVP, false, M.mul(PV, model));
+  gl.uniformMatrix4fv(U.uM, false, model);
+  gl.uniformMatrix3fv(U.uNM, false, model[5] < 0 ? NM_MIR : NM_ID);
+  gl.uniform1f(U.uMode, mode);
+  gl.uniform3fv(U.uColor, c1); gl.uniform3fv(U.uColor2, c2 || c1);
+  gl.uniform1f(U.uRefl, refl ? 1 : 0);
+  gl.uniform1f(U.uClipOn, clip ? 1 : 0);
+  bind(o); gl.drawElements(gl.TRIANGLES, o.n, gl.UNSIGNED_SHORT, 0);
+}
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+  if (w && h && (cv.width !== w || cv.height !== h)) { cv.width = w; cv.height = h; }
+}
+
+function frame() {
+  const animating = Math.abs(st.dist - st.distT) > 0.4 || Math.abs(st.ty - st.tyT) > 0.2
+                 || Math.abs(st.lift - st.liftT) > 0.002 || Math.abs(st.yaw - st.yawT) > 0.002
+                 || Math.abs(st.pitch - st.pitchT) > 0.002;
+  if (st.spin) { st.yaw -= 0.0042; st.yawT = st.yaw; need = true; }
+  if (animating) {
+    st.dist  += (st.distT  - st.dist)  * 0.12;
+    st.ty    += (st.tyT    - st.ty)    * 0.12;
+    st.lift  += (st.liftT  - st.lift)  * 0.14;
+    st.yaw   += (st.yawT   - st.yaw)   * 0.13;
+    st.pitch += (st.pitchT - st.pitch) * 0.13;
+    need = true;
+  }
+  if (need) { need = false; paint(); }
+  requestAnimationFrame(frame);
+}
+
+function paint() {
+  resize();
+  const w = cv.width, h = cv.height;
+  gl.viewport(0, 0, w, h);
+  gl.clearColor(COL.bot[0], COL.bot[1], COL.bot[2], 1);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  /* fundo de estúdio */
+  gl.useProgram(BP); gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND); gl.depthMask(false);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadB);
+  gl.enableVertexAttribArray(BA); gl.vertexAttribPointer(BA, 2, gl.FLOAT, false, 0, 0);
+  gl.uniform3fv(BU.top, COL.top); gl.uniform3fv(BU.bot, COL.bot);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  gl.disableVertexAttribArray(BA);
+
+  /* câmera */
+  const cp = Math.cos(st.pitch), sp = Math.sin(st.pitch);
+  const tgt = [0, st.ty, 0];
+  cam = [tgt[0] + st.dist * cp * Math.sin(st.yaw), tgt[1] + st.dist * sp,
+         tgt[2] + st.dist * cp * Math.cos(st.yaw)];
+  const proj = M.persp(26 * Math.PI / 180, w / h, 40, 4000);
+  PV = M.mul(proj, M.look(cam, tgt, [0, 1, 0]));
+
+  gl.useProgram(P);
+  gl.enableVertexAttribArray(A.pos); gl.enableVertexAttribArray(A.nrm);
+  gl.uniform3fv(U.uCam, cam); gl.uniform1f(U.uClipX, 0);
+  gl.enable(gl.DEPTH_TEST); gl.depthMask(true);
+  gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK); gl.frontFace(gl.CCW);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  const list = items(), cut = st.cut;
+  const lift = st.lift * 74, gLift = st.lift * 38;
+
+  /* pés para a sombra */
+  const foot = new Float32Array(12);
+  list.forEach((it, i) => { if (i < 3) {
+    foot[i*4] = it.x; foot[i*4+1] = 0; foot[i*4+2] = GEO.LID_W/2; foot[i*4+3] = it.s.alt; } });
+  gl.uniform4fv(U.uFoot, foot); gl.uniform1f(U.uFootN, Math.min(list.length, 3));
+
+  const MIR = M.scale(1, -1, 1);
+  const mBody = it => M.trans(it.x, 0, 0);
+  const mLid  = it => M.trans(it.x, it.s.H + lift, 0);
+  const mGk   = it => M.trans(it.x, it.s.H + gLift, 0);
+
+  /* chão com sombra */
+  gl.enable(gl.BLEND);
+  drawObj(GFLR, M.ident(), 4, COL.floor, COL.shadow, false, false);
+
+  /* reflexo por cima do chão */
+  if (!cut) {
+    gl.disable(gl.DEPTH_TEST); gl.depthMask(false); gl.frontFace(gl.CW);
+    list.forEach(it => {
+      drawObj(GBODY[it.gi], M.mul(MIR, mBody(it)), 1, COL.glass, null, true, false);
+      drawObj(GLID, M.mul(MIR, mLid(it)), 2, COL.teakA, COL.teakB, true, false);
+      drawObj(GGK, M.mul(MIR, mGk(it)), 0, COL.rubber, null, true, false);
+    });
+    gl.frontFace(gl.CCW); gl.enable(gl.DEPTH_TEST); gl.depthMask(true);
+  }
+
+  /* opacos */
+  gl.disable(gl.BLEND);
+  list.forEach(it => {
+    if (cut) drawObj(GBODY[it.gi], mBody(it), 3, COL.cut, null, false, true);
+    drawObj(GLID, mLid(it), 2, COL.teakA, COL.teakB, false, cut);
+    drawObj(GGK, mGk(it), 0, COL.rubber, null, false, cut);
+  });
+
+  /* Tritan translúcido: faces de trás, depois as da frente */
+  if (!cut) {
+    gl.enable(gl.BLEND); gl.depthMask(false);
+    gl.cullFace(gl.FRONT);
+    list.forEach(it => drawObj(GBODY[it.gi], mBody(it), 1, COL.glass, null, false, false));
+    gl.cullFace(gl.BACK);
+    list.forEach(it => drawObj(GBODY[it.gi], mBody(it), 1, COL.glass, null, false, false));
+    gl.depthMask(true);
+  }
+}
+
+new ResizeObserver(() => { retarget(false); }).observe(cv);
+retarget();
+requestAnimationFrame(frame);
+})();
+</script>
