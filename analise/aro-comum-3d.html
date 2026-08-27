@@ -1,0 +1,1011 @@
+<title>Aro Comum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;700;800;900&family=Karla:wght@300;400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F1EFE9; --paper:#FBFAF7; --sunk:#E6E3DB;
+  --ink:#15191A; --muted:#566063; --faint:#8A9291;
+  --rule:#DAD6CD; --hair:#E6E3DB;
+  --teal:#0E7C86; --clay:#A8703C; --up:#2C7A52;
+  --studio-a:#20272A; --studio-b:#0C1012; --deck:#151B1D;
+  --sw-pp:#C3D0D4; --sw-teal:#17959F; --sw-teca:#A8763F; --sw-op:#B9C2C4;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#101413; --paper:#181D1D; --sunk:#0C100F;
+    --ink:#E7EAE8; --muted:#8D9A99; --faint:#68736F;
+    --rule:#262D2D; --hair:#1F2524;
+    --teal:#3FB3BD; --clay:#C68B4F; --up:#5CB483;
+    --studio-a:#1A2124; --studio-b:#07090A; --deck:#111617;
+    --sw-pp:#93A3A7; --sw-teal:#2FA9B3; --sw-teca:#C08850; --sw-op:#8E9899;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101413; --paper:#181D1D; --sunk:#0C100F;
+  --ink:#E7EAE8; --muted:#8D9A99; --faint:#68736F;
+  --rule:#262D2D; --hair:#1F2524;
+  --teal:#3FB3BD; --clay:#C68B4F; --up:#5CB483;
+  --studio-a:#1A2124; --studio-b:#07090A; --deck:#111617;
+  --sw-pp:#93A3A7; --sw-teal:#2FA9B3; --sw-teca:#C08850; --sw-op:#8E9899;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Karla","Helvetica Neue",Arial,sans-serif;font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:0 26px 92px}
+
+h1,h2,h3,.disp{font-family:"Darker Grotesque","Arial Narrow",Arial,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(3.2rem,9vw,6.4rem);font-weight:900;letter-spacing:-.028em;line-height:.82;text-transform:uppercase}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.018em;line-height:1}
+h3{font-size:1.28rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+p{margin:0}
+.mono{font-family:"Martian Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:.9em;letter-spacing:-.03em}
+.tag{font-family:"Martian Mono",monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+.lede{font-size:clamp(1.06rem,1.9vw,1.28rem);line-height:1.46;max-width:38ch}
+.body{max-width:66ch;color:var(--muted)}
+.body strong{color:var(--ink);font-weight:600}
+em{font-style:normal;color:var(--teal);font-weight:600}
+
+header{padding:56px 0 28px}
+.title-row{display:flex;flex-wrap:wrap;gap:22px 54px;align-items:flex-end;margin-top:10px}
+.hd-meta{display:flex;flex-wrap:wrap;gap:7px 22px;align-items:baseline;border-top:1px solid var(--rule);margin-top:28px;padding-top:12px}
+.hd-meta div{display:flex;gap:8px;align-items:baseline}
+.hd-meta .v{font-family:"Martian Mono",monospace;font-size:.74rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.hd-meta .v.hi{color:var(--teal)}
+
+/* estúdio */
+.studio{position:relative;border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--studio-b);aspect-ratio:16/10;min-height:340px}
+@media (max-width:700px){.studio{aspect-ratio:4/5}}
+#gl{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+#gl.dragging{cursor:grabbing}
+#gl.slide{cursor:grab}
+.hud{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+.hud>*{pointer-events:auto}
+.bar{display:flex;flex-wrap:wrap;gap:6px;padding:11px;align-items:flex-start}
+.bar.bottom{justify-content:space-between;align-items:flex-end}
+.seg{display:flex;background:color-mix(in srgb,var(--deck) 84%,transparent);border:1px solid #2A3335;border-radius:2px;overflow:hidden;backdrop-filter:blur(7px)}
+.seg .lbl{font-family:"Martian Mono",monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#6E7A7C;padding:8px 8px 8px 11px;align-self:center}
+button{font-family:"Martian Mono",monospace;font-size:.62rem;letter-spacing:-.01em;text-transform:uppercase;
+  background:transparent;color:#9BA6A8;border:0;padding:8px 11px;cursor:pointer;border-right:1px solid #232B2D}
+.seg button:last-child{border-right:0}
+button:hover{color:#F0F4F4;background:rgba(255,255,255,.07)}
+button[aria-pressed="true"]{background:#17959F;color:#06181A}
+button:focus-visible{outline:2px solid #17959F;outline-offset:-2px}
+.legend{display:flex;flex-direction:column;gap:4px;background:color-mix(in srgb,var(--deck) 84%,transparent);
+  border:1px solid #2A3335;border-radius:2px;padding:8px 10px;backdrop-filter:blur(7px)}
+.legend div{display:flex;align-items:center;gap:7px;font-family:"Martian Mono",monospace;font-size:.56rem;letter-spacing:-.02em;color:#9BA6A8}
+.sw{width:8px;height:8px;border-radius:1px;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.hint{font-family:"Martian Mono",monospace;font-size:.55rem;letter-spacing:-.01em;text-transform:uppercase;color:#727E80;
+  background:color-mix(in srgb,var(--deck) 76%,transparent);padding:6px 9px;border:1px solid #2A3335;border-radius:2px;backdrop-filter:blur(7px)}
+.fallback{position:absolute;inset:0;display:none;place-items:center;padding:30px;text-align:center;color:#9BA6A8}
+
+section{padding-top:70px}
+.sec-head{display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:26px}
+.sec-head .tag{flex:none;padding-top:6px}
+
+table{border-collapse:collapse;width:100%;font-family:"Martian Mono",monospace;font-size:.7rem;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--hair);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.56rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:500;border-bottom:1px solid var(--rule)}
+tbody tr:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+td.k{color:var(--muted)}
+td.up{color:var(--up);font-weight:600}
+td.dn{color:var(--clay);font-weight:600}
+tr.tot td{border-top:2px solid var(--rule);font-weight:600}
+.tbl-wrap{overflow-x:auto}
+.draw-wrap{overflow-x:auto;padding:16px 0 2px}
+.draw{width:100%;min-width:560px;max-width:1000px;height:auto;display:block;margin:0 auto}
+caption{caption-side:bottom;text-align:left;padding-top:11px;font-family:"Karla",sans-serif;font-size:.82rem;color:var(--faint);white-space:normal;letter-spacing:0}
+
+/* matriz */
+.mtx-wrap{overflow-x:auto}
+.mtx{border-collapse:separate;border-spacing:0;min-width:640px;font-family:"Martian Mono",monospace;font-size:.66rem}
+.mtx th,.mtx td{border:0;padding:0;white-space:nowrap}
+.mtx thead th{padding:0 0 10px;text-align:center;font-size:.58rem;letter-spacing:.04em;color:var(--muted);text-transform:none}
+.mtx thead th:first-child{text-align:left}
+.mtx tbody th{text-align:left;padding:0 16px 0 0;font-weight:500;font-size:.66rem;color:var(--ink);letter-spacing:-.03em}
+.mtx tbody th small{display:block;font-size:.56rem;color:var(--faint);letter-spacing:0}
+.mtx td{padding:4px}
+.cellbox{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;height:66px;
+  border:1px solid var(--rule);border-radius:2px;background:var(--paper);padding:6px}
+.cellbox b{font-family:"Darker Grotesque",sans-serif;font-size:1.02rem;font-weight:800;line-height:1;letter-spacing:0}
+.cellbox span{font-size:.52rem;letter-spacing:.02em;color:var(--faint);text-align:center;line-height:1.25}
+.cellbox.novo{border-color:color-mix(in srgb,var(--teal) 55%,transparent);background:color-mix(in srgb,var(--teal) 9%,var(--paper))}
+.cellbox.novo b{color:var(--teal)}
+.cellbox.ja{background:var(--sunk)}
+.cellbox.nao{opacity:.45}
+
+/* cards */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:2px}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.cell{background:var(--paper);padding:22px}
+.cell .tag{display:block;margin-bottom:8px}
+.cell h3{margin-bottom:8px}
+.cell p{font-size:.94rem;color:var(--muted)}
+.cell p+p{margin-top:9px}
+.cell .swatch{height:5px;border-radius:2px;margin-bottom:14px}
+.spec{margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);font-family:"Martian Mono",monospace;
+  font-size:.6rem;letter-spacing:-.02em;color:var(--ink);line-height:1.7}
+.spec i{font-style:normal;color:var(--faint)}
+
+.checks{list-style:none;margin:0;padding:0;counter-reset:c}
+.checks li{display:grid;grid-template-columns:30px 1fr;gap:15px;padding:17px 0;border-bottom:1px solid var(--hair)}
+.checks li:before{counter-increment:c;content:counter(c,decimal-leading-zero);font-family:"Martian Mono",monospace;font-size:.62rem;color:var(--faint);padding-top:5px}
+.checks b{font-family:"Darker Grotesque",sans-serif;font-weight:800;font-size:1.22rem;display:block;margin-bottom:2px;line-height:1.1}
+.checks span{font-size:.94rem;color:var(--muted)}
+.agent{display:inline-block;margin-top:6px;font-family:"Martian Mono",monospace;font-size:.55rem;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 42%,transparent);padding:3px 7px;border-radius:2px}
+.fix{border-left:3px solid var(--clay);background:color-mix(in srgb,var(--clay) 7%,transparent);padding:16px 18px;border-radius:2px;margin-top:22px}
+.fix .tag{display:block;margin-bottom:6px;color:var(--clay)}
+.fix p{font-size:.94rem;color:var(--ink)}
+footer{margin-top:74px;border-top:1px solid var(--rule);padding-top:18px}
+footer p{font-size:.84rem;color:var(--faint);max-width:74ch}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="tag">Estudo de plataforma &middot; Nitron &middot; agosto 2026</span>
+  <div class="title-row">
+    <h1>Aro<br>Comum</h1>
+    <p class="lede">Pote alto em três alturas sobre a mesma base, com três tampas intercambiáveis &mdash; e o mesmo aro do Porta Sabão em Pó, que já vende R$&nbsp;442&nbsp;mil por ano.</p>
+  </div>
+  <div class="hd-meta">
+    <div><span class="tag">Aro</span><span class="v">105 × 206 mm</span></div>
+    <div><span class="tag">Corpos</span><span class="v">3 novos + 1 existente</span></div>
+    <div><span class="tag">Tampas</span><span class="v">3</span></div>
+    <div><span class="tag">Moldes novos</span><span class="v hi">3 corpos + 2 tampas + 1 cursor</span></div>
+    <div><span class="tag">Status</span><span class="v">conceito &mdash; não aprovado</span></div>
+  </div>
+</header>
+
+<div class="studio">
+  <canvas id="gl"></canvas>
+  <div class="fallback" id="fb"><p>O render precisa de WebGL. A matriz, as cotas e os números do ERP abaixo funcionam sem ele.</p></div>
+  <div class="hud">
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Corpo">
+        <span class="lbl">Corpo</span>
+        <button data-body="0" aria-pressed="false">2,1 L</button>
+        <button data-body="1" aria-pressed="true">3,0 L</button>
+        <button data-body="2" aria-pressed="false">4,0 L</button>
+        <button data-body="3" aria-pressed="false">008 · limpeza</button>
+      </div>
+      <div class="seg" role="group" aria-label="Tampa">
+        <span class="lbl">Tampa</span>
+        <button data-lid="0" aria-pressed="true">Lisa</button>
+        <button data-lid="1" aria-pressed="false">Deslizante</button>
+        <button data-lid="2" aria-pressed="false">Teca</button>
+      </div>
+      <div class="seg" role="group" aria-label="Vista">
+        <button id="bExp" aria-pressed="false">Explodir</button>
+        <button id="bSpin" aria-pressed="false">Girar</button>
+      </div>
+    </div>
+    <div class="bar bottom">
+      <div class="legend">
+        <div><span class="sw" style="background:var(--sw-pp)"></span>Corpo &mdash; PP transparente</div>
+        <div><span class="sw" style="background:var(--sw-teal)"></span>Tampa e cursor &mdash; PP pigmentado</div>
+        <div><span class="sw" style="background:var(--sw-teca)"></span>Inserto de teca &mdash; 12 mm, linha Teca</div>
+      </div>
+      <span class="hint" id="hintTx">arraste o fundo para girar a vista</span>
+    </div>
+  </div>
+</div>
+
+<section id="prova">
+  <div class="sec-head"><span class="tag">01 / a prova</span><h2>O corpo não é o produto. A tampa é.</h2></div>
+  <p class="body" style="margin-bottom:20px">A Nitron já tem, no catálogo, o experimento controlado que justifica esta plataforma inteira. Os potes altos retangulares de <strong>1,5 · 2,9 · 4,6 L</strong> existem em duas versões que saem <strong>do mesmo molde de corpo</strong> e diferem só na tampa: as referências <span class="mono">0259/0258/0257</span> com tampa lisa, e as <span class="mono">817/818/819</span> com tampa de válvula.</p>
+  <p class="body" style="margin-bottom:26px">Em 12 meses, a versão de tampa lisa <strong>praticamente desapareceu</strong> e a de válvula <em>multiplicou por dez</em>. Mesmo molde, mesmo plástico, mesma prateleira. A única variável foi a tampa &mdash; e ela moveu o corpo de R$&nbsp;100&nbsp;mil para R$&nbsp;442&nbsp;mil.</p>
+  <div class="tbl-wrap"><table id="prova-tb"></table></div>
+</section>
+
+<section id="matriz">
+  <div class="sec-head"><span class="tag">02 / matriz</span><h2>Quatro corpos, três tampas, um aro</h2></div>
+  <p class="body" style="margin-bottom:24px">Fixando o aro em <strong>105 × 206 mm</strong> &mdash; a base que o Porta Sabão em Pó <span class="mono">008</span> já usa &mdash; as três alturas novas e o corpo de limpeza que já está em linha passam a aceitar a mesma tampa. Doze combinações comerciais saem de <strong>três moldes de corpo e três peças de tampa</strong>, sendo que a tampa de teca reaproveita o molde da lisa.</p>
+  <div class="mtx-wrap"><table class="mtx" id="mtx"></table></div>
+  <div class="tbl-wrap" style="margin-top:38px"><table id="geo"></table></div>
+</section>
+
+<section id="tampas">
+  <div class="sec-head"><span class="tag">03 / as tampas</span><h2>O que cada uma resolve</h2></div>
+  <div class="grid3">
+    <div class="cell">
+      <span class="swatch" style="background:var(--sw-teal)"></span>
+      <span class="tag">Tampa A</span>
+      <h3>Lisa com trava</h3>
+      <p>A base da família: placa de topo plana com degrau de registro de 0,8 mm, canaleta periférica de 2,6 mm e duas travas integradas. O degrau enquadra o rótulo e some visualmente na peça lisa.</p>
+      <p>É a tampa mais barata de fazer e a que sustenta o preço &mdash; na escada de pote alto com travas, a trava é o que cobra: R$&nbsp;3,02 no 460 ml contra R$&nbsp;9,39 no 4,3 L.</p>
+      <div class="spec"><i>molde</i> 1 de 2 · <i>área proj.</i> 216 cm² · <i>fechamento</i> ≈ 76 t<br><i>altura</i> 13,0 mm · <i>parede</i> 2,0 mm</div>
+    </div>
+    <div class="cell">
+      <span class="swatch" style="background:var(--sw-teal)"></span>
+      <span class="tag">Tampa B</span>
+      <h3>Lisa com trava e sub-tampa que sai</h3>
+      <p>Mesma placa, com uma janela de <strong>62 × 82 mm</strong> aberta até a ponta e um cursor que corre num rebaixo sob a placa. Serve para servir sem abrir: arroz, aveia, macarrão &mdash; e sabão em pó, que é onde ela encontra a linha de limpeza.</p>
+      <p>É a única das três que substitui um componente hoje solto: o <strong>copo dosador</strong> do <span class="mono">008</span>, que o consumidor perde e que a Nitron embala junto.</p>
+      <p>Custo de projeto: para o cursor sair, a <strong>canaleta da ponta é interrompida em 67 mm</strong>. Naquele trecho a tampa apenas apoia no aro em vez de abraçá-lo, e é por isso que esta tampa não pode alegar estanqueidade.</p>
+      <div class="spec"><i>molde</i> 2 de 2 + cursor · <i>janela</i> 62 × 82 mm<br><i>curso</i> 58 mm · <i>altura</i> 15,0 mm · <i>canaleta interrompida</i> 67 mm</div>
+    </div>
+    <div class="cell">
+      <span class="swatch" style="background:var(--sw-teca)"></span>
+      <span class="tag">Tampa C</span>
+      <h3>Teca</h3>
+      <p>Não é uma tampa nova: é a <strong>tampa A com um inserto de teca de 12 mm</strong> assentado no degrau de registro. Zero molde novo. O PP continua fazendo a vedação e a trava; a madeira é acabamento.</p>
+      <p>A espessura de 12 mm é exatamente a bitola de tábua que a <strong>linha Teca já compra com FSC 100%</strong> &mdash; então não há fornecedor novo, nem secagem nova, nem tolerância nova a inventar.</p>
+      <div class="spec"><i>molde</i> nenhum · <i>inserto</i> 93 × 194 × 12 mm<br><i>peso</i> ≈ 141 g · <i>MB da linha Teca</i> 36,8%</div>
+    </div>
+  </div>
+  <div class="fix">
+    <span class="tag">correção do estudo anterior</span>
+    <p>No estudo da <strong>Linha Quadra</strong> eu escrevi que madeira exigiria um fornecedor de usinagem, secagem e controle de tolerância que a fábrica não tem. Isso está errado: a <strong>linha Teca tem 457 SKUs cadastrados, 64 ativos, R$&nbsp;1,26&nbsp;M em 12 meses crescendo 10%, e certificação FSC 100%</strong> nas tábuas. A capacidade existe. O que continua verdadeiro é o outro lado: a MB da linha Teca é de <strong>36,8%</strong>, a mais baixa entre as linhas medidas, então tampa de madeira <em>dilui margem</em> em vez de levantar. Já corrigi o texto da Linha Quadra.</p>
+  </div>
+</section>
+
+<section id="encaixe">
+  <div class="sec-head"><span class="tag">03b / encaixe</span><h2>A seção, onde o cursor encontra a placa</h2></div>
+  <p class="body" style="margin-bottom:6px">Corte longitudinal pelo eixo longo da tampa B, metade da frente. Mostra as três coisas que a ferramentaria vai querer ver: o degrau de registro, o rebaixo em que o cursor corre por baixo da placa, e a canaleta que abraça o aro do pote. Cotas do conceito, em mm.</p>
+  <div class="draw-wrap"><svg id="sec" class="draw" role="img" aria-label="Seção longitudinal da tampa com cursor deslizante, cotada"></svg></div>
+</section>
+
+<section id="moldes">
+  <div class="sec-head"><span class="tag">04 / moldes</span><h2>O que isso custa em ferramentaria</h2></div>
+  <p class="body" style="margin-bottom:24px">Sem o aro comum, três alturas × três tampas seriam nove moldes. Com o aro comum são <strong>seis</strong>, e um deles é pequeno. A conta que importa não é o número de SKUs no catálogo, é o número de cavidades que a ferramentaria tem de fazer e manter.</p>
+  <div class="tbl-wrap"><table id="mold"></table></div>
+</section>
+
+<section id="pendencias">
+  <div class="sec-head"><span class="tag">05 / pendências</span><h2>O que falta antes disto virar proposta</h2></div>
+  <p class="body" style="margin-bottom:20px">A escada de <strong>pote alto com travas</strong> vale R$&nbsp;1,11&nbsp;M com R$&nbsp;549&nbsp;mil de lucro bruto e <em>cresce 5,9%</em> &mdash; três dos quatro tamanhos subindo, ao contrário da escada raso. Isso é o argumento a favor. Contra, há cinco coisas concretas.</p>
+  <ul class="checks">
+    <li><div><b>Medir o aro do 008 no desenho, não no cadastro</b><span>Toda a plataforma depende de 105 × 206 mm estar certo. Esse número saiu de <span class="mono">TGFPRO</span>, e o cadastro deste projeto já divergiu entre registros do mesmo produto. Se o aro real do 008 for outro, ou a plataforma muda de medida ou o corpo de limpeza sai dela &mdash; e sem o 008 o argumento de compartilhamento encolhe muito.</span><span class="agent">engenheiro-molde</span></div></li>
+    <li><div><b>Resolver a sobreposição de volume com 156 e 151</b><span>2,1 L encosta no <span class="mono">156</span> (2,2 L, +28,7%, o melhor crescimento da escada) e 4,0 L encosta no <span class="mono">151</span> (4,3 L, +13,8%). Duas das três alturas novas competem com os dois SKUs que estão indo bem. Ou a escada nova muda de degraus, ou é preciso decidir explicitamente que ela canibaliza.</span><span class="agent">curador-portfolio · veto</span></div></li>
+    <li><div><b>O veredito vigente de Potes é "só kit"</b><span>Está gravado em <span class="mono">pdp_linha</span>: Potes marcou score 8 e o veredito é <strong>lançar só kit, nada de SKU avulso</strong> &mdash; 487 SKUs ativos, R$ 16,0 M caindo 15,5%. Nove combinações soltas contrariam isso frontalmente. A versão compatível é vender <strong>kit de 3 alturas com uma tampa</strong>, e tratar as outras duas tampas como acessório.</span><span class="agent">curador-portfolio</span></div></li>
+    <li><div><b>Custear o cursor e a montagem</b><span>A tampa B é duas peças e uma operação de montagem que essa família não tem. Precisa do custo por unidade antes de comparar com o copo dosador que ela substituiria no <span class="mono">008</span> &mdash; se o cursor custar mais que o copo, o ganho é só de percepção.</span><span class="agent">engenheiro-molde</span></div></li>
+    <li><div><b>Descobrir por que a tampa lisa morreu</b><span>Cair 94% em 12 meses no mesmo corpo não é migração normal. Pode ser descontinuação comercial, pode ser troca de cadastro, pode ser o mercado escolhendo válvula. As três leituras levam a decisões diferentes, e a tampa A desta plataforma <strong>é uma tampa lisa</strong>.</span><span class="agent">analista-sankhya</span></div></li>
+    <li><div><b>Avaliar a canaleta interrompida</b><span>Abrir a janela até a ponta tira 67 mm dos 622 mm de perímetro de canaleta &mdash; 11% do abraço no aro, concentrado numa face inteira. Precisa de ensaio de queda com o pote cheio para saber se a tampa solta por ali, e a resposta pode obrigar a colocar uma terceira trava na ponta.</span><span class="agent">engenheiro-molde</span></div></li>
+    <li><div><b>Definir o encosto inferior do cursor</b><span>A placa da tampa segura o cursor por cima, mas nada o segura por baixo &mdash; do jeito que está, ele cai para dentro do pote. Precisa de um ressalto na face inferior da placa, e esse ressalto é geometria de molde, não detalhe de acabamento.</span><span class="agent">engenheiro-molde</span></div></li>
+    <li><div><b>Preço do pote com dosador deslizante no mercado</b><span>Não há referência interna: o <span class="mono">008</span> cobra R$ 10,09 com copo dosador, e nenhum pote de mantimento da Nitron tem cursor. Precisa vir de fora, incluindo se a avaliação do consumidor menciona a função ou reclama de vazamento na janela.</span><span class="agent">radar-concorrencia</span></div></li>
+    <li><div><b>Vedação na janela</b><span>Uma tampa com janela deslizante não veda como uma tampa cheia. Para mantimento seco isso é aceitável; para qualquer alegação de estanqueidade, não. O texto tem de ser <strong>"fecha o cursor para guardar"</strong>, nunca hermético &mdash; o art. 36 do CDC cobra o dado técnico de quem alega.</span><span class="agent">engenheiro-molde</span></div></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Render em WebGL gerado das cotas desta página. Faturamento, quantidade, preço médio, margem e clientes vêm de consulta ao Sankhya nas empresas 1, 2 e 14, notas liberadas, tipos V e D, excluindo transferências intercompany e as tabelas 84 (Avon) e 3 (exportação), em janelas de 12 meses móveis. Curva, margem e veredito por linha vêm de <span class="mono">pdp_linha</span> no Supabase. Base do <span class="mono">008</span> e volumes dos potes altos vêm de <span class="mono">TGFPRO</span> e precisam de conferência no desenho de ferramentaria. Alturas, raios, janela, curso do cursor e o degrau de registro são hipótese de conceito. Nada foi gravado em <span class="mono">pdp_lancamento</span>.</p>
+</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   Fonte única: cotas do conceito + números do ERP (12 M móveis)
+   ============================================================ */
+const RIM = {
+  W:105, D:206, R:14,        // aro comum — base do Porta Sabão 008
+  WALL:1.8, BASE:2.5, DRAFT:1.5,
+  PLATE:2.0, LEG:1.5, CHAN:2.6, CHAN_H:6.0,
+  STEP:0.8, STEP_IN:6.0,     // degrau de registro: enquadra o rótulo, assenta a teca
+  WIN_W:62, WIN_L:82, WIN_END:0, TRAVEL:58,   // janela aberta até a ponta: o cursor sai por ali
+  INLAY:12
+};
+const BODIES = [
+  { cod:'AC-21', nom:'2,1 L', H:120, brim:2.29, novo:1 },
+  { cod:'AC-30', nom:'3,0 L', H:175, brim:3.29, novo:1 },
+  { cod:'AC-40', nom:'4,0 L', H:235, brim:4.33, novo:1 },
+  { cod:'008',   nom:'Porta Sabão', H:248, brim:4.60, novo:0, ref:'008.012.002',
+    fat:442483, ant:507659, mb:48.3, preco:10.09 }
+];
+const LIDS = [
+  { id:'lisa',  nom:'Lisa', T:13 },
+  { id:'slide', nom:'Deslizante', T:15 },
+  { id:'teca',  nom:'Teca', T:13 }
+];
+BODIES.forEach(b=>{ b.area=Math.round(RIM.W*RIM.D/100); b.ton=Math.round(b.area*0.35); });
+const br=(v,d=0)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const mil=v=>'R$ '+br(v/1000,1)+' k';
+const pct=v=>(v>0?'+':'')+br(v,1)+'%';
+
+/* ---------- 01 · a prova ---------- */
+(function prova(){
+  const R=[
+    ['Tampa lisa','0259 · 0258 · 0257',3250,53598],
+    ['Tampa com válvula','817 · 818 · 819',439082,46519]
+  ];
+  const tf=R.reduce((a,r)=>a+r[2],0), ta=R.reduce((a,r)=>a+r[3],0);
+  const row=r=>{const d=(r[2]/r[3]-1)*100;
+    return `<tr><td><strong>${r[0]}</strong></td><td class="k">${r[1]}</td>
+      <td>${mil(r[2])}</td><td class="k">${mil(r[3])}</td>
+      <td class="${d>0?'up':'dn'}">${pct(d)}</td></tr>`;};
+  const t=document.getElementById('prova-tb');
+  t.innerHTML='<thead><tr><th>Versão do mesmo corpo</th><th>Referências</th><th>Fat. 12 M</th>'+
+    '<th>12 M anterior</th><th>Δ</th></tr></thead><tbody>'+R.map(row).join('')+
+    `<tr class="tot"><td>Total do corpo</td><td class="k">1,5 · 2,9 · 4,6 L</td><td>${mil(tf)}</td>
+      <td class="k">${mil(ta)}</td><td class="up">${pct((tf/ta-1)*100)}</td></tr></tbody>`+
+    '<caption>Mesmo molde de corpo nas duas linhas: o que muda é a tampa. A tampa lisa perdeu R$ 50 mil, a de válvula ganhou R$ 393 mil.</caption>';
+
+  const ESC=[
+    ['154','460 ml',184456,262819,59.4,3.02,109592],
+    ['155','850 ml',290877,261933,58.4,3.93,169901],
+    ['156','2,2 L',339333,263761,43.4,5.27,147168],
+    ['151','4,3 L',295723,259964,41.3,9.39,122020]
+  ];
+  const ef=ESC.reduce((a,r)=>a+r[2],0), ea=ESC.reduce((a,r)=>a+r[3],0), el=ESC.reduce((a,r)=>a+r[6],0);
+  const html='<div class="tbl-wrap" style="margin-top:36px"><table>'+
+    '<thead><tr><th>Pote alto com travas</th><th>Volume</th><th>Fat. 12 M</th><th>12 M anterior</th>'+
+    '<th>Δ</th><th>MB</th><th>Preço médio</th><th>Lucro bruto</th></tr></thead><tbody>'+
+    ESC.map(r=>{const d=(r[2]/r[3]-1)*100;
+      return `<tr><td class="mono"><strong>${r[0]}</strong></td><td class="k">${r[1]}</td>
+        <td>${mil(r[2])}</td><td class="k">${mil(r[3])}</td><td class="${d>0?'up':'dn'}">${pct(d)}</td>
+        <td class="k">${br(r[4],1)}%</td><td class="k">R$ ${br(r[5],2)}</td><td class="k">${mil(r[6])}</td></tr>`;}).join('')+
+    `<tr class="tot"><td>Escada</td><td class="k">4 tamanhos</td><td>${mil(ef)}</td><td class="k">${mil(ea)}</td>
+      <td class="up">${pct((ef/ea-1)*100)}</td><td class="k">—</td><td class="k">—</td><td>${mil(el)}</td></tr>`+
+    '</tbody><caption>O mercado que a plataforma endereça. Três dos quatro tamanhos crescendo — o inverso exato da escada de pote raso, que cai 12,7%.</caption></table></div>';
+  t.closest('.tbl-wrap').insertAdjacentHTML('afterend', html);
+})();
+
+/* ---------- 02 · matriz e geometria ---------- */
+(function matriz(){
+  const C=[
+    [['Potes','mantimento','novo'],['Potes','servir sem abrir','novo'],['Teca','vitrine','novo']],
+    [['Potes','mantimento','novo'],['Potes','servir sem abrir','novo'],['Teca','vitrine','novo']],
+    [['Potes','mantimento','novo'],['Potes','servir sem abrir','novo'],['Teca','vitrine','novo']],
+    [['Limpeza','troca a tampa atual','ja'],['Limpeza','troca o copo dosador','novo'],['—','não faz sentido','nao']]
+  ];
+  const head='<thead><tr><th>Corpo</th>'+LIDS.map(l=>`<th>Tampa ${l.nom}</th>`).join('')+'</tr></thead>';
+  const rows=BODIES.map((b,i)=>{
+    const sub = b.novo ? `${br(RIM.W)} × ${br(RIM.D)} × ${br(b.H)} mm` : `já em linha · ${b.ref}`;
+    return `<tr><th>${b.cod} · ${b.nom}<small>${sub}</small></th>`+
+      C[i].map(c=>`<td><div class="cellbox ${c[2]}"><b>${c[0]}</b><span>${c[1]}</span></div></td>`).join('')+'</tr>';
+  }).join('');
+  document.getElementById('mtx').innerHTML=head+'<tbody>'+rows+'</tbody>';
+
+  const cols=[
+    ['Corpo', b=>`<strong>${b.cod}</strong> · ${b.nom}`, ''],
+    ['Base', ()=>`${RIM.W} × ${RIM.D}`, 'k'],
+    ['Altura do corpo', b=>br(b.H), 'k'],
+    ['Com tampa lisa', b=>br(b.H-RIM.CHAN_H+LIDS[0].T), 'k'],
+    ['Com tampa teca', b=>br(b.H-RIM.CHAN_H+LIDS[0].T+RIM.INLAY-RIM.STEP,1), 'k'],
+    ['Até a borda', b=>br(b.brim,2)+' L', 'k'],
+    ['Área proj.', b=>br(b.area)+' cm²', 'k'],
+    ['Fechamento', b=>'≈ '+b.ton+' t', 'k'],
+    ['Situação', b=>b.novo?'<span style="color:var(--teal)">molde novo</span>':'já em linha', 'k']
+  ];
+  document.getElementById('geo').innerHTML=
+    '<thead><tr>'+cols.map((c,i)=>`<th>${c[0]}${i>=2&&i<=4?' <span style="opacity:.55">mm</span>':''}</th>`).join('')+'</tr></thead><tbody>'+
+    BODIES.map(b=>'<tr>'+cols.map(c=>`<td class="${c[2]}">${c[1](b)}</td>`).join('')+'</tr>').join('')+
+    '</tbody><caption>Alturas, raio de canto, degrau de registro e janela são hipótese deste estudo. A base 105 × 206 vem do cadastro do <span class="mono">008</span> em <span class="mono">TGFPRO</span> e precisa de conferência no desenho. Volume calculado com parede de 1,8 mm, fundo de 2,5 mm e saída de 1,5° por lado.</caption>';
+})();
+
+/* ---------- 03b · seção do encaixe, dois detalhes ---------- */
+(function jointSection(){
+  const R=RIM, T=LIDS[1].T, hd=R.D/2;
+  const wz1=hd-R.WIN_END, wz0=wz1-R.WIN_L;
+  const pu=T-R.STEP-R.PLATE, rf=T-R.STEP;
+  const cT=pu-0.2, cB=cT-1.8;                       // cursor: todo abaixo da placa
+  const dr=Math.tan(R.DRAFT*Math.PI/180)*(T-1);
+  const l1=hd-dr-R.LEG, l2=l1-R.CHAN, l3=l2-R.LEG;
+  const pO=l1-0.5, pI=pO-1.6;
+  const Y=y=>26-y;
+  const E=[];
+  const F='font-family="Martian Mono, ui-monospace, monospace"';
+  const S='font-family="Karla, sans-serif"';
+  E.push(`<defs>
+    <pattern id="hp" width="1.8" height="1.8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="1.8" stroke="var(--teal)" stroke-width=".2" opacity=".7"/></pattern>
+    <pattern id="hc" width="1.2" height="1.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="1.2" stroke="var(--teal)" stroke-width=".18" opacity=".95"/></pattern>
+    <pattern id="hq" width="2.6" height="2.6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="2.6" stroke="var(--muted)" stroke-width=".2" opacity=".45"/></pattern>
+    <marker id="ar2" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto">
+      <path d="M0,1.2 L5,3 L0,4.8 z" fill="var(--faint)"/></marker></defs>`);
+
+  const poly=(pts,fill,stroke,dash)=>`<polygon points="${pts.map(q=>q[0].toFixed(2)+','+Y(q[1]).toFixed(2)).join(' ')}"
+    fill="${fill}" stroke="${stroke}" stroke-width=".26" stroke-linejoin="round" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
+  const dimV=(x,a2,b2,txt,side)=>`<g><line x1="${x}" y1="${Y(a2)}" x2="${x}" y2="${Y(b2)}" stroke="var(--faint)"
+      stroke-width=".14" marker-start="url(#ar2)" marker-end="url(#ar2)"/>
+    <text x="${x+(side<0?-0.9:0.9)}" y="${Y((a2+b2)/2)}" font-size="1.85" fill="var(--ink)" ${F}
+      dominant-baseline="middle" text-anchor="${side<0?'end':'start'}">${txt}</text></g>`;
+  const dimH=(y,a2,b2,txt)=>`<g><line x1="${a2}" y1="${Y(y)}" x2="${b2}" y2="${Y(y)}" stroke="var(--faint)"
+      stroke-width=".14" marker-start="url(#ar2)" marker-end="url(#ar2)"/>
+    <line x1="${a2}" y1="${Y(y)-.8}" x2="${a2}" y2="${Y(y)+.8}" stroke="var(--faint)" stroke-width=".2"/>
+    <line x1="${b2}" y1="${Y(y)-.8}" x2="${b2}" y2="${Y(y)+.8}" stroke="var(--faint)" stroke-width=".2"/>
+    <text x="${(a2+b2)/2}" y="${Y(y)+2.6}" font-size="1.85" fill="var(--ink)" ${F} text-anchor="middle">${txt}</text></g>`;
+  const ext=(x,y1,y2)=>`<line x1="${x}" y1="${Y(y1)}" x2="${x}" y2="${Y(y2)}" stroke="var(--faint)" stroke-width=".12"/>`;
+  const call=(x,y,tx,ty,txt,an)=>`<g><line x1="${x}" y1="${Y(y)}" x2="${tx+(an==='end'?1.1:-1.1)}" y2="${Y(ty)}"
+      stroke="var(--faint)" stroke-width=".14"/><circle cx="${x}" cy="${Y(y)}" r=".36" fill="var(--faint)"/>
+    <text x="${tx}" y="${Y(ty)}" font-size="1.8" fill="var(--muted)" ${S} dominant-baseline="middle"
+      text-anchor="${an||'start'}">${txt}</text></g>`;
+  const title=(x,txt)=>`<text x="${x}" y="${Y(-18.6)}" font-size="1.75" fill="var(--ink)" ${F}>${txt}</text>`;
+
+  /* ---- detalhe A: rebaixo do cursor (origem em z = 5) ---- */
+  const A=[]; const zA=5;
+  A.push(poly([[0,T],[16,T],[16,pu],[0,pu]],'url(#hp)','var(--ink)'));
+  A.push(`<line x1="0" y1="${Y(rf)}" x2="16" y2="${Y(rf)}" stroke="var(--ink)" stroke-width=".18" stroke-dasharray="1.2 .9"/>`);
+  A.push(poly([[12,cT],[41,cT],[41,cB],[12,cB]],'url(#hc)','var(--ink)'));
+  A.push(`<line x1="41" y1="${Y(cB)}" x2="41" y2="${Y(cT)}" stroke="var(--ink)" stroke-width=".2" stroke-dasharray="1.2 .9"/>`);
+  A.push(poly([[12,cB],[16,cB],[16,cB-1.2],[12,cB-1.2]],'none','var(--clay)','1.2 .8'));
+  A.push(dimV(-3.0,pu,T,'2,0',-1));
+  A.push(dimV(-8.4,rf,T,'0,8',-1));
+  A.push(dimV(19.4,cB,cT,'1,8',1));
+  A.push(dimV(28.0,cT,pu,'0,2',1));
+  A.push(ext(19.4-1.2,cT,cT)); A.push(ext(28.0,pu,pu));
+  A.push(call(7,T,0,T+7.8,'degrau de registro 0,8'));
+  A.push(call(16,pu+0.9,25,T+7.8,'borda da janela'));
+  A.push(call(14,cB-1.2,19,-6.4,'encosto do cursor — a definir'));
+  A.push(call(34,cT,28,-11.4,'cursor corre por baixo da placa','end'));
+  A.push(title(-8.4,'A · rebaixo do cursor'));
+
+  /* ---- detalhe B: encaixe no aro, seção fora da largura do cursor ---- */
+  const B=[]; const zB=88, o=z=>z-zB;
+  B.push(poly([[o(pO),R.CHAN_H],[o(pO),-9],[o(pI),-9],[o(pI),R.CHAN_H]],'url(#hq)','var(--muted)'));
+  B.push(poly([[0,T],[o(hd-0.8),T],[o(hd),T-1],[o(hd),0],[o(l1),0],[o(l1),R.CHAN_H],
+    [o(l2),R.CHAN_H],[o(l2),2],[o(l3),2],[o(l3),pu],[0,pu]],'url(#hp)','var(--ink)'));
+  B.push(`<line x1="0" y1="${Y(rf)}" x2="${o(l3)}" y2="${Y(rf)}" stroke="var(--ink)" stroke-width=".18" stroke-dasharray="1.2 .9"/>`);
+  B.push(poly([[o(hd)-1.0,T-3.2],[o(hd)-1.6,-1.8],[o(hd)-4.5,-5.8],[o(hd)-3.0,-7.0],
+    [o(hd)+0.0,-2.0],[o(hd)+0.6,T-3.2]],'url(#hp)','var(--ink)'));
+  B.push(`<line x1="${o(pI)}" y1="${Y(-9)}" x2="${o(pO)}" y2="${Y(-9)}" stroke="var(--muted)" stroke-width=".2" stroke-dasharray="1.2 .9"/>`);
+  B.push(`<line x1="0" y1="${Y(T+2)}" x2="0" y2="${Y(-10)}" stroke="var(--ink)" stroke-width=".22" stroke-dasharray="1.2 .9"/>`);
+  B.push(dimV(o(l3)-2.4,0,R.CHAN_H,'6,0',-1));
+  B.push(dimH(-6.5,o(l2),o(l1),'2,6'));
+  B.push(dimH(-13.0,o(pI),o(pO),'1,6'));
+  B.push(ext(o(l1),0,-5.9)); B.push(ext(o(l2),2,-5.9));
+  B.push(ext(o(pI),-9,-12.4)); B.push(ext(o(pO),-9,-12.4));
+  B.push(call(o(pO)-0.8,3.4,o(l3)-4.5,-3.2,'aro do pote na canaleta','end'));
+  B.push(call(o(hd)-2.6,-4.4,o(hd)+2.5,-9.6,'trava na face longa'));
+  B.push(call(3,T,7,T+7.8,'a mesma placa da tampa A'));
+  B.push(title(-2.4,'B · encaixe no aro'));
+
+  E.push(`<g transform="translate(0,0)">${A.join('')}</g>`);
+  E.push(`<g transform="translate(62,0)">${B.join('')}</g>`);
+  E.push(`<text x="-11" y="${Y(-22.4)}" font-size="1.62" fill="var(--faint)" ${F}>tampa B · pote 3,0 L · cotas em mm · hipótese de conceito</text>`);
+  E.push(`<text x="-11" y="${Y(-25.6)}" font-size="1.62" fill="var(--clay)" ${F}>detalhe B tomado fora da largura do cursor: nos 67 mm centrais da ponta a canaleta é interrompida</text>`);
+
+  const svg=document.getElementById('sec');
+  svg.setAttribute('viewBox','-13 0 116 56');
+  svg.innerHTML=E.join('');
+})();
+
+/* ---------- 04 · moldes ---------- */
+(function moldes(){
+  const M=[
+    ['Corpo 2,1 L','M-C21','216 cm²','1 altura','novo'],
+    ['Corpo 3,0 L','M-C30','216 cm²','1 altura','novo'],
+    ['Corpo 4,0 L','M-C40','216 cm²','1 altura','novo'],
+    ['Tampa lisa','M-T1','216 cm²','tampas A e C · 4 corpos','novo'],
+    ['Tampa deslizante','M-T2','216 cm²','tampa B · 4 corpos','novo'],
+    ['Cursor','M-K1','53 cm²','tampa B · todos os corpos','novo'],
+    ['Corpo Porta Sabão','—','—','já em produção','existente'],
+    ['Inserto de teca','—','—','usinagem na linha Teca','sem molde']
+  ];
+  document.getElementById('mold').innerHTML=
+    '<thead><tr><th>Peça</th><th>Molde</th><th>Área proj.</th><th>Serve</th><th>Situação</th></tr></thead><tbody>'+
+    M.map(m=>`<tr><td><strong>${m[0]}</strong></td><td class="mono k">${m[1]}</td><td class="k">${m[2]}</td>
+      <td class="k">${m[3]}</td><td class="k" style="color:${m[4]==='novo'?'var(--teal)':'var(--faint)'}">${m[4]}</td></tr>`).join('')+
+    '<tr class="tot"><td>6 moldes novos</td><td class="mono k">—</td><td class="k">—</td>'+
+    '<td class="k">12 combinações comerciais</td><td class="k">—</td></tr>'+
+    '</tbody><caption>Todos os seis caem na faixa ≤ 260 t, onde a ocupação medida neste projeto é de 56,9% com 7 de 15 injetoras paradas. Capacidade de máquina não é o gargalo — o custo de ferramentaria é.</caption>';
+})();
+
+/* ============================================================
+   Render 3D — WebGL sem biblioteca externa
+   ============================================================ */
+(function render3d(){
+const cv=document.getElementById('gl');
+const gl=cv.getContext('webgl',{antialias:true,alpha:false,depth:true});
+if(!gl){ document.getElementById('fb').style.display='grid'; cv.style.display='none'; return; }
+
+const M={
+  mul(a,b){const o=new Float32Array(16);
+    for(let c=0;c<4;c++)for(let r=0;r<4;r++){let v=0;for(let k=0;k<4;k++)v+=a[k*4+r]*b[c*4+k];o[c*4+r]=v;}return o;},
+  ident(){return new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);},
+  trans(x,y,z){const m=M.ident();m[12]=x;m[13]=y;m[14]=z;return m;},
+  persp(f,asp,n,fa){const t=1/Math.tan(f/2);return new Float32Array(
+    [t/asp,0,0,0,0,t,0,0,0,0,(fa+n)/(n-fa),-1,0,0,2*fa*n/(n-fa),0]);},
+  look(e,c,up){const z=nrm3([e[0]-c[0],e[1]-c[1],e[2]-c[2]]);
+    const x=nrm3(cr3(up,z)),y=cr3(z,x);
+    return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,
+      -dt3(x,e),-dt3(y,e),-dt3(z,e),1]);}
+};
+const dt3=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cr3=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const nrm3=a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return [a[0]/l,a[1]/l,a[2]/l];};
+
+function Mesh(){this.v=[];this.n=[];this.i=[];}
+Mesh.prototype.add=function(x,y,z,nx,ny,nz){this.v.push(x,y,z);this.n.push(nx,ny,nz);return this.v.length/3-1;};
+Mesh.prototype.quad=function(a,b,c,d){this.i.push(a,b,c,a,c,d);};
+Mesh.prototype.loop=function(pr,y,nyRaw,sgn){
+  const out=[],g=sgn===undefined?1:sgn;
+  for(let i=0;i<pr.N;i++){
+    let nx=pr.n[i][0]*g,nz=pr.n[i][1]*g,ny=nyRaw;
+    if(nyRaw===1||nyRaw===-1){nx=0;nz=0;}
+    const L=Math.hypot(nx,ny,nz)||1;
+    out.push(this.add(pr.p[i][0],y,pr.p[i][1],nx/L,ny/L,nz/L));
+  } return out;};
+Mesh.prototype.band=function(A,B){const N=A.length;for(let i=0;i<N;i++){const j=(i+1)%N;this.quad(A[i],B[i],B[j],A[j]);}};
+Mesh.prototype.face=function(inn,out,up){const N=inn.length;
+  for(let i=0;i<N;i++){const j=(i+1)%N;
+    if(up)this.quad(inn[i],inn[j],out[j],out[i]);else this.quad(inn[i],out[i],out[j],inn[j]);}};
+Mesh.prototype.disc=function(pr,y,up){
+  const ctr=this.add(0,y,0,0,up?1:-1,0), ring=this.loop(pr,y,up?1:-1);
+  for(let i=0;i<pr.N;i++){const j=(i+1)%pr.N;
+    if(up)this.i.push(ctr,ring[j],ring[i]);else this.i.push(ctr,ring[i],ring[j]);}};
+function qN(m,p0,p1,p2,p3,inside){
+  const u=[p1[0]-p0[0],p1[1]-p0[1],p1[2]-p0[2]],v=[p3[0]-p0[0],p3[1]-p0[1],p3[2]-p0[2]];
+  let n=nrm3(cr3(u,v));
+  const c=[(p0[0]+p1[0]+p2[0]+p3[0])/4,(p0[1]+p1[1]+p2[1]+p3[1])/4,(p0[2]+p1[2]+p2[2]+p3[2])/4];
+  let P=[p0,p1,p2,p3];
+  if(dt3([c[0]-inside[0],c[1]-inside[1],c[2]-inside[2]],n)<0){P=[p0,p3,p2,p1];n=[-n[0],-n[1],-n[2]];}
+  const ix=P.map(p=>m.add(p[0],p[1],p[2],n[0],n[1],n[2]));
+  m.quad(ix[0],ix[1],ix[2],ix[3]);
+}
+function box(m,x0,x1,y0,y1,z0,z1){
+  const c=[(x0+x1)/2,(y0+y1)/2,(z0+z1)/2];
+  const P=(x,y,z)=>[x,y,z];
+  qN(m,P(x0,y1,z0),P(x1,y1,z0),P(x1,y1,z1),P(x0,y1,z1),c);
+  qN(m,P(x0,y0,z0),P(x1,y0,z0),P(x1,y0,z1),P(x0,y0,z1),c);
+  qN(m,P(x0,y0,z0),P(x0,y1,z0),P(x0,y1,z1),P(x0,y0,z1),c);
+  qN(m,P(x1,y0,z0),P(x1,y1,z0),P(x1,y1,z1),P(x1,y0,z1),c);
+  qN(m,P(x0,y0,z0),P(x1,y0,z0),P(x1,y1,z0),P(x0,y1,z0),c);
+  qN(m,P(x0,y0,z1),P(x1,y0,z1),P(x1,y1,z1),P(x0,y1,z1),c);
+}
+
+const SLID_A=RIM.D/2-RIM.WIN_END-RIM.WIN_L-4, SLID_B=RIM.D/2+7,
+      SLID_L=SLID_B-SLID_A, SLID_C=(SLID_A+SLID_B)/2;
+const SEG=9;
+function prof(hw,hd,r){
+  r=Math.max(0.5,Math.min(r,hw-0.1,hd-0.1));
+  const ST=6,p=[],n=[];
+  const cx=[hw-r,-(hw-r),-(hw-r),hw-r], cz=[hd-r,hd-r,-(hd-r),-(hd-r)];
+  for(let c=0;c<4;c++){
+    for(let i=0;i<=SEG;i++){
+      const a=c*Math.PI/2+(i/SEG)*Math.PI/2,nx=Math.cos(a),nz=Math.sin(a);
+      p.push([cx[c]+r*nx,cz[c]+r*nz]);n.push([nx,nz]);
+    }
+    const c2=(c+1)%4,ae=c*Math.PI/2+Math.PI/2,nx=Math.cos(ae),nz=Math.sin(ae);
+    const sx=cx[c]+r*nx,sz=cz[c]+r*nz;
+    const ex=cx[c2]+r*Math.cos(c2*Math.PI/2),ez=cz[c2]+r*Math.sin(c2*Math.PI/2);
+    for(let i=1;i<ST;i++){const t=i/ST;p.push([sx+(ex-sx)*t,sz+(ez-sz)*t]);n.push([nx,nz]);}
+  }
+  return {p,n,N:p.length};
+}
+
+/* ---------- corpo do pote ---------- */
+function bodyMesh(b){
+  const m=new Mesh(), R=RIM;
+  const off=R.LEG+0.5, W=R.WALL, H=b.H, r=R.R-off;
+  const hw=R.W/2-off, hd=R.D/2-off;
+  const k=Math.tan(R.DRAFT*Math.PI/180)*H;
+  const rim=prof(hw,hd,r), base=prof(hw-k,hd-k,r-k);
+  const rin=prof(hw-W,hd-W,r-W), bin=prof(hw-k-W,hd-k-W,r-k-W);
+  m.band(m.loop(base,0,-k/H), m.loop(rim,H,-k/H));
+  m.face(m.loop(rin,H,1), m.loop(rim,H,1), true);
+  m.band(m.loop(rin,H,k/(H-R.BASE),-1), m.loop(bin,R.BASE,k/(H-R.BASE),-1));
+  m.disc(bin,R.BASE,true);
+  const fs=prof(hw-k-1.6,hd-k-1.6,r-k-1.6);
+  m.band(m.loop(base,0,0), m.loop(fs,1.0,0));
+  m.disc(fs,1.0,false);
+  return m;
+}
+
+/* ---------- corpo da tampa ---------- */
+function lidMesh(T){
+  const m=new Mesh(), R=RIM, hw=R.W/2, hd=R.D/2, r=R.R;
+  const dr=Math.tan(R.DRAFT*Math.PI/180)*(T-1), chan=R.CHAN_H;
+  const pu=T-R.STEP-R.PLATE;
+  const top=prof(hw-0.8,hd-0.8,r-0.8);
+  const stp=prof(hw-R.STEP_IN,hd-R.STEP_IN,r-R.STEP_IN);
+  const edge=prof(hw,hd,r);
+  const bot=prof(hw-dr,hd-dr,r-dr);
+  const legA=prof(hw-dr-R.LEG,hd-dr-R.LEG,r-dr-R.LEG);
+  const legB=prof(hw-dr-R.LEG-R.CHAN,hd-dr-R.LEG-R.CHAN,r-dr-R.LEG-R.CHAN);
+  const legC=prof(hw-dr-R.LEG*2-R.CHAN,hd-dr-R.LEG*2-R.CHAN,r-dr-R.LEG*2-R.CHAN);
+  m.face(m.loop(stp,T,1), m.loop(top,T,1), true);                       // borda do degrau
+  m.band(m.loop(stp,T,0,-1), m.loop(stp,T-R.STEP,0,-1));                // parede do degrau
+  m.disc(stp,T-R.STEP,true);                                            // campo de registro
+  m.band(m.loop(edge,T-1,0.8), m.loop(top,T,0.8));                      // chanfro
+  m.band(m.loop(bot,0,-dr/(T-1)), m.loop(edge,T-1,-dr/(T-1)));          // saia externa
+  m.face(m.loop(legA,0,-1), m.loop(bot,0,-1), false);
+  m.band(m.loop(legA,chan,0,-1), m.loop(legA,0,0,-1));
+  m.face(m.loop(legB,chan,-1), m.loop(legA,chan,-1), false);
+  m.band(m.loop(legB,2.0,0), m.loop(legB,chan,0));
+  m.face(m.loop(legC,2.0,-1), m.loop(legB,2.0,-1), false);
+  m.band(m.loop(legC,pu,0,-1), m.loop(legC,2.0,0,-1));
+  m.disc(legC,pu,false);                                                // face inferior da placa
+  return m;
+}
+/* cursor */
+function sliderMesh(T){
+  const m=new Mesh(), R=RIM, w=R.WIN_W/2+2.4;
+  const L=SLID_L;
+  box(m,-w,w,-1.8,0,-L/2,L/2);                       // placa, inteira abaixo da placa da tampa
+  box(m,-w,w,0,5.6,L/2-7,L/2);                       // aba do dedo, para fora da tampa
+  return m;
+}
+/* inserto de teca */
+function teakMesh(T){
+  const m=new Mesh(), R=RIM;
+  const hw=R.W/2-R.STEP_IN-0.3, hd=R.D/2-R.STEP_IN-0.3, r=Math.max(3,R.R-R.STEP_IN);
+  const a=prof(hw,hd,r), b=prof(hw-1.2,hd-1.2,r-1.2);
+  m.band(m.loop(a,0,0), m.loop(a,R.INLAY-1.2,0));
+  m.band(m.loop(a,R.INLAY-1.2,0.8), m.loop(b,R.INLAY,0.8));
+  m.disc(b,R.INLAY,true);
+  m.disc(a,0,false);
+  return m;
+}
+function latchMesh(b,sign,T){
+  const m=new Mesh(), R=RIM, hw=R.W/2;
+  const L=Math.min(0.46*R.D,88), z0=-L/2, z1=L/2;
+  const OUT=[[1.9,T-3.2],[2.5,-1.8],[5.4,-5.8]];
+  const INN=[[0.3,T-3.2],[0.9,-2.0],[3.9,-7.0]];
+  const X=v=>sign*(hw+v), inside=[sign*(hw+1.4),(T-3.2-5)/2,0];
+  for(let k=0;k<2;k++){
+    qN(m,[X(OUT[k][0]),OUT[k][1],z0],[X(OUT[k+1][0]),OUT[k+1][1],z0],
+         [X(OUT[k+1][0]),OUT[k+1][1],z1],[X(OUT[k][0]),OUT[k][1],z1],inside);
+    qN(m,[X(INN[k][0]),INN[k][1],z0],[X(INN[k+1][0]),INN[k+1][1],z0],
+         [X(INN[k+1][0]),INN[k+1][1],z1],[X(INN[k][0]),INN[k][1],z1],inside);
+  }
+  qN(m,[X(OUT[0][0]),OUT[0][1],z0],[X(INN[0][0]),INN[0][1],z0],
+       [X(INN[0][0]),INN[0][1],z1],[X(OUT[0][0]),OUT[0][1],z1],inside);
+  qN(m,[X(OUT[2][0]),OUT[2][1],z0],[X(INN[2][0]),INN[2][1],z0],
+       [X(INN[2][0]),INN[2][1],z1],[X(OUT[2][0]),OUT[2][1],z1],inside);
+  [z0,z1].forEach(z=>{for(let k=0;k<2;k++)
+    qN(m,[X(OUT[k][0]),OUT[k][1],z],[X(OUT[k+1][0]),OUT[k+1][1],z],
+         [X(INN[k+1][0]),INN[k+1][1],z],[X(INN[k][0]),INN[k][1],z],inside);});
+  return m;
+}
+function floorMesh(){
+  const m=new Mesh(),S=900;
+  const a=m.add(-S,0,-S,0,1,0),b=m.add(S,0,-S,0,1,0),c=m.add(S,0,S,0,1,0),d=m.add(-S,0,S,0,1,0);
+  m.quad(a,d,c,b); return m;
+}
+
+/* ---------- shaders ---------- */
+const VS=`
+attribute vec3 aPos; attribute vec3 aNrm;
+uniform mat4 uMVP,uM; uniform mat3 uNM;
+varying vec3 vN,vW,vL;
+void main(){ vN=uNM*aNrm; vW=(uM*vec4(aPos,1.0)).xyz; vL=aPos; gl_Position=uMVP*vec4(aPos,1.0); }`;
+const FS=`
+precision highp float;
+varying vec3 vN,vW,vL;
+uniform vec3 uCam,uColor,uColor2;
+uniform float uMode,uClipOn,uClipY,uSlab,uRefl,uWinOn,uAlphaK;
+uniform vec4 uFoot,uWin;
+const vec3 KEY=vec3(-0.4180,0.7873,0.4529);
+const vec3 FILL=vec3(0.7442,0.2481,0.6202);
+const vec3 BACK=vec3(0.1231,0.3693,-0.9211);
+float sdRR(vec2 p,vec2 b,float r){ vec2 q=abs(p)-b+r; return min(max(q.x,q.y),0.0)+length(max(q,0.0))-r; }
+void main(){
+  if(uClipOn>0.5 && (vW.x>0.0 || vW.x<-uSlab || vW.y<uClipY)) discard;
+  if(uWinOn>0.5 && vL.x>uWin.x && vL.x<uWin.z && vL.z>uWin.y && vL.z<uWin.w) discard;
+  vec3 N=normalize(vN); if(!gl_FrontFacing) N=-N;
+  vec3 V=normalize(uCam-vW);
+  float lam=max(dot(N,KEY),0.0),fil=max(dot(N,FILL),0.0),bak=max(dot(N,BACK),0.0);
+
+  if(uMode>3.5 && uMode<4.5){
+    float d=sdRR(vW.xz-uFoot.xy,uFoot.zw,18.0);
+    float core=1.0-smoothstep(-4.0,11.0,d), soft=1.0-smoothstep(-10.0,54.0,d);
+    float sh=clamp(core*0.60+soft*0.36,0.0,1.0);
+    float rad=length(vW.xz)/520.0;
+    gl_FragColor=vec4(mix(uColor,uColor2,sh),(1.0-smoothstep(0.38,1.0,rad))*0.95); return;
+  }
+  if(uRefl>0.5){
+    gl_FragColor=vec4(uColor*(0.44+0.44*lam+0.20*fil),clamp(0.28*exp(vW.y*0.030),0.0,1.0)); return;
+  }
+  if(uMode<1.5){                                        /* PP transparente */
+    float f=pow(1.0-clamp(dot(N,V),0.0,1.0),2.3);
+    vec3 h1=normalize(KEY+V),h2=normalize(BACK+V);
+    float s1=pow(max(dot(N,h1),0.0),76.0),s2=pow(max(dot(N,h2),0.0),26.0);
+    vec3 c=uColor*(0.60+0.32*lam+0.16*fil+0.20*bak);
+    c=mix(c,vec3(1.0),f*0.40);
+    c+=vec3(1.0)*s1*0.72+vec3(0.88,0.94,1.0)*s2*0.26;
+    float a=mix(0.135,0.60,f)+s1*0.42+s2*0.16;
+    gl_FragColor=vec4(c,clamp(a*uAlphaK,0.0,0.97)); return;
+  }
+  if(uMode<2.5){                                        /* PP pigmentado fosco */
+    vec3 h1=normalize(KEY+V);
+    float sp=pow(max(dot(N,h1),0.0),24.0)*0.17;
+    gl_FragColor=vec4(uColor*(0.34+0.58*lam+0.22*fil+0.10*bak)+vec3(sp),1.0); return;
+  }
+  if(uMode<3.5){                                        /* corte */
+    float inner=gl_FrontFacing?1.0:0.50;
+    vec3 c=uColor*(0.40+0.52*lam+0.22*fil)*inner;
+    if(!gl_FrontFacing) c=mix(c,uColor*0.30,0.35);
+    gl_FragColor=vec4(c,1.0); return;
+  }
+  /* teca */
+  float wob=0.86*sin(vL.x*0.030)+0.44*sin(vL.x*0.0086+1.3)+0.24*sin(vL.y*0.055);
+  float t=vL.z*0.098+wob;
+  float g=pow(0.5+0.5*sin(t*2.3),2.4);
+  float fine=0.5+0.5*sin(t*7.0+2.2*sin(vL.z*0.20));
+  float wide=0.5+0.5*sin(vL.z*0.026+vL.x*0.010);
+  vec3 base=mix(uColor,uColor2,clamp(g*0.34+fine*0.07,0.0,1.0));
+  base=mix(base,base*0.905,wide*0.60);
+  vec3 hw=normalize(KEY+V);
+  float spw=pow(max(dot(N,hw),0.0),30.0)*0.17;
+  gl_FragColor=vec4(base*(0.34+0.62*lam+0.20*fil+0.10*bak)+vec3(1.0,0.96,0.90)*spw,1.0);
+}`;
+const BVS=`attribute vec2 aP; varying vec2 vP;
+void main(){ vP=aP; gl_Position=vec4(aP,0.999,1.0); }`;
+const BFS=`precision mediump float; varying vec2 vP; uniform vec3 uTop,uBot;
+void main(){ float t=clamp(vP.y*0.5+0.5,0.0,1.0); vec3 c=mix(uBot,uTop,pow(t,0.9));
+  float g=1.0-smoothstep(0.0,1.2,length(vec2(vP.x*1.05,(vP.y-0.15)*1.3)));
+  gl_FragColor=vec4(c+(uTop-uBot)*g*0.60,1.0); }`;
+
+function compile(s,t){const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);
+  if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(sh));return sh;}
+function program(v,f){const p=gl.createProgram();
+  gl.attachShader(p,compile(v,gl.VERTEX_SHADER));gl.attachShader(p,compile(f,gl.FRAGMENT_SHADER));
+  gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return p;}
+const P=program(VS,FS),BP=program(BVS,BFS);
+const U={};['uMVP','uM','uNM','uCam','uColor','uColor2','uMode','uClipOn','uClipY','uSlab','uRefl','uWinOn','uAlphaK','uFoot','uWin']
+  .forEach(k=>U[k]=gl.getUniformLocation(P,k));
+const A={pos:gl.getAttribLocation(P,'aPos'),nrm:gl.getAttribLocation(P,'aNrm')};
+const BU={top:gl.getUniformLocation(BP,'uTop'),bot:gl.getUniformLocation(BP,'uBot')};
+const BA=gl.getAttribLocation(BP,'aP');
+
+function upload(mesh){
+  const o={};
+  o.vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,o.vb);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(mesh.v),gl.STATIC_DRAW);
+  o.nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,o.nb);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(mesh.n),gl.STATIC_DRAW);
+  o.ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ib);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(mesh.i),gl.STATIC_DRAW);
+  o.n=mesh.i.length;return o;
+}
+function bind(o){
+  gl.bindBuffer(gl.ARRAY_BUFFER,o.vb);gl.vertexAttribPointer(A.pos,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,o.nb);gl.vertexAttribPointer(A.nrm,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ib);
+}
+const G={
+  body: BODIES.map(b=>upload(bodyMesh(b))),
+  lid:  LIDS.map(l=>upload(lidMesh(l.T))),
+  latA: LIDS.map(l=>upload(latchMesh(null,1,l.T))),
+  latB: LIDS.map(l=>upload(latchMesh(null,-1,l.T))),
+  slid: upload(sliderMesh(LIDS[1].T)),
+  teak: upload(teakMesh(LIDS[2].T)),
+  floor: upload(floorMesh())
+};
+const quadB=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quadB);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+
+/* ---------- cores do tema ---------- */
+function hex3(v){const h=v.trim().replace('#','');const n=h.length===3?h.split('').map(c=>c+c).join(''):h;
+  return [parseInt(n.slice(0,2),16)/255,parseInt(n.slice(2,4),16)/255,parseInt(n.slice(4,6),16)/255];}
+let COL={};
+function readTheme(){
+  const cs=getComputedStyle(document.documentElement);
+  const a=hex3(cs.getPropertyValue('--studio-a')||'#20272A');
+  const b=hex3(cs.getPropertyValue('--studio-b')||'#0C1012');
+  const dark=(b[0]+b[1]+b[2])/3<0.30;
+  const floor=a.map((v,i)=>v*0.62+b[i]*0.38);
+  COL={ top:a, bot:b, floor, shadow:floor.map(v=>v*0.34),
+    pp: dark?[0.66,0.77,0.83]:[0.80,0.88,0.92],
+    teal: dark?[0.184,0.663,0.702]:[0.106,0.600,0.639],
+    slid: dark?[0.128,0.520,0.556]:[0.066,0.447,0.482],
+    opq: dark?[0.58,0.63,0.65]:[0.74,0.78,0.79],
+    teakA: dark?[0.78,0.585,0.35]:[0.725,0.545,0.329],
+    teakB: dark?[0.44,0.285,0.135]:[0.40,0.255,0.115],
+    cut: dark?[0.70,0.79,0.84]:[0.80,0.87,0.90] };
+}
+readTheme();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{readTheme();need=true;});
+new MutationObserver(()=>{readTheme();need=true;})
+  .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+/* ---------- estado ---------- */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TANH=Math.tan(13*Math.PI/180);
+const WZ1=RIM.D/2-RIM.WIN_END, WZ0=WZ1-RIM.WIN_L, WOW=RIM.WIN_W/2;
+const st={ body:1, lid:0, exp:false, cut:false, spin:false, slide:0,
+  yaw:-0.55, pitch:0.40, dist:700, ty:90,
+  yawT:-0.55, pitchT:0.40, distT:700, tyT:90, slideT:0, lift:0, liftT:0 };
+let need=true, PV=M.ident(), cam=[0,0,0];
+let drag=null, last=null, slidC=null, slidDir=[0,1], slidPx=1, slidStart=0, focused=false;
+
+function geo(){
+  const b=BODIES[st.body], L=LIDS[st.lid];
+  const lidY=b.H-RIM.CHAN_H, u=lidY+L.T;
+  const t=st.lift;
+  return { b, L, lidY, u, lidL:0.30*u*t, teakL:0.30*u*t+0.26*u*t, slidL:0.30*u*t+0.13*u*t,
+    topY: u + (st.lid===2?RIM.INLAY-RIM.STEP:0) + (st.exp?0.56*u:0) };
+}
+function retarget(reorient){
+  if(reorient){ st.yawT=st.cut?1.40:-0.55; st.pitchT=st.cut?0.15:0.40; }
+  const g=geo(), R=RIM;
+  const asp=Math.max(0.5,(cv.clientWidth||16)/(cv.clientHeight||10));
+  const yw=st.yawT, pit=st.pitchT;
+  const cy=Math.abs(Math.cos(yw)), sy=Math.abs(Math.sin(yw));
+  const halfH=0.5*(R.W*cy+R.D*sy), halfD=0.5*(R.W*sy+R.D*cy);
+  if(st.cut){
+    st.tyT=g.lidY-g.L.T*0.55;
+    st.distT=Math.max(180, halfH*1.02/(TANH*asp), (g.L.T*2.4)*1.20/TANH);
+  } else {
+    const halfV=halfD*Math.sin(pit)+0.5*g.topY*Math.cos(pit);
+    st.tyT=g.topY*0.50;
+    st.distT=Math.max(240, halfH*1.26/(TANH*asp), halfV*1.18/TANH);
+  }
+  st.liftT=st.exp?1:0;
+  if(reduce){ st.dist=st.distT;st.ty=st.tyT;st.lift=st.liftT;st.yaw=st.yawT;st.pitch=st.pitchT;st.slide=st.slideT; }
+  need=true;
+}
+
+/* ---------- controles ---------- */
+const hintTx=document.getElementById('hintTx');
+function syncHint(){ hintTx.textContent = st.lid===1
+  ? 'arraste o cursor para abrir · arraste o fundo para girar'
+  : 'arraste o fundo para girar a vista · scroll aproxima após clicar'; }
+const bBody=[...document.querySelectorAll('[data-body]')];
+bBody.forEach(x=>x.addEventListener('click',()=>{
+  st.body=+x.dataset.body; bBody.forEach(o=>o.setAttribute('aria-pressed',String(o===x))); retarget(false);}));
+const bLid=[...document.querySelectorAll('[data-lid]')];
+bLid.forEach(x=>x.addEventListener('click',()=>{
+  st.lid=+x.dataset.lid; bLid.forEach(o=>o.setAttribute('aria-pressed',String(o===x)));
+  st.slideT = st.lid===1 ? RIM.TRAVEL*0.62 : 0;
+  if(reduce) st.slide=st.slideT;
+  syncHint(); retarget(false);}));
+const tog=(id,key)=>{const el=document.getElementById(id);
+  el.addEventListener('click',()=>{st[key]=!st[key];el.setAttribute('aria-pressed',String(st[key]));
+    retarget(key==='cut');});};
+tog('bExp','exp'); tog('bSpin','spin');
+syncHint();
+
+/* ---------- ponteiro ---------- */
+function proj(p){
+  const w=PV[3]*p[0]+PV[7]*p[1]+PV[11]*p[2]+PV[15];
+  if(w<=0.001) return null;
+  const x=(PV[0]*p[0]+PV[4]*p[1]+PV[8]*p[2]+PV[12])/w;
+  const y=(PV[1]*p[0]+PV[5]*p[1]+PV[9]*p[2]+PV[13])/w;
+  return [(x*0.5+0.5)*cv.clientWidth,(1-(y*0.5+0.5))*cv.clientHeight];
+}
+function onSlider(px,py){
+  if(st.lid!==1||st.cut) return null;
+  const g=geo(), y=g.lidY+g.slidL+g.L.T-RIM.STEP-RIM.PLATE-0.2;
+  const zc=SLID_C+st.slide;
+  const c=proj([0,y,zc]), e1=proj([0,y,zc+20]), e2=proj([WOW,y,zc]);
+  if(!c||!e1||!e2) return null;
+  const dz=[e1[0]-c[0],e1[1]-c[1]], len=Math.hypot(dz[0],dz[1])||1;
+  slidDir=[dz[0]/len,dz[1]/len]; slidPx=len/20;
+  const rr=Math.max(Math.hypot(e2[0]-c[0],e2[1]-c[1]),len*2.2)*1.05;
+  return Math.hypot(px-c[0],py-c[1])<=rr ? c : null;
+}
+cv.addEventListener('pointerdown',e=>{
+  const r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
+  focused=true; cv.setPointerCapture(e.pointerId);
+  if(onSlider(px,py)){ drag='slide'; slidC=[px,py]; slidStart=st.slide; cv.classList.add('slide'); }
+  else { drag='orbit'; last=[e.clientX,e.clientY]; cv.classList.add('dragging'); }
+});
+cv.addEventListener('pointermove',e=>{
+  const r=cv.getBoundingClientRect();
+  if(!drag){ cv.classList.toggle('slide',!!onSlider(e.clientX-r.left,e.clientY-r.top)); return; }
+  if(drag==='slide'){
+    const dx=(e.clientX-r.left)-slidC[0], dy=(e.clientY-r.top)-slidC[1];
+    const mm=(dx*slidDir[0]+dy*slidDir[1])/slidPx;
+    st.slide=Math.max(0,Math.min(RIM.TRAVEL,slidStart+mm)); st.slideT=st.slide; need=true;
+  } else {
+    st.yaw-=(e.clientX-last[0])*0.008;
+    st.pitch=Math.max(0.05,Math.min(1.25,st.pitch+(e.clientY-last[1])*0.006));
+    st.yawT=st.yaw; st.pitchT=st.pitch; last=[e.clientX,e.clientY]; need=true;
+  }
+});
+const endDrag=()=>{drag=null;cv.classList.remove('dragging');cv.classList.remove('slide');};
+cv.addEventListener('pointerup',endDrag); cv.addEventListener('pointercancel',endDrag);
+document.addEventListener('pointerdown',e=>{if(!cv.contains(e.target))focused=false;},true);
+cv.addEventListener('wheel',e=>{
+  if(!focused) return; e.preventDefault();
+  st.distT=Math.max(200,Math.min(2600,st.distT*(1+Math.sign(e.deltaY)*0.09)));
+  if(reduce) st.dist=st.distT; need=true;
+},{passive:false});
+
+/* ---------- desenho ---------- */
+const nm=m=>new Float32Array([m[0],m[1],m[2],m[4],m[5],m[6],m[8],m[9],m[10]]);
+function draw(o,model,mode,c1,c2,op){
+  const p=op||{};
+  gl.uniformMatrix4fv(U.uMVP,false,M.mul(PV,model));
+  gl.uniformMatrix4fv(U.uM,false,model);
+  gl.uniformMatrix3fv(U.uNM,false,nm(model));
+  gl.uniform1f(U.uMode,mode);
+  gl.uniform3fv(U.uColor,c1); gl.uniform3fv(U.uColor2,c2||c1);
+  gl.uniform1f(U.uRefl,p.refl?1:0);
+  gl.uniform1f(U.uClipOn,p.clip?1:0);
+  gl.uniform1f(U.uWinOn,p.win?1:0);
+  gl.uniform1f(U.uAlphaK,p.alphaK===undefined?1:p.alphaK);
+  bind(o); gl.drawElements(gl.TRIANGLES,o.n,gl.UNSIGNED_SHORT,0);
+}
+function resize(){
+  const d=Math.min(devicePixelRatio||1,2);
+  const w=Math.round(cv.clientWidth*d),h=Math.round(cv.clientHeight*d);
+  if(w&&h&&(cv.width!==w||cv.height!==h)){cv.width=w;cv.height=h;}
+}
+function frame(){
+  const anim=Math.abs(st.dist-st.distT)>0.4||Math.abs(st.ty-st.tyT)>0.2
+    ||Math.abs(st.lift-st.liftT)>0.002||Math.abs(st.yaw-st.yawT)>0.002
+    ||Math.abs(st.pitch-st.pitchT)>0.002||Math.abs(st.slide-st.slideT)>0.05;
+  if(st.spin){st.yaw-=0.0038;st.yawT=st.yaw;need=true;}
+  if(anim){
+    st.dist+=(st.distT-st.dist)*0.12; st.ty+=(st.tyT-st.ty)*0.12;
+    st.lift+=(st.liftT-st.lift)*0.13; st.yaw+=(st.yawT-st.yaw)*0.13;
+    st.pitch+=(st.pitchT-st.pitch)*0.13;
+    if(drag!=='slide') st.slide+=(st.slideT-st.slide)*0.18;
+    need=true;
+  }
+  if(need){need=false;paint();}
+  requestAnimationFrame(frame);
+}
+function paint(){
+  resize();
+  const w=cv.width,h=cv.height;
+  gl.viewport(0,0,w,h);
+  gl.clearColor(COL.bot[0],COL.bot[1],COL.bot[2],1);
+  gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(BP);gl.disable(gl.DEPTH_TEST);gl.disable(gl.BLEND);gl.depthMask(false);
+  gl.bindBuffer(gl.ARRAY_BUFFER,quadB);
+  gl.enableVertexAttribArray(BA);gl.vertexAttribPointer(BA,2,gl.FLOAT,false,0,0);
+  gl.uniform3fv(BU.top,COL.top);gl.uniform3fv(BU.bot,COL.bot);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  gl.disableVertexAttribArray(BA);
+
+  const g=geo(), cut=st.cut, isWin=st.lid===1, isTeak=st.lid===2;
+  const cp=Math.cos(st.pitch),sp=Math.sin(st.pitch),tgt=[0,st.ty,0];
+  cam=[tgt[0]+st.dist*cp*Math.sin(st.yaw),tgt[1]+st.dist*sp,tgt[2]+st.dist*cp*Math.cos(st.yaw)];
+  PV=M.mul(M.persp(26*Math.PI/180,w/h,30,5000),M.look(cam,tgt,[0,1,0]));
+
+  gl.useProgram(P);
+  gl.enableVertexAttribArray(A.pos);gl.enableVertexAttribArray(A.nrm);
+  gl.uniform3fv(U.uCam,cam);
+  gl.uniform1f(U.uClipY, cut? g.lidY-2.6*g.L.T : -1e5);
+  gl.uniform1f(U.uSlab, cut? 18.0 : 1e5);
+  gl.uniform4fv(U.uFoot,new Float32Array([0,0,RIM.W/2,RIM.D/2]));
+  gl.uniform4fv(U.uWin,new Float32Array([-WOW,WZ0,WOW,RIM.D/2+1]));
+  gl.enable(gl.DEPTH_TEST);gl.depthMask(true);
+  gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);gl.frontFace(gl.CCW);
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+
+  const mBody=M.ident();
+  const mLid=M.trans(0,g.lidY+g.lidL,0);
+  const slideNow = st.slide + st.lift*RIM.TRAVEL*0.55;
+  const mSlid=M.trans(0,g.lidY+g.slidL+g.L.T-RIM.STEP-RIM.PLATE-0.2,SLID_C+slideNow);
+  const mTeak=M.trans(0,g.lidY+g.teakL+g.L.T-RIM.STEP,0);
+  const MIR=(function(){const m=M.ident();m[5]=-1;return m;})();
+  const opaqueBody = !BODIES[st.body].novo;
+
+  gl.enable(gl.BLEND);
+  draw(G.floor,M.ident(),4,COL.floor,COL.shadow);
+
+  if(!cut){
+    gl.disable(gl.DEPTH_TEST);gl.depthMask(false);gl.frontFace(gl.CW);
+    draw(G.body[st.body],M.mul(MIR,mBody),1,opaqueBody?COL.opq:COL.pp,null,{refl:1});
+    draw(G.lid[st.lid],M.mul(MIR,mLid),1,COL.teal,null,{refl:1});
+    if(isWin) draw(G.slid,M.mul(MIR,mSlid),1,COL.slid,null,{refl:1});
+    if(isTeak) draw(G.teak,M.mul(MIR,mTeak),1,COL.teakA,null,{refl:1});
+    gl.frontFace(gl.CCW);gl.enable(gl.DEPTH_TEST);gl.depthMask(true);
+  }
+
+  gl.disable(gl.BLEND);
+  draw(G.lid[st.lid],mLid,2,COL.teal,null,{clip:cut,win:isWin});
+  draw(G.latA[st.lid],mLid,2,COL.teal,null,{clip:cut});
+  draw(G.latB[st.lid],mLid,2,COL.teal,null,{clip:cut});
+  if(isWin) draw(G.slid,mSlid,2,COL.slid,null,{clip:cut});
+  if(isTeak) draw(G.teak,mTeak,6,COL.teakA,COL.teakB,{clip:cut});
+  if(opaqueBody) draw(G.body[st.body],mBody,cut?3:2,cut?COL.cut:COL.opq,null,{clip:cut});
+
+  if(!opaqueBody){
+    if(cut){ draw(G.body[st.body],mBody,3,COL.cut,null,{clip:1}); }
+    else {
+      gl.enable(gl.BLEND);gl.depthMask(false);
+      gl.cullFace(gl.FRONT); draw(G.body[st.body],mBody,1,COL.pp,null,{alphaK:0.86});
+      gl.cullFace(gl.BACK);  draw(G.body[st.body],mBody,1,COL.pp,null,{alphaK:0.86});
+      gl.depthMask(true);
+    }
+  }
+}
+new ResizeObserver(()=>retarget(false)).observe(cv);
+retarget(true);
+requestAnimationFrame(frame);
+})();
+</script>
