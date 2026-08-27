@@ -106,6 +106,7 @@ Esse erro já produziu uma recomendação publicada e errada.
 | `AD_CODCORPROD` | **0** — cor tem que sair da descrição |
 | `AD_FICHATECNICA` (tabela) | 4 linhas |
 | `TPRCPR` (roteiro) | 0 linhas |
+| `VW_MAQUINA_CAPACIDADE.AD_IML` | **0 de 89** — o campo existe para marcar qual injetora aceita o robô de IML e está vazio |
 
 ### Capacidade de máquina
 
@@ -223,6 +224,32 @@ prioridade máxima) · Limpeza 4 · Lixeiras 4 · Banheiro 3 · Geladeira 2 · E
   Hipótese aberta: conflito funcional (válvula é abertura projetada; quem compra por
   hermeticidade se decepciona) ou creep do PE sob tensão de trava.
 
+### IML — capacidade comprada e parada (verificado em 27/08/2026)
+O cadastro tem `ROBO IN MOLD LABEL` (8696), `MAGAZINE IN MOLD LABEL` (11179) e dois rótulos
+de IML: `LABEL ROTULOS TAMPAS NITRON` (7586) e `ROTULO 2 POTES RET.` (8871).
+**Nenhum dos três itens de consumo teve movimento em 24 meses.** Os únicos rótulos que se
+movem são vinil adesivo (13110, 16216) — etiqueta colada, não IML. E `AD_IML` está vazio nas
+89 máquinas. Conclusão: a capacidade existe no papel e não está em uso; onde o robô está é
+pergunta de fábrica, não de banco.
+
+### A tampa é o produto — o experimento que o catálogo já fez
+Os potes altos retangulares de 1,5 · 2,9 · 4,6 L saem **do mesmo molde de corpo** em duas
+versões que diferem só na tampa. Em 12 M: tampa lisa (`0259/0258/0257`) R$ 3,3 k contra
+R$ 53,6 k (**−94%**); tampa com válvula (`817/818/819`) R$ 439,1 k contra R$ 46,5 k (**+844%**).
+O corpo foi de R$ 100 k para R$ 442 k **sem mudar de molde**. Use isso antes de propor corpo novo.
+
+### Linha Teca — a madeira já existe na casa
+`Teca Tábuas` (1001801), `Teca Organização` (1001802), `Teca Cozinha` (1001803) e
+`Teca Petisqueira` (1001804) somam 457 SKUs cadastrados, 64 ativos, **R$ 1,26 M em 12 M
+crescendo 10%**, com FSC 100% (NEO-COC-191022) nas tábuas, em bitolas de 12, 15 e 18 mm.
+Fornecedor, secagem e usinagem de teca **não são obstáculo**. O obstáculo é margem:
+**MB de 36,8%**, a mais baixa entre as linhas medidas — tampa de madeira dilui margem.
+
+### Erro de custo aberto: CODPROD 132 (`6120.050.001`)
+Aparece com **MB de −56,6%** (perde R$ 28,7 k em 12 M) enquanto o `6130` — mesmo pote, 3 peças
+em vez de 2 — dá **+56,3%**. Por pote: R$ 3,20 contra R$ 0,76. É `CUSGER` errado, não produto
+no prejuízo. **Enquanto não for corrigido, qualquer margem da linha de entrada está contaminada.**
+
 ### Sobre claim "hermético"
 Não há norma ABNT específica para utilidades; é claim publicitário sob o CDC, e o art. 36
 obriga o fornecedor a manter os dados técnicos que sustentam a alegação.
@@ -246,7 +273,12 @@ Material não cria hermeticidade; geometria de vedação + força de fechamento 
    lançamento; cadastro, EAN, arte, foto, catálogo, amostra, estoque e gôndola não ficam
    mais baratos porque o CNC está parado. E CNC parado pode ser sintoma de gargalo na
    ferramentaria (projeto, bancada, tryout), não folga real.
-5. **Espere o `pg_net`.** Três requests foram declarados como "403 / não funciona" quando na
+5. **Antes de propor corpo novo, veja se a tampa não resolve.** O par 0257/0258/0259 contra
+   817/818/819 é a prova interna: mesmo molde, tampa diferente, +342% no corpo.
+6. **IML impõe raio de canto.** A manta é pré-formada e dobra nos cantos: em base de 100 mm,
+   R10 é o mínimo confortável, R8 é limite e abaixo disso enruga. "O mais quadrado possível"
+   tem um número, e o número não é zero. Também exige saída baixa (≤1°) e superfície polida.
+7. **Espere o `pg_net`.** Três requests foram declarados como "403 / não funciona" quando na
    verdade estavam na fila — e um deles era 200.
 
 ---
