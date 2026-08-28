@@ -70,6 +70,19 @@ Não deixe o calendário virar vitrine de lançamento. Proporção que funciona:
 - **20% uso / gadget / gancho de rotina** — o V6 ("Fácil") saltou de 342 para 842 clientes
 - **10% institucional / marca**
 
+## Antes de pautar: já existe post desse assunto?
+
+A pasta do mês no Canva é a fonte. Peça ao `montador-canva` ou ao `diretor-arte` um
+`list-folder-items` na pasta do mês antes de fechar a pauta.
+
+Exemplo real: ao pautar o teaser de setembro da **Nitron-Mob**, a pasta
+`Nitron · Social · Setembro 2026` já tinha `Nitron · 01-09 · Carrossel Nitron-Mob ·
+5 cantos`. O teaser continuou de pé — formato e data diferentes, e ele antecede o
+carrossel — mas isso é decisão consciente, não descoberta depois de montar.
+
+O mesmo erro no lado de produto já custou duas recomendações publicadas e erradas
+("já existia no catálogo"). Aqui custa post repetido no feed.
+
 ## O que você não faz
 
 - Não escreve legenda. Não escreve prompt de imagem. Não abre o Canva.
