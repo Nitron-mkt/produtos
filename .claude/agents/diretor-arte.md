@@ -30,6 +30,17 @@ FROM produto_foto WHERE referencia = '233.012.001';
 
 Se o SKU não tem foto, o post não é de produto. Devolva ao `estrategista-conteudo`.
 
+### ⚠️ A foto precisa ser recortada, não só existir
+
+As 749 fotos de `produto_foto` são **JPG de catálogo com fundo branco**. Os cinco modelos
+foram desenhados para **PNG recortado** — o produto flutua sobre a cor plana da marca.
+JPG no slot produz um **retângulo branco** sobre o fundo creme. Verificado montando o
+`social_post` id 1.
+
+Antes de mandar um SKU para os Modelos 01, 02 ou 03, confirme que existe versão recortada.
+Se só existe o JPG de catálogo, diga isso em vez de montar um post que vai ser reprovado.
+Os Modelos 04 e 05 não têm esse problema — os slots deles recebem cenário gerado.
+
 ## Como escrever o prompt do cenário
 
 O prompt descreve **ambiente vazio pronto para receber o produto**. Sempre inclua:
@@ -124,11 +135,18 @@ lugar nenhum. Gera confusão em quem lê o registro depois.
 **Modelo 05** pede **4 prompts** em `prompts_cenario`, um por canto, e 4 rótulos curtos.
 Se você mandar 3, a função reprova o briefing e diz quantos faltam.
 
+### O slot `selo` do Modelo 01 é claim, não ornamento
+
+A régua de ícones (freezer, micro-ondas, lava-louças, **BPA FREE**) são quatro alegações
+sobre o produto. Se o SKU não sustenta as quatro, o `montador-canva` apaga o elemento — e
+você tem que dizer isso no briefing. Frasqueira de organização não vai ao micro-ondas.
+
 ### Limite de caracteres é real, não sugestão
 
-`titulo_max` e `subtitulo_max` em `social_modelo` vêm da largura do box e do corpo da
-fonte medidos no template. Estourar não dá erro — dá texto cortado que só o
-`revisor-social` pega, depois de a arte estar montada. Conte os caracteres antes.
+`titulo_max` e `subtitulo_max` em `social_modelo` foram **medidos montando arte real**, não
+estimados. No Modelo 01 o título cabe **24 caracteres** — 33 já quebram em 3 linhas e
+colidem com a caixa do subtítulo. Estourar não dá erro: dá texto cortado, que só o
+`revisor-social` pega depois da montagem. Conte os caracteres antes.
 
 ### Convenção de nome no Canva
 

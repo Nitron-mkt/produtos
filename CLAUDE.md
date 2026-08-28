@@ -287,6 +287,17 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
   texto, pessoa). O `revisor-social` olha a **arte montada** pelo thumbnail — texto estourando
   box e logo tampado só existem depois da montagem.
 - Teto de **2 regerações**; na terceira o post vira `parado_revisao_humana`.
+- **Os 5 modelos estão em `social_modelo`** (`mapa` = papel → `locator_id`, verificados como
+  estáveis entre cópias). Em **3 dos 5 o GPT não entra**: Modelos 01, 02 e 03 são cor plana
+  com slot de foto real, e a `social-imagem` os promove sem custo. GPT só no 04 (lifestyle,
+  o único que aceita pessoa) e no 05 (4 ambientes).
+- **O bloqueio atual:** `produto_foto` são **JPG com fundo branco** e os modelos pedem **PNG
+  recortado** — JPG no slot vira retângulo branco sobre o creme. Bloqueia justamente os três
+  modelos que não gastam GPT. Saída preferida: bucket de recorte alimentado pelo marketing.
+- **`titulo_max` tem que ser medido montando arte real.** No Modelo 01 são 24 caracteres:
+  33 quebram em 3 linhas e colidem com o subtítulo. Estimar pela largura do box erra.
+- **O slot `selo` do Modelo 01 é a régua de ícones** (freezer, micro-ondas, lava-louças,
+  BPA FREE) — são quatro claims. Se o SKU não sustenta, apague o elemento.
 
 Tabelas: `social_post` (estado) e `social_qa` (log de avaliação), RLS ligado e só SELECT.
 

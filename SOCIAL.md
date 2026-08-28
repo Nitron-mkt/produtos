@@ -160,7 +160,9 @@ marca não vai para hospedagem de terceiro.
 | jobs `social-imagem-5min` (*/5) e `social-qa-5min` (2-59/5) | ✅ ativos |
 | 5 modelos do Canva mapeados em `social_modelo` | ✅ Modelo 01 a 05, com mapa de `locator_id` por papel (§6) |
 | primeiro post real na fila | ✅ `social_post` id 1 — Frasqueira Cristal 1,5L, Modelo 01 |
-| montagem no Canva de ponta a ponta | ⬜ falta rodar o `montador-canva` na sessão |
+| caminho de custo zero (`slots_cenario = 0`) | ✅ o cron levou o post de `briefing_pronto` a `imagem_aprovada` sem chamar a OpenAI |
+| montagem no Canva de ponta a ponta | ⚠️ mecânica **funciona**; o QA reprovou por fundo branco da foto (§6). Transação cancelada, 3 reprovas em `social_qa`. |
+| fotos de produto recortadas (PNG sem fundo) | ⬜ **o bloqueio atual** — ver §6 |
 
 **Desligar sem apagar**, se precisar:
 `update cron.job set active = false where jobname like 'social-%';`
@@ -213,6 +215,50 @@ read-design(open_transaction) → edit-design(update_fill + replace_text) →
 Papéis no `mapa`: `titulo`, `subtitulo`, `produto_1..4`, `cenario_1..4`, `rotulo_1..4`,
 `selo`, `adorno_topo`, `adorno_base`, `logo`. **O `logo` está lá para ser conferido, nunca
 substituído.**
+
+### O bloqueio real: foto de catálogo é JPG com fundo branco
+
+Descoberto montando o primeiro post de verdade (28/08/2026, `social_post` id 1).
+
+Os templates foram desenhados com **PNG recortado** — o produto flutua sobre a cor plana da
+marca, com sombra suave. As 749 fotos de `produto_foto` são **JPG de catálogo com fundo
+branco**. Colocar uma delas no slot produz um **retângulo branco visível** sobre o creme
+`#fff7ea` do Modelo 01. Mecanicamente funciona; visualmente é inaceitável.
+
+JPG não tem canal alfa, então não há truque de composição no Canva que resolva. As saídas,
+em ordem de preferência:
+
+1. **Bucket de recorte.** Marketing sobe PNG com fundo transparente num bucket público
+   (`produtos-recorte`), e o `diretor-arte` puxa de lá quando existe. Trabalho pontual por
+   SKU, custo zero de recorrência, e o resultado é o melhor.
+2. **Remoção de fundo por API** numa Edge Function entre `produto_foto` e o Canva. Automático,
+   mas custa por imagem e erra em produto transparente — e Frasqueira Cristal é transparente,
+   justamente o caso difícil.
+3. **Trocar o fundo do slot**, não do produto: os cinco modelos têm `background.isMediaReplaceable
+   = true`. Dá para pôr uma cena atrás e deixar a foto branca por cima — mas aí o post deixa
+   de ser o layout que a squad aprovou.
+
+Isso bloqueia justamente os Modelos 01, 02 e 03 — os três que não gastam GPT. O Modelo 04 e
+o 05 não sofrem: os slots deles recebem cenário gerado, que já vem sem fundo branco.
+
+### Limite de caractere: meça na arte, não no schema
+
+O `titulo_max` do Modelo 01 estava em 46 por estimativa. Na renderização real, **33
+caracteres quebraram em 3 linhas** e colidiram com a caixa do subtítulo. O box de 455px a
+73.9pt cabe **~12 caracteres por linha**. Corrigido para 24.
+
+Todo `titulo_max` e `subtitulo_max` da tabela deve ser confirmado montando um post real. Não
+confie na largura do box dividida pelo corpo da fonte.
+
+### O slot `selo` do Modelo 01 é claim, não ornamento
+
+O que eu havia mapeado como `selo` é a **régua de ícones**: freezer, micro-ondas,
+lava-louças e **BPA FREE**. São quatro alegações sobre o produto.
+
+Para uma Frasqueira de organização, micro-ondas é falso e BPA exige especificação de
+material. Um post que herda a régua do template sem checar **publica claim que a Nitron pode
+não sustentar** (CDC art. 36). O `montador-canva` apaga o elemento quando o SKU não sustenta
+os quatro — e apagar é a escolha segura por default.
 
 ### Duas armadilhas registradas
 

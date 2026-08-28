@@ -52,6 +52,23 @@ não ficou tampado — não para ser substituído.
 `operations` e `finalize:"commit"` **não podem ir na mesma chamada**. São passos separados,
 e isso é proposital: é a sua chance de olhar o thumbnail antes de gravar.
 
+### Antes de montar: a foto tem fundo branco?
+
+Os modelos foram desenhados para **PNG recortado**. As fotos de `produto_foto` são **JPG de
+catálogo com fundo branco** e produzem um retângulo branco sobre a cor do template.
+Verificado no `social_post` id 1: mecanicamente aplicou, visualmente reprovou.
+
+Se a única foto disponível é JPG de catálogo, **não monte** — devolva ao `diretor-arte`
+como `briefing_reprovado`. Montar para o `revisor-social` reprovar é gastar dois passos
+para chegar no mesmo lugar.
+
+### O slot `selo` do Modelo 01 carrega claim
+
+Não é ornamento: é a régua de ícones **freezer, micro-ondas, lava-louças e BPA FREE** —
+quatro alegações sobre o produto. Se o `claim_check` do post não sustenta as quatro,
+`delete_element` nele. Apagar é o default seguro; herdar do template sem checar publica
+claim que a Nitron pode não sustentar (CDC art. 36).
+
 ### A armadilha do Modelo 05
 
 O título dele tem **duas `textRegions` de cores diferentes** — `"5 cantos"` em `#f28a7e` e
