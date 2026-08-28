@@ -156,9 +156,19 @@ marca não vai para hospedagem de terceiro.
 | bucket público `social` | ✅ criado |
 | Edge Function `social-imagem` | ✅ deployada, v1, ACTIVE |
 | Edge Function `social-qa` | ✅ deployada, v1, ACTIVE |
-| secrets `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` | ⬜ **faltam** — sem elas as funções devolvem 500 com a mensagem |
-| jobs de `pg_cron` | ⬜ **não criados** — de propósito: cron sem secret é erro a cada 5 min. SQL pronto em `supabase/migrations/social_cron.sql` |
-| design mestre do Canva por formato | ⬜ falta — o autofill não existe nesta conta (§6) |
+| secrets `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` | ✅ já existiam no projeto — as duas funções responderam 200 no teste, e o guard no topo devolveria 500 se faltassem |
+| jobs `social-imagem-5min` (*/5) e `social-qa-5min` (2-59/5) | ✅ ativos |
+| design mestre do Canva por formato | ⬜ **falta** — é o único bloqueio restante. O autofill não existe nesta conta (§6), então o `montador-canva` precisa de um design para copiar. |
+| primeiro post de teste ponta a ponta | ⬜ falta |
+
+**Desligar sem apagar**, se precisar:
+`update cron.job set active = false where jobname like 'social-%';`
+
+Teste de fumaça (as duas devolveram 200 com fila vazia em 28/08/2026):
+```
+{"processados":0,"resultados":[]}
+{"avaliados":0,"resultados":[]}
+```
 
 ---
 

@@ -1,7 +1,7 @@
 -- Agendamento das duas Edge Functions do fluxo de social media.
 --
--- NÃO APLICAR antes de setar os secrets OPENAI_API_KEY e ANTHROPIC_API_KEY no projeto.
--- Cron sem secret = erro 500 a cada 5 minutos poluindo net._http_response.
+-- APLICADO em 28/08/2026. Os secrets OPENAI_API_KEY e ANTHROPIC_API_KEY já existiam
+-- no projeto (as duas funções responderam 200 no teste de fumaça).
 --
 -- O bloco reaproveita o header Authorization de um job já existente, então a chave
 -- nunca é escrita neste arquivo nem aparece em log de conversa.

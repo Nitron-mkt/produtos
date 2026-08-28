@@ -21,7 +21,7 @@ O papel `anon` lê as 8 tabelas e não escreve (só existe política de SELECT).
 | Arquivo | O que faz | Estado |
 |---|---|---|
 | `social_media_squad.sql` | Cria `social_post` e `social_qa` — o estado do fluxo de social media (Claude → OpenAI → Canva). RLS ligado, só política de SELECT, igual às `pdp_*`. | **aplicada** 28/08/2026 |
-| `social_cron.sql` | Agenda `social-imagem` (*/5) e `social-qa` (2-59/5). Reaproveita o header de um job existente, então não carrega chave. | **não aplicada** — só depois de setar `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` |
+| `social_cron.sql` | Agenda `social-imagem` (*/5) e `social-qa` (2-59/5). Reaproveita o header de um job existente, então não carrega chave. | **aplicada** 28/08/2026 |
 
 Também criado: bucket **`social`** (público, 10 MB, `image/png|jpeg|webp`) e as Edge Functions
 `social-imagem` e `social-qa` (v1, ACTIVE, `verify_jwt = true`).
