@@ -118,8 +118,11 @@ PATCH {SUPABASE_URL}/rest/v1/social_post?id=eq.123
 
 ### Estados
 
-`planejado` → `copy_pronta` → `briefing_pronto` → `imagem_hospedada` →
+`planejado` → `copy_pronta` → `briefing_pronto` → `gerando_imagem` → `imagem_hospedada` →
 `imagem_aprovada` → `arte_montada` → `aprovado_maquina` → `publicado`
+
+`gerando_imagem` é a **trava**, não um estado de trabalho: só existe entre pegar o post e
+gravar o resultado.
 
 Desvios: `briefing_reprovado`, `copy_reprovada`, `arte_reprovada`, `imagem_reprovada`,
 `parado_revisao_humana`, `descartado`. A constraint `social_post_status_ck` recusa qualquer
@@ -161,8 +164,10 @@ marca não vai para hospedagem de terceiro.
 | 5 modelos do Canva mapeados em `social_modelo` | ✅ Modelo 01 a 05, com mapa de `locator_id` por papel (§6) |
 | primeiro post real na fila | ✅ `social_post` id 1 — Frasqueira Cristal 1,5L, Modelo 01 |
 | caminho de custo zero (`slots_cenario = 0`) | ✅ o cron levou o post de `briefing_pronto` a `imagem_aprovada` sem chamar a OpenAI |
-| montagem no Canva de ponta a ponta | ⚠️ mecânica **funciona**; o QA reprovou por fundo branco da foto (§6). Transação cancelada, 3 reprovas em `social_qa`. |
-| fotos de produto recortadas (PNG sem fundo) | ⬜ **o bloqueio atual** — ver §6 |
+| montagem no Canva de ponta a ponta | ✅ **fechado no Modelo 04**: `social_post` id 2, teaser de setembro da Nitron-Mob. GPT gerou a cena, QA automático aprovou, Canva montou, PNG 1080×1350 exportado, design na pasta `Setembro 2026`. |
+| montagem nos Modelos 01/02/03 | ⚠️ mecânica funciona; o QA reprovou o post id 1 por fundo branco da foto (§6) |
+| fotos de produto recortadas (PNG sem fundo) | ⬜ **o bloqueio dos modelos de produto** — ver §6 |
+| trava de concorrência e resgate de órfão | ✅ na `social-imagem` |
 
 **Desligar sem apagar**, se precisar:
 `update cron.job set active = false where jobname like 'social-%';`
@@ -240,6 +245,19 @@ em ordem de preferência:
 
 Isso bloqueia justamente os Modelos 01, 02 e 03 — os três que não gastam GPT. O Modelo 04 e
 o 05 não sofrem: os slots deles recebem cenário gerado, que já vem sem fundo branco.
+
+### Trava de concorrência: sem ela você paga duas vezes
+
+O cron roda de 5 em 5 minutos. Uma chamada manual no meio do caminho e o cron podem pegar
+o **mesmo post** — aconteceu em 28/08/2026 e o `social-qa` avaliou o post 2 duas vezes.
+No QA isso é só log duplicado. Na geração de imagem seria **pagar duas gerações**.
+
+A trava é um `UPDATE` filtrado por status: quem consegue mudar `briefing_pronto` →
+`gerando_imagem` leva o post; o outro worker recebe zero linhas e desiste. Ela é tomada
+**depois** das validações de graça e **antes** da primeira chamada paga.
+
+Se a função morrer entre pegar a trava e gravar o resultado, o post ficaria preso. Por isso
+todo tick começa resgatando o que está em `gerando_imagem` há mais de 10 minutos.
 
 ### Storage exige o header `apikey`, não só o Bearer
 

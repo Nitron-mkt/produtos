@@ -288,6 +288,10 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
   box e logo tampado só existem depois da montagem.
 - Teto de **2 regerações**; na terceira o post vira `parado_revisao_humana`. Falha de
   **upload** não consome tentativa (a imagem já foi paga); só recusa da OpenAI consome.
+- **Trava de concorrência é obrigatória em passo pago.** O cron de 5 min e uma chamada
+  manual pegaram o mesmo post e o QA rodou duas vezes; na geração seria pagar duas vezes.
+  A trava é `UPDATE ... WHERE status='briefing_pronto'` → `gerando_imagem`, tomada depois
+  das validações de graça e antes da primeira chamada paga, com resgate de órfão em 10 min.
 - **Storage deste projeto exige o header `apikey`**, não só `Authorization: Bearer` — senão
   403 `Invalid Compact JWS`. O PostgREST aceita só o Bearer, o Storage não. Verificado.
 - **Os 5 modelos estão em `social_modelo`** (`mapa` = papel → `locator_id`, verificados como

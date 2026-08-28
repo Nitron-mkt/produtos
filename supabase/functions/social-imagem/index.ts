@@ -96,6 +96,27 @@ async function subir(bytes: Uint8Array, arquivo: string) {
   return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${arquivo}`;
 }
 
+// Trava de concorrencia. O cron de 5 em 5 minutos e uma chamada manual podem pegar
+// o MESMO post: aconteceu em 28/08/2026 e o social-qa avaliou duas vezes. No QA isso
+// e log duplicado; aqui seria PAGAR DUAS GERACOES. O UPDATE filtrado por status é a
+// trava: quem conseguir mudar briefing_pronto -> gerando_imagem leva o post, e o
+// outro worker recebe zero linhas e desiste.
+async function tentarPegar(id: number): Promise<boolean> {
+  const r = await fetch(
+    `${SUPABASE_URL}/rest/v1/social_post?id=eq.${id}&status=eq.briefing_pronto`,
+    {
+      method: "PATCH",
+      headers: { ...rest, Prefer: "return=representation" },
+      body: JSON.stringify({ status: "gerando_imagem" }),
+    },
+  );
+  if (!r.ok) {
+    console.error(`trava ${id} falhou: ${r.status} ${await r.text()}`);
+    return false;
+  }
+  return ((await r.json()) as unknown[]).length > 0;
+}
+
 async function processar(post: Record<string, any>) {
   const modelo = post.social_modelo;
   const slots = modelo?.slots_cenario ?? 0;
@@ -127,6 +148,11 @@ async function processar(post: Record<string, any>) {
       erro: `${post.modelo} pede ${slots} cenário(s), o briefing trouxe ${prompts.length}`,
     });
     return { id: post.id, ok: false, erro: "prompts insuficientes" };
+  }
+
+  // Só a partir daqui existe custo. Pega a trava antes de gastar.
+  if (!(await tentarPegar(post.id))) {
+    return { id: post.id, ok: true, pulou: "outro worker pegou o post" };
   }
 
   const tentativa = (post.tentativas_imagem ?? 0) + 1;
@@ -168,6 +194,27 @@ async function processar(post: Record<string, any>) {
   return { id: post.id, ok: true, slots: cenarios.length, tentativa };
 }
 
+// Resgate de orfao: se a funcao morrer entre pegar a trava e gravar o resultado,
+// o post fica preso em gerando_imagem para sempre. Uma geracao nao passa de poucos
+// minutos, entao qualquer coisa parada ali ha mais de 10 minutos volta para a fila.
+async function resgatarOrfaos() {
+  const limite = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+  const r = await fetch(
+    `${SUPABASE_URL}/rest/v1/social_post` +
+      `?status=eq.gerando_imagem&atualizado_em=lt.${limite}`,
+    {
+      method: "PATCH",
+      headers: { ...rest, Prefer: "return=representation" },
+      body: JSON.stringify({ status: "briefing_pronto", erro: "resgatado: travado em gerando_imagem" }),
+    },
+  );
+  if (!r.ok) {
+    console.error(`resgate falhou: ${r.status} ${await r.text()}`);
+    return 0;
+  }
+  return ((await r.json()) as unknown[]).length;
+}
+
 Deno.serve(async (req: Request) => {
   if (!OPENAI_KEY) {
     return new Response(
@@ -177,6 +224,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const n = Number(new URL(req.url).searchParams.get("n") ?? "3");
+  const resgatados = await resgatarOrfaos();
 
   const fila = await fetch(
     `${SUPABASE_URL}/rest/v1/social_post` +
@@ -198,7 +246,7 @@ Deno.serve(async (req: Request) => {
   const resultados = [];
   for (const post of posts) resultados.push(await processar(post)); // serial: rate limit de imagem é baixo
 
-  return new Response(JSON.stringify({ processados: resultados.length, resultados }), {
+  return new Response(JSON.stringify({ processados: resultados.length, resgatados, resultados }), {
     headers: { "Content-Type": "application/json" },
   });
 });
