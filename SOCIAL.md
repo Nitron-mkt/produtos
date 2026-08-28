@@ -1,10 +1,10 @@
-# Squad de Social Media — fluxo e contrato com o n8n
+# Squad de Social Media — fluxo Claude → OpenAI → Canva
 
-Cinco agentes em `.claude/agents/`, uma tabela de estado no Supabase e três passos no n8n.
+Cinco agentes em `.claude/agents/`, duas tabelas de estado no Supabase e duas Edge Functions.
 
-| Agente | Papel | Entra quando |
+| Agente | Papel | Entra quando o status é |
 |---|---|---|
-| `estrategista-conteudo` | pauta com evidência no dado | início |
+| `estrategista-conteudo` | pauta com evidência no dado | *(início)* |
 | `redator-legenda` | legenda + gate de claim (CDC) | `planejado` |
 | `diretor-arte` | prompt do GPT + foto real + template | `copy_pronta` |
 | `montador-canva` | executa a montagem no Canva | `imagem_aprovada` |
@@ -29,106 +29,162 @@ que a fábrica não produz. Além de ficar ruim, é publicidade enganosa (CDC ar
 
 ---
 
-## 2. Três coisas que não funcionam (verificado em 28/08/2026)
+## 2. Por que não tem n8n aqui
 
-### O n8n não chama o Claude Code
-Claude Code não tem endpoint de entrada. Um agente `.md` só roda quando alguém abre uma
-sessão. Um fluxo que "volta pro Claude" no meio **para e espera um humano**.
+Decidido em 28/08/2026. O n8n não existia ainda neste stack, e três fatos derrubaram a
+necessidade dele:
 
-O gate de QA automático é **chamada à API da Anthropic com visão** — nó HTTP no n8n ou Edge
-Function. Modelo sugerido: `claude-sonnet-5` (visão boa, custo baixo; não precisa de Opus
-para dizer que o texto estourou o box).
+**O n8n não chamaria o Claude Code.** Claude Code não tem endpoint de entrada. Um agente
+`.md` só roda quando alguém abre uma sessão. Um fluxo que "volta pro Claude" no meio **para
+e espera um humano** — não é automação.
 
-### O n8n não chama o MCP do Canva
-Mesmo motivo. Duas saídas:
+**O n8n não chamaria o MCP do Canva.** Mesmo motivo. Para o n8n mexer no Canva seria preciso
+a Canva Connect API com app OAuth próprio.
 
-- **Caminho A (hoje)** — montagem na sessão do Claude via MCP, com o `montador-canva`.
-  Funciona já, sem configurar nada. Precisa de alguém abrindo a sessão.
-- **Caminho B (escala)** — n8n fala com a **Canva Connect API** direto (app OAuth próprio).
-  Automatiza de ponta a ponta. Exige registrar o app e conferir o plano do Canva.
+**O projeto já é um orquestrador.** ~70 jobs em `pg_cron` disparando 54 Edge Functions, com
+fila (`fila-processar`, de minuto em minuto), trava e config em tabela. Instalar n8n seria um
+**segundo agendador** — duas fontes de verdade sobre quem disparou o quê.
 
-Comece no A. Migre para o B quando o volume doer.
-
-### Autofill do Canva não está disponível
-Zero brand templates com dataset na conta, e a tool `autofill-design` não existe no MCP.
-O caminho é `copy-design` → `read-design(open_transaction)` → `edit-design(update_fill +
-replace_text)` → `commit` → `export-design`. Está detalhado no `montador-canva`.
+Então os dois passos automáticos viraram Edge Function, no padrão que o projeto já usa.
+Se um dia o n8n entrar, ele entra pelo mesmo contrato REST da §4 — nada aqui precisa mudar.
 
 ---
 
 ## 3. O fluxo
 
 ```
-estrategista-conteudo  → planejado
-redator-legenda        → copy_pronta          (claim_check preenchido)
-diretor-arte           → briefing_pronto      ← daqui o n8n assume
-─────────────────────────────────────────────────────────────────
-n8n passo 1: OpenAI gpt-image-1 gera o cenário → imagem_gerada
-n8n passo 2: salva PNG no bucket social/       → imagem_hospedada
-n8n passo 3: Anthropic API (visão) avalia      → imagem_aprovada
-                                               ou imagem_reprovada → volta ao passo 1
-                                                  (tentativas_imagem + 1, máx 2)
-─────────────────────────────────────────────────────────────────
-montador-canva         → arte_montada
-revisor-social         → aprovado_maquina  |  *_reprovado
-humano                 → publicado
+┌─ CLAUDE (sessão interativa) ─────────────────────────────────────────┐
+│ estrategista-conteudo  → planejado                                   │
+│ redator-legenda        → copy_pronta        (claim_check preenchido)  │
+│ diretor-arte           → briefing_pronto                             │
+└──────────────────────────────────────────────────────────────────────┘
+                                  ↓
+┌─ EDGE FUNCTION social-imagem  (cron */5) ────────────────────────────┐
+│ gpt-image-1 gera o cenário → PNG no bucket público social/           │
+│                        → imagem_hospedada                            │
+└──────────────────────────────────────────────────────────────────────┘
+                                  ↓
+┌─ EDGE FUNCTION social-qa  (cron 2-59/5) ─────────────────────────────┐
+│ claude-sonnet-5 com visão avalia o cenário cru                       │
+│   aprovou  → imagem_aprovada                                         │
+│   reprovou → briefing_pronto (regera)  ·  máx 2 → parado_revisao_...  │
+└──────────────────────────────────────────────────────────────────────┘
+                                  ↓
+┌─ CLAUDE (sessão interativa) ─────────────────────────────────────────┐
+│ montador-canva  → arte_montada                                       │
+│ revisor-social  → aprovado_maquina  |  *_reprovado                   │
+└──────────────────────────────────────────────────────────────────────┘
+                                  ↓
+                        humano aprova → publicado
 ```
 
-O estado vive **todo no Supabase**. Cada passo é idempotente: se o n8n cair no passo 2,
-ninguém perde o briefing, e o retry pega de onde parou. É o mesmo padrão do `fila-processar`
-que já roda de minuto em minuto neste projeto.
+O estado vive **todo no Supabase**. Cada passo é idempotente: se a função cair no meio,
+ninguém perde o briefing e o próximo tick pega de onde parou.
 
-**Não crie um segundo agendador.** O projeto já tem ~70 crons em `pg_cron` disparando 54 Edge
-Functions. Ou o n8n agenda, ou o `pg_cron` chama o webhook do n8n. Escolha um.
+### Os dois QA são diferentes, e o segundo é o que importa
+
+| | `social-qa` (automático) | `revisor-social` (sessão) |
+|---|---|---|
+| Olha | a imagem **crua** do GPT | a arte **montada**, pelo thumbnail do Canva |
+| Pega | produto na cena, texto, pessoa, área sem espaço livre | texto estourando box, logo tampado, contraste, brand kit errado |
+| Custa | centavos | uma passada de agente |
+
+Verificar só a imagem crua deixa passar o erro mais comum em social — legenda estourando o
+box só existe **depois** da montagem.
 
 ---
 
-## 4. Contrato com o n8n
+## 4. Contrato REST (vale para a Edge Function e para qualquer n8n futuro)
 
-### Ler o que está pronto para gerar imagem
+### Ler a fila
 
 ```http
 GET {SUPABASE_URL}/rest/v1/social_post
     ?status=eq.briefing_pronto
     &tentativas_imagem=lt.2
+    &prompt_imagem=not.is.null
     &select=id,marca,canal,formato,prompt_imagem,foto_produto_url,template_ref,referencia
-    &order=data_prevista.asc
-    &limit=5
+    &order=data_prevista.asc.nullslast
+    &limit=3
 ```
 
 ### Devolver o resultado
 
 ```http
 PATCH {SUPABASE_URL}/rest/v1/social_post?id=eq.123
-{
-  "imagem_gpt_url": "https://…/storage/v1/object/public/social/123-v1.png",
-  "status": "imagem_hospedada"
-}
+{ "imagem_gpt_url": "…/storage/v1/object/public/social/123-v1.png",
+  "status": "imagem_hospedada" }
 ```
+
+### Estados
+
+`planejado` → `copy_pronta` → `briefing_pronto` → `imagem_hospedada` →
+`imagem_aprovada` → `arte_montada` → `aprovado_maquina` → `publicado`
+
+Desvios: `briefing_reprovado`, `copy_reprovada`, `arte_reprovada`, `imagem_reprovada`,
+`parado_revisao_humana`, `descartado`. A constraint `social_post_status_ck` recusa qualquer
+outro valor — se um status novo for preciso, altere a constraint, não contorne com texto livre.
 
 ### Chaves — onde cada uma mora
 
 | Chave | Onde | Regra |
 |---|---|---|
-| `service_role` do Supabase | **só** no n8n, server-side | dá escrita em tudo. Nunca em front-end, nunca em log, nunca em nó com output visível. |
-| `anon` do Supabase | front-end apenas | ⚠️ **89 tabelas deste projeto estão com RLS desligado**, incluindo `contato_enriquecido` (21 k) e `ghl_cliente` (10 k). A `anon` dá **leitura e escrita** nelas. |
-| OpenAI | secret do n8n | não replique no banco |
-| Anthropic | secret do n8n | não replique no banco |
-| Canva | OAuth do app (caminho B) | não replique no banco |
+| `SUPABASE_SERVICE_ROLE_KEY` | injetada no runtime da Edge Function | dá escrita em tudo. Nunca em front-end, nunca em log. |
+| `OPENAI_API_KEY` | secret do projeto Supabase | usada só por `social-imagem` |
+| `ANTHROPIC_API_KEY` | secret do projeto Supabase | usada só por `social-qa` |
+| chave `anon` | front-end apenas | ⚠️ **89 tabelas deste projeto estão com RLS desligado**, incluindo `contato_enriquecido` (21 k) e `ghl_cliente` (10 k). A `anon` dá **leitura e escrita** nelas. |
 
-As tabelas `social_*` nascem com RLS ligado e só política de SELECT, igual às `pdp_*`.
+`social_post` e `social_qa` nascem com RLS **ligado** e só política de SELECT, igual às `pdp_*`.
 
 ### Bucket
 
-Crie `social` **público** (o `upload-asset-from-url` do Canva só aceita URL HTTPS já
-pública). Convenção de nome: `{social_post.id}-v{tentativa}.png`.
+`social` — **público**, 10 MB, só `image/png|jpeg|webp`. Criado em 28/08/2026.
+Nome do arquivo: `{social_post.id}-v{tentativa}.png`.
 
-Nunca use pastebin, Imgur ou WeTransfer para conseguir uma URL pública. Os buckets do
-projeto resolvem, e material de marca não vai para hospedagem de terceiro.
+O `upload-asset-from-url` do Canva só aceita **URL HTTPS já pública** — por isso o bucket é
+público. **Nunca** use pastebin, Imgur ou WeTransfer para conseguir uma URL: material de
+marca não vai para hospedagem de terceiro.
 
 ---
 
-## 5. Custo e teto
+## 5. O que está montado e o que falta
+
+| Item | Estado |
+|---|---|
+| 5 agentes `.md` | ✅ em `.claude/agents/` |
+| `social_post` + `social_qa`, RLS ligado | ✅ aplicado em `bwbeieumxcuomtrvlqxs` |
+| bucket público `social` | ✅ criado |
+| Edge Function `social-imagem` | ✅ deployada, v1, ACTIVE |
+| Edge Function `social-qa` | ✅ deployada, v1, ACTIVE |
+| secrets `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` | ⬜ **faltam** — sem elas as funções devolvem 500 com a mensagem |
+| jobs de `pg_cron` | ⬜ **não criados** — de propósito: cron sem secret é erro a cada 5 min. SQL pronto em `supabase/migrations/social_cron.sql` |
+| design mestre do Canva por formato | ⬜ falta — o autofill não existe nesta conta (§6) |
+
+---
+
+## 6. Canva: o autofill não existe nesta conta
+
+Verificado em 28/08/2026: a conta tem 10+ brand kits (`NITRON`, `Clube Nitron`, `TEAK BRAZIL`,
+`POTECAST`, `CONECTA`, `UNIVERSIDADE NITRON`, `HYAK`, `Agora Espetos`) mas **zero brand
+templates com dataset de autofill**, e a tool `autofill-design` não existe no MCP.
+
+O caminho real é copiar e editar:
+
+```
+copy-design → upload-asset-from-url → read-design(open_transaction) →
+edit-design(update_fill + replace_text) → [conferir thumbnail] → commit → export-design
+```
+
+Detalhado no `montador-canva`, com a lista das seis coisas para olhar antes de commitar.
+`commit` é irreversível; `cancel` é grátis.
+
+Convenção de nome que a squad já usa no Canva:
+`Marca · DD-MM · Formato · Linha · assunto`
+(ex.: `Nitron · 28-09 · Estático · Infantil · copo livre de BPA`)
+
+---
+
+## 7. Custo e teto
 
 - **Máximo 2 regerações por post.** Na terceira, `status = 'parado_revisao_humana'`.
   Loop automático de reprovação queima crédito sem convergir — e três reprovações no mesmo
@@ -136,16 +192,16 @@ projeto resolvem, e material de marca não vai para hospedagem de terceiro.
 - Meça o custo real por imagem no primeiro lote de 10 e registre aqui. Sem número medido,
   não estime.
 - O QA por visão é ordens de grandeza mais barato que a geração de imagem. Rodar QA duas
-  vezes (imagem crua + arte montada) é mais barato que uma regeração evitada.
+  vezes (imagem crua + arte montada) sai mais barato que uma única regeração evitada.
 
 ---
 
-## 6. Aprovação humana não é opcional
+## 8. Aprovação humana não é opcional
 
 `aprovado_maquina` não é publicação. O `revisor-social` reduz o volume que chega ao humano;
 não substitui o humano. Duas razões:
 
-1. Claim em produto físico tem consequência jurídica sob o CDC — art. 36 exige que a Nitron
+1. Claim em produto físico tem consequência jurídica sob o CDC — o art. 36 exige que a Nitron
    **mantenha em seu poder** o dado técnico que sustenta cada alegação publicada.
 2. A taxa de acerto de lançamento deste portfólio caiu para 0,7% na última safra. Este é um
    projeto onde o viés institucional correto é **desconfiar da própria proposta**.

@@ -1,7 +1,7 @@
 -- Squad de social media — tabelas de estado do fluxo Claude → n8n → OpenAI → Canva
 -- Projeto: bwbeieumxcuomtrvlqxs (integracao-crm-sankhya)
 -- Prefixo social_ para não colidir com as ~130 tabelas do CRM.
--- STATUS: PROPOSTA — ainda não aplicada. Ver SOCIAL.md.
+-- Aplicada em 28/08/2026 via MCP do Supabase. Ver SOCIAL.md.
 
 create table if not exists social_post (
   id                bigserial primary key,
@@ -35,6 +35,7 @@ create table if not exists social_post (
 
   status            text not null default 'planejado',
   tentativas_imagem integer not null default 0,
+  erro              text,                             -- ultima falha tecnica (geracao, upload, QA)
 
   criado_por        text,
   criado_em         timestamptz not null default now(),

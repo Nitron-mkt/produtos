@@ -44,16 +44,23 @@ O prompt descreve **ambiente vazio pronto para receber o produto**. Sempre inclu
    de frente; o cenário tem que estar de frente.
 4. **Proibições explícitas**: `sem texto, sem logotipo, sem marca d'água, sem pessoas,
    sem mãos, sem embalagem de plástico, sem recipiente algum`.
-5. **O formato**, em pixels, igual ao destino.
+5. **Não escreva pixel no prompt.** O tamanho é parâmetro da API, não texto — e o
+   `gpt-image-1` só aceita **1024×1024, 1024×1536 e 1536×1024**. Não existe 1080×1350.
+   A função `social-imagem` gera em **1024×1536** (retrato 2:3) para feed e story, e o
+   **Canva faz o recorte final**. Pedir "1080 × 1350" no prompt não muda o tamanho da saída;
+   só gasta token e às vezes faz o modelo desenhar uma moldura.
 
-### Formatos
+### Formatos de destino (o recorte é do Canva)
 
-| Canal | Tamanho | Observação |
-|---|---|---|
-| `instagram_feed` | 1080 × 1350 | retrato 4:5, o padrão |
-| `instagram_story` | 1080 × 1920 | 250px do topo e 250px da base ficam sob a interface |
-| `instagram_reels` capa | 1080 × 1920 | mesma zona segura do story |
-| `facebook_feed` | 1080 × 1350 | reaproveita o feed |
+| Canal | Destino final | Gerado em | Observação |
+|---|---|---|---|
+| `instagram_feed` | 1080 × 1350 (4:5) | 1024 × 1536 | o Canva corta a altura |
+| `instagram_story` | 1080 × 1920 (9:16) | 1024 × 1536 | 250px do topo e 250px da base ficam sob a interface |
+| `instagram_reels` capa | 1080 × 1920 | 1024 × 1536 | mesma zona segura do story |
+| `facebook_feed` | 1080 × 1350 | 1024 × 1536 | reaproveita o feed |
+
+Como o Canva corta, **deixe margem no que importa**: se a área vazia do cenário estiver
+colada na borda inferior, o recorte 4:5 pode comer ela.
 
 ### Exemplo de prompt bom
 
@@ -62,7 +69,6 @@ O prompt descreve **ambiente vazio pronto para receber o produto**. Sempre inclu
 > frontal na altura da bancada, lente 50mm. O terço central da bancada está completamente
 > vazio e desobstruído. Fotografia realista, cor neutra. Sem texto, sem logotipo, sem marca
 > d'água, sem pessoas, sem mãos, sem nenhum recipiente, pote, vasilha ou embalagem na cena.
-> 1080 × 1350.
 
 ### Exemplo de prompt ruim
 
@@ -103,7 +109,8 @@ Siga ela. Registre em `template_ref` qual design é o mestre.
 Em `social_post`: `prompt_imagem`, `foto_produto_url`, `template_ref`, `formato`,
 e `status = 'briefing_pronto'`.
 
-`briefing_pronto` é o sinal que o n8n espera. Depois desse status o fluxo sai do Claude.
+`briefing_pronto` é o sinal que a Edge Function `social-imagem` espera. Depois desse status
+o fluxo sai do Claude e volta em `imagem_aprovada`, para o `montador-canva`.
 
 ## O que você não faz
 
