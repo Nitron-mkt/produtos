@@ -103,7 +103,7 @@ GET {SUPABASE_URL}/rest/v1/social_post
     ?status=eq.briefing_pronto
     &tentativas_imagem=lt.2
     &prompt_imagem=not.is.null
-    &select=id,marca,canal,formato,prompt_imagem,foto_produto_url,template_ref,referencia
+    &select=id,marca,canal,formato,modelo,prompts_cenario,fotos_produto,referencia,social_modelo(slots_cenario,permite_pessoa)
     &order=data_prevista.asc.nullslast
     &limit=3
 ```
@@ -158,8 +158,9 @@ marca não vai para hospedagem de terceiro.
 | Edge Function `social-qa` | ✅ deployada, v1, ACTIVE |
 | secrets `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` | ✅ já existiam no projeto — as duas funções responderam 200 no teste, e o guard no topo devolveria 500 se faltassem |
 | jobs `social-imagem-5min` (*/5) e `social-qa-5min` (2-59/5) | ✅ ativos |
-| design mestre do Canva por formato | ⬜ **falta** — é o único bloqueio restante. O autofill não existe nesta conta (§6), então o `montador-canva` precisa de um design para copiar. |
-| primeiro post de teste ponta a ponta | ⬜ falta |
+| 5 modelos do Canva mapeados em `social_modelo` | ✅ Modelo 01 a 05, com mapa de `locator_id` por papel (§6) |
+| primeiro post real na fila | ✅ `social_post` id 1 — Frasqueira Cristal 1,5L, Modelo 01 |
+| montagem no Canva de ponta a ponta | ⬜ falta rodar o `montador-canva` na sessão |
 
 **Desligar sem apagar**, se precisar:
 `update cron.job set active = false where jobname like 'social-%';`
@@ -172,23 +173,59 @@ Teste de fumaça (as duas devolveram 200 com fila vazia em 28/08/2026):
 
 ---
 
-## 6. Canva: o autofill não existe nesta conta
+## 6. Os 5 modelos do Canva
 
-Verificado em 28/08/2026: a conta tem 10+ brand kits (`NITRON`, `Clube Nitron`, `TEAK BRAZIL`,
-`POTECAST`, `CONECTA`, `UNIVERSIDADE NITRON`, `HYAK`, `Agora Espetos`) mas **zero brand
-templates com dataset de autofill**, e a tool `autofill-design` não existe no MCP.
+Cadastrados em `social_modelo` em 28/08/2026, com o mapa de `locator_id` por papel.
+Todos são **1080 × 1350 (4:5)** nativos, brand kit `NITRON`.
 
-O caminho real é copiar e editar:
+| Modelo | Template | Para que serve | Fotos de produto | Cenários GPT | Pessoa |
+|---|---|---|---|---|---|
+| **01** | `EAHTlFA83HE` | produto único em destaque — o default de SKU | 1 | **0** | não |
+| **02** | `EAHTlKR9Mek` | família ou cor: 4 SKUs empilhados | 4 | **0** | não |
+| **03** | `EAHTlO_M85U` | produto em uso / benefício funcional | 1 | **0** | não |
+| **04** | `EAHTlIZUQbA` | institucional / lifestyle, foto circular | 0 | 1 | **sim** |
+| **05** | `EAHTlG7KBaQ` | listicle: 4 cantos da casa com rótulo | 0 | 4 | não |
+
+### O achado que mudou o pipeline
+
+**Em 3 dos 5 modelos o GPT não entra.** Os Modelos 01, 02 e 03 são layouts de cor plana da
+marca com slots de **foto real de produto** — não têm fundo fotográfico. A `social-imagem`
+detecta `slots_cenario = 0` e promove o post direto para `imagem_aprovada`, **sem chamar a
+OpenAI e sem custo nenhum**.
+
+Isso não enfraquece a divisão de camadas da §1 — confirma. Onde a marca resolve o layout,
+não há cenário para gerar. O GPT entra só no Modelo 04 (uma cena lifestyle, o único que
+aceita pessoa) e no Modelo 05 (quatro ambientes).
+
+### O autofill não existe — e não faz falta
+
+Zero brand templates com dataset, e a tool `autofill-design` não existe no MCP. Mas os
+`locator_id` **são estáveis entre cópias** (verificado: duas cópias do Modelo 01 devolveram
+os mesmos ids), então o mapa fixo em `social_modelo.mapa` substitui o autofill com
+vantagem — ele controla o que pode ser trocado, e o autofill não controlaria.
 
 ```
-copy-design → upload-asset-from-url → read-design(open_transaction) →
-edit-design(update_fill + replace_text) → [conferir thumbnail] → commit → export-design
+create-design-from-brand-template → upload-asset-from-url →
+read-design(open_transaction) → edit-design(update_fill + replace_text) →
+[conferir thumbnail] → commit → export-design
 ```
 
-Detalhado no `montador-canva`, com a lista das seis coisas para olhar antes de commitar.
-`commit` é irreversível; `cancel` é grátis.
+Papéis no `mapa`: `titulo`, `subtitulo`, `produto_1..4`, `cenario_1..4`, `rotulo_1..4`,
+`selo`, `adorno_topo`, `adorno_base`, `logo`. **O `logo` está lá para ser conferido, nunca
+substituído.**
 
-Convenção de nome que a squad já usa no Canva:
+### Duas armadilhas registradas
+
+**Modelo 05 — título bicolor.** Tem duas `textRegions` de cores diferentes (`"5 cantos"` em
+`#f28a7e`, o resto em `#dfa3a5`). `replace_text` achata as duas numa cor. Use
+`find_and_replace_text` por região. E o layout tem **4 fotos** apesar de o título dizer
+"5 cantos".
+
+**Limite de caracteres.** `titulo_max` e `subtitulo_max` vêm da largura do box medida no
+template. Estourar não dá erro — dá texto cortado, que só aparece depois da montagem.
+
+### Convenção de nome no Canva
+
 `Marca · DD-MM · Formato · Linha · assunto`
 (ex.: `Nitron · 28-09 · Estático · Infantil · copo livre de BPA`)
 

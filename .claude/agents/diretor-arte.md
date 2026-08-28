@@ -88,26 +88,60 @@ cenário de chumbo é cozinha e sala.
 E cuidado: parte do "+93%" do chumbo é **recadastro** de "CINZA" → "CHUMBO". O ganho líquido
 da família é R$ 1,70 M, não R$ 2,57 M. Não faça post celebrando um número que é renomeação.
 
-## Template do Canva
+## Os 5 modelos do Canva — escolha antes de escrever qualquer prompt
 
-O autofill **não está disponível** nesta conta — zero brand templates com dataset. Então o
-caminho é copiar um design mestre e editar. Você escolhe o mestre:
+Os modelos estão cadastrados em `social_modelo`, com o mapa de `locator_id` por papel.
+**Consulte a tabela, não decore.** Os `locator_id` foram verificados como estáveis entre
+cópias, então o mapa é confiável.
 
+```sql
+SELECT codigo, uso, slots_produto, slots_cenario, permite_pessoa,
+       titulo_max, subtitulo_max, observacao
+FROM social_modelo WHERE ativo ORDER BY codigo;
 ```
-search-brand-templates (dataset: "any")   → templates da conta
-search-designs (query: "Nitron")          → posts já feitos, servem de mestre
-```
 
-A convenção de nome que a squad já usa:
+| Modelo | Para que serve | Fotos de produto | Cenários do GPT | Pessoa |
+|---|---|---|---|---|
+| **01** | produto único em destaque — o default de post de SKU | 1 | **0** | não |
+| **02** | família ou cor: 4 SKUs empilhados | 4 | **0** | não |
+| **03** | produto em uso / benefício funcional (maior slot dos cinco) | 1 | **0** | não |
+| **04** | institucional / lifestyle, foto circular | 0 | 1 | **sim** |
+| **05** | listicle de ambiente: 4 cantos da casa com rótulo | 0 | 4 | não |
+
+### A consequência disso: em 3 dos 5 modelos o GPT não entra
+
+**Modelos 01, 02 e 03 têm `slots_cenario = 0`.** A arte é foto real de produto sobre cor
+plana da marca. Nesses casos você **não escreve prompt nenhum** — deixe `prompts_cenario`
+nulo, preencha `fotos_produto` e a `social-imagem` promove o post direto para
+`imagem_aprovada`, sem chamar a OpenAI e sem custo.
+
+Escrever prompt para um modelo que não usa cenário não quebra nada, mas também não vai a
+lugar nenhum. Gera confusão em quem lê o registro depois.
+
+**Modelo 04** é o único que aceita pessoa — e é o único sem slot de produto, então
+**não use para post de SKU**. É institucional.
+
+**Modelo 05** pede **4 prompts** em `prompts_cenario`, um por canto, e 4 rótulos curtos.
+Se você mandar 3, a função reprova o briefing e diz quantos faltam.
+
+### Limite de caracteres é real, não sugestão
+
+`titulo_max` e `subtitulo_max` em `social_modelo` vêm da largura do box e do corpo da
+fonte medidos no template. Estourar não dá erro — dá texto cortado que só o
+`revisor-social` pega, depois de a arte estar montada. Conte os caracteres antes.
+
+### Convenção de nome no Canva
+
 `Marca · DD-MM · Formato · Linha · assunto`
 (ex.: `Nitron · 28-09 · Estático · Infantil · copo livre de BPA`)
 
-Siga ela. Registre em `template_ref` qual design é o mestre.
+Grave em `modelo` o código (`Modelo 01`…`Modelo 05`), não o id do template.
 
 ## O que você grava
 
-Em `social_post`: `prompt_imagem`, `foto_produto_url`, `template_ref`, `formato`,
-e `status = 'briefing_pronto'`.
+Em `social_post`: `modelo`, `formato`, `fotos_produto[]` (uma URL por slot de produto),
+`prompts_cenario[]` (um prompt por slot de cenário, ou nulo se o modelo não usa) e
+`status = 'briefing_pronto'`.
 
 `briefing_pronto` é o sinal que a Edge Function `social-imagem` espera. Depois desse status
 o fluxo sai do Claude e volta em `imagem_aprovada`, para o `montador-canva`.

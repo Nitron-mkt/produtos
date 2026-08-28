@@ -36,3 +36,9 @@ where c.relname in ('social_post','social_qa') group by 1,2;
 -- social_qa   | t | social_qa_sel:r
 ```
 RLS ligado nas duas, só política de SELECT — nenhuma escrita pela `anon`.
+
+| `social_modelo_canva.sql` (aplicada via MCP) | Cria `social_modelo` com os 5 modelos do Canva mapeados (`mapa` = papel → `locator_id`) e adiciona `modelo`, `prompts_cenario`, `cenarios`, `fotos_produto` em `social_post`. | **aplicada** 28/08/2026 |
+
+Os `locator_id` do Canva foram verificados como **estáveis entre cópias**: duas cópias do
+Modelo 01 criadas do mesmo brand template devolveram exatamente os mesmos ids, incluindo o
+`page_id`. Por isso o mapa pode ser fixo em vez de heurística por geometria.
