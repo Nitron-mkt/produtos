@@ -55,6 +55,10 @@ async function patch(id: number, campos: Record<string, unknown>) {
   if (!r.ok) console.error(`patch ${id} falhou: ${r.status} ${await r.text()}`);
 }
 
+// Falha de upload não é culpa do briefing e a imagem já foi paga — por isso
+// ela não consome tentativa, ao contrário de uma recusa da OpenAI.
+class ErroUpload extends Error {}
+
 async function umaImagem(prompt: string, tamanho: string, permitePessoa: boolean) {
   const resp = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
@@ -79,13 +83,16 @@ async function subir(bytes: Uint8Array, arquivo: string) {
   const up = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${arquivo}`, {
     method: "POST",
     headers: {
+      // apikey é obrigatório: se a chave do projeto não for JWT legado, o Storage
+      // recusa o Bearer com 403 "Invalid Compact JWS". Verificado em 28/08/2026.
+      apikey: SERVICE_KEY,
       Authorization: `Bearer ${SERVICE_KEY}`,
       "Content-Type": "image/png",
       "x-upsert": "true",
     },
     body: bytes,
   });
-  if (!up.ok) throw new Error(`storage ${up.status}: ${(await up.text()).slice(0, 300)}`);
+  if (!up.ok) throw new ErroUpload(`storage ${up.status}: ${(await up.text()).slice(0, 300)}`);
   return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${arquivo}`;
 }
 
@@ -135,12 +142,15 @@ async function processar(post: Record<string, any>) {
       const url = await subir(bytes, `${post.id}-v${tentativa}-s${i + 1}.png`);
       cenarios.push({ slot: i + 1, url });
     } catch (e) {
-      // Estoura a tentativa mesmo em erro técnico: sem isso o cron reprocessa
-      // o mesmo post de 5 em 5 minutos para sempre.
+      const upload = e instanceof ErroUpload;
+      // Recusa da OpenAI consome tentativa: sem isso o cron reprocessa o mesmo
+      // briefing ruim de 5 em 5 minutos para sempre. Falha de upload não consome:
+      // a imagem já foi paga e o problema é de infraestrutura, não do briefing.
+      const gasta = upload ? (post.tentativas_imagem ?? 0) : tentativa;
       await patch(post.id, {
-        tentativas_imagem: tentativa,
+        tentativas_imagem: gasta,
         erro: `slot ${i + 1}: ${String(e).slice(0, 400)}`,
-        status: tentativa >= MAX_TENTATIVAS ? "parado_revisao_humana" : "briefing_pronto",
+        status: !upload && gasta >= MAX_TENTATIVAS ? "parado_revisao_humana" : "briefing_pronto",
         cenarios: cenarios.length ? cenarios : null,
       });
       return { id: post.id, ok: false, erro: String(e).slice(0, 200), gerados: cenarios.length };

@@ -241,6 +241,20 @@ em ordem de preferência:
 Isso bloqueia justamente os Modelos 01, 02 e 03 — os três que não gastam GPT. O Modelo 04 e
 o 05 não sofrem: os slots deles recebem cenário gerado, que já vem sem fundo branco.
 
+### Storage exige o header `apikey`, não só o Bearer
+
+Primeira geração real de imagem (28/08/2026, post id 2): o `gpt-image-1` devolveu a imagem,
+e o upload no bucket voltou **403 `Invalid Compact JWS`**. O `PATCH` no PostgREST tinha
+funcionado com a mesma chave, na mesma função.
+
+Motivo: o PostgREST aceita a chave pelo header `apikey`; o **Storage recusa** um `Authorization:
+Bearer` que não seja JWT legado. Faltava o `apikey` na requisição de upload. Se você escrever
+qualquer coisa nova contra o Storage deste projeto, mande os dois headers.
+
+E a falha custou uma imagem: a geração foi paga e o arquivo se perdeu. Por isso **falha de
+upload não consome tentativa** — só recusa da OpenAI consome. Upload é infraestrutura, não
+briefing ruim.
+
 ### O tamanho da imagem vem do slot, não do canal
 
 O slot do Modelo 04 é um **círculo de 741×741**. Gerar retrato 2:3 para ele perde as

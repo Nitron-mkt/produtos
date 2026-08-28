@@ -286,7 +286,10 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
 - **Dois QA, e o segundo é o que importa.** `social-qa` olha a imagem crua (produto na cena,
   texto, pessoa). O `revisor-social` olha a **arte montada** pelo thumbnail — texto estourando
   box e logo tampado só existem depois da montagem.
-- Teto de **2 regerações**; na terceira o post vira `parado_revisao_humana`.
+- Teto de **2 regerações**; na terceira o post vira `parado_revisao_humana`. Falha de
+  **upload** não consome tentativa (a imagem já foi paga); só recusa da OpenAI consome.
+- **Storage deste projeto exige o header `apikey`**, não só `Authorization: Bearer` — senão
+  403 `Invalid Compact JWS`. O PostgREST aceita só o Bearer, o Storage não. Verificado.
 - **Os 5 modelos estão em `social_modelo`** (`mapa` = papel → `locator_id`, verificados como
   estáveis entre cópias). Em **3 dos 5 o GPT não entra**: Modelos 01, 02 e 03 são cor plana
   com slot de foto real, e a `social-imagem` os promove sem custo. GPT só no 04 (lifestyle,
