@@ -251,7 +251,36 @@ Material não cria hermeticidade; geometria de vedação + força de fechamento 
 
 ---
 
-## 7. Como o squad trabalha
+## 7. Squad de social media (fluxo Claude → n8n → OpenAI → Canva)
+
+Cinco agentes próprios, documentados em **`SOCIAL.md`**: `estrategista-conteudo`,
+`redator-legenda`, `diretor-arte`, `montador-canva`, `revisor-social` (tem veto).
+
+**A decisão central — divisão de camadas:**
+`camada 1 CENÁRIO` = GPT · `camada 2 PRODUTO` = foto real de `produto_foto` (749 SKUs) ·
+`camada 3 MARCA` = Canva. **O GPT nunca gera o produto** — sai um SKU que não existe, e isso
+é publicidade enganosa (CDC art. 37) além de ficar ruim.
+
+**Verificado em 28/08/2026 — três coisas que não funcionam:**
+1. **O n8n não chama o Claude Code.** Não há endpoint de entrada; agente `.md` só roda em
+   sessão aberta. O gate de QA automático é API da Anthropic com visão (`claude-sonnet-5`).
+2. **O n8n não chama o MCP do Canva.** Ou montagem na sessão (via `montador-canva`), ou
+   Canva Connect API com app OAuth próprio.
+3. **Autofill do Canva não está disponível** — zero brand templates com dataset, e a tool
+   `autofill-design` não existe no MCP. O caminho é `copy-design` → `read-design(open_
+   transaction)` → `edit-design(update_fill + replace_text)` → `commit` → `export-design`.
+
+`upload-asset-from-url` do Canva só aceita **URL HTTPS já pública** → use os buckets públicos
+(`produtos`, `app`, `catalogos`, e um `social` a criar). Nunca pastebin/Imgur/WeTransfer.
+
+Claim é gate, não detalhe: **"hermético" está bloqueado sem laudo** (CDC art. 36 obriga a
+manter o dado técnico em poder do fornecedor). "Livre de BPA" e "atóxico" exigem
+especificação de material. A Sanremo escreve *"válvula micro ondas"* justamente para evitar
+o claim — copie a Sanremo.
+
+---
+
+## 8. Como o squad de produto trabalha
 
 Os quatro agentes vivem em `.claude/agents/`. O Claude os detecta sozinho e chama por nome.
 O guia de conexão, de como pedir e o teste de fumaça estão em **`SQUAD.md`**.
