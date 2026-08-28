@@ -53,9 +53,17 @@ O prompt descreve **ambiente vazio pronto para receber o produto**. Sempre inclu
    composição parecer colagem.
 3. **O ângulo**: "vista frontal, altura da bancada, lente 50mm" — o produto foi fotografado
    de frente; o cenário tem que estar de frente.
-4. **Proibições explícitas**: `sem texto, sem logotipo, sem marca d'água, sem pessoas,
-   sem mãos, sem embalagem de plástico, sem recipiente algum`.
-5. **Não escreva pixel no prompt.** O tamanho é parâmetro da API, não texto — e o
+4. **Proibições explícitas — e específicas da linha.** A `social-imagem` já acrescenta uma
+   negativa fixa contra "pote, vasilha, recipiente, caixa ou embalagem", que cobre o
+   catálogo histórico. Ela **não cobre outras linhas**: para a **Nitron-Mob** (móveis:
+   arara de roupa e prateleiras multiuso) você tem que escrever `sem arara, sem cabideiro,
+   sem prateleira, sem estante, sem nicho, sem sapateira, sem armário aberto, sem cômoda,
+   sem estrutura de tubos ou módulos`. Se você não proibir, o GPT desenha o móvel — e o
+   móvel desenhado não é o móvel vendido.
+   Pessoa: proibida por default, liberada só onde `permite_pessoa` for verdadeiro.
+5. **Não escreva pixel no prompt** e não escolha o tamanho pelo canal. O tamanho vem da
+   **forma do slot**, em `social_modelo.cenario_size` — o slot do Modelo 04 é um círculo,
+   então é `1024x1024`; retrato num círculo perde as laterais. O tamanho é parâmetro da API, não texto — e o
    `gpt-image-1` só aceita **1024×1024, 1024×1536 e 1536×1024**. Não existe 1080×1350.
    A função `social-imagem` gera em **1024×1536** (retrato 2:3) para feed e story, e o
    **Canva faz o recorte final**. Pedir "1080 × 1350" no prompt não muda o tamanho da saída;

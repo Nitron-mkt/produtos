@@ -27,8 +27,9 @@ const rest = {
 };
 
 // gpt-image-1 NÃO aceita 1080x1350. Só 1024x1024, 1024x1536 e 1536x1024.
-// Os 5 modelos do Canva são 1080x1350 e os slots são recortes internos, então
-// geramos em retrato e o Canva recorta para a moldura do slot.
+// O tamanho certo vem da FORMA DO SLOT, não do canal: o slot do Modelo 04 é um
+// círculo 741x741, e retrato 2:3 nele perde as laterais no recorte. Por isso
+// social_modelo.cenario_size manda, e o canal é só fallback.
 function tamanhoPara(canal: string): string {
   if (canal.includes("story") || canal.includes("reels")) return "1024x1536";
   if (canal.includes("feed")) return "1024x1536";
@@ -54,14 +55,14 @@ async function patch(id: number, campos: Record<string, unknown>) {
   if (!r.ok) console.error(`patch ${id} falhou: ${r.status} ${await r.text()}`);
 }
 
-async function umaImagem(prompt: string, canal: string, permitePessoa: boolean) {
+async function umaImagem(prompt: string, tamanho: string, permitePessoa: boolean) {
   const resp = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${OPENAI_KEY}` },
     body: JSON.stringify({
       model: MODELO,
       prompt: `${prompt}${negativa(permitePessoa)}`,
-      size: tamanhoPara(canal),
+      size: tamanho,
       quality: "high",
       n: 1,
     }),
@@ -126,7 +127,11 @@ async function processar(post: Record<string, any>) {
 
   for (let i = 0; i < slots; i++) {
     try {
-      const bytes = await umaImagem(prompts[i], post.canal ?? "", modelo.permite_pessoa === true);
+      const bytes = await umaImagem(
+        prompts[i],
+        modelo.cenario_size ?? tamanhoPara(post.canal ?? ""),
+        modelo.permite_pessoa === true,
+      );
       const url = await subir(bytes, `${post.id}-v${tentativa}-s${i + 1}.png`);
       cenarios.push({ slot: i + 1, url });
     } catch (e) {
@@ -167,7 +172,7 @@ Deno.serve(async (req: Request) => {
     `${SUPABASE_URL}/rest/v1/social_post` +
       `?status=eq.briefing_pronto&tentativas_imagem=lt.${MAX_TENTATIVAS}` +
       `&select=id,canal,modelo,prompt_imagem,prompts_cenario,tentativas_imagem,` +
-      `social_modelo(codigo,slots_cenario,permite_pessoa)` +
+      `social_modelo(codigo,slots_cenario,permite_pessoa,cenario_size)` +
       `&order=data_prevista.asc.nullslast&limit=${n}`,
     { headers: rest },
   );

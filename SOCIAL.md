@@ -241,6 +241,24 @@ em ordem de preferência:
 Isso bloqueia justamente os Modelos 01, 02 e 03 — os três que não gastam GPT. O Modelo 04 e
 o 05 não sofrem: os slots deles recebem cenário gerado, que já vem sem fundo branco.
 
+### O tamanho da imagem vem do slot, não do canal
+
+O slot do Modelo 04 é um **círculo de 741×741**. Gerar retrato 2:3 para ele perde as
+laterais no recorte circular. Por isso `social_modelo.cenario_size` manda no tamanho pedido
+ao `gpt-image-1`, e o canal virou só fallback: Modelo 04 → `1024x1024`, Modelo 05 →
+`1024x1536` (slots de ~313×507).
+
+### A negativa da função cobre utilidades, não móvel
+
+A `social-imagem` acrescenta ao prompt uma negativa fixa contra "pote, vasilha, recipiente,
+caixa ou embalagem" — que é o catálogo histórico da Nitron. Para a linha **Nitron-Mob**
+(móveis) o produto é arara e prateleira, e nada disso está na negativa fixa.
+
+Quem escreve o prompt tem que proibir o produto **daquela** linha explicitamente. No post
+de setembro da Nitron-Mob o prompt lista: sem arara, sem cabideiro, sem prateleira, sem
+estante, sem nicho, sem sapateira, sem armário aberto, sem cômoda, sem estrutura de tubos
+ou módulos. Sem isso o GPT desenha o móvel — e o móvel desenhado não é o móvel vendido.
+
 ### Limite de caractere: meça na arte, não no schema
 
 O `titulo_max` do Modelo 01 estava em 46 por estimativa. Na renderização real, **33
