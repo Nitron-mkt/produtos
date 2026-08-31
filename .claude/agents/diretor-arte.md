@@ -188,6 +188,19 @@ A régua de ícones (freezer, micro-ondas, lava-louças, **BPA FREE**) são quat
 sobre o produto. Se o SKU não sustenta as quatro, o `montador-canva` apaga o elemento — e
 você tem que dizer isso no briefing. Frasqueira de organização não vai ao micro-ondas.
 
+### O limite do título é POR LINHA, não por total
+
+No Modelo 04 o box do título sobrepõe o slot de imagem. `"Nitron-Mob chega em setembro."`
+(29 caracteres) quebrou em 4 linhas a 100pt e **duas entraram por cima da foto** — o box
+aceitou o texto, o layout não. Nenhum limite de total pega isso.
+
+No máximo **3 linhas de ~10 caracteres** nesse modelo. E o Canva quebra no hífen: `Nitron-Mob`
+gasta uma linha só com `Nitron-`.
+
+Quando o nome da linha não cabe no título, mova ele para o subtítulo — o box do subtítulo é
+estreito e fica longe da imagem. Foi o que resolveu o teaser de setembro: título
+`"O canto que faltava."`, subtítulo `"Nitron-Mob, móveis de organização, chega em setembro."`
+
 ### Limite de caracteres é real, não sugestão
 
 `titulo_max` e `subtitulo_max` em `social_modelo` foram **medidos montando arte real**, não

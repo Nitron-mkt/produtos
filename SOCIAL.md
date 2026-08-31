@@ -232,6 +232,23 @@ lavanderia e entrada), não cenário vazio. O GPT não desenha produto, então: 
 dependem de fotografia — e os Modelos 01, 02 e 03 dependem de **PNG recortado**, o bloqueio
 de sempre.
 
+### O limite do título não é por total de caracteres — é por linha
+
+Descoberto montando no Modelo 04 remontado. O box do título (`left 57`, largura 500)
+**sobrepõe o slot de imagem** (`left 486`). Então a largura útil depende da altura da linha:
+linha curta cabe, linha longa entra por cima da imagem.
+
+`"Nitron-Mob chega em setembro."` (29 caracteres) quebrou em 4 linhas a 100pt e **duas delas
+passaram sobre o squircle**. Não é overflow do box — o box aceitou. É colisão com outro
+elemento, e nenhum `titulo_max` de total pega isso.
+
+Regra prática para o Modelo 04: **no máximo 3 linhas de ~10 caracteres**. E cuidado com
+hífen: o Canva quebra `Nitron-Mob` no hífen e gasta uma linha inteira com `Nitron-`.
+
+A saída que funcionou foi mover a informação: título com o gancho curto
+(`"O canto que faltava."`), nome da linha e data no subtítulo, que tem box estreito e não
+encosta na imagem.
+
 ### Limites de caractere caíram
 
 Os títulos foram de 73.9pt para **100pt**, então cabe menos: Modelo 01 → 24, Modelo 02 → 27,
