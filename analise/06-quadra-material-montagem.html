@@ -1,0 +1,413 @@
+<title>Onde Mora a Vedação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#E5E3DE;
+  --paper:#F5F4F1;
+  --panel:#DDDAD3;
+  --ink:#171A19;
+  --muted:#57605C;
+  --faint:#8A9490;
+  --rule:#CBC7BF;
+  --rule-soft:#DCD8D1;
+  --teca:#9B5E28;
+  --teca-soft:#C99A63;
+  --anel:#2A2E31;
+  --alerta:#A63A2B;
+  --ok:#3B6B4F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141615;
+    --paper:#1C1F1E;
+    --panel:#232726;
+    --ink:#E7E9E6;
+    --muted:#98A19C;
+    --faint:#6C7671;
+    --rule:#2E3331;
+    --rule-soft:#242927;
+    --teca:#D08A47;
+    --teca-soft:#8A5A2C;
+    --anel:#9AA4AA;
+    --alerta:#E0705C;
+    --ok:#6FAE86;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141615;
+  --paper:#1C1F1E;
+  --panel:#232726;
+  --ink:#E7E9E6;
+  --muted:#98A19C;
+  --faint:#6C7671;
+  --rule:#2E3331;
+  --rule-soft:#242927;
+  --teca:#D08A47;
+  --teca-soft:#8A5A2C;
+  --anel:#9AA4AA;
+  --alerta:#E0705C;
+  --ok:#6FAE86;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px 90px}
+
+h1,h2,h3{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.3rem,6vw,3.9rem);font-weight:700;letter-spacing:-.035em;line-height:.98}
+h2{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:1.02rem;font-weight:600;letter-spacing:-.005em;line-height:1.3}
+p{margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:var(--faint);
+}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:68ch;color:var(--muted)}
+.prose strong{color:var(--ink);font-weight:600}
+.lede{font-size:clamp(1.08rem,1.9vw,1.28rem);line-height:1.5;color:var(--ink);max-width:44ch}
+
+header{padding:60px 0 30px;display:flex;flex-direction:column;gap:26px}
+.title-row{display:flex;flex-wrap:wrap;gap:26px 56px;align-items:flex-end}
+.hdmeta{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;
+  border-top:1px solid var(--rule);padding-top:13px}
+.hdmeta div{display:flex;gap:9px;align-items:baseline}
+.hdmeta .v{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink)}
+
+section{padding-top:64px;display:flex;flex-direction:column;gap:26px}
+.sechead{display:flex;gap:16px;align-items:baseline;
+  border-bottom:1px solid var(--rule);padding-bottom:11px}
+.sechead .eyebrow{flex:none;padding-top:3px}
+
+/* verdict callout */
+.verdict{
+  display:grid;grid-template-columns:auto 1fr;gap:0 18px;align-items:start;
+  background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--teca);
+  border-radius:2px;padding:20px 22px;max-width:74ch;
+}
+.verdict .k{font-family:"JetBrains Mono",monospace;font-size:.64rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--teca);padding-top:4px}
+.verdict p{font-size:1rem;color:var(--ink)}
+.verdict p + p{margin-top:9px;color:var(--muted);font-size:.95rem}
+
+figure{margin:0;display:flex;flex-direction:column;gap:12px}
+.figbox{background:var(--paper);border:1px solid var(--rule);border-radius:2px;
+  padding:22px 20px;overflow-x:auto}
+.figbox svg{display:block;width:100%;min-width:520px;height:auto;color:var(--ink)}
+figcaption{font-size:.9rem;color:var(--muted);max-width:70ch}
+figcaption b{color:var(--ink);font-weight:600}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:2px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;
+  font-size:.76rem;font-variant-numeric:tabular-nums;min-width:560px}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);
+  font-weight:500;border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.k{color:var(--muted)}
+td.w{white-space:normal;line-height:1.5}
+.pill{display:inline-block;padding:2px 8px;border-radius:2px;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase}
+.pill.no{color:var(--alerta);border:1px solid color-mix(in srgb,var(--alerta) 45%,transparent)}
+.pill.yes{color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 45%,transparent)}
+.pill.mb{color:var(--muted);border:1px solid var(--rule)}
+
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:2px}
+@media (max-width:760px){.routes{grid-template-columns:1fr}}
+.route{background:var(--paper);padding:20px 20px 22px;display:flex;flex-direction:column;gap:9px}
+.route .tag{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint)}
+.route p{font-size:.93rem;color:var(--muted)}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.steps li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:16px 0;
+  border-bottom:1px solid var(--rule-soft)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps .n{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--faint);padding-top:4px}
+ol.steps b{font-family:"Archivo",sans-serif;font-weight:600;font-size:.99rem;display:block;margin-bottom:3px}
+ol.steps span{font-size:.94rem;color:var(--muted)}
+
+footer{margin-top:74px;border-top:1px solid var(--rule);padding-top:18px}
+footer p{font-size:.85rem;color:var(--faint);max-width:74ch}
+a{color:var(--teca)}
+:focus-visible{outline:2px solid var(--teca);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Linha Quadra &middot; nota técnica &middot; 31 ago 2026</span>
+  <div class="title-row">
+    <h1>Onde mora<br>a vedação</h1>
+    <p class="lede">Duas respostas: o corpo sai em PP clarificado, não em Tritan. E o anel não pode ficar na teca — a madeira se mexe mais do que o aperto do anel tolera.</p>
+  </div>
+  <div class="hdmeta">
+    <div><span class="eyebrow">Corpo</span><span class="v">PP H 105</span></div>
+    <div><span class="eyebrow">Vedação</span><span class="v">em peça injetada</span></div>
+    <div><span class="eyebrow">Teca</span><span class="v">capa, sem função</span></div>
+    <div><span class="eyebrow">Moldes novos</span><span class="v">1 (tampa)</span></div>
+    <div><span class="eyebrow">Status</span><span class="v">conceito — não aprovado</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead"><span class="eyebrow">corpo</span><h2>O material do corpo</h2></div>
+  <div class="prose">
+    <p>A ficha do conceito pede <strong>Tritan</strong>, copoliéster da Eastman. Ele entrega o que a foto promete — brilho de vidro, parede fina, resistência a queda e a lava-louças. O problema não é a peça: é tudo em volta dela.</p>
+    <p>No cadastro do Sankhya não existe <strong>uma linha sequer</strong> de Tritan, PETG ou copoliéster — nem produto, nem matéria-prima. Das 2.605 t de resina compradas em 12 meses, 98,4% são PP. O item mais comprado da casa, 896 t/ano, é o <span class="mono">PP&nbsp;H&nbsp;105</span>: homopolímero <em>com clarificante</em>. Ou seja, a transparência que o conceito quer já está na prateleira da fábrica — é dela que sai o Pote Quadrado com Travas transparente que vende hoje.</p>
+    <p>Qualificar Tritan custa três coisas que ninguém coloca no business case: um <strong>secador desumidificador</strong> que a fábrica não tem, um <strong>molde cortado para a contração da resina</strong> (0,2 a 0,5% contra 1,2 a 2% do PP — nenhuma ferramenta existente se adapta), e o <strong>ciclo de moído</strong>. São 537 t/ano voltando a R$ 6,07/kg contra R$ 10,96 do virgem clarificado: R$ 2,63 M/ano que só existem porque o refugo é mono-resina. Um saco de refugo de copoliéster misturado no PP não vale nada, e nem o PP vale mais depois.</p>
+    <p>PS cristal também não resolve: está cadastrado a <span class="mono">R$ 11,31/kg</span>, é frágil ao impacto e trinca sob gordura. Pote de mantimento cai da bancada e guarda óleo.</p>
+  </div>
+  <div class="verdict">
+    <span class="k">Decisão</span>
+    <div>
+      <p>Corpo em <strong>PP homopolímero com clarificante (PP H 105)</strong>, o mesmo da linha transparente atual.</p>
+      <p>Ganha-se de brinde a parede: o alerta de <span class="mono">L/t 114</span> no 2,0 L era um problema de copoliéster. Em PP, 2,2 mm num percurso de 250 mm é rotina — não precisa engrossar a parede nem entrar câmara quente valvulada. E o corpo fica ~60 g mais leve, porque PP tem densidade 0,905 contra 1,18 do Tritan: o 2,0 L cai de 258 g para cerca de 198 g.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">tolerância</span><h2>Por que o anel não pode ficar na teca</h2></div>
+  <div class="prose">
+    <p>A pergunta era como usinar o sulco do anel na madeira. A resposta é que o sulco existe, dá para usinar — e ainda assim a vedação não funciona, por um motivo que não tem a ver com a ferramenta de corte.</p>
+    <p>Uma vedação radial trabalha por interferência: a folga entre a saia e a parede tem que ficar entre <strong>0,4 e 0,6 mm de aperto</strong>, e essa cota precisa ser mantida dentro de mais ou menos <span class="mono">±0,1 mm</span>. Abaixo disso vaza, acima disso a tampa não entra ou o anel rola para fora.</p>
+    <p>A teca se mexe com a umidade do ar. A contração tangencial da espécie é de ~5,3% do verde ao seco, sobre ~30 pontos de umidade: dá <strong>0,18% de movimento por ponto de umidade</strong> no sentido tangencial, metade disso no radial. Numa tampa de 116 mm, uma oscilação conservadora de 3 pontos entre um quarto com ar-condicionado e uma cozinha úmida move <span class="mono">0,31 mm</span>; 5 pontos movem <span class="mono">1,04 mm</span>.</p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 760 250" role="img" aria-label="Comparação em escala: o movimento da tampa de teca com a umidade é de 3 a 10 vezes maior que toda a faixa de aperto do anel">
+        <text x="90" y="42" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">Aperto útil do anel</text>
+        <rect x="290" y="48" width="100" height="20" fill="var(--teca)" fill-opacity=".85"/>
+        <text x="400" y="62" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)">0,40 – 0,60 mm</text>
+
+        <text x="90" y="102" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">Tolerância de uma cota injetada em PP</text>
+        <rect x="90" y="108" width="50" height="20" fill="currentColor" fill-opacity=".55"/>
+        <text x="150" y="122" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)">±0,05 mm</text>
+
+        <text x="90" y="162" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">Movimento da teca, 116 mm, 3 a 5 pontos de umidade</text>
+        <rect x="245" y="168" width="365" height="20" fill="var(--alerta)" fill-opacity=".8"/>
+        <text x="620" y="182" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--alerta)">0,31 – 1,04 mm</text>
+
+        <line x1="90" y1="212" x2="690" y2="212" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>
+        <g stroke="currentColor" stroke-opacity=".35" stroke-width="1">
+          <line x1="90" y1="212" x2="90" y2="218"/><line x1="190" y1="212" x2="190" y2="218"/>
+          <line x1="290" y1="212" x2="290" y2="218"/><line x1="390" y1="212" x2="390" y2="218"/>
+          <line x1="490" y1="212" x2="490" y2="218"/><line x1="590" y1="212" x2="590" y2="218"/>
+          <line x1="690" y1="212" x2="690" y2="218"/>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--faint)" text-anchor="middle">
+          <text x="90" y="234">0</text><text x="190" y="234">0,2</text><text x="290" y="234">0,4</text>
+          <text x="390" y="234">0,6</text><text x="490" y="234">0,8</text><text x="590" y="234">1,0</text>
+          <text x="690" y="234">1,2&nbsp;mm</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption><b>A madeira sozinha se move de 3 a 10 vezes a faixa inteira de aperto.</b> Não é questão de achar uma marcenaria melhor: a peça muda de tamanho depois de pronta, no armário do consumidor. E numa tampa quadrada ela muda diferente em cada eixo — sai de esquadro em 0,3 a 0,7 mm, e uma vedação quadrada não absorve isso.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>Somam-se dois problemas menores que sozinhos já pediriam outra solução: um sulco a 8 mm da borda de uma tampa quadrada <strong>cruza topo de fibra duas vezes por lado</strong> — lasca na usinagem e lenha na queda; e sulco em madeira lavada à mão <strong>retém água</strong>, o assento incha e mofa.</p>
+    <p>É a lição nº 7 do projeto, generalizada: função essencial mora na geometria do molde, não numa peça que o cliente tira, perde ou deixa molhada. Aqui a peça que não segura a função é a própria tampa.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">geometria</span><h2>E o quadrado não veda no raio</h2></div>
+  <div class="prose">
+    <p>Antes das rotas, um segundo problema do desenho atual — este independe da madeira. O conceito abre mão de trava e clipe, e por isso precisa vedar por interferência radial: o anel empurra a parede para fora e o atrito segura tudo. Num pote redondo isso funciona, porque a parede responde em tração de aro e se fecha sozinha. Numa parede quadrada de 112 mm, o meio da face é a parte mais flexível da peça: ela abre.</p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 660 250" role="img" aria-label="Vista de topo comparando vedação radial em seção quadrada, que abre no meio da face, com seção redonda, que fecha em tração de aro">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="60" y="55" width="160" height="160" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M60,55 Q140,45 220,55 Q230,135 220,215 Q140,225 60,215 Q50,135 60,55 Z"
+              fill="none" stroke="var(--alerta)" stroke-width="1.4" stroke-dasharray="5 3"/>
+        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#ar3)">
+          <line x1="140" y1="112" x2="140" y2="70"/><line x1="140" y1="158" x2="140" y2="200"/>
+          <line x1="112" y1="135" x2="72" y2="135"/><line x1="168" y1="135" x2="208" y2="135"/>
+        </g>
+        <text x="238" y="132" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--alerta)">abre</text>
+        <text x="140" y="240" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">quadrado — a face central cede</text>
+
+        <circle cx="470" cy="135" r="80" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="470" cy="135" r="82.5" fill="none" stroke="var(--ok)" stroke-width="1.4" stroke-dasharray="5 3"/>
+        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#ar3)">
+          <line x1="470" y1="112" x2="470" y2="70"/><line x1="470" y1="158" x2="470" y2="200"/>
+          <line x1="447" y1="135" x2="405" y2="135"/><line x1="493" y1="135" x2="535" y2="135"/>
+        </g>
+        <text x="560" y="132" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ok)">fecha</text>
+        <text x="470" y="240" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">redondo — tração de aro</text>
+      </svg>
+    </div>
+    <figcaption><b>A mesma pressão do anel produz resultados opostos nas duas seções</b> (deformação exagerada). Por isso, num pote quadrado, a vedação vai na <b>face</b> — e vedação de face exige força de fechamento, ou seja, trava. O corpo <span class="mono">3770</span> que já está no catálogo tem trava.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">rotas</span><h2>As três maneiras de montar isso</h2></div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 720 300" role="img" aria-label="Três cortes no mesmo plano do aro do pote mostrando onde fica o anel em cada rota de montagem">
+        <g font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="1.4" fill="var(--faint)">
+          <text x="10" y="22">ROTA A</text><text x="250" y="22">ROTA B</text><text x="490" y="22">ROTA C</text>
+        </g>
+
+        <!-- ROTA A: sulco na propria teca -->
+        <g transform="translate(0,0)">
+          <rect x="40" y="98" width="13" height="150" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="20" y="62" width="150" height="34" fill="var(--teca)" fill-opacity=".55" stroke="var(--teca)" stroke-width="1.3"/>
+          <rect x="53" y="96" width="20" height="44" fill="var(--teca)" fill-opacity=".55" stroke="var(--teca)" stroke-width="1.3"/>
+          <circle cx="55" cy="120" r="7" fill="var(--anel)"/>
+          <path d="M36,120 L14,120" stroke="var(--alerta)" stroke-width="1.2"/>
+          <text x="12" y="112" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--alerta)">cota</text>
+          <text x="12" y="124" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--alerta)">na</text>
+          <text x="12" y="136" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--alerta)">madeira</text>
+          <text x="20" y="272" font-family="Archivo, sans-serif" font-size="12" fill="currentColor">Sulco usinado na teca</text>
+          <text x="20" y="288" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--alerta)">descartada</text>
+        </g>
+
+        <!-- ROTA B: tampa interna PP com labio injetado -->
+        <g transform="translate(240,0)">
+          <rect x="40" y="98" width="13" height="150" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="20" y="56" width="150" height="26" fill="var(--teca)" fill-opacity=".55" stroke="var(--teca)" stroke-width="1.3"/>
+          <path d="M20,82 L170,82 L170,96 L20,96 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M62,96 L60,126 L53,134" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <g stroke="var(--teca)" stroke-width="1.1">
+            <line x1="60" y1="82" x2="60" y2="68"/><line x1="130" y1="82" x2="130" y2="68"/>
+          </g>
+          <text x="178" y="70" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--teca)">capa de teca</text>
+          <text x="178" y="92" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">tampa interna PP</text>
+          <text x="178" y="132" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--ok)">lábio injetado</text>
+          <text x="20" y="272" font-family="Archivo, sans-serif" font-size="12" fill="currentColor">Lábio de PP, sem anel</text>
+          <text x="20" y="288" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--ok)">testar primeiro</text>
+        </g>
+
+        <!-- ROTA C: anel de face + trava -->
+        <g transform="translate(480,0)">
+          <rect x="40" y="98" width="13" height="150" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="20" y="56" width="150" height="26" fill="var(--teca)" fill-opacity=".55" stroke="var(--teca)" stroke-width="1.3"/>
+          <path d="M20,82 L170,82 L170,96 L20,96 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="40" y="90" width="16" height="7" fill="none" stroke="currentColor" stroke-width="1"/>
+          <circle cx="48" cy="95" r="6.5" fill="var(--anel)"/>
+          <path d="M18,74 L8,80 L8,124 L20,130 L20,116 L14,112 L14,84 L22,80 Z"
+                fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.2"/>
+          <g stroke="var(--teca)" stroke-width="1.1">
+            <line x1="80" y1="82" x2="80" y2="68"/><line x1="140" y1="82" x2="140" y2="68"/>
+          </g>
+          <text x="178" y="96" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">anel no sulco de face</text>
+          <text x="6" y="146" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">trava</text>
+          <text x="20" y="272" font-family="Archivo, sans-serif" font-size="12" fill="currentColor">Anel de silicone + trava</text>
+          <text x="20" y="288" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">se o ensaio pedir</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption><b>O mesmo corte, nas três rotas: o que muda é quem carrega a cota da vedação.</b> Na A é a madeira; na B e na C é uma peça injetada, e a teca vira capa decorativa aparafusada por cima — sem função e sem contato com o alimento.</figcaption>
+  </figure>
+
+  <div class="routes">
+    <div class="route">
+      <span class="tag">Rota A</span>
+      <h3>Sulco na teca</h3>
+      <p>Uma peça de madeira a menos no cadastro e o desenho mais bonito dos três. Mas a cota de vedação vive na madeira, que se move 0,31 a 1,04 mm depois de pronta.</p>
+      <p><span class="pill no">descartada</span></p>
+    </div>
+    <div class="route">
+      <span class="tag">Rota B</span>
+      <h3>Lábio injetado, sem anel</h3>
+      <p>Tampa interna em PP com lábio cônico de 0,8 a 1,0 mm defletindo 0,3 a 0,5 mm contra a parede; capa de teca por cima. Zero componente comprado, zero montagem de anel, zero risco de claim.</p>
+      <p><span class="pill yes">testar primeiro</span></p>
+    </div>
+    <div class="route">
+      <span class="tag">Rota C</span>
+      <h3>Anel de face + trava</h3>
+      <p>Se o ensaio provar que o lábio não basta: anel de silicone alimentício em sulco de face na tampa interna, com a trava do corpo dando a força de fechamento.</p>
+      <p><span class="pill mb">contingência</span></p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p><strong>Por que a Rota B antes da C.</strong> Não existe uma única vedação de elastômero em nenhum produto da casa. Os o-rings que aparecem no ERP — <span class="mono">ANEL ORING … NBR 70SH</span>, cordão de 1,5 a 4,0 mm, anéis de molde de Ø 12,7 a 22 — estão todos no grupo <span class="mono">6000000</span>, manutenção: são de ferramentaria e hidráulica, não são grau alimentício e não entram em estrutura de produto nenhum.</p>
+    <p>Um anel de silicone significa fornecedor novo, laudo de contato com alimento, inspeção de recebimento, código de PI, posto de montagem e uma peça que o consumidor perde. Enquanto isso a fábrica <strong>já veda sem borracha</strong>: o <span class="mono">POTE VEDA MAIS</span> (700 ml a 4,5 L, R$ 50,8 k em 12 meses) e a família inteira com travas fazem isso com geometria de PP.</p>
+    <p>E, na Rota C, o custo do anel não é o anel: um sulco radial fechado numa saia quadrada exige <strong>gaveta ou macho colapsável</strong> no molde. Por isso o sulco vai na face, onde ele desmolda na abertura.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">montagem</span><h2>Como prender a teca no plástico</h2></div>
+  <div class="prose">
+    <p>Essa parte a fábrica já faz. Existem sete tampas de madeira cadastradas como PI, montadas sobre corpo plástico: <span class="mono">501-TM</span>, <span class="mono">502-TM</span>, <span class="mono">503-TM</span>, <span class="mono">552-TM</span>, <span class="mono">268-TM</span>, <span class="mono">269-TM</span>, <span class="mono">270-TM</span>, com versões FSC. O que muda aqui é que a capa passa a ser aparafusada, não apenas apoiada.</p>
+  </div>
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>Parafuso central fixo, laterais em rasgo</b><span>Dois ou quatro parafusos por baixo, do PP para a teca. O central em furo justo; os outros em rasgo alongado de 1,5 mm no sentido do movimento da fibra. É a fixação clássica de tampo de móvel — deixa a madeira respirar sem rachar. Nunca colar a face inteira: uma placa de teca de 116 mm colada em PP rígido empena ou parte a linha de cola em menos de um ano.</span></div></li>
+    <li><span class="n">02</span><div><b>Capa recuada 12 mm da borda</b><span>Se o corpo for o de travas, a trava precisa agarrar a aba de PP. Recuar a capa deixa a aba livre e ainda cria uma sombra que valoriza a madeira na foto.</span></div></li>
+    <li><span class="n">03</span><div><b>Bitola de 15 ou 18 mm, não 16</b><span>A linha Teca compra tábua em 12, 15 e 18 mm. Especificar 16 obriga a desengrossar uma de 18 — perde madeira e ganha uma operação. E o peso real da capa é menor do que a ficha diz: teca a 0,65 g/cm³ dá ~131 g em 15 mm, não 195 g. Montado, o 2,0 L fica perto de 390 g, não 453 g.</span></div></li>
+    <li><span class="n">04</span><div><b>A comida só vê PP</b><span>Com a tampa interna injetada, a madeira nunca toca o alimento nem o vapor — resolve porosidade, gordura impregnada e higienização de uma vez. Bônus: a tampa interna sozinha vai ao micro-ondas e à lava-louças; a capa sai.</span></div></li>
+    <li><span class="n">05</span><div><b>Rodar a tampa interna em natural</b><span>Mesma resina clarificada do corpo, sem master. Não cria batelada de cor nem purga, e o refugo volta inteiro para o moído.</span></div></li>
+  </ol>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">catálogo</span><h2>O que já existe — e o que isso muda no plano</h2></div>
+  <div class="prose">
+    <p>A geometria da Quadra não é nova. O quadrado transparente em PP já está no catálogo em quatro litragens, e o quadrado com válvula também. Faturamento de marca própria, 12 meses até 24/08/2026, sem AVON e sem exportação:</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Referência</th><th>Produto</th><th>12 M</th><th>Clientes</th><th>Faixa de litragem</th></tr></thead>
+      <tbody>
+        <tr><td>3770.012.001</td><td class="k">Quadrado c/ travas 1,8 L</td><td>263.619</td><td>729</td><td class="k">1,1–2 L · +28,9%</td></tr>
+        <tr><td>240.024.001</td><td class="k">Quadrado c/ válvula 3 L</td><td>190.421</td><td>283</td><td class="k">2,1–3,5 L · +56,5%</td></tr>
+        <tr><td>3760.012.001</td><td class="k">Quadrado c/ travas 3,7 L</td><td>179.535</td><td>413</td><td class="k">&gt;3,5 L · −0,7%</td></tr>
+        <tr><td>3780.012.001</td><td class="k">Quadrado c/ travas 860 ml</td><td>157.420</td><td>809</td><td class="k">601 ml–1 L · +2,9%</td></tr>
+        <tr><td>323.006.001</td><td class="k">Modular 2,4 L</td><td>99.223</td><td>375</td><td class="k">2,1–3,5 L · +56,5%</td></tr>
+        <tr><td>3790.012.001</td><td class="k">Quadrado c/ travas 360 ml</td><td>74.665</td><td>697</td><td class="k">até 600 ml · −31,5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Três consequências diretas para a ficha do conceito:</p>
+    <p><strong>O 0,7 L não deveria existir.</strong> A regra de litragem do projeto, medida em 79 referências, diz que não se lança nada abaixo de 1 L — a faixa até 600 ml caiu 31,5% e só 2 de 22 referências subiram. O trio certo é 1,3 / 2,0 / 3,x, não 0,7 / 1,3 / 2,0.</p>
+    <p><strong>Não são três moldes de corpo, é um molde de tampa.</strong> O 1,8 L existente já é praticamente o 2,0 L da ficha, e chega com 729 clientes ativos. A rota barata é lançar a tampa (PP + capa de teca) como alternativa para o corpo que já vende, e discutir corpo novo depois que a tampa provar demanda.</p>
+    <p><strong>E a evidência contrária tem que ficar na mesa.</strong> A casa já testou tampa de madeira em corpo plástico: mesmo corpo de 10,35 L, tampa plástica em 4 cores fez <span class="mono">R$ 492.548</span> (309/223/158/111 clientes); a tampa de teca em 2 cores fez <span class="mono">R$ 16.192</span> com 57 e 40 clientes, caindo 52% e 38%. Trinta vezes de diferença. Somado a isso, a MB da linha Teca é de 36,8%, a mais baixa entre as linhas medidas — tampa de madeira dilui margem em vez de levantar.</p>
+    <p>Isso não mata o conceito, mas inverte o ônus da prova: a ficha diz que <em>“a tampa é o produto”</em>, e o único teste que a casa já fez diz o contrário. Antes de cortar aço, é preciso explicar por que desta vez seria diferente — categoria diferente, preço diferente, canal diferente — e o dado externo que sustentaria isso (quanto cobra o pote de vidro com tampa de bambu) ainda não foi coletado.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">próximo passo</span><h2>As três perguntas para a fábrica</h2></div>
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>A ferramentaria consegue lábio de vedação em PP?</b><span>Lábio cônico de 0,8 a 1,0 mm de espessura na tampa interna, defletindo 0,3 a 0,5 mm. Se o postiço de aro do 3770 já tem geometria parecida, o caminho encurta.</span></div></li>
+    <li><span class="n">02</span><div><b>A marcenaria entrega 116 mm com que tolerância — e em que bitola?</b><span>Na Rota B a madeira não é cota crítica, mas a capa ainda precisa fechar com a aba de PP sem folga visível. Confirmar 15 ou 18 mm e a variação de cor por lote, que vira reclamação se a foto do anúncio não avisar.</span></div></li>
+    <li><span class="n">03</span><div><b>Qual o ensaio que autoriza o texto do rótulo?</b><span>Sem laudo, o rótulo diz <strong>“vedação com anel de silicone”</strong> ou <strong>“tampa com lábio de vedação”</strong> — nunca “hermético”. Dos 267 anúncios de concorrente coletados, só 8 usam a palavra, e os que somam hermético + válvula são de vidro com guarnição. O art. 36 do CDC cobra o dado técnico de quem alega. Ensaio proposto: inversão com líquido por 24 h e queda de 90 cm com o pote cheio.</span></div></li>
+  </ol>
+</section>
+
+<footer>
+  <p>Nota técnica complementar ao estudo <em>Linha Quadra</em>. Cotas de vedação, espessura de lábio e deflexão são hipótese de projeto, não desenho de ferramentaria — mudam depois do primeiro estudo de fluxo. Faturamento, clientes, cadastro de resina e componentes conferidos no Sankhya em 31/08/2026 (marca própria, empresas 1/2/14, sem CODTAB 84 e 3). Nada aqui foi gravado em <span class="mono">pdp_lancamento</span>: proposta só entra com evidência e depois do crítico.</p>
+</footer>
+
+</div>

@@ -233,6 +233,42 @@ Material não cria hermeticidade; geometria de vedação + força de fechamento 
 
 ---
 
+### Vedação, tampa de madeira e material do corpo (conferido em 31/08/2026)
+
+Levantado a partir do conceito "Linha Quadra" (pote quadrado, corpo transparente, tampa de teca,
+anel de vedação). Nota técnica em `analise/06-quadra-material-montagem.html`.
+
+- **Não existe uma única vedação de elastômero em estrutura de produto.** Todos os o-rings do ERP
+  (`ANEL ORING ... NBR 70SH/90SH`, cordão NBR/silicone Ø 1,5 a 4,0 mm, anéis de molde Ø 12,7 a 22)
+  estão no grupo **6000000 = manutenção** — ferramentaria e hidráulica, não grau alimentício, sem
+  BOM. Os itens "ANEL" em PI (`205-A`, `122-A`, `546-A`) são **anéis injetados**, não vedações.
+  Anel de silicone = fornecedor novo + laudo de contato + inspeção + PI + posto de montagem.
+- **A casa já veda sem borracha:** `POTE VEDA MAIS` (083/086/087/089, 700 ml a 4,5 L, R$ 50,8 k/12 M)
+  e a família de travas fazem vedação com geometria de PP.
+- **Cadastro tem zero Tritan, PETG e copoliéster** (produto e MP). `PP H 105` (CODPROD 991) é
+  homopolímero **com clarificante** — é dele que sai o quadrado transparente atual. `PS CRISTAL`
+  (CODPROD 8788) custa **R$ 11,31/kg** em `TGFCUS` e é frágil/trinca sob gordura. O `TPE 997`
+  segue **sem registro de custo** — nunca comprado.
+- **A cota de vedação não pode morar na madeira.** Contração tangencial da teca ~5,3% sobre ~30
+  pontos de umidade = **0,18% por ponto**. Numa tampa de 116 mm, oscilação de 3 a 5 pontos move
+  **0,31 a 1,04 mm** — de 3 a 10× a faixa útil de aperto de um anel (0,4 a 0,6 mm, a manter em
+  ±0,1 mm). Uma cota injetada em PP fica em ±0,05 mm. Tampa **quadrada** ainda sai de esquadro,
+  porque se move diferente em cada eixo. Corolário: vedação vai em peça injetada; teca vira capa.
+- **Vedação radial não serve a seção quadrada.** No redondo a parede responde em tração de aro e
+  fecha; na face de 112 mm o meio cede. Em quadrado a vedação vai **na face**, e face exige força
+  de fechamento — ou seja, **trava**. O corpo `3770` já tem trava.
+- **Montagem madeira-em-plástico já é rotina:** 7 tampas de madeira cadastradas como PI
+  (`501-TM`, `502-TM`, `503-TM`, `552-TM`, `268-TM`, `269-TM`, `270-TM`, com versões FSC).
+  Fixação correta é parafuso central justo + laterais em rasgo; **não colar a face inteira**
+  (placa de 116 mm colada em PP rígido empena). Bitolas compradas: 12, 15 e 18 mm — especificar 16
+  obriga a desengrossar. Densidade da teca ~0,65 g/cm³: capa de 116×116×15 mm pesa **~131 g**,
+  não 195 g.
+- **O quadrado já existe em 4 litragens** (12 M, marca própria): `3770.012.001` 1,8 L R$ 263.619 /
+  729 clientes · `240.024.001` **quadrado com válvula 3 L** R$ 190.421 / 283 · `3760.012.001` 3,7 L
+  R$ 179.535 / 413 · `3780.012.001` 860 ml R$ 157.420 / 809 · `3790.012.001` 360 ml R$ 74.665 / 697.
+  Conceito de "3 alturas novas" é molde novo para geometria que já vende — a rota barata é lançar
+  **só a tampa** sobre o 1,8 L.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
