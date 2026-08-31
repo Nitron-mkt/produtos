@@ -364,11 +364,18 @@ Estão em `social_tema` (base + acento + apoio). Duas observações que valem re
 - **Organização tem uma armadilha de nome**: a *linha* Organização é `#00AFAA`, proibida em
   peça institucional. A combinação do *tema* Organização usa o institucional `#1EA7AC`.
 
-### Como leio a regra dos 5%
+### ⚠️ A regra dos 60% é para peça INSTITUCIONAL, não para conteúdo temático
 
-Literalmente, 5% de um story 1080×1920 seriam ~104 mil px² — um bloco, que viraria
-protagonista. Então interpretei pela intenção: **acento como detalhe**. Nos cinco stories ele
-é uma barra de 360×26. Se vocês quiserem o acento mais presente, é ajuste de um parâmetro.
+Eu errei aqui e o usuário reprovou com razão: *"você me entregou uma arte chapada no nosso
+verde"*. Apliquei "Verde Nitron 60%" aos cinco stories, pus fundo teal em todos e não usei
+nenhum elemento gráfico. Saiu monótono e sem cara de Nitron.
+
+**Os próprios modelos provam o contrário:** o Modelo 02 tem fundo **coral cheio**, o Modelo 03
+tem **teal e rosa cheios**. Em conteúdo temático a combinação do tema decide o campo, e o
+Verde Nitron pode entrar como **acento** em vez de base.
+
+Regra corrigida: **peça institucional** → Verde Nitron domina. **Peça temática** → a
+combinação do tema decide, e cada peça de uma sequência usa um campo diferente.
 
 ---
 
@@ -396,6 +403,22 @@ Zona segura respeitada: nada relevante acima de `y=250` nem abaixo de `y=1670`.
    **design mestre** (`canva_design_mestre = DAHT3D0YcNw`), e o montador usa `copy-design`
    nele. Funciona igual, porque `locator_id` é estável entre cópias. Para virar brand
    template de verdade, reconectar o Canva com esse escopo.
+
+### Como o símbolo "O" é construído
+
+Não dá para recolorir a imagem do símbolo (`recolor_element` recusa imagem). A saída foi
+**desenhar o "O" com dois shapes**: um externo na cor do acento e um interno na cor do fundo,
+formando o anel. O `path` é o **squircle do próprio Modelo 04**, copiado verbatim — então a
+forma é autenticamente da marca, não uma aproximação minha.
+
+Vantagem: como são shapes, `recolor_element` funciona. Trocar o tema é recolorir 5 shapes
+(campo de fundo + 4 dos dois "O") — nenhum upload, nenhum asset novo.
+
+Os dois "O" sangram para fora do quadro (topo-direita e base-direita), que é o gesto que os
+cinco modelos usam.
+
+**Em fundo claro (creme, branco), apague o `_cartao_logo`**: creme sobre creme desaparece, e
+o logo coral lê direto no fundo.
 
 ### Fundo arredondado sangra
 

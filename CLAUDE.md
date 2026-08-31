@@ -330,7 +330,10 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
 
 ### Paleta (fonte: marca.nitron.com.br#cores, 31/08/2026)
 
-**`#1EA7AC` Verde Nitron** é a primária — **60% da peça**. Neutros 24%, grafite 11%,
+**`#1EA7AC` Verde Nitron** é a primária — **60% da peça institucional**. ⚠️ **Essa regra NÃO
+vale para peça temática**: o Modelo 02 tem fundo coral cheio e o Modelo 03 tem teal e rosa
+cheios. Em conteúdo temático a combinação do tema decide o campo, e o Verde Nitron pode ser
+acento. Aplicar os 60% em tudo produz sequência monótona — foi reprovado em 31/08. Neutros 24%, grafite 11%,
 **acento 5% ("o detalhe, nunca o protagonista")**. **`#00AFAA` é a cor da LINHA Organização e
 o guia proíbe usá-la em peça institucional** — não confunda com a institucional.
 **⚠️ `#0AA9B1`, que está no título do Modelo 01 no Canva, NÃO existe no guia** — pendente de
@@ -344,6 +347,11 @@ contraste baixo e só serve como divisor.
 - **`recolor_element` só funciona em shape**, não em imagem (`rect-element cannot be
   recolored`). Por isso o acento é shape e o logo não pôde ser recolorido — falta subir uma
   versão creme/branca do logo.
+- **O símbolo "O" da marca se desenha com DOIS shapes** (externo na cor do acento + interno
+  na cor do fundo = anel), usando o path squircle do próprio Modelo 04 copiado verbatim.
+  Assim ele é recolorível e trocar o tema é recolorir 5 shapes.
+- **`publish-brand-template` CONSOME o design de origem**: depois de publicar, o design deixa
+  de existir e o brand template criado pode ficar inacessível. Copie antes de publicar.
 - **`publish-brand-template` falhou** por falta do escopo `brandtemplate:content:write`. O
   modelo `Story Frase` ficou como **design mestre** (`social_modelo.canva_design_mestre`), e o
   montador usa `copy-design`.
