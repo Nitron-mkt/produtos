@@ -2,3 +2,4 @@ frontend/config.js
 node_modules/
 .env
 .env.*
+chrono/pdf/dossie.build.html

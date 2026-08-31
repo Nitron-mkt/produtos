@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Chrono — datador em três peças</title>
+<style>
+__FONTS__
+
+:root{
+  --paper:#FFFFFF; --sheet:#F3F5F5; --sunk:#E7EBEB;
+  --ink:#14181A; --muted:#4E585B; --faint:#7B8587;
+  --rule:#BFC7C7; --hair:#DCE2E2; --grid:#D4DADA;
+  --pc-tampa:#8E9BA0; --pc-pino:#232A2D; --pc-dia:#C25E10; --pc-mes:#5A6367;
+  --signal:#C25E10; --ok:#2E6B4F; --warn:#8E5C0E; --stop:#A3341C;
+}
+@page{ size:A4; margin:19mm 17mm 17mm; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",Arial,sans-serif; font-size:9.7pt; line-height:1.52;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+h1,h2,h3,h4,.disp{font-family:Archivo,Arial,sans-serif;font-weight:700;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+b,strong{font-weight:600}
+p{margin:0 0 3.2mm}
+p:last-child{margin-bottom:0}
+
+/* ---------------- capa ---------------- */
+.cover{height:259mm;display:flex;flex-direction:column}
+.cover .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:7.4pt;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--faint);border-bottom:.4pt solid var(--rule);padding-bottom:2.4mm}
+.cover h1{font-size:38pt;line-height:.98;font-weight:800;margin-top:7mm;letter-spacing:-.03em}
+.cover h1 span{display:block;color:var(--signal)}
+.cover .sub{max-width:118mm;color:var(--muted);font-size:11pt;line-height:1.5;margin-top:5mm}
+.cover .hero{flex:1;display:flex;align-items:center;justify-content:center;margin:4mm 0}
+.cover .hero img{width:126mm;height:auto}
+.cover .foot{display:grid;grid-template-columns:1fr 62mm;gap:9mm;border-top:.8pt solid var(--rule);padding-top:4mm}
+.stampgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.6mm 6mm}
+.stampgrid .k{font-family:"IBM Plex Mono",monospace;font-size:6.9pt;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint);display:block}
+.stampgrid .v{font-family:"IBM Plex Mono",monospace;font-size:9.2pt;font-weight:500}
+.toc{font-size:8.4pt;color:var(--muted)}
+.toc div{display:flex;gap:3mm;padding:.9mm 0;border-bottom:.3pt solid var(--hair)}
+.toc div:last-child{border-bottom:0}
+.toc i{font-family:"IBM Plex Mono",monospace;font-style:normal;color:var(--signal);flex:0 0 7mm}
+
+/* ---------------- secoes ---------------- */
+.page{break-before:page}
+.sec{display:grid;grid-template-columns:36mm 1fr;gap:7mm;
+  border-top:.8pt solid var(--rule);padding-top:3.4mm;margin-bottom:6mm}
+.sec .rail .n{font-family:"IBM Plex Mono",monospace;font-size:7.4pt;letter-spacing:.15em;color:var(--signal)}
+.sec .rail .t{font-family:"IBM Plex Mono",monospace;font-size:7.2pt;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--faint);margin-top:1.2mm;display:block;line-height:1.35}
+.sec h2{font-size:16.5pt;line-height:1.14;margin-bottom:3.6mm}
+.body{max-width:118mm}
+
+/* ---------------- pranchas ---------------- */
+.plate{border:.6pt solid var(--rule);background:var(--sheet);margin:5mm 0;break-inside:avoid}
+.plate-hd{display:flex;justify-content:space-between;gap:5mm;align-items:baseline;
+  padding:2.2mm 3mm;border-bottom:.4pt solid var(--hair)}
+.plate-hd .t{font-family:Archivo,sans-serif;font-weight:600;font-size:8.6pt}
+.plate-hd .c{font-family:"IBM Plex Mono",monospace;font-size:6.9pt;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint)}
+.plate-bd{padding:3.5mm 3mm}
+.plate-ft{padding:2mm 3mm;border-top:.4pt solid var(--hair);font-size:7.6pt;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:1.2mm 6mm;padding:0 3mm 2.6mm;font-size:7.6pt;color:var(--muted)}
+.legend i{display:inline-block;width:2.4mm;height:2.4mm;border-radius:.4mm;margin-right:1.6mm}
+svg{display:block;width:100%;height:auto}
+
+table{width:100%;border-collapse:collapse;font-size:8.4pt}
+thead{display:table-header-group}
+tr{break-inside:avoid}
+th,td{text-align:left;padding:1.5mm 2mm;border-bottom:.3pt solid var(--hair);vertical-align:top}
+th{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);font-weight:500}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.grp td{background:var(--sunk);font-family:"IBM Plex Mono",monospace;font-size:6.9pt;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.plate.flow{break-inside:auto}
+.callout{border-left:1.1pt solid var(--signal);background:var(--sheet);
+  padding:3mm 3.4mm;margin:4.5mm 0;font-size:9.2pt;break-inside:avoid}
+
+/* ---------------- pecas ---------------- */
+.parts{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:5mm}
+.part{border:.6pt solid var(--rule);display:flex;flex-direction:column;break-inside:avoid}
+.part figure{margin:0;background:var(--sheet);border-bottom:.4pt solid var(--hair);padding:2mm}
+.part figure img{width:100%;height:auto;display:block}
+.part-hd{padding:2.4mm 3mm 1.8mm;border-bottom:.4pt solid var(--hair)}
+.part-hd .m{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint)}
+.part-hd h3{font-size:11.5pt;margin-top:.6mm;display:flex;align-items:center;gap:2mm}
+.part-hd h3 i{width:2.6mm;height:2.6mm;border-radius:.4mm;flex:0 0 auto}
+.part-bd{padding:2.4mm 3mm;font-size:8.4pt;color:var(--muted);flex:1}
+.part-bd p{margin:0 0 2mm}
+.cotas{border-top:.4pt solid var(--hair)}
+.cotas div{display:flex;justify-content:space-between;gap:3mm;padding:1.1mm 3mm;
+  border-bottom:.3pt solid var(--hair);font-size:7.8pt}
+.cotas div:last-child{border-bottom:0}
+.cotas span:first-child{color:var(--muted)}
+.cotas span:last-child{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+
+/* ---------------- figuras ---------------- */
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin:5mm 0}
+.figs figure{break-inside:avoid}
+figure.fx{margin:0;border:.6pt solid var(--rule);background:var(--sheet)}
+figure.fx img{width:100%;height:auto;display:block;padding:3mm}
+figure.fx figcaption{border-top:.4pt solid var(--hair);padding:2mm 3mm;font-size:7.6pt;color:var(--muted)}
+figure.fx figcaption b{color:var(--ink)}
+
+/* ---------------- decisoes ---------------- */
+.rows{margin-top:4mm;border-top:.8pt solid var(--rule)}
+.row{display:grid;grid-template-columns:24mm 1fr;gap:5mm;padding:3.4mm 0;
+  border-bottom:.3pt solid var(--hair);break-inside:avoid}
+.row .lvl{font-family:"IBM Plex Mono",monospace;font-size:6.9pt;letter-spacing:.14em;
+  text-transform:uppercase;padding-top:.8mm}
+.row.stop .lvl{color:var(--stop)} .row.warn .lvl{color:var(--warn)} .row.ok .lvl{color:var(--ok)}
+.row h4{font-size:10.8pt;margin-bottom:1.4mm}
+.row p{margin:0 0 1.8mm;font-size:8.9pt;color:var(--muted)}
+.row .who{font-family:"IBM Plex Mono",monospace;font-size:7pt;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint)}
+
+.note{color:var(--muted);font-size:8.6pt}
+.fim{border-top:.8pt solid var(--rule);padding-top:3.4mm;margin-top:6mm;
+  font-size:8pt;color:var(--faint);max-width:150mm}
+.fim p{margin:0 0 2.4mm}
+.fim code{font-family:"IBM Plex Mono",monospace;font-size:7.6pt}
+</style></head><body>
+
+<!-- ============================ CAPA ============================ -->
+<section class="cover">
+  <div class="eyebrow">Nitron &middot; projeto de desenvolvimento de produtos &middot; 31 de agosto de 2026</div>
+  <h1>Chrono<span>datador em três peças</span></h1>
+  <p class="sub">Dossiê de conceito para a ferramentaria. Todas as cotas de interface foram medidas nas
+  malhas STL do molde <span class="mono">Pote 025 Pequeno</span>. O assento do datador já existe na
+  tampa — é o poço da válvula — e por isso o projeto cabe em três moldes novos, sem alteração alguma no
+  molde da tampa.</p>
+  <div class="hero"><img src="__FIG_ISO__" alt="Datador Chrono montado, vista em perspectiva"></div>
+  <div class="foot">
+    <div class="stampgrid">
+      <div><span class="k">Moldes novos</span><span class="v">3</span></div>
+      <div><span class="k">Alteração na tampa</span><span class="v">nenhuma</span></div>
+      <div><span class="k">Assento medido</span><span class="v">Ø38,54 &times; 4,85 mm</span></div>
+      <div><span class="k">Massa do datador</span><span class="v">2,99 g &nbsp;(+0,95)</span></div>
+      <div><span class="k">Origem das cotas</span><span class="v">3 malhas STL</span></div>
+      <div><span class="k">Situação</span><span class="v">conceito · não é desenho</span></div>
+    </div>
+    <div class="toc">
+      <div><i>01</i>O assento já existe</div>
+      <div><i>02</i>A arquitetura</div>
+      <div><i>03</i>Como se lê</div>
+      <div><i>04</i>Os três moldes</div>
+      <div><i>05</i>As peças em 3D</div>
+      <div><i>06</i>O que custa</div>
+      <div><i>07</i>O que decide</div>
+      <div><i>A</i>Anexo · cotas</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 01 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">01</span><span class="t">O assento<br>já existe</span></div>
+    <div><h2>O que os moldes dizem: o assento do datador já está cortado no aço</h2>
+      <div class="body">
+        <p>Os três arquivos recebidos são <span class="mono">Mont pote com valvula</span> — corpo, tampa e a
+        prova de válvula, cavidade 1 do <span class="mono">Pote 025 Pequeno</span>. Os três foram medidos
+        direto na malha: tampa de 122,15 &times; 185,07 mm, <b>parede constante de 0,91 mm</b> em toda a
+        peça, corpo com 0,58 L até a borda.</p>
+        <p>O achado que reescreve o projeto está no centro da tampa. A válvula não fica em cima da tampa:
+        ela mora dentro de um <b>poço cilíndrico de Ø38,54</b> com 4,85 mm de furo reto, rebaixo cônico de
+        topo, <b>dois rasgos radiais a 3 h e 9 h</b> que recebem as orelhas da válvula, e um <b>furo de
+        respiro de Ø8,12</b> sobre um ressalto, a 12 h. Esse conjunto é o assento do datador. Ele não
+        precisa ser criado — precisa ser reaproveitado. A tabela completa de cotas do assento está no <b>Anexo A</b>.</p>
+        <p>E ele é o mesmo em todos os tamanhos de tampa da família, pela razão mais simples possível:
+        <b>a válvula já é peça comum</b>. É daí que sai a conta de três moldes em vez de um datador por
+        pote.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Tampa Pote 025 Pequeno — vista de topo, contornos medidos</span>
+      <span class="c">PR-01 &middot; mm</span></div>
+    <div class="plate-bd"><div id="pl-plan"></div></div>
+    <div class="legend">
+      <span><i style="background:var(--pc-tampa)"></i>aro de empilhamento &middot; Y 39,72</span>
+      <span><i style="background:var(--ink)"></i>plano de rótulo &middot; Y 38,24</span>
+      <span><i style="background:var(--signal)"></i>poço, rasgos e respiro &middot; Y 36,00</span>
+    </div>
+    <div class="plate-ft">Contornos extraídos por corte da malha STL nas alturas indicadas e simplificados
+      a 0,25–0,35 mm. Nada foi redesenhado.</div>
+  </div>
+
+</section>
+
+<!-- ============================ 02 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">02</span><span class="t">A<br>arquitetura</span></div>
+    <div><h2>O pino é a válvula com um eixo em cima</h2>
+      <div class="body">
+        <p>O pino não inventa interface. A casca dele é o <b>envelope da válvula atual, cota por cota</b>:
+        Ø38,08 no disco, Ø44,16 sobre as duas orelhas, base em Y 32,57, face interna em 35,40, face de topo
+        em 37,23 e a bolsa sobre o ressalto do respiro a 12 h. Encaixa e trava do mesmo jeito que a válvula
+        trava hoje, no mesmo aço, com o mesmo risco — que é nenhum, porque já está em produção.</p>
+        <p><b>A única coisa que sai é a aba de dedo a 6 h</b>: ela sobe até Y 38,24 e ocupa exatamente o
+        espaço dos anéis, então a casca do pino é truncada em 37,23. Toda a interface do assento fica
+        abaixo disso — o encaixe não muda, mas o datador perde a aba de saque que a válvula tem hoje.</p>
+        <p>O que é novo fica <b>acima da face 37,23</b>, nos 1,01 mm até o plano de rótulo: um <b>cubo</b>
+        central de Ø11,6 que retém o anel de mês e um <b>colar</b> de Ø24,4/28,4 que retém o anel de dia e
+        carrega a marca de leitura. A retenção é por <b>canaleta</b>, não por cabeça de encaixe sobre o
+        anel: não há altura para uma barbela acima do anel sem furar o plano de rótulo, então o cubo e o
+        colar levam a canaleta e cada anel leva uma saliência interna de 0,4 mm que estala dentro dela —
+        tudo dentro dos 0,95 mm de espessura do anel.</p>
+        <p>Os dois anéis ficam concêntricos e no mesmo plano, com o topo em Y 38,20 — <b>0,04 mm abaixo do
+        plano de rótulo</b> e 1,52 mm abaixo do aro de empilhamento. O datador não sobe acima da tampa,
+        então empilhamento e etiqueta continuam como estão.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Corte pelo eixo do poço — tampa medida, datador proposto</span>
+      <span class="c">PR-02 &middot; corte no plano do respiro</span></div>
+    <div class="plate-bd"><div id="pl-sec"></div></div>
+    <div class="legend">
+      <span><i style="background:var(--pc-tampa)"></i>tampa existente &middot; medida</span>
+      <span><i style="background:var(--pc-pino)"></i>pino / travinha &middot; novo</span>
+      <span><i style="background:var(--pc-dia)"></i>anel de dia &middot; novo</span>
+      <span><i style="background:var(--pc-mes)"></i>anel de mês &middot; novo</span>
+    </div>
+    <div class="plate-ft">O contorno da tampa e o contorno tracejado da válvula são os polígonos de corte
+      da malha. Os três perfis novos são geometria de conceito, cotada para caber nas folgas medidas.</div>
+  </div>
+
+  <div class="callout">
+    <b>Por que a pega de dedo sai de graça.</b> O rebaixo cônico do topo do poço sobe apenas 0,60 mm entre
+    Ø38,71 e Ø48,48 — é uma <b>aba quase plana de 4,9 mm de largura</b>, não um chanfro íngreme. Com o anel
+    de dia parando em Ø41,0, sobram <b>4,5 mm de anel aberto</b> em volta dele, já no plano de rótulo. Essa
+    é a pega. Não precisou de serrilha saliente, nem de aba, nem de um milímetro de altura acima da tampa.
+  </div>
+</section>
+
+<!-- ============================ 03 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">03</span><span class="t">Como<br>se lê</span></div>
+    <div><h2>A marca de leitura a 12 h, e por que ela não custa nada</h2>
+      <div class="body">
+        <p>A marca fica a <b>12 h</b>, gravada na face do colar do pino — peça fixa, travada nos rasgos da
+        tampa. A mesma marca serve as duas faixas: aponta para fora, no dia, e para dentro, no mês. A 12 h
+        os números saem <b>na posição de leitura</b>, em pé, sem o usuário girar a cabeça.</p>
+        <p>De brinde, os <b>rasgos das orelhas a 3 h e 9 h</b> já são uma referência visual fixa e idêntica
+        em todos os tamanhos — servem como segunda marca de alinhamento, sem custar nada no aço.</p>
+        <p>As proporções do desenho abaixo são as cotas reais: <b>3,53 mm por dia</b> e <b>4,74 mm por
+        mês</b>. É a cota mais apertada do projeto e é ela que decide a legibilidade.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Datador montado no poço — planta, leitura em 31 / 08</span>
+      <span class="c">PR-03</span></div>
+    <div class="plate-bd"><div id="pl-dial"></div></div>
+    <div class="plate-ft">Contorno do poço, rasgos, respiro e ponto de injeção nas posições medidas
+      (tracejado). Anéis, pino, serrilha e nervuras em cota de conceito.</div>
+  </div>
+</section>
+
+<!-- ============================ 04 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">04</span><span class="t">Os três<br>moldes</span></div>
+    <div><h2>Três peças, três moldes, comuns à família inteira</h2>
+      <div class="body">
+        <p>As três peças são comuns a todos os tamanhos de tampa da família — desde que o assento se
+        confirme igual, que é a pendência número um da seção 07. É essa premissa que transforma "um datador
+        por pote" em "um datador para a linha".</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="parts">
+    <div class="part">
+      <figure><img src="__FIG_PINO__" alt="Pino travinha, vista de topo"></figure>
+      <div class="part-hd"><span class="m">Molde 1 · PP</span>
+        <h3><i style="background:var(--pc-pino)"></i>Pino / travinha</h3></div>
+      <div class="part-bd">
+        <p>Casca idêntica à da válvula, para entrar no assento sem tocar o molde da tampa. Acima da face de
+        topo, o cubo retém o anel de mês e o colar retém o de dia. A face de topo leva <b>4 molas de
+        detente</b> e as duas marcas de leitura a 12 h.</p>
+        <p>As canaletas de 0,5 mm no cubo e no colar são contra-saída extraível em PP, e são a cota que a
+        ferramentaria vai discutir primeiro.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Disco / sobre orelhas</span><span>Ø38,08 / Ø44,16</span></div>
+        <div><span>Base → face de topo</span><span>Y 32,57 → 37,23</span></div>
+        <div><span>Cubo</span><span>Ø11,6 · canal. Ø10,6</span></div>
+        <div><span>Colar</span><span>Ø24,4 / Ø28,4</span></div>
+        <div><span>Massa</span><span>2,16 g</span></div>
+        <div><span>Área projetada</span><span>15,3 cm²</span></div>
+      </div>
+    </div>
+
+    <div class="part">
+      <figure><img src="__FIG_DIA__" alt="Anel de dia, vista de topo"></figure>
+      <div class="part-hd"><span class="m">Molde 2 · PP</span>
+        <h3><i style="background:var(--pc-dia)"></i>Anel de dia</h3></div>
+      <div class="part-bd">
+        <p>Anel plano que apoia na face de topo do pino e gira dentro do poço, com a borda avançando sobre
+        o rebaixo cônico. Serrilha de 24 dentes no diâmetro externo, onde ficam os 4,5 mm de pega.</p>
+        <p><b>3,53 mm por posição</b> para dois dígitos. É a cota mais apertada do projeto.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Externo / interno</span><span>Ø41,0 / Ø28,6</span></div>
+        <div><span>Espessura</span><span>0,95 mm</span></div>
+        <div><span>Faixa de leitura</span><span>6,2 mm · Ø méd 34,8</span></div>
+        <div><span>Divisões</span><span>31 &times; 11,613°</span></div>
+        <div><span>Passo tangencial</span><span>3,53 mm</span></div>
+        <div><span>Massa</span><span>0,55 g</span></div>
+      </div>
+    </div>
+
+    <div class="part">
+      <figure><img src="__FIG_MES__" alt="Anel de mês, vista de topo"></figure>
+      <div class="part-hd"><span class="m">Molde 3 · PP</span>
+        <h3><i style="background:var(--pc-mes)"></i>Anel de mês</h3></div>
+      <div class="part-bd">
+        <p>Anel interno, entre o cubo e o colar, girando sobre a mesma face. As 12 nervuras radiais da face
+        de topo fazem duas coisas: separam os setores e são a pega do dedo.</p>
+        <p>Com 4,74 mm por posição, <b>números de 1 a 12 cabem confortavelmente</b>. JAN–DEZ também cabe, a
+        1,45 mm por letra — mais bonito, menos legível. É escolha de marketing, não de aço.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Externo / interno</span><span>Ø24,2 / Ø12,0</span></div>
+        <div><span>Espessura</span><span>0,95 mm</span></div>
+        <div><span>Faixa de leitura</span><span>6,1 mm · Ø méd 18,1</span></div>
+        <div><span>Divisões</span><span>12 &times; 30,000°</span></div>
+        <div><span>Passo tangencial</span><span>4,74 mm</span></div>
+        <div><span>Massa</span><span>0,28 g</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 05 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">05</span><span class="t">As peças<br>em 3D</span></div>
+    <div><h2>O que a modelagem obrigou a mudar</h2>
+      <div class="body">
+        <p>As três peças estão modeladas e fechadas, no <b>mesmo sistema de coordenadas dos STL
+        originais</b> — abrem já montadas junto com a tampa e o corpo. O pino não é peça desenhada do zero:
+        é <b>a malha da própria válvula</b>, truncada em Y 37,23, com o cubo, o colar, as molas e as marcas
+        de leitura unidos por operação booleana em cima.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Pacote STL — malha de conceito, unidade mm</span>
+      <span class="c">PR-04</span></div>
+    <div class="plate-bd">
+      <table>
+        <thead><tr><th>Arquivo</th><th>Triângulos</th><th>Volume</th><th>Massa PP</th><th>Malha fechada</th></tr></thead>
+        <tbody>
+          <tr><td>Chrono_01_Pino_Travinha.stl</td><td class="num">56.242</td><td class="num">2.390,6 mm³</td><td class="num">2,16 g</td><td class="num">sim</td></tr>
+          <tr><td>Chrono_02_Anel_Dia.stl</td><td class="num">45.562</td><td class="num">604,3 mm³</td><td class="num">0,55 g</td><td class="num">sim</td></tr>
+          <tr><td>Chrono_03_Anel_Mes.stl</td><td class="num">20.548</td><td class="num">306,0 mm³</td><td class="num">0,28 g</td><td class="num">sim</td></tr>
+          <tr><td>Chrono_04_Datador_Montado.stl</td><td class="num">122.352</td><td class="num">—</td><td class="num">2,99 g</td><td class="num">conjunto</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="plate-ft">Números gravados 0,30 mm · serrilha de 24 dentes no anel de dia · 31 e 12
+      encaixes de detente na face de baixo dos anéis · marcas de leitura gravadas no colar, a 12 h.</div>
+  </div>
+
+  <div class="callout">
+    <b>A verificação que importa.</b> Interferência entre as três peças: <b>0,0000 mm³</b> nas três
+    combinações. Contra a tampa: anel de dia <b>0,0000</b>, anel de mês <b>0,0000</b>, pino
+    <b>1,6357 mm³</b> — que é <b>exatamente</b> a interferência da válvula original contra a mesma tampa.
+    O pino não acrescenta um único milímetro cúbico de aperto novo: o 1,64 mm³ é o encaixe que a válvula
+    já faz hoje nos rasgos a 3 h e 9 h.
+  </div>
+
+  <div class="body">
+    <p><b>1. A aba de dedo da válvula teve de sair.</b> Ela sobe até Y 38,24, a 6 h, e ocupa exatamente a
+    faixa dos anéis. O pino trunca a casca em 37,23 — o assento não muda, mas o datador perde a aba de
+    saque. Isso virou pendência na seção 07.</p>
+    <p><b>2. A retenção virou canaleta.</b> Uma cabeça de encaixe sobre a face do anel precisaria de
+    0,6 mm acima de Y 38,20 e furaria o plano de rótulo. Canaleta Ø10,6 no cubo e Ø27,4 no colar, com
+    saliência interna de 0,4 mm em cada anel, resolve dentro dos 0,95 mm de espessura.</p>
+    <p><b>3. O detalhe de detente que só aparece quando se modela.</b> O par de molas tem de estar
+    afastado de um <b>múltiplo do passo</b> do anel. Com 31 posições — número ímpar — duas molas a 180°
+    nunca encaixam as duas ao mesmo tempo. No arquivo elas estão a 15 passos (174,19°) no anel de dia e a
+    6 passos (180°) no de mês.</p>
+  </div>
+
+  <div class="figs">
+    <figure class="fx"><img src="__FIG_DIA2__" alt="Anel de dia renderizado de cima">
+      <figcaption><b>Como o olho vê.</b> Anel de dia iluminado de cima, cor única. Os números gravados
+      0,30 mm praticamente somem.</figcaption></figure>
+    <figure class="fx"><img src="__FIG_MAPA__" alt="Mapa de altura do anel de dia">
+      <figcaption><b>Como a malha está.</b> O mesmo anel em mapa de altura: os 31 números estão lá,
+      inteiros. O problema nunca foi o tamanho — é o contraste.</figcaption></figure>
+  </div>
+
+  <div class="figs">
+    <figure class="fx"><img src="__FIG_TOPO__" alt="Datador montado, vista de topo">
+      <figcaption><b>Montado, de cima.</b> Anel de dia em laranja, anel de mês e pino em chumbo. A faixa
+      clara em volta é o rebaixo cônico da tampa: 4,5 mm de pega.</figcaption></figure>
+    <figure class="fx"><img src="__FIG_FUNDO__" alt="Anel de dia visto por baixo">
+      <figcaption><b>Anel de dia por baixo.</b> Os 31 encaixes de detente e a saliência interna de 0,4 mm
+      que estala na canaleta do colar.</figcaption></figure>
+  </div>
+
+  <p class="note">Ressalva: é malha de conceito. Não tem ângulo de saída, raio de canto, contração, linha
+  de fecho, ponto de injeção nem extração. Serve para conferir encaixe, proporção, legibilidade e
+  montagem, e para imprimir protótipo — <b>o desenho de ferramentaria começa daqui, não termina</b>.</p>
+</section>
+
+<!-- ============================ 06 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">06</span><span class="t">O que<br>custa</span></div>
+    <div><h2>O custo não é resina nem máquina</h2>
+      <div class="body">
+        <p>O datador pesa <b>2,99 g</b> contra 2,04 g da válvula que ele substitui: <b>+0,95 g por
+        tampa</b>. A R$ 10,96/kg de PP virgem clarificado, isso é <b>+R$ 0,010 por peça</b>. Resina não é
+        argumento aqui, nem a favor nem contra.</p>
+        <p>Máquina também não trava. Com 8 cavidades a área projetada dá 122 cm² no pino, 106 cm² no anel
+        de dia e 39 cm² no de mês — algo entre 45 e 70 t de força de fechamento, dentro da faixa
+        <b>≤260 t</b>, a mais folgada do parque: 56,9% de ocupação medida, com 7 de 15 máquinas paradas.
+        Com a ressalva já documentada no projeto: <b>capacidade ociosa não é oportunidade</b>, e máquina
+        parada pode ser sintoma de gargalo na ferramentaria, não folga real.</p>
+        <p>O custo mora em dois lugares que o business case de lançamento normalmente esquece.</p>
+        <p><b>1. Gravação, não aço.</b> O anel de dia leva 31 números por cavidade. Em 8 cavidades são
+        <b>248 números gravados</b>, mais 96 no anel de mês, além dos 31 e 12 encaixes de detente na face
+        de baixo de cada anel. É aí que o orçamento do molde cresce — e é por isso que a decisão de
+        cavitação tem de vir antes do desenho, não depois.</p>
+        <p><b>2. Montagem.</b> A tampa passa de 1 peça colocada para 3. A boa notícia é que <b>a etapa já
+        existe</b>: essa família já monta a válvula, então não é operação nova nessa linha — são duas
+        colocações a mais na mesma operação. Ainda assim precisa entrar no <span class="mono">CUSGER</span>
+        antes de qualquer decisão, porque o preço médio da família está na casa de R$ 4.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Cor: aqui a lição de 2022 não se aplica.</b> Anel e pino são <b>peça comum</b>, não variante de
+    produto. Dar cor a eles não parte a demanda em N cores nem multiplica estoque de segurança — é uma
+    peça, uma cor, um SKU de componente. Proposta: <b>anel de dia em laranja</b>, <b>anel de mês e pino em
+    chumbo</b> — as duas únicas cores que cresceram no portfólio (+82% e +93%). E laranja aqui é
+    exatamente o que ela sabe ser: sinalização funcional, não paleta.
+  </div>
+
+</section>
+
+<!-- ============================ 07 ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">07</span><span class="t">O que<br>decide</span></div>
+    <div><h2>O que decide, em ordem</h2></div>
+  </div>
+  <div class="rows">
+    <div class="row stop"><div class="lvl">bloqueia</div><div>
+      <h4>Confirmar que o assento é o mesmo em todos os tamanhos</h4>
+      <p>Toda a economia dos três moldes depende disto: Ø38,54 no furo, rasgos a 3 h e 9 h abrindo para
+      Ø44,62, respiro Ø8,12 a 12,18 mm do centro, face de topo da válvula a −1,01 do plano de rótulo. Se
+      variar entre tamanhos, cai a premissa e volta a ser um datador por pote.</p>
+      <p>Não é consulta ao cadastro — é conferência no desenho 2D de cada molde de tampa da família, ou
+      medição de uma peça de cada tamanho.</p>
+      <p class="who">ferramentaria · antes de qualquer orçamento</p></div></div>
+
+    <div class="row stop"><div class="lvl">bloqueia</div><div>
+      <h4>Este pote é de 0,58 L. A regra do projeto diz para não entrar por ele.</h4>
+      <p>O corpo que veio dá <b>0,58 L até a borda</b> — nominal na casa dos 500 ml. E a regra de litragem,
+      testada em 79 referências, é a conclusão mais forte do projeto: até 600 ml a faixa caiu <b>31,5%</b>
+      e só <b>2 de 22</b> referências subiram. Nada novo abaixo de 1 L.</p>
+      <p>Aqui está o bom da arquitetura: como as três peças são comuns, <b>o datador não precisa entrar
+      por este pote</b>. Entra pela maior tampa da família que compartilhe o assento — 1,1–2 L (+28,9%) ou
+      2,1–3,5 L (+56,5%) — e este 500 ml vira derivado sem molde novo, se algum dia valer a pena. Escolher
+      o tamanho de entrada é decisão de portfólio, não de projeto.</p>
+      <p class="who">curador-portfolio · veto</p></div></div>
+
+    <div class="row warn"><div class="lvl">decidir</div><div>
+      <h4>Datador e válvula disputam o mesmo poço</h4>
+      <p>Há um assento e ele é o mesmo. Na versão Chrono o pino ocupa o lugar da válvula: é um ou outro no
+      mesmo SKU. Se a versão Chrono tiver de continuar ventilando, o pino precisa da mesma folga que a
+      válvula tem hoje sobre o ressalto do respiro; se não, ele tapa o Ø8,12 e o pote deixa de ventilar.</p>
+      <p>A favor de trocar: dentro do próprio catálogo a válvula <b>não cobra prêmio de preço</b> — o 242,
+      com válvula, sai a R$ 4,00; o 233, com travas, a R$ 4,76. Quem sustenta preço é a trava. Então o
+      datador não está tirando o lugar de uma função que paga, está tirando o lugar de uma que não paga.
+      Mas isso muda descrição de produto e arte, e é decisão de marketing.</p>
+      <p class="who">engenheiro-molde + marketing</p></div></div>
+
+    <div class="row warn"><div class="lvl">decidir</div><div>
+      <h4>Legibilidade sem tinta: o contraste tem de sair do acabamento do molde</h4>
+      <p>3,53 mm por dia e 4,74 mm por mês, com altura de caractere de 2,2 a 2,4 mm e gravação de 0,30 mm.
+      Cabe — as duas figuras da seção 05 mostram que cabe. O problema não é o tamanho, é o <b>contraste</b>:
+      número gravado em PP da mesma cor do anel quase não se lê.</p>
+      <p>A saída não é tampografia — tinta descasca na lava-louças e é uma segunda operação. É acabamento
+      de molde: <b>caractere polido em campo texturizado</b> (VDI 27–30), ou o inverso. Sai de graça no aço
+      e nunca descasca. Precisa entrar na especificação do molde, não numa revisão depois do tryout.</p>
+      <p class="who">ferramentaria · especificação de acabamento</p></div></div>
+
+    <div class="row warn"><div class="lvl">decidir</div><div>
+      <h4>O datador perde a aba de saque da válvula</h4>
+      <p>A aba a 6 h, que hoje deixa levantar a válvula para lavar, sobe até Y 38,24 e disputa a faixa dos
+      anéis. Ou o pino fica sem ela — e o datador não sai da tampa — ou o recurso de saque é redesenhado em
+      outro lugar.</p>
+      <p>O lugar natural é o <b>rasgo da orelha</b>, a 3 h ou 9 h: é fixo, existe em todas as tampas e está
+      fora do diâmetro dos anéis. Mas o rebaixo cônico sobe ali, então a forma da aba tem de ser cotada
+      contra esse perfil — não é detalhe que se resolve no desenho da peça isolada.</p>
+      <p class="who">engenheiro-molde · define contra o perfil do rebaixo</p></div></div>
+
+    <div class="row ok"><div class="lvl">resolvido</div><div>
+      <h4>Não sobe acima da tampa</h4>
+      <p>Topo dos anéis em Y 38,20; plano de rótulo em 38,24; aro de empilhamento em 39,72. O datador cabe
+      inteiro dentro do poço e ainda deixa 1,52 mm de sobra até o aro. Empilhamento intacto, e a etiqueta
+      continua colando no plano mais alto — só precisa do furo central.</p></div></div>
+
+    <div class="row warn"><div class="lvl">cuidado</div><div>
+      <h4>O claim</h4>
+      <p>Datador é <b>marcação feita pelo usuário</b>, não controle de validade. "Anel para você marcar o
+      dia e o mês" se sustenta; "controle de validade" convida discussão sob o art. 36 do CDC, que obriga o
+      fornecedor a manter os dados técnicos da alegação. E válvula não é hermeticidade — isso já está
+      estabelecido no projeto.</p></div></div>
+  </div>
+</section>
+
+<!-- ============================ ANEXO ============================ -->
+<section class="page">
+  <div class="sec"><div class="rail"><span class="n">A</span><span class="t">Anexo<br>cotas</span></div>
+    <div><h2>Tabela de cotas — assento medido e peças propostas</h2>
+      <div class="body">
+        <p>Sistema de coordenadas dos STL originais: eixo do poço em X 61,97 · Z 102,68, Y é a vertical e o
+        datum é o mesmo da tampa. <b>12 h = +Z</b> (lado do respiro); <b>6 h = −Z</b>; <b>3 h e 9 h = ±X</b>
+        (rasgos das orelhas).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="plate flow">
+    <div class="plate-bd">
+      <table>
+        <thead><tr><th>Elemento</th><th>Cota</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="3">Peças de origem · medidas na malha</td></tr>
+          <tr><td>Tampa — envelope</td><td class="num">122,15 × 185,07 × 9,02</td><td>Y 30,74 → 39,76 · 147.764 triângulos</td></tr>
+          <tr><td>Tampa — parede</td><td class="num">0,91 mm</td><td>constante em toda a peça</td></tr>
+          <tr><td>Tampa — massa</td><td class="num">23,79 g</td><td>26.285 mm³ a 0,905 g/cm³</td></tr>
+          <tr><td>Corpo — envelope</td><td class="num">122,71 × 203,29 × 37,46</td><td>100.998 triângulos</td></tr>
+          <tr><td>Corpo — capacidade</td><td class="num">0,58 L</td><td>até a borda</td></tr>
+          <tr><td>Corpo — massa</td><td class="num">34,29 g</td><td>37.889 mm³</td></tr>
+          <tr><td>Válvula — envelope</td><td class="num">Ø38,08 / Ø44,16 × 5,67</td><td>Y 32,57 → 38,24 · 45.864 triângulos</td></tr>
+          <tr><td>Válvula — parede / massa</td><td class="num">1,83 mm · 2,04 g</td><td>2.258 mm³</td></tr>
+
+          <tr class="grp"><td colspan="3">Assento · o que o datador tem de respeitar</td></tr>
+          <tr><td>Furo do poço</td><td class="num">Ø38,54</td><td>reto de Y 33,00 a 37,00</td></tr>
+          <tr><td>Rasgos das orelhas</td><td class="num">Ø44,62</td><td>a 3 h e 9 h · Y 33,5 → 37,0</td></tr>
+          <tr><td>Rebaixo cônico</td><td class="num">Ø38,71 → Ø48,48 → Ø50,05</td><td>Y 37,00 / 37,60 / 38,00 · sobe 0,60</td></tr>
+          <tr><td>Fundo do poço</td><td class="num">Y 32,15 / 31,24</td><td>parede 0,91</td></tr>
+          <tr><td>Ressalto do respiro</td><td class="num">topo Y 35,20</td><td>a 12 h</td></tr>
+          <tr><td>Furo de respiro</td><td class="num">Ø8,12</td><td>centro a 12,18 mm do eixo, a 12 h</td></tr>
+          <tr><td>Ponto de injeção</td><td class="num">Ø1,78</td><td>a 4,96 mm do eixo, a 6 h, no fundo</td></tr>
+          <tr><td>Plano de rótulo</td><td class="num">Y 38,24 / 37,33</td><td>painel central</td></tr>
+          <tr><td>Banda periférica</td><td class="num">Y 38,75 / 37,84</td><td>apoia no aro do corpo (37,84)</td></tr>
+          <tr><td>Aro de empilhamento</td><td class="num">Y 39,72</td><td>ponto mais alto da tampa</td></tr>
+          <tr><td>Face de topo da válvula</td><td class="num">Y 37,23</td><td>−1,01 do plano de rótulo</td></tr>
+
+          <tr class="grp"><td colspan="3">Molde 1 · pino / travinha — 2,16 g</td></tr>
+          <tr><td>Casca</td><td class="num">= válvula, truncada em Y 37,23</td><td>a aba de dedo a 6 h sai</td></tr>
+          <tr><td>Cubo</td><td class="num">Ø11,6 · furo Ø9,2</td><td>Y 37,13 → 38,20</td></tr>
+          <tr><td>Canaleta do cubo</td><td class="num">Ø10,6</td><td>Y 37,58 → 37,82 · retém o anel de mês</td></tr>
+          <tr><td>Colar</td><td class="num">Ø24,4 / Ø28,4</td><td>Y 37,13 → 38,20</td></tr>
+          <tr><td>Canaleta do colar</td><td class="num">Ø27,4</td><td>Y 37,58 → 37,82 · retém o anel de dia</td></tr>
+          <tr><td>Molas de detente</td><td class="num">4 · calota 0,15 × base Ø0,60</td><td>r 15,2 (dia, 15 passos) e r 7,0 (mês, 6 passos)</td></tr>
+          <tr><td>Marcas de leitura</td><td class="num">2 · gravadas 0,30</td><td>na face do colar, a 12 h</td></tr>
+
+          <tr class="grp"><td colspan="3">Molde 2 · anel de dia — 0,55 g</td></tr>
+          <tr><td>Externo / interno</td><td class="num">Ø41,0 / Ø28,6</td><td>folga radial de 0,10 no colar</td></tr>
+          <tr><td>Espessura / altura</td><td class="num">0,95 mm · Y 37,25 → 38,20</td><td>chanfro 0,20 na aresta externa</td></tr>
+          <tr><td>Saliência de encaixe</td><td class="num">Ø27,8 · 0,4 mm</td><td>Y 37,60 → 37,80</td></tr>
+          <tr><td>Divisões</td><td class="num">31 × 11,613°</td><td>passo tangencial 3,53 mm</td></tr>
+          <tr><td>Números</td><td class="num">01–31 · altura 2,2</td><td>gravados 0,30, em r 17,40</td></tr>
+          <tr><td>Serrilha</td><td class="num">24 dentes · raio 0,50</td><td>no diâmetro externo</td></tr>
+          <tr><td>Encaixes de detente</td><td class="num">31 · calota 0,25 × base Ø0,70</td><td>em r 15,2, face de baixo</td></tr>
+
+          <tr class="grp"><td colspan="3">Molde 3 · anel de mês — 0,28 g</td></tr>
+          <tr><td>Externo / interno</td><td class="num">Ø24,2 / Ø12,0</td><td>folga radial de 0,10 no cubo</td></tr>
+          <tr><td>Espessura / altura</td><td class="num">0,95 mm · Y 37,25 → 38,20</td><td>chanfro 0,20 na aresta externa</td></tr>
+          <tr><td>Saliência de encaixe</td><td class="num">Ø11,2 · 0,4 mm</td><td>Y 37,60 → 37,80</td></tr>
+          <tr><td>Divisões</td><td class="num">12 × 30,000°</td><td>passo tangencial 4,74 mm</td></tr>
+          <tr><td>Números</td><td class="num">01–12 · altura 2,4</td><td>gravados 0,30, em r 9,30</td></tr>
+          <tr><td>Divisores</td><td class="num">12 · 0,40 × 5,50</td><td>gravados 0,30 · também são a pega</td></tr>
+          <tr><td>Encaixes de detente</td><td class="num">12 · calota 0,25 × base Ø0,70</td><td>em r 7,0, face de baixo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="fim">
+    <p><b>Procedência do dado.</b> Todas as cotas geométricas deste dossiê foram medidas diretamente nas
+    três malhas STL enviadas (<code>Tampa Pote 025 Pequeno_Cav-1</code>,
+    <code>Corpo Pote 025 Pequeno_Cav-1</code>, <code>prova valvula-1</code>): 147.764, 100.998 e 45.864
+    triângulos. Volumes de material por divergência sobre a malha fechada, massa a 0,905 g/cm³. Contornos
+    de planta e de corte por seccionamento da malha. Capacidade do corpo por integração do mapa de altura.
+    Tolerância de leitura ±0,03 mm.</p>
+    <p><b>STL.</b> As três peças foram geradas por operação booleana sobre a malha real da válvula
+    (trimesh + manifold3d), no mesmo sistema de coordenadas dos arquivos originais. Volume e massa vêm da
+    malha gerada. As interferências citadas são interseções booleanas medidas, não estimativas.</p>
+    <p><b>O que não foi consultado.</b> O MCP do Sankhya não subiu na sessão em que este dossiê foi
+    montado — nenhum número de ERP foi puxado aqui. Faturamento, margem, curva de litragem, taxa de acerto
+    de safra, cores, ocupação de injetora e os preços do 233 e do 242 são <b>conclusões já documentadas no
+    projeto</b>, citadas e não recalculadas. Antes de virar orçamento, refaça a consulta com a conexão de
+    pé.</p>
+    <p><b>Status.</b> Nada foi gravado em <code>pdp_lancamento</code>. A geometria dos anéis, do pino, dos
+    detentes, das canaletas e do acabamento é <b>conceito cotado sobre interface medida</b>, não desenho
+    de ferramentaria.</p>
+  </div>
+</section>
+
+<script>
+const GEO = __GEO__;
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;};
+const pathOf=(polys,close=true)=>polys.map(p=>"M"+p.map(q=>q[0].toFixed(2)+" "+q[1].toFixed(2)).join("L")+(close?"Z":"")).join(" ");
+const annulus=(ro,ri)=>
+  `M ${ro} 0 A ${ro} ${ro} 0 1 0 ${-ro} 0 A ${ro} ${ro} 0 1 0 ${ro} 0 Z`+
+  `M ${ri} 0 A ${ri} ${ri} 0 1 1 ${-ri} 0 A ${ri} ${ri} 0 1 1 ${ri} 0 Z`;
+__DRAW__
+</script>
+</body></html>
