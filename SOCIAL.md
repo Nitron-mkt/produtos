@@ -327,6 +327,71 @@ template. Estourar não dá erro — dá texto cortado, que só aparece depois d
 
 ---
 
+## 6.1 Coerência entre copy e imagem — o furo que o post 2 revelou
+
+O teaser de setembro da Nitron-Mob saiu tecnicamente correto e **comunicativamente errado**:
+copy prometendo "cantos que a casa ainda não resolveu" e nomeando arara e prateleiras, sobre
+uma cena de quarto arrumado sem nenhum dos dois. Os **dois QA aprovaram**.
+
+### Por que os dois QA aprovaram
+
+Porque ambos comparavam a imagem com o **prompt**, e o prompt estava sendo cumprido à risca.
+Quem escreveu o prompt foi quem escreveu a copy, na mesma cabeça e no mesmo minuto — então
+**um briefing incoerente passa no próprio teste**. Um gate que valida o executor contra as
+instruções do executor não é um gate.
+
+### A correção: `promessa_visual`
+
+Novo campo em `social_post`, escrito pelo **`redator-legenda`** a partir da copy — nunca a
+partir do prompt. É o contrato: *o que a imagem precisa mostrar para a copy não mentir.*
+
+- O `diretor-arte` escolhe o modelo e escreve o prompt **para entregar a promessa**.
+- O `social-qa` avalia a cena contra a **promessa** (item 8, bloqueante), com o prompt
+  rebaixado a "briefing técnico secundário".
+- O `revisor-social` lê a promessa **antes** da arte. Ler o prompt primeiro contamina o
+  julgamento: você passa a avaliar se o prompt foi cumprido.
+
+O banco recusa `briefing_pronto` sem `promessa_visual`. Isso é trigger, não convenção.
+
+### As duas incoerências que o item 8 caça
+
+| Falha | Como aparece |
+|---|---|
+| **Copy de problema, cena de solução** | O texto vende a dor ("o canto que ninguém resolveu") e a imagem mostra ordem. A cena comunica o oposto do texto. |
+| **Copy nomeia objeto que a imagem não tem** | "arara de roupa e prateleiras" escrito, nada na foto. O leitor procura e não acha. |
+
+### A correção estrutural: roteamento por promessa
+
+`social_modelo.aceita_produto_na_copy`. O **Modelo 04 é `false`** — não tem slot de produto,
+então não pode ilustrar copy que nomeia SKU. Um trigger recusa post com `codprod` ou
+`referencia` nesse modelo.
+
+Regra em uma linha: **a promessa escolhe o modelo, o modelo restringe a copy.** Não o
+contrário.
+
+### O que a cena certa seria, naquele post
+
+A **dor**: cadeira com roupa acumulada, parede vazia sem uso, vão ocioso ao lado da máquina —
+e nenhum móvel de organização na cena, porque é exatamente o que está faltando ali. A
+ausência do produto deixa de ser um furo e passa a ser o argumento.
+
+Isso vale como padrão: em copy de "antes", a ausência do produto é intencional e a cena
+mostra o problema. Em copy de "depois", o produto tem que aparecer — e aí o modelo precisa
+de slot de produto.
+
+### Quando a copy exige produto E cenário ao mesmo tempo
+
+Existe um caminho que ainda não está em uso: `edit-design` tem `insert_fill`, que **insere um
+novo elemento de imagem** numa posição do design. Com um PNG recortado dá para pôr a foto
+real do produto **por cima** do cenário do GPT, em qualquer modelo — inclusive no 04, que não
+tem slot de produto.
+
+Esbarra no mesmo bloqueio de §6: `produto_foto` é JPG com fundo branco, e um retângulo branco
+sobre uma cena fotográfica fica pior do que sobre cor plana. O mecanismo está pronto e espera
+o bucket de recorte.
+
+---
+
 ## 7. Custo e teto
 
 - **Máximo 2 regerações por post.** Na terceira, `status = 'parado_revisao_humana'`.

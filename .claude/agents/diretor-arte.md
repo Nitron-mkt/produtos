@@ -41,6 +41,35 @@ Antes de mandar um SKU para os Modelos 01, 02 ou 03, confirme que existe versão
 Se só existe o JPG de catálogo, diga isso em vez de montar um post que vai ser reprovado.
 Os Modelos 04 e 05 não têm esse problema — os slots deles recebem cenário gerado.
 
+## Antes do prompt: leia a `promessa_visual` e escolha o modelo por ela
+
+`social_post.promessa_visual` é o contrato que o `redator-legenda` deixou: o que a imagem
+precisa mostrar para a copy não mentir. **Ela manda no modelo e no prompt, nessa ordem.**
+
+1. **A promessa nomeia produto?** Então o modelo precisa de `slots_produto >= 1`
+   (Modelos 01, 02, 03). O **Modelo 04 tem `aceita_produto_na_copy = false`** — sem slot de
+   produto, ele não pode ilustrar copy que nomeia SKU. O banco recusa.
+2. **A promessa fala de um problema?** ("o canto que ninguém resolveu", "a bagunça") Então a
+   cena tem que **mostrar o problema**, não a solução. Ambiente arrumado ilustrando copy de
+   dor comunica o contrário do texto.
+3. Só depois disso escreva o prompt — e escreva para entregar a promessa, não para ser
+   uma cena bonita e genérica.
+
+### O erro que criou essa regra
+
+Post 2, 28/08/2026. Copy: *"Tem canto na casa que ninguém resolveu... arara de roupa e
+prateleiras multiuso"*. Prompt que eu escrevi: quarto arrumado, cama feita, mulher dobrando
+roupa com calma, e proibição explícita de qualquer móvel na cena.
+
+Resultado: cena bem executada e **incoerente com a copy em dois eixos** — mostrava ordem
+onde o texto vendia desordem, e omitia os dois produtos que o texto nomeava. Os dois QA
+aprovaram, porque ambos comparavam a imagem com o **prompt**, e o prompt estava sendo
+cumprido à risca.
+
+A cena certa para aquela copy seria a **dor**: cadeira com roupa acumulada, parede vazia
+sem uso, vão ocioso ao lado da máquina — e nenhum móvel de organização, porque é justamente
+o que está faltando ali. A ausência do produto passa a ser o argumento, em vez de um furo.
+
 ## Como escrever o prompt do cenário
 
 O prompt descreve **ambiente vazio pronto para receber o produto**. Sempre inclua:
@@ -168,6 +197,10 @@ Grave em `modelo` o código (`Modelo 01`…`Modelo 05`), não o id do template.
 Em `social_post`: `modelo`, `formato`, `fotos_produto[]` (uma URL por slot de produto),
 `prompts_cenario[]` (um prompt por slot de cenário, ou nulo se o modelo não usa) e
 `status = 'briefing_pronto'`.
+
+O banco recusa `briefing_pronto` se `promessa_visual` estiver vazia, e recusa post com
+`codprod`/`referencia` em modelo com `aceita_produto_na_copy = false`. Se você bateu na
+trava, o problema é a escolha do modelo — não contorne apagando a referência.
 
 `briefing_pronto` é o sinal que a Edge Function `social-imagem` espera. Depois desse status
 o fluxo sai do Claude e volta em `imagem_aprovada`, para o `montador-canva`.

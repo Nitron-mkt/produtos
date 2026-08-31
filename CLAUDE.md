@@ -288,6 +288,15 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
   box e logo tampado só existem depois da montagem.
 - Teto de **2 regerações**; na terceira o post vira `parado_revisao_humana`. Falha de
   **upload** não consome tentativa (a imagem já foi paga); só recusa da OpenAI consome.
+- **Gate de coerência: `promessa_visual`.** O QA comparava imagem × prompt, e quem escrevia o
+  prompt escrevia a copy — briefing incoerente passava no próprio teste. O post 2 saiu com
+  copy de "canto não resolvido" sobre cena de quarto arrumado, sem os produtos citados, e os
+  **dois QA aprovaram**. Agora o `redator-legenda` escreve `promessa_visual` a partir da copy,
+  o `social-qa` avalia contra ela (item 8, bloqueante) e o banco recusa `briefing_pronto` sem
+  ela. Duas falhas caçadas: copy de problema com cena de solução, e copy que nomeia objeto
+  ausente da foto.
+- **A promessa escolhe o modelo, o modelo restringe a copy.** `aceita_produto_na_copy = false`
+  no Modelo 04 (sem slot de produto): trigger recusa post com `codprod`/`referencia` nele.
 - **Trava de concorrência é obrigatória em passo pago.** O cron de 5 min e uma chamada
   manual pegaram o mesmo post e o QA rodou duas vezes; na geração seria pagar duas vezes.
   A trava é `UPDATE ... WHERE status='briefing_pronto'` → `gerando_imagem`, tomada depois

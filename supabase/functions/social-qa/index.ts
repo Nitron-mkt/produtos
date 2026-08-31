@@ -26,7 +26,7 @@ const rest = {
   Authorization: `Bearer ${SERVICE_KEY}`,
 };
 
-function instrucao(permitePessoa: boolean): string {
+function instrucao(permitePessoa: boolean, promessa: string): string {
   const itemPessoa = permitePessoa
     ? "3. (não se aplica a este modelo — pessoa é esperada aqui)"
     : "3. Aparece pessoa, rosto, mão ou parte de corpo.";
@@ -48,6 +48,22 @@ ${itemPessoa}
 6. A cena não corresponde ao briefing pedido.
 7. O assunto principal está colado na borda. O Canva recorta o slot, e o que está na
    borda se perde.
+
+E agora o item mais importante, o de coerência:
+
+8. A cena NÃO entrega a promessa abaixo, ou contradiz ela.
+
+PROMESSA VISUAL (o que a legenda promete que a imagem mostre):
+${promessa}
+
+Julgue o item 8 contra a PROMESSA, não contra o briefing técnico. Eles podem divergir, e
+quando divergem é a promessa que vale — ela é o que o consumidor vai ler junto da imagem.
+
+Dois modos clássicos de falhar o item 8:
+- A promessa fala de um problema a resolver (bagunça, canto sem uso, falta de espaço) e a
+  cena mostra tudo arrumado e resolvido. A cena então comunica o oposto.
+- A promessa nomeia um objeto que a cena não mostra e não sugere. O leitor procura o objeto
+  na imagem e não acha.
 
 Responda SOMENTE com JSON, sem cercas de código:
 {"veredito":"aprovado"|"reprovado","item":<número do item que falhou ou null>,
@@ -87,7 +103,7 @@ async function logQa(
   if (!r.ok) console.error(`social_qa insert falhou: ${r.status} ${await r.text()}`);
 }
 
-async function avaliarSlot(url: string, briefing: string, permitePessoa: boolean) {
+async function avaliarSlot(url: string, briefing: string, permitePessoa: boolean, promessa: string) {
   const resp = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -97,12 +113,15 @@ async function avaliarSlot(url: string, briefing: string, permitePessoa: boolean
     },
     body: JSON.stringify({
       model: MODELO,
-      max_tokens: 512,
+      max_tokens: 1024,
       messages: [{
         role: "user",
         content: [
           { type: "image", source: { type: "url", url } },
-          { type: "text", text: `${instrucao(permitePessoa)}\n\nBriefing pedido:\n${briefing}` },
+          {
+            type: "text",
+            text: `${instrucao(permitePessoa, promessa)}\n\nBriefing técnico do slot (secundário):\n${briefing}`,
+          },
         ],
       }],
     }),
@@ -111,13 +130,24 @@ async function avaliarSlot(url: string, briefing: string, permitePessoa: boolean
   if (!resp.ok) throw new Error(`anthropic ${resp.status}: ${(await resp.text()).slice(0, 300)}`);
 
   const json = await resp.json();
-  const texto: string = json?.content?.[0]?.text ?? "";
+  // Nunca assuma que content[0] é o bloco de texto: se vier qualquer outro tipo de bloco
+  // antes, content[0].text é undefined e o parse quebra com "resposta não-JSON" — o que
+  // aconteceu em 28/08/2026. Junte todos os blocos de texto.
+  const texto: string = (json?.content ?? [])
+    .filter((b: Record<string, unknown>) => b?.type === "text")
+    .map((b: Record<string, string>) => b.text ?? "")
+    .join("\n")
+    .trim();
   try {
     // O modelo às vezes embrulha em cerca de código apesar da instrução.
     const parsed = JSON.parse(texto.replace(/```json\s*|```/g, "").trim());
     return { parsed, uso: json?.usage ?? null };
   } catch {
-    throw new Error(`QA devolveu resposta não-JSON: ${texto.slice(0, 200)}`);
+    throw new Error(
+      `QA devolveu resposta não-JSON. stop_reason=${json?.stop_reason} ` +
+        `blocos=${(json?.content ?? []).map((b: Record<string, string>) => b?.type).join(",")} ` +
+        `texto=${texto.slice(0, 200)}`,
+    );
   }
 }
 
@@ -145,7 +175,12 @@ async function avaliar(post: Record<string, any>) {
   for (const c of cenarios) {
     let r;
     try {
-      r = await avaliarSlot(c.url, prompts[c.slot - 1] ?? prompts[0] ?? "", permitePessoa);
+      r = await avaliarSlot(
+        c.url,
+        prompts[c.slot - 1] ?? prompts[0] ?? "",
+        permitePessoa,
+        post.promessa_visual ?? "(promessa não preenchida — reprove pelo item 8)",
+      );
     } catch (e) {
       await patch(post.id, { erro: `slot ${c.slot}: ${String(e).slice(0, 400)}` });
       return { id: post.id, ok: false, erro: String(e).slice(0, 200) };
@@ -185,6 +220,7 @@ Deno.serve(async (req: Request) => {
     `${SUPABASE_URL}/rest/v1/social_post` +
       `?status=eq.imagem_hospedada` +
       `&select=id,imagem_gpt_url,cenarios,prompt_imagem,prompts_cenario,tentativas_imagem,` +
+      `promessa_visual,` +
       `social_modelo(codigo,permite_pessoa)` +
       `&order=atualizado_em.asc&limit=${n}`,
     { headers: rest },

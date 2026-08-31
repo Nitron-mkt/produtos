@@ -44,6 +44,19 @@ Se você só olhou a imagem do GPT, você não revisou nada.
 - ⚠️ Luz do produto incoerente com a luz do cenário — colagem visível.
 - ⚠️ Story com informação nos 250px do topo ou da base (fica sob a interface).
 
+### Coerência com a copy — o item que mais escapa
+
+- ⛔ A imagem **entrega a `promessa_visual`**? Leia a promessa primeiro e a arte depois.
+  Se você ler o prompt antes, você vai avaliar contra o prompt e aprovar o que o prompt
+  pediu, mesmo que o prompt esteja errado.
+- ⛔ A copy **nomeia** produto que a imagem não mostra? O leitor procura o objeto na foto.
+  Se não acha, o post fica sem sentido.
+- ⛔ A copy vende **problema** e a cena mostra **solução**? (ou o contrário) Cena arrumada
+  ilustrando "o canto que ninguém resolveu" comunica o oposto do texto.
+
+Foi assim que o post 2 passou pelos dois QA em 28/08/2026 com uma cena bem feita e
+incoerente: ambos comparavam a imagem com o prompt, e o prompt estava sendo cumprido.
+
 ### Consistência com o briefing
 - ⚠️ O cenário conversa com o `angulo`? Post do vetor Nitronfort (ferramenta, laranja,
   sinalização funcional) em cozinha de mármore está errado de intenção, não de execução.

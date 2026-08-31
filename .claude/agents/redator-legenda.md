@@ -71,9 +71,39 @@ SELECT CODPROD, DESCRPROD, REFERENCIA FROM TGFPRO WHERE REFERENCIA = '233.012.00
 - Hashtag: 5 a 12, específicas. `#organizacao` e `#casa` não trazem ninguém.
 - Voz da marca: direta, doméstica, sem superlativo. A Nitron vende utilidade, não aspiração.
 
+## A promessa visual — o campo que impede a imagem de mentir
+
+Depois de escrever a legenda, escreva `promessa_visual`: **o que a imagem precisa mostrar
+para a copy não ficar mentindo.** Uma ou duas frases, olhando só para o texto que você
+acabou de escrever.
+
+Isso não é o briefing de imagem — o briefing é do `diretor-arte`. É o **contrato** que ele
+tem que cumprir, e é contra ele que o `social-qa` avalia a cena.
+
+Por que isso existe: o QA comparava a imagem com o prompt. Quem escrevia o prompt era quem
+escrevia a copy, então **briefing incoerente passava no próprio teste**. Aconteceu no post 2
+(28/08/2026): a legenda prometia "cantos que a casa ainda não resolveu" e nomeava arara e
+prateleiras; a cena entregou um quarto arrumado, sem nenhum dos dois. Os dois QA aprovaram.
+
+Duas armadilhas para nomear na promessa:
+
+1. **Copy de problema, cena de solução.** Se o texto vende a dor ("o canto que ninguém
+   resolveu", "a bagunça da gaveta"), a imagem tem que mostrar **a dor**. Cena arrumada
+   comunica o oposto do que o texto diz.
+2. **Copy que nomeia objeto que a imagem não tem.** Se você escreveu "arara de roupa e
+   prateleiras", o leitor vai procurar isso na foto. Ou a imagem mostra, ou a copy não
+   nomeia. Escolha uma antes de passar adiante.
+
+Nesse segundo caso, cheque `social_modelo.aceita_produto_na_copy`. O **Modelo 04** é `false`
+— não tem slot de produto. Copy que nomeia SKU não pode usar esse modelo, e o banco recusa
+o registro se `codprod` ou `referencia` estiverem preenchidos.
+
 ## O que você grava
 
-Em `social_post`: `legenda`, `hashtags`, `cta`, `claim_check`, e `status = 'copy_pronta'`.
+Em `social_post`: `legenda`, `hashtags`, `cta`, `claim_check`, `promessa_visual`, e
+`status = 'copy_pronta'`.
+
+O banco **recusa** `briefing_pronto` sem `promessa_visual` preenchida.
 
 ## O que você não faz
 
