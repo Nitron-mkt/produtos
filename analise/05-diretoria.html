@@ -1,0 +1,757 @@
+<title>Lançar Menos e Melhor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F7F5F1; --surface:#FCFCFB; --raise:#FFFFFF;
+  --ink:#1A1D1F; --ink2:#5A605F; --ink3:#8A8F8D;
+  --rule:#E3DFD7; --rule2:#D2CCC0;
+  --mark:#B37D18; --accent:#8F6412; --accent-soft:#F2E9D8;
+  --good:#0C6E42; --warn:#8A6600; --bad:#96251C;
+  --ctx:#5A605F;
+  --shadow:0 1px 2px rgba(26,29,31,.06),0 8px 24px -12px rgba(26,29,31,.10);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141618; --surface:#1A1A19; --raise:#1F2224;
+    --ink:#E9E7E2; --ink2:#A9AEAC; --ink3:#7C817F;
+    --rule:#2B2E30; --rule2:#3A3E40;
+    --mark:#BA8420; --accent:#D9A94F; --accent-soft:#2A2318;
+    --good:#4FB585; --warn:#D2A63C; --bad:#E08578;
+    --ctx:#626A6E;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141618; --surface:#1A1A19; --raise:#1F2224;
+  --ink:#E9E7E2; --ink2:#A9AEAC; --ink3:#7C817F;
+  --rule:#2B2E30; --rule2:#3A3E40;
+  --mark:#BA8420; --accent:#D9A94F; --accent-soft:#2A2318;
+  --good:#4FB585; --warn:#D2A63C; --bad:#E08578;
+  --ctx:#626A6E;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px 96px}
+.col{max-width:68ch}
+
+h1,h2,h3,h4,.lab,.num,th,.btn,.chip{font-family:Archivo,"Helvetica Neue",Arial,sans-serif}
+h1{font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.02;font-weight:700;letter-spacing:-.025em;
+  margin:0 0 .5rem;text-wrap:balance}
+h2{font-size:clamp(1.5rem,3vw,2.05rem);line-height:1.12;font-weight:700;letter-spacing:-.02em;
+  margin:0 0 .35rem;text-wrap:balance}
+h3{font-size:1.16rem;line-height:1.25;font-weight:600;letter-spacing:-.01em;margin:0 0 .4rem}
+h4{font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink2);margin:0 0 .5rem}
+p{margin:0 0 1.05rem}
+.col p:last-child{margin-bottom:0}
+a{color:var(--accent)}
+strong{font-weight:600}
+.mono,code{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.9em;
+  font-variant-ligatures:none}
+code{background:var(--accent-soft);color:var(--accent);padding:.08em .34em;border-radius:3px}
+.lab{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---- header ---- */
+header{padding:76px 0 40px;border-bottom:1px solid var(--rule2)}
+.kicker{display:flex;gap:14px;align-items:baseline;margin-bottom:22px;flex-wrap:wrap}
+.dek{font-size:1.16rem;color:var(--ink2);max-width:60ch;margin:.7rem 0 0}
+.swatches{display:flex;gap:0;margin:30px 0 26px;border:1px solid var(--rule2);width:max-content;
+  border-radius:4px}
+.swatches .sw:first-child{border-radius:3px 0 0 3px}
+.swatches .sw:last-child{border-radius:0 3px 3px 0}
+.sw{width:52px;height:30px;position:relative}
+.sw+.sw{border-left:1px solid var(--rule2)}
+.sw span{position:absolute;top:calc(100% + 7px);left:0;font-size:.6rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink3);font-family:Archivo,sans-serif;white-space:nowrap}
+
+/* ---- kpi ---- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden;
+  margin:60px 0 0}
+.kpi{background:var(--surface);padding:20px 22px 22px}
+.kpi .v{font-family:Archivo,sans-serif;font-size:1.95rem;font-weight:700;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;margin:.45rem 0 .3rem}
+.kpi .d{font-size:.83rem;color:var(--ink2);line-height:1.4;font-family:Archivo,sans-serif}
+.kpi.hot .v{color:var(--bad)}
+.kpi.up .v{color:var(--good)}
+
+/* ---- sections ---- */
+section{padding:66px 0 0}
+.shead{display:flex;gap:16px;align-items:baseline;margin-bottom:26px;
+  padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.snum{font-family:"IBM Plex Mono",monospace;font-size:.8rem;font-weight:500;color:var(--mark);
+  padding-top:.42em;letter-spacing:.04em}
+
+/* ---- chart ---- */
+figure{margin:34px 0 0}
+.chartbox{background:var(--surface);border:1px solid var(--rule);border-radius:8px;
+  padding:26px 22px 18px;overflow-x:auto}
+svg{display:block;min-width:640px;max-width:100%;height:auto;overflow:visible}
+.q{font-family:Archivo,sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase}
+figcaption{font-size:.82rem;color:var(--ink3);margin-top:14px;line-height:1.5;max-width:82ch}
+.legend{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:0 0 18px;
+  font-family:Archivo,sans-serif;font-size:.78rem;color:var(--ink2)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;
+  vertical-align:-1px}
+.tip{position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:var(--raise);border:1px solid var(--rule2);border-radius:6px;padding:10px 13px;
+  box-shadow:var(--shadow);font-family:Archivo,sans-serif;font-size:.8rem;line-height:1.5;
+  max-width:230px}
+.tip b{display:block;font-size:.9rem;margin-bottom:3px}
+.tip .r{display:flex;justify-content:space-between;gap:16px;color:var(--ink2)}
+.tip .r span:last-child{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+
+/* ---- tables ---- */
+.tbox{overflow-x:auto;margin:26px 0 0;border:1px solid var(--rule);border-radius:8px;
+  background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.86rem}
+th{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  text-align:left;color:var(--ink3);padding:13px 14px;border-bottom:1px solid var(--rule2);
+  white-space:nowrap;background:var(--surface)}
+td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;
+  font-family:"IBM Plex Mono",monospace;font-size:.82rem;white-space:nowrap}
+tr.foco td{background:var(--accent-soft)}
+tr.foco td:first-child{box-shadow:inset 3px 0 0 var(--mark)}
+.neg{color:var(--bad)}.pos{color:var(--good)}
+details.tv{margin:14px 0 0}
+details.tv summary{font-family:Archivo,sans-serif;font-size:.79rem;color:var(--ink2);
+  cursor:pointer;padding:5px 0}
+details.tv summary:hover{color:var(--accent)}
+
+/* ---- proposals ---- */
+.props{display:grid;gap:18px;margin:30px 0 0}
+.prop{background:var(--surface);border:1px solid var(--rule);border-radius:8px;
+  padding:24px 26px 26px;position:relative}
+.prop.go{border-left:3px solid var(--good)}
+.prop.hold{border-left:3px solid var(--warn)}
+.prop-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;
+  flex-wrap:wrap;margin-bottom:14px}
+.chip{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 9px;border-radius:3px;white-space:nowrap;border:1px solid}
+.chip.go{color:var(--good);border-color:var(--good);background:transparent}
+.chip.hold{color:var(--warn);border-color:var(--warn);background:transparent}
+.prop h3 .fam{display:block;font-size:.7rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.prop dl{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;margin:16px 0 0;
+  font-size:.87rem;align-items:baseline}
+.prop dt{font-family:Archivo,sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);padding-top:.28em;white-space:nowrap}
+.prop dd{margin:0;color:var(--ink2)}
+.prop dd b{color:var(--ink)}
+.risk{margin:18px 0 0;padding:13px 15px;background:var(--ground);border-radius:5px;
+  font-size:.85rem;color:var(--ink2);border:1px solid var(--rule)}
+.risk b{color:var(--ink);font-family:Archivo,sans-serif;font-size:.68rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--warn)}
+
+/* ---- insight list ---- */
+.ins{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:8px;overflow:hidden;margin:30px 0 0}
+.in{background:var(--surface);padding:22px 24px 24px;display:grid;
+  grid-template-columns:minmax(0,1fr);gap:8px}
+.in .hd{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.in .big{font-family:Archivo,sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:-.02em;
+  color:var(--mark);font-variant-numeric:tabular-nums;line-height:1}
+.in p{font-size:.93rem;margin:0;color:var(--ink2)}
+.in p b{color:var(--ink)}
+
+/* ---- ask ---- */
+.ask{background:var(--raise);border:1px solid var(--rule2);border-radius:8px;
+  padding:30px 32px 32px;margin:30px 0 0;box-shadow:var(--shadow)}
+.ask ol{margin:0;padding-left:1.3em}
+.ask li{margin-bottom:.85rem}
+.ask li:last-child{margin-bottom:0}
+.ask li b{font-family:Archivo,sans-serif;font-size:.95rem}
+.q3{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;margin:24px 0 0}
+.q3 div{background:var(--surface);padding:15px 18px;font-size:.9rem;display:flex;gap:13px}
+.q3 span{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--mark);flex:none;
+  padding-top:.2em}
+
+footer{margin-top:76px;padding-top:26px;border-top:1px solid var(--rule2);
+  font-size:.8rem;color:var(--ink3);line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+:focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+@media(max-width:640px){
+  body{font-size:16px}.wrap{padding:0 18px 72px}header{padding:48px 0 32px}
+  .prop{padding:20px 18px 22px}.ask{padding:24px 20px}
+}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">
+    <span class="lab">Projeto de Desenvolvimento de Produtos</span>
+    <span class="lab" style="color:var(--mark)">Diretoria · 31 ago 2026</span>
+  </div>
+  <h1>Lançar menos<br>e melhor</h1>
+  <p class="dek">Seis propostas de lançamento para a linha de Potes e Organização,
+  construídas sobre o ERP, o mercado e a fábrica. Quatro delas não pedem um molde novo.</p>
+
+  <div class="swatches" role="img" aria-label="Os cinco neutros permanentes propostos: preto, branco, transparente, chumbo e areia">
+    <div class="sw" style="background:#1A1D1F"><span>Preto</span></div>
+    <div class="sw" style="background:#F2F1EE"><span>Branco</span></div>
+    <div class="sw" style="background:linear-gradient(135deg,#E8EAEA 25%,#F7F8F8 25%,#F7F8F8 50%,#E8EAEA 50%,#E8EAEA 75%,#F7F8F8 75%)"><span>Transp.</span></div>
+    <div class="sw" style="background:#4A5459"><span>Chumbo</span></div>
+    <div class="sw" style="background:#C9AE83;box-shadow:inset 0 0 0 2px var(--mark)"><span style="color:var(--accent);font-weight:700">Areia ·&nbsp;5ª</span></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi hot">
+      <div class="lab">Taxa de acerto de lançamento</div>
+      <div class="v">0,7%</div>
+      <div class="d">2 de 278 SKUs da safra 2025 · era 28,0% em 2021</div>
+    </div>
+    <div class="kpi hot">
+      <div class="lab">Curva de marca própria</div>
+      <div class="v">−18%</div>
+      <div class="d">R$ 101,4 M → R$ 83,1 M em dois ciclos</div>
+    </div>
+    <div class="kpi up">
+      <div class="lab">Base das propostas sem molde</div>
+      <div class="v">R$ 1,58 M</div>
+      <div class="d">faturamento já existente que as 4 propostas alavancam</div>
+    </div>
+    <div class="kpi">
+      <div class="lab">Investimento em ferramentaria pedido</div>
+      <div class="v">R$ 0</div>
+      <div class="d">nesta rodada. Dois projetos de molde entram em diagnóstico</div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><span class="snum">01</span><div>
+    <h2>O diagnóstico</h2></div></div>
+  <div class="col">
+    <p>A empresa não tem escassez de ideias. Tem um <strong>filtro que parou de
+    funcionar</strong>. A taxa de acerto de lançamento — SKU que acumula R$ 500 mil na vida —
+    caiu de 28,0% em 2021 para <strong>0,7% em 2025</strong>. Dos 357 SKUs lançados em 2024,
+    <strong>304 não passaram de R$ 100 mil em dois anos</strong>.</p>
+    <p>Enquanto isso, o catálogo carrega o custo. Só em Organização há
+    <strong>1.053 SKUs cadastrados e 299 que venderam algo</strong> nos últimos 12 meses.
+    Cento e oitenta e nove desses SKUs estão em sete cores que somam
+    <strong>R$ 68 mil e 59 clientes</strong>.</p>
+    <p>A causa é conhecida internamente e o dado confirma: o hábito de
+    <strong>trocar de cor todo ano</strong>. As datas de primeira venda desenham a rotação —
+    lilás em 2021, cinza em 2022, vermelho em 2023, chumbo em 2025. Cada camada deixou SKUs
+    mortos e, pior, <strong>desligou cores que já tinham base de cliente construída</strong>.</p>
+  </div>
+
+  <div class="ins">
+    <div class="in"><div class="hd"><span class="big">√N</span>
+      <h3 style="margin:0">Por que cor não é lançamento</h3></div>
+      <p>Estoque de segurança é proporcional ao <b>desvio</b>, não à demanda. Partindo a mesma
+      demanda em N cores, a demanda por SKU cai para 1/N mas o desvio cai só para 1/√N — então o
+      estoque de segurança <b>total sobe para √N</b>. Uma cor vira três: <b>+73% de estoque para
+      vender o mesmo tanto</b>, e cada cor com cobertura mais fina, então a ruptura sobe junto.
+      Saldo e ruptura simultâneos não são contradição: são o resultado previsto.</p></div>
+    <div class="in"><div class="hd"><span class="big">R$ 665 k</span>
+      <h3 style="margin:0">O que a rotação custou</h3></div>
+      <p>Areia foi desligada para dar lugar ao <b>Very Peri</b>, cor do ano Pantone 2022.
+      Very Peri fez <b>R$ 665 mil em toda a vida com 376 clientes</b> e morreu em dez/2025.
+      Areia, em organizadores, tinha feito <b>~R$ 12,6 M</b>. Marrom, também sacrificada, fez
+      <b>R$ 36,2 M com 5.226 clientes</b> e hoje faz R$ 27,9 mil. As duas cores que a rotação
+      sacrificou tinham base de cliente maior do que a cor que ficou — chumbo, com 1.420.</p></div>
+    <div class="in"><div class="hd"><span class="big">88 pts</span>
+      <h3 style="margin:0">A janela de litragem</h3></div>
+      <p>Testada em <b>79 referências</b> de pote nascidas antes de 2024 e vendendo nas duas
+      janelas: até 600 ml <b>−31,5%</b> com apenas <b>2 de 22 subindo</b>; de 1,1 a 2 L
+      <b>+28,9%</b>; de 2,1 a 3,5 L <b>+56,5%</b>; acima de 3,5 L empata. O mesmo padrão
+      reaparece em cinco famílias independentes e em micro-ondas. <b>Nada novo abaixo de 1 L.</b>
+      É a regra de lançamento mais forte que o projeto produziu.</p></div>
+    <div class="in"><div class="hd"><span class="big">98,4%</span>
+      <h3 style="margin:0">A casa é mono-resina</h3></div>
+      <p>Das ≈2.605 t de resina compradas em 12 meses, <b>98,4% é PP</b>. Zero PET, zero Tritan,
+      zero silicone. E <b>537 t (20,6% do volume) entram como moído a R$ 6,07/kg</b> contra
+      R$ 10,96 do virgem — <b>~R$ 2,63 M/ano de vantagem de custo</b> que só existe porque o
+      refugo é mono-resina. Material novo não adiciona custo de resina: contamina esse ativo.</p></div>
+    <div class="in"><div class="hd"><span class="big">8</span>
+      <h3 style="margin:0">Ideias "novas" que já existiam</h3></div>
+      <p>Ao longo do projeto, oito propostas foram descartadas por já estarem no catálogo:
+      Caixa Organizadora Rattan chumbo · Lixeira Basculante Rattan chumbo ·
+      trava+válvula <code>176.024.001</code> e <code>210.024.001</code> · Caixa Flat com Tampa
+      Teca · Balde Pipoca <code>342.006.597</code> · Kit Geladeira · Kit de potes com válvula
+      <code>241.006.P01</code> · e <b>oito kits Flat</b> <code>912.E07.*</code>, ativos e nunca
+      faturados. <b>Nenhuma foi mal concebida — foram executadas na litragem errada ou
+      abandonadas.</b></p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">02</span><div>
+    <h2>Onde está o espaço livre</h2></div></div>
+  <div class="col">
+    <p>Cada bolha é uma linha. O eixo horizontal é quantos dos 15 concorrentes Tier A declaram
+    atuar na categoria; o vertical é a margem bruta; o tamanho é o pool de lucro bruto. As duas
+    linhas destacadas são as que estas propostas atacam.</p>
+  </div>
+
+  <figure>
+    <div class="legend">
+      <span><i style="background:var(--mark)"></i>Linhas destas propostas</span>
+      <span><i style="background:var(--ctx)"></i>Demais linhas do portfólio</span>
+      <span style="color:var(--ink3)">Área da bolha ∝ lucro bruto</span>
+    </div>
+    <div class="chartbox"><div id="chart"></div></div>
+    <figcaption>Fonte: Sankhya, 12 meses corridos até 24/08/2026, marca própria — empresas 1/2/14,
+    sem Avon/Natura (<span class="mono">CODTAB 84</span>) e sem exportação
+    (<span class="mono">CODTAB 3</span>). Linhas com a mesma contagem de concorrentes recebem
+    leve deslocamento horizontal para não se sobrepor. Todos os valores estão na tabela abaixo.</figcaption>
+  </figure>
+
+  <details class="tv"><summary>Ver os 17 valores em tabela</summary>
+    <div class="tbox"><table>
+      <thead><tr>
+        <th>Linha</th><th class="n">Faturamento 12 M</th><th class="n">Δ 2 anos</th>
+        <th class="n">Lucro bruto</th><th class="n">MB</th><th class="n">Tier A</th>
+        <th class="n">SKUs</th><th class="n">Clientes</th><th>Veredito</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table></div>
+  </details>
+
+  <div class="col" style="margin-top:30px">
+    <p><strong>A pergunta óbvia da diretoria:</strong> por que não ir para o canto superior
+    esquerdo, onde Frasqueiras, Micro-ondas, Decor Util e Jarras têm <em>zero</em> concorrente
+    Tier A? Porque o pool de lucro lá é pequeno. Micro-ondas tem
+    <strong>R$ 890 mil</strong> de lucro bruto contra <strong>R$ 7,2 M</strong> de Potes e
+    <strong>R$ 11,8 M</strong> de Organização. Vazio competitivo sem pool de lucro não paga uma
+    esteira de 12 lançamentos por ano.</p>
+    <p>Frasqueiras (+8,6%, zero Tier A, R$ 3,66 M de lucro) é a exceção real e é a
+    <strong>segunda fila</strong> — mas não temos ainda a profundidade de dado que temos em Potes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">03</span><div>
+    <h2>As seis propostas</h2></div></div>
+  <div class="col">
+    <p>Quatro entram sem ferramentaria. Duas são projetos de molde que pedem
+    <strong>diagnóstico antes de investimento</strong> — e cada uma tem uma pergunta de fábrica
+    que decide se o projeto existe.</p>
+  </div>
+
+  <div class="props">
+
+    <article class="prop go">
+      <div class="prop-top">
+        <h3><span class="fam">Potes · Kits</span>Kit Mantimento Rosca 2 L, 4 peças</h3>
+        <span class="chip go">Aprovar agora</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">Arroz + Feijão + Açúcar + Café, todos na plataforma
+      acoplada com rosca de 2 L que já roda. Nenhum kit existe nessa plataforma — verificado no
+      <span class="mono">TGFPRO</span>.</p>
+      <dl>
+        <dt>Base</dt><dd><b>R$ 766.489/ano crescendo 79,6%</b> (era R$ 426.730)</dd>
+        <dt>Clientes</dt><dd>Açúcar <b>1.002</b> · Café 712 · Feijão 543 · Arroz 391</dd>
+        <dt>Ferramentaria</dt><dd><b>zero</b> — só cadastro, EAN, arte, caixa e foto</dd>
+        <dt>Economia</dt><dd>custo somado R$ 11,34 · avulsos somados R$ 20,14 · kit a R$ 21–23 no atacado</dd>
+        <dt>Formato</dt><dd>4 peças — a faixa de melhor preço por peça no mercado</dd>
+        <dt>Deixar fora</dt><dd>Farinha 2 L (<span class="mono">361</span>): −51,5%, 232 clientes, 4.089 peças/ano</dd>
+      </dl>
+      <div class="risk"><b>Resolver antes de precificar</b>
+      O Café 2 L (<span class="mono">363.012.003</span>) custa R$ 3,69 contra R$ 2,55 dos irmãos
+      de mesma litragem — MB de 25,9% contra 48–50%. São <b>R$ 56.577/ano</b> de margem. Ou o
+      café tem uma peça a mais que ninguém lembra, ou o custo está errado no
+      <span class="mono">TGFCUS</span>.</div>
+    </article>
+
+    <article class="prop go">
+      <div class="prop-top">
+        <h3><span class="fam">Organização · Rattan e Juta</span>Transparente como cor de linha</h3>
+        <span class="chip go">Aprovar agora</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">Ampliar transparente onde ele já é, de longe, a cor
+      mais produtiva por SKU — sem abrir cor nova.</p>
+      <dl>
+        <dt>A evidência</dt><dd>Rattan transparente é <b>1 SKU: R$ 409.866, +39,4%, 332 clientes</b></dd>
+        <dt>Comparação</dt><dd>Rattan preto faz R$ 3,26 M em <b>62 SKUs</b> — R$ 53 mil por SKU.
+          O transparente faz <b>8× mais por SKU</b> e cresce, enquanto preto e branco caem 10% e 20%</dd>
+        <dt>No mercado</dt><dd><b>7 dos 12 Tier A</b> encontrados no Mercado Livre estão em
+          transparente — o dobro de qualquer outra cor</dd>
+        <dt>Ferramentaria</dt><dd><b>zero</b> · e <b>zero cor nova</b></dd>
+      </dl>
+      <div class="risk"><b>Onde eu extrapolo</b>
+      A evidência forte é de <b>Rattan</b>. Em <b>Juta não existe transparente hoje</b>, então
+      ali é hipótese por analogia — e o que Juta demonstra crescer é <b>preto, +87,0%</b>.
+      Sugestão: Rattan primeiro, Juta como segunda onda depois da leitura.</div>
+    </article>
+
+    <article class="prop go">
+      <div class="prop-top">
+        <h3><span class="fam">Organização · Paleta</span>Areia/Creme como quinta cor permanente</h3>
+        <span class="chip go">Aprovar agora</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">Não é cor nova. É <b>religar</b> uma cor que a casa
+      construiu, faturou e desligou — com a condição de que ela nunca mais entre na rotação.</p>
+      <dl>
+        <dt>Histórico</dt><dd><b>~R$ 12,6 M</b> em organizadores · 6.753 linhas de nota só no
+          cesto Rattan grande, 5.569 no pequeno, 5.108 no médio</dd>
+        <dt>Cadastro</dt><dd><b>37 SKUs já existem</b> — reativação, não criação</dd>
+        <dt>Matéria-prima</dt><dd>masterbatch <span class="mono">MASTER BEGE WHITE DS502</span>:
+          <b>811 kg/ano já comprados</b></dd>
+        <dt>Ferramentaria</dt><dd><b>zero</b> — os cestos Rattan, Juta e Vime rodam hoje em outras cores</dd>
+        <dt>Mercado</dt><dd>bege é a cor com <b>3 marcas do mapa competitivo</b> e preço mediano
+          acima do preto. E Rattan/Juta/Vime <b>são plástico imitando fibra natural</b> — que é
+          exatamente onde o sinal de bege está</dd>
+        <dt>A condição</dt><dd><b>neutro permanente, sem rotação.</b> A paleta passa a ser cinco
+          fixos: preto, branco, transparente, chumbo, areia. Tendência, se houver, vai pelo Coloratto</dd>
+      </dl>
+      <div class="risk"><b>Verificar antes de religar</b>
+      Os moldes e tampas dos cestos areia estão em condição de rodar após 24 meses parados?
+      As 37 referências estão precificadas em tabela, com foto e catálogo? E em que produto o
+      masterbatch de 811 kg/ano está sendo consumido hoje?</div>
+    </article>
+
+    <article class="prop hold">
+      <div class="prop-top">
+        <h3><span class="fam">Potes · Linha nova</span>Chrono — tampa com datador</h3>
+        <span class="chip hold">Diagnóstico primeiro</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">Disco datador de mês e dia na tampa da família com
+      travas. A informação de fábrica muda o cálculo: <b>4 tampas cobrem 8 corpos</b>.</p>
+      <dl>
+        <dt>Onde entra</dt><dd><b>Tampa C</b> (<span class="mono">233</span> 1,1 L +
+          <span class="mono">156</span> 2,2 L): R$ 609 mil, <b>+32,9%</b>, e o 233 tem
+          <b>1.124 clientes</b> — o SKU mais penetrado da família</dd>
+        <dt>Não começar</dt><dd>pela Tampa A (270/460 ml): é a única do quarteto <b>caindo, −14,6%</b></dd>
+        <dt>Decisão técnica</dt><dd><b>separar datador de válvula.</b> Disco rotativo cedado no
+          topo, <b>sem furar a tampa</b> — sem caminho de vazamento, e o disco vira peça comum
+          reusável em trava, modular e rosca</dd>
+        <dt>Payback</dt><dd>molde novo de tampa: 8 a 15 anos — <b>não passa</b>.
+          Inserto trocável + molde do disco (R$ 25–35 k): ~3 anos — <b>passa</b></dd>
+        <dt>Capacidade</dt><dd>peça pequena roda em injetora ≤ 260 t, onde há <b>7 de 15 máquinas paradas</b></dd>
+      </dl>
+      <div class="risk"><b>A pergunta que decide o projeto</b>
+      <b>Os moldes de tampa atuais aceitam inserto trocável?</b> Se sim, o projeto passa. Se não,
+      o payback vai a 8–15 anos e a resposta é não. É questão para a ferramentaria, não para o ERP.
+      <br><br>E há uma evidência contrária a respeitar: na plataforma de válvula, que cresce 49,9%
+      orgânico, as <b>duas únicas referências que caem</b> são exatamente as que combinam
+      válvula com trava — <span class="mono">176</span> (−56,1%) e
+      <span class="mono">210</span> (−49,0%). Enquanto isso não tiver causa, não se combina
+      trava com abertura projetada na mesma tampa.</div>
+    </article>
+
+    <article class="prop hold">
+      <div class="prop-top">
+        <h3><span class="fam">Potes · Linha nova</span>Mantimentos Quadrada</h3>
+        <span class="chip hold">Diagnóstico primeiro</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">A tese de formato está certa e é mensurável: um
+      círculo ocupa 78,5% do quadrado que o circunscreve, então o quadrado ganha
+      <b>~27% de volume útil por área de prateleira</b>.</p>
+      <dl>
+        <dt>Já existe</dt><dd>quadrado/retangular são <b>4 plataformas e ~R$ 2,39 M/ano</b> —
+          maior que a família trava redonda inteira</dd>
+        <dt>O ponto de entrada</dt><dd><span class="mono">240.024.001</span> Quadrado com Válvula
+          3 L: <b>+492,7%</b> com apenas <b>283 clientes</b>. Não está saturado, está
+          <b>subdistribuído</b></dd>
+        <dt>A lacuna real</dt><dd>o quadrado tem <b>4 litragens e uma única altura</b>; o redondo
+          tem as duas e as duas vendem. <b>Quadrado alto não existe</b> — verificado</dd>
+        <dt>Litragem</dt><dd>1,8 L (730 clientes) e 2,6–3 L. <b>Não em 360 ml</b> — o
+          <span class="mono">3790</span> já cai 21,8% e está na faixa onde 2 de 22 cresceram</dd>
+        <dt>Preço</dt><dd>hoje a Nitron vende quadrado ao <b>mesmo preço por litro</b> do redondo
+          pagando <b>12,6% mais</b> para fabricar. Revisar isso vale <b>~R$ 112 k/ano sem molde</b></dd>
+      </dl>
+      <div class="risk"><b>Duas perguntas antes do aço</b>
+      <b>Os potes quadrados atuais são altos ou rasos?</b> Se já forem altos, a lacuna não existe.
+      O ERP não tem esse dado — <span class="mono">TPRCPR</span> tem 0 linhas e
+      <span class="mono">AD_FICHATECNICA</span> tem 4.
+      <br><br>E a rota barata — tampa de válvula nos corpos quadrados com trava que já existem —
+      cai <b>exatamente</b> na combinação válvula+trava que cai 50%. Não há atalho antes de
+      entender <span class="mono">176</span> e <span class="mono">210</span>.</div>
+    </article>
+
+    <article class="prop hold">
+      <div class="prop-top">
+        <h3><span class="fam">Potes · Linha nova</span>Mantimento e Limpeza</h3>
+        <span class="chip hold">Escopo a confirmar</span>
+      </div>
+      <p style="margin:0;color:var(--ink2)">Preciso do seu alinhamento sobre o escopo desta —
+      abaixo está o que o dado sustenta na direção de mantimento + limpeza, para você corrigir
+      antes da apresentação.</p>
+      <dl>
+        <dt>Rosca 2 L e 3 L</dt><dd>plataforma <span class="mono">359–363</span>:
+          <b>R$ 790 mil, +66,2%</b>. O genérico transparente 2 L
+          (<span class="mono">238</span>) fez <b>+522%</b> e o 3 L +242%</dd>
+        <dt>O recorte</dt><dd><b>2 L e 3 L em transparente crescem; 500 ml e branco, não.</b>
+          238 branco −25% · 236 branco −49% · tomatinho 500 ml −36% · alho 500 ml −33%</dd>
+        <dt>Limpeza</dt><dd>MB de <b>54,8%</b>, R$ 1,96 M de lucro bruto, só 4 Tier A,
+          <b>38 SKUs ativos</b> — a linha menos proliferada do portfólio</dd>
+        <dt>O melhor kit da casa</dt><dd><span class="mono">920.004</span> Conj. Porta Detergente
+          Flat 2 peças: <b>R$ 544.539 somando três cores, +254%, MB 60,8%</b>, com 821, 509 e
+          424 clientes. É flat + kit + cor ao mesmo tempo</dd>
+        <dt>O claim livre</dt><dd><b>zero dos 267 anúncios</b> coletados dizem "não vaza" — e
+          rosca é a única geometria da casa que passa num teste de inversão documentado</dd>
+      </dl>
+      <div class="risk"><b>O que eu preciso de você</b>
+      Confirme se "Mantimento e Limpeza" é (a) uma família de potes com rosca servindo os dois
+      usos, (b) uma extensão do conjunto Flat de limpeza, ou (c) outra coisa. A evidência acima
+      sustenta as duas primeiras leituras, mas com números diferentes — e eu não quero levar a
+      interpretação errada para a diretoria.</div>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><div>
+    <h2>Achados abertos que valem mais que a maioria dos lançamentos</h2></div></div>
+  <div class="col">
+    <p>Estes não pedem molde, não pedem SKU e não pedem cor. Pedem alguém para investigar.
+    Somados, valem mais em margem por ano do que qualquer projeto de ferramentaria em discussão.</p>
+  </div>
+  <div class="tbox"><table>
+    <thead><tr><th>Achado</th><th class="n">Valor em jogo</th><th>O que não sabemos</th></tr></thead>
+    <tbody>
+      <tr class="foco"><td><b>Branco em Organização cai 17,0%</b><br>
+        <span style="color:var(--ink2);font-size:.92em">R$ 5,95 M → R$ 4,94 M. Cinco dos nove SKUs
+        do núcleo Flat perderam clientes</span></td>
+        <td class="n">~R$ 1.000.000<span style="color:var(--ink3)">/ano</span></td>
+        <td>O mercado <b>não</b> abandonou branco — precifica em R$ 66,16 mediano, o segundo mais
+        alto, com 3 Tier A. Então é preço, ruptura, perda de cliente ou execução. Nossa.</td></tr>
+      <tr><td><b>Devolução do chumbo no Flat</b><br>
+        <span style="color:var(--ink2);font-size:.92em">Exatamente 1.224 unidades devolvidas em
+        cada uma das três litragens, pelos mesmos 3 clientes</span></td>
+        <td class="n">21% a 27%<span style="color:var(--ink3)"> do sell-in</span></td>
+        <td>Núcleo devolve 3,7% a 8,9%. Quantidade idêntica nas três refs é devolução de
+        sortimento por rede, não pulverizada. O "+237%" do chumbo não é evidência até isso ter causa.</td></tr>
+      <tr><td><b>Café 2 L custa R$ 1,14 mais que os irmãos</b><br>
+        <span style="color:var(--ink2);font-size:.92em"><span class="mono">363.012.003</span> ·
+        MB 25,9% contra 48–50%</span></td>
+        <td class="n">R$ 56.577<span style="color:var(--ink3)">/ano</span></td>
+        <td>Peça a mais no produto ou custo errado no <span class="mono">TGFCUS</span>.</td></tr>
+      <tr><td><b>Válvula + trava cai ~50%</b><br>
+        <span style="color:var(--ink2);font-size:.92em"><span class="mono">176</span> −56,1% e
+        <span class="mono">210</span> −49,0%, as melhores margens da família</span></td>
+        <td class="n">decide 2 projetos</td>
+        <td>São as duas únicas quedas numa plataforma que cresce 49,9%. Destrava o Chrono
+        <em>e</em> a rota barata do quadrado com válvula.</td></tr>
+      <tr><td><b>Kit modular 6 peças caiu 83%</b><br>
+        <span style="color:var(--ink2);font-size:.92em"><span class="mono">353.006.001</span> ·
+        R$ 2,59 M → R$ 436 mil</span></td>
+        <td class="n">R$ 2.157.000<span style="color:var(--ink3)"> perdidos</span></td>
+        <td>Não foi cliente que saiu: os clientes <b>subiram</b> de 127 para 179 e o ticket caiu
+        88%. Queda difusa no canal inteiro — pior que contrato encerrado.</td></tr>
+      <tr><td><b>Estoque não é legível no ERP</b><br>
+        <span style="color:var(--ink2);font-size:.92em"><span class="mono">TGFEST</span>: 120
+        combinações empresa/local para 3 produtos</span></td>
+        <td class="n">saldo e ruptura</td>
+        <td>Falta saber qual <span class="mono">CODLOCAL</span> é o armazém de produto acabado.
+        Sem isso não medimos o risco que mais dói: cobertura e ruptura.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">05</span><div>
+    <h2>O que pedimos à diretoria</h2></div></div>
+  <div class="ask">
+    <ol>
+      <li><b>Aprovar as três propostas sem ferramentaria</b> — Kit Rosca 2 L, transparente em
+        Rattan, e areia como quinta cor. Custo: cadastro, arte, foto, embalagem e tabela.
+        Nenhum molde, nenhuma resina nova, nenhuma cor de tendência.</li>
+      <li><b>Aprovar a paleta de cinco neutros permanentes e encerrar a rotação anual de cor.</b>
+        Preto, branco, transparente, chumbo, areia — fixos. Tendência passa pelo Coloratto, que
+        custa um kit e não uma linha. Esta é a decisão de maior efeito da lista, e é de graça.</li>
+      <li><b>Autorizar diagnóstico — não investimento</b> — para Chrono e Mantimentos Quadrada.
+        Cada uma tem uma pergunta de fábrica que decide se o projeto existe.</li>
+      <li><b>Adotar a regra "um entra, um sai".</b> Nenhuma proposta entra sem um SKU nomeado
+        para sair. A fila de saída já está mapeada e tem mais de 25 referências: as 189 de cores
+        mortas em Organização, os 19 SKUs de cor da própria plataforma Flat (R$ 13.653 e
+        <b>12 clientes</b>), os 5 acoplado rosca 1 L com MB de 11,7% a 26,5%, e a cauda abaixo
+        de 600 ml.</li>
+      <li><b>Fixar a regra de litragem no processo de aprovação:</b> nada novo abaixo de 1 L em
+        Potes. Ela vem de 79 referências e 88 pontos de amplitude.</li>
+    </ol>
+    <h4 style="margin:30px 0 0">Três perguntas de fábrica que destravam o resto</h4>
+    <div class="q3">
+      <div><span>01</span><div>Os <b>moldes de tampa</b> da linha com travas aceitam inserto
+        trocável? — decide o Chrono</div></div>
+      <div><span>02</span><div>Os <b>potes quadrados</b> atuais são altos ou rasos? — decide se a
+        lacuna da Mantimentos Quadrada existe</div></div>
+      <div><span>03</span><div>Qual <span class="mono">CODLOCAL</span> é o <b>armazém de produto
+        acabado</b>? — libera medir saldo e ruptura de verdade</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>Fontes e método.</b> Sankhya (ERP), 12 meses corridos até 24/08/2026, recorte de marca
+  própria: empresas 1, 2 e 14, <span class="mono">STATUSNOTA='L'</span>,
+  <span class="mono">TIPMOV IN ('V','D')</span> com devolução em sinal negativo, apenas operações
+  que atualizam financeiro, sem transferências intercompany, <b>sem Avon/Natura</b>
+  (<span class="mono">CODTAB 84</span>, R$ 8,97 M em 580 itens) e <b>sem exportação</b>
+  (<span class="mono">CODTAB 3</span>). Custo: <span class="mono">TGFCUS</span>, último registro
+  do ano corrente, empresa 1, local 0. Mercado: 734 anúncios coletados no Mercado Livre em
+  31/08/2026 sobre 12 termos de organizador, mais 267 anúncios de pote coletados em 24/08/2026.</p>
+  <p><b>Limitações declaradas.</b> O campo de unidades vendidas veio nulo em 100% dos anúncios
+  coletados — a demanda de mercado é medida por <b>contagem de avaliações</b>, que é proxy e
+  favorece anúncio antigo. O Mercado Livre não representa o canal da Nitron: são 359 marcas
+  distintas e <b>5 dos 15 Tier A de Organização não têm presença nenhuma</b> lá (Plasvale, UZ
+  Utilidades, Injetemp, Plasduran, Rischioto). Datas de primeira venda por referência confundem
+  lançamento com re-cadastro e não devem ser lidas como cohort sem confirmação.</p>
+</footer>
+
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+const L=[
+ {n:"Organizacao",ta:15,mb:54.2,lb:11769940,fat:22078947,v:-24.3,cli:3634,sku:292,ver:"DEFENDER",f:1},
+ {n:"Potes",ta:9,mb:45.1,lb:7156078,fat:15992239,v:-15.5,cli:4504,sku:487,ver:"SÓ KIT",f:1},
+ {n:"Cozinha",ta:12,mb:49.9,lb:6187884,fat:12425887,v:-17.7,cli:7825,sku:194,ver:"SÓ EXTENSÃO"},
+ {n:"Lixeiras",ta:4,mb:43.0,lb:3893513,fat:9069301,v:0.2,cli:2451,sku:94,ver:"SELETIVO"},
+ {n:"Frasqueiras",ta:0,mb:53.7,lb:3657059,fat:6852118,v:8.6,cli:3305,sku:52,ver:"LANÇAR"},
+ {n:"Banheiro",ta:3,mb:55.0,lb:2250344,fat:4093251,v:-3.5,cli:6002,sku:52,ver:"LANÇAR"},
+ {n:"Limpeza",ta:4,mb:54.8,lb:1962149,fat:3633953,v:-15.5,cli:2520,sku:38,ver:"SELETIVO"},
+ {n:"Jarras",ta:0,mb:43.1,lb:1102371,fat:2562474,v:-29.5,cli:2584,sku:51,ver:"SELETIVO"},
+ {n:"Micro-ondas",ta:0,mb:53.6,lb:890319,fat:1670477,v:-8.7,cli:3558,sku:24,ver:"LANÇAR"},
+ {n:"Decor Util",ta:0,mb:59.6,lb:836332,fat:1405484,v:20.8,cli:1894,sku:56,ver:"LANÇAR"},
+ {n:"Teca",ta:7,mb:36.8,lb:476483,fat:1255461,v:10.0,cli:534,sku:64,ver:"CORRIGIR ANTES"},
+ {n:"ECO",ta:2,mb:57.0,lb:433869,fat:760949,v:-63.8,cli:654,sku:19,ver:"NÃO LANÇAR"},
+ {n:"Infantil",ta:1,mb:61.4,lb:292016,fat:478998,v:-81.2,cli:1002,sku:40,ver:"REATIVAR"},
+ {n:"Geladeira",ta:2,mb:58.4,lb:260437,fat:447598,v:-41.8,cli:722,sku:18,ver:"REATIVAR"},
+ {n:"Coloratto",ta:9,mb:55.8,lb:170468,fat:321370,v:-50.7,cli:649,sku:26,ver:"NÃO LANÇAR"},
+ {n:"Realce",ta:9,mb:41.5,lb:19378,fat:59539,v:-87.2,cli:174,sku:47,ver:"DESCONTINUAR"},
+ {n:"POP",ta:9,mb:19.7,lb:7135,fat:36198,v:null,cli:79,sku:9,ver:"CORRIGIR ANTES"}
+];
+const brl=n=>n>=1e6?"R$ "+(n/1e6).toFixed(2).replace(".",",")+" M"
+  :"R$ "+Math.round(n).toLocaleString("pt-BR");
+const pct=n=>n===null?"—":(n>0?"+":"")+n.toFixed(1).replace(".",",")+"%";
+
+/* ---------- tabela ---------- */
+document.getElementById("tb").innerHTML=L.map(d=>`<tr class="${d.f?"foco":""}">
+<td><b>${d.n}</b></td><td class="n">${brl(d.fat)}</td>
+<td class="n ${d.v===null?"":d.v<0?"neg":"pos"}">${pct(d.v)}</td>
+<td class="n">${brl(d.lb)}</td><td class="n">${d.mb.toFixed(1).replace(".",",")}%</td>
+<td class="n">${d.ta}</td><td class="n">${d.sku}</td>
+<td class="n">${d.cli.toLocaleString("pt-BR")}</td>
+<td style="font-size:.8rem;letter-spacing:.03em">${d.ver}</td></tr>`).join("");
+
+/* ---------- gráfico ---------- */
+const W=900,H=520,M={t:44,r:132,b:62,l:74};
+const iw=W-M.l-M.r, ih=H-M.t-M.b;
+const xd=[-1,16], yd=[15,65];
+const X=v=>M.l+(v-xd[0])/(xd[1]-xd[0])*iw;
+const Y=v=>M.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+const rMax=Math.max(...L.map(d=>d.lb));
+const R=v=>6+Math.sqrt(v/rMax)*26;
+
+/* jitter determinístico p/ mesma contagem de Tier A */
+const byTa={}; L.forEach(d=>{(byTa[d.ta]=byTa[d.ta]||[]).push(d)});
+Object.values(byTa).forEach(g=>{
+  g.sort((a,b)=>b.lb-a.lb);
+  const s=g.length; g.forEach((d,i)=>{d.jx=s===1?0:(i-(s-1)/2)*0.46});
+});
+
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dispersão das 17 linhas do portfólio: concorrentes Tier A no eixo horizontal, margem bruta no vertical, lucro bruto no tamanho da bolha">`;
+
+/* grid + eixo y */
+for(let g=15;g<=65;g+=10){
+  s+=`<line x1="${M.l}" y1="${Y(g)}" x2="${M.l+iw}" y2="${Y(g)}" stroke="var(--rule)" stroke-width="1"/>`;
+  s+=`<text x="${M.l-13}" y="${Y(g)+4}" text-anchor="end" fill="var(--ink3)" font-size="11.5"
+    font-family="IBM Plex Mono, monospace">${g}%</text>`;
+}
+/* eixo x */
+for(let g=0;g<=15;g+=3){
+  s+=`<text x="${X(g)}" y="${M.t+ih+26}" text-anchor="middle" fill="var(--ink3)" font-size="11.5"
+    font-family="IBM Plex Mono, monospace">${g}</text>`;
+}
+s+=`<line x1="${M.l}" y1="${M.t+ih}" x2="${M.l+iw}" y2="${M.t+ih}" stroke="var(--rule2)" stroke-width="1"/>`;
+s+=`<line x1="${M.l}" y1="${M.t}" x2="${M.l}" y2="${M.t+ih}" stroke="var(--rule2)" stroke-width="1"/>`;
+
+/* rótulos de quadrante */
+s+=`<text class="q" x="${M.l+4}" y="${M.t-16}" fill="var(--good)">Espaço livre · margem alta</text>`;
+s+=`<text class="q" x="${M.l+iw}" y="${M.t-16}" text-anchor="end" fill="var(--bad)">Saturado</text>`;
+
+/* títulos de eixo */
+s+=`<text x="${M.l+iw/2}" y="${H-14}" text-anchor="middle" fill="var(--ink2)" class="q">Concorrentes Tier A que declaram a categoria</text>`;
+s+=`<text transform="translate(20,${M.t+ih/2}) rotate(-90)" text-anchor="middle" fill="var(--ink2)" class="q">Margem bruta</text>`;
+
+/* --- posicionamento de rótulos: reserva bolhas, testa candidatos --- */
+const boxes=[], pts=L.map(d=>({d,x:X(d.ta+d.jx),y:Y(d.mb),r:R(d.lb)}));
+pts.forEach(p=>boxes.push({x1:p.x-p.r,y1:p.y-p.r,x2:p.x+p.r,y2:p.y+p.r}));
+const hit=(b)=>boxes.some(o=>!(b.x2<o.x1||b.x1>o.x2||b.y2<o.y1||b.y1>o.y2));
+const CW=6.9, CH=15, PAD=2.5;
+/* focos primeiro, depois bolhas maiores: quem importa escolhe posição antes */
+const order=[...pts].sort((a,b)=>(b.d.f?1:0)-(a.d.f?1:0)||b.r-a.r);
+order.forEach(p=>{
+  const w=p.d.n.length*CW, cands=[];
+  /* lateral, afastando-se progressivamente na vertical */
+  [0,-12,12,-24,24,-36,36].forEach(dy=>{
+    cands.push({ax:p.x+p.r+8,ay:p.y+4+dy,an:"start"});
+    cands.push({ax:p.x-p.r-8,ay:p.y+4+dy,an:"end"});
+  });
+  /* acima e abaixo, dois degraus */
+  [8,20].forEach(dd=>{
+    cands.push({ax:p.x,ay:p.y-p.r-dd,an:"middle"});
+    cands.push({ax:p.x,ay:p.y+p.r+dd+9,an:"middle"});
+  });
+  /* diagonais, como último recurso */
+  [[1,-1],[1,1],[-1,-1],[-1,1]].forEach(([sx,sy])=>{
+    cands.push({ax:p.x+sx*(p.r+10),ay:p.y+sy*(p.r+14)+4,an:sx>0?"start":"end"});
+  });
+  let pick=null;
+  for(const c of cands){
+    const x1=c.an==="start"?c.ax:c.an==="end"?c.ax-w:c.ax-w/2;
+    const b={x1:x1-PAD,y1:c.ay-CH+3-PAD,x2:x1+w+PAD,y2:c.ay+4+PAD};
+    if(b.x1>4 && b.x2<W-4 && b.y1>M.t-30 && b.y2<M.t+ih+14 && !hit(b)){pick=c;boxes.push(b);break}
+  }
+  if(!pick){ /* nada livre: assume a lateral direita e reserva de todo modo */
+    pick={ax:p.x+p.r+8,ay:p.y+4,an:"start"};
+    boxes.push({x1:pick.ax-PAD,y1:pick.ay-CH+3,x2:pick.ax+w,y2:pick.ay+4});
+  }
+  p.lx=pick.ax; p.ly=pick.ay; p.la=pick.an;
+});
+
+pts.sort((a,b)=>b.r-a.r).forEach(p=>{
+  const c=p.d.f?"var(--mark)":"var(--ctx)";
+  s+=`<circle class="bub" data-i="${L.indexOf(p.d)}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}"
+    r="${p.r.toFixed(1)}" fill="${c}" fill-opacity="${p.d.f?.85:.42}" stroke="var(--surface)"
+    stroke-width="2" style="cursor:pointer"/>`;
+});
+pts.forEach(p=>{
+  s+=`<text x="${p.lx.toFixed(1)}" y="${p.ly.toFixed(1)}" text-anchor="${p.la}"
+    fill="${p.d.f?"var(--accent)":"var(--ink2)"}" font-size="12"
+    font-weight="${p.d.f?700:600}" font-family="Archivo, sans-serif"
+    style="pointer-events:none">${esc(p.d.n)}</text>`;
+});
+s+="</svg>";
+document.getElementById("chart").innerHTML=s;
+
+/* ---------- hover ---------- */
+const tip=document.getElementById("tip");
+const row=(k,v)=>`<div class="r"><span>${k}</span><span>${v}</span></div>`;
+document.querySelectorAll(".bub").forEach(el=>{
+  const d=L[+el.dataset.i];
+  const show=e=>{
+    tip.innerHTML=`<b>${esc(d.n)}</b>`+row("Lucro bruto",brl(d.lb))+row("Faturamento",brl(d.fat))
+      +row("Δ 2 anos",pct(d.v))+row("Margem bruta",d.mb.toFixed(1).replace(".",",")+"%")
+      +row("Tier A",d.ta)+row("Clientes",d.cli.toLocaleString("pt-BR"))
+      +row("SKUs ativos",d.sku)+row("Veredito",d.ver);
+    tip.style.opacity=1;
+    const r=tip.getBoundingClientRect();
+    let x=e.clientX+16,y=e.clientY-r.height/2;
+    if(x+r.width>innerWidth-10)x=e.clientX-r.width-16;
+    tip.style.left=Math.max(8,x)+"px";
+    tip.style.top=Math.min(Math.max(8,y),innerHeight-r.height-8)+"px";
+  };
+  el.addEventListener("mouseenter",show);
+  el.addEventListener("mousemove",show);
+  el.addEventListener("mouseleave",()=>tip.style.opacity=0);
+});
+</script>
