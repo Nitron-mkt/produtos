@@ -338,6 +338,72 @@ o bucket de recorte.
 
 ---
 
+## 6.2 A paleta da marca — e a divergência que achei no template
+
+Fonte: `marca.nitron.com.br#cores`, consultada em 31/08/2026.
+
+| Cor | Hex | Papel |
+|---|---|---|
+| **Verde Nitron** | **`#1EA7AC`** | primária institucional — **60% da peça** |
+| Verde Organização | `#00AFAA` | cor da **linha**, ⛔ *"nunca use o da linha em peça institucional"* |
+| Neutros (creme, branco) | `#FFF7EA`, `#FFFFFF` | 24% |
+| Grafite | *(hex não publicado na página)* | 11% |
+| Acentos | amarelo, coral, rosa, lilás, verde água | **5% — "o detalhe, nunca o protagonista"** |
+
+### ⚠️ `#0AA9B1` não existe no guia
+
+É a cor do título do **Modelo 01** no Canva. Não é o `#1EA7AC` institucional nem o `#00AFAA`
+da linha. Ou o template está fora da marca, ou é um tom legado que ninguém retirou. **Isso
+precisa de decisão humana** — eu não corrigi o template por conta própria.
+
+### Combinações por tema
+
+Estão em `social_tema` (base + acento + apoio). Duas observações que valem regra:
+
+- **`#A9DDD1` sobre `#1EA7AC` tem contraste baixo.** Serve como divisor, não como texto.
+- **Organização tem uma armadilha de nome**: a *linha* Organização é `#00AFAA`, proibida em
+  peça institucional. A combinação do *tema* Organização usa o institucional `#1EA7AC`.
+
+### Como leio a regra dos 5%
+
+Literalmente, 5% de um story 1080×1920 seriam ~104 mil px² — um bloco, que viraria
+protagonista. Então interpretei pela intenção: **acento como detalhe**. Nos cinco stories ele
+é uma barra de 360×26. Se vocês quiserem o acento mais presente, é ajuste de um parâmetro.
+
+---
+
+## 6.3 Story Frase — o primeiro modelo que eu criei
+
+`social_modelo` codigo **`Story Frase`**, 1080×1920, derivado do Modelo 04 com
+`resize-design`. Campo Verde Nitron sangrado, tipografia creme na fonte da marca, um acento
+por tema, logo em cartão creme. **Sem foto e sem custo de GPT.**
+
+Zona segura respeitada: nada relevante acima de `y=250` nem abaixo de `y=1670`.
+
+### Três limites das ferramentas que esse modelo revelou
+
+1. **`add_text` não define a fonte da marca.** Não há parâmetro para `fontRef`. Texto novo sai
+   com a fonte padrão do design. **Solução:** reciclar os elementos de texto herdados do
+   template — eles já carregam `YAGfpQ5_MC8,2`. Foi assim que os cinco ficaram na fonte certa.
+2. **`recolor_element` não funciona em imagem.** Devolve
+   `target.type="rect-element" Selected entity cannot be recolored`. Funciona em **shape**.
+   Por isso o acento é um shape (recolorível por tema) e o logo **não pôde ser recolorido** —
+   o Canva o renderiza coral. Contornei com um cartão creme atrás dele.
+   **O que resolve de verdade:** subir uma versão creme/branca do logo como asset. É upload
+   único e some com o contorno.
+3. **`publish-brand-template` falhou** com erro de permissão — falta o escopo
+   `brandtemplate:content:write` no conector. Então `Story Frase` está registrado como
+   **design mestre** (`canva_design_mestre = DAHT3D0YcNw`), e o montador usa `copy-design`
+   nele. Funciona igual, porque `locator_id` é estável entre cópias. Para virar brand
+   template de verdade, reconectar o Canva com esse escopo.
+
+### Fundo arredondado sangra
+
+`insert_shape` com `corner_rounding` num retângulo do tamanho exato da página deixa os cantos
+do fundo aparecerem. Sangre o shape para fora: `left -40, top -40, width +80, height +80`.
+
+---
+
 ## 7. Custo e teto
 
 - **Máximo 2 regerações por post.** Na terceira, `status = 'parado_revisao_humana'`.

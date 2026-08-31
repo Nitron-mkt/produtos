@@ -328,7 +328,30 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
 - **O slot `selo` do Modelo 01 é a régua de ícones** (freezer, micro-ondas, lava-louças,
   BPA FREE) — são quatro claims. Se o SKU não sustenta, apague o elemento.
 
-Tabelas: `social_post` (estado) e `social_qa` (log de avaliação), RLS ligado e só SELECT.
+### Paleta (fonte: marca.nitron.com.br#cores, 31/08/2026)
+
+**`#1EA7AC` Verde Nitron** é a primária — **60% da peça**. Neutros 24%, grafite 11%,
+**acento 5% ("o detalhe, nunca o protagonista")**. **`#00AFAA` é a cor da LINHA Organização e
+o guia proíbe usá-la em peça institucional** — não confunda com a institucional.
+**⚠️ `#0AA9B1`, que está no título do Modelo 01 no Canva, NÃO existe no guia** — pendente de
+decisão humana. Combinações por tema em `social_tema`; `#A9DDD1` sobre `#1EA7AC` tem
+contraste baixo e só serve como divisor.
+
+### Limites de ferramenta descobertos criando o modelo de Story
+
+- **`add_text` não define a fonte da marca** (não há parâmetro `fontRef`): recicle os
+  elementos de texto herdados do template, que já carregam `YAGfpQ5_MC8,2`.
+- **`recolor_element` só funciona em shape**, não em imagem (`rect-element cannot be
+  recolored`). Por isso o acento é shape e o logo não pôde ser recolorido — falta subir uma
+  versão creme/branca do logo.
+- **`publish-brand-template` falhou** por falta do escopo `brandtemplate:content:write`. O
+  modelo `Story Frase` ficou como **design mestre** (`social_modelo.canva_design_mestre`), e o
+  montador usa `copy-design`.
+- `insert_shape` com `corner_rounding` no tamanho exato da página deixa o canto vazar: sangre
+  o shape 40px para fora de cada lado.
+
+Tabelas: `social_post` (estado), `social_qa` (log de avaliação), `social_modelo` (mapa dos
+modelos), `social_tema` (combinações de cor por tema). RLS ligado e só SELECT.
 
 Claim é gate, não detalhe: **"hermético" está bloqueado sem laudo** (CDC art. 36 obriga a
 manter o dado técnico em poder do fornecedor). "Livre de BPA" e "atóxico" exigem
