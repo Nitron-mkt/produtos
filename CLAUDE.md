@@ -269,6 +269,51 @@ anel de vedação). Nota técnica em `analise/06-quadra-material-montagem.html`.
   Conceito de "3 alturas novas" é molde novo para geometria que já vende — a rota barata é lançar
   **só a tampa** sobre o 1,8 L.
 
+### Tritan e o teto de preço (conferido em 31/08/2026)
+
+- **A injetora aceita copoliéster; a fábrica não está pronta.** Rosca de PP serve (uso geral, L/D
+  20:1). O que falta: **secador dessecante** (<200 ppm, 66–71 °C, orvalho −29 °C) — não existe no
+  cadastro, e não se compra nenhum consumível de secador; massa a 260–290 °C **a confirmar com a
+  manutenção** (`VW_MAQUINA_CAPACIDADE` só tem tonelagem e ciclo, sem campo de temperatura);
+  molde cortado para 0,2–0,5% de contração (ferramenta de PP entrega peça ~1,3 mm maior em
+  112 mm); saída de 1,5–2° (a ficha pedia 1°); injetada em 30–70% do canhão; refugo segregado.
+- **A escada de preço é o que trava, não a máquina.** `3770.012.001` sai a **R$ 4,92** com custo
+  **R$ 2,77** e MB 43,7% — quase todo custo é resina (~198 g de PP a ~R$ 9,95/kg com moído).
+  Em copoliéster a peça pesa ~258 g, a resina é importada e o refugo não volta: custo de
+  **R$ 10 a 16** entre R$ 35 e 60/kg, preço de R$ 17 a 29 para manter a margem = **+250% a +490%**.
+  Rota tampa de teca (corpo em PP) exige **+91% a +146%**.
+- **Prêmio que o mercado paga (1.001 ofertas no `pdp_ml_oferta`, potes de 200 a 5.000 ml):**
+  plástico **R$ 23,00/L** · vidro **R$ 26,47/L** (+15%) · vidro + tampa de madeira/bambu
+  **R$ 36,33/L** (+58%, **n=4** — teto indicativo). Nenhuma rota cabe no prêmio disponível.
+- **Espaço vazio confirmado, mas com ressalva:** **Tritan = 0 de 1.001** anúncios. Pote de
+  alimento em plástico com tampa de madeira = **0** (os 51 anúncios com madeira/bambu são cesto de
+  roupa, caixa organizadora, porta-talher e gaveteiro). Só que a Nitron está do lado de quem
+  **já tentou e não vendeu** — ver abaixo. Espaço vazio ≠ demanda.
+- **Tritan é argumento de garantia, não de vitrine.** O consumidor não distingue copoliéster de
+  PP clarificado na foto. A vantagem (não embaça na lava-louças, não trinca, sem BPA) só se paga
+  em canal que vende durabilidade, não em marketplace de preço por peça.
+
+### O experimento controlado da Caixa Flat 10,35 L (mesmo corpo, só a tampa muda)
+
+| Versão | Preço/un | Custo/un | MB | Unidades 12 M | Clientes |
+|---|---|---|---|---|---|
+| `503.006.001` tampa plástica transparente | 12,04 | 5,53 | 54,1% | 14.399 | 305 |
+| `503.006.003` tampa plástica preta | 15,75 | 5,39 | 65,8% | 10.202 | 220 |
+| `503.006.002` tampa plástica branca | 15,58 | 5,39 | 65,4% | 9.606 | 156 |
+| `503.006.086` tampa plástica chumbo | 14,23 | 5,39 | 62,1% | 4.872 | 110 |
+| `503.006.M03` **tampa de teca** preta | 34,44 | 16,96 | 50,8% | **318** | 48 |
+| `503.006.M02` **tampa de teca** branca | 33,10 | 16,96 | 48,8% | **264** | 39 |
+
+Tampa de teca: preço **+119%**, custo **+215%**, MB **−15 pontos**, unidades **÷32**.
+Corrige a leitura anterior de que teca dilui margem por natureza — **esta** teca dá 50,8% de MB,
+acima da média de 36,8% da linha. O que ela não sustenta é volume. **Por que só 318 unidades é
+pergunta aberta e vale mais que qualquer decisão de resina** — é a mesma que a Quadra enfrentaria.
+
+Preço médio e MB (12 M, marca própria) dos quadrados: `3780` 860 ml R$ 3,88 / MB 53,9% ·
+`3770` 1,8 L R$ 4,92 / 43,7% · `240` válvula 3 L R$ 6,31 / 43,0% · `3760` 3,7 L R$ 7,06 / 46,0%.
+
+⚠️ `pdp_ml_oferta` tem **1.001 ofertas** agora, não 267.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
