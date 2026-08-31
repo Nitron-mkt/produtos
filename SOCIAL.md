@@ -273,6 +273,20 @@ E a falha custou uma imagem: a geração foi paga e o arquivo se perdeu. Por iss
 upload não consome tentativa** — só recusa da OpenAI consome. Upload é infraestrutura, não
 briefing ruim.
 
+### Nome de arquivo tem que ser único por geração
+
+O `x-upsert: true` troca os bytes, mas o **CDN do Storage continua servindo a versão antiga
+pela mesma URL**. Em 31/08/2026 isso fez o `social-qa` avaliar a imagem velha e reprovar uma
+cena que estava certa — a correção que ele escreveu descrevia a foto anterior, o que foi o
+sintoma que denunciou o problema.
+
+O nome `{id}-v{tentativa}-s{slot}` colide sempre que `tentativas_imagem` é resetado. Agora
+tem um `Date.now()` no fim: nome único por geração, sem colisão de cache e com as versões
+anteriores preservadas para auditoria.
+
+Se você precisar validar uma imagem que já foi servida por uma URL, adicione `?v=<epoch>`.
+A query string entra na chave do cache.
+
 ### O tamanho da imagem vem do slot, não do canal
 
 O slot do Modelo 04 é um **círculo de 741×741**. Gerar retrato 2:3 para ele perde as

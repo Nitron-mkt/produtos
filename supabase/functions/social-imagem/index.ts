@@ -165,7 +165,11 @@ async function processar(post: Record<string, any>) {
         modelo.cenario_size ?? tamanhoPara(post.canal ?? ""),
         modelo.permite_pessoa === true,
       );
-      const url = await subir(bytes, `${post.id}-v${tentativa}-s${i + 1}.png`);
+      // O nome tem que ser UNICO por geracao. Reusar nome quebrou o QA em 31/08/2026:
+      // o upsert trocou os bytes, mas o CDN do Storage continuou servindo a versao
+      // antiga pela mesma URL, e o QA avaliou a imagem velha. O epoch tambem preserva
+      // as versoes anteriores para auditoria em vez de sobrescrever.
+      const url = await subir(bytes, `${post.id}-v${tentativa}-s${i + 1}-${Date.now()}.png`);
       cenarios.push({ slot: i + 1, url });
     } catch (e) {
       const upload = e instanceof ErroUpload;

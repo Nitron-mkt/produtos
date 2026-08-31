@@ -301,6 +301,9 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
   manual pegaram o mesmo post e o QA rodou duas vezes; na geração seria pagar duas vezes.
   A trava é `UPDATE ... WHERE status='briefing_pronto'` → `gerando_imagem`, tomada depois
   das validações de graça e antes da primeira chamada paga, com resgate de órfão em 10 min.
+- **Nome de arquivo único por geração.** `x-upsert` troca os bytes mas o CDN serve a versão
+  antiga pela mesma URL — o QA avaliou a imagem velha e reprovou uma cena correta. O nome
+  leva `Date.now()`; para revalidar uma URL já servida, use `?v=<epoch>`.
 - **Storage deste projeto exige o header `apikey`**, não só `Authorization: Bearer` — senão
   403 `Invalid Compact JWS`. O PostgREST aceita só o Bearer, o Storage não. Verificado.
 - **Os 5 modelos estão em `social_modelo`** (`mapa` = papel → `locator_id`, verificados como
