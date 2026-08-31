@@ -249,6 +249,112 @@ Material não cria hermeticidade; geometria de vedação + força de fechamento 
 5. **Espere o `pg_net`.** Três requests foram declarados como "403 / não funciona" quando na
    verdade estavam na fila — e um deles era 200.
 
+
+### A lição de 2022 — por que cor não é lançamento
+
+Em 2022 a empresa optou por **criar cores em vez de moldes**. O resultado foi
+**saldo e ruptura ao mesmo tempo**, e a produção dobrou/triplicou em bateladas.
+Hoje o portfólio foi enxugado e as cores vão pela linha **Coloratto**.
+
+Não foi azar, foi aritmética. Estoque de segurança é proporcional ao **desvio**, não à
+demanda. Partindo a mesma demanda em N cores:
+
+- demanda por SKU cai para **1/N**
+- desvio por SKU cai só para **1/√N**
+- estoque de segurança **total** sobe para **√N**
+
+Uma cor vira três → **+73% de estoque de segurança para vender o mesmo tanto**. E cada
+cor fica com cobertura mais fina que o produto único tinha, então **a ruptura sobe junto**.
+Saldo e ruptura simultâneos não são contradição — são o resultado previsto.
+
+Somado: troca de cor na injetora exige **purga** (material perdido + hora-máquina).
+Triplicar cores triplica bateladas, consumindo capacidade sem produzir peça a mais.
+
+**Regra: cor divide demanda existente; produto novo cria demanda. Os dois somam SKU, só um
+paga o SKU que somou.** Cor nova só via Coloratto.
+
+### A janela de litragem — a regra de lançamento mais forte do projeto
+
+Testada em **79 referências** de pote (nascidas antes de 2024, vendendo nas duas janelas,
+≥50 clientes):
+
+| Faixa | Refs | Δ 12 M | Subiram |
+|---|---|---|---|
+| até 600 ml | 22 | **−31,5%** | **2 de 22** |
+| 601 ml – 1 L | 16 | +2,9% | 5 de 16 |
+| **1,1 – 2 L** | 21 | **+28,9%** | 12 de 21 |
+| **2,1 – 3,5 L** | 11 | **+56,5%** | 7 de 11 |
+| acima de 3,5 L | 9 | −0,7% | 5 de 9 |
+
+**88 pontos de amplitude**, contra 12 pontos da hipótese Alto/Raso (que não sobrevive a
+teste controlado: na família redonda Alto +20,7% e Raso +20,6%). O mesmo padrão reaparece
+em 5 famílias independentes (trava, válvula, quadrado, rosca, modular) e também em
+micro-ondas (2,6 L +65%, 850 ml −48%).
+**Nada novo abaixo de 1 L.**
+
+### Materiais — o que a fábrica realmente roda
+
+Compras de resina, 12 M até 24/08/2026: **≈ 2.605 t, 98,4% PP**, 1,6% poliestireno
+(PSAI + PS cristal 8 t), **PEHD 1.125 kg** (amostra, não abastecimento).
+**Zero PET, zero Tritan, zero copoliéster, zero silicone como MP.** O único elastômero
+cadastrado é **CODPROD 997, TPE Karinprene shore 45 — sem histórico de compra**.
+
+- **Silicone (LSR): não roda.** Exige canal frio, molde aquecido 150–200 °C, bomba
+  bicomponente A+B e vácuo. É conversão de máquina.
+- **PET: inviável para pote.** Higroscópico (secagem a <50 ppm, equipamento que não existe)
+  e **cristaliza em parede grossa** — sai leitoso, matando a transparência que motiva a escolha.
+- **Tritan (copoliéster Eastman): roda em prensa convencional**, mas exige secador, **molde
+  cortado para a resina** (contrai 0,2–0,5% contra 1,2–2% do PP), resina de fonte única e
+  custo em outro patamar.
+- **PP H 105 é "homopolímero com clarificante"** e é o item mais comprado da casa (896 t/ano).
+  Antes de qualificar resina nova, esgotar ele.
+
+⚠️ **O ciclo de moído vale ~R$ 2,63 M/ano.** 537 t (20,6% do volume) entram a R$ 6,07/kg
+contra R$ 10,96 do virgem clarificado. Esse ciclo **só funciona porque o refugo é
+mono-resina** — refugo de Tritan misturado com PP não vale nada, e vice-versa. Material novo
+não adiciona custo de resina: **contamina um ativo de R$ 2,6 M/ano** que nenhum business
+case de lançamento contabiliza.
+
+### Mais lições de método
+
+6. **Cor que vende por função não vira paleta.** Em Organização, laranja marca
+   **R$ 211 k por SKU** (1,5× o preto) — mas é **um produto**: `170.006.028` Caixa de
+   Ferramentas Nitronfort Laranja 16 L, R$ 421.810 e 500 clientes. É sinalização de
+   ferramenta, não paleta. Não generaliza para organizador doméstico.
+7. **Peça removível não carrega função de segurança.** Se o produto só é seguro com um
+   componente dentro (base de silicone, disco), a segurança fica na memória do consumidor.
+   Proteção essencial vai **na geometria do molde**.
+8. **Tampa de madeira em corpo plástico: testado, falhou.** Mesmo corpo 10,35 L —
+   tampa plástica em 4 cores fez **R$ 492.548** (309/223/158/111 clientes); **tampa teca**
+   em 2 cores fez **R$ 16.192** com **57 e 40 clientes**, caindo 52% e 38%. 30× de diferença.
+9. **Separe rampa de lançamento de curva orgânica.** `817/818/819` (Pote Alto com Válvula)
+   nasceram em 2024-09 e 2025-02 — o "+1.272%" era base parcial. A plataforma válvula
+   cresce **+49,9%** orgânico, não +95,6%. E `MIN(DTNEG)` por referência **conflita
+   lançamento com re-cadastro** (as datas se agrupam em 2020-03, 2022-02, 2023-02, 2024-08,
+   2025-02, 2026-02) — não leia cohort sem confirmar.
+10. **Sete ideias "novas" já existiam no catálogo.** Caixa Organizadora Rattan chumbo ·
+   Lixeira Basculante Rattan chumbo · trava+válvula (`176.024.001`, `210.024.001`) ·
+   Caixa Flat com Tampa Teca · Balde Pipoca (`342.006.597`, <R$ 5 k/ano) · Kit Geladeira
+   (4 refs) · Kit de potes com válvula (`241.006.P01`, R$ 2.919 e 13 clientes, em 460 ml).
+   Nenhuma foi mal concebida — foram **executadas na litragem errada ou abandonadas**.
+   A busca no `TGFPRO` com 3 palavras diferentes é obrigatória antes de propor.
+
+### Achados abertos (valem mais que a maioria dos lançamentos)
+
+- **Branco em Organização cai 17,0%** — R$ 5,95 M → R$ 4,94 M, ~R$ 1 M/ano. Causa não
+  investigada: preço, ruptura, cliente grande ou migração para preto?
+- **Café 2 L (`363.012.003`)** custa R$ 3,69 contra R$ 2,55 dos irmãos de mesma litragem —
+  MB 25,9% contra 48–50%. **R$ 56.577/ano** de margem.
+- **`176` e `210`** (válvula+trava) caem 56% e 49% — as duas **únicas** quedas numa
+  plataforma que cresce 49,9%. Decide o Chrono e a rota barata do quadrado+válvula.
+- **Kit modular `353.006.001`** caiu 83% (R$ 2,59 M → R$ 436 k) com os clientes
+  **subindo** de 127 para 179 e o ticket caindo 88%. Queda difusa, não perda de contrato.
+- **`TGFEST` não é legível sem mapa de local** — 120 combinações empresa/local para 3
+  produtos, com o local 1080000 em negativo grande. Falta saber qual `CODLOCAL` é o
+  armazém de PA para medir saldo e ruptura.
+- **Perguntas para a fábrica:** os moldes de tampa aceitam inserto trocável? Os potes
+  quadrados atuais são altos ou rasos?
+
 ---
 
 ## 7. Como o squad trabalha
