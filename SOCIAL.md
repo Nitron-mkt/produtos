@@ -369,6 +369,17 @@ então não pode ilustrar copy que nomeia SKU. Um trigger recusa post com `codpr
 Regra em uma linha: **a promessa escolhe o modelo, o modelo restringe a copy.** Não o
 contrário.
 
+### O gate foi testado contra o proprio caso que o motivou
+
+Repus o post 2 em `imagem_hospedada` com a **mesma imagem** e a promessa preenchida.
+O `social-qa` reprovou por **item 8** nas tres rodadas, e escreveu a correcao sozinho:
+
+> *"Remover a acao de 'dobrar roupa sobre cama arrumada' pois isso comunica organizacao ja
+> resolvida; substituir por uma cena de roupas acumuladas sem destino e parede/vao vazio."*
+
+Isso e a mesma conclusao a que eu havia chegado lendo a arte. O gate nao esta apenas
+bloqueando: ele esta produzindo o briefing corrigido.
+
 ### O que a cena certa seria, naquele post
 
 A **dor**: cadeira com roupa acumulada, parede vazia sem uso, vão ocioso ao lado da máquina —
