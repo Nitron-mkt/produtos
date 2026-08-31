@@ -1,0 +1,741 @@
+<title>Chrono Datador em Três Peças</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#E7EAEA; --sheet:#F6F7F7; --sunk:#DCE0E0;
+  --ink:#14181A; --muted:#596366; --faint:#8B9598;
+  --rule:#C6CDCD; --hair:#DBE0E0;
+  --pc-tampa:#8E9BA0; --pc-pino:#232A2D; --pc-dia:#C25E10; --pc-mes:#5A6367;
+  --signal:#C25E10; --ok:#2E6B4F; --warn:#8E5C0E; --stop:#A3341C;
+  --grid:#CBD2D2;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#131616; --sheet:#1A1E1F; --sunk:#0E1111;
+    --ink:#E6EAEA; --muted:#98A2A5; --faint:#6C7679;
+    --rule:#2C3132; --hair:#232828;
+    --pc-tampa:#6F7C80; --pc-pino:#DCE3E5; --pc-dia:#E8873C; --pc-mes:#A2AEB2;
+    --signal:#E8873C; --ok:#63A886; --warn:#CE9B3E; --stop:#D9705A;
+    --grid:#262C2D;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131616; --sheet:#1A1E1F; --sunk:#0E1111;
+  --ink:#E6EAEA; --muted:#98A2A5; --faint:#6C7679;
+  --rule:#2C3132; --hair:#232828;
+  --pc-tampa:#6F7C80; --pc-pino:#DCE3E5; --pc-dia:#E8873C; --pc-mes:#A2AEB2;
+  --signal:#E8873C; --ok:#63A886; --warn:#CE9B3E; --stop:#D9705A;
+  --grid:#262C2D;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 96px}
+
+h1,h2,h3,h4,.disp{font-family:Archivo,"Arial Narrow",Arial,sans-serif;font-weight:700;letter-spacing:-.018em;text-wrap:balance;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+.stamp{border-bottom:1px solid var(--rule);padding:26px 0 0}
+.stamp-top{display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;justify-content:space-between}
+.stamp h1{font-size:clamp(30px,5.6vw,54px);line-height:1.0;font-weight:800}
+.stamp h1 span{display:block;color:var(--signal)}
+.lede{max-width:62ch;color:var(--muted);font-size:17px;margin:18px 0 26px}
+.lede strong{color:var(--ink);font-weight:600}
+.block{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--rule)}
+.block>div{padding:12px 14px 14px;border-right:1px solid var(--hair)}
+.block>div:last-child{border-right:0}
+.block b{display:block;font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;margin-top:3px}
+.block .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+
+section{padding:56px 0 0}
+.sechead{display:flex;gap:16px;align-items:baseline;border-top:1px solid var(--rule);padding-top:14px;margin-bottom:22px}
+.sechead .n{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--signal);letter-spacing:.1em;flex:0 0 auto;padding-top:5px}
+.sechead h2{font-size:clamp(21px,2.9vw,30px);line-height:1.14}
+.body{max-width:66ch}
+.body p{margin:0 0 15px}
+.body p.tight{margin-bottom:9px}
+.body strong{font-weight:600}
+.note{color:var(--muted);font-size:14.5px}
+
+.plate{background:var(--sheet);border:1px solid var(--rule);margin:26px 0 8px;position:relative;overflow:hidden}
+.plate-hd{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:11px 14px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
+.plate-hd .t{font-family:Archivo,sans-serif;font-weight:600;font-size:14px;letter-spacing:-.01em}
+.plate-hd .c{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.plate-bd{padding:16px 14px}
+.plate-ft{padding:10px 14px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;padding:0 14px 13px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+svg{display:block;width:100%;height:auto}
+.scroller{overflow-x:auto}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-weight:500}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(278px,1fr));gap:14px;margin-top:24px}
+.part{background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.part-hd{padding:13px 15px 11px;border-bottom:1px solid var(--hair)}
+.part-hd .m{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.part-hd h3{font-size:19px;margin-top:3px;display:flex;align-items:center;gap:9px}
+.part-hd h3 i{width:12px;height:12px;border-radius:2px;flex:0 0 auto}
+.part-bd{padding:13px 15px;font-size:14.5px;color:var(--muted);flex:1}
+.part-bd p{margin:0 0 11px}
+.part-bd p:last-child{margin-bottom:0}
+.cotas{border-top:1px solid var(--hair)}
+.cotas div{display:flex;justify-content:space-between;gap:12px;padding:6px 15px;border-bottom:1px solid var(--hair);font-size:13px}
+.cotas div:last-child{border-bottom:0}
+.cotas span:first-child{color:var(--muted)}
+.cotas span:last-child{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+
+.dial-wrap{display:grid;grid-template-columns:minmax(260px,1fr) minmax(228px,290px);gap:22px;align-items:start}
+@media(max-width:780px){.dial-wrap{grid-template-columns:1fr}}
+.dial-ctl{display:flex;flex-direction:column;gap:13px}
+.readout{border:1px solid var(--rule);background:var(--sunk);padding:13px 16px}
+.readout .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.readout .v{font-family:Archivo,sans-serif;font-weight:800;font-size:38px;line-height:1.05;letter-spacing:-.03em;margin-top:3px}
+.readout .v small{font-weight:600;font-size:17px;color:var(--muted);letter-spacing:0}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper .lb{flex:1;font-size:13.5px;color:var(--muted)}
+.stepper .lb b{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-weight:500}
+button{font-family:"IBM Plex Mono",monospace;font-size:14px;background:var(--sheet);color:var(--ink);border:1px solid var(--rule);border-radius:2px;padding:6px 11px;cursor:pointer}
+button:hover{border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+button.wide{width:100%;padding:8px}
+.hint{font-size:12.5px;color:var(--faint);margin:0}
+.chk{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--muted);cursor:pointer}
+.chk input{margin:3px 0 0;flex:0 0 auto}
+.ring-hit{cursor:grab}
+.ring-hit:active{cursor:grabbing}
+
+.rows{margin-top:22px;border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:118px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--hair)}
+@media(max-width:640px){.row{grid-template-columns:1fr;gap:8px}}
+.row .lvl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;padding-top:4px}
+.row.stop .lvl{color:var(--stop)} .row.warn .lvl{color:var(--warn)} .row.ok .lvl{color:var(--ok)}
+.row h4{font-size:17px;margin-bottom:6px}
+.row p{margin:0 0 9px;font-size:15px;color:var(--muted)}
+.row p:last-child{margin-bottom:0}
+.row .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+.callout{border-left:3px solid var(--signal);background:var(--sheet);padding:14px 16px;margin:20px 0;font-size:15px}
+.callout b{font-weight:600}
+
+footer{margin-top:64px;border-top:1px solid var(--rule);padding-top:18px;font-size:13px;color:var(--faint);max-width:78ch}
+footer p{margin:0 0 12px}
+footer code{font-family:"IBM Plex Mono",monospace;font-size:12px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<div class="stamp">
+  <div class="stamp-top">
+    <h1>Chrono<span>datador em três peças</span></h1>
+    <div class="eyebrow">Nitron &middot; desenvolvimento de produto &middot; 31 ago 2026</div>
+  </div>
+  <p class="lede">
+    O conceito aprovado tinha <strong>um</strong> anel de mês girando em volta da válvula, e pedia
+    <strong>uma tampa nova por tamanho de pote</strong>. Com os moldes que você mandou, a conta muda: o
+    assento do datador <strong>já está cortado no aço da tampa</strong> — é o poço da válvula — e ele é o
+    mesmo em todos os tamanhos, porque a válvula já é peça comum. Então o datador vira
+    <strong>três moldes e nenhuma alteração de tampa</strong>: anel de mês, anel de 31 dias e o pino que
+    trava os dois no poço.
+  </p>
+  <div class="block">
+    <div><span class="k">Moldes novos</span><b>3</b></div>
+    <div><span class="k">Alteração na tampa</span><b>nenhuma</b></div>
+    <div><span class="k">Assento medido</span><b>Ø38,54 &times; 4,85</b></div>
+    <div><span class="k">Massa do datador</span><b>3,18 g</b></div>
+    <div><span class="k">Origem das cotas</span><b>3 STL medidos</b></div>
+  </div>
+</div>
+
+<section>
+  <div class="sechead"><span class="n">01</span>
+    <h2>O que os moldes dizem: o assento do datador já existe</h2></div>
+  <div class="body">
+    <p>Os três arquivos são <span class="mono">Mont pote com valvula</span> — corpo, tampa e a prova de
+    válvula, cavidade 1 do <span class="mono">Pote 025 Pequeno</span>. Medi os três direto na malha:
+    tampa de 122,15 &times; 185,07 mm, <strong>parede constante de 0,91 mm</strong> em tudo, corpo com
+    0,58 L até a borda.</p>
+    <p>O achado que reescreve o projeto está no centro da tampa. A válvula não fica em cima da tampa: ela
+    mora dentro de um <strong>poço cilíndrico de Ø38,54</strong> com 4,85 mm de furo reto, rebaixo cônico
+    de topo, <strong>dois rasgos radiais a 3 h e 9 h</strong> que recebem as orelhas da válvula, e um
+    <strong>furo de respiro de Ø8,12</strong> sobre um ressalto a 12 h. Esse conjunto é o assento. Ele
+    não precisa ser criado — precisa ser reaproveitado.</p>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Tampa Pote 025 Pequeno — vista de topo, contornos medidos</span>
+      <span class="c">PR-01 &middot; mm</span></div>
+    <div class="plate-bd scroller"><div id="pl-plan"></div></div>
+    <div class="legend">
+      <span><i style="background:var(--pc-tampa)"></i>aro de empilhamento &middot; Y 39,72</span>
+      <span><i style="background:var(--ink)"></i>plano de rótulo &middot; Y 38,24</span>
+      <span><i style="background:var(--signal)"></i>poço, rasgos e respiro &middot; Y 36,00</span>
+    </div>
+    <div class="plate-ft">Contornos extraídos por corte da malha STL nas alturas indicadas e
+      simplificados a 0,25–0,35 mm. Nada foi redesenhado.</div>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Cotas do assento — o que o datador tem de respeitar</span>
+      <span class="c">PR-01b</span></div>
+    <div class="plate-bd scroller">
+      <table>
+        <thead><tr><th>Elemento do assento</th><th>Cota medida</th><th>Consequência para o datador</th></tr></thead>
+        <tbody>
+          <tr><td>Furo do poço, trecho reto</td><td class="num">Ø38,54 · Y 33,00→37,00</td><td>Guia e diâmetro máximo do pino</td></tr>
+          <tr><td>Rasgos radiais a 3 h e 9 h</td><td class="num">abrem para Ø44,62</td><td>Retenção do pino, já validada pela válvula</td></tr>
+          <tr><td>Rebaixo cônico de topo</td><td class="num">Ø38,71 → Ø48,48 → Ø50,05</td><td>Sobe só 0,60 mm: vira apoio e pega de dedo</td></tr>
+          <tr><td>Fundo do poço</td><td class="num">Y 32,15 · parede 0,91</td><td>—</td></tr>
+          <tr><td>Ressalto do respiro, a 12 h</td><td class="num">topo em Y 35,20</td><td>Obriga a casca do pino a copiar a da válvula</td></tr>
+          <tr><td>Furo de respiro</td><td class="num">Ø8,12 a 12,18 mm do centro</td><td>Decide se a versão Chrono ventila ou tapa</td></tr>
+          <tr><td>Ponto de injeção no fundo</td><td class="num">Ø1,78 a 4,96 mm, a 6 h</td><td>Fica sob o pino, sem interferência</td></tr>
+          <tr><td>Plano de rótulo</td><td class="num">Y 38,24</td><td>Topo dos anéis, 0,06 mm abaixo</td></tr>
+          <tr><td>Aro de empilhamento</td><td class="num">Y 39,72 &nbsp;(+1,48)</td><td>Sobra de altura que o datador não precisou usar</td></tr>
+          <tr><td>Face de topo da válvula hoje</td><td class="num">Y 37,23 &nbsp;(−1,01)</td><td>É a base sobre a qual os anéis giram</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="plate-ft">Cotas medidas na malha, não no cadastro; tolerância de leitura ±0,03 mm.
+      <strong>São cotas de conferência, não de ferramentaria</strong> — o desenho 2D do molde manda.</div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="n">02</span>
+    <h2>A arquitetura: o pino é a válvula com um eixo em cima</h2></div>
+  <div class="body">
+    <p>O pino não inventa interface. A casca dele é o <strong>envelope da válvula atual, cota por
+    cota</strong>: Ø38,08 no disco, Ø44,16 sobre as duas orelhas, base em Y 32,57, face interna em 35,40,
+    face de topo em 37,23, a bolsa sobre o ressalto do respiro a 12 h e a aba de dedo a 6 h. Encaixa e
+    trava do mesmo jeito que a válvula trava hoje, no mesmo aço, com o mesmo risco — que é nenhum, porque
+    já está em produção. A aba de dedo ganha um segundo uso: tirar o datador para lavar.</p>
+    <p>O que é novo fica <strong>acima da face 37,23</strong>, nos 1,01 mm até o plano de rótulo: um
+    <strong>cubo</strong> central de Ø11,6 que retém o anel de mês, e um <strong>colar</strong> de
+    Ø24,4/28,4 que retém o anel de dia e carrega a marca de leitura. Os dois anéis ficam concêntricos e
+    no mesmo plano, com o topo em Y 38,18 — <strong>0,06 mm abaixo do plano de rótulo</strong>. O datador
+    não sobe acima da tampa, então empilhamento e etiqueta continuam como estão.</p>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Corte pelo eixo do poço — tampa medida, datador proposto</span>
+      <span class="c">PR-02 &middot; corte no plano do respiro</span></div>
+    <div class="plate-bd scroller"><div id="pl-sec"></div></div>
+    <div class="legend">
+      <span><i style="background:var(--pc-tampa)"></i>tampa existente &middot; medida</span>
+      <span><i style="background:var(--pc-pino)"></i>pino / travinha &middot; novo</span>
+      <span><i style="background:var(--pc-dia)"></i>anel de dia &middot; novo</span>
+      <span><i style="background:var(--pc-mes)"></i>anel de mês &middot; novo</span>
+    </div>
+    <div class="plate-ft">O contorno da tampa e o contorno tracejado da válvula são os polígonos de corte
+      da malha. Os três perfis novos são geometria de conceito, cotada para caber nas folgas medidas.</div>
+  </div>
+
+  <div class="callout">
+    <b>Por que a pega de dedo sai de graça.</b> O rebaixo cônico do topo do poço sobe apenas 0,60 mm
+    entre Ø38,71 e Ø48,48 — é uma <b>aba quase plana de 4,9 mm de largura</b>, não um chanfro íngreme.
+    Com o anel de dia parando em Ø41,0, sobram <b>4,5 mm de anel aberto</b> em volta dele, já no plano de
+    rótulo. Essa é a pega. Não precisou de serrilha saliente, nem de aba, nem de um milímetro de altura
+    acima da tampa.
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="n">03</span>
+    <h2>Como se lê</h2></div>
+  <div class="body">
+    <p>A marca de leitura fica a <strong>12 h</strong>, gravada na face do colar do pino — peça fixa,
+    travada nos rasgos da tampa. A mesma marca serve as duas faixas: aponta para fora, no dia, e para
+    dentro, no mês. A 12 h os números saem <strong>na posição de leitura</strong>, em pé, sem o usuário
+    girar a cabeça.</p>
+    <p>De brinde, os <strong>rasgos das orelhas a 3 h e 9 h</strong> já são uma referência visual fixa e
+    idêntica em todos os tamanhos — servem como segunda marca de alinhamento sem custar nada no aço.</p>
+    <p class="note">Gire os anéis abaixo — arraste, ou use as setas. As proporções são as cotas reais:
+    3,53 mm por dia e 4,74 mm por mês.</p>
+  </div>
+
+  <div class="plate">
+    <div class="plate-hd"><span class="t">Datador montado no poço — planta</span>
+      <span class="c">PR-03 &middot; interativo</span></div>
+    <div class="plate-bd">
+      <div class="dial-wrap">
+        <div><div id="pl-dial"></div></div>
+        <div class="dial-ctl">
+          <div class="readout">
+            <span class="k">Leitura a 12 h</span>
+            <div class="v" id="ro">31 <small>/</small> 08</div>
+          </div>
+          <div class="stepper">
+            <span class="lb"><b>Anel de dia</b>31 posições · 11,613°</span>
+            <button id="dm" aria-label="dia anterior">&lsaquo;</button>
+            <button id="dp" aria-label="dia seguinte">&rsaquo;</button>
+          </div>
+          <div class="stepper">
+            <span class="lb"><b>Anel de mês</b>12 posições · 30,000°</span>
+            <button id="mm" aria-label="mês anterior">&lsaquo;</button>
+            <button id="mp" aria-label="mês seguinte">&rsaquo;</button>
+          </div>
+          <button class="wide" id="hoje">hoje &middot; 31 / 08</button>
+          <label class="chk"><input type="checkbox" id="ck" checked>
+            <span>mostrar o que já existe na tampa: respiro Ø8,12, os dois rasgos e o ponto de injeção</span></label>
+          <p class="hint">O respiro fica sob o anel de mês, atravessado pela casca do pino. Se ele
+            continua ventilando ou não é a decisão da seção 05 — não do desenho.</p>
+        </div>
+      </div>
+    </div>
+    <div class="plate-ft">Contorno do poço, rasgos, respiro e ponto de injeção nas posições medidas.
+      Anéis, pino, serrilha e nervuras em cota de conceito.</div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="n">04</span>
+    <h2>Os três moldes</h2></div>
+  <div class="body">
+    <p>Três peças, três moldes, e <strong>as três são comuns a todos os tamanhos de tampa da família</strong>
+    — desde que o assento se confirme igual, que é a pendência número um da seção 06. É essa premissa que
+    transforma "um datador por pote" em "um datador para a linha".</p>
+  </div>
+
+  <div class="parts">
+    <div class="part">
+      <div class="part-hd"><span class="m">Molde 1 · PP</span>
+        <h3><i style="background:var(--pc-pino)"></i>Pino / travinha</h3></div>
+      <div class="part-bd">
+        <p>Casca idêntica à da válvula, para entrar no assento sem tocar o molde da tampa. Acima da face
+        de topo, o cubo retém o anel de mês e o colar retém o de dia. A face de topo leva os
+        <strong>31 + 12 detentes</strong> e as duas marcas de leitura a 12 h.</p>
+        <p>É a única das três com barbela de encaixe — 0,4 mm, extraível em PP, e a cota que a
+        ferramentaria vai querer discutir primeiro.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Disco / sobre orelhas</span><span>Ø38,08 / Ø44,16</span></div>
+        <div><span>Base → face de topo</span><span>Y 32,57 → 37,23</span></div>
+        <div><span>Cubo</span><span>Ø11,6 · barbela Ø12,6</span></div>
+        <div><span>Colar</span><span>Ø24,4 / Ø28,4</span></div>
+        <div><span>Massa</span><span>2,30 g</span></div>
+        <div><span>Área projetada</span><span>15,3 cm²</span></div>
+      </div>
+    </div>
+
+    <div class="part">
+      <div class="part-hd"><span class="m">Molde 2 · PP</span>
+        <h3><i style="background:var(--pc-dia)"></i>Anel de dia</h3></div>
+      <div class="part-bd">
+        <p>Anel plano que apoia na face de topo do pino e gira dentro do poço, com a borda avançando
+        sobre o rebaixo cônico. Serrilha de 24 dentes no diâmetro externo, onde ficam os 4,5 mm de pega.</p>
+        <p><strong>3,53 mm por posição</strong> para dois dígitos. É a cota mais apertada do projeto, e é
+        ela que decide a legibilidade.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Externo / interno</span><span>Ø41,0 / Ø28,6</span></div>
+        <div><span>Espessura</span><span>0,95 mm</span></div>
+        <div><span>Faixa de leitura</span><span>6,2 mm · Ø méd 34,8</span></div>
+        <div><span>Divisões</span><span>31 &times; 11,613°</span></div>
+        <div><span>Passo tangencial</span><span>3,53 mm</span></div>
+        <div><span>Massa</span><span>0,58 g</span></div>
+      </div>
+    </div>
+
+    <div class="part">
+      <div class="part-hd"><span class="m">Molde 3 · PP</span>
+        <h3><i style="background:var(--pc-mes)"></i>Anel de mês</h3></div>
+      <div class="part-bd">
+        <p>Anel interno, entre o cubo e o colar, girando sobre a mesma face. As 12 nervuras radiais da
+        face de topo fazem duas coisas: separam os setores e são a pega do dedo.</p>
+        <p>Com 4,74 mm por posição, <strong>números de 1 a 12 cabem confortavelmente</strong>. JAN–DEZ
+        também cabe, a 1,45 mm por letra — mais bonito, menos legível. É escolha de marketing, não de aço.</p>
+      </div>
+      <div class="cotas">
+        <div><span>Externo / interno</span><span>Ø24,2 / Ø12,0</span></div>
+        <div><span>Espessura</span><span>0,95 mm</span></div>
+        <div><span>Faixa de leitura</span><span>6,1 mm · Ø méd 18,1</span></div>
+        <div><span>Divisões</span><span>12 &times; 30,000°</span></div>
+        <div><span>Passo tangencial</span><span>4,74 mm</span></div>
+        <div><span>Massa</span><span>0,30 g</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="n">05</span>
+    <h2>O que isto custa de verdade — e não é resina nem máquina</h2></div>
+  <div class="body">
+    <p>O datador pesa <strong>3,18 g</strong> contra 2,04 g da válvula que ele substitui:
+    <strong>+1,14 g por tampa</strong>. A R$ 10,96/kg de PP virgem clarificado, isso é
+    <strong>+R$ 0,012 por peça</strong>. Resina não é argumento aqui, nem a favor nem contra.</p>
+    <p>Máquina também não trava. Com 8 cavidades a área projetada dá 122 cm² no pino, 106 cm² no anel de
+    dia e 39 cm² no de mês — algo entre 45 e 70 t de força de fechamento, dentro da faixa
+    <strong>≤260 t</strong>, a mais folgada do parque: 56,9% de ocupação medida, com 7 de 15 máquinas
+    paradas. Com a ressalva já documentada no projeto: <strong>capacidade ociosa não é oportunidade</strong>,
+    e máquina parada pode ser sintoma de gargalo na ferramentaria, não folga real.</p>
+    <p>O custo mora em dois lugares que o business case de lançamento normalmente esquece.</p>
+    <p class="tight"><strong>1. Gravação, não aço.</strong> O anel de dia leva 31 números por cavidade.
+    Em 8 cavidades são <strong>248 números gravados</strong>, mais 96 no anel de mês e 43 detentes por
+    cavidade no pino. É aí que o orçamento do molde cresce — e é por isso que a decisão de cavitação tem
+    de vir antes do desenho, não depois.</p>
+    <p class="tight"><strong>2. Montagem.</strong> A tampa passa de 1 peça colocada para 3. A boa notícia
+    é que <strong>a etapa já existe</strong>: essa família já monta a válvula, então não é operação nova
+    nessa linha — são duas colocações a mais na mesma operação. Ainda assim precisa entrar no
+    <span class="mono">CUSGER</span> antes de qualquer decisão, porque o preço médio da família está na
+    casa de R$ 4.</p>
+  </div>
+
+  <div class="callout">
+    <b>Cor: aqui a lição de 2022 não se aplica.</b> Anel e pino são <b>peça comum</b>, não variante de
+    produto. Dar cor a eles não parte a demanda em N cores nem multiplica estoque de segurança — é uma
+    peça, uma cor, um SKU de componente. Proposta: <b>anel de dia em laranja</b>,
+    <b>anel de mês e pino em chumbo</b> — as duas únicas cores que cresceram no portfólio (+82% e +93%).
+    E laranja aqui é exatamente o que ela sabe ser: sinalização funcional, não paleta.
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="n">06</span>
+    <h2>O que decide, em ordem</h2></div>
+  <div class="rows">
+    <div class="row stop">
+      <div class="lvl">bloqueia</div>
+      <div>
+        <h4>Confirmar que o assento é o mesmo em todos os tamanhos</h4>
+        <p>Toda a economia dos três moldes depende disto: Ø38,54 no furo, rasgos a 3 h e 9 h abrindo para
+        Ø44,62, respiro Ø8,12 a 12,18 mm do centro, face de topo da válvula a −1,01 do plano de rótulo.
+        Se variar entre tamanhos, cai a premissa e volta a ser um datador por pote.</p>
+        <p>Não é consulta ao cadastro — é conferência no desenho 2D de cada molde de tampa da família, ou
+        medição de uma peça de cada tamanho.</p>
+        <p class="who">ferramentaria · antes de qualquer orçamento</p>
+      </div>
+    </div>
+    <div class="row stop">
+      <div class="lvl">bloqueia</div>
+      <div>
+        <h4>Este pote é de 0,58 L. A regra do projeto diz para não entrar por ele.</h4>
+        <p>O corpo que veio dá <strong>0,58 L até a borda</strong> — nominal na casa dos 500 ml. E a regra
+        de litragem, testada em 79 referências, é a conclusão mais forte do projeto: até 600 ml a faixa
+        caiu <strong>31,5%</strong> e só <strong>2 de 22</strong> referências subiram. Nada novo abaixo de
+        1 L.</p>
+        <p>Aqui está o bom da arquitetura: como as três peças são comuns, <strong>o datador não precisa
+        entrar por este pote</strong>. Entra pela maior tampa da família que compartilhe o assento —
+        1,1–2 L (+28,9%) ou 2,1–3,5 L (+56,5%) — e este 500 ml vira derivado sem molde novo, se algum dia
+        valer a pena. Escolher o tamanho de entrada é decisão de portfólio, não de projeto.</p>
+        <p class="who">curador-portfolio · veto</p>
+      </div>
+    </div>
+    <div class="row warn">
+      <div class="lvl">decidir</div>
+      <div>
+        <h4>Datador e válvula disputam o mesmo poço</h4>
+        <p>Há um assento e ele é o mesmo. Na versão Chrono o pino ocupa o lugar da válvula: é um ou outro
+        no mesmo SKU. Se a versão Chrono tiver de continuar ventilando, o pino precisa da mesma folga que
+        a válvula tem hoje sobre o ressalto do respiro; se não, ele tapa o Ø8,12 e o pote deixa de
+        ventilar.</p>
+        <p>A favor de trocar: dentro do próprio catálogo a válvula <strong>não cobra prêmio de
+        preço</strong> — o 242, com válvula, sai a R$ 4,00; o 233, com travas, a R$ 4,76. Quem sustenta
+        preço é a trava. Então o datador não está tirando o lugar de uma função que paga, está tirando o
+        lugar de uma que não paga. Mas isso muda descrição de produto e arte, e é decisão de marketing.</p>
+        <p class="who">engenheiro-molde + marketing</p>
+      </div>
+    </div>
+    <div class="row warn">
+      <div class="lvl">decidir</div>
+      <div>
+        <h4>Legibilidade sem tinta: o contraste tem de sair do acabamento do molde</h4>
+        <p>3,53 mm por dia e 4,74 mm por mês, com altura de caractere de 2,2 a 2,8 mm e gravação de
+        0,30 mm. Cabe. O problema não é o tamanho, é o <strong>contraste</strong>: número gravado em PP da
+        mesma cor do anel quase não se lê.</p>
+        <p>A saída não é tampografia — tinta descasca na lava-louças e é uma segunda operação. É
+        acabamento de molde: <strong>caractere polido em campo texturizado</strong> (VDI 27–30), ou o
+        inverso. Sai de graça no aço e nunca descasca. Precisa entrar na especificação do molde, não numa
+        revisão depois do tryout.</p>
+        <p class="who">ferramentaria · especificação de acabamento</p>
+      </div>
+    </div>
+    <div class="row ok">
+      <div class="lvl">resolvido</div>
+      <div>
+        <h4>Não sobe acima da tampa</h4>
+        <p>Topo dos anéis em Y 38,18; plano de rótulo em 38,24; aro de empilhamento em 39,72. O datador
+        cabe inteiro dentro do poço e ainda deixa 1,54 mm de sobra até o aro. Empilhamento intacto, e a
+        etiqueta continua colando no plano mais alto — só precisa do furo central, como o estudo anterior
+        já previa.</p>
+      </div>
+    </div>
+    <div class="row warn">
+      <div class="lvl">cuidado</div>
+      <div>
+        <h4>O claim</h4>
+        <p>Datador é <strong>marcação feita pelo usuário</strong>, não controle de validade. "Anel para
+        você marcar o dia e o mês" se sustenta; "controle de validade" convida discussão sob o art. 36 do
+        CDC, que obriga o fornecedor a manter os dados técnicos da alegação. E válvula não é
+        hermeticidade — isso já está estabelecido no projeto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Procedência do dado.</strong> Todas as cotas geométricas desta apresentação foram medidas
+  diretamente nas três malhas STL enviadas (<code>Tampa Pote 025 Pequeno_Cav-1</code>,
+  <code>Corpo Pote 025 Pequeno_Cav-1</code>, <code>prova valvula-1</code>): 147.764, 100.998 e 45.864
+  triângulos. Volumes de material por divergência sobre a malha fechada, massa a 0,905 g/cm³. Contornos
+  de planta e de corte por seccionamento da malha, simplificados a 0,25–0,35 mm na planta e 0,02 mm no
+  corte. Capacidade do corpo por integração do mapa de altura: 0,58 L até a borda.</p>
+  <p><strong>O que não foi consultado.</strong> O MCP do Sankhya não subiu nesta sessão — nenhum número
+  de ERP foi puxado aqui. Faturamento, margem, curva de litragem, taxa de acerto de safra, cores,
+  ocupação de injetora e os preços do 233 e do 242 são <strong>conclusões já documentadas no
+  projeto</strong>, citadas e não recalculadas. Antes de virar orçamento, refaça a consulta com a conexão
+  de pé.</p>
+  <p><strong>Status.</strong> Nada foi gravado em <code>pdp_lancamento</code>. A geometria dos anéis, do
+  pino, dos detentes, das barbelas e do acabamento é <strong>conceito cotado sobre interface
+  medida</strong>, não desenho de ferramentaria.</p>
+</footer>
+</div>
+
+<script>
+const GEO = {"plan":{"aro":[[[42.53,-55.81],[43.17,-0.0],[42.75,53.01],[41.52,59.88],[38.18,66.03],[35.3,69.09],[31.89,71.55],[28.07,73.3],[23.98,74.29],[-23.97,74.29],[-30.65,72.22],[-36.33,68.14],[-40.43,62.47],[-42.53,55.8],[-43.17,-0.0],[-42.75,-53.01],[-41.52,-59.89],[-38.19,-66.03],[-35.3,-69.1],[-31.89,-71.55],[-28.07,-73.31],[-23.98,-74.3],[23.97,-74.3],[30.65,-72.22],[35.3,-69.1],[39.76,-63.71],[42.28,-57.19]],[[35.92,-52.98],[36.35,-0.0],[35.93,52.9],[35.35,56.77],[33.19,61.31],[28.46,65.65],[22.38,67.61],[-22.38,67.61],[-27.32,66.25],[-31.51,63.3],[-34.47,59.12],[-35.85,54.18],[-36.35,-0.0],[-35.93,-52.9],[-35.35,-56.78],[-33.19,-61.32],[-28.46,-65.65],[-22.38,-67.62],[22.38,-67.62],[27.32,-66.25],[31.51,-63.31],[34.47,-59.12],[35.85,-54.19]]],"painel":[[[-59.52,53.27],[-58.93,59.4],[-57.38,65.36],[-54.9,70.99],[-51.55,76.16],[-47.43,80.73],[-42.63,84.59],[-37.28,87.63],[-31.52,89.79],[-21.39,91.28],[23.44,91.2],[29.53,90.3],[35.4,88.45],[44.3,83.39],[50.26,77.75],[54.9,70.99],[58.0,63.4],[59.24,57.37],[59.9,17.76],[59.66,-42.32],[58.93,-59.4],[57.38,-65.36],[54.9,-70.99],[51.55,-76.16],[46.84,-81.26],[40.91,-85.7],[35.4,-88.46],[29.53,-90.31],[23.44,-91.2],[-23.44,-91.2],[-33.48,-89.18],[-42.63,-84.59],[-48.88,-79.28],[-53.87,-72.77],[-57.38,-65.36],[-59.24,-57.37],[-59.9,-17.76],[-59.66,42.31]],[[-49.62,66.46],[-51.76,60.64],[-52.77,53.16],[-53.19,-0.0],[-52.77,-53.17],[-51.23,-62.46],[-47.04,-70.9],[-43.4,-75.24],[-39.05,-78.87],[-34.13,-81.66],[-26.94,-83.96],[-21.3,-84.53],[21.3,-84.53],[30.08,-83.17],[37.47,-79.89],[43.4,-75.24],[49.02,-67.68],[51.76,-60.65],[52.77,-53.17],[53.19,-0.0],[52.77,53.16],[51.23,62.46],[47.04,70.89],[43.4,75.23],[37.92,79.6],[32.38,82.39],[26.94,83.96],[21.3,84.53],[-21.3,84.53],[-30.6,83.02],[-37.47,79.89],[-43.4,75.23],[-49.02,67.67]],[[31.98,62.98],[27.37,66.36],[22.39,67.74],[-22.39,67.74],[-26.17,66.86],[-29.61,65.06],[-32.48,62.44],[-34.58,59.17],[-35.98,54.19],[-36.29,35.27],[-36.05,-52.9],[-34.8,-58.66],[-31.6,-63.4],[-27.37,-66.37],[-22.39,-67.74],[22.39,-67.74],[26.17,-66.87],[29.61,-65.06],[32.48,-62.44],[34.58,-59.18],[35.98,-54.2],[36.29,-35.27],[36.05,52.9],[35.09,57.98],[32.48,62.44]],[[42.86,53.01],[41.63,59.92],[39.85,63.76],[37.53,66.99],[31.94,71.64],[25.38,74.16],[10.59,74.72],[-22.59,74.56],[-29.42,72.9],[-33.14,70.9],[-36.41,68.21],[-40.52,62.52],[-42.05,58.58],[-42.79,54.42],[-43.1,-35.34],[-42.79,-54.42],[-41.63,-59.93],[-39.85,-63.77],[-36.41,-68.22],[-33.14,-70.9],[-29.42,-72.91],[-25.38,-74.16],[-21.18,-74.62],[22.59,-74.56],[29.42,-72.91],[33.14,-70.9],[36.41,-68.22],[40.52,-62.53],[42.05,-58.58],[42.79,-54.42],[43.28,-0.0],[42.9,50.08]],[[46.18,-56.54],[46.86,-17.69],[46.48,53.06],[45.04,61.12],[41.13,68.31],[37.76,71.9],[33.76,74.77],[29.29,76.83],[24.5,77.99],[-0.0,78.37],[-24.5,77.99],[-32.31,75.55],[-38.96,70.78],[-43.76,64.15],[-46.18,56.53],[-46.86,17.69],[-46.48,-53.07],[-45.04,-61.13],[-41.13,-68.32],[-37.76,-71.9],[-33.76,-74.78],[-29.29,-76.83],[-24.5,-77.99],[-0.0,-78.38],[24.5,-77.99],[32.31,-75.56],[38.82,-70.92],[42.97,-65.6],[45.93,-57.96]],[[0.8,25.76],[5.14,25.27],[10.07,23.74],[14.59,21.26],[18.54,17.92],[21.73,13.87],[24.06,9.27],[25.43,4.29],[25.77,-0.86],[24.06,-9.27],[21.73,-13.88],[18.54,-17.93],[14.59,-21.26],[10.07,-23.74],[5.14,-25.27],[-0.0,-25.79],[-5.14,-25.27],[-10.07,-23.74],[-14.59,-21.26],[-17.87,-18.57],[-20.76,-15.3],[-23.39,-10.86],[-25.08,-5.98],[-25.77,-0.86],[-25.43,4.29],[-24.06,9.27],[-21.73,13.87],[-18.54,17.92],[-14.59,21.26],[-10.07,23.74],[-5.14,25.27],[-0.0,25.78]]],"furo":[[[-5.72,18.39],[-1.68,19.19],[2.15,19.14],[6.35,18.19],[10.23,16.33],[13.62,13.62],[16.4,10.11],[18.26,6.15],[19.23,1.85],[21.89,1.73],[22.29,1.38],[22.25,-1.47],[19.21,-1.88],[17.79,-7.41],[14.8,-12.34],[11.05,-15.79],[6.22,-18.23],[2.19,-19.15],[-1.68,-19.2],[-6.22,-18.23],[-9.63,-16.69],[-13.62,-13.63],[-16.33,-10.22],[-18.24,-6.21],[-19.23,-1.86],[-21.89,-1.73],[-22.29,-1.39],[-22.25,1.47],[-19.21,1.87],[-17.74,7.52],[-14.76,12.38],[-11.05,15.78],[-6.35,18.19]],[[-59.66,53.27],[-59.03,59.62],[-57.37,65.79],[-54.72,71.59],[-51.09,76.98],[-46.69,81.6],[-41.59,85.44],[-35.93,88.39],[-30.26,90.27],[-25.6,91.13],[-21.39,91.42],[10.55,91.52],[25.6,91.13],[30.26,90.27],[35.93,88.39],[41.59,85.44],[46.69,81.6],[51.16,76.88],[55.31,70.51],[58.02,63.84],[59.5,56.26],[60.08,-0.0],[59.66,-53.28],[59.1,-59.23],[57.64,-65.02],[55.31,-70.51],[52.16,-75.59],[48.27,-80.12],[43.39,-84.23],[37.91,-87.5],[31.96,-89.81],[27.34,-90.89],[21.39,-91.42],[-23.56,-91.33],[-29.87,-90.37],[-33.91,-89.18],[-38.64,-87.13],[-43.72,-83.99],[-49.76,-78.54],[-53.83,-73.11],[-57.37,-65.79],[-59.36,-57.49],[-60.03,-18.11],[-59.89,36.22]],[[-60.05,59.09],[-58.69,64.75],[-56.51,70.15],[-53.62,75.1],[-49.92,79.71],[-45.65,83.67],[-40.85,86.96],[-35.61,89.51],[-29.78,91.33],[-21.4,92.33],[10.55,92.43],[25.55,92.06],[31.86,90.79],[37.76,88.58],[43.23,85.46],[48.14,81.51],[52.37,76.83],[56.51,70.15],[59.0,63.74],[60.42,56.2],[61.0,-0.0],[60.29,-57.45],[59.0,-63.74],[56.79,-69.58],[53.62,-75.1],[50.2,-79.41],[45.65,-83.67],[40.85,-86.96],[35.61,-89.51],[29.78,-91.33],[21.4,-92.34],[-10.55,-92.44],[-25.55,-92.06],[-31.86,-90.8],[-37.76,-88.58],[-43.23,-85.46],[-48.14,-81.51],[-52.37,-76.83],[-56.51,-70.15],[-59.0,-63.74],[-60.42,-56.2],[-60.89,-26.65],[-60.95,17.0],[-60.57,53.29],[-60.07,58.96]],[[-52.12,53.15],[-51.58,58.47],[-50.14,63.62],[-47.84,68.44],[-45.4,72.01],[-41.59,76.04],[-37.13,79.33],[-33.85,81.06],[-28.62,82.91],[-21.29,83.88],[23.96,83.73],[29.22,82.75],[33.85,81.06],[37.13,79.33],[40.97,76.58],[45.4,72.01],[48.44,67.36],[50.61,62.26],[51.96,55.82],[52.49,17.72],[52.35,-35.44],[52.03,-55.01],[51.4,-59.26],[49.99,-64.01],[47.52,-68.97],[44.21,-73.43],[40.17,-77.23],[34.23,-80.9],[28.62,-82.91],[23.14,-83.8],[-21.29,-83.88],[-26.61,-83.36],[-30.4,-82.4],[-34.23,-80.9],[-38.85,-78.21],[-44.21,-73.43],[-47.84,-68.45],[-50.61,-62.26],[-51.96,-55.83],[-52.49,-17.72],[-52.28,41.21]],[[-53.12,53.17],[-52.61,58.37],[-51.27,63.42],[-49.13,68.19],[-46.25,72.55],[-42.7,76.38],[-38.58,79.59],[-33.99,82.1],[-29.06,83.83],[-21.31,84.87],[23.92,84.74],[28.87,83.88],[32.51,82.71],[36.34,80.94],[40.79,78.01],[44.96,74.09],[49.13,68.19],[51.56,62.56],[52.97,55.78],[53.49,17.72],[53.35,-35.45],[53.03,-55.08],[52.52,-58.87],[50.92,-64.37],[48.37,-69.5],[44.55,-74.54],[39.25,-79.15],[34.27,-81.98],[28.87,-83.88],[23.22,-84.8],[-23.22,-84.8],[-28.87,-83.88],[-32.51,-82.72],[-36.34,-80.94],[-40.79,-78.01],[-44.96,-74.09],[-49.13,-68.19],[-51.56,-62.57],[-52.97,-55.79],[-53.54,-0.0],[-53.18,48.25]],[[29.91,78.63],[36.24,75.48],[39.06,73.3],[42.62,69.51],[46.21,63.4],[48.11,56.58],[48.77,17.7],[48.63,-35.4],[48.31,-54.86],[46.84,-61.78],[43.68,-68.06],[39.02,-73.34],[33.17,-77.27],[26.51,-79.58],[21.25,-80.15],[-10.62,-80.25],[-23.01,-80.08],[-28.23,-79.16],[-31.6,-77.99],[-36.22,-75.49],[-41.53,-70.83],[-43.68,-68.06],[-46.19,-63.44],[-48.11,-56.62],[-48.77,-17.7],[-48.63,35.4],[-48.31,54.86],[-46.85,61.75],[-43.68,68.05],[-39.01,73.35],[-33.17,77.26],[-26.51,79.57],[-21.25,80.15],[10.62,80.25],[23.01,80.07],[28.28,79.14]],[[-49.31,53.11],[-48.81,57.99],[-47.52,62.59],[-45.42,67.02],[-42.58,71.03],[-39.2,74.4],[-35.18,77.22],[-30.75,79.31],[-26.7,80.48],[-21.26,81.07],[-10.63,81.17],[24.9,80.79],[28.47,80.05],[33.58,78.09],[38.22,75.19],[42.21,71.45],[45.42,67.02],[47.06,63.76],[48.7,58.54],[49.22,54.93],[49.73,-0.0],[49.31,-53.11],[48.81,-58.0],[47.52,-62.59],[45.42,-67.03],[42.66,-70.93],[39.2,-74.4],[35.18,-77.23],[30.75,-79.32],[26.7,-80.48],[21.26,-81.08],[10.63,-81.18],[-24.9,-80.79],[-28.47,-80.05],[-33.58,-78.09],[-38.22,-75.19],[-42.21,-71.46],[-44.44,-68.57],[-47.06,-63.77],[-48.7,-58.55],[-49.22,-54.94],[-49.73,-0.0],[-49.33,51.82]],[[-23.33,2.05],[-23.19,-2.56],[-22.53,-3.05],[-19.98,-3.27],[-18.97,-7.0],[-17.73,-9.71],[-14.14,-14.45],[-11.86,-16.37],[-8.44,-18.36],[-5.16,-19.55],[-2.23,-20.1],[0.75,-20.21],[5.16,-19.55],[9.33,-17.94],[11.86,-16.37],[15.17,-13.37],[16.97,-10.99],[18.97,-7.0],[19.98,-3.27],[22.66,-3.01],[23.33,-2.09],[23.19,2.56],[22.53,3.04],[19.98,3.26],[18.97,7.0],[17.73,9.71],[14.14,14.45],[11.86,16.37],[8.44,18.35],[5.16,19.54],[2.23,20.09],[-1.72,20.13],[-5.16,19.54],[-7.98,18.57],[-11.86,16.37],[-15.17,13.36],[-16.97,10.99],[-18.97,7.0],[-19.98,3.26],[-22.66,3.01],[-23.33,2.09]]]},"sec":{"tampa":[[[-19.004,31.238],[-8.293,31.238],[-8.071,31.212],[-7.264,30.996],[-6.517,30.855],[-5.762,30.77],[-5.002,30.741],[-4.243,30.77],[-3.487,30.855],[-2.74,30.996],[-1.786,31.235],[4.984,31.254],[5.259,31.34],[5.503,31.493],[5.7,31.704],[5.836,31.958],[5.908,32.335],[5.936,33.828],[5.966,33.956],[6.055,34.106],[6.189,34.217],[6.353,34.276],[7.072,34.271],[7.187,34.166],[7.22,33.772],[7.325,33.59],[7.541,33.477],[7.749,33.473],[7.885,33.509],[8.046,33.644],[8.118,33.842],[8.118,34.919],[8.03,35.108],[7.944,35.168],[7.815,35.197],[5.543,35.197],[5.331,35.15],[5.188,35.051],[5.087,34.91],[5.039,34.742],[4.993,32.325],[4.935,32.209],[4.827,32.154],[-1.835,32.146],[-3.623,31.755],[-4.311,31.677],[-5.002,31.651],[-5.694,31.677],[-6.381,31.755],[-7.061,31.883],[-7.874,32.101],[-8.319,32.151],[-19.015,32.153],[-19.132,32.209],[-19.207,32.351],[-19.272,36.772],[-19.319,36.94],[-19.421,37.082],[-19.564,37.181],[-19.733,37.226],[-22.337,37.227],[-23.149,37.293],[-23.94,37.487],[-24.689,37.805],[-25.259,38.122],[-25.732,38.238]],[[-25.757,37.321],[-25.572,37.26],[-24.664,36.79],[-23.753,36.487],[-22.805,36.333],[-20.631,36.312],[-20.462,36.267],[-20.319,36.168],[-20.217,36.026],[-20.17,35.858],[-20.12,32.335],[-20.078,32.05],[-19.964,31.785],[-19.715,31.493],[-19.381,31.303],[-19.1,31.242]],[[19.278,36.729],[19.255,35.396],[19.147,35.228],[19.048,35.197],[16.519,35.196],[16.394,35.156],[16.313,35.088],[16.242,34.919],[16.255,33.772],[16.336,33.616],[16.444,33.525],[16.577,33.477],[16.749,33.471],[16.952,33.525],[17.082,33.644],[17.149,33.807],[17.162,34.133],[17.202,34.211],[17.289,34.271],[19.135,34.287],[19.417,34.349],[19.673,34.481],[19.887,34.674],[20.044,34.915],[20.169,35.381],[20.182,35.945],[20.284,36.136],[20.457,36.267],[20.626,36.312],[22.333,36.314],[23.29,36.391],[24.224,36.62],[25.108,36.996],[25.611,37.28],[25.801,37.327]],[[25.727,38.238],[25.254,38.122],[24.316,37.631],[23.544,37.374],[23.144,37.293],[22.333,37.227],[19.685,37.22],[19.521,37.161],[19.386,37.05],[19.297,36.9],[19.267,36.772]]],"valv":[[[9.149,35.202],[9.26,35.346],[9.434,35.4],[15.03,35.382],[15.141,35.312],[15.212,35.202],[15.264,32.865],[15.346,32.712],[15.485,32.607],[15.62,32.571],[15.878,32.576],[16.092,32.686],[16.206,32.899],[16.255,35.202],[16.346,35.33],[16.541,35.4],[19.042,35.4],[19.025,36.851],[18.974,36.974],[18.861,37.109],[18.749,37.18],[18.579,37.225],[17.987,37.201],[16.652,36.745],[15.434,36.45],[14.816,36.346],[13.568,36.227],[12.315,36.227],[11.066,36.346],[9.835,36.583],[8.631,36.936],[7.971,37.181],[7.744,37.224],[-7.748,37.23],[-7.975,37.274],[-9.236,37.71],[-10.454,38.005],[-11.695,38.183],[-12.946,38.243],[-13.573,38.228],[-14.822,38.109],[-16.054,37.872],[-16.659,37.71],[-17.992,37.254],[-18.713,37.197],[-18.83,37.136],[-18.955,37.011],[-19.016,36.893],[-19.047,36.72],[-18.911,36.616],[-18.769,36.567],[-12.411,35.405],[7.85,35.399],[8.018,35.33],[8.107,35.202],[8.147,32.969],[8.223,32.739],[8.352,32.623],[8.518,32.571],[8.776,32.576],[8.964,32.663],[9.055,32.769],[9.104,32.899],[9.12,33.463]]]},"wide":{"tampa":[[[-19.0,31.24],[-8.29,31.24],[-6.52,30.85],[-5.0,30.74],[-3.49,30.85],[-1.79,31.23],[4.98,31.25],[5.5,31.49],[5.84,31.96],[5.94,33.83],[6.06,34.11],[6.35,34.28],[7.07,34.27],[7.19,34.17],[7.32,33.59],[7.54,33.48],[7.88,33.51],[8.12,33.84],[8.12,34.92],[8.03,35.11],[7.81,35.2],[5.54,35.2],[5.19,35.05],[5.04,34.74],[4.99,32.32],[4.83,32.15],[-1.84,32.15],[-3.62,31.75],[-5.0,31.65],[-6.38,31.75],[-8.32,32.15],[-19.02,32.15],[-19.21,32.35],[-19.27,36.77],[-19.42,37.08],[-19.73,37.23],[-23.15,37.29],[-23.94,37.49],[-25.26,38.12],[-25.73,38.24],[-64.13,38.24],[-65.4,38.35],[-66.63,38.66],[-68.81,39.72],[-71.02,39.68],[-72.84,39.49],[-76.43,38.81],[-78.18,38.31],[-80.07,37.64],[-80.64,37.23],[-81.03,36.66],[-81.19,36.16],[-81.34,34.51],[-81.57,34.04],[-81.84,33.81],[-82.17,33.69],[-83.44,33.67],[-83.73,33.76],[-83.93,34.04],[-84.09,37.22],[-84.33,37.82],[-84.76,38.32],[-85.33,38.64],[-85.81,38.74],[-90.1,38.74],[-90.75,38.6],[-91.35,38.29],[-91.98,37.67],[-92.3,37.08],[-92.47,36.2],[-92.54,31.44],[-91.62,31.44],[-91.52,36.48],[-91.15,37.25],[-90.44,37.74],[-89.88,37.84],[-85.97,37.84],[-85.47,37.7],[-85.15,37.41],[-84.98,37.01],[-85.15,34.0],[-85.04,33.82],[-84.84,33.78],[-84.7,33.25],[-84.41,32.94],[-84.01,32.78],[-82.18,32.77],[-81.38,33.02],[-80.98,33.33],[-80.67,33.72],[-80.44,34.35],[-80.24,36.19],[-79.98,36.59],[-79.67,36.82],[-77.91,37.44],[-74.47,38.3],[-72.72,38.59],[-69.18,38.85],[-68.88,38.77],[-67.59,38.06],[-66.24,37.6],[-64.13,37.33],[-25.76,37.32],[-24.66,36.79],[-23.75,36.49],[-22.8,36.33],[-20.63,36.31],[-20.32,36.17],[-20.17,35.86],[-20.08,32.05],[-19.71,31.49],[-19.1,31.24]],[[19.28,36.73],[19.25,35.4],[19.15,35.23],[16.52,35.2],[16.31,35.09],[16.24,34.92],[16.26,33.77],[16.44,33.53],[16.75,33.47],[17.08,33.64],[17.16,34.13],[17.29,34.27],[19.14,34.29],[19.67,34.48],[20.04,34.92],[20.17,35.38],[20.18,35.94],[20.46,36.27],[23.29,36.39],[24.22,36.62],[25.8,37.33],[64.12,37.33],[65.54,37.45],[66.92,37.8],[69.02,38.83],[70.95,38.77],[72.72,38.59],[76.2,37.92],[79.67,36.82],[80.04,36.52],[80.23,36.19],[80.47,34.21],[80.73,33.63],[81.04,33.27],[81.42,32.99],[82.02,32.79],[83.83,32.76],[84.25,32.85],[84.54,33.05],[84.78,33.4],[84.83,33.78],[85.02,33.81],[85.14,33.96],[84.95,36.84],[85.05,37.26],[85.32,37.6],[85.88,37.83],[90.02,37.83],[90.57,37.68],[90.94,37.45],[91.44,36.75],[91.55,36.19],[91.62,31.44],[92.53,31.44],[92.46,36.2],[92.36,36.87],[92.1,37.48],[91.69,38.01],[91.15,38.41],[90.54,38.66],[89.87,38.75],[85.97,38.75],[85.32,38.64],[84.63,38.21],[84.17,37.53],[84.04,36.89],[83.94,34.08],[83.76,33.79],[83.44,33.67],[82.16,33.69],[81.83,33.81],[81.56,34.04],[81.34,34.51],[81.18,36.16],[81.03,36.66],[80.63,37.23],[80.06,37.64],[78.18,38.31],[76.42,38.81],[72.83,39.49],[71.02,39.68],[68.8,39.72],[66.62,38.66],[65.39,38.35],[64.12,38.24],[25.73,38.24],[25.25,38.12],[24.32,37.63],[23.54,37.37],[22.33,37.23],[19.68,37.22],[19.39,37.05],[19.27,36.77]]],"corpo":[[[-69.15,1.29],[-67.57,1.27],[-67.4,1.12],[-67.24,0.55],[-67.03,0.4],[-66.77,0.37],[-66.36,0.59],[-66.24,1.09],[-66.09,1.26],[-64.48,1.52],[-62.86,2.21],[-62.34,2.3],[-3.32,2.3],[-1.38,2.7],[-0.0,2.8],[1.38,2.7],[3.31,2.3],[62.33,2.3],[62.85,2.21],[64.48,1.52],[66.08,1.26],[66.24,1.09],[66.38,0.55],[66.6,0.4],[66.85,0.37],[67.24,0.55],[67.39,1.12],[67.62,1.28],[71.73,1.34],[73.92,1.71],[76.02,2.45],[77.97,3.52],[78.86,4.18],[80.48,5.71],[81.18,6.57],[82.36,8.46],[82.83,9.47],[83.49,11.59],[83.69,12.69],[84.44,25.9],[84.72,26.69],[85.31,27.4],[85.62,27.95],[85.78,28.56],[85.86,29.51],[101.24,29.51],[101.46,29.58],[101.61,29.76],[101.63,30.44],[101.55,30.78],[101.28,31.09],[100.96,31.23],[91.57,31.28],[91.46,31.48],[91.32,36.73],[91.17,37.09],[90.83,37.49],[90.37,37.75],[89.86,37.84],[85.87,37.82],[85.28,37.52],[84.99,37.02],[85.15,33.78],[84.88,28.69],[84.65,28.06],[83.83,26.96],[83.53,26.02],[82.79,12.81],[82.33,10.79],[81.55,8.88],[81.04,7.98],[79.79,6.32],[78.29,4.89],[76.57,3.74],[75.65,3.28],[73.69,2.59],[71.65,2.25],[70.62,2.2],[65.68,2.22],[64.8,2.38],[63.16,3.07],[62.33,3.22],[3.29,3.22],[1.51,3.6],[-0.0,3.71],[-1.52,3.6],[-3.29,3.22],[-62.34,3.22],[-63.17,3.07],[-64.8,2.38],[-66.14,2.2],[-71.66,2.25],[-73.7,2.59],[-75.65,3.28],[-76.58,3.74],[-77.46,4.28],[-79.08,5.58],[-80.45,7.12],[-81.04,7.98],[-81.98,9.82],[-82.34,10.79],[-82.79,12.81],[-82.89,13.84],[-83.54,26.01],[-83.82,26.95],[-84.66,28.05],[-84.88,28.68],[-85.15,33.78],[-84.95,36.64],[-85.06,37.2],[-85.43,37.64],[-85.97,37.83],[-90.25,37.79],[-90.62,37.64],[-91.02,37.3],[-91.36,36.6],[-91.47,31.48],[-91.58,31.28],[-100.97,31.23],[-101.34,31.05],[-101.59,30.71],[-101.6,29.73],[-101.24,29.51],[-85.86,29.51],[-85.79,28.57],[-85.63,27.96],[-85.32,27.4],[-84.73,26.69],[-84.44,25.9],[-83.7,12.69],[-83.21,10.52],[-82.36,8.46],[-81.81,7.49],[-80.48,5.71],[-79.71,4.91],[-77.97,3.52],[-77.02,2.94],[-74.99,2.03],[-72.84,1.48],[-70.62,1.29]]]}};
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;};
+const pathOf=(polys,close=true)=>polys.map(p=>"M"+p.map(q=>q[0].toFixed(2)+" "+q[1].toFixed(2)).join("L")+(close?"Z":"")).join(" ");
+const annulus=(ro,ri)=>
+  `M ${ro} 0 A ${ro} ${ro} 0 1 0 ${-ro} 0 A ${ro} ${ro} 0 1 0 ${ro} 0 Z`+
+  `M ${ri} 0 A ${ri} ${ri} 0 1 1 ${-ri} 0 A ${ri} ${ri} 0 1 1 ${ri} 0 Z`;
+
+/* ============ PR-01 · planta da tampa ============ */
+(function(){
+  const host=document.getElementById("pl-plan");
+  const bb=p=>{let a=1e9,b=-1e9,c=1e9,d=-1e9;for(const q of p){a=Math.min(a,q[0]);b=Math.max(b,q[0]);c=Math.min(c,q[1]);d=Math.max(d,q[1]);}
+    return Math.max(b-a,d-c);};
+  const small=ps=>ps.filter(p=>bb(p)<60), big=ps=>ps.filter(p=>bb(p)>=60);
+
+  const s=el("svg",{viewBox:"-74 -104 208 214",role:"img",
+    "aria-label":"Vista de topo da tampa, 122 por 185 milímetros, com o poço da válvula no centro"});
+  s.style.maxWidth="520px"; s.style.margin="0 auto";
+  const g=el("g",{transform:"scale(1,-1)"});
+  g.appendChild(el("path",{d:pathOf(big(GEO.plan.painel)),fill:"none",stroke:"var(--hair)","stroke-width":.4}));
+  g.appendChild(el("path",{d:pathOf(big(GEO.plan.furo)),fill:"none",stroke:"var(--hair)","stroke-width":.4}));
+  g.appendChild(el("path",{d:pathOf(GEO.plan.aro),fill:"none",stroke:"var(--pc-tampa)","stroke-width":.7}));
+  g.appendChild(el("path",{d:pathOf(small(GEO.plan.painel)),fill:"none",stroke:"var(--ink)","stroke-width":.5}));
+  g.appendChild(el("path",{d:pathOf(small(GEO.plan.furo)),fill:"none",stroke:"var(--signal)","stroke-width":.6}));
+  g.appendChild(el("circle",{cx:0,cy:12.18,r:4.06,fill:"none",stroke:"var(--signal)",
+    "stroke-width":.5,"stroke-dasharray":"1.6 1.1"}));
+  g.appendChild(el("circle",{cx:0,cy:-4.96,r:.89,fill:"none",stroke:"var(--signal)","stroke-width":.4}));
+  s.appendChild(g);
+
+  const ln=(x1,y1,x2,y2,c="var(--faint)",w=.32,d=null)=>{
+    const a={x1,y1,x2,y2,stroke:c,"stroke-width":w}; if(d)a["stroke-dasharray"]=d;
+    s.appendChild(el("line",a));};
+  const tx=(x,y,t,anc="middle",col="var(--muted)",sz=4.6)=>{
+    const n=el("text",{x,y,"text-anchor":anc,fill:col,"font-size":sz,
+      "font-family":"IBM Plex Mono, monospace"}); n.textContent=t; s.appendChild(n);};
+
+  ln(-61.1,97,61.1,97); ln(-61.1,94.5,-61.1,99.5); ln(61.1,94.5,61.1,99.5);
+  tx(0,104,"122,15");
+  ln(-68,-92.5,-68,92.5); ln(-70.5,-92.5,-65.5,-92.5); ln(-70.5,92.5,-65.5,92.5);
+  const r=el("text",{fill:"var(--muted)","font-size":4.6,"text-anchor":"middle",
+    "font-family":"IBM Plex Mono, monospace",transform:"translate(-70.5,0) rotate(-90)"});
+  r.textContent="185,07"; s.appendChild(r);
+  tx(0,-97,"12 h","middle","var(--faint)",4.2);
+
+  const call=(y,tag,sub,col,fx,fy)=>{
+    ln(fx,fy,66,y-1.6,col,.3,"1.8 1.4");
+    tx(68,y,tag,"start",col,4.6); tx(68,y+5.6,sub,"start","var(--faint)",3.8);
+  };
+  call(-56,"respiro Ø8,12","a 12,18 do centro, a 12 h","var(--signal)",3.4,-14.7);
+  call(-26,"rasgo da orelha","abre para Ø44,62, a 3 h e 9 h","var(--signal)",22.4,-3.4);
+  call(4,"poço Ø38,54","furo reto de 4,85 mm","var(--signal)",19.3,0);
+  call(34,"rebaixo Ø50,05","aba plana, sobe 0,60 mm","var(--pc-tampa)",25.0,5.0);
+  call(64,"ponto de injeção Ø1,78","a 4,96 do centro, a 6 h","var(--signal)",0.9,5.9);
+  host.appendChild(s);
+})();
+
+/* ============ PR-02 · corte ============ */
+(function(){
+  const host=document.getElementById("pl-sec");
+  const X0=-24.5, X1=44, Y0=30.2, Y1=42.4;
+  const s=el("svg",{viewBox:`${X0} ${-Y1} ${X1-X0} ${Y1-Y0}`,role:"img",
+    "aria-label":"Corte pelo eixo do poço mostrando a tampa medida e as três peças novas do datador"});
+  s.style.minWidth="1150px";
+  const LV=[[32.15,"32,15  fundo do poço"],[35.20,"35,20  topo do ressalto do respiro"],
+            [37.23,"37,23  face de topo do pino"],[38.24,"38,24  plano de rótulo"],
+            [39.72,"39,72  aro de empilhamento"]];
+  const g=el("g",{transform:"scale(1,-1)"});
+  LV.forEach(([y])=>g.appendChild(el("line",{x1:X0+.4,y1:y,x2:23.6,y2:y,
+    stroke:"var(--grid)","stroke-width":.05})));
+  g.appendChild(el("line",{x1:0,y1:30.4,x2:0,y2:41.6,stroke:"var(--grid)","stroke-width":.05,
+    "stroke-dasharray":".6 .5"}));
+  g.appendChild(el("path",{d:pathOf(GEO.sec.valv,false),fill:"none",stroke:"var(--pc-pino)",
+    "stroke-width":.09,"stroke-dasharray":".7 .45"}));
+  g.appendChild(el("path",{d:pathOf(GEO.sec.tampa,false),fill:"none",stroke:"var(--pc-tampa)","stroke-width":.16}));
+
+  const poly=(pts,fill)=>g.appendChild(el("path",{d:"M"+pts.map(p=>p[0]+" "+p[1]).join("L")+"Z",
+    fill,stroke:"var(--sheet)","stroke-width":.06}));
+  const mir=(pts,fill)=>{poly(pts,fill);poly(pts.map(p=>[-p[0],p[1]]),fill);};
+  poly([[-6.3,37.23],[-6.3,38.20],[6.3,38.20],[6.3,37.23]],"var(--pc-pino)");
+  mir([[12.2,37.23],[12.2,38.20],[14.2,38.20],[14.2,37.23]],"var(--pc-pino)");
+  mir([[6.0,37.25],[6.0,38.18],[12.1,38.18],[12.1,37.25]],"var(--pc-mes)");
+  mir([[14.3,37.25],[14.3,38.18],[20.5,38.18],[20.5,37.25]],"var(--pc-dia)");
+  s.appendChild(g);
+
+  const tx=(x,y,t,anc="middle",col="var(--muted)",sz=1.0)=>{
+    const n=el("text",{x,y:-y,"text-anchor":anc,fill:col,"font-size":sz,
+      "font-family":"IBM Plex Mono, monospace"});n.textContent=t;s.appendChild(n);};
+  const lead=(a,b,c,d,col)=>s.appendChild(el("line",{x1:a,y1:-b,x2:c,y2:-d,stroke:col,"stroke-width":.07}));
+  const OFF={"37.23":-.62,"38.24":.24};
+  LV.forEach(([y,t])=>{
+    const o=OFF[y.toFixed(2)]||0;
+    tx(24.4,y-.22+o,t,"start","var(--faint)",.66);
+    if(o) s.appendChild(el("line",{x1:24.0,y1:-(y+o),x2:23.6,y2:-y,stroke:"var(--grid)","stroke-width":.05}));
+  });
+
+  const F=.66;
+  tx(-18.0,41.9,"casca = válvula atual","middle","var(--pc-pino)",F);
+  lead(-18.0,41.6,-18.0,38.9,"var(--pc-pino)"); lead(-18.0,38.9,-16.2,37.15,"var(--pc-pino)");
+  tx(9.25,40.4,"anel de mês Ø24,2/Ø12,0","middle","var(--pc-mes)",F);
+  lead(9.25,40.1,9.25,38.3,"var(--pc-mes)");
+  tx(17.4,41.9,"anel de dia Ø41,0/Ø28,6","middle","var(--pc-dia)",F);
+  lead(17.4,41.6,17.4,38.3,"var(--pc-dia)");
+  tx(-13.2,33.0,"colar Ø24,4/Ø28,4","middle","var(--pc-pino)",F);
+  lead(-13.2,33.3,-13.2,37.15,"var(--pc-pino)");
+  tx(0,34.3,"cubo Ø11,6","middle","var(--pc-pino)",F); lead(0,34.6,0,37.15,"var(--pc-pino)");
+  tx(12.2,32.6,"respiro Ø8,12","middle","var(--pc-tampa)",F);
+  lead(12.2,32.9,12.2,35.15,"var(--pc-tampa)");
+  tx(20.6,33.3,"rasgo da orelha","middle","var(--pc-tampa)",F);
+  lead(20.6,33.6,21.4,35.5,"var(--pc-tampa)");
+  host.appendChild(s);
+})();
+
+/* ============ PR-03 · datador interativo ============ */
+(function(){
+  const host=document.getElementById("pl-dial");
+  const R=27, SD=360/31, SM=30;
+  const s=el("svg",{viewBox:`${-R} ${-R} ${2*R} ${2*R}`,role:"img",
+    "aria-label":"Planta do datador montado no poço, com anel de dia e anel de mês giratórios"});
+  s.style.maxWidth="430px"; s.style.margin="0 auto"; s.style.touchAction="none";
+
+  const flip=el("g",{transform:"scale(1,-1)"}); s.appendChild(flip);
+  flip.appendChild(el("circle",{r:25.03,fill:"var(--sunk)",stroke:"var(--pc-tampa)","stroke-width":.18}));
+  flip.appendChild(el("circle",{r:24.24,fill:"none",stroke:"var(--pc-tampa)","stroke-width":.1}));
+  flip.appendChild(el("circle",{r:19.27,fill:"none",stroke:"var(--pc-tampa)","stroke-width":.2}));
+  [1,-1].forEach(sg=>{
+    flip.appendChild(el("rect",{x:sg>0?19.0:-22.1,y:-3.2,width:3.1,height:6.4,
+      fill:"var(--pc-pino)",stroke:"none"}));
+  });
+
+  const rDia=el("g",{class:"ring-hit"});
+  rDia.appendChild(el("path",{d:annulus(20.5,14.3),fill:"var(--pc-dia)","fill-rule":"evenodd"}));
+  for(let i=0;i<24;i++){
+    const a=i*Math.PI/12;
+    rDia.appendChild(el("line",{x1:19.55*Math.cos(a),y1:19.55*Math.sin(a),
+      x2:20.5*Math.cos(a),y2:20.5*Math.sin(a),stroke:"var(--sheet)","stroke-width":.45}));
+  }
+  for(let d=1;d<=31;d++){
+    const gg=el("g",{transform:`rotate(${-90+(d-1)*SD}) translate(17.4,0) rotate(90)`});
+    const t=el("text",{x:0,y:0,"text-anchor":"middle","dominant-baseline":"central",
+      fill:"var(--sheet)","font-size":2.55,"font-weight":600,"font-family":"IBM Plex Mono, monospace"});
+    t.textContent=String(d).padStart(2,"0"); gg.appendChild(t); rDia.appendChild(gg);
+  }
+  s.appendChild(rDia);
+
+  const rMes=el("g",{class:"ring-hit"});
+  rMes.appendChild(el("path",{d:annulus(12.1,6.0),fill:"var(--pc-mes)","fill-rule":"evenodd"}));
+  for(let m=0;m<12;m++){
+    const a=(-90+m*SM-15)*Math.PI/180;
+    rMes.appendChild(el("line",{x1:6.2*Math.cos(a),y1:6.2*Math.sin(a),
+      x2:11.9*Math.cos(a),y2:11.9*Math.sin(a),stroke:"var(--sheet)","stroke-width":.32}));
+  }
+  for(let m=1;m<=12;m++){
+    const gg=el("g",{transform:`rotate(${-90+(m-1)*SM}) translate(9.05,0) rotate(90)`});
+    const t=el("text",{x:0,y:0,"text-anchor":"middle","dominant-baseline":"central",
+      fill:"var(--sheet)","font-size":3.05,"font-weight":600,"font-family":"IBM Plex Mono, monospace"});
+    t.textContent=String(m).padStart(2,"0"); gg.appendChild(t); rMes.appendChild(gg);
+  }
+  s.appendChild(rMes);
+
+  const fix=el("g");
+  fix.appendChild(el("path",{d:annulus(14.2,12.2),fill:"var(--pc-pino)","fill-rule":"evenodd",
+    stroke:"var(--sheet)","stroke-width":.12}));
+  fix.appendChild(el("circle",{r:5.8,fill:"var(--pc-pino)",stroke:"var(--sheet)","stroke-width":.12}));
+  const w=16*Math.PI/180;
+  fix.appendChild(el("path",{
+    d:`M ${(14.2*Math.sin(-w)).toFixed(3)} ${(-14.2*Math.cos(w)).toFixed(3)}`+
+      ` A 14.2 14.2 0 0 1 ${(14.2*Math.sin(w)).toFixed(3)} ${(-14.2*Math.cos(w)).toFixed(3)}`+
+      ` L ${(12.2*Math.sin(w)).toFixed(3)} ${(-12.2*Math.cos(w)).toFixed(3)}`+
+      ` A 12.2 12.2 0 0 0 ${(12.2*Math.sin(-w)).toFixed(3)} ${(-12.2*Math.cos(w)).toFixed(3)} Z`,
+    fill:"var(--signal)"}));
+  fix.appendChild(el("path",{d:"M 0 -12.35 L -1.0 -13.15 L 1.0 -13.15 Z",fill:"var(--sheet)"}));
+  fix.appendChild(el("path",{d:"M 0 -14.05 L -1.0 -13.25 L 1.0 -13.25 Z",fill:"var(--sheet)"}));
+  s.appendChild(fix);
+
+  /* elementos que ja existem na tampa, por cima e tracejados */
+  const extra=el("g",{transform:"scale(1,-1)"});
+  extra.appendChild(el("circle",{cx:0,cy:12.18,r:4.06,fill:"none",stroke:"var(--sheet)","stroke-width":.75}));
+  extra.appendChild(el("circle",{cx:0,cy:12.18,r:4.06,fill:"none",stroke:"var(--signal)",
+    "stroke-width":.34,"stroke-dasharray":"1.2 .9"}));
+  extra.appendChild(el("circle",{cx:0,cy:-4.96,r:.89,fill:"none",stroke:"var(--sheet)","stroke-width":.7}));
+  extra.appendChild(el("circle",{cx:0,cy:-4.96,r:.89,fill:"none",stroke:"var(--signal)","stroke-width":.32}));
+  [1,-1].forEach(sg=>{
+    extra.appendChild(el("path",{d:`M ${sg*19.27} -3.7 L ${sg*22.31} -3.7 L ${sg*22.31} 3.7 L ${sg*19.27} 3.7`,
+      fill:"none",stroke:"var(--signal)","stroke-width":.3,"stroke-dasharray":"1.2 .9"}));
+  });
+  s.appendChild(extra);
+
+  const lg=el("g");
+  lg.appendChild(el("line",{x1:0,y1:-20.9,x2:0,y2:-25.0,stroke:"var(--signal)","stroke-width":.24}));
+  const lbl=el("text",{x:1.2,y:-23.0,fill:"var(--signal)","font-size":2.1,
+    "font-family":"IBM Plex Mono, monospace"}); lbl.textContent="12 h"; lg.appendChild(lbl);
+  s.appendChild(lg);
+  host.appendChild(s);
+
+  let dia=31, mes=8;
+  const ro=document.getElementById("ro");
+  const wrap=(v,n)=>((v-1)%n+n)%n+1;
+  function paint(){
+    rDia.setAttribute("transform",`rotate(${-(dia-1)*SD})`);
+    rMes.setAttribute("transform",`rotate(${-(mes-1)*SM})`);
+    ro.innerHTML=String(dia).padStart(2,"0")+' <small>/</small> '+String(mes).padStart(2,"0");
+  }
+  document.getElementById("dp").onclick=()=>{dia=wrap(dia+1,31);paint();};
+  document.getElementById("dm").onclick=()=>{dia=wrap(dia-1,31);paint();};
+  document.getElementById("mp").onclick=()=>{mes=wrap(mes+1,12);paint();};
+  document.getElementById("mm").onclick=()=>{mes=wrap(mes-1,12);paint();};
+  document.getElementById("hoje").onclick=()=>{dia=31;mes=8;paint();};
+  document.getElementById("ck").onchange=e=>{extra.setAttribute("opacity",e.target.checked?"1":"0");};
+
+  let drag=null;
+  const at=ev=>{
+    const b=s.getBoundingClientRect();
+    const x=(ev.clientX-b.left)/b.width*2*R-R, y=(ev.clientY-b.top)/b.height*2*R-R;
+    return {a:Math.atan2(y,x)*180/Math.PI, r:Math.hypot(x,y)};
+  };
+  s.addEventListener("pointerdown",ev=>{
+    const p=at(ev);
+    if(p.r>=14.3&&p.r<=20.5) drag={k:"d",a0:p.a,v0:dia};
+    else if(p.r>=6.0&&p.r<=12.1) drag={k:"m",a0:p.a,v0:mes};
+    if(drag){ s.setPointerCapture(ev.pointerId); ev.preventDefault(); }
+  });
+  s.addEventListener("pointermove",ev=>{
+    if(!drag) return;
+    let d=at(ev).a-drag.a0;
+    while(d>180)d-=360; while(d<-180)d+=360;
+    if(drag.k==="d") dia=wrap(drag.v0-Math.round(d/SD),31);
+    else mes=wrap(drag.v0-Math.round(d/SM),12);
+    paint();
+  });
+  const stopDrag=()=>{drag=null;};
+  s.addEventListener("pointerup",stopDrag); s.addEventListener("pointercancel",stopDrag);
+  paint();
+})();
+</script>
