@@ -136,29 +136,35 @@ cenário de chumbo é cozinha e sala.
 E cuidado: parte do "+93%" do chumbo é **recadastro** de "CINZA" → "CHUMBO". O ganho líquido
 da família é R$ 1,70 M, não R$ 2,57 M. Não faça post celebrando um número que é renomeação.
 
-## Os 5 modelos do Canva — escolha antes de escrever qualquer prompt
+## Os modelos do Canva — consulte a tabela, nunca a memória
 
-Os modelos estão cadastrados em `social_modelo`, com o mapa de `locator_id` por papel.
-**Consulte a tabela, não decore.** Os `locator_id` foram verificados como estáveis entre
-cópias, então o mapa é confiável.
+Os modelos são remontados pela squad sem aviso. Em 31/08/2026 os cinco foram refeitos e
+**três dos cinco papéis do Modelo 04 mudaram de `locator_id`**. Por isso: **a tabela manda,
+e a tabela pode estar velha.**
 
 ```sql
-SELECT codigo, uso, slots_produto, slots_cenario, permite_pessoa,
-       titulo_max, subtitulo_max, observacao
-FROM social_modelo WHERE ativo ORDER BY codigo;
+SELECT codigo, variacao, page_number, uso, slots_produto, slots_cenario, permite_pessoa,
+       aceita_produto_na_copy, titulo_max, subtitulo_max, cenario_size,
+       canva_atualizado_em, observacao
+FROM social_modelo_pronto ORDER BY codigo;
 ```
 
-| Modelo | Para que serve | Fotos de produto | Cenários do GPT | Pessoa |
+Se o `updated_at` que o `search-brand-templates` devolve for **maior** que
+`canva_atualizado_em`, o mapa está velho: peça o remapeamento ao `montador-canva` antes de
+fechar o briefing. Limite de caractere e forma de slot mudam no remonte.
+
+| Modelo | Para que serve | Fotos de produto | Cenários GPT | Pessoa |
 |---|---|---|---|---|
-| **01** | produto único em destaque — o default de post de SKU | 1 | **0** | não |
+| **01** | produto único em destaque — o default de SKU | 1 | **0** | não |
 | **02** | família ou cor: 4 SKUs empilhados | 4 | **0** | não |
-| **03** | produto em uso / benefício funcional (maior slot dos cinco) | 1 | **0** | não |
-| **04** | institucional / lifestyle, foto circular | 0 | 1 | **sim** |
-| **05** | listicle de ambiente: 4 cantos da casa com rótulo | 0 | 4 | não |
+| **03 teal** | produto em uso, fundo teal (página 1) | 1 | **0** | não |
+| **03 rosa** | mesmo layout, fundo rosa (página 2) | 1 | **0** | não |
+| **04** | institucional / lifestyle, foto em squircle | 0 | 1 | **sim** |
+| **05** | listicle: 4 fotos de **produto em ambiente** | 4 | **0** | não |
 
 ### A consequência disso: em 3 dos 5 modelos o GPT não entra
 
-**Modelos 01, 02 e 03 têm `slots_cenario = 0`.** A arte é foto real de produto sobre cor
+**Modelos 01, 02, 03 e agora também o 05 têm `slots_cenario = 0`.** A arte é foto real de produto sobre cor
 plana da marca. Nesses casos você **não escreve prompt nenhum** — deixe `prompts_cenario`
 nulo, preencha `fotos_produto` e a `social-imagem` promove o post direto para
 `imagem_aprovada`, sem chamar a OpenAI e sem custo.
@@ -169,8 +175,12 @@ lugar nenhum. Gera confusão em quem lê o registro depois.
 **Modelo 04** é o único que aceita pessoa — e é o único sem slot de produto, então
 **não use para post de SKU**. É institucional.
 
-**Modelo 05** pede **4 prompts** em `prompts_cenario`, um por canto, e 4 rótulos curtos.
-Se você mandar 3, a função reprova o briefing e diz quantos faltam.
+**Modelo 05 foi reclassificado.** As 4 fotos dele são **produto em ambiente** — o carrinho
+Nitron-Mob em banheiro, cozinha, lavanderia e entrada. Não é cenário vazio, e o GPT não
+desenha produto. Então ele pede **4 fotos reais de produto em ambiente**, não 4 prompts.
+Se não existir essa fotografia, o post não é para esse modelo.
+
+Depois do remonte, **o Modelo 04 é o único que usa GPT.**
 
 ### O slot `selo` do Modelo 01 é claim, não ornamento
 
@@ -181,8 +191,10 @@ você tem que dizer isso no briefing. Frasqueira de organização não vai ao mi
 ### Limite de caracteres é real, não sugestão
 
 `titulo_max` e `subtitulo_max` em `social_modelo` foram **medidos montando arte real**, não
-estimados. No Modelo 01 o título cabe **24 caracteres** — 33 já quebram em 3 linhas e
-colidem com a caixa do subtítulo. Estourar não dá erro: dá texto cortado, que só o
+estimados — e o remonte de 31/08 os derrubou, porque os títulos foram de 73.9pt para
+**100pt**. Modelo 01 cabe 24 caracteres, Modelo 02 cabe 27, Modelo 04 cabe 32. Confira na
+tabela a cada post: se o template foi remontado depois do último remapeamento, o número que
+está lá não vale. Estourar não dá erro: dá texto cortado, que só o
 `revisor-social` pega depois da montagem. Conte os caracteres antes.
 
 ### Convenção de nome no Canva

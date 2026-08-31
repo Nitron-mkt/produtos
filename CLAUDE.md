@@ -306,15 +306,25 @@ O contrato é REST puro sobre `social_post`, então n8n ainda pode entrar depois
   leva `Date.now()`; para revalidar uma URL já servida, use `?v=<epoch>`.
 - **Storage deste projeto exige o header `apikey`**, não só `Authorization: Bearer` — senão
   403 `Invalid Compact JWS`. O PostgREST aceita só o Bearer, o Storage não. Verificado.
-- **Os 5 modelos estão em `social_modelo`** (`mapa` = papel → `locator_id`, verificados como
-  estáveis entre cópias). Em **3 dos 5 o GPT não entra**: Modelos 01, 02 e 03 são cor plana
-  com slot de foto real, e a `social-imagem` os promove sem custo. GPT só no 04 (lifestyle,
-  o único que aceita pessoa) e no 05 (4 ambientes).
+- **Os modelos estão em `social_modelo`** (leia pela view `social_modelo_pronto`). São 6
+  entradas: 01, 02, **03 teal**, **03 rosa** (o template ganhou 2 páginas com ids diferentes
+  em cada), 04 e 05.
+- **⚠️ Template remontado TROCA `locator_id`.** `locator_id` é estável entre **cópias do mesmo
+  template**, e isso não vale para um template **remontado**: em 31/08/2026 a squad refez os
+  cinco e no Modelo 04 só `titulo` e `page_id` sobreviveram. **Pré-voo obrigatório:**
+  `search-brand-templates` → compare `updated_at` com `social_modelo.canva_updated_at`;
+  Canva maior = remapeie antes de montar.
+- **`isMediaReplaceable` não significa slot de produto.** Os modelos novos têm adornos de
+  marca substituíveis (os "O" do símbolo, folhas, texturas). No `mapa`, papel com `_` na
+  frente é adorno: não escreva nele.
+- **Depois do remonte, só o Modelo 04 usa GPT.** O 05 foi reclassificado: as 4 fotos são
+  produto em ambiente, não cenário vazio. 01, 02, 03 e 05 pedem foto real.
+- **Os títulos foram para 100pt no remonte**, então cabe menos texto: 01 → 24 caracteres,
+  02 → 27, 04 → 32, 03 → 40, 05 → 38. Remonte invalida a medida; reconfira.
 - **O bloqueio atual:** `produto_foto` são **JPG com fundo branco** e os modelos pedem **PNG
   recortado** — JPG no slot vira retângulo branco sobre o creme. Bloqueia justamente os três
   modelos que não gastam GPT. Saída preferida: bucket de recorte alimentado pelo marketing.
-- **`titulo_max` tem que ser medido montando arte real.** No Modelo 01 são 24 caracteres:
-  33 quebram em 3 linhas e colidem com o subtítulo. Estimar pela largura do box erra.
+- **`titulo_max` tem que ser medido montando arte real.** Estimar pela largura do box erra.
 - **O slot `selo` do Modelo 01 é a régua de ícones** (freezer, micro-ondas, lava-louças,
   BPA FREE) — são quatro claims. Se o SKU não sustenta, apague o elemento.
 

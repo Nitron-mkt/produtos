@@ -180,164 +180,68 @@ Teste de fumaça (as duas devolveram 200 com fila vazia em 28/08/2026):
 
 ---
 
-## 6. Os 5 modelos do Canva
+## 6. Os modelos do Canva — e por que o mapa expira
 
-Cadastrados em `social_modelo` em 28/08/2026, com o mapa de `locator_id` por papel.
-Todos são **1080 × 1350 (4:5)** nativos, brand kit `NITRON`.
+Cadastrados em `social_modelo`, com o mapa `papel → locator_id`. Todos **1080 × 1350 (4:5)**,
+brand kit `NITRON`. Leia sempre pela view `social_modelo_pronto`, que separa os adornos.
 
 | Modelo | Template | Para que serve | Fotos de produto | Cenários GPT | Pessoa |
 |---|---|---|---|---|---|
-| **01** | `EAHTlFA83HE` | produto único em destaque — o default de SKU | 1 | **0** | não |
+| **01** | `EAHTlFA83HE` | produto único em destaque | 1 | **0** | não |
 | **02** | `EAHTlKR9Mek` | família ou cor: 4 SKUs empilhados | 4 | **0** | não |
-| **03** | `EAHTlO_M85U` | produto em uso / benefício funcional | 1 | **0** | não |
-| **04** | `EAHTlIZUQbA` | institucional / lifestyle, foto circular | 0 | 1 | **sim** |
-| **05** | `EAHTlG7KBaQ` | listicle: 4 cantos da casa com rótulo | 0 | 4 | não |
+| **03 teal** | `EAHTlO_M85U` p.1 | produto em uso, fundo teal | 1 | **0** | não |
+| **03 rosa** | `EAHTlO_M85U` p.2 | mesmo layout, fundo rosa | 1 | **0** | não |
+| **04** | `EAHTlIZUQbA` | institucional / lifestyle, squircle | 0 | 1 | **sim** |
+| **05** | `EAHTlG7KBaQ` | listicle: 4 fotos de produto em ambiente | 4 | **0** | não |
 
-### O achado que mudou o pipeline
+### Template remontado troca `locator_id` — o mapa tem validade
 
-**Em 3 dos 5 modelos o GPT não entra.** Os Modelos 01, 02 e 03 são layouts de cor plana da
-marca com slots de **foto real de produto** — não têm fundo fotográfico. A `social-imagem`
-detecta `slots_cenario = 0` e promove o post direto para `imagem_aprovada`, **sem chamar a
-OpenAI e sem custo nenhum**.
+Em 31/08/2026 a squad remontou os cinco. Mesmos IDs de template, `updated_at` novo, e:
 
-Isso não enfraquece a divisão de camadas da §1 — confirma. Onde a marca resolve o layout,
-não há cenário para gerar. O GPT entra só no Modelo 04 (uma cena lifestyle, o único que
-aceita pessoa) e no Modelo 05 (quatro ambientes).
+| Modelo | O que mudou |
+|---|---|
+| **01** | título 73.9pt → **100pt** e cor coral → **teal `#0aa9b1`**; `logo` mudou de id; 3 adornos de marca novos |
+| **02** | título → 100pt, subtítulo → 46.7pt; `logo` mudou de id; adorno de frutas removido |
+| **03** | passou a ter **2 páginas** (teal e rosa), com `locator_id` **diferentes em cada** |
+| **04** | slot deixou de ser **círculo** e virou **squircle**; `subtitulo`, `cenario_1` e `logo` mudaram de id — **só `titulo` e `page_id` sobreviveram** |
+| **05** | título deixou de ser **bicolor** (a armadilha antiga acabou); `logo` mudou de id |
 
-### O autofill não existe — e não faz falta
+Meu teste anterior provou que `locator_id` é estável **entre cópias do mesmo template**. Um
+template **remontado** é outra coisa: os ids trocam. As duas afirmações convivem, e confundir
+uma com a outra é o que faz montar no elemento errado.
 
-Zero brand templates com dataset, e a tool `autofill-design` não existe no MCP. Mas os
-`locator_id` **são estáveis entre cópias** (verificado: duas cópias do Modelo 01 devolveram
-os mesmos ids), então o mapa fixo em `social_modelo.mapa` substitui o autofill com
-vantagem — ele controla o que pode ser trocado, e o autofill não controlaria.
+**Pré-voo obrigatório antes de montar:** `search-brand-templates` → compare `updated_at` com
+`social_modelo.canva_updated_at`. Canva maior = mapa velho = remapeie primeiro.
 
-```
-create-design-from-brand-template → upload-asset-from-url →
-read-design(open_transaction) → edit-design(update_fill + replace_text) →
-[conferir thumbnail] → commit → export-design
-```
+### `isMediaReplaceable` deixou de significar "slot de produto"
 
-Papéis no `mapa`: `titulo`, `subtitulo`, `produto_1..4`, `cenario_1..4`, `rotulo_1..4`,
-`selo`, `adorno_topo`, `adorno_base`, `logo`. **O `logo` está lá para ser conferido, nunca
-substituído.**
+Era uma heurística minha, e o remonte a matou: os modelos novos têm **adornos de marca
+substituíveis** — os "O" do símbolo Nitron, folhas, texturas. Trocar um deles por foto de
+produto gera post absurdo.
 
-### O bloqueio real: foto de catálogo é JPG com fundo branco
+No `mapa`, papel que começa com `_` é adorno e **não se escreve nele**.
+`social_modelo_pronto` entrega `mapa_editavel` e `adornos_nao_mexer` já separados.
 
-Descoberto montando o primeiro post de verdade (28/08/2026, `social_post` id 1).
+### Modelo 05 foi reclassificado
 
-Os templates foram desenhados com **PNG recortado** — o produto flutua sobre a cor plana da
-marca, com sombra suave. As 749 fotos de `produto_foto` são **JPG de catálogo com fundo
-branco**. Colocar uma delas no slot produz um **retângulo branco visível** sobre o creme
-`#fff7ea` do Modelo 01. Mecanicamente funciona; visualmente é inaceitável.
+As 4 fotos são **produto em ambiente** (o carrinho Nitron-Mob em banheiro, cozinha,
+lavanderia e entrada), não cenário vazio. O GPT não desenha produto, então: `slots_produto =
+4`, `slots_cenario = 0` — o oposto do que eu havia cadastrado lendo só a estrutura.
 
-JPG não tem canal alfa, então não há truque de composição no Canva que resolva. As saídas,
-em ordem de preferência:
+**Depois do remonte, o Modelo 04 é o único que usa GPT.** Os outros cinco slots-de-produto
+dependem de fotografia — e os Modelos 01, 02 e 03 dependem de **PNG recortado**, o bloqueio
+de sempre.
 
-1. **Bucket de recorte.** Marketing sobe PNG com fundo transparente num bucket público
-   (`produtos-recorte`), e o `diretor-arte` puxa de lá quando existe. Trabalho pontual por
-   SKU, custo zero de recorrência, e o resultado é o melhor.
-2. **Remoção de fundo por API** numa Edge Function entre `produto_foto` e o Canva. Automático,
-   mas custa por imagem e erra em produto transparente — e Frasqueira Cristal é transparente,
-   justamente o caso difícil.
-3. **Trocar o fundo do slot**, não do produto: os cinco modelos têm `background.isMediaReplaceable
-   = true`. Dá para pôr uma cena atrás e deixar a foto branca por cima — mas aí o post deixa
-   de ser o layout que a squad aprovou.
+### Limites de caractere caíram
 
-Isso bloqueia justamente os Modelos 01, 02 e 03 — os três que não gastam GPT. O Modelo 04 e
-o 05 não sofrem: os slots deles recebem cenário gerado, que já vem sem fundo branco.
-
-### Trava de concorrência: sem ela você paga duas vezes
-
-O cron roda de 5 em 5 minutos. Uma chamada manual no meio do caminho e o cron podem pegar
-o **mesmo post** — aconteceu em 28/08/2026 e o `social-qa` avaliou o post 2 duas vezes.
-No QA isso é só log duplicado. Na geração de imagem seria **pagar duas gerações**.
-
-A trava é um `UPDATE` filtrado por status: quem consegue mudar `briefing_pronto` →
-`gerando_imagem` leva o post; o outro worker recebe zero linhas e desiste. Ela é tomada
-**depois** das validações de graça e **antes** da primeira chamada paga.
-
-Se a função morrer entre pegar a trava e gravar o resultado, o post ficaria preso. Por isso
-todo tick começa resgatando o que está em `gerando_imagem` há mais de 10 minutos.
-
-### Storage exige o header `apikey`, não só o Bearer
-
-Primeira geração real de imagem (28/08/2026, post id 2): o `gpt-image-1` devolveu a imagem,
-e o upload no bucket voltou **403 `Invalid Compact JWS`**. O `PATCH` no PostgREST tinha
-funcionado com a mesma chave, na mesma função.
-
-Motivo: o PostgREST aceita a chave pelo header `apikey`; o **Storage recusa** um `Authorization:
-Bearer` que não seja JWT legado. Faltava o `apikey` na requisição de upload. Se você escrever
-qualquer coisa nova contra o Storage deste projeto, mande os dois headers.
-
-E a falha custou uma imagem: a geração foi paga e o arquivo se perdeu. Por isso **falha de
-upload não consome tentativa** — só recusa da OpenAI consome. Upload é infraestrutura, não
-briefing ruim.
-
-### Nome de arquivo tem que ser único por geração
-
-O `x-upsert: true` troca os bytes, mas o **CDN do Storage continua servindo a versão antiga
-pela mesma URL**. Em 31/08/2026 isso fez o `social-qa` avaliar a imagem velha e reprovar uma
-cena que estava certa — a correção que ele escreveu descrevia a foto anterior, o que foi o
-sintoma que denunciou o problema.
-
-O nome `{id}-v{tentativa}-s{slot}` colide sempre que `tentativas_imagem` é resetado. Agora
-tem um `Date.now()` no fim: nome único por geração, sem colisão de cache e com as versões
-anteriores preservadas para auditoria.
-
-Se você precisar validar uma imagem que já foi servida por uma URL, adicione `?v=<epoch>`.
-A query string entra na chave do cache.
-
-### O tamanho da imagem vem do slot, não do canal
-
-O slot do Modelo 04 é um **círculo de 741×741**. Gerar retrato 2:3 para ele perde as
-laterais no recorte circular. Por isso `social_modelo.cenario_size` manda no tamanho pedido
-ao `gpt-image-1`, e o canal virou só fallback: Modelo 04 → `1024x1024`, Modelo 05 →
-`1024x1536` (slots de ~313×507).
-
-### A negativa da função cobre utilidades, não móvel
-
-A `social-imagem` acrescenta ao prompt uma negativa fixa contra "pote, vasilha, recipiente,
-caixa ou embalagem" — que é o catálogo histórico da Nitron. Para a linha **Nitron-Mob**
-(móveis) o produto é arara e prateleira, e nada disso está na negativa fixa.
-
-Quem escreve o prompt tem que proibir o produto **daquela** linha explicitamente. No post
-de setembro da Nitron-Mob o prompt lista: sem arara, sem cabideiro, sem prateleira, sem
-estante, sem nicho, sem sapateira, sem armário aberto, sem cômoda, sem estrutura de tubos
-ou módulos. Sem isso o GPT desenha o móvel — e o móvel desenhado não é o móvel vendido.
-
-### Limite de caractere: meça na arte, não no schema
-
-O `titulo_max` do Modelo 01 estava em 46 por estimativa. Na renderização real, **33
-caracteres quebraram em 3 linhas** e colidiram com a caixa do subtítulo. O box de 455px a
-73.9pt cabe **~12 caracteres por linha**. Corrigido para 24.
-
-Todo `titulo_max` e `subtitulo_max` da tabela deve ser confirmado montando um post real. Não
-confie na largura do box dividida pelo corpo da fonte.
-
-### O slot `selo` do Modelo 01 é claim, não ornamento
-
-O que eu havia mapeado como `selo` é a **régua de ícones**: freezer, micro-ondas,
-lava-louças e **BPA FREE**. São quatro alegações sobre o produto.
-
-Para uma Frasqueira de organização, micro-ondas é falso e BPA exige especificação de
-material. Um post que herda a régua do template sem checar **publica claim que a Nitron pode
-não sustentar** (CDC art. 36). O `montador-canva` apaga o elemento quando o SKU não sustenta
-os quatro — e apagar é a escolha segura por default.
-
-### Duas armadilhas registradas
-
-**Modelo 05 — título bicolor.** Tem duas `textRegions` de cores diferentes (`"5 cantos"` em
-`#f28a7e`, o resto em `#dfa3a5`). `replace_text` achata as duas numa cor. Use
-`find_and_replace_text` por região. E o layout tem **4 fotos** apesar de o título dizer
-"5 cantos".
-
-**Limite de caracteres.** `titulo_max` e `subtitulo_max` vêm da largura do box medida no
-template. Estourar não dá erro — dá texto cortado, que só aparece depois da montagem.
+Os títulos foram de 73.9pt para **100pt**, então cabe menos: Modelo 01 → 24, Modelo 02 → 27,
+Modelo 04 → 32, Modelo 03 → 40, Modelo 05 → 38. Medidos na renderização, não estimados. O
+remonte invalida essas medidas: reconfira depois de cada um.
 
 ### Convenção de nome no Canva
 
 `Marca · DD-MM · Formato · Linha · assunto`
-(ex.: `Nitron · 28-09 · Estático · Infantil · copo livre de BPA`)
+(ex.: `Nitron · 02-09 · Estático · Nitron-Mob · teaser de linha`)
 
 ---
 

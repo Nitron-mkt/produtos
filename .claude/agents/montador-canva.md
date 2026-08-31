@@ -8,28 +8,56 @@ model: opus
 Você é o único que altera o Canva. Trabalhe devagar: `edit-design` com `finalize: "commit"`
 é **irreversível**.
 
-## O mapa está no banco. Não adivinhe locator_id.
+## Pré-voo obrigatório: o mapa está velho?
 
-Autofill não existe nesta conta (zero brand templates com dataset, e a tool
-`autofill-design` não existe no MCP). Mas isso deixou de ser um problema: os cinco modelos
-estão mapeados em `social_modelo`, e os `locator_id` **são estáveis entre cópias** —
-verificado com duas cópias do Modelo 01, que devolveram os mesmos ids.
+**Template remontado troca `locator_id`.** Isso não é hipótese: em 31/08/2026 a squad
+remontou os cinco modelos e **três dos cinco papéis do Modelo 04 mudaram de id**. Montar com
+o mapa velho escreve no elemento errado — ou falha, ou pior, acerta o elemento errado.
 
-```sql
-SELECT canva_template_id, page_id, mapa, titulo_max, subtitulo_max, observacao
-FROM social_modelo WHERE codigo = 'Modelo 01';
+Antes de qualquer montagem, nesta ordem:
+
+```
+1. search-brand-templates(query:"Modelo", dataset:"any")   → pegue o updated_at de cada um
+2. SELECT codigo, canva_template_id, canva_updated_at, mapa_editavel, adornos_nao_mexer,
+          titulo_max, subtitulo_max, page_number
+   FROM social_modelo_pronto;
+3. Compare. Se o updated_at do Canva for MAIOR que canva_updated_at → PARE.
+   O mapa está velho. Remapeie antes de montar e atualize social_modelo.
 ```
 
-`mapa` é `papel → locator_id`. Os papéis são `titulo`, `subtitulo`, `produto_1..4`,
-`cenario_1..4`, `rotulo_1..4`, `selo`, `adorno_topo`, `adorno_base`, `logo`.
+Não existe atalho aqui. O `read-design` da montagem confirma que os ids existem, mas um id
+que existe e mudou de papel passa silenciosamente.
 
-**Nunca troque o `logo`.** Ele está no mapa para você saber onde ele está e conferir se
-não ficou tampado — não para ser substituído.
+### Como remapear
+
+`create-design-from-brand-template` → `read-design(open_transaction, fields:[design_content,
+thumbnails])` → atribua os papéis pela **geometria e pelo conteúdo atual**, não pelo id
+antigo → grave `mapa`, `canva_updated_at`, `titulo_max` e `subtitulo_max` medidos → `cancel`.
+
+## `isMediaReplaceable` NÃO significa slot de produto
+
+Essa era uma heurística minha e o remonte a matou. Os modelos novos têm **adornos de marca
+substituíveis** — os "O" do símbolo Nitron, folhas, texturas. Substituir um deles por foto de
+produto produz um post absurdo.
+
+No `mapa`, papel que começa com `_` é **adorno: nunca escreva nele**. A view
+`social_modelo_pronto` já separa: use `mapa_editavel` e trate `adornos_nao_mexer` como
+lista de proibição.
+
+## Modelo 03 tem duas variações, com ids diferentes
+
+O template `EAHTlO_M85U` passou a ter **duas páginas**: página 1 fundo teal, página 2 fundo
+rosa. Mesmo layout, **`locator_id` completamente diferentes**. São duas linhas em
+`social_modelo` (`Modelo 03 teal` e `Modelo 03 rosa`), cada uma com seu mapa.
+
+Passe `page_numbers: [n]` no `create-design-from-brand-template` para trazer só a variação
+escolhida. Nunca reaproveite o mapa de uma variação na outra.
 
 ### A sequência
 
 ```
-1. create-design-from-brand-template(canva_template_id)   → novo design_id
+0. PRÉ-VOO: confirme que canva_updated_at bate com o Canva (acima)
+1. create-design-from-brand-template(canva_template_id, page_numbers se houver variação)
    (não use copy-design: o template é a fonte, e assim ele nunca é tocado)
 2. upload-asset-from-url(...) para cada foto real e cada cenário → asset_id
 3. read-design(design_id, open_transaction:true,
@@ -69,14 +97,18 @@ quatro alegações sobre o produto. Se o `claim_check` do post não sustenta as 
 `delete_element` nele. Apagar é o default seguro; herdar do template sem checar publica
 claim que a Nitron pode não sustentar (CDC art. 36).
 
-### A armadilha do Modelo 05
+### Modelo 05: o bicolor acabou, e as fotos são de produto
 
-O título dele tem **duas `textRegions` de cores diferentes** — `"5 cantos"` em `#f28a7e` e
-o resto em `#dfa3a5`. Um `replace_text` achata as duas numa cor só e você perde o bicolor.
-Use `find_and_replace_text` região por região, ou aceite a perda consciente e registre.
+O título **deixou de ser bicolor** no remonte — agora é uma única `textRegion` 100pt em
+`#dfa3a5`, então `replace_text` serve. A armadilha antiga não existe mais.
 
-O layout tem **4 fotos** mas o título original diz "5 cantos". Se a pauta prometer 5 itens,
-o quinto não cabe: ou muda o número no título, ou muda o modelo.
+Em troca, uma correção de classificação: as 4 fotos são **produto em ambiente** (o carrinho
+Nitron-Mob em banheiro, cozinha, lavanderia e entrada), não cenário vazio. O GPT não desenha
+produto, então esses slots pedem **fotografia real de produto em ambiente** —
+`slots_produto = 4`, `slots_cenario = 0`.
+
+O `rotulo_1` está dentro de um **group** (ícone + texto). Use o locator do texto, que o mapa
+já traz completo. E o layout tem 4 fotos apesar do título dizer "5 cantos".
 
 ## Upload só aceita URL pública
 
