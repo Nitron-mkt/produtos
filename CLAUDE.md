@@ -314,6 +314,49 @@ Preço médio e MB (12 M, marca própria) dos quadrados: `3780` 860 ml R$ 3,88 /
 
 ⚠️ `pdp_ml_oferta` tem **1.001 ofertas** agora, não 267.
 
+### Família liso — decisão de 31/08/2026 e o suprimento do anel
+
+Direção definida pelo usuário: **família nova, molde novo**. Os corpos atuais têm abas e ondulações
+de pegada e reaproveitá-los entrega produto com cara de adaptado. Brief em
+`analise/07-familia-liso-brief.html`.
+
+- **Geometria:** corpo cilíndrico liso, **Ø 140 mm externo** fixo, quatro alturas —
+  **1,2 L (91 mm) · 1,8 L (132) · 2,6 L (187) · 3,5 L (249)** — cobrindo só as faixas que crescem
+  (1,1–2 L +28,9% e 2,1–3,5 L +56,5%), nada abaixo de 1 L. Uma tampa serve as quatro.
+- **Cilindro resolve o que o quadrado travava:** parede redonda responde em tração de aro, então
+  vedação volta a ser problema com solução conhecida.
+- **Pé de diâmetro constante (134 mm) em todas as alturas.** Com saída de 0,5° a base do 3,5 L sai
+  4,3 mm mais estreita que a boca, e um rebaixo único de tampa não assentaria nos quatro. O pé
+  constante, formado no fundo da cavidade, dá registro de empilhamento igual para todos.
+- **Vedação: canal entre dois frisos, não sulco de anel radial.** Sulco radial exigiria saia de
+  4,5 mm (rechupe). Canal de **3,8 mm** entre frisos de **2,4 mm**, cordão **Ø 3,0 shore A 60**;
+  o anel sobra 0,6 mm além do friso, então o fechamento esmaga **20%** e **o friso vira batente** —
+  impede sobrecompressão, que é a causa nº 1 de vedação que morre em 6 meses. Anel entra com
+  circunferência interna 2–3% menor (tração, sem garra: tem que sair para lavar).
+- **Força de fechamento:** baioneta de ¼ de volta (recomendada) · encaixe por pressão (mais barato,
+  força varia com o lote) · rosca de 140 mm (molde mais caro: desrosqueamento ou macho colapsável).
+- ⚠️ **Correção: TPE injeta em máquina convencional** (170–230 °C), silicone não. `CODPROD 997`
+  (TPE Karinprene shore 45) está cadastrado e nunca foi comprado — há rota interna real. O número
+  que decide é **compression set**: silicone recupera, TPE-S tende a deformação permanente e o pote
+  fica fechado por meses. Exigir o ensaio antes de desenhar molde de anel.
+- **Suprimento do anel, 3 rotas:** (1) tryout com cordão emendado — ferramenta zero, a manutenção
+  já compra cordão Ø 1,5 a 4,0 mm; (2) produção em anel moldado por compressão em VMQ; (3) anel
+  injetado em TPE no próprio parque. Sobreinjeção 2K exige injetora bi-material — não existe.
+- ⚠️ **`RDC ANVISA nº 1.020, de 02/04/2026`** (vigor desde 07/04) trata especificamente de
+  **silicones em contato com alimentos** e revogou as seções de elastômero de silicone da
+  RDC 123/2001. Limites: matéria orgânica volátil ≤0,5%, extraíveis ≤0,5%, **peróxidos negativo**,
+  aminas aromáticas primárias <0,01 mg/kg. Por isso especificar **cura por adição (platina)**, não
+  por peróxido. Fornecedor que cota laudo só contra a 123/2001 está cotando contra regra superada.
+- **Fornecedores de vedação já no cadastro** (compra ativa, sem onboarding): **ECOBOR BORRACHAS**
+  (07.265.660/0001-43, maior volume, 21/07/2026) · **VF VEDAÇÃO E FIXAÇÃO** (19/08/2026) ·
+  **VEDALL** (28/07/2026) · QUALIVED · ALLVED · VEDABRAS. São distribuidores de vedação industrial:
+  porta de entrada, não necessariamente fornecedor final.
+- **Parque (`VW_MAQUINA_CAPACIDADE`, centro NITRON):** 60 t ×2 · 80 ×3 · 120 ×8 · 130 ×4 · 150 ×2 ·
+  160 ×12 · 200 ×13 · 210 ×1 · 250 ×10 · 280 ×1 · 300 ×1 · 380 ×3 · 398 ×1 · 600 ×2 · 650 ×2 ·
+  1.100 ×1. Área projetada de 154 cm² pede 80–120 t — sobra. **O que decide é o curso de abertura,
+  não a tonelagem:** 249 mm de profundidade pede ~550 mm de abertura, e o ERP não guarda curso.
+  Pergunta aberta para a manutenção.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram

@@ -1,0 +1,389 @@
+<title>Um Diâmetro, Quatro Alturas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#E5E3DE; --paper:#F5F4F1; --panel:#DDDAD3;
+  --ink:#171A19; --muted:#57605C; --faint:#8A9490;
+  --rule:#CBC7BF; --rule-soft:#DCD8D1;
+  --teca:#9B5E28; --mark:#9B5E28; --anel:#2A2E31;
+  --alerta:#A63A2B; --ok:#3B6B4F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141615; --paper:#1C1F1E; --panel:#232726;
+    --ink:#E7E9E6; --muted:#98A19C; --faint:#6C7671;
+    --rule:#2E3331; --rule-soft:#242927;
+    --teca:#D08A47; --mark:#C57F3E; --anel:#9AA4AA;
+    --alerta:#E0705C; --ok:#6FAE86;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141615; --paper:#1C1F1E; --panel:#232726;
+  --ink:#E7E9E6; --muted:#98A19C; --faint:#6C7671;
+  --rule:#2E3331; --rule-soft:#242927;
+  --teca:#D08A47; --mark:#C57F3E; --anel:#9AA4AA;
+  --alerta:#E0705C; --ok:#6FAE86;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px 90px}
+
+h1,h2,h3{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,5.6vw,3.7rem);font-weight:700;letter-spacing:-.035em;line-height:1}
+h2{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:1.02rem;font-weight:600;line-height:1.3}
+p{margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.65rem;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--faint)}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:68ch;color:var(--muted)}
+.prose strong{color:var(--ink);font-weight:600}
+.lede{font-size:clamp(1.08rem,1.9vw,1.28rem);line-height:1.5;color:var(--ink);max-width:46ch}
+
+header{padding:60px 0 30px;display:flex;flex-direction:column;gap:26px}
+.title-row{display:flex;flex-wrap:wrap;gap:26px 56px;align-items:flex-end}
+.hdmeta{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;
+  border-top:1px solid var(--rule);padding-top:13px}
+.hdmeta div{display:flex;gap:9px;align-items:baseline}
+.hdmeta .v{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink)}
+
+section{padding-top:64px;display:flex;flex-direction:column;gap:26px}
+.sechead{display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:11px}
+.sechead .eyebrow{flex:none;padding-top:3px}
+
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:0 18px;align-items:start;
+  background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--teca);
+  border-radius:2px;padding:20px 22px;max-width:74ch}
+.verdict .k{font-family:"JetBrains Mono",monospace;font-size:.64rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--teca);padding-top:4px}
+.verdict p{font-size:1rem;color:var(--ink)}
+.verdict p + p{margin-top:9px;color:var(--muted);font-size:.95rem}
+
+figure{margin:0;display:flex;flex-direction:column;gap:12px}
+.figbox{background:var(--paper);border:1px solid var(--rule);border-radius:2px;
+  padding:22px 20px;overflow-x:auto}
+.figbox svg{display:block;width:100%;min-width:520px;height:auto;color:var(--ink)}
+figcaption{font-size:.9rem;color:var(--muted);max-width:70ch}
+figcaption b{color:var(--ink);font-weight:600}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:2px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;
+  font-size:.76rem;font-variant-numeric:tabular-nums;min-width:560px}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);
+  font-weight:500;border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.k{color:var(--muted)}
+td.w{white-space:normal;line-height:1.55;text-align:left}
+.pill{display:inline-block;padding:2px 8px;border-radius:2px;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.pill.no{color:var(--alerta);border:1px solid color-mix(in srgb,var(--alerta) 45%,transparent)}
+.pill.yes{color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 45%,transparent)}
+.pill.mb{color:var(--muted);border:1px solid var(--rule)}
+
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:2px}
+@media (max-width:760px){.routes{grid-template-columns:1fr}}
+.route{background:var(--paper);padding:20px;display:flex;flex-direction:column;gap:9px}
+.route .tag{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint)}
+.route p{font-size:.93rem;color:var(--muted)}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.steps li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:16px 0;
+  border-bottom:1px solid var(--rule-soft)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps .n{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--faint);padding-top:4px}
+ol.steps b{font-family:"Archivo",sans-serif;font-weight:600;font-size:.99rem;display:block;margin-bottom:3px}
+ol.steps span{font-size:.94rem;color:var(--muted)}
+
+.supp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:2px}
+@media (max-width:720px){.supp{grid-template-columns:1fr}}
+.supp > div{background:var(--paper);padding:20px 22px;display:flex;flex-direction:column;gap:10px}
+.supp h3{margin-bottom:2px}
+.supp ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.supp li{font-size:.92rem;color:var(--muted)}
+.supp li b{color:var(--ink);font-weight:600}
+.supp .note{font-size:.86rem;color:var(--faint)}
+
+footer{margin-top:74px;border-top:1px solid var(--rule);padding-top:18px}
+footer p{font-size:.85rem;color:var(--faint);max-width:74ch}
+a{color:var(--teca)}
+:focus-visible{outline:2px solid var(--teca);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Família nova de potes de mantimento &middot; brief de projeto &middot; 31 ago 2026</span>
+  <div class="title-row">
+    <h1>Um diâmetro,<br>quatro alturas</h1>
+    <p class="lede">Corpo cilíndrico liso, molde novo, tampa única com friso e anel de vedação. E a resposta de onde comprar a borracha que a fábrica não injeta.</p>
+  </div>
+  <div class="hdmeta">
+    <div><span class="eyebrow">Diâmetro</span><span class="v">140 mm</span></div>
+    <div><span class="eyebrow">Litragens</span><span class="v">1,2 · 1,8 · 2,6 · 3,5 L</span></div>
+    <div><span class="eyebrow">Tampas</span><span class="v">1</span></div>
+    <div><span class="eyebrow">Corpo</span><span class="v">PP H 105 clarificado</span></div>
+    <div><span class="eyebrow">Anel</span><span class="v">comprado</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead"><span class="eyebrow">premissa</span><h2>Por que molde novo</h2></div>
+  <div class="prose">
+    <p>Os corpos que existem hoje carregam abas e ondulações de pegada — geometria desenhada para outra época e para outro produto. Reaproveitá-los entrega um pote que parece adaptado, e um pote que parece adaptado não sustenta o preço que uma linha nova precisa cobrar. Essa é a premissa deste brief: <strong>ferramenta nova, corpo liso, sem herança</strong>.</p>
+    <p>O que muda em relação ao conceito anterior é bem mais do que a aparência. Um corpo <strong>cilíndrico</strong> resolve sozinho o problema que travava o quadrado: parede redonda responde a pressão em tração de aro e se fecha, então a vedação volta a ser um problema comum, com solução conhecida. E um corpo <strong>liso</strong>, sem nervura nem pegada, é a peça mais simples de injetar que existe — o molde é caro pelo acabamento, não pela complexidade.</p>
+    <p>Em compensação, a barra sobe: superfície lisa e transparente não esconde nada. Linha de solda, marca de fluxo, ponto de injeção mal colocado e rechupe aparecem todos. O acabamento do aço passa a ser item de especificação, não detalhe.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">geometria</span><h2>A escada de litragem</h2></div>
+  <div class="prose">
+    <p>O diâmetro é a decisão que amarra a família inteira: fixado uma vez, a mesma tampa serve todas as alturas e os potes formam coluna na prateleira. <strong>140 mm externos</strong> é o valor que faz as quatro litragens caírem em proporção usável — nenhuma fica alta e fina demais para enfiar a mão, e a maior ainda tem relação altura/diâmetro de 1,8.</p>
+    <p>As litragens não são escolha de gosto. A regra medida em 79 referências do projeto diz que a faixa de <strong>1,1 a 2 L cresce 28,9%</strong> e a de <strong>2,1 a 3,5 L cresce 56,5%</strong>, enquanto abaixo de 1 L cai 31,5%. A família cobre as duas faixas que crescem e não põe um pé na que cai.</p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 700 320" role="img" aria-label="Elevação das quatro alturas sobre o mesmo diâmetro de 140 milímetros, com pé de diâmetro constante que permite empilhar">
+        <line x1="20" y1="265" x2="660" y2="265" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>
+        <g>
+          <rect x="30" y="188" width="119" height="77" fill="var(--mark)" fill-opacity=".10" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="30" y="178" width="119" height="10" fill="var(--mark)" fill-opacity=".3" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="45" y1="181" x2="134" y2="181" stroke="currentColor" stroke-opacity=".4" stroke-width=".9" stroke-dasharray="3 2"/>
+          <rect x="32" y="261" width="115" height="4" fill="currentColor" fill-opacity=".25"/>
+          <text x="89" y="288" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700" fill="currentColor">1,2 L</text>
+          <text x="89" y="303" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">h 91 mm</text>
+        </g>
+        <g>
+          <rect x="184" y="153" width="119" height="112" fill="var(--mark)" fill-opacity=".10" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="184" y="143" width="119" height="10" fill="var(--mark)" fill-opacity=".3" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="199" y1="146" x2="288" y2="146" stroke="currentColor" stroke-opacity=".4" stroke-width=".9" stroke-dasharray="3 2"/>
+          <rect x="186" y="261" width="115" height="4" fill="currentColor" fill-opacity=".25"/>
+          <text x="243" y="288" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700" fill="currentColor">1,8 L</text>
+          <text x="243" y="303" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">h 132 mm</text>
+        </g>
+        <g>
+          <rect x="338" y="106" width="119" height="159" fill="var(--mark)" fill-opacity=".10" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="338" y="96" width="119" height="10" fill="var(--mark)" fill-opacity=".3" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="353" y1="99" x2="442" y2="99" stroke="currentColor" stroke-opacity=".4" stroke-width=".9" stroke-dasharray="3 2"/>
+          <rect x="340" y="261" width="115" height="4" fill="currentColor" fill-opacity=".25"/>
+          <text x="397" y="288" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700" fill="currentColor">2,6 L</text>
+          <text x="397" y="303" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">h 187 mm</text>
+        </g>
+        <g>
+          <rect x="492" y="53" width="119" height="212" fill="var(--mark)" fill-opacity=".10" stroke="currentColor" stroke-width="1.3"/>
+          <rect x="492" y="43" width="119" height="10" fill="var(--mark)" fill-opacity=".3" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="507" y1="46" x2="596" y2="46" stroke="currentColor" stroke-opacity=".4" stroke-width=".9" stroke-dasharray="3 2"/>
+          <rect x="494" y="261" width="115" height="4" fill="currentColor" fill-opacity=".25"/>
+          <text x="551" y="288" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700" fill="currentColor">3,5 L</text>
+          <text x="551" y="303" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">h 249 mm</text>
+        </g>
+        <line x1="30" y1="30" x2="149" y2="30" stroke="var(--faint)" stroke-width=".8"/>
+        <line x1="30" y1="26" x2="30" y2="34" stroke="var(--faint)" stroke-width="1"/>
+        <line x1="149" y1="26" x2="149" y2="34" stroke="var(--faint)" stroke-width="1"/>
+        <text x="157" y="34" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">140 — igual nas quatro</text>
+        <text x="630" y="180" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">rebaixo na tampa</text>
+        <text x="630" y="193" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">recebe o pé de cima</text>
+      </svg>
+    </div>
+    <figcaption><b>Uma tampa serve as quatro, e o pé de diâmetro constante faz a coluna empilhar.</b> Com saída de 0,5° por lado, a base do 3,5 L sai 4,3 mm mais estreita que a boca — invisível de frente, mas suficiente para que um rebaixo único na tampa não assentasse em todas as alturas. Um <b>pé de 134 mm igual nos quatro corpos</b>, formado no fundo da cavidade, resolve: a tampa registra sempre o mesmo diâmetro, independente da altura.</figcaption>
+  </figure>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>SKU</th><th>Volume</th><th>Altura corpo</th><th>Altura / Ø</th><th>Peso PP est.</th><th>Faixa de litragem</th></tr></thead>
+      <tbody>
+        <tr><td>Liso 1,2</td><td>1,2 L</td><td>91 mm</td><td>0,65</td><td>~110 g</td><td class="k">1,1–2 L · +28,9%</td></tr>
+        <tr><td>Liso 1,8</td><td>1,8 L</td><td>132 mm</td><td>0,94</td><td>~145 g</td><td class="k">1,1–2 L · +28,9%</td></tr>
+        <tr><td>Liso 2,6</td><td>2,6 L</td><td>187 mm</td><td>1,34</td><td>~190 g</td><td class="k">2,1–3,5 L · +56,5%</td></tr>
+        <tr><td>Liso 3,5</td><td>3,5 L</td><td>249 mm</td><td>1,78</td><td>~240 g</td><td class="k">2,1–3,5 L · +56,5%</td></tr>
+        <tr><td>Tampa (comum)</td><td>—</td><td>—</td><td>—</td><td>~45 g</td><td class="k">1 molde para as quatro</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">vedação</span><h2>O friso, o anel e o batente</h2></div>
+  <div class="prose">
+    <p>A ideia de frisar a tampa está certa, e no cilindro ela fica simples. Só que um sulco de anel radial exigiria uma saia de 4,5 mm de espessura para caber 2,9 mm de profundidade — parede grossa demais para injetar sem rechupe. A solução que mantém tudo em 1,5 a 2,0 mm é <strong>formar o canal entre dois frisos</strong> na face de baixo da tampa, e comprimir o anel contra a borda do bocal.</p>
+    <p>O detalhe que faz isso funcionar sem depender do aperto de quem fecha: <strong>o friso é o batente</strong>. O anel de 3,0 mm sobra 0,6 mm além do friso de 2,4 mm; ao fechar, a borda do bocal comprime esses 0,6 mm — <strong>20% de esmagamento, exatamente a faixa correta</strong> — e então encosta no friso, que impede de apertar mais. Sobrecompressão deforma o anel permanentemente e é a causa nº 1 de vedação que para de vedar depois de seis meses.</p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 700 250" role="img" aria-label="Corte ampliado da vedação: o anel comprimido no canal entre dois frisos da tampa, com o friso funcionando como batente que limita o esmagamento em vinte por cento">
+        <defs>
+          <marker id="arF" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="150" y="60" width="420" height="20" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.4"/>
+        <rect x="302" y="80" width="12" height="24" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.4"/>
+        <rect x="352" y="80" width="12" height="24" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="333" cy="92" rx="18" ry="12" fill="var(--anel)"/>
+        <path d="M323,104 L323,215 M343,104 L343,215" stroke="currentColor" stroke-width="1.4" fill="none"/>
+        <line x1="323" y1="104" x2="343" y2="104" stroke="currentColor" stroke-width="1.4"/>
+
+        <line x1="333" y1="180" x2="333" y2="130" stroke="currentColor" stroke-width="1.3" marker-end="url(#arF)"/>
+        <text x="352" y="160" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">força de fechamento</text>
+
+        <line x1="302" y1="52" x2="364" y2="52" stroke="var(--faint)" stroke-width=".8"/>
+        <line x1="302" y1="48" x2="302" y2="56" stroke="var(--faint)" stroke-width="1"/>
+        <line x1="364" y1="48" x2="364" y2="56" stroke="var(--faint)" stroke-width="1"/>
+        <text x="333" y="42" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">canal 3,8</text>
+
+        <path d="M296,92 L200,92" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="196" y="88" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">cordão Ø 3,0 · shore A 60</text>
+        <text x="196" y="102" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--faint)">silicone VMQ, cura por platina</text>
+
+        <path d="M370,104 L470,104" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="476" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--ok)">friso 2,4 — é o batente</text>
+        <text x="476" y="114" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--faint)">impede sobrecompressão</text>
+
+        <path d="M312,130 L250,150" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="246" y="154" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">esmagamento 0,6 = 20%</text>
+
+        <path d="M349,215 L430,215" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="436" y="219" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">bocal, parede 2,0</text>
+        <text x="436" y="233" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--faint)">borda com raio 0,3</text>
+      </svg>
+    </div>
+    <figcaption><b>Todas as paredes ficam entre 1,5 e 2,4 mm — não há seção grossa em lugar nenhum.</b> O canal de 3,8 mm dá 19% de folga de volume para o anel deformar (o mínimo é 15%). O anel entra com a circunferência interna 2 a 3% menor que o canal, para ficar sob tração e não cair — mas sem garra, porque o consumidor precisa conseguir tirar para lavar.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p><strong>De onde vem a força de fechamento.</strong> Vedação de face não funciona só apoiada — alguém tem que apertar. E como o corpo é liso e a linha não pode ter trava aparente, a força tem que vir do próprio fecho. Três caminhos, em ordem de custo de molde:</p>
+  </div>
+  <div class="routes">
+    <div class="route">
+      <span class="tag">Opção A</span>
+      <h3>Encaixe por pressão</h3>
+      <p>Ressalto na tampa estalando sobre um cordão no bocal. Molde mais barato — o ressalto sai por arranque. Mas num diâmetro de 140 mm, um encaixe firme o bastante para vedar fica duro de abrir, e a força varia com a tolerância do lote.</p>
+      <p><span class="pill mb">mais barato</span></p>
+    </div>
+    <div class="route">
+      <span class="tag">Opção B</span>
+      <h3>Baioneta de ¼ de volta</h3>
+      <p>Três orelhas no bocal e três rampas na tampa. A rampa é que gera a força, de forma repetível, e para no batente. Visual limpo, sem trava aparente. Exige três gavetas no molde do bocal, ou orelhas rasas o suficiente para sair por arranque.</p>
+      <p><span class="pill yes">recomendada</span></p>
+    </div>
+    <div class="route">
+      <span class="tag">Opção C</span>
+      <h3>Rosca</h3>
+      <p>Melhor controle de força e o gesto mais familiar. Mas rosca de 140 mm exige desrosqueamento no molde ou macho colapsável — é o molde mais caro dos três, e o mais lento de ciclo.</p>
+      <p><span class="pill mb">mais caro</span></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">a borracha</span><h2>Onde achar o anel</h2></div>
+  <div class="prose">
+    <p>Primeiro, uma correção que abre uma porta: <strong>silicone realmente não roda aqui, mas TPE roda</strong>. Elastômero termoplástico injeta em máquina convencional, a 170–230 °C, sem conversão nenhuma — e a Nitron já tem <span class="mono">CODPROD 997</span>, TPE Karinprene shore 45, cadastrado e nunca comprado. Existe, portanto, uma rota interna real que ninguém considerou.</p>
+    <p>O que decide entre uma e outra é <strong>compression set</strong>: a capacidade de voltar à forma depois de meses comprimido. Silicone recupera; TPE à base de SEBS tende a tomar deformação permanente, e um pote de mantimento fica fechado por muito tempo. Existem grades de TPE com compression set otimizado, mas esse é o primeiro número a exigir na ficha técnica — antes de dureza, antes de cor. <strong>Silicone é a escolha segura; TPE é a escolha barata e interna, e só entra se o grade provar o número.</strong></p>
+    <p>Sobreinjeção bi-material — o TPE direto na tampa, sem montagem — eliminaria o posto de montagem inteiro, mas exige injetora de dois materiais. Não existe no parque, e não é o que se compra para um lançamento.</p>
+  </div>
+
+  <div class="routes">
+    <div class="route">
+      <span class="tag">Rota 1 · tryout</span>
+      <h3>Cordão emendado, agora</h3>
+      <p>Cordão de silicone extrudado, cortado no comprimento e vulcanizado em anel. <strong>Custo de ferramenta: zero.</strong> A manutenção já compra cordão o-ring nos diâmetros 1,5 / 2,0 / 2,5 / 2,8 / 3,0 / 3,5 / 4,0 mm — dá para ter o anel do primeiro tryout na semana em que o molde sair.</p>
+      <p>Não serve para produção: a emenda aparece, e o cordão do estoque é de manutenção, não alimentício. Serve para o que importa agora — validar a cota do canal antes de gastar ferramenta.</p>
+    </div>
+    <div class="route">
+      <span class="tag">Rota 2 · produção</span>
+      <h3>Anel moldado em silicone</h3>
+      <p>Moldagem por compressão em VMQ, numa fábrica de artefatos de borracha. É o padrão da categoria. A ferramenta é uma placa multi-cavidade — barata perto de um molde de injeção — e o preço por peça cai rápido com volume.</p>
+      <p><span class="pill yes">rota principal</span></p>
+    </div>
+    <div class="route">
+      <span class="tag">Rota 3 · interna</span>
+      <h3>Anel injetado em TPE</h3>
+      <p>Molde de injeção pequeno, rodando no próprio parque. Zero fornecedor novo, zero lead time de importação, refugo que volta. Depende inteiramente do compression set do grade — peça o ensaio antes de desenhar o molde.</p>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <span class="k">O que tem que estar no pedido de compra</span>
+    <div>
+      <p>Material <strong>silicone VMQ curado por adição (platina)</strong> — não por peróxido. Não é preferência: a <span class="mono">RDC ANVISA nº 1.020</span>, de 02/04/2026 e em vigor desde 07/04, exige <strong>resultado negativo no ensaio de peróxidos</strong>, e silicone curado a peróxido carrega resíduo se a pós-cura falhar.</p>
+      <p>Ela é nova e específica para silicones em contato com alimentos, e revogou justamente as seções de elastômero de silicone da antiga RDC 123/2001 — <strong>fornecedor que cotar laudo só contra a 123/2001 está cotando contra regra parcialmente superada.</strong> Os limites a exigir no laudo: matéria orgânica volátil ≤ 0,5%, extraíveis ≤ 0,5%, peróxidos negativo, aminas aromáticas primárias abaixo de 0,01 mg/kg. Somar FDA 21 CFR 177.2600 se houver intenção de exportar.</p>
+    </div>
+  </div>
+
+  <div class="supp">
+    <div>
+      <h3>Já estão no cadastro</h3>
+      <p class="note">Fornecedores de vedação com compra ativa — cadastro aprovado, prazo negociado, sem onboarding.</p>
+      <ul>
+        <li><b>ECOBOR BORRACHAS</b> · 07.265.660/0001-43 · a de maior volume, última compra em 21/07/2026</li>
+        <li><b>VF VEDAÇÃO E FIXAÇÃO</b> · 12 itens, última em 19/08/2026</li>
+        <li><b>VEDALL</b> · 20 itens, última em 28/07/2026</li>
+        <li><b>QUALIVED</b> · <b>ALLVED</b> · <b>VEDABRAS</b></li>
+      </ul>
+      <p class="note">Ressalva honesta: são distribuidores de vedação industrial. Cotam e indicam, mas anel moldado grau alimentício em volume é outro negócio — servem de porta de entrada, não necessariamente de fornecedor final.</p>
+    </div>
+    <div>
+      <h3>A prospectar</h3>
+      <p class="note">Fabricantes de artefato de silicone e, para a rota 3, fornecedores de TPE.</p>
+      <ul>
+        <li><b>Acrévea Borrachas e Silicones</b> · <b>ElastoBras</b> · <b>Vedações Caieiras</b> · <b>Manneflon</b> — artefatos sob medida</li>
+        <li><b>Selotech</b> (São Caetano do Sul) e <b>TuboFarma</b> — declaram linha com certificação FDA / 21 CFR 177.2600</li>
+        <li><b>FCC / Compostos do Brasil</b>, <b>Polibalbino</b>, <b>JR Polímeros</b> — grades de TPE, pedir compression set declarado</li>
+      </ul>
+      <p class="note">Cotar no mínimo três, em três faixas de volume, e exigir amostra física antes do pedido. O anel é barato e para a linha inteira se faltar: ou duas fontes, ou estoque de segurança.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">ferramenta</span><h2>Um molde com postiços, ou quatro moldes?</h2></div>
+  <div class="prose">
+    <p>Com parede reta e corpo redondo, a altura é a única coisa que muda entre os quatro. Isso abre a possibilidade de <strong>um molde de corpo com postiços de altura</strong> — anéis espaçadores no macho e na cavidade — em vez de quatro ferramentas. A linha de fechamento fica na boca e não se mexe; muda só o comprimento.</p>
+    <p>Não é decisão de graça, e a fábrica tem que responder três coisas antes de comprar a ideia:</p>
+  </div>
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>A refrigeração acompanha o postiço?</b><span>Trocar a altura muda o circuito de água. Se cada altura precisa de um conjunto de refrigeração próprio, o "um molde" vira quatro moldes montados no mesmo porta-molde — o que ainda economiza, mas menos do que parece.</span></div></li>
+    <li><span class="n">02</span><div><b>Quanto custa a troca em hora-máquina?</b><span>Com postiço, as quatro alturas nunca rodam ao mesmo tempo — cada mudança é setup mais purga. Numa linha em que os quatro tamanhos vendem juntos, isso vira ruptura de um enquanto roda o outro. É o mesmo problema aritmético da lição das cores de 2022, e merece a conta antes do desenho.</span></div></li>
+    <li><span class="n">03</span><div><b>O molde da tampa aceita postiço trocável no canal?</b><span>A cota do canal (3,8 mm) é a única que decide se veda. Um postiço trocável nessa região permite corrigir depois do primeiro tryout sem recortar o molde inteiro. É o seguro mais barato do projeto.</span></div></li>
+  </ol>
+  <div class="verdict">
+    <span class="k">Máquina</span>
+    <div>
+      <p>Tonelagem não é o problema. Área projetada de 154 cm² pede <strong>80 a 120 t</strong>, e o parque tem 3 máquinas de 80 t, 8 de 120 e 4 de 130.</p>
+      <p>O que decide é o <strong>curso de abertura</strong>. Para extrair uma peça de 249 mm de profundidade são necessários por volta de 550 mm de abertura, e injetora de 120 t normalmente não passa de 400. O <strong>3,5 L provavelmente roda numa máquina de 200 ou 250 t por causa do curso, não da força</strong> — e disso o parque tem 13 e 10. Confirmar o curso real com a manutenção antes de fechar o desenho da peça mais alta.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">próximo passo</span><h2>O que pedir, e a quem</h2></div>
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>Cotação do anel, em três fabricantes e três volumes</b><span>Preço por mil peças em 5 k, 25 k e 100 k · custo e prazo da ferramenta de compressão · MOQ · prazo de amostra · lead time de reposição · laudo contra a RDC 1.020/2026 · disponibilidade em cor natural translúcida.</span></div></li>
+    <li><span class="n">02</span><div><b>Ficha técnica de TPE com compression set declarado</b><span>Antes de descartar a rota interna. Se o número for aceitável, o anel deixa de ser fornecedor externo e vira peça de casa.</span></div></li>
+    <li><span class="n">03</span><div><b>Curso de abertura das injetoras de 120 a 250 t</b><span>Não está no ERP — <span class="mono">VW_MAQUINA_CAPACIDADE</span> só guarda tonelagem e ciclo. Pergunta direta para a manutenção, e ela decide em que máquina o 3,5 L nasce.</span></div></li>
+    <li><span class="n">04</span><div><b>Parecer da ferramentaria sobre postiço de altura e baioneta</b><span>As duas perguntas que definem o orçamento da ferramenta. Levar junto a pergunta do postiço trocável no canal da tampa.</span></div></li>
+    <li><span class="n">05</span><div><b>Ensaio de vedação definido antes da arte</b><span>Inversão com líquido por 24 h, queda de 90 cm com o pote cheio, e — específico desta família — <strong>ciclo de compressão prolongada</strong>: fechado por 30 dias, reabrir e reensaiar. É o ensaio que pega compression set, que é exatamente onde TPE falha e onde silicone se paga. Sem laudo, o rótulo diz "vedação com anel de silicone", nunca "hermético".</span></div></li>
+  </ol>
+</section>
+
+<footer>
+  <p>Brief de projeto — cotas de vedação, alturas, pesos e faixas de máquina são hipótese de engenharia para orçamento, não desenho liberado: mudam depois do estudo de fluxo e do primeiro tryout. Faturamento, cadastro de fornecedores e parque de injetoras conferidos no Sankhya em 31/08/2026. Requisitos sanitários conforme RDC ANVISA nº 1.020 de 02/04/2026. Nada aqui foi gravado em <span class="mono">pdp_lancamento</span>: proposta só entra com evidência e depois do crítico.</p>
+</footer>
+
+</div>
