@@ -429,6 +429,28 @@ Procedimento em `analise/09-emenda-do-anel.html`.
 - Ensaio obrigatório da junta: esticar 25% e soltar, **50 ciclos** — o cliente estica o anel para
   lavar, e é ali que a emenda rompe. Adesivo na junta não é rota aceitável para contato alimentar.
 
+### TPE atóxico: depende do grade, não do "TPE" (01/09/2026)
+
+- **TPE é família e é composto, não polímero puro.** O provável aqui é TPE-S (SEBS), cuja base é
+  inerte — mas o composto é SEBS + **óleo plastificante** + PP + cargas + aditivos. **O que migra é
+  o óleo.** Exigir óleo mineral **branco, grau alimentício/USP**, sem ftalatos, e grade
+  **natural sem pigmento** (pigmento muda o laudo). `CODPROD 997` diz "NATURAL", o que ajuda.
+- **Enquadramento regulatório é uma bifurcação:** TPE não é vulcanizado, então o caminho usual é o
+  de **plásticos** — `RDC 56/2012` (lista positiva de monômeros/polímeros) + `RDC 326/2019`
+  (aditivos, alterada pela **`RDC 963/2025`**), com migração pela **`RDC 51/2010`** (global
+  60 mg/kg ou 10 mg/dm²). Alguns fornecedores enquadram como elastômero (`RDC 123/2001`).
+  **Exigir que o laudo declare o enquadramento e seja feito no composto acabado**, não na resina
+  base. ⚠️ A `RDC 1.020/2026` é de **silicones** — não cobre TPE.
+- **Risco prático deste produto, além do legal:** óleo migra para **gordura** (café, castanha,
+  granola) e TPE pode transferir **odor e sabor**. Café absorve cheiro de qualquer coisa. Somar
+  **ensaio sensorial/organoléptico** à lista — é barato e pega o que a migração não pega.
+- **Estar cadastrado não é laudo.** `CODPROD 997` nunca foi comprado e não há laudo no sistema. A
+  maioria dos fabricantes de TPE tem linha industrial e linha food/medical separadas, com preços
+  diferentes — perguntar pelo grade alimentício explicitamente.
+- **Comparação para a decisão:** silicone curado por adição é o default de menor risco (sem óleo
+  extraível, praticamente inerte, melhor compression set); TPE é a opção barata e injetável na casa
+  e exige especificação mais apertada. As duas são legítimas com o grade certo.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
