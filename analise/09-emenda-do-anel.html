@@ -1,0 +1,333 @@
+<title>A Emenda do Anel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#E5E3DE; --paper:#F5F4F1;
+  --ink:#171A19; --muted:#57605C; --faint:#8A9490;
+  --rule:#CBC7BF; --rule-soft:#DCD8D1;
+  --teca:#9B5E28; --mark:#9B5E28; --anel:#2A2E31;
+  --quente:#A63A2B; --ok:#3B6B4F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141615; --paper:#1C1F1E;
+    --ink:#E7E9E6; --muted:#98A19C; --faint:#6C7671;
+    --rule:#2E3331; --rule-soft:#242927;
+    --teca:#D08A47; --mark:#C57F3E; --anel:#9AA4AA;
+    --quente:#E0705C; --ok:#6FAE86;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141615; --paper:#1C1F1E;
+  --ink:#E7E9E6; --muted:#98A19C; --faint:#6C7671;
+  --rule:#2E3331; --rule-soft:#242927;
+  --teca:#D08A47; --mark:#C57F3E; --anel:#9AA4AA;
+  --quente:#E0705C; --ok:#6FAE86;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px 90px}
+
+h1,h2,h3{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,5.6vw,3.7rem);font-weight:700;letter-spacing:-.035em;line-height:1}
+h2{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:1.02rem;font-weight:600;line-height:1.3}
+p{margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.65rem;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--faint)}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:68ch;color:var(--muted)}
+.prose strong{color:var(--ink);font-weight:600}
+.lede{font-size:clamp(1.08rem,1.9vw,1.28rem);line-height:1.5;color:var(--ink);max-width:46ch}
+
+header{padding:56px 0 28px;display:flex;flex-direction:column;gap:24px}
+.title-row{display:flex;flex-wrap:wrap;gap:24px 56px;align-items:flex-end}
+.hdmeta{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;
+  border-top:1px solid var(--rule);padding-top:13px}
+.hdmeta div{display:flex;gap:9px;align-items:baseline}
+.hdmeta .v{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink)}
+
+section{padding-top:60px;display:flex;flex-direction:column;gap:24px}
+.sechead{display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:11px}
+.sechead .eyebrow{flex:none;padding-top:3px}
+
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:0 18px;align-items:start;
+  background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--teca);
+  border-radius:2px;padding:20px 22px;max-width:74ch}
+.verdict .k{font-family:"JetBrains Mono",monospace;font-size:.64rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--teca);padding-top:4px}
+.verdict p{font-size:1rem;color:var(--ink)}
+.verdict p + p{margin-top:9px;color:var(--muted);font-size:.95rem}
+
+figure{margin:0;display:flex;flex-direction:column;gap:12px}
+.figbox{background:var(--paper);border:1px solid var(--rule);border-radius:2px;
+  padding:22px 20px;overflow-x:auto}
+.figbox svg{display:block;width:100%;min-width:540px;height:auto;color:var(--ink)}
+figcaption{font-size:.9rem;color:var(--muted);max-width:70ch}
+figcaption b{color:var(--ink);font-weight:600}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:2px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;
+  font-size:.76rem;font-variant-numeric:tabular-nums;min-width:560px}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.61rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);
+  font-weight:500;border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.k{color:var(--muted)}
+td.w{white-space:normal;line-height:1.5;text-align:left}
+.pill{display:inline-block;padding:2px 8px;border-radius:2px;font-size:.61rem;
+  letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.pill.no{color:var(--quente);border:1px solid color-mix(in srgb,var(--quente) 45%,transparent)}
+.pill.yes{color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 45%,transparent)}
+.pill.mb{color:var(--muted);border:1px solid var(--rule)}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.steps li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:15px 0;
+  border-bottom:1px solid var(--rule-soft)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps .n{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--faint);padding-top:4px}
+ol.steps b{font-family:"Archivo",sans-serif;font-weight:600;font-size:.99rem;display:block;margin-bottom:3px}
+ol.steps span{font-size:.94rem;color:var(--muted)}
+
+.bom{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:2px}
+@media (max-width:700px){.bom{grid-template-columns:1fr}}
+.bom > div{background:var(--paper);padding:18px 20px;display:flex;flex-direction:column;gap:5px}
+.bom .t{font-family:"Archivo",sans-serif;font-weight:600;font-size:.96rem}
+.bom .d{font-size:.9rem;color:var(--muted)}
+.bom .c{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--ok);
+  letter-spacing:.06em;text-transform:uppercase}
+
+footer{margin-top:70px;border-top:1px solid var(--rule);padding-top:18px}
+footer p{font-size:.85rem;color:var(--faint);max-width:74ch}
+a{color:var(--teca)}
+:focus-visible{outline:2px solid var(--teca);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Linha Coluna &middot; suprimento do anel &middot; 1 set 2026</span>
+  <div class="title-row">
+    <h1>A emenda<br>do anel</h1>
+    <p class="lede">Comprar cordão por metro e soldar o anel na própria fábrica. Como se faz, com que ferramenta, e a partir de quantas peças isso deixa de compensar.</p>
+  </div>
+  <div class="hdmeta">
+    <div><span class="eyebrow">Corte</span><span class="v">422 mm</span></div>
+    <div><span class="eyebrow">Cordão</span><span class="v">Ø 3,0 · shore A 60</span></div>
+    <div><span class="eyebrow">Solda TPE</span><span class="v">190–210 °C</span></div>
+    <div><span class="eyebrow">Ferramenta</span><span class="v">construída na casa</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sechead"><span class="eyebrow">antes de tudo</span><h2>Duas coisas que mudam a pergunta</h2></div>
+  <div class="prose">
+    <p><strong>A família já tem molde único de anel.</strong> Como uma tampa serve as quatro alturas, existe <em>um</em> diâmetro de anel — 137,4 mm de diâmetro médio, e só. Não há família de tamanhos para diluir ferramenta: o molde do anel já nasce único. O problema que a ideia da emenda resolve é o de quem tem seis diâmetros diferentes, e este projeto foi desenhado justamente para não ter.</p>
+    <p><strong>E cordão não se injeta — se extruda.</strong> Uma tira injetada sai com linha de partição correndo ao longo do comprimento e marca de ponto de injeção. Numa vedação, uma linha de partição no sentido do comprimento é um caminho de vazamento desenhado de propósito: ela cruza o contato de ponta a ponta. Cordão extrudado não tem linha de partição, e é por isso que o mundo inteiro compra cordão extrudado.</p>
+    <p>A fábrica também não tem por onde extrudar. O parque tem <strong>62 postos em NITRON</strong> (injetoras e montagem), <strong>14 na marcenaria</strong>, 10 na Tanamu e 2 HYAK. Os únicos itens com "extrusão" no cadastro são <span class="mono">PP - EXTRUSAO + LAVAGEM</span> e <span class="mono">PP - SEPARAÇÃO + MOAGEM + EXTRUSÃO</span> — serviço de recuperação de PP, matéria-prima comprada, não linha de perfil.</p>
+  </div>
+  <div class="verdict">
+    <span class="k">Então a ideia vira o quê</span>
+    <div>
+      <p><strong>Comprar cordão extrudado por metro e emendar aqui dentro.</strong> A ferramenta do anel deixa de existir; o que se constrói é uma <em>forma de soldar</em>, e ela custa uma tarde de ferramentaria com peças que a casa já tem em estoque.</p>
+      <p>Isso é a rota certa para o tryout e para o lote piloto — onde a pergunta ainda é "essa cota veda?" e não "quanto custa a peça". Para produção, a conta muda, e ela está no fim desta página.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">a ferramenta</span><h2>A forma para juntar</h2></div>
+  <div class="prose">
+    <p>É um dispositivo de bancada com três funções: <strong>alinhar</strong> as duas pontas no mesmo eixo, <strong>aquecer</strong> as faces, e <strong>recalcar</strong> uma contra a outra com um curso fixo. A precisão que importa é o alinhamento — meio milímetro de desalinho num cordão de 3,0 mm já deixa degrau na face de vedação.</p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 720 320" role="img" aria-label="Dispositivo de solda: duas castanhas com meia-cana alinhando o cordão, lâmina quente entre elas e batente regulável que define o recalque">
+        <defs>
+          <marker id="arE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <rect x="70" y="100" width="228" height="112" rx="2" fill="currentColor" fill-opacity=".10" stroke="currentColor" stroke-width="1.4"/>
+        <rect x="402" y="100" width="228" height="112" rx="2" fill="currentColor" fill-opacity=".10" stroke="currentColor" stroke-width="1.4"/>
+        <text x="184" y="230" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">castanha fixa</text>
+        <text x="516" y="230" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="currentColor">castanha no carro</text>
+
+        <rect x="46" y="143" width="292" height="26" rx="3" fill="var(--anel)"/>
+        <rect x="362" y="143" width="292" height="26" rx="3" fill="var(--anel)"/>
+
+        <rect x="340" y="66" width="20" height="180" rx="2" fill="var(--quente)" fill-opacity=".85" stroke="var(--quente)" stroke-width="1.2"/>
+        <circle cx="350" cy="200" r="6" fill="none" stroke="var(--paper)" stroke-width="1.6"/>
+
+        <line x1="298" y1="126" x2="338" y2="126" stroke="var(--faint)" stroke-width=".8"/>
+        <line x1="298" y1="122" x2="298" y2="130" stroke="var(--faint)" stroke-width="1"/>
+        <line x1="338" y1="122" x2="338" y2="130" stroke="var(--faint)" stroke-width="1"/>
+        <text x="318" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">1,2</text>
+        <text x="318" y="88" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">sobra de cada lado —</text>
+        <text x="318" y="76" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">é ela que vira o cordão de solda</text>
+
+        <text x="368" y="60" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--quente)">lâmina de alumínio revestida de PTFE</text>
+        <text x="368" y="262" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--quente)">resistência cartucho Ø 6 × 240 + termopar tipo J</text>
+        <line x1="360" y1="205" x2="366" y2="252" stroke="var(--quente)" stroke-width=".8"/>
+
+        <line x1="668" y1="156" x2="640" y2="156" stroke="currentColor" stroke-width="1.3" marker-end="url(#arE)"/>
+        <rect x="668" y="138" width="14" height="36" rx="2" fill="currentColor" fill-opacity=".28" stroke="currentColor" stroke-width="1.2"/>
+        <text x="690" y="152" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">batente</text>
+        <text x="690" y="165" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">regulável</text>
+
+        <path d="M46,156 L20,156" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="16" y="152" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">cordão</text>
+        <text x="16" y="165" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">Ø 3,0</text>
+
+        <path d="M184,212 L184,286" stroke="var(--faint)" stroke-width=".8"/>
+        <text x="184" y="300" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">meia-cana Ø 3,0 nas duas castanhas — o alinhamento é a cota que decide</text>
+      </svg>
+    </div>
+    <figcaption><b>Só três cotas importam:</b> a meia-cana de Ø 3,0 nas duas castanhas (alinhamento), a sobra de 1,2 mm de cada lado (o material que vira solda) e o curso do batente (o recalque). Tudo o mais é conveniência de bancada.</figcaption>
+  </figure>
+
+  <div class="bom">
+    <div>
+      <span class="t">Resistência cartucho</span>
+      <span class="d">A casa estoca nas bitolas 6 · 7,8 · 9,3 · 9,7 · 9,8 · 10 · 11,8 · 16 mm. Uma de <span class="mono">Ø 6 × 240</span> cabe numa lâmina fina.</span>
+      <span class="c">já no cadastro</span>
+    </div>
+    <div>
+      <span class="t">Termopar tipo J + controlador</span>
+      <span class="d">Termopar tipo J ponta 5 mm já é item de estoque, e existe <span class="mono">CONTROLADOR DE TEMPERATURA DO MOLDE</span> como ativo.</span>
+      <span class="c">já no cadastro</span>
+    </div>
+    <div>
+      <span class="t">Castanhas de alumínio</span>
+      <span class="d">Duas peças usinadas com meia-cana Ø 3,0, uma fixa e uma sobre guia linear com batente micrométrico.</span>
+      <span class="c">ferramentaria</span>
+    </div>
+    <div>
+      <span class="t">Lâmina revestida</span>
+      <span class="d">Chapa de alumínio de 1,5 a 2,0 mm com revestimento PTFE, para o fundido não grudar. É o único item a comprar fora.</span>
+      <span class="c">a comprar</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">procedimento</span><h2>Como se solda, na prática</h2></div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 720 190" role="img" aria-label="As três etapas da solda: aquecer as faces contra a lâmina, retirar a lâmina em menos de dois segundos, e recalcar até o batente enquanto esfria">
+        <g>
+          <text x="30" y="26" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="1.2" fill="var(--faint)">1 · AQUECER</text>
+          <rect x="30" y="70" width="82" height="22" rx="3" fill="var(--anel)"/>
+          <rect x="132" y="70" width="82" height="22" rx="3" fill="var(--anel)"/>
+          <rect x="114" y="46" width="16" height="70" rx="2" fill="var(--quente)" fill-opacity=".85"/>
+          <text x="122" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">5 a 10 s</text>
+          <text x="122" y="154" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">até formar bolsa</text>
+          <text x="122" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">nas duas faces</text>
+        </g>
+        <g>
+          <text x="270" y="26" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="1.2" fill="var(--faint)">2 · RETIRAR</text>
+          <rect x="270" y="70" width="82" height="22" rx="3" fill="var(--anel)"/>
+          <rect x="372" y="70" width="82" height="22" rx="3" fill="var(--anel)"/>
+          <ellipse cx="354" cy="81" rx="5" ry="12" fill="var(--quente)" fill-opacity=".7"/>
+          <ellipse cx="370" cy="81" rx="5" ry="12" fill="var(--quente)" fill-opacity=".7"/>
+          <path d="M362,46 L362,20" stroke="var(--quente)" stroke-width="1.3"/>
+          <text x="362" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--quente)">menos de 2 s</text>
+          <text x="362" y="154" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">tempo morto esfria</text>
+          <text x="362" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">a face e mata a solda</text>
+        </g>
+        <g>
+          <text x="510" y="26" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="1.2" fill="var(--faint)">3 · RECALCAR</text>
+          <rect x="510" y="70" width="88" height="22" rx="3" fill="var(--anel)"/>
+          <rect x="600" y="70" width="88" height="22" rx="3" fill="var(--anel)"/>
+          <ellipse cx="599" cy="81" rx="6" ry="15" fill="var(--anel)"/>
+          <path d="M599,58 L599,44" stroke="var(--ok)" stroke-width="1"/>
+          <text x="599" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--ok)">rebarba sai por fora</text>
+          <text x="599" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--muted)">20 a 30 s sob pressão</text>
+          <text x="599" y="154" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--faint)">só abrir depois de frio</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption><b>O passo 2 é o que separa uma solda boa de uma ruim.</b> Cada segundo entre tirar a lâmina e encostar as pontas esfria a superfície fundida; acima de dois segundos a solda vira colagem fria e rompe no primeiro esticão.</figcaption>
+  </figure>
+
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>Cortar em 422 mm</b><span>O canal tem 137,4 mm de diâmetro médio, então a circunferência livre é de 431,6 mm. Com 2,5% de tração de montagem dá 421 mm, mais cerca de 1 mm que a solda consome: <strong>422 mm nominal</strong>. Corte esquadrado, contra batente fixo — nunca com trena. Tolerância de ±1 mm já é ±0,23% de tração.</span></div></li>
+    <li><span class="n">02</span><div><b>Carregar com 1,2 mm de sobra de cada lado</b><span>As duas pontas saem além da face da castanha. É essa sobra que funde e vira o cordão de solda; sem ela a junta encosta sem material e não solda.</span></div></li>
+    <li><span class="n">03</span><div><b>Lâmina a 190–210 °C para TPE-S</b><span>Encostar as duas pontas por 5 a 10 s, até formar bolsa visível nas duas faces. A temperatura exata sai do grade — peça a faixa ao fornecedor da resina e calibre com o termopar, não no olho.</span></div></li>
+    <li><span class="n">04</span><div><b>Retirar a lâmina em menos de 2 s e recalcar até o batente</b><span>O batente define o recalque (o quanto uma ponta entra na outra). Segurar 20 a 30 s sob pressão, e só abrir com a junta fria.</span></div></li>
+    <li><span class="n">05</span><div><b>Rebarbar rente</b><span>Bisturi curvo apoiado no raio da castanha. <strong>É o passo que ninguém respeita e o que mais reprova.</strong> Um ressalto de rebarba na face de vedação é um caminho de vazamento — o anel veda 360° e basta um ponto.</span></div></li>
+    <li><span class="n">06</span><div><b>Conferir com gabarito, não com o olho</b><span>Anel passa por um anel-padrão de Ø interno; e a junta passa entre dois roletes que acusam degrau. Dois gabaritos simples, feitos na ferramentaria junto com o dispositivo.</span></div></li>
+  </ol>
+
+  <div class="verdict">
+    <span class="k">Se o anel for de silicone</span>
+    <div>
+      <p>O mesmo dispositivo serve, mas o processo é outro: <strong>silicone é termofixo e não solda</strong> — ele <em>vulcaniza</em>.</p>
+      <p>Em vez da lâmina quente, entra um filme fino de silicone não curado (RTV de adição, atóxico) entre as duas pontas; as castanhas fecham e a junta é aquecida a 150–180 °C por 3 a 5 minutos. As castanhas passam a ser aquecidas em vez da lâmina. Vale projetar o dispositivo já com alojamento de resistência nas duas castanhas: custa quase nada agora e evita refazer tudo se o ensaio de compression set empurrar o projeto para o silicone.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">o limite</span><h2>Onde a emenda deixa de compensar</h2></div>
+  <div class="prose">
+    <p>A emenda é sempre o ponto fraco do anel: tração e rasgo caem para algo entre 60% e 85% do cordão inteiro. E o cliente <strong>estica o anel para tirar e lavar</strong> — é exatamente ali que ela rompe. Ensaio obrigatório antes de qualquer lote: esticar 25% e soltar, 50 ciclos, sem falha na junta.</p>
+    <p>Mas o que decide não é a resistência, é o relógio. Uma emenda bem feita, incluindo corte, solda, rebarba e conferência, leva de <strong>60 a 120 segundos por anel</strong>:</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Volume/ano</th><th>a 60 s</th><th>a 90 s</th><th>a 120 s</th></tr></thead>
+      <tbody>
+        <tr><td>10.000 anéis</td><td>167 h</td><td>250 h</td><td>333 h</td></tr>
+        <tr><td>25.000 anéis</td><td>417 h</td><td>625 h</td><td>833 h</td></tr>
+        <tr><td>50.000 anéis</td><td>833 h</td><td>1.250 h</td><td>1.667 h</td></tr>
+        <tr><td>100.000 anéis</td><td>1.667 h</td><td>2.500 h</td><td>3.333 h</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Mil e duzentas horas por ano é meio operador dedicado a colar borracha. E não escala: dobrar o volume dobra as horas, enquanto o molde de compressão só muda o número de peças por prensada.</p>
+    <p><strong>O ponto de equilíbrio é uma conta de uma linha:</strong></p>
+  </div>
+  <div class="verdict">
+    <span class="k">Quando o molde se paga</span>
+    <div>
+      <p class="mono" style="font-size:.95rem">anéis = custo do molde ÷ (mão de obra por anel − preço do anel moldado)</p>
+      <p>Com o tempo de emenda em 90 s, a mão de obra por anel é a hora carregada dividida por 40. Faltam dois números para fechar: a <strong>cotação do molde de compressão</strong> e o <strong>preço por peça do anel moldado</strong> nas faixas de 5 k, 25 k e 100 k — os dois já estão na lista de cotação do brief da família.</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>E há um argumento a favor do molde que costuma passar batido: <strong>molde de compressão de borracha é essencialmente uma placa usinada com sulcos.</strong> Acrescentar um segundo diâmetro depois não é ferramenta nova — é usinar mais um sulco na mesma placa. Ou seja, a intuição de "um molde só, que serve para vários" se realiza melhor na compressão do que na emenda. O que na injeção seria um molde por diâmetro, aqui é uma cavidade a mais.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">recomendação</span><h2>O que fazer com isso</h2></div>
+  <ol class="steps">
+    <li><span class="n">01</span><div><b>Construir o dispositivo agora</b><span>Ele se paga no tryout, independentemente da decisão de produção: é como se ajusta a cota do canal sem esperar ferramenta de anel. Resistência, termopar e controlador já estão em estoque; falta usinar duas castanhas e comprar uma chapa revestida.</span></div></li>
+    <li><span class="n">02</span><div><b>Emendar o tryout e o lote piloto</b><span>Umas centenas de peças. É onde a pergunta ainda é "essa cota veda?", e onde 90 s por anel não custa nada.</span></div></li>
+    <li><span class="n">03</span><div><b>Molde de compressão para a produção</b><span>O anel já é de diâmetro único para a família inteira, então não há ferramenta a diluir. Fechar com a cotação e a conta de equilíbrio acima.</span></div></li>
+    <li><span class="n">04</span><div><b>E manter na mesa a rota que dispensa o anel</b><span>Lábio de vedação injetado no próprio PP da tampa interna: zero componente, zero emenda, zero fornecedor, zero posto de montagem. Só perde se o ensaio provar que não veda — e esse ensaio custa menos que qualquer uma das duas ferramentas.</span></div></li>
+  </ol>
+  <div class="prose">
+    <p>Uma nota que ajuda a conversa com a fábrica: <strong>a marcenaria já faz exatamente isso, em madeira.</strong> Das 14 máquinas do centro WOOD, duas são de <span class="mono">finger joint</span> — linha semi-automática e prensa — que existem para emendar peças curtas topo a topo em vez de comprar peça inteira. A casa já conhece as duas contas: a da emenda e a da peça única. É a mesma discussão, com outro material.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Procedimento de engenharia para orçamento e tryout, não instrução de trabalho liberada — temperatura de lâmina, tempo de recalque e comprimento de corte se calibram nas primeiras peças e dependem do grade de TPE escolhido. Parque de máquinas, itens de estoque e centros de trabalho conferidos no Sankhya em 01/09/2026. Anel em contato com alimento segue a <span class="mono">RDC ANVISA nº 1.020/2026</span>; adesivo na junta não é rota aceitável para peça de contato.</p>
+</footer>
+
+</div>

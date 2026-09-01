@@ -394,6 +394,41 @@ baioneta, que querem tenacidade, e fica escondida sob a capa de teca.
   **ensaio de queda com o pote cheio** (é o que o SAN pode reprovar — se reprovar, parede vai a
   3,0 mm antes de trocar de resina); compression set do TPE; curso de abertura para o 3,5 L.
 
+### Emenda de anel: a rota do cordão (01/09/2026)
+
+Procedimento em `analise/09-emenda-do-anel.html`.
+
+- ⚠️ **A família já tem molde único de anel.** Uma tampa para as quatro alturas = **um** diâmetro
+  (137,4 mm médio). Não há família de tamanhos para diluir ferramenta — a ideia de "um molde e
+  depois eu junto" resolve um problema que este projeto foi desenhado para não ter.
+- ⚠️ **Cordão não se injeta, se extruda.** Tira injetada sai com **linha de partição no sentido do
+  comprimento** — numa vedação isso é caminho de vazamento de ponta a ponta. E não há linha de
+  perfil na casa: os itens `PP - EXTRUSAO + LAVAGEM` e `PP - SEPARAÇÃO + MOAGEM + EXTRUSÃO` são
+  **serviço de recuperação de PP** (MP comprada), não extrusora.
+- **Parque por centro de trabalho (`VW_MAQUINA_CAPACIDADE`):** NITRON 62 (injetora + montagem) ·
+  **WOOD 14** · Tanamu 10 · HYAK 2 · Nitron-MG 1.
+- **A marcenaria já emenda topo a topo:** o centro WOOD tem `LINHA SEMI-AUTOMATICA DE FINGER JOINT`
+  e `PRENSA SEMI-AUTOMATICA FINGER JOINT`, além de prensa de alta frequência e coladeira de
+  cilindro. É a mesma discussão (emenda × peça inteira) em outro material — boa analogia com a
+  fábrica.
+- **Dispositivo de solda dá para construir na casa:** duas castanhas de alumínio com meia-cana
+  Ø 3,0 (uma no carro, com batente) + lâmina de alumínio revestida de PTFE. A **resistência
+  cartucho** (estoque em 6 · 7,8 · 9,3 · 9,7 · 9,8 · 10 · 11,8 · 16 mm), o **termopar tipo J** e o
+  `CONTROLADOR DE TEMPERATURA DO MOLDE` **já estão no cadastro**. Só a chapa revestida é compra.
+- **Procedimento (TPE-S):** corte **422 mm** (circunferência livre 431,6 − 2,5% de tração + ~1 mm
+  que a solda consome), sobra de **1,2 mm por lado**, lâmina a **190–210 °C** por 5–10 s,
+  **retirar a lâmina em menos de 2 s**, recalcar até o batente e segurar 20–30 s. Rebarbar rente —
+  ressalto na face de vedação é vazamento. Silicone usa o mesmo dispositivo, mas **vulcaniza**
+  (filme de RTV de adição, castanhas aquecidas a 150–180 °C por 3–5 min), não solda.
+- **O que mata a emenda na produção é o relógio, não a resistência:** 60 a 120 s por anel →
+  **833 a 1.667 h/ano** a 50 mil anéis. Não escala. Equilíbrio =
+  `custo do molde ÷ (mão de obra por anel − preço do anel moldado)`.
+- **Molde de compressão de borracha é placa usinada com sulcos:** um segundo diâmetro depois é
+  *mais um sulco*, não ferramenta nova. A intuição de "um molde que serve para vários" se realiza
+  melhor na compressão do que na emenda.
+- Ensaio obrigatório da junta: esticar 25% e soltar, **50 ciclos** — o cliente estica o anel para
+  lavar, e é ali que a emenda rompe. Adesivo na junta não é rota aceitável para contato alimentar.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
