@@ -357,6 +357,43 @@ de pegada e reaproveitá-los entrega produto com cara de adaptado. Brief em
   não a tonelagem:** 249 mm de profundidade pede ~550 mm de abertura, e o ERP não guarda curso.
   Pergunta aberta para a manutenção.
 
+### A resina do premium: SAN, não Tritan (31/08/2026)
+
+Modelo 3D em `analise/08-linha-coluna-3d.html` (nome de trabalho **Linha Coluna**).
+
+| Resina | Clareza | Impacto | Lava-louças | Secagem | Custo vs PP |
+|---|---|---|---|---|---|
+| PP H 105 clarificado | alta, com névoa (20–30%) | excelente | ok | não precisa | 1× |
+| **SAN** | vidro (névoa 2–3%) | **frágil** | limítrofe | leve, 80 °C ar quente | ~2–3× |
+| PETG | vidro | bom | **não** — amolece ~70 °C | dessecante | ~2–3× |
+| PMMA | vidro+ | frágil | não — trinca com detergente | leve | ~3–4× |
+| Tritan | vidro | bom | sim | dessecante rígida | ~5–8× |
+
+**A tampa de teca já obriga lavagem à mão** — com isso a única fraqueza séria do SAN contra o
+Tritan deixa de valer para este produto. Sobra a clareza, que é o que o cliente vê, e a rigidez,
+que lê como premium. O projeto compensa a fragilidade com parede de 2,5 mm, raios generosos, zero
+canto vivo interno e ponto de injeção central no fundo (linha de solda na parede vira trinca em
+material frágil). Refugo de SAN moído e ensacado separado do PP.
+
+**Exceção dentro da peça:** a **tampa interna sai em PP**, não em SAN — carrega as rampas da
+baioneta, que querem tenacidade, e fica escondida sob a capa de teca.
+
+### Geometria congelada da Linha Coluna
+
+- Ø 140 externo · parede 2,5 · saída 0,5°/lado · pé Ø 134 **constante** nas quatro alturas.
+- 1,2 L (h 91) · 1,8 L (h 132) · 2,6 L (h 187) · 3,5 L (h 249). Uma tampa serve as quatro.
+- **A saia da tampa passa por fora do bocal** → tampa Ø 145 contra corpo Ø 140. Não é descuido:
+  rebaixo no bocal seria contra-saída para o macho e obrigaria gaveta. Os 2,5 mm de aba por lado
+  ainda protegem o anel.
+- **A saia faz de friso externo** — economiza uma parede. Canal 3,8 entre a saia e o friso interno
+  de 2,4; cordão Ø 3,0 shore A 60; esmagamento 0,6 = 20%, com o friso de batente.
+- Fecho: baioneta de ¼ de volta, 3 orelhas no bocal. ⚠️ Orelha rasa sai por arranque em PP; em SAN,
+  que é rígido, provavelmente **não** — e as orelhas estão no corpo, então é o molde do corpo que
+  paga gaveta. Pergunta aberta para a ferramentaria.
+- Pendências que o 3D não decide: cotação do SAN posto (acima de 4× o PP, reabrir o PP clarificado);
+  **ensaio de queda com o pote cheio** (é o que o SAN pode reprovar — se reprovar, parede vai a
+  3,0 mm antes de trocar de resina); compression set do TPE; curso de abertura para o 3,5 L.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
