@@ -1,0 +1,571 @@
+<title>Filial Nitron em Rondônia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F1F2EF; --surface:#FCFCFB; --surface-2:#E9EBE6;
+  --ink:#161A18; --ink-2:#3B423D; --muted:#5B635E; --faint:#7C847E;
+  --rule:#DBDED7; --rule-2:#C8CCC3;
+  --terra:#A8401F; --terra-soft:#F0DED6; --terra-ink:#8A3418;
+  --rio:#0F6E9C; --rio-soft:#DCE9F1;
+  --good:#2F6B4F; --band:rgba(168,64,31,.10);
+  --shadow:0 1px 2px rgba(22,26,24,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141614; --surface:#1C1F1C; --surface-2:#252925;
+    --ink:#EDEFEA; --ink-2:#CFD3CC; --muted:#9BA39C; --faint:#7F877F;
+    --rule:#2C302C; --rule-2:#3A3F3A;
+    --terra:#D9714D; --terra-soft:#3A231A; --terra-ink:#E89570;
+    --rio:#3F9CC4; --rio-soft:#16292F;
+    --good:#6FB292; --band:rgba(217,113,77,.13);
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141614; --surface:#1C1F1C; --surface-2:#252925;
+  --ink:#EDEFEA; --ink-2:#CFD3CC; --muted:#9BA39C; --faint:#7F877F;
+  --rule:#2C302C; --rule-2:#3A3F3A;
+  --terra:#D9714D; --terra-soft:#3A231A; --terra-ink:#E89570;
+  --rio:#3F9CC4; --rio-soft:#16292F;
+  --good:#6FB292; --band:rgba(217,113,77,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.62; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 24px 96px}
+.col{max-width:64ch}
+
+/* ---------- masthead ---------- */
+header{padding:56px 0 0}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 20px;
+  display:flex; flex-wrap:wrap; gap:8px 18px;
+}
+h1{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-weight:700;
+  font-size:clamp(34px,5.2vw,52px); line-height:1.04; letter-spacing:-.022em;
+  margin:0 0 18px; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--terra)}
+.standfirst{font-size:20px; line-height:1.5; color:var(--ink-2); margin:0; max-width:56ch}
+.byline{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px; color:var(--faint);
+  letter-spacing:.03em; margin:26px 0 0; padding-top:16px; border-top:1px solid var(--rule);
+  display:flex; flex-wrap:wrap; gap:6px 20px;
+}
+
+/* ---------- verdict ---------- */
+.verdict{
+  margin:44px 0 0; background:var(--surface); border:1px solid var(--rule);
+  border-left:4px solid var(--terra); border-radius:2px; box-shadow:var(--shadow);
+  padding:28px 30px 26px;
+}
+.verdict .tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--terra); margin:0 0 12px;
+}
+.verdict h2{
+  font-family:Archivo,sans-serif; font-weight:700; font-size:clamp(21px,2.6vw,27px);
+  line-height:1.22; letter-spacing:-.012em; margin:0 0 16px; text-wrap:balance;
+}
+.verdict p{margin:0 0 14px; max-width:62ch; color:var(--ink-2)}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{color:var(--ink); font-weight:600}
+
+/* ---------- key figures ---------- */
+.figs{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  gap:1px; margin:28px 0 0; background:var(--rule); border:1px solid var(--rule); border-radius:2px;
+  overflow:hidden;
+}
+.fig{background:var(--surface); padding:18px 20px 16px}
+.fig dt{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;
+}
+.fig dd{
+  font-family:Archivo,sans-serif; font-weight:700; font-size:27px; letter-spacing:-.02em;
+  margin:0; font-variant-numeric:tabular-nums; line-height:1.1;
+}
+.fig .sub{
+  display:block; font-family:"Source Serif 4",serif; font-weight:400; font-size:13.5px;
+  letter-spacing:0; color:var(--muted); margin-top:6px; line-height:1.4;
+}
+.fig dd.up{color:var(--good)} .fig dd.down{color:var(--terra)}
+
+/* ---------- sections ---------- */
+section{margin:60px 0 0; scroll-margin-top:20px}
+.snum{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:600;
+  letter-spacing:.14em; color:var(--terra); display:block; margin:0 0 10px;
+}
+h2.sec{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:clamp(23px,3vw,30px);
+  line-height:1.16; letter-spacing:-.016em; margin:0 0 8px; text-wrap:balance;
+  padding-bottom:14px; border-bottom:2px solid var(--ink); display:block;
+}
+h3{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:17.5px; letter-spacing:-.005em;
+  margin:34px 0 10px; text-wrap:balance;
+}
+p{margin:0 0 16px}
+.sec + p{margin-top:20px}
+strong{font-weight:600}
+em.q{font-style:italic; color:var(--ink-2)}
+code, .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.88em}
+code{background:var(--surface-2); padding:1px 5px; border-radius:2px; color:var(--ink-2)}
+a{color:var(--rio); text-decoration-thickness:1px; text-underline-offset:2px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto; margin:24px 0 10px; border:1px solid var(--rule); border-radius:2px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:520px}
+caption{
+  text-align:left; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px;
+  font-weight:500; letter-spacing:.11em; text-transform:uppercase; color:var(--muted);
+  padding:14px 16px 10px;
+}
+th,td{padding:9px 16px; text-align:right; border-bottom:1px solid var(--rule); white-space:nowrap}
+th:first-child,td:first-child{text-align:left; white-space:normal; min-width:150px}
+th.tl,td.tl{text-align:left; white-space:normal; min-width:220px}
+tbody td.tl{font-family:"Source Serif 4",serif; font-size:14.5px}
+thead th{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:11.5px; letter-spacing:.03em;
+  text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--rule-2);
+  vertical-align:bottom;
+}
+tbody td{font-variant-numeric:tabular-nums; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:13px}
+tbody td:first-child{font-family:"Source Serif 4",serif; font-size:14.5px}
+tbody tr:last-child td{border-bottom:none}
+tr.tot td{background:var(--surface-2); font-weight:600}
+tr.tot td:first-child{font-weight:600}
+tr.hi td{background:var(--terra-soft)}
+td.pos{color:var(--good)} td.neg{color:var(--terra)}
+.tnote{font-size:13px; color:var(--muted); margin:0 0 4px; max-width:70ch; line-height:1.5}
+
+/* ---------- charts ---------- */
+figure{margin:30px 0 10px; background:var(--surface); border:1px solid var(--rule); border-radius:2px; padding:22px 22px 16px}
+figure h4{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:15.5px; margin:0 0 3px; letter-spacing:-.005em;
+}
+figure .sub{font-size:13.5px; color:var(--muted); margin:0 0 18px; line-height:1.45}
+figure svg{display:block; width:100%; height:auto; overflow:visible}
+figcaption{font-size:13px; color:var(--muted); margin:14px 0 0; line-height:1.5; max-width:74ch}
+.cw{overflow-x:auto}
+.ct{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; fill:var(--muted)}
+.cl{font-family:"Source Serif 4",serif; font-size:14px; fill:var(--ink-2)}
+.cv{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px; font-weight:600; fill:var(--ink); paint-order:stroke; stroke:var(--surface); stroke-width:3.5px; stroke-linejoin:round}
+.cb{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:9.5px; font-weight:600; letter-spacing:.12em; fill:var(--terra)}
+.bar{transition:opacity .12s}
+.bar:hover{opacity:.82; cursor:default}
+#tip{
+  position:fixed; z-index:9; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--ink); color:var(--ground); font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11.5px; line-height:1.45; padding:7px 10px; border-radius:3px; max-width:260px;
+}
+
+/* ---------- callouts ---------- */
+.note{
+  margin:28px 0; padding:20px 22px; background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--rio); border-radius:2px;
+}
+.note.warn{border-left-color:var(--terra)}
+.note .lab{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--rio); margin:0 0 10px;
+}
+.note.warn .lab{color:var(--terra)}
+.note p{margin:0 0 12px; font-size:16px} .note p:last-child{margin:0}
+
+ul,ol{margin:0 0 18px; padding-left:0; list-style:none}
+li{margin:0 0 12px; padding-left:26px; position:relative}
+ul li::before{
+  content:""; position:absolute; left:6px; top:.62em; width:6px; height:6px;
+  background:var(--terra); border-radius:50%;
+}
+ol{counter-reset:o}
+ol li{counter-increment:o}
+ol li::before{
+  content:counter(o); position:absolute; left:0; top:.05em;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; font-weight:600;
+  color:var(--terra); width:18px; text-align:right;
+}
+
+/* ---------- gate ---------- */
+.gate{margin:24px 0 0; display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:2px; overflow:hidden}
+.gate .row{background:var(--surface); padding:16px 20px; display:flex; gap:14px; align-items:flex-start}
+.gate .box{
+  flex:0 0 auto; width:15px; height:15px; margin-top:5px; border:1.5px solid var(--rule-2);
+  border-radius:2px; background:var(--ground);
+}
+.gate .row div{font-size:15.5px; line-height:1.5}
+.gate .row .k{
+  display:block; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px;
+  font-weight:600; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;
+}
+
+footer{
+  margin:72px 0 0; padding-top:22px; border-top:1px solid var(--rule);
+  font-size:13.5px; color:var(--muted); line-height:1.55; max-width:74ch;
+}
+footer .lab{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); margin:0 0 10px;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+:focus-visible{outline:2px solid var(--rio); outline-offset:2px}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 18px 72px}
+  .verdict{padding:22px 20px}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow"><span>Projeto de Desenvolvimento de Produtos</span><span>Nitron · 02 set 2026</span><span>Decisão de expansão</span></p>
+  <h1>Filial e CD em <em>Ouro Preto do Oeste</em></h1>
+  <p class="standfirst">O mercado do corredor RO–AC–MT–AM existe, é o mais rentável da casa e está sub-atendido. Ainda assim, a conta do centro de distribuição não fecha nesta rodada.</p>
+  <p class="byline"><span>Fonte: Sankhya produção</span><span>Recorte: marca própria, empresas 1/2/14</span><span>12 M móveis: set/25 – ago/26</span></p>
+</header>
+
+<div class="verdict">
+  <p class="tag">Recomendação</p>
+  <h2>Atacar a região comercialmente agora. Não construir o CD nesta rodada.</h2>
+  <p>A região alvo fez <strong>R$ 1,69 M</strong> em doze meses — <strong>2,05% do faturamento</strong> — com margem bruta de <strong>55,4%</strong> contra 49,2% do resto do Brasil. Ela <strong>cresce 4,1%</strong> enquanto a casa cai 18,9%.</p>
+  <p>Mas os R$ 934 k de lucro bruto de hoje saem com custo fixo incremental próximo de zero, pegando carona em Guarulhos e Extrema. Um CD de R$ 960 k/ano exige a região em <strong>R$ 3,42 M só para empatar</strong> — e o teto calculado por penetração de mercado é <strong>R$ 2,96 M</strong>. No cenário de benchmark, o CD não empata.</p>
+  <p>Existem <strong>1.755 clientes já cadastrados na região que não compraram em 12 meses</strong>, dos quais 303 pararam nos últimos um a três anos e carregam R$ 3,38 M de LTV acumulado. Esse ataque custa uma fração do CD, é reversível, e produz exatamente a evidência que falta para decidir o CD depois.</p>
+</div>
+
+<dl class="figs">
+  <div class="fig"><dt>Faturamento 12 M</dt><dd>R$ 1,69 M<span class="sub">RO + AC + MT + AM · 2,05% da casa</span></dd></div>
+  <div class="fig"><dt>Margem bruta</dt><dd class="up">55,4%<span class="sub">resto do Brasil: 49,2%</span></dd></div>
+  <div class="fig"><dt>Clientes ativos</dt><dd>241<span class="sub">de 1.996 cadastrados na região</span></dd></div>
+  <div class="fig"><dt>Variação 2 anos</dt><dd class="up">+4,1%<span class="sub">a casa caiu 18,9%</span></dd></div>
+</dl>
+
+<section>
+  <span class="snum">01</span>
+  <h2 class="sec">O mercado hoje</h2>
+  <div class="col">
+    <p>Quatro estados, 10,7 milhões de habitantes, 241 clientes ativos. A região é pequena em faturamento e desproporcionalmente boa em margem.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>Faturamento por UF · janelas móveis de 12 meses</caption>
+    <thead><tr><th>UF</th><th>set/23–ago/24</th><th>set/24–ago/25</th><th>set/25–ago/26</th><th>Var 2a</th><th>Clientes 12 M</th><th>Cadastro ativo</th></tr></thead>
+    <tbody>
+      <tr><td>Mato Grosso</td><td>721.482</td><td>1.031.239</td><td>723.261</td><td class="pos">+0,2%</td><td>148</td><td>1.163</td></tr>
+      <tr><td>Rondônia</td><td>439.751</td><td>367.496</td><td>489.581</td><td class="pos">+11,3%</td><td>37</td><td>291</td></tr>
+      <tr><td>Amazonas</td><td>265.307</td><td>499.118</td><td>254.257</td><td class="neg">−4,2%</td><td>47</td><td>424</td></tr>
+      <tr><td>Acre</td><td>196.354</td><td>55.914</td><td>222.006</td><td class="pos">+13,1%</td><td>9</td><td>118</td></tr>
+      <tr class="tot"><td>Região alvo</td><td>1.622.894</td><td>1.953.767</td><td>1.689.105</td><td class="pos">+4,1%</td><td>241</td><td>1.996</td></tr>
+      <tr><td>Brasil</td><td>101.384.550</td><td>93.490.180</td><td>82.269.759</td><td class="neg">−18,9%</td><td>17.349</td><td>156.178</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">A região bate a casa por 23 pontos. Ressalva honesta: a base é pequena e volátil — o Acre foi 196 k → 56 k → 222 k, que é ruído de dois ou três pedidos, não tendência.</p>
+
+  <h3>A região é a mais rentável da casa — e sabemos por quê</h3>
+  <div class="tw"><table>
+    <caption>Qualidade da receita · 12 M até ago/26</caption>
+    <thead><tr><th>Indicador</th><th>Região alvo</th><th>Vizinhos N/CO</th><th>Resto do Brasil</th></tr></thead>
+    <tbody>
+      <tr><td>Faturamento</td><td>R$ 1,69 M</td><td>R$ 5,04 M</td><td>R$ 75,07 M</td></tr>
+      <tr class="hi"><td>Margem bruta</td><td>55,4%</td><td>51,8%</td><td>49,2%</td></tr>
+      <tr><td>Lucro bruto</td><td>R$ 934 k</td><td>R$ 2,61 M</td><td>R$ 36,96 M</td></tr>
+      <tr class="hi"><td>Preço realizado</td><td>R$ 46,01/kg</td><td>R$ 42,94/kg</td><td>R$ 40,10/kg</td></tr>
+      <tr class="hi"><td>% na tabela padrão</td><td>53,1%</td><td>34,5%</td><td>13,3%</td></tr>
+      <tr><td>Ticket por nota</td><td>R$ 5.630</td><td>R$ 8.980</td><td>R$ 2.602</td></tr>
+      <tr><td>Notas por cliente/ano</td><td>1,24</td><td>1,59</td><td>1,73</td></tr>
+      <tr><td>R$ por cliente/ano</td><td>R$ 7.009</td><td>R$ 14.297</td><td>R$ 4.480</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p>A região paga <strong>14,7% mais por quilo</strong> e compra <strong>53% na tabela cheia</strong> contra 13% no resto do país. Isso não é força de marca. É ausência de alternativa local — e é exatamente o prêmio que um CD dissolve. Voltamos a esse ponto na seção 04.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">02</span>
+  <h2 class="sec">Quantos clientes potenciais existem</h2>
+  <div class="col">
+    <p>Medi penetração como <strong>clientes ativos por 100 mil habitantes</strong>, comparando a região com estados igualmente distantes da fábrica — Ceará, Pernambuco, Bahia, Goiás, Paraíba. Excluí São Paulo, Rio, Minas e Espírito Santo do benchmark: são mercado de casa e inflariam o teto.</p>
+  </div>
+
+  <figure>
+    <h4>Penetração: clientes ativos por 100 mil habitantes</h4>
+    <p class="sub">A região tem 2,7× menos clientes por habitante que estados de distância comparável.</p>
+    <div class="cw"><svg viewBox="0 0 760 236" role="img" aria-label="Gráfico de barras: clientes ativos por 100 mil habitantes. Home SP/RJ/MG/ES 12,28. Benchmark 6,12. Vizinhos Norte e Centro-Oeste 2,41. Região alvo 2,24.">
+      <line x1="418" y1="30" x2="418" y2="206" stroke="var(--rule-2)" stroke-width="1" stroke-dasharray="3 3"></line>
+      <text class="cb" x="418" y="24" text-anchor="middle" fill="var(--muted)">BENCHMARK 6,12</text>
+
+      <g class="bar"><title>Home (SP/RJ/MG/ES): 12,28 ativos por 100 mil hab · 10.883 clientes em 88,6 M de habitantes</title>
+        <text class="cl" x="218" y="58" text-anchor="end">Home (SP/RJ/MG/ES)</text>
+        <rect x="230" y="38" width="378" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="618" y="56">12,28</text></g>
+
+      <g class="bar"><title>Benchmark, Brasil ex-home e ex-Norte/CO: 6,12 ativos por 100 mil hab · 5.872 clientes em 96,0 M de habitantes</title>
+        <text class="cl" x="218" y="102" text-anchor="end">Benchmark (estados distantes)</text>
+        <rect x="230" y="82" width="188" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="428" y="100">6,12</text></g>
+
+      <g class="bar"><title>Vizinhos Norte/CO (RR, AP, TO, MS, PA): 2,41 ativos por 100 mil hab · 353 clientes em 14,7 M de habitantes</title>
+        <text class="cl" x="218" y="146" text-anchor="end">Vizinhos Norte/CO</text>
+        <rect x="230" y="126" width="74" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="314" y="144">2,41</text></g>
+
+      <g class="bar"><title>Região alvo (RO, AC, MT, AM): 2,24 ativos por 100 mil hab · 241 clientes em 10,7 M de habitantes</title>
+        <text class="cl" x="218" y="190" text-anchor="end">Região alvo (RO/AC/MT/AM)</text>
+        <rect x="230" y="170" width="69" height="26" rx="4" fill="var(--terra)"></rect>
+        <text class="cv" x="309" y="188">2,24</text></g>
+
+      <line x1="230" y1="206" x2="630" y2="206" stroke="var(--rule-2)" stroke-width="1"></line>
+      <g class="ct" text-anchor="middle">
+        <text x="230" y="224">0</text><text x="353" y="224">4</text><text x="476" y="224">8</text><text x="599" y="224">12</text>
+      </g>
+    </svg></div>
+    <figcaption>O buraco é de <strong>cliente</strong>, não de faturamento: R$ por habitante está só 18% abaixo do benchmark (0,16 contra 0,19), porque cada cliente da região vale 2,3× mais que a média.</figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <caption>O bolsão de clientes potenciais · região RO+AC+MT+AM</caption>
+    <thead><tr><th>Bolsão</th><th>Quantidade</th><th class="tl">O que é</th></tr></thead>
+    <tbody>
+      <tr><td>Clientes ativos hoje</td><td>241</td><td class="tl">Base atual, R$ 7.009/ano cada</td></tr>
+      <tr class="hi"><td>Cadastrados sem compra em 12 M</td><td>1.755</td><td class="tl">Não precisa prospectar — precisa ligar</td></tr>
+      <tr><td>↳ compraram há 1–3 anos</td><td>303</td><td class="tl"><strong>LTV acumulado R$ 3.379.019</strong> — alvo nº 1</td></tr>
+      <tr><td>↳ pararam há 3+ anos</td><td>266</td><td class="tl">Recuperação mais difícil</td></tr>
+      <tr><td>↳ cadastro sem compra nenhuma</td><td>1.186</td><td class="tl">Qualidade desconhecida — auditar antes de contar</td></tr>
+      <tr class="tot"><td>Teto por penetração</td><td>657 ativos</td><td class="tl">Gap de <strong>+416 clientes</strong> até o benchmark</td></tr>
+      <tr><td>Teto de cadastro</td><td>5.938</td><td class="tl">Gap de +3.942 cadastros (55,3/100 mil hab)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">Somando os vizinhos Norte/CO (25,4 M hab): teto de 1.554 ativos, gap de +960; teto de cadastro 14.047, gap de +9.406.</p>
+
+  <div class="note">
+    <p class="lab">O detalhe que muda a prioridade</p>
+    <p>Boa parte dos 303 dormentes recentes parou em <strong>junho e julho de 2025</strong> — caíram do corte de 12 meses por poucos meses. Entre eles: S. V. Comércio de Presentes (Cuiabá, R$ 326 k de LTV), J R Rodrigues Variedades (Manaus, R$ 276 k), Cacoal Comércio de Utensílios (R$ 277 k), Marechal Utilidades (Rondonópolis, R$ 111 k). <strong>Não são clientes perdidos, são clientes vencidos.</strong></p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">03</span>
+  <h2 class="sec">Por que Rondônia? A geografia sobrevive ao teste</h2>
+  <div class="col">
+    <p>Testei Ouro Preto do Oeste contra quatro hubs alternativos, ponderando 31 cidades pela demanda real de 12 meses — 95% da receita da região. O resultado foi contra-intuitivo e favorável.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>Distância rodoviária média ponderada pela demanda</caption>
+    <thead><tr><th>Hub candidato</th><th>km médio ponderado</th><th>Demanda ≤400 km</th><th>≤800 km</th><th>&gt;1.500 km</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td>Ouro Preto do Oeste (RO)</td><td>833</td><td>28,9%</td><td>32,2%</td><td>0,0%</td></tr>
+      <tr><td>Porto Velho (RO)</td><td>872</td><td>21,1%</td><td>41,4%</td><td>4,9%</td></tr>
+      <tr><td>Sinop (MT)</td><td>1.046</td><td>23,0%</td><td>40,7%</td><td>29,9%</td></tr>
+      <tr><td>Cuiabá (MT)</td><td>1.188</td><td>15,4%</td><td>38,5%</td><td>29,9%</td></tr>
+      <tr><td>Guarulhos (hoje)</td><td>2.819</td><td>0,0%</td><td>0,0%</td><td>98,7%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p><strong>Ouro Preto do Oeste ganha.</strong> É 70% mais perto da demanda que Guarulhos e é o único hub que zera a cauda acima de 1.500 km. A localização da fazenda da Teak não conflita com a logística — ela coincide.</p>
+    <p><strong>Mas só 28,9% da demanda fica dentro de 400 km.</strong> O CD troca uma perna de 2.800 km por uma de 833 km; não transforma a região em mercado de entrega local. Frete regional continua existindo, e o maior mercado — Mato Grosso, 41,2% da demanda — é o mais mal servido por qualquer hub em Rondônia. Manaus (15,5%) depende da BR-319, que não é rota confiável de caminhão.</p>
+    <p>O Pará é o maior mercado do Norte (R$ 4,55 M, crescendo 65%) e <strong>não é endereçável por esse CD</strong>: a receita está em Belém e no leste do estado, a 2.500 km de Ouro Preto do Oeste.</p>
+  </div>
+  <p class="tnote">Distâncias aproximadas. O campo <code>TSICID.DISTANCIA</code> está 100% zerado no ERP — validar com roteirizador antes de fixar o hub.</p>
+</section>
+
+<section>
+  <span class="snum">04</span>
+  <h2 class="sec">A conta do CD — e por que ela não fecha</h2>
+  <div class="col">
+    <p>O erro clássico de business case de filial é comparar o custo fixo novo com o lucro bruto <em class="q">total</em> da região. Os R$ 934 k de hoje já saem com custo fixo incremental próximo de zero. O ativo novo tem de pagar a si mesmo com margem <strong>incremental</strong>.</p>
+  </div>
+
+  <figure>
+    <h4>O teto de mercado para antes do break-even</h4>
+    <p class="sub">Receita regional em cada cenário, contra a faixa de receita necessária para o CD empatar.</p>
+    <div class="cw"><svg viewBox="0 0 760 268" role="img" aria-label="Gráfico de barras: receita regional por cenário contra a zona de break-even do CD. Status quo 1,69 milhão. Reativar dormentes 2,15 milhões. Teto por penetração 2,96 milhões. Teto com ticket premium 4,60 milhões. Zona de break-even começa em 2,99 milhões e termina em 4,29 milhões.">
+      <rect x="463" y="42" width="115" height="164" fill="var(--band)"></rect>
+      <line x1="463" y1="42" x2="463" y2="206" stroke="var(--terra)" stroke-width="1.5"></line>
+      <line x1="578" y1="42" x2="578" y2="206" stroke="var(--terra)" stroke-width="1" stroke-dasharray="3 3"></line>
+      <text class="cb" x="520" y="34" text-anchor="middle">ZONA DE BREAK-EVEN</text>
+
+      <g class="bar"><title>Status quo, sem CD: R$ 1,69 M de receita, R$ 934 k de lucro bruto, 241 clientes ativos</title>
+        <text class="cl" x="188" y="66" text-anchor="end">A · Status quo, sem CD</text>
+        <rect x="200" y="48" width="149" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="359" y="66">R$ 1,69 M</text></g>
+
+      <g class="bar"><title>Reativar metade dos 303 dormentes recentes: 393 clientes ativos, R$ 2,15 M de receita, R$ 1,19 M de lucro bruto</title>
+        <text class="cl" x="188" y="110" text-anchor="end">B · Reativar dormentes</text>
+        <rect x="200" y="92" width="189" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="399" y="110">R$ 2,15 M</text></g>
+
+      <g class="bar"><title>Chegar ao benchmark de penetração: 657 clientes ativos ao ticket do benchmark (R$ 3.055 por ano), R$ 2,96 M de receita, R$ 1,64 M de lucro bruto</title>
+        <text class="cl" x="188" y="154" text-anchor="end">C · Teto por penetração</text>
+        <rect x="200" y="136" width="261" height="26" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="471" y="154">R$ 2,96 M</text></g>
+
+      <g class="bar"><title>Benchmark de penetração mantendo o ticket premium atual de R$ 7.009 por cliente: R$ 4,60 M de receita. É o único cenário que paga o CD — e é o cenário que o próprio CD destrói.</title>
+        <text class="cl" x="188" y="198" text-anchor="end">D · Teto c/ ticket premium</text>
+        <rect x="200" y="180" width="405" height="26" rx="4" fill="var(--terra)"></rect>
+        <text class="cv" x="615" y="198">R$ 4,60 M</text></g>
+
+      <line x1="200" y1="206" x2="640" y2="206" stroke="var(--rule-2)" stroke-width="1"></line>
+      <g class="ct" text-anchor="middle">
+        <text x="200" y="224">0</text><text x="288" y="224">1</text><text x="376" y="224">2</text>
+        <text x="464" y="224">3</text><text x="552" y="224">4</text><text x="640" y="224">5</text>
+      </g>
+      <text class="ct" x="420" y="248" text-anchor="middle">receita regional anual, R$ milhões</text>
+    </svg></div>
+    <figcaption>A zona de break-even vai de <strong>R$ 2,99 M</strong> (custo fixo de R$ 720 k/ano) a <strong>R$ 4,29 M</strong> (R$ 1,44 M/ano), à margem bruta atual de 55,4%. O cenário C — atingir a penetração de um estado distante bem atendido — <strong>para 30 mil reais antes da borda de entrada</strong>. Só o cenário D paga o CD.</figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <caption>Break-even do CD por custo fixo anual · margem bruta de 55,4%</caption>
+    <thead><tr><th>Custo fixo anual</th><th>Lucro bruto incremental necessário</th><th>Receita incremental</th><th>Receita regional total</th></tr></thead>
+    <tbody>
+      <tr><td>R$ 720.000</td><td>R$ 720.000</td><td>R$ 1.299.639</td><td>R$ 2,99 M</td></tr>
+      <tr class="hi"><td>R$ 960.000</td><td>R$ 960.000</td><td>R$ 1.732.852</td><td>R$ 3,42 M</td></tr>
+      <tr><td>R$ 1.200.000</td><td>R$ 1.200.000</td><td>R$ 2.166.065</td><td>R$ 3,86 M</td></tr>
+      <tr><td>R$ 1.440.000</td><td>R$ 1.440.000</td><td>R$ 2.599.278</td><td>R$ 4,29 M</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">O custo fixo é <strong>input da diretoria, não dado do ERP</strong>. A faixa cobre uma operação enxuta de 6 a 8 pessoas com ocupação e sistema no interior de Rondônia. Toda esta seção depende desse número — ver seção 08.</p>
+
+  <div class="note warn">
+    <p class="lab">O conflito central</p>
+    <p>Um CD existe para o cliente <strong>pedir pouco e seguido</strong>. As três métricas que fazem a região render 55,4% são exatamente as opostas: ticket de R$ 5.630 por nota, 53% na tabela cheia e R$ 46/kg realizado.</p>
+    <p>Se o CD funcionar como CD, o mix migra para tabela de canal e a margem cai para os ~49,2% do resto do país. O break-even sobe: <strong>R$ 3,64 M</strong> com custo fixo de R$ 960 k, <strong>R$ 4,13 M</strong> com R$ 1,2 M. <strong>O CD melhora o serviço destruindo o prêmio que paga por ele.</strong></p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">05</span>
+  <h2 class="sec">ICMS: o pedágio de localizar</h2>
+  <div class="col">
+    <p>Este é o número que eu não esperava encontrar e que decide o projeto. Extrema é o caso real da casa de <em class="q">filial vendendo dentro do próprio estado</em>, e dá para medir o custo disso direto no ERP.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>ICMS efetivo medido · 12 M até ago/26</caption>
+    <thead><tr><th>Operação</th><th>ICMS efetivo</th><th>Alíquota mediana</th></tr></thead>
+    <tbody>
+      <tr><td>Guarulhos → Rondônia (interestadual, hoje)</td><td>5,67%</td><td>7%</td></tr>
+      <tr><td>Guarulhos → Acre / Amazonas / Mato Grosso</td><td>5,57% / 6,07% / 5,86%</td><td>7%</td></tr>
+      <tr class="hi"><td>Extrema vendendo <strong>dentro</strong> de Minas</td><td>10,44%</td><td>12%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p>Localizar a venda cobra <strong>+4,77 pontos de ICMS efetivo</strong>. Sobre a receita atual isso é R$ 80,6 k/ano; sobre R$ 3,4 M é <strong>R$ 162,2 k/ano</strong> — e derruba a margem bruta de 55,4% para cerca de 50,6%, empurrando o break-even para cima justamente quando ele já não fecha.</p>
+    <p>A alíquota interna de Rondônia é <strong>maior</strong> que os 12% de Minas. O pedágio tende a ser pior que +4,77 pontos.</p>
+  </div>
+  <div class="note warn">
+    <p class="lab">A variável decisiva — e ela está fora do ERP</p>
+    <p>Extrema só fecha porque Minas tem regime especial. A pergunta equivalente para Rondônia é: <strong>o estado concede crédito presumido ou regime especial de atacadista-distribuidor?</strong></p>
+    <p>Se não, o CD começa com cinco pontos de margem negativa estrutural e <strong>está reprovado por aritmética</strong> — nada mais precisa ser estudado. Esta é a primeira pergunta a fazer ao fiscal, antes de qualquer outra coisa deste relatório.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">06</span>
+  <h2 class="sec">Sobre a sinergia com a Teak Brazil</h2>
+  <div class="col">
+    <h3>O que é verdade e já está no ERP</h3>
+    <p>A operação existe e está rodando. <code>CODEMP 21</code> é <strong>"TEAK BRAZIL (RONDÔNIA)"</strong>, em Ouro Preto do Oeste, ativa desde <strong>09/04/2026</strong>: 99 notas de compra (R$ 843 k), 58 de outras entradas (R$ 593 k) e 8 vendas (R$ 155 k). A filial <code>CODPARC 200414</code>, CNPJ …0002-78, foi cadastrada em 16/04/2026.</p>
+    <p>Há site, CNPJ, gente e logística de entrada já funcionando. <strong>Esse é o ativo real e é a parte mais defensável da tese</strong> — compartilhar galpão, portaria, balança e time administrativo derruba o capex e o overhead de um CD, e é exatamente o número que falta para fechar a seção 04.</p>
+
+    <h3>O que não sobrevive aos dados</h3>
+  </div>
+  <ul class="col">
+    <li><strong>A Linha Teca é a que menos vende na região: 0,74%</strong> da receita nacional da linha — R$ 10.254 em 33 SKUs. A fazenda está lá e o produto de madeira não vende lá. Não há sinergia de <em class="q">demanda</em> entre a Teak e o mercado de Rondônia.</li>
+    <li>A Linha Teca tem <strong>margem bruta de 36,8%</strong>, a pior da casa, 13 pontos abaixo da média — e o <code>pdp_linha</code> já a marca como <strong>"CORRIGIR ANTES"</strong>, com Tramontina e Stolf em prioridade máxima. Ancorar expansão geográfica na linha de pior margem inverte a prioridade do portfólio.</li>
+    <li>As <strong>"22 clientes cadastrados" de Ouro Preto do Oeste são artefato de cadastro</strong>: 14 são pessoas físicas registradas em lote em 07/05, 03/06 e 02/07/2026 — a folha e os parceiros da própria operação Teak RO. Clientes comerciais reais na cidade: <strong>dois</strong>, e o maior tem R$ 31,5 k de LTV com última compra em 2022.</li>
+  </ul>
+  <div class="col">
+    <p><strong>A Teak justifica o endereço. Não justifica o investimento.</strong></p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">07</span>
+  <h2 class="sec">O precedente Extrema</h2>
+  <div class="col">
+    <p>Esta é a última vez que a casa abriu um nó. Vale ler o resultado antes de abrir o próximo.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>Faturamento de marca própria por empresa · janelas de 12 meses</caption>
+    <thead><tr><th>Empresa</th><th>set/23–ago/24</th><th>set/24–ago/25</th><th>set/25–ago/26</th></tr></thead>
+    <tbody>
+      <tr><td>1 — Guarulhos Matriz</td><td>3,11 M</td><td>4,07 M</td><td>4,47 M</td></tr>
+      <tr><td>2 — Guarulhos Filial</td><td>98,27 M</td><td>65,24 M</td><td>40,54 M</td></tr>
+      <tr class="hi"><td>14 — Extrema <span class="mono">(abriu 2025)</span></td><td>—</td><td>24,18 M</td><td>37,25 M</td></tr>
+      <tr class="tot"><td>Total</td><td>101,38 M</td><td>93,49 M</td><td>82,27 M</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p>Extrema chegou a <strong>R$ 37,25 M</strong> — e o faturamento total <strong>caiu 18,9%</strong>. O nó novo moveu volume existente; não criou demanda. Extrema é jogada tributária e logística num corredor com regime especial, não conquista de mercado.</p>
+    <p><strong>A leitura para Rondônia:</strong> um CD em Ouro Preto do Oeste vai aparecer no relatório com faturamento próprio em doze meses, e isso não provará nada. As duas únicas métricas que respondem são <strong>clientes ativos na região</strong> — 241 hoje — e <strong>faturamento consolidado da região</strong>. Nunca o faturamento da nova empresa.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">08</span>
+  <h2 class="sec">O que fazer</h2>
+  <div class="col">
+    <h3>Fase 1 — seis meses, sem ativo fixo</h3>
+  </div>
+  <ol class="col">
+    <li><strong>Atacar os 303 dormentes recentes.</strong> R$ 3,38 M de LTV, muitos parados desde junho e julho de 2025. Inside sales mais um representante rodando RO e MT. Meta: 241 → 390 clientes ativos, o cenário B (R$ 2,15 M, lucro bruto de R$ 1,19 M).</li>
+    <li><strong>Resolver o ICMS.</strong> Se Rondônia não tiver regime especial de atacadista, o CD está reprovado e as demais tarefas ficam sem objeto. Esta vem primeiro.</li>
+    <li><strong>Levantar o custo fixo real</strong> de um CD anexo à Teak RO — galpão compartilhado, 6 a 8 pessoas. Sem esse número a seção 04 não fecha nem reprova.</li>
+    <li><strong>Auditar os 1.186 cadastros sem compra nenhuma</strong> antes de contá-los como pipeline. Não sabemos se são leads reais — a lição de Ouro Preto do Oeste na seção 06 é exatamente essa.</li>
+    <li><strong>Testar sortimento enxuto sem construir nada.</strong> 70 SKUs fazem 50% da receita regional, 184 fazem 80%, de 707 comprados. Posicionar os 184 como pacote de pedido mínimo consolidado com prazo fechado. Se o gargalo é lote mínimo e lead time, isso aparece sem CD.</li>
+  </ol>
+
+  <div class="col">
+    <h3>Fase 2 — os quatro gatilhos para reabrir a decisão</h3>
+    <p>Abrir o CD quando os quatro forem verdade <strong>ao mesmo tempo</strong>. Nenhum deles sozinho basta.</p>
+  </div>
+  <div class="gate">
+    <div class="row"><span class="box" role="img" aria-label="pendente"></span><div><span class="k">Fiscal</span>Rondônia confirma crédito presumido ou regime especial que neutralize os +4,77 pontos de ICMS</div></div>
+    <div class="row"><span class="box" role="img" aria-label="pendente"></span><div><span class="k">Custo fixo</span>Operação anexa à Teak sai por <strong>≤ R$ 720 k/ano</strong> — o único ponto da faixa cujo break-even (R$ 2,99 M) cabe perto do teto de penetração</div></div>
+    <div class="row"><span class="box" role="img" aria-label="pendente"></span><div><span class="k">Demanda responde</span>Região alcança <strong>≥ 400 clientes ativos</strong> e <strong>≥ R$ 2,4 M</strong> <em class="q">sem</em> CD</div></div>
+    <div class="row"><span class="box" role="img" aria-label="pendente"></span><div><span class="k">O prêmio resiste</span>Preço se sustenta acima de <strong>R$ 43/kg</strong> com a base ampliada — prova que os 55,4% de margem não eram só escassez</div></div>
+  </div>
+
+  <div class="note">
+    <p class="lab">O que mediria a tese estar errada</p>
+    <p>Se na Fase 1 os 303 dormentes <strong>não</strong> reagirem a esforço comercial direto, a hipótese "falta serviço local" está errada e a causa é outra — preço, crédito, ou concorrente já instalado. Nesse caso o CD teria sido construído contra o problema errado, e teríamos descoberto isso com um representante em vez de um galpão.</p>
+  </div>
+</section>
+
+<footer>
+  <p class="lab">Limitações desta análise</p>
+  <p><strong>O custo fixo do CD é faixa estimada, não dado</strong> — toda a seção 04 depende dele. <strong>As distâncias da seção 03 são aproximadas</strong> (<code>TSICID.DISTANCIA</code> está zerado no ERP); validar com roteirizador. <strong>Não sabemos se os concorrentes Tier A têm estoque local no Norte</strong>: os 15 são fábricas do Sul e Sudeste, mas o mapa competitivo não registra sede nem CD e <code>pdp_ml_oferta</code> não tem localização de vendedor — se algum já está instalado em Rondônia, a tese de pioneirismo cai. <strong>O frete não é mensurável no ERP</strong>: <code>TGFCAB.VLRFRETE</code> é praticamente zero em toda a base porque o frete não vai destacado na nota e a NTR LOG é transportadora do grupo; o custo real de servir a região tem de vir dela, e é o número que mais move esta tese. <strong>O mix de linha da região não tem sinal estatístico</strong>: testei se o frete distorce o mix e a correlação entre densidade de valor e share regional é r = +0,009 por R$/kg e r = −0,115 por R$/m³ (r² ≤ 0,04, n = 14) — com 241 clientes e 300 notas o mix é resultado de poucos pedidos individuais, então não se deve montar sortimento de CD sobre ele.</p>
+</footer>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var tip=document.getElementById('tip');
+  document.querySelectorAll('svg .bar').forEach(function(g){
+    var t=g.querySelector('title'); if(!t) return;
+    var txt=t.textContent;
+    function show(e){
+      tip.textContent=txt; tip.style.opacity='1';
+      var x=e.clientX+14, y=e.clientY+16;
+      var r=tip.getBoundingClientRect();
+      if(x+r.width>window.innerWidth-12) x=window.innerWidth-r.width-12;
+      if(y+r.height>window.innerHeight-12) y=e.clientY-r.height-12;
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+    }
+    g.addEventListener('mousemove',show);
+    g.addEventListener('mouseleave',function(){tip.style.opacity='0'});
+  });
+})();
+</script>
