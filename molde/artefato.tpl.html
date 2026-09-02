@@ -1,0 +1,668 @@
+<title>Tampa Portinhola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;700;800;900&family=Karla:wght@300;400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F1EFE9; --paper:#FBFAF7; --sunk:#E6E3DB;
+  --ink:#15191A; --muted:#566063; --faint:#8A9291;
+  --rule:#DAD6CD; --hair:#E6E3DB;
+  --teal:#0E7C86; --clay:#A8703C; --up:#2C7A52; --seal:#B23A22;
+  --studio:#0F1416; --deck:#151B1D;
+  --sw-pp:#C3D0D4; --sw-teal:#17959F; --sw-op:#B9C2C4;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101413; --paper:#181D1D; --sunk:#0C100F;
+    --ink:#E7EAE8; --muted:#8D9A99; --faint:#68736F;
+    --rule:#262D2D; --hair:#1F2524;
+    --teal:#3FB3BD; --clay:#C68B4F; --up:#5CB483; --seal:#E0664A;
+    --sw-pp:#93A3A7; --sw-teal:#2FA9B3; --sw-op:#8E9899;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101413; --paper:#181D1D; --sunk:#0C100F;
+  --ink:#E7EAE8; --muted:#8D9A99; --faint:#68736F;
+  --rule:#262D2D; --hair:#1F2524;
+  --teal:#3FB3BD; --clay:#C68B4F; --up:#5CB483; --seal:#E0664A;
+  --sw-pp:#93A3A7; --sw-teal:#2FA9B3; --sw-op:#8E9899;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Karla","Helvetica Neue",Arial,sans-serif;font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:0 26px 96px}
+h1,h2,h3,.disp{font-family:"Darker Grotesque","Arial Narrow",Arial,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(3.4rem,10vw,7rem);font-weight:900;letter-spacing:-.03em;line-height:.8;text-transform:uppercase}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.018em;line-height:1}
+h3{font-size:1.3rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+p{margin:0}
+.mono{font-family:"Martian Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:.9em;letter-spacing:-.03em}
+.tag{font-family:"Martian Mono",monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+.lede{font-size:clamp(1.06rem,1.9vw,1.3rem);line-height:1.45;max-width:44ch}
+.body{max-width:66ch;color:var(--muted)}
+.body strong{color:var(--ink);font-weight:600}
+.body+.body{margin-top:12px}
+em{font-style:normal;color:var(--teal);font-weight:600}
+b.sl{color:var(--seal);font-weight:700}
+header{padding:54px 0 26px}
+.title-row{display:flex;flex-wrap:wrap;gap:20px 54px;align-items:flex-end;margin-top:10px}
+.hd-meta{display:flex;flex-wrap:wrap;gap:7px 22px;align-items:baseline;border-top:1px solid var(--rule);margin-top:26px;padding-top:12px}
+.hd-meta div{display:flex;gap:8px;align-items:baseline}
+.hd-meta .v{font-family:"Martian Mono",monospace;font-size:.74rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.hd-meta .v.hi{color:var(--teal)}
+
+/* ---------- estudio 3D ---------- */
+.studio{position:relative;border:1px solid var(--rule);border-radius:2px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 8%,#1B2326 0%,var(--studio) 62%,#080B0C 100%);
+  aspect-ratio:16/9;min-height:360px}
+@media (max-width:700px){.studio{aspect-ratio:3/4}}
+#gl{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
+#gl.dragging{cursor:grabbing}
+.hud{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+.hud>*{pointer-events:auto}
+.bar{display:flex;flex-wrap:wrap;gap:6px;padding:11px;align-items:flex-start}
+.bar.bottom{justify-content:space-between;align-items:flex-end}
+.seg{display:flex;background:rgba(21,27,29,.86);border:1px solid #2A3335;border-radius:2px;overflow:hidden;backdrop-filter:blur(7px)}
+.seg .lbl{font-family:"Martian Mono",monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#6E7A7C;padding:8px 6px 8px 11px;align-self:center}
+button{font-family:"Martian Mono",monospace;font-size:.62rem;letter-spacing:-.01em;text-transform:uppercase;
+  background:transparent;color:#9BA6A8;border:0;padding:8px 11px;cursor:pointer;border-right:1px solid #232B2D}
+.seg button:last-child{border-right:0}
+button:hover{color:#F0F4F4;background:rgba(255,255,255,.07)}
+button[aria-pressed="true"]{background:#17959F;color:#06181A}
+button:focus-visible{outline:2px solid #17959F;outline-offset:-2px}
+.legend{display:flex;flex-direction:column;gap:4px;background:rgba(21,27,29,.86);
+  border:1px solid #2A3335;border-radius:2px;padding:8px 10px;backdrop-filter:blur(7px)}
+.legend div{display:flex;align-items:center;gap:7px;font-family:"Martian Mono",monospace;font-size:.56rem;letter-spacing:-.02em;color:#9BA6A8}
+.sw{width:8px;height:8px;border-radius:1px;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.hint{font-family:"Martian Mono",monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:-.01em;color:#727E80;
+  background:rgba(21,27,29,.76);padding:6px 9px;border:1px solid #2A3335;border-radius:2px;backdrop-filter:blur(7px)}
+.fallback{position:absolute;inset:0;display:none;place-items:center;padding:30px;text-align:center;color:#9BA6A8;
+  font-family:"Martian Mono",monospace;font-size:.7rem;line-height:1.8}
+
+section{padding-top:72px}
+.sec-head{display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:26px}
+.sec-head .tag{flex:none;padding-top:6px}
+.cols{display:grid;grid-template-columns:1.15fr .85fr;gap:34px}
+@media (max-width:860px){.cols{grid-template-columns:1fr;gap:22px}}
+
+table{border-collapse:collapse;width:100%;font-family:"Martian Mono",monospace;font-size:.7rem;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--hair);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-size:.56rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:500;border-bottom:1px solid var(--rule)}
+tbody tr:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+td.k{color:var(--muted)}
+td.up{color:var(--up);font-weight:600}
+td.dn{color:var(--clay);font-weight:600}
+tr.tot td{border-top:2px solid var(--rule);font-weight:600}
+.tbl-wrap{overflow-x:auto}
+caption{caption-side:bottom;text-align:left;padding-top:11px;font-family:"Karla",sans-serif;font-size:.82rem;color:var(--faint);white-space:normal;letter-spacing:0}
+
+.draw-wrap{overflow-x:auto;padding:10px 0 2px;background:var(--paper);border:1px solid var(--rule);border-radius:2px}
+.draw{width:100%;min-width:560px;max-width:940px;height:auto;display:block;margin:0 auto}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:2px}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.cell{background:var(--paper);padding:22px;display:flex;flex-direction:column}
+.cell .tag{display:block;margin-bottom:9px}
+.cell h3{margin-bottom:8px}
+.cell p{font-size:.95rem;color:var(--muted)}
+.cell p+p{margin-top:9px}
+.cell .num{font-family:"Darker Grotesque",sans-serif;font-weight:900;font-size:2.6rem;line-height:.9;color:var(--seal);letter-spacing:-.03em}
+.cell .num small{font-family:"Martian Mono",monospace;font-size:.62rem;font-weight:500;letter-spacing:-.02em;color:var(--faint);display:block;margin-top:6px;text-transform:uppercase}
+.spec{margin-top:auto;padding-top:12px;border-top:1px solid var(--hair);font-family:"Martian Mono",monospace;
+  font-size:.6rem;letter-spacing:-.02em;color:var(--ink);line-height:1.75}
+.spec i{font-style:normal;color:var(--faint)}
+
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:15px;padding:17px 0;border-bottom:1px solid var(--hair)}
+.checks li:before{content:"";width:9px;height:9px;margin-top:9px;border-radius:1px;background:var(--clay)}
+.checks li.veto:before{background:var(--seal)}
+.checks b{font-family:"Darker Grotesque",sans-serif;font-weight:800;font-size:1.24rem;display:block;margin-bottom:2px;line-height:1.1}
+.checks span{font-size:.95rem;color:var(--muted)}
+.agent{display:inline-block;margin-top:7px;font-family:"Martian Mono",monospace;font-size:.55rem;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 42%,transparent);padding:3px 7px;border-radius:2px}
+.agent.v{color:var(--seal);border-color:color-mix(in srgb,var(--seal) 45%,transparent)}
+
+.claim{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:2px}
+@media (max-width:700px){.claim{grid-template-columns:1fr}}
+.claim>div{background:var(--paper);padding:20px 22px}
+.claim ul{margin:10px 0 0;padding-left:18px;font-size:.95rem;color:var(--muted)}
+.claim li{margin-bottom:7px}
+.claim .ok{color:var(--up);font-weight:600}
+.claim .no{color:var(--seal);font-weight:600}
+
+.note{border-left:3px solid var(--clay);background:color-mix(in srgb,var(--clay) 7%,transparent);
+  padding:16px 18px;border-radius:2px;margin-top:24px}
+.note .tag{display:block;margin-bottom:6px;color:var(--clay)}
+.note p{font-size:.95rem;color:var(--ink)}
+footer{margin-top:76px;border-top:1px solid var(--rule);padding-top:18px}
+footer p{font-size:.83rem;color:var(--faint);max-width:78ch}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="tag">Molde 3D &middot; conceito &middot; plataforma Aro Comum &middot; setembro 2026</span>
+  <div class="title-row">
+    <h1>Tampa<br>Portinhola</h1>
+    <p class="lede">A porta articulada resolve o que o cursor não resolvia: o alimento sai por uma janela de
+      50&nbsp;cm² <em>sem abrir um único milímetro</em> do abraço no aro. A canaleta continua inteira,
+      592&nbsp;mm, e o problema de vedação some do perímetro do pote e vai para uma boca de 267&nbsp;mm
+      &mdash; pequena, plana e prensada pela própria trava.</p>
+  </div>
+  <div class="hd-meta" id="hd"></div>
+</header>
+
+<div class="studio">
+  <canvas id="gl"></canvas>
+  <div class="hud">
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Vista">
+        <span class="lbl">vista</span>
+        <button data-v="0" aria-pressed="true">montado</button>
+        <button data-v="1" aria-pressed="false">explodido</button>
+        <button data-v="2" aria-pressed="false">porta aberta</button>
+        <button data-v="3" aria-pressed="false">corte</button>
+      </div>
+      <div class="seg" role="group" aria-label="Movimento">
+        <button id="spin" aria-pressed="true">girar</button>
+      </div>
+    </div>
+    <div class="bar bottom">
+      <div class="legend">
+        <div><span class="sw" style="background:#C3D0D4"></span>corpo AC-21 &mdash; PP transparente</div>
+        <div><span class="sw" style="background:#17959F"></span>tampa D &mdash; PP pigmentado</div>
+        <div><span class="sw" style="background:#E4E8E8"></span>portinhola &mdash; PP transparente</div>
+      </div>
+      <span class="hint">arraste para girar</span>
+    </div>
+  </div>
+  <div class="fallback" id="fb">este render precisa de WebGL.<br>o corte cotado e as cotas abaixo funcionam sem ele.</div>
+</div>
+
+<section>
+  <div class="sec-head"><span class="tag">01 / o problema</span><h2>Cursor não veda. Porta veda.</h2></div>
+  <div class="cols">
+    <div>
+      <p class="body">A tampa deslizante do estudo anterior tinha um defeito de nascença que estava escrito no
+        próprio desenho: para o cursor sair, a canaleta era <strong>interrompida em 67&nbsp;mm</strong>. Onde a
+        canaleta some, a tampa só encosta no aro em vez de abraçá-lo &mdash; e uma face inteira do pote perde a
+        vedação. Nenhum ensaio ia salvar isso: era geometria.</p>
+      <p class="body">A portinhola inverte o problema em vez de mitigá-lo. O perímetro do pote volta a ser
+        <strong>contínuo</strong> e a abertura passa a viver <strong>dentro</strong> da mesa da tampa, cercada
+        por um gargalo próprio. Vedar 267&nbsp;mm de boca plana, com uma peça que tranca por cima, é um problema
+        muito menor do que vedar 592&nbsp;mm de aro com um rasgo no meio.</p>
+      <p class="body">Vale dizer o que isto <strong>não</strong> é: não é uma tampa de vácuo. Não há válvula,
+        e sem válvula não existe depressão interna. O que existe é barreira contra troca de umidade e contra
+        vazamento &mdash; que é exatamente o que murcha a bolacha e o que faz o sabão líquido escorrer.</p>
+    </div>
+    <div class="tbl-wrap"><table id="cmp"></table></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">02 / vedação</span><h2>Três barreiras, nenhuma de borracha</h2></div>
+  <div class="grid3" id="bar3"></div>
+  <div class="note">
+    <span class="tag">por que sem silicone</span>
+    <p>Silicone não roda nesta fábrica &mdash; LSR exige canal frio, molde aquecido a 150-200&nbsp;°C e bomba
+      bicomponente. E há um motivo pior para não misturar material: <strong>o ciclo de moído vale
+      R$&nbsp;2,63&nbsp;M por ano</strong> e só funciona porque o refugo é mono-resina. Uma guarnição de outro
+      material contamina esse ativo, e nenhum business case de lançamento contabiliza isso. As três barreiras
+      acima são todas <strong>geometria em PP</strong>, no mesmo material do resto da peça.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">03 / corte A-A</span><h2>Onde a trava trava</h2></div>
+  <p class="body" style="margin-bottom:20px">Corte longitudinal a 12&nbsp;mm do eixo &mdash; passa pela trava de
+    alavanca, pelo ressalto do corpo e pelo ressalto de retenção da portinhola. As sobreposições no desenho são
+    <b class="sl">interferência de projeto</b>: no aro, o lábio deflete 0,35&nbsp;mm; na boca, a saia deflete
+    0,30&nbsp;mm. Cotas em milímetro, geradas do mesmo arquivo que gerou o modelo 3D.</p>
+  <div class="draw-wrap"><!--SECAO--></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">04 / corpo</span><h2>O lugar da trava, no corpo</h2></div>
+  <div class="cols">
+    <div>
+      <p class="body">O corpo ganha <strong>duas coisas</strong> que ele não tinha. A primeira é o ressalto de
+        trava: duas zonas de 34&nbsp;mm nas faces curtas, projeção de 1,20&nbsp;mm, com <strong>rampa de
+        25°</strong> em cima para a alavanca entrar e <strong>face de retenção a 0°</strong> embaixo para ela
+        não sair. O gancho engata 0,82&nbsp;mm e encosta 0,05&nbsp;mm acima do ressalto &mdash; essa folga
+        negativa é o que puxa a tampa contra o batente.</p>
+      <p class="body">A segunda é menos visível e mais importante: uma <strong>banda de saída zero</strong> de
+        6,2&nbsp;mm na face interna do aro. É contra ela que o lábio da tampa se apoia. Sem essa banda, a saída
+        de 1,5° faria a interferência variar com a profundidade de encaixe, e a vedação passaria a depender de
+        quanto o consumidor apertou.</p>
+      <p class="body">Custo de ferramenta: o ressalto é <strong>saída negativa na cavidade</strong>. Ou entram
+        duas gavetas nas pontas, ou se tenta extração forçada &mdash; a parede tem 1,3&nbsp;mm e flexiona, mas
+        isso é ensaio, não opinião. As duas rotas têm preço diferente e a decisão é da ferramentaria.</p>
+    </div>
+    <div class="tbl-wrap"><table id="cotas"></table></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">05 / ferramentaria</span><h2>Três moldes, uma montagem</h2></div>
+  <div class="tbl-wrap"><table id="mold"></table></div>
+  <div class="note">
+    <span class="tag">a regra que decide o ponto de injeção</span>
+    <p>A mesa da tampa tem um furo de 62&nbsp;×&nbsp;82&nbsp;mm no meio. Todo furo gera <strong>linha de
+      solda</strong> a jusante, onde as duas frentes de material se reencontram &mdash; e linha de solda é a
+      região mais fraca e mais permeável da peça. Se uma delas cair <strong>sobre o gargalo</strong>, ela vira
+      caminho de vazamento na superfície que precisamente tem de vedar. Os pontos de injeção têm de ser
+      posicionados para jogar as linhas de solda na mesa, longe do gargalo e longe do lábio periférico. Isso é
+      simulação de preenchimento antes de cortar aço, não ajuste no tryout.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">06 / precedente</span><h2>A casa já injeta dobradiça</h2></div>
+  <div class="cols">
+    <div>
+      <p class="body">Antes de tratar a portinhola como técnica nova, vale olhar o que já está em linha: as
+        jarras <span class="mono">153</span>, <span class="mono">222</span> e <span class="mono">182</span> são
+        <strong>flip top</strong> e fizeram <strong>R$&nbsp;1,06&nbsp;M em 12 meses para 1.527 clientes</strong>,
+        crescendo 2,1% enquanto a marca própria cai 18%. A articulação da tampa é rotina aqui.</p>
+      <p class="body">O aro também não é hipótese solta. O cadastro do Porta Sabão 008 traz
+        <span class="mono">10,5 × 20,7 × 25,0 cm</span> &mdash; o que confirma a ordem de grandeza dos
+        105&nbsp;×&nbsp;206&nbsp;mm em que a plataforma foi desenhada. <strong>Confirma, não resolve</strong>:
+        veja a primeira pendência.</p>
+      <p class="body">E a litragem cai onde deve cair. Os 2,18&nbsp;L úteis ficam na faixa de
+        <strong>2,1 a 3,5&nbsp;L</strong>, que subiu 56,5% em 12 meses com 7 de 11 referências crescendo &mdash;
+        a melhor faixa medida no projeto. Nada abaixo de 1&nbsp;L.</p>
+    </div>
+    <div class="tbl-wrap"><table id="ev"></table></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">07 / claim</span><h2>O que dá para escrever na embalagem</h2></div>
+  <p class="body" style="margin-bottom:20px">Não existe norma ABNT de estanqueidade para utilidade doméstica.
+    &ldquo;Hermético&rdquo; é alegação publicitária sob o CDC, e o <strong>art.&nbsp;36</strong> obriga o
+    fornecedor a manter em seu poder os dados técnicos que a sustentam. Dos 267 anúncios que o projeto coletou
+    no Mercado Livre, só 8 dizem hermético &mdash; e os que dizem &ldquo;hermético + válvula&rdquo; são de
+    vidro com guarnição de silicone. A Sanremo, em plástico, escreve &ldquo;válvula micro-ondas&rdquo; e evita
+    o termo. Há uma razão para isso.</p>
+  <div class="claim">
+    <div>
+      <span class="tag">sustentável com ensaio</span>
+      <ul>
+        <li><span class="ok">Fecha contra umidade</span> &mdash; ensaio de variação de massa: 200&nbsp;g de sal
+          refinado no pote fechado, 30 dias a 23&nbsp;°C e 50% UR, contra controle aberto.</li>
+        <li><span class="ok">Não vaza deitado</span> &mdash; 1,5&nbsp;L de água corada, 24&nbsp;h apoiado em
+          cada face, papel-toalha sob o pote.</li>
+        <li><span class="ok">A trava não abre na queda</span> &mdash; 3 quedas de 1,0&nbsp;m com 80% de carga:
+          fundo, aresta e tampa.</li>
+        <li><span class="ok">Continua vedando depois de guardado</span> &mdash; 30 dias fechado a 40&nbsp;°C e
+          repete a estanqueidade. Este é o ensaio que ninguém faz e é o que mede <strong>relaxação do PP sob
+          tensão de trava</strong>.</li>
+      </ul>
+    </div>
+    <div>
+      <span class="tag">não escrever</span>
+      <ul>
+        <li><span class="no">Hermético, sozinho</span> &mdash; a palavra sugere vedação absoluta e não tem
+          ensaio associado que a delimite. Se for usada, tem de vir com o dado ao lado.</li>
+        <li><span class="no">Conserva a vácuo</span> &mdash; não há válvula nesta tampa. Vácuo é outra
+          plataforma.</li>
+        <li><span class="no">Pode ir ao micro-ondas fechado</span> &mdash; vedação contínua e vapor não
+          combinam. Se for ao micro-ondas, é com a portinhola aberta, e isso precisa estar impresso.</li>
+        <li><span class="no">Mantém crocância por X dias</span> &mdash; número específico exige ensaio
+          específico, por alimento. Não temos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">08 / pendências</span><h2>O que falta antes disto virar proposta</h2></div>
+  <ul class="checks" id="pend"></ul>
+</section>
+
+<footer>
+  <p id="fnote"></p>
+</footer>
+</div>
+
+<script>/*GEO*/</script>
+<script>
+/* ============================================================
+   Fonte única: as cotas vêm de molde/pecas.py, exportadas em GEO.P/GEO.M
+   ============================================================ */
+const P = GEO.P, M = GEO.M;
+const br = (v, d = 0) => v.toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d});
+const mm = (v, d = 2) => br(v, d) + ' mm';
+const mil = v => 'R$ ' + br(v / 1000, 1) + ' k';
+
+/* ---------- cabeçalho ---------- */
+(function head(){
+  const R = [['Aro', br(P.HX*2) + ' × ' + br(P.HY*2) + ' mm', 1],
+             ['Útil', br(M.vol_util_l, 2) + ' L', 0],
+             ['Boca', br(M.boca_cm2, 1) + ' cm²', 0],
+             ['Vedação', br(M.perimetro_vedacao_mm) + ' mm contínuos', 1],
+             ['Peças', '3 · ' + br(GEO.corpo.g + GEO.tampa.g + GEO.portinhola.g, 1) + ' g', 0],
+             ['Status', 'conceito — não aprovado', 0]];
+  document.getElementById('hd').innerHTML = R.map(r =>
+    `<div><span class="tag">${r[0]}</span><span class="v${r[2] ? ' hi' : ''}">${r[1]}</span></div>`).join('');
+})();
+
+/* ---------- 01 · comparação ---------- */
+(function cmp(){
+  const R = [['Canaleta no aro', '622 mm com 67 mm abertos', br(M.perimetro_vedacao_mm) + ' mm contínuos'],
+             ['Perímetro a vedar na abertura', '— (a própria canaleta)', br(M.perimetro_boca_mm) + ' mm'],
+             ['Área de saída do produto', '62 × 82 mm na ponta', br(M.boca_cm2, 1) + ' cm² no meio da mesa'],
+             ['Peças móveis', 'cursor solto no rebaixo', 'porta presa em 2 munhões'],
+             ['Componente que o consumidor perde', 'o cursor', 'nenhum'],
+             ['Alegação de estanqueidade', 'impossível', 'possível, com ensaio']];
+  document.getElementById('cmp').innerHTML =
+    '<thead><tr><th>&nbsp;</th><th>Tampa B · cursor</th><th>Tampa D · portinhola</th></tr></thead><tbody>' +
+    R.map(r => `<tr><td>${r[0]}</td><td class="k">${r[1]}</td><td>${r[2]}</td></tr>`).join('') +
+    '</tbody><caption>A comparação não é de acabamento, é de topologia: o cursor precisa atravessar o ' +
+    'perímetro de vedação para sair; a porta não.</caption>';
+})();
+
+/* ---------- 02 · barreiras ---------- */
+(function bar3(){
+  const C = [
+    {n: br(M.interferencia_aro, 2), u: 'mm de interferência · ' + br(M.perimetro_vedacao_mm) + ' mm',
+     t: 'barreira 1', h: 'Lábio flexível no aro',
+     p: ['Uma aba em balanço de 1,0 mm de espessura por 7,4 mm de comprimento desce da mesa por dentro do aro e ' +
+         'encosta com 0,35 mm de interferência na banda de saída zero do corpo.',
+         'Ela é <strong>flexível de propósito</strong>. Um cordão rígido esmagado dá muita força no primeiro dia e ' +
+         'perde quase tudo em semanas, porque o PP relaxa. Um lábio longo trabalha com deformação pequena e ' +
+         'mantém pressão de contato ao longo do tempo.',
+         'A perna externa do canal encosta no aro com apenas 0,35 mm de folga: a interferência vira ' +
+         '<strong>pressão de contato</strong> em vez de abrir a boca do pote para fora.'],
+     s: 'lábio 1,00 × 7,40 mm · cone 2° · canal 2,10 mm · folga externa 0,35 mm'},
+    {n: '0', u: 'mm de deformação livre no fechamento',
+     t: 'barreira 2', h: 'Batente, não aperto',
+     p: ['A mesa da tampa apoia no topo do aro. É esse encosto &mdash; e não a força da trava &mdash; que define ' +
+         'o quanto o lábio comprime.',
+         'Isso responde a uma dúvida aberta do projeto: as duas únicas quedas dentro da plataforma de válvula são ' +
+         'justamente as referências <span class="mono">176</span> e <span class="mono">210</span>, ' +
+         'trava + válvula, que caíram 57% e 39% <strong>com a melhor margem da família</strong>. Uma hipótese em ' +
+         'aberto é fluência do plástico sob tensão permanente de trava.',
+         'Com batente, a trava só carrega o fechamento; a vedação fica na geometria. Se a hipótese estiver certa, ' +
+         'esta tampa não herda o problema &mdash; mas isso ainda precisa ser medido.'],
+     s: 'apoio contínuo de 0,90 mm de largura · 592 mm de perímetro'},
+    {n: br(M.interferencia_porta, 2), u: 'mm de interferência · ' + br(M.perimetro_boca_mm) + ' mm',
+     t: 'barreira 3', h: 'Selo radial da portinhola',
+     p: ['A saia da porta entra num gargalo cônico de 3° e sela pela lateral, não pela face. Selo radial não ' +
+         'depende de força de fechamento &mdash; depende de encaixe, e o cone centra a peça sozinho.',
+         'A retenção é um ressalto de 0,90 mm na parede do rebaixo, em duas zonas de 16 mm ao lado da concha do ' +
+         'dedo. A porta afunda 1,6 mm e fica <strong>rente à mesa</strong>: a tampa continua plana e empilhável.',
+         'O eixo da dobradiça fica <strong>acima do plano da porta</strong>. É o que faz a saia sair na vertical ' +
+         'ao abrir, em vez de raspar a parede do gargalo.'],
+     s: 'gargalo 4,80 mm · cone 3° · retenção 0,90 mm · rebaixo 1,60 mm'}];
+  document.getElementById('bar3').innerHTML = C.map(c =>
+    `<div class="cell"><span class="tag">${c.t}</span>
+      <div class="num">${c.n}<small>${c.u}</small></div>
+      <h3 style="margin-top:16px">${c.h}</h3>${c.p.map(x => `<p>${x}</p>`).join('')}
+      <div class="spec">${c.s}</div></div>`).join('');
+})();
+
+/* ---------- 04 · cotas ---------- */
+(function cotas(){
+  const R = [['Parede do corpo', mm(P.WALL), 'saída 1,5° por lado'],
+             ['Fundo', mm(P.FLOOR), ''],
+             ['Mesa da tampa', mm(P.PLATE), ''],
+             ['Banda de vedação', mm(P.Z_SEAL1 - P.Z_SEAL0), 'saída 0° na face interna'],
+             ['Interferência do lábio', mm(M.interferencia_aro), 'contra a banda'],
+             ['Canal da tampa', mm(P.LEG_IN - P.LIP_ROOT), 'recebe aro de ' + mm(P.WALL, 1)],
+             ['Ressalto de trava', mm(P.CATCH_D), '2 × 34 mm nas faces curtas'],
+             ['Engate do gancho', mm(0.82), 'face de retenção a 0°'],
+             ['Boca livre', br(P.TH_HX * 2) + ' × ' + br(P.TH_HY * 2) + ' mm', 'R' + br(P.TH_RC)],
+             ['Gargalo', mm(P.Z_PK - P.COLLAR_Z), 'cone 3°'],
+             ['Saia da portinhola', mm(P.Z_PK - P.LIP2_TIP), 'interferência ' + mm(M.interferencia_porta)],
+             ['Rebaixo da porta', mm(P.PLATE), 'porta rente à mesa'],
+             ['Altura total', br(P.H) + ' + 5,6 mm', 'corpo + dobradiça da porta']];
+  document.getElementById('cotas').innerHTML =
+    '<thead><tr><th>Cota</th><th>Valor</th><th>Observação</th></tr></thead><tbody>' +
+    R.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="k">${r[2]}</td></tr>`).join('') +
+    '</tbody><caption>Todas as cotas saem de <span class="mono">molde/pecas.py</span>. Alterar o arquivo ' +
+    'regenera o STL, este render e o corte acima &mdash; não existe cota digitada duas vezes.</caption>';
+})();
+
+/* ---------- 05 · moldes ---------- */
+(function mold(){
+  const R = [['Corpo AC-21', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(GEO.corpo.g, 1),
+              '2 gavetas nas pontas — ou extração forçada, a ensaiar'],
+             ['Tampa D', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(GEO.tampa.g, 1),
+              'sem gaveta: a alavanca é moldada aberta'],
+             ['Portinhola', br(M.area_porta_cm2, 1), '≈ ' + Math.round(M.area_porta_cm2 * 0.35), br(GEO.portinhola.g, 1),
+              'munhões na linha de partição; gancho por extração forçada']];
+  document.getElementById('mold').innerHTML =
+    '<thead><tr><th>Peça</th><th>Área proj. cm²</th><th>Fechamento t</th><th>Massa g</th><th>Saída negativa</th></tr></thead><tbody>' +
+    R.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td class="k" style="text-align:left;white-space:normal">${r[4]}</td></tr>`).join('') +
+    `<tr class="tot"><td>Conjunto</td><td>—</td><td>—</td><td>${br(GEO.corpo.g + GEO.tampa.g + GEO.portinhola.g, 1)}</td>` +
+    '<td class="k" style="text-align:left">1 clique de montagem</td></tr>' +
+    '</tbody><caption>Os três moldes caem na faixa de até 260 t, onde a ocupação medida neste projeto é de ' +
+    '56,9% com 7 de 15 injetoras paradas. Isso reduz risco de agenda, não custo de ferramenta: molde é 30 a 40% ' +
+    'do custo de um lançamento e CNC parado também pode ser gargalo de ferramentaria, não folga.</caption>';
+})();
+
+/* ---------- 06 · evidência ---------- */
+(function ev(){
+  const R = [['Jarras flip top', '153 · 222 · 182', 1058135, 1035866, 1527],
+             ['Porta Sabão 008', '008.012.002/003', 441631, 498835, 629]];
+  document.getElementById('ev').innerHTML =
+    '<thead><tr><th>Família</th><th>Ref.</th><th>Fat. 12 M</th><th>Δ</th><th>Clientes</th></tr></thead><tbody>' +
+    R.map(r => {const d = (r[2] / r[3] - 1) * 100;
+      return `<tr><td><strong>${r[0]}</strong></td><td class="k mono">${r[1]}</td><td>${mil(r[2])}</td>
+        <td class="${d > 0 ? 'up' : 'dn'}">${(d > 0 ? '+' : '') + br(d, 1)}%</td><td>${br(r[4])}</td></tr>`;}).join('') +
+    '</tbody><caption>Empresas 1, 2 e 14, notas liberadas, tipos V e D, sem transferência intercompany e sem as ' +
+    'tabelas 84 (Avon) e 3 (exportação). Janelas de 12 meses móveis encerradas em 01/09/2026.</caption>';
+})();
+
+/* ---------- 08 · pendências ---------- */
+(function pend(){
+  const R = [
+    ['O aro tem de sair do desenho, não do cadastro',
+     'A interferência do lábio é de 0,35 mm. O cadastro do 008 diz 20,7 cm de profundidade; a plataforma foi ' +
+     'desenhada em 20,6. Um milímetro de divergência é <strong>três vezes a interferência</strong> — engole a ' +
+     'vedação inteira ou trava o encaixe. Medir o aro real no desenho de ferramentaria é pré-requisito de tudo ' +
+     'que está nesta página.', 'engenheiro-molde', 1],
+    ['O veredito vigente de Potes é “só kit”',
+     'Está gravado em <span class="mono">pdp_linha</span>: a linha marcou score 8 e o veredito é lançar apenas ' +
+     'kit, nada de SKU avulso — 487 SKUs ativos, R$ 16,0 M caindo 15,5%. Um pote novo solto contraria isso ' +
+     'frontalmente. A versão compatível é a tampa entrar como <strong>peça da plataforma</strong>, servindo os ' +
+     'quatro corpos do aro comum, e não como lançamento isolado.', 'curador-portfolio · veto', 1],
+    ['Dobradiça viva em PP H 105 é aposta, não dado',
+     'A trava de alavanca depende de uma dobradiça viva de 0,45 mm, e a resina mais comprada da casa (896 t/ano) ' +
+     'é homopolímero <strong>com clarificante</strong> — nucleante deixa a dobradiça mais frágil. Ou se qualifica ' +
+     'copolímero só para essa peça, ou a alavanca vira gancho rígido de estalo. O ressalto no corpo serve às duas ' +
+     'rotas; a decisão precisa de ensaio de 5.000 ciclos.', 'engenheiro-molde', 0],
+    ['Gaveta ou extração forçada no ressalto do corpo',
+     'Duas gavetas encarecem o molde do corpo e criam linha de partição visível na face curta. Extração forçada ' +
+     'é mais barata e pode marcar a peça. É a maior incerteza de custo desta ferramenta e não se resolve no ' +
+     'desenho — se resolve no orçamento e no tryout.', 'engenheiro-molde', 0],
+    ['Por que 176 e 210 caíram com a melhor margem da família',
+     'São as duas únicas quedas dentro de uma plataforma que cresce 49,9%, e são justamente trava + válvula. Se ' +
+     'a causa for fluência sob tensão de trava, o batente desta tampa é a resposta certa. Se for conflito ' +
+     'funcional — o consumidor compra por vedação e a válvula frustra — então o problema é de promessa, e uma ' +
+     'porta articulada tem o mesmo risco.', 'analista-sankhya', 0],
+    ['Payback do molde, com o viés certo',
+     'A taxa de acerto de lançamento caiu de 28,0% em 2021 para 0,7% em 2025 — 2 SKUs em 278. O viés padrão do ' +
+     'projeto é <strong>não lançar</strong>. Esta página descreve uma peça que funciona; ela não demonstra que ' +
+     'a peça se paga. Enquanto o custo de ferramenta e o preço de venda não estiverem na mesa, nada aqui vai ' +
+     'para <span class="mono">pdp_lancamento</span>.', 'curador-portfolio · veto', 1]];
+  document.getElementById('pend').innerHTML = R.map(r =>
+    `<li class="${r[3] ? 'veto' : ''}"><b>${r[0]}</b><span>${r[1]}</span>
+      <span class="agent${r[3] ? ' v' : ''}">${r[2]}</span></li>`).join('');
+  document.getElementById('fnote').innerHTML =
+    'Modelo 3D, corte cotado e tabela de cotas gerados por <span class="mono">molde/pecas.py</span> ' +
+    '(' + br(GEO.corpo.nt + GEO.tampa.nt + GEO.portinhola.nt) + ' triângulos, STL binário no repositório). ' +
+    'Massas calculadas por integral de volume da malha com PP a 0,905 g/cm³. Faturamento, clientes e variação ' +
+    'vêm de consulta ao Sankhya; dimensões do 008 vêm de <span class="mono">TGFPRO</span> e precisam de ' +
+    'conferência no desenho. Alturas, raios, interferências, ângulos de cone e a geometria da dobradiça são ' +
+    'hipótese deste conceito e não foram validadas em molde, ensaio ou tryout. Nada foi gravado em ' +
+    '<span class="mono">pdp_lancamento</span>.';
+})();
+
+/* ============================================================
+   Render 3D — WebGL sem biblioteca externa
+   ============================================================ */
+(function render3d(){
+const cv = document.getElementById('gl');
+const gl = cv.getContext('webgl', {antialias: true, alpha: false, depth: true, premultipliedAlpha: true});
+if (!gl) { document.getElementById('fb').style.display = 'grid'; cv.style.display = 'none'; return; }
+
+const b64 = s => { const bin = atob(s), u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer; };
+
+const VS = `attribute vec3 aPos; attribute vec3 aNrm;
+uniform mat4 uMVP, uM; uniform mat3 uNM;
+varying vec3 vN, vW;
+void main(){ vN = uNM*aNrm; vW = (uM*vec4(aPos,1.0)).xyz; gl_Position = uMVP*vec4(aPos,1.0); }`;
+const FS = `precision highp float;
+varying vec3 vN, vW;
+uniform vec3 uCam, uColor;
+uniform float uAlpha, uClip;
+const vec3 KEY = vec3(-0.395,-0.703,0.591);
+const vec3 FIL = vec3(0.802,0.267,0.534);
+const vec3 BAK = vec3(0.116,0.929,-0.351);
+void main(){
+  if (uClip > 0.5 && vW.x > 0.0) discard;
+  vec3 N = normalize(vN); if (!gl_FrontFacing) N = -N;
+  vec3 V = normalize(uCam - vW);
+  float k = max(dot(N,KEY),0.0), f = max(dot(N,FIL),0.0), b = max(dot(N,BAK),0.0);
+  float fr = pow(1.0 - clamp(dot(N,V),0.0,1.0), 2.4);
+  vec3 c = uColor*(0.26 + 0.70*k + 0.26*f + 0.15*b) + vec3(0.82,0.90,0.92)*fr*0.30;
+  float a = clamp(uAlpha + (1.0-uAlpha)*fr*0.9, 0.0, 1.0);
+  gl_FragColor = vec4(c*a, a);
+}`;
+function sh(t, src){ const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+const pr = gl.createProgram();
+gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
+gl.bindAttribLocation(pr, 0, 'aPos'); gl.bindAttribLocation(pr, 1, 'aNrm');
+gl.linkProgram(pr);
+if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { document.getElementById('fb').style.display = 'grid'; cv.style.display = 'none'; return; }
+gl.useProgram(pr);
+const U = n => gl.getUniformLocation(pr, n);
+const uMVP = U('uMVP'), uM = U('uM'), uNM = U('uNM'), uCam = U('uCam'),
+      uColor = U('uColor'), uAlpha = U('uAlpha'), uClip = U('uClip');
+
+function part(g){
+  const o = {n: g.nt * 3};
+  o.p = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, o.p);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(b64(g.p)), gl.STATIC_DRAW);
+  o.v = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, o.v);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(b64(g.n)), gl.STATIC_DRAW);
+  o.i = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, o.i);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(b64(g.i)), gl.STATIC_DRAW);
+  return o;
+}
+const CORPO = part(GEO.corpo), TAMPA = part(GEO.tampa), PORTA = part(GEO.portinhola);
+
+/* --- álgebra --- */
+const mul = (a, b) => { const o = new Float32Array(16);
+  for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) { let v = 0;
+    for (let k = 0; k < 4; k++) v += a[k*4+r]*b[c*4+k]; o[c*4+r] = v; } return o; };
+const ident = () => new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+function trans(x, y, z){ const m = ident(); m[12] = x; m[13] = y; m[14] = z; return m; }
+function rotXat(th, cy, cz){ const c = Math.cos(th), s = Math.sin(th), m = ident();
+  m[5] = c; m[6] = s; m[9] = -s; m[10] = c;
+  m[13] = cy - cy*c + cz*s; m[14] = cz - cy*s - cz*c; return m; }
+function persp(f, asp, n, fa){ const t = 1/Math.tan(f/2); return new Float32Array(
+  [t/asp,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); }
+const dt = (a, b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cr = (a, b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const nr = a => { const l = Math.hypot(a[0],a[1],a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; };
+function look(e, c, up){ const z = nr([e[0]-c[0], e[1]-c[1], e[2]-c[2]]);
+  const x = nr(cr(up, z)), y = cr(z, x);
+  return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+    -dt(x,e), -dt(y,e), -dt(z,e), 1]); }
+function nm3(m){ return new Float32Array([m[0],m[1],m[2], m[4],m[5],m[6], m[8],m[9],m[10]]); }
+
+/* --- estado --- */
+const TGT = [0, 6, 62];
+let yaw = -0.62, pit = 0.30, spin = !matchMedia('(prefers-reduced-motion:reduce)').matches;
+let view = 0, exp = 0, ang = 0, clip = 0, tExp = 0, tAng = 0, tClip = 0;
+let drag = null;
+
+cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; cv.classList.add('dragging');
+  cv.setPointerCapture(e.pointerId); spin = false; setSpin(); });
+cv.addEventListener('pointermove', e => { if (!drag) return;
+  yaw -= (e.clientX - drag[0]) * 0.008; pit += (e.clientY - drag[1]) * 0.006;
+  pit = Math.max(-0.35, Math.min(1.25, pit)); drag = [e.clientX, e.clientY]; });
+const stop = () => { drag = null; cv.classList.remove('dragging'); };
+cv.addEventListener('pointerup', stop); cv.addEventListener('pointercancel', stop);
+
+function setSpin(){ document.getElementById('spin').setAttribute('aria-pressed', spin ? 'true' : 'false'); }
+setSpin();
+document.getElementById('spin').addEventListener('click', () => { spin = !spin; setSpin(); });
+document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => {
+  view = +b.dataset.v;
+  document.querySelectorAll('[data-v]').forEach(o =>
+    o.setAttribute('aria-pressed', o === b ? 'true' : 'false'));
+  tExp = view === 1 ? 1 : 0; tAng = view === 2 ? 1 : 0; tClip = view === 3 ? 1 : 0;
+}));
+
+function draw(o, mdl, col, alpha, cam){
+  gl.uniformMatrix4fv(uM, false, mdl);
+  gl.uniformMatrix3fv(uNM, false, nm3(mdl));
+  gl.uniform3fv(uColor, col); gl.uniform1f(uAlpha, alpha);
+  gl.bindBuffer(gl.ARRAY_BUFFER, o.p); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, o.v); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, o.i);
+  gl.drawElements(gl.TRIANGLES, o.n, gl.UNSIGNED_SHORT, 0);
+}
+
+gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
+gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE);
+gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+let last = performance.now();
+
+function frame(now){
+  const dt_ = Math.min(0.05, (now - last) / 1000); last = now;
+  if (spin && !drag) yaw += dt_ * 0.24;
+  exp += (tExp - exp) * Math.min(1, dt_ * 5.5);
+  ang += (tAng - ang) * Math.min(1, dt_ * 5.0);
+  clip += (tClip - clip) * Math.min(1, dt_ * 8);
+
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+  if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+  gl.viewport(0, 0, w, h);
+  gl.clearColor(0.043, 0.055, 0.059, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  const vfov = 0.52, asp = w / h;
+  const hf = 2 * Math.atan(Math.tan(vfov / 2) * asp);
+  const R = 138 + 66 * exp;
+  const dist = R / Math.sin(Math.min(vfov, hf) / 2) * 1.06;
+  const eye = [TGT[0] + dist*Math.cos(pit)*Math.sin(yaw),
+               TGT[1] + dist*Math.cos(pit)*Math.cos(yaw),
+               TGT[2] + dist*Math.sin(pit)];
+  const V = look(eye, [TGT[0], TGT[1], TGT[2] + 30*exp], [0, 0, 1]);
+  const PJ = persp(vfov, asp, 40, dist + 900);
+  const VP = mul(PJ, V);
+  gl.uniform3fv(uCam, eye);
+  gl.uniform1f(uClip, clip > 0.5 ? 1 : 0);
+
+  const solid = clip > 0.5;
+  const mCorpo = ident();
+  const mTampa = trans(0, 0, 52 * exp);
+  const mPorta = mul(trans(0, 0, 100 * exp),
+                     rotXat(2.05 * ang, P.HINGE_Y, P.HINGE_Z));
+  const items = [[TAMPA, mTampa, [0.075, 0.565, 0.60], 1.0],
+                 [CORPO, mCorpo, [0.72, 0.78, 0.80], solid ? 1.0 : 0.30],
+                 [PORTA, mPorta, [0.87, 0.90, 0.90], solid ? 1.0 : 0.44]];
+  // opacos primeiro
+  gl.disable(gl.BLEND); gl.depthMask(true);
+  items.forEach(it => { if (it[3] > 0.99) {
+    gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3], eye); } });
+  // translúcidos: verso e depois frente
+  gl.enable(gl.BLEND); gl.depthMask(false);
+  [gl.FRONT, gl.BACK].forEach(face => { gl.cullFace(face);
+    items.forEach(it => { if (it[3] <= 0.99) {
+      gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3], eye); } }); });
+  gl.cullFace(gl.BACK); gl.depthMask(true); gl.disable(gl.BLEND);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>

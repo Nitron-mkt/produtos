@@ -388,3 +388,29 @@ qualquer proposta. Com 0,7% de acerto na última safra, o viés padrão é **nã
 
 Toda proposta gravada em `pdp_lancamento` precisa de `evidencia` preenchida com o dado
 que a sustenta. Proposta sem evidência não entra.
+
+---
+
+## 8. Modelo 3D — `molde/`
+
+Geometria paramétrica em Python puro (sem dependência) da **Tampa Portinhola** sobre a
+plataforma Aro Comum. `molde/pecas.py` é a **fonte única das cotas**: STL, render 3D do
+artefato, corte cotado e tabela saem do mesmo dicionário `P`. `molde/README.md` traz a
+arquitetura de vedação, a spec de ferramentaria e as pendências.
+
+Regenerar: `python3 pecas.py && python3 secao.py && python3 build_html.py`
+(`preview.py` rasteriza a malha em PNG para conferir sem abrir CAD).
+
+### O que essa rodada acrescentou de dado
+
+- **A casa já injeta dobradiça articulada.** Jarras flip top `153` · `222` · `182`:
+  **R$ 1,06 M em 12 M, +2,1%, 1.527 clientes** — crescendo enquanto a marca própria cai 18%.
+  Portinhola não é técnica nova aqui.
+- **Cadastro do 008** (`TGFPRO`): `10,5 × 20,7 × 25,0 cm`, 230 g. Confirma a ordem de
+  grandeza do aro 105 × 206 e **ainda exige o desenho** — 1 mm de divergência é 3× a
+  interferência de vedação (0,35 mm).
+- **`CODPROD` ≠ `REFERENCIA`.** Os números `817/818/819`, `151/154/155/156` do item 5 são
+  **referências**. Como CODPROD eles apontam para outras peças (cesto empilhável, alça,
+  pote acoplado com rosca). Filtrar sempre por `REFERENCIA`.
+- **Parede de 1,8 mm é pesada** para essa pegada. O 008, mesmo aro e o dobro da altura, pesa
+  230 g no cadastro — ou seja, a casa roda ~1,1 mm. O modelo usa 1,30.
