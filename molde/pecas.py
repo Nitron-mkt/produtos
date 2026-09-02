@@ -20,10 +20,10 @@ P = dict(
     # --- corpo ---
     H=120.0, WALL=1.30, FLOOR=2.00, DRAFT=1.5,
     Z_SEAL0=112.4, Z_SEAL1=118.6,        # banda de vedacao interna, saida 0 grau
-    CATCH_Z0=105.40, CATCH_Z1=106.20, CATCH_Z2=108.60,   # ressalto de trava
-    CATCH_D=1.20, CATCH_W=17.0,          # projecao e meia-largura (34 mm)
+    CATCH_Z0=111.00, CATCH_Z1=113.00, CATCH_Z2=114.20,   # aba de encosto da trava
+    CATCH_D=1.40, CATCH_XC=13.0, CATCH_W=11.0,           # projecao, centro, meia-largura
     # --- tampa ---
-    PLATE=1.60, LEG_T=1.60, LEG_IN=0.35, Z_SKIRT=112.60,
+    PLATE=1.60, LEG_T=1.60, LEG_IN=0.35, Z_SKIRT=114.60,
     Z_PLATE_B=120.00,
     LIP_T=1.00, LIP_ROOT=-1.75, FOLGA_LABIO=0.35,
     Z_CREST=115.40, LIP_TIP=112.20,
@@ -38,6 +38,14 @@ P = dict(
     GAP=0.35,                            # folga da aba no rebaixo
     LIP2_T=1.00, LIP2_TIP=116.20, FOLGA_PORTA=0.30,
     HINGE_Y=-5.0, HINGE_Z=124.00, HINGE_R=1.30,
+    # --- trava de correr ---
+    RAIL_D0=1.95, RAIL_D1=2.75, RAIL_D2=3.55,    # saia, alma e cabeca do trilho
+    RAIL_Z0=115.60, RAIL_Z1=116.20, RAIL_Z2=119.00, RAIL_Z3=119.60,
+    RAIL_X0=-26.0, RAIL_X1=26.0,
+    TR_HALF=13.0, TR_CURSO=22.0, TR_C=11.0, TR_ZB=114.90,   # meia-largura, curso, centro travado
+    TR_D3=5.15, TR_Z_TOP=120.30, TR_Z_BOT=109.20,
+    TG_HALF=10.0, TG_D=0.10,                     # lingueta: meia-largura e ponta
+    TG_LAND=111.08, TG_RAMP=110.35, TG_BOT=109.30,
     # --- material ---
     RHO=0.905,                           # g/cm3 — PP
 )
@@ -67,7 +75,7 @@ DI_SEAL = P['DI_SEAL']
 
 # zonas locais
 Z_CATCH = zone(OUT, P['CATCH_D'], lambda x, y: abs(y) > P['HY'] - 0.01,
-               0.0, P['CATCH_W'], 2.0)
+               P['CATCH_XC'], P['CATCH_W'], 1.6)
 Z_BEAD = zsum(zone(PK, P['BEAD'], lambda x, y: y > PK_FRONT, 16.0, 8.0, 1.5),
               zone(PK, P['BEAD'], lambda x, y: y > PK_FRONT, -16.0, 8.0, 1.5))
 Z_SCAL = zone(PK, P['SCALLOP'], lambda x, y: y > PK_FRONT, 0.0, 7.0, 1.5)
@@ -82,14 +90,14 @@ ZERO_PK = [0.0] * len(PK)
 # ============================================================================
 def corpo():
     m = Mesh('corpo')
-    z0, zc0, zc1, zc2 = 0.0, P['CATCH_Z0'], P['CATCH_Z1'], P['CATCH_Z2']
+    zc0, zc1, zc2 = P['CATCH_Z0'], P['CATCH_Z1'], P['CATCH_Z2']
     prof = [
         (do(0.0) - 1.20, 0.00),          # face de apoio
         (do(1.20), 1.20),                # chanfro do pe
-        (do(zc0 - 0.05), zc0 - 0.05),
-        (do(zc0), zc0),                  # face de retencao (encosto da trava)
-        (do(zc1), zc1),
-        (do(zc2), zc2),                  # rampa de entrada 25 graus
+        (do(zc0 - 0.10), zc0 - 0.10),
+        (do(zc0), zc0),                  # face inferior da aba — encosto da lingueta
+        (do(zc1), zc1),                  # banda da aba
+        (do(zc2), zc2),                  # rampa de volta a parede
         (do(119.70), 119.70),
         (-0.20, P['H']),                 # chanfro do aro
         (-P['WALL'] + 0.20, P['H']),     # topo do aro (batente da tampa)
@@ -151,25 +159,25 @@ def tampa():
     m.flat(PK, 0.0, OUT, P['SEAM'], P['Z_PLATE_B'], up=False, amp_in=Z_SCAL)  # T9
     # --- travas de alavanca (2) e orelhas da dobradica (2) ---
     for s in (1, -1):
-        alavanca(m, s)
+        trilho(m, s)
         orelha(m, s)
     return m
 
 
-def alavanca(m, s):
-    """Trava de alavanca na face curta; desenhada na posicao FECHADA."""
-    yo = P['HY'] + P['LEG_OUT']
+def trilho(m, s):
+    """Trilho em T na face curta — secao constante em x, sai por gaveta reta."""
+    y = lambda d: P['HY'] + d
     pieces = [
-        [(yo, 112.60), (yo + 0.85, 112.60), (yo + 0.85, 113.05), (yo, 113.05)],       # dobradica viva
-        [(yo + 0.25, 101.80), (yo + 1.45, 101.80), (yo + 1.45, 113.05), (yo + 0.25, 113.05)],
-        [(yo + 0.25, 104.40), (yo + 0.25, 105.35), (103.00, 105.35), (103.75, 104.40)],  # gancho
-        [(yo + 0.25, 99.60), (yo + 2.30, 100.20), (yo + 2.30, 101.90), (yo + 0.25, 101.90)],  # pegador
+        [(y(P['RAIL_D0']), P['RAIL_Z1']), (y(P['RAIL_D1']), P['RAIL_Z1']),
+         (y(P['RAIL_D1']), P['RAIL_Z2']), (y(P['RAIL_D0']), P['RAIL_Z2'])],      # alma
+        [(y(P['RAIL_D1']), P['RAIL_Z0']), (y(P['RAIL_D2']), P['RAIL_Z0']),
+         (y(P['RAIL_D2']), P['RAIL_Z3']), (y(P['RAIL_D1']), P['RAIL_Z3'])],      # cabeca
     ]
     for poly in pieces:
-        p = [(s * y, z) for (y, z) in poly]
+        p = [(s * a, b) for (a, b) in poly]
         if s < 0:
             p = p[::-1]
-        m.prismX(p, -17.0, 17.0)
+        m.prismX(p, P['RAIL_X0'], P['RAIL_X1'])
 
 
 def orelha(m, s):
@@ -185,7 +193,45 @@ def orelha(m, s):
 
 
 # ============================================================================
-# 4. PORTINHOLA (posicao fechada)
+# 4. TRAVA DE CORRER (posicao travada)
+# ============================================================================
+def trava():
+    m = Mesh('trava')
+    y = lambda d: P['HY'] + d
+    c, h = P['TR_C'], P['TR_HALF']
+    x0, x1 = c - h, c + h
+    tg0, tg1 = c - P['TG_HALF'], c + P['TG_HALF']
+    land = [(y(P['TG_D']), P['TG_BOT']), (y(P['RAIL_D2']), P['TG_BOT']),
+            (y(P['RAIL_D2']), P['TG_LAND']), (y(P['TG_D']), P['TG_LAND'])]
+    ramp = [(y(P['TG_D']), P['TG_BOT']), (y(P['RAIL_D2']), P['TG_BOT']),
+            (y(P['RAIL_D2']), P['TG_RAMP']), (y(P['TG_D']), P['TG_RAMP'])]
+    for s in (1, -1):
+        def M(poly):
+            p = [(s * a, b) for (a, b) in poly]
+            return p[::-1] if s < 0 else p
+        # placa externa (pega)
+        m.prismX(M([(y(P['RAIL_D2']), P['TR_ZB']), (y(P['TR_D3']), P['TR_ZB']),
+                    (y(P['TR_D3']), P['TR_Z_TOP']), (y(P['RAIL_D2']), P['TR_Z_TOP'])]), x0, x1)
+        # bracos que abracam a cabeca do trilho
+        for (za, zb) in ((P['TR_ZB'], P['RAIL_Z0']), (P['RAIL_Z3'], P['TR_Z_TOP'])):
+            m.prismX(M([(y(P['RAIL_D1'] - 0.20), za), (y(P['RAIL_D2']), za),
+                        (y(P['RAIL_D2']), zb), (y(P['RAIL_D1'] - 0.20), zb)]), x0, x1)
+        # perna que desce ate a lingueta
+        m.prismX(M([(y(P['RAIL_D2']), P['TR_Z_BOT']), (y(P['TR_D3']), P['TR_Z_BOT']),
+                    (y(P['TR_D3']), P['TR_ZB']), (y(P['RAIL_D2']), P['TR_ZB'])]), tg0, tg1)
+        # lingueta: patamar + rampa na ponta que avanca
+        m.prismX(M(land), tg0, tg1 - 6.0)
+        m.loftX(M(land), M(ramp), tg1 - 6.0, tg1)
+        # nervuras de pega
+        for k in (-7.0, 0.0, 7.0):
+            m.prismX(M([(y(P['TR_D3']), 116.0), (y(P['TR_D3'] + 0.60), 116.0),
+                        (y(P['TR_D3'] + 0.60), 119.2), (y(P['TR_D3']), 119.2)]),
+                     c + k - 0.8, c + k + 0.8)
+    return m
+
+
+# ============================================================================
+# 5. PORTINHOLA (posicao fechada)
 # ============================================================================
 def portinhola():
     m = Mesh('portinhola')
@@ -221,7 +267,7 @@ def portinhola():
 
 
 # ============================================================================
-# 5. METRICAS
+# 6. METRICAS
 # ============================================================================
 def area(d):
     hx, hy, rc = P['HX'] + d, P['HY'] + d, P['RC'] + d
@@ -265,7 +311,7 @@ def perimetro(d):
 # ============================================================================
 if __name__ == '__main__':
     here = os.path.dirname(os.path.abspath(__file__))
-    parts = [corpo(), tampa(), portinhola()]
+    parts = [corpo(), tampa(), portinhola(), trava()]
     for m in parts:
         m.stl(os.path.join(here, 'stl', m.name + '.stl'))
         bb = m.bbox()

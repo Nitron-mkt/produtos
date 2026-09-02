@@ -5,17 +5,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pecas import P, K, KC, do, di, DI_SEAL
 from geo import zval
 
-XS = 12.0                       # plano do corte: passa pela trava e pelo ressalto
-CATCH = zval(P['CATCH_D'], XS, 0.0, P['CATCH_W'], 2.0)
+XS = 10.0                       # plano do corte: passa pela trava e pela aba
+CATCH = zval(P['CATCH_D'], XS, P['CATCH_XC'], P['CATCH_W'], 1.6)
 BEAD = zval(P['BEAD'], XS, 16.0, 8.0, 1.5) + zval(P['BEAD'], XS, -16.0, 8.0, 1.5)
 CHAM = zval(-0.60, XS, 16.0, 9.0, 1.5) + zval(-0.60, XS, -16.0, 9.0, 1.5)
 HY, PKF, THF = P['HY'], P['PK_CY'] + P['PK_HY'], P['PK_CY'] + P['TH_HY']
-ZC = 98.0                       # altura do corte inferior do desenho
+ZC = 106.0                       # altura do corte inferior do desenho
 
 
 def corpo_pts():
     zc0, zc1, zc2 = P['CATCH_Z0'], P['CATCH_Z1'], P['CATCH_Z2']
-    p = [(do(ZC), ZC), (do(zc0 - 0.05), zc0 - 0.05),
+    p = [(do(ZC), ZC), (do(zc0 - 0.10), zc0 - 0.10),
          (do(zc0) + CATCH, zc0), (do(zc1) + CATCH, zc1), (do(zc2), zc2),
          (do(119.70), 119.70), (-0.20, P['H']), (-P['WALL'] + 0.20, P['H']),
          (-P['WALL'], 119.70), (DI_SEAL, P['Z_SEAL1']), (DI_SEAL, P['Z_SEAL0']),
@@ -50,17 +50,31 @@ def porta_pts():
             (THF + P['LIP2_CREST'], P['Z_CREST2']), (THF - 0.30, ZB)]
 
 
-def alavanca_pts():
-    yo = HY + P['LEG_OUT']
-    return [[(yo, 112.60), (yo + 0.85, 112.60), (yo + 0.85, 113.05), (yo, 113.05)],
-            [(yo + 0.25, 101.80), (yo + 1.45, 101.80), (yo + 1.45, 113.05), (yo + 0.25, 113.05)],
-            [(yo + 0.25, 104.40), (yo + 0.25, 105.35), (103.00, 105.35), (103.75, 104.40)],
-            [(yo + 0.25, 99.60), (yo + 2.30, 100.20), (yo + 2.30, 101.90), (yo + 0.25, 101.90)]]
+def trilho_pts():
+    y = lambda d: HY + d
+    return [[(y(P['RAIL_D0']), P['RAIL_Z1']), (y(P['RAIL_D1']), P['RAIL_Z1']),
+             (y(P['RAIL_D1']), P['RAIL_Z2']), (y(P['RAIL_D0']), P['RAIL_Z2'])],
+            [(y(P['RAIL_D1']), P['RAIL_Z0']), (y(P['RAIL_D2']), P['RAIL_Z0']),
+             (y(P['RAIL_D2']), P['RAIL_Z3']), (y(P['RAIL_D1']), P['RAIL_Z3'])]]
+
+
+def trava_pts():
+    y = lambda d: HY + d
+    d2, d3 = P['RAIL_D2'], P['TR_D3']
+    return [[(y(d2), P['TR_Z_BOT']), (y(d3), P['TR_Z_BOT']),
+             (y(d3), P['TR_Z_TOP']), (y(d2), P['TR_Z_TOP'])],
+            [(y(P['RAIL_D1'] - 0.20), P['TR_ZB']), (y(d2), P['TR_ZB']),
+             (y(d2), P['RAIL_Z0']), (y(P['RAIL_D1'] - 0.20), P['RAIL_Z0'])],
+            [(y(P['RAIL_D1'] - 0.20), P['RAIL_Z3']), (y(d2), P['RAIL_Z3']),
+             (y(d2), P['TR_Z_TOP']), (y(P['RAIL_D1'] - 0.20), P['TR_Z_TOP'])],
+            [(y(P['TG_D']), P['TG_BOT']), (y(d2), P['TG_BOT']),
+             (y(d2), P['TG_LAND']), (y(P['TG_D']), P['TG_LAND'])],
+            [(y(d3), 116.0), (y(d3 + 0.60), 116.0), (y(d3 + 0.60), 119.2), (y(d3), 119.2)]]
 
 
 # ---------------------------------------------------------------- desenho ---
-S = 13.0
-Y0, Y1, Z0, Z1 = 74.0, 110.5, ZC - 1.0, 128.0
+S = 15.0
+Y0, Y1, Z0, Z1 = 74.0, 111.5, ZC - 1.0, 128.0
 Wd, Hd = (Y1 - Y0) * S, (Z1 - Z0) * S
 X = lambda y: (y - Y0) * S
 Y = lambda z: (Z1 - z) * S
@@ -91,7 +105,7 @@ def svg():
     .corpo{fill:var(--sw-pp,#C3D0D4);fill-opacity:.55;stroke:var(--ink,#15191A);stroke-width:1.1}
     .tampa{fill:var(--sw-teal,#17959F);fill-opacity:.42;stroke:var(--ink,#15191A);stroke-width:1.1}
     .porta{fill:var(--sw-op,#B9C2C4);fill-opacity:.7;stroke:var(--ink,#15191A);stroke-width:1.1}
-    .trava{fill:var(--sw-teal,#17959F);fill-opacity:.42;stroke:var(--ink,#15191A);stroke-width:1.1}
+    .trava{fill:var(--clay,#A8703C);fill-opacity:.5;stroke:var(--ink,#15191A);stroke-width:1.1}
     .ld{stroke:var(--faint,#8A9291);stroke-width:.8;fill:none}
     .dot{fill:var(--teal,#0E7C86)}
     .tx{font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;fill:var(--ink,#15191A)}
@@ -102,24 +116,28 @@ def svg():
     o.append(path(corpo_pts(), 'corpo'))
     o.append(path(tampa_pts(), 'tampa'))
     o.append(path(porta_pts(), 'porta'))
-    for p in alavanca_pts():
+    for p in trilho_pts():
+        o.append(path(p, 'tampa'))
+    for p in trava_pts():
         o.append(path(p, 'trava'))
     L = P['LIP_CREST']
     o.append(leader(HY + (L + DI_SEAL) / 2, P['Z_CREST'], 77.0, 126.5,
                     'interferencia %s mm' % f(P['LIP_CREST'] - DI_SEAL).replace('.', ','),
                     sub='labio flexivel contra a banda de 0 grau'))
-    o.append(leader(HY + P['LEG_IN'] + 0.9, P['Z_PLATE_B'] + 0.15, 93.0, 122.5,
+    o.append(leader(HY + P['LEG_IN'] + 0.9, P['Z_PLATE_B'] + 0.15, 92.0, 123.0,
                     'batente', sub='a mesa apoia no topo do aro'))
-    o.append(leader(HY - P['WALL'] / 2, 116.0, 104.0, 110.5,
+    o.append(leader(HY - P['WALL'] / 2, 116.6, 101.0, 110.0,
                     'canal %s mm' % f(P['LEG_IN'] - P['LIP_ROOT']).replace('.', ','),
                     'end', sub='folga externa 0,35 — o aro nao abre'))
-    o.append(leader(HY + do(P['CATCH_Z0']) + CATCH / 2, P['CATCH_Z0'], 88.0, 103.0,
-                    'engate 0,82 mm', 'end', sub='ressalto 1,20 · rampa 25 graus'))
-    o.append(leader(THF + P['LIP2_CREST'] / 2, P['Z_CREST2'], 76.0, 112.0,
+    eng = (do(P['CATCH_Z0']) + CATCH) - P['TG_D']
+    o.append(leader(HY + (P['TG_D'] + do(P['CATCH_Z0']) + CATCH) / 2, P['CATCH_Z0'],
+                    88.0, 103.5, 'engate %s mm' % f(eng).replace('.', ','), 'end',
+                    sub='lingueta sob a aba · interferencia 0,08 · curso 22'))
+    o.append(leader(THF + P['LIP2_CREST'] / 2, P['Z_CREST2'], 76.0, 113.0,
                     'interferencia 0,30 mm', sub='selo radial da portinhola'))
     o.append(leader(PKF + BEAD / 2, P['BEAD_Z'], 92.0, 127.2,
                     'retencao 0,90 mm', 'end', sub='trava a aba no rebaixo'))
-    o.append(leader(THF + P['COLLAR_W'] / 2, 117.0, 76.0, 104.0,
+    o.append(leader(THF + P['COLLAR_W'] / 2, 116.5, 76.0, 108.5,
                     'gargalo %s mm · 3 graus' % f(P['Z_PK'] - P['COLLAR_Z']).replace('.', ','),
                     sub='assento conico, entra centrando'))
     o.append('</svg>')

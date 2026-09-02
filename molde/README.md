@@ -1,6 +1,6 @@
 # Tampa Portinhola — modelo 3D paramétrico
 
-Conceito de tampa com **porta articulada** para a plataforma **Aro Comum**
+Conceito de tampa com **porta articulada** e **trava de correr** para a plataforma **Aro Comum**
 (aro 105 × 206 mm, R14 — a base do Porta Sabão 008).
 
 Substitui a *Tampa B · cursor deslizante* do estudo anterior, que tinha um defeito de
@@ -35,7 +35,7 @@ o render 3D do artefato, o corte cotado e a tabela de cotas saem todos do mesmo 
 | `secao.py` | corte longitudinal A-A a 12 mm do eixo |
 | `preview.py` | rasterizador z-buffer para conferir a malha sem abrir CAD |
 | `build_html.py` | monta o artefato |
-| `stl/` | `corpo.stl`, `tampa.stl`, `portinhola.stl` — binário, mm, Z para cima |
+| `stl/` | `corpo.stl`, `tampa.stl`, `portinhola.stl`, `trava.stl` — binário, mm, Z para cima |
 
 ---
 
@@ -72,18 +72,37 @@ porque o refugo é mono-resina. Guarnição de outro material contamina esse ati
 
 ---
 
-## O que muda no corpo
+## A trava de correr
 
-O corpo ganha duas coisas.
+A trava é um **cursor cativo** que corre num trilho em T moldado na saia da tampa e leva uma
+lingueta que entra **por baixo de uma aba do corpo**.
 
-**Ressalto de trava** — duas zonas de 34 mm nas faces curtas, projeção 1,20 mm, rampa de 25°
-em cima para a alavanca entrar, face de retenção a 0° embaixo para ela não sair. O gancho
-engata 0,82 mm e encosta 0,05 mm acima do ressalto: essa folga negativa é o que puxa a tampa
-contra o batente.
+Fechado o pote, a trava está sobre a **janela de entrada** — a região da aba deixada aberta de
+propósito, por onde a lingueta desce junto com a tampa. Um empurrão de **22 mm** leva a lingueta
+para debaixo da aba e tranca. A ponta que avança tem **rampa de 6 mm**; o resto é patamar. É a
+rampa que faz o trabalho: ao correr, ela passa sob a aba e **puxa a tampa 0,08 mm contra o
+batente**. Depois disso o contato é plano contra plano — não há mola tensionada para relaxar
+com o tempo, e nada volta sozinho por vibração.
 
-**Banda de vedação** — 6,2 mm de **saída zero** na face interna do aro (z 112,4 → 118,6).
-Sem ela, a saída de 1,5° faria a interferência variar com a profundidade de encaixe, e a
-vedação passaria a depender de quanto o consumidor apertou.
+| | |
+|---|---|
+| Aba do corpo | 1,40 mm de projeção · 2 zonas de 22 mm nas faces curtas · face de encosto a 0° |
+| Engate da lingueta | 1,06 mm |
+| Curso | 22 mm |
+| Aperto da rampa | 0,08 mm |
+| Massa | 0,5 g por trava |
+
+**Por que isto é melhor que a alavanca.** A versão anterior dependia de uma dobradiça viva de
+0,45 mm em PP H 105 — homopolímero **com clarificante**, e nucleante deixa dobradiça frágil.
+Era a maior incerteza técnica do conceito. A trava de correr não flexiona nada: trabalha em
+**cisalhamento**. Em troca, vira uma quarta peça e um segundo clique de montagem.
+
+A lingueta é **cativa** — presa no trilho, com batentes nas duas pontas. Não é componente solto
+que o consumidor perde, como o copo dosador que o 008 embala junto.
+
+O corpo também ganha uma **banda de vedação**: 6,2 mm de **saída zero** na face interna do aro
+(z 112,4 → 118,6). Sem ela, a saída de 1,5° faria a interferência variar com a profundidade de
+encaixe, e a vedação passaria a depender de quanto o consumidor apertou.
 
 ---
 
@@ -91,23 +110,24 @@ vedação passaria a depender de quanto o consumidor apertou.
 
 | Peça | Área proj. | Fechamento | Massa | Saída negativa |
 |---|---|---|---|---|
-| Corpo AC-21 | 214,6 cm² | ≈ 75 t | 116,1 g | **2 gavetas nas pontas** — ou extração forçada, a ensaiar |
-| Tampa D | 214,6 cm² | ≈ 75 t | 38,8 g | nenhuma: a alavanca é **moldada aberta** |
-| Portinhola | 70,2 cm² | ≈ 25 t | 11,2 g | munhões na linha de partição; gancho por extração forçada |
+| Corpo AC-21 | 214,6 cm² | ≈ 75 t | 116,0 g | aba: **2 gavetas** nas faces curtas — ou extração forçada, a ensaiar |
+| Tampa D | 214,6 cm² | ≈ 75 t | 36,3 g | trilho em T: **2 gavetas retas**, puxando em Y |
+| Portinhola | 70,2 cm² | ≈ 25 t | 11,2 g | munhões na linha de partição |
+| Trava de correr | 9,5 cm² | ≈ 4 t | 0,5 g (×2) | nenhuma — peça plana, 2 placas, 8 cavidades |
 
-Conjunto: **166,1 g** · montagem de **1 clique** (a portinhola encaixa por cima nos mancais
-abertos). A casa já monta: 99,7% dos apontamentos são em PI, e o PA sai da montagem.
+Conjunto: **164,5 g** em 5 peças · montagem de **3 cliques** (porta + 2 travas). A casa já monta:
+99,7% dos apontamentos são em PI, e o PA sai da montagem.
 
-**A regra que decide o ponto de injeção.** A mesa da tampa tem um furo de 62 × 82 mm no
-meio. Todo furo gera linha de solda a jusante, e linha de solda é a região mais fraca e mais
-permeável da peça. Se uma delas cair **sobre o gargalo**, vira caminho de vazamento na
-superfície que precisa vedar. Os pontos têm de jogar as linhas de solda na mesa, longe do
-gargalo e do lábio periférico. Isso é simulação de preenchimento antes de cortar aço.
+**A regra que decide o ponto de injeção.** A mesa da tampa tem um furo de 62 × 82 mm no meio.
+Todo furo gera linha de solda a jusante, e linha de solda é a região mais fraca e mais permeável
+da peça. Se uma delas cair **sobre o gargalo**, vira caminho de vazamento na superfície que
+precisa vedar. Os pontos têm de jogar as linhas de solda na mesa, longe do gargalo e do lábio
+periférico. Isso é simulação de preenchimento antes de cortar aço.
 
-**Faixa de tonelagem.** Os três moldes caem em ≤ 260 t, onde a ocupação medida neste projeto
-é 56,9% com 7 de 15 injetoras paradas. Isso reduz risco de agenda, **não custo de
-ferramenta** — molde é 30 a 40% do custo de um lançamento, e CNC parado também pode ser
-gargalo de ferramentaria em vez de folga.
+**Faixa de tonelagem.** Os quatro moldes caem em ≤ 260 t, onde a ocupação medida neste projeto
+é 56,9% com 7 de 15 injetoras paradas. Isso reduz risco de agenda, **não custo de ferramenta** —
+molde é 30 a 40% do custo de um lançamento, e CNC parado também pode ser gargalo de
+ferramentaria em vez de folga.
 
 ---
 
@@ -126,7 +146,7 @@ gargalo de ferramentaria em vez de folga.
 | Gargalo | 4,80 mm · cone 3° |
 | Saia da portinhola | 3,80 mm · interferência **0,30 mm** |
 | Rebaixo da porta | 1,60 mm — porta rente à mesa, tampa empilhável |
-| Ressalto de trava | 1,20 mm · 2 × 34 mm · engate 0,82 mm |
+| Aba do corpo | 1,40 mm · 2 × 22 mm · engate 1,06 mm · curso 22 mm |
 | Altura total | 120 + 5,6 mm (dobradiça) |
 
 ---
@@ -159,13 +179,14 @@ micro-ondas fechado" · "mantém crocância por X dias".
 2. **O veredito vigente de Potes é "só kit"** (`pdp_linha`, score 8, 487 SKUs ativos,
    R$ 16,0 M caindo 15,5%). A versão compatível é a tampa entrar como peça da plataforma,
    servindo os quatro corpos do aro comum — não como SKU avulso. *(curador-portfolio · veto)*
-3. **Dobradiça viva em PP H 105 é aposta.** A alavanca depende de uma dobradiça viva de
-   0,45 mm, e a resina mais comprada da casa (896 t/ano) é homopolímero **com clarificante** —
-   nucleante deixa a dobradiça mais frágil. Ou qualifica copolímero só para essa peça, ou a
-   alavanca vira gancho rígido de estalo (o ressalto no corpo serve às duas rotas). Ensaio de
-   5.000 ciclos. *(engenheiro-molde)*
-4. **Gaveta ou extração forçada** no ressalto do corpo — maior incerteza de custo desta
-   ferramenta. *(engenheiro-molde)*
+3. **Quatro gavetas no total.** A aba do corpo e o trilho da tampa são saída negativa: duas
+   gavetas em cada molde. No corpo, extração forçada pode substituir — a parede tem 1,3 mm e
+   flexiona. No trilho, não: a seção é constante e a gaveta puxa reta em Y, o que é barato de
+   fazer e caro de esquecer no orçamento. *(engenheiro-molde)*
+4. **Esforço para correr a trava — inclusive com a mão molhada.** Falta medir força para
+   travar, força para destravar, e o mesmo com sabão na mão: este pote é para mantimento **e
+   para limpeza**. Se ficar duro, o consumidor deixa destravado e a vedação vira decoração.
+   Ensaio de 5.000 ciclos com medição de força nas duas pontas. *(engenheiro-molde)*
 5. **Por que `176` e `210` caíram** com a melhor margem da família. Se for fluência sob
    trava, o batente é a resposta. Se for conflito funcional, uma porta articulada corre o
    mesmo risco. *(analista-sankhya)*

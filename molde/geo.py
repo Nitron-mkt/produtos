@@ -178,6 +178,28 @@ class Mesh:
                 else:
                     self.tri(idx[0], idx[k + 1], idx[k])
 
+    def loftX(self, pa, pb, x0, x1):
+        """Dois poligonos convexos (y,z) com a mesma contagem, em x0 e x1."""
+        n = len(pa)
+        for k in range(n):
+            (ya0, za0), (ya1, za1) = pa[k], pa[(k + 1) % n]
+            (yb0, zb0), (yb1, zb1) = pb[k], pb[(k + 1) % n]
+            dy, dz = (ya1 + yb1) / 2 - (ya0 + yb0) / 2, (za1 + zb1) / 2 - (za0 + zb0) / 2
+            L = math.hypot(dy, dz) or 1.0
+            ny, nz = dz / L, -dy / L
+            a = self.add(x0, ya0, za0, 0, ny, nz)
+            b = self.add(x0, ya1, za1, 0, ny, nz)
+            c = self.add(x1, yb1, zb1, 0, ny, nz)
+            d = self.add(x1, yb0, zb0, 0, ny, nz)
+            self.quad(a, b, c, d)
+        for (x, poly, s) in ((x1, pb, 1.0), (x0, pa, -1.0)):
+            idx = [self.add(x, y, z, s, 0, 0) for (y, z) in poly]
+            for k in range(1, n - 1):
+                if s > 0:
+                    self.tri(idx[0], idx[k], idx[k + 1])
+                else:
+                    self.tri(idx[0], idx[k + 1], idx[k])
+
     def box(self, x0, x1, y0, y1, z0, z1):
         self.prismX([(y0, z0), (y1, z0), (y1, z1), (y0, z1)], x0, x1)
 

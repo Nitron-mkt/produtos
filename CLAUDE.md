@@ -414,3 +414,7 @@ Regenerar: `python3 pecas.py && python3 secao.py && python3 build_html.py`
   pote acoplado com rosca). Filtrar sempre por `REFERENCIA`.
 - **Parede de 1,8 mm é pesada** para essa pegada. O 008, mesmo aro e o dobro da altura, pesa
   230 g no cadastro — ou seja, a casa roda ~1,1 mm. O modelo usa 1,30.
+- **Trava de correr > alavanca.** A trava de alavanca exigia dobradiça viva de 0,45 mm em PP
+  H 105 (homopolímero com clarificante — nucleante deixa dobradiça frágil). O cursor de correr
+  trabalha em cisalhamento, não flexiona, e a rampa da lingueta puxa a tampa 0,08 mm contra o
+  batente. Custo: +1 molde pequeno e +2 cliques de montagem. Trilho em T sai por gaveta reta.
