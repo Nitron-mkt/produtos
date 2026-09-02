@@ -247,3 +247,142 @@ Falta:
   centro-a-centro (o nó é anisotrópico)
 - **qual é a carga admissível por vão** — sem isso não se pode oferecer PDV nem hack de TV
 - **o desenho da cruzeta em uso**: ela nunca foi injetada, então não há peça para tryout
+
+---
+
+## 11. Parecer do curador de portfólio — VETO
+
+Rodado em 02/09/2026 com poder de veto, conforme o processo do `CLAUDE.md`.
+Nada foi gravado em `pdp_lancamento`.
+
+| Frente | Veredito |
+|---|---|
+| Molde da cruzeta `850-CZ` | **veta** |
+| B2C móveis modulares (hack TV, armário, mesa, escrivaninha) | **veta** |
+| Site configurador | **veta** |
+| B2B móvel de PDV | **investiga antes** — piloto contra pedido, sem SKU, sem molde |
+| Estoque Braspine parado | decisão de liquidação, separada da de lançar |
+
+### O achado que derruba a frente B2C
+
+A função que a linha quer atacar **já é vendida pela Nitron, em plástico, para milhares de
+clientes**:
+
+| CODPROD | Produto | Ref | Clientes | Faturamento vida |
+|---|---|---|---|---|
+| 3307 | Porta Shampoo e Prateleira Madri Preto | `079.012.003` | **3.866** | R$ 1.666.356 |
+| 3306 | Porta Shampoo e Prateleira Madri Branco | `079.012.002` | **3.881** | R$ 1.626.178 |
+| 434 | Prateleira Multi Uso 4 Andares Preta | `053.004.003` | **1.556** | R$ 1.105.280 |
+| 3108 | Prateleira Multi Uso 4 Andares Branca | `053.004.002` | **1.513** | R$ 972.851 |
+| 236 | Prateleira Multi Uso 4 Andares | `053` | 688 | R$ 596.361 |
+
+Família `053` ≈ **R$ 2,70 M** · família `079` ≈ **R$ 3,3 M**, tudo injetado.
+Contra isso, a Nitron Mob tem **9 SKUs literalmente chamados "PRATELEIRA MULTIUSO"** que
+somam R$ 1.904 com 1 cliente. Mesma função, mesmo nome, material comprado de terceiro,
+margem negativa.
+
+E "mesa" já está no catálogo: `11369` Tampo de Mesa em Teca 2500×800×18 (`631.010.M00`) e
+`11370` 1000×1500×18 (`633.020.M00`), cadastrados desde 2025, **faturamento zero, nenhuma nota**.
+
+### A história comercial completa é menor do que o recorte padrão mostra
+
+O recorte padrão pega R$ 2.290,60. Fora dele há mais:
+
+| Parceiro | CODTIPOPER | Tabela | Valor |
+|---|---|---|---|
+| Visual Comercio de Embalagens (53828) | 3218 Venda Clientes Especiais | 165 | R$ 2.290,60 |
+| Visual Comercio de Embalagens (53828) | **3211 Amostra** | 165 | R$ 516,26 |
+| Viccomex Trade Solutions (971) | **3220 Bonificação Especial** | 0 | R$ 1.340,04 |
+
+**Vida inteira da linha: R$ 4.146,90, 2 parceiros, zero venda de canal.** Um é "cliente
+especial", os outros dois lançamentos são amostra e bonificação.
+
+### A margem realizada
+
+| | |
+|---|---|
+| Receita (44 un) | R$ 2.290,60 |
+| CPV (Σ qtd × `CUSGER`) | R$ 3.418,84 |
+| **Prejuízo bruto** | **−R$ 1.128,24** |
+| **MB realizada** | **−49,3%** |
+
+Pior SKU: `14182` Prateleira G 4P, **−R$ 36,01 por unidade**.
+
+### Por que o payback da cruzeta não fecha
+
+O molde de plástico não gera a margem do móvel — gera a margem da **injeção de R$ 0,39/peça**.
+Com 8 a 16 cruzetas por móvel, a contribuição de injeção é da ordem de **R$ 2 a 6 por móvel**.
+Um molde de 2 cavidades precisaria de **milhares de móveis/ano**. A linha vendeu 44 unidades
+na vida. E o custo do molde **não existe no ERP**: `14814` tem zero linhas em `TGFITE` e em
+`TGFCUS` — numerador desconhecido, denominador negativo.
+
+Creditar ao molde a margem cheia do móvel (2,00 × `CUSGER`) é creditar ao plástico a margem da
+**madeira de terceiro**. É o tipo de conta que produziu 3,4% de acerto em 2024.
+
+### Madeira não escala nesta casa
+
+Linha Teca, 12 M contra os 12 M anteriores:
+
+| Grupo | 12 M | 12 M ant. | Δ | Clientes |
+|---|---|---|---|---|
+| 1001802 Teca Organização | R$ 775.194 | R$ 766.275 | +1,2% | 309 |
+| 1001801 Teca Tábuas | R$ 372.504 | R$ 400.906 | **−7,1%** | 213 |
+| 1001803 Teca Cozinha | R$ 204.418 | R$ 229.972 | **−11,1%** | 194 |
+| 1001804 Teca Petisqueira | R$ 35.980 | R$ 109.520 | **−67,1%** | 112 |
+| 1001901 Nitron Mob | R$ 2.291 | R$ 0 | — | **1** |
+
+**R$ 1,388 M = 1,7% dos R$ 83,1 M**, caindo em 3 dos 4 grupos. Somado à lição nº 8 já
+documentada (tampa plástica R$ 492.548 contra tampa teca R$ 16.192 no mesmo corpo, 30× de
+diferença), a evidência interna sobre madeira aponta contra a proposta.
+
+### O espaço de PDV não está vazio — está ocupado por aço
+
+A própria Nitron **compra** gôndola: `13238` Gôndola Ponta 170 40×30 a **R$ 414/un** e `13239`
+Gôndola Centro 40×30 a **R$ 677/un**, 8 unidades de cada, Balanças Bonsucesso, 12/08/2025.
+Um módulo em pinus 15,3 × 26,6 unido por conector de R$ 0,39 tem de ser mais barato que isso
+**e** aguentar carga de loja.
+
+Isso também é o argumento a favor do único caminho que o curador deixa aberto: **o primeiro
+cliente de PDV pode ser a própria Nitron**, e o teste custa uma amostra e uma medição de carga.
+
+### O risco que nenhum business case conta
+
+A Nitron entrega **8,3% a 8,7% do valor** do produto; ~91% são do fornecedor de madeira e da
+mão de obra de montagem. Isso é desverticalização, não verticalização. E o risco de
+contaminação não é químico, é **de fluxo**: pó de madeira no ambiente do moinho e dos silos
+ameaça o ciclo de moído de **R$ 2,63 M/ano**. Não foi medido — e é o teste que precisa vir
+antes do molde: o setor de montagem compartilha ar, piso ou fluxo de refugo com o moinho?
+
+### O que mudaria o veredito, do mais barato ao mais caro
+
+1. **Preço.** Uma venda a **≥ 2,00 × `CUSGER` para ≥ 3 clientes distintos**, sem `CODTIPOPER`
+   3211 (amostra) nem 3220 (bonificação). Enquanto o único preço da história for 0,670 ×
+   `CUSGER`, nada mais importa.
+2. **Diagnosticar a `053`.** Por que a prateleira de plástico, com 3.069 clientes somados e
+   R$ 2,7 M, não é a resposta para a demanda que a Nitron Mob quer atender? Custa zero molde.
+3. **Corrigir o cadastro** de `14811`–`14815` e o NCM de `14183`.
+4. **Custo do molde da cruzeta**: nota ou orçamento formal, com valor, prazo e cavidades.
+5. **Volume/ano com nome de cliente** para o móvel que consome cruzeta.
+6. **Carga estrutural** do conector em prateleira de gôndola carregada (`engenheiro-molde`).
+7. **Receita por m³** do móvel contra a do pote.
+8. **Contaminação de fluxo** entre montagem de madeira e moinho.
+9. **Saldo Braspine hoje**: R$ 84.211,67 comprados em 04/06/2026 contra ~R$ 3,1 k consumidos.
+   Decidir isso **separado** da decisão de lançar — senão o estoque parado vira o argumento
+   para lançar, exatamente como a capacidade ociosa (lição nº 4).
+
+### Correção adicional ao CLAUDE.md, vinda do curador
+
+**`QTDCAPACIDADEPAD` é kN, não tonelada.** WCP 8/9/11 = 1600 com `CAPDESCR` "160";
+1600 kN ≈ 163 tf. O campo de tonelagem é **`CAPDESCR`**.
+⚠️ Isso levanta a suspeita de que **as faixas de ocupação documentadas no `CLAUDE.md`
+(≤260 t, 261–1.100 t, 1.101–2.000 t, >2.000 t) estejam lendo kN como tonelada** — o parque da
+Nitron não tem injetora de 2.000 t. As faixas precisam ser refeitas antes de serem usadas de
+novo. (O WCP 45, 258 com `CAPDESCR` 120, não fecha na mesma conversão — então a hipótese vale
+como suspeita a verificar, não como conclusão.)
+
+### Divergência de cadastro nº 14
+
+Os cinco PIs `14811`–`14815` estão com **`NCM` 39241000** (artigo plástico de uso doméstico) e
+`CODGRUPOPROD` 2000000 e descrição "MOLDE DA…", enquanto são consumidos como peça
+(`QTDMISTURA` de 2 a 40 por PA, `CONTROLEPI='CINZA'`). O NCM confirma que são peça; a descrição
+e o grupo dizem ferramenta. Quatro campos em desacordo numa linha com duas semanas de vida.

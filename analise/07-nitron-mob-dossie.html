@@ -1,0 +1,536 @@
+<title>Gramática Nitron Mob</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F1F0EC; --sheet:#FFFFFF; --ink:#17171A; --ink-2:#3A3A3C;
+  --muted:#67675F; --rule:#D9D7CE; --rule-2:#EAE8E1;
+  --accent:#C8500B; --accent-soft:#FBEADF;
+  --pinus:#B4863C; --pinus-soft:#F6EEDF;
+  --bad:#9E1F1F; --bad-soft:#F8E5E3; --ok:#26614A; --ok-soft:#E3EFE8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131311; --sheet:#1C1C1A; --ink:#F2F1EC; --ink-2:#D3D1C9;
+    --muted:#9A988E; --rule:#33322D; --rule-2:#272621;
+    --accent:#F5822F; --accent-soft:#33200F;
+    --pinus:#D6A85C; --pinus-soft:#2B2317;
+    --bad:#F08078; --bad-soft:#331C1A; --ok:#6FBF9A; --ok-soft:#16251F;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131311; --sheet:#1C1C1A; --ink:#F2F1EC; --ink-2:#D3D1C9;
+  --muted:#9A988E; --rule:#33322D; --rule-2:#272621;
+  --accent:#F5822F; --accent-soft:#33200F;
+  --pinus:#D6A85C; --pinus-soft:#2B2317;
+  --bad:#F08078; --bad-soft:#331C1A; --ok:#6FBF9A; --ok-soft:#16251F;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  font-size:16px; line-height:1.62; margin:0; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px 96px}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;
+  text-wrap:balance; margin:0; letter-spacing:-.006em}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.tag{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:500;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--muted)}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+strong{font-weight:600}
+code{font-family:"IBM Plex Mono",monospace; font-size:.88em; background:var(--rule-2);
+  padding:.12em .38em; border-radius:3px}
+
+header{padding:60px 0 38px; border-bottom:2px solid var(--ink)}
+.eyebrow{display:flex; gap:18px; flex-wrap:wrap; align-items:baseline; margin-bottom:24px}
+h1{font-size:clamp(34px,5.6vw,60px); font-weight:700; line-height:1.02}
+.thesis{font-size:clamp(17px,2.1vw,22px); line-height:1.45; color:var(--ink-2);
+  max-width:34ch; margin-top:20px; font-weight:400}
+.thesis b{font-weight:600; color:var(--ink); box-shadow:inset 0 -.42em 0 var(--accent-soft)}
+.headgrid{display:grid; grid-template-columns:1fr; gap:32px}
+@media(min-width:880px){ .headgrid{grid-template-columns:1.1fr .9fr; gap:56px; align-items:end} }
+
+.cotas{display:grid; grid-template-columns:repeat(2,1fr);
+  border:1px solid var(--rule); background:var(--sheet)}
+.cota{padding:13px 16px; border-right:1px solid var(--rule-2); border-bottom:1px solid var(--rule-2)}
+.cota:nth-child(2n){border-right:0}
+.cota:nth-last-child(-n+2){border-bottom:0}
+.cota .v{font-family:"IBM Plex Mono",monospace; font-size:18px; font-weight:600;
+  font-variant-numeric:tabular-nums; display:block; line-height:1.2}
+.cota .k{font-size:11.5px; color:var(--muted); line-height:1.35; display:block; margin-top:3px}
+
+/* ---- veredito: a única peça com peso visual forte ---- */
+.verdict{margin:0; border:2px solid var(--ink); background:var(--sheet)}
+.vhead{display:flex; flex-wrap:wrap; gap:14px; align-items:baseline;
+  padding:22px 26px 18px; border-bottom:1px solid var(--rule)}
+.vhead h2{font-size:clamp(22px,2.8vw,28px)}
+.stamp{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--sheet);
+  background:var(--bad); padding:5px 12px; border-radius:2px}
+.vrows{display:grid}
+.vrow{display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;
+  padding:13px 26px; border-bottom:1px solid var(--rule-2)}
+.vrow:last-child{border-bottom:0}
+.vrow p{margin:0; font-size:15px}
+.vrow .sub{display:block; font-size:12.5px; color:var(--muted); line-height:1.4; margin-top:2px}
+
+section{padding:52px 0; border-bottom:1px solid var(--rule)}
+.shead{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:baseline; margin-bottom:6px}
+.snum{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; color:var(--accent);
+  letter-spacing:.06em; padding-top:.42em}
+h2{font-size:clamp(23px,3vw,31px); font-weight:600}
+.lede{max-width:66ch; color:var(--ink-2); margin:14px 0 0}
+.body{max-width:66ch}
+.body p{margin:16px 0}
+.body p:first-child{margin-top:18px}
+
+.pecas{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule);
+  grid-template-columns:1fr; margin-top:30px}
+@media(min-width:700px){ .pecas{grid-template-columns:repeat(2,1fr)} }
+@media(min-width:980px){ .pecas{grid-template-columns:repeat(4,1fr)} }
+.peca{background:var(--sheet); padding:18px 18px 20px; display:flex; flex-direction:column; gap:12px}
+.peca img{width:100%; display:block; mix-blend-mode:multiply; border-radius:2px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .peca img{
+  mix-blend-mode:screen; filter:invert(1) hue-rotate(180deg) brightness(1.1)} }
+:root[data-theme="dark"] .peca img{mix-blend-mode:screen; filter:invert(1) hue-rotate(180deg) brightness(1.1)}
+.peca h3{font-size:18px; font-weight:600; line-height:1.15}
+.peca .ref{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); margin-top:2px}
+.vias{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:2px; align-self:flex-start}
+.vias.term{background:var(--rule-2); color:var(--ink-2)}
+.vias.pass{background:var(--accent-soft); color:var(--accent)}
+.spec{border-top:1px solid var(--rule-2); padding-top:10px; margin-top:auto;
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-variant-numeric:tabular-nums;
+  display:grid; gap:3px}
+.spec div{display:flex; justify-content:space-between; gap:10px}
+.spec span:first-child{color:var(--muted)}
+
+.tw{overflow-x:auto; margin-top:26px; border:1px solid var(--rule); background:var(--sheet)}
+table{border-collapse:collapse; width:100%; font-size:14px}
+th,td{text-align:left; padding:9px 14px; border-bottom:1px solid var(--rule-2); vertical-align:top}
+thead th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  border-bottom:1px solid var(--rule); white-space:nowrap; background:var(--sheet)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.ref{font-family:"IBM Plex Mono",monospace; font-size:12.5px; white-space:nowrap}
+tfoot td{border-top:1px solid var(--rule); border-bottom:0; font-weight:600;
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.chip{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  padding:2px 7px; border-radius:2px; letter-spacing:.05em; white-space:nowrap}
+.chip.bad{background:var(--bad-soft); color:var(--bad)}
+.chip.warn{background:var(--accent-soft); color:var(--accent)}
+.chip.ok{background:var(--ok-soft); color:var(--ok)}
+tr.hl td{background:var(--accent-soft)}
+tr.dim td{color:var(--muted)}
+caption{caption-side:bottom; text-align:left; padding:10px 14px; font-size:12.5px;
+  color:var(--muted); border-top:1px solid var(--rule-2)}
+
+.diag{margin-top:30px; border:1px solid var(--rule); background:var(--sheet); padding:26px 20px 18px}
+.diag svg{width:100%; height:auto; display:block; max-width:900px; margin:0 auto}
+.dcap{max-width:64ch; margin:18px auto 0; font-size:13.5px; color:var(--muted); text-align:center}
+
+.call{border-left:3px solid var(--accent); background:var(--accent-soft);
+  padding:16px 20px; margin-top:28px; max-width:70ch}
+.call.stop{border-left-color:var(--bad); background:var(--bad-soft)}
+.call.stop .tag{color:var(--bad)}
+.call p{margin:0}
+.call p + p{margin-top:10px}
+.call .tag{color:var(--accent); display:block; margin-bottom:7px}
+
+.gram{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:28px}
+@media(min-width:780px){ .gram{grid-template-columns:repeat(3,1fr)} }
+.gcol{background:var(--sheet); padding:20px}
+.gcol h3{font-size:15px; font-weight:600; margin-bottom:4px}
+.gcol .tag{margin-bottom:14px; display:block}
+.gcol ul{list-style:none; padding:0; margin:0; display:grid; gap:9px}
+.gcol li{display:grid; grid-template-columns:36px 1fr; gap:11px; font-size:14px; line-height:1.4}
+.gcol li b{font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--accent);
+  font-variant-numeric:tabular-nums; text-align:right}
+.gcol li i{font-style:normal; color:var(--muted); font-size:12.5px; display:block}
+
+.steps{list-style:none; counter-reset:s; padding:0; margin:26px 0 0; display:grid; gap:1px;
+  background:var(--rule); border:1px solid var(--rule); max-width:76ch}
+.steps li{background:var(--sheet); padding:14px 18px; display:grid;
+  grid-template-columns:auto 1fr; gap:14px; align-items:baseline; counter-increment:s}
+.steps li::before{content:counter(s); font-family:"IBM Plex Mono",monospace; font-size:11px;
+  font-weight:600; color:var(--accent); letter-spacing:.06em}
+footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:72ch}
+footer .tag{display:block; margin-bottom:10px}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">
+    <span class="tag">Nitron&nbsp;·&nbsp;Desenvolvimento de Produtos</span>
+    <span class="tag">Grupo 1001901&nbsp;·&nbsp;14 PAs</span>
+    <span class="tag">02/09/2026</span>
+  </div>
+  <div class="headgrid">
+    <div>
+      <h1>A gramática<br>da Nitron Mob</h1>
+      <p class="thesis">Os 5 STLs cruzados com a estrutura do ERP. O sistema modular está inteiro decodificado e <b>as três larguras já existem e já estão compradas</b> — mas o curador veta a ramificação, e por um motivo que não estava no escopo da pergunta.</p>
+    </div>
+    <div class="cotas">
+      <div class="cota"><span class="v">15,3 × 26,6</span><span class="k">seção da barra de pinus, mm</span></div>
+      <div class="cota"><span class="v">40,60</span><span class="k">profundidade do encaixe, mm</span></div>
+      <div class="cota"><span class="v">73,08</span><span class="k">passo vertical do nó, mm</span></div>
+      <div class="cota"><span class="v">2,95</span><span class="k">parede do conector, mm</span></div>
+      <div class="cota"><span class="v">R$ 4.146,90</span><span class="k">receita da vida inteira</span></div>
+      <div class="cota"><span class="v">−49,3%</span><span class="k">margem bruta realizada</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="verdict">
+    <div class="vhead">
+      <span class="stamp">Veto</span>
+      <h2>Parecer do curador de portfólio</h2>
+    </div>
+    <div class="vrows">
+      <div class="vrow"><p>Molde da cruzeta <code>850-CZ</code><span class="sub">Custo do molde não existe no ERP: zero linhas em <code>TGFITE</code> e <code>TGFCUS</code></span></p><span class="chip bad">veta</span></div>
+      <div class="vrow"><p>B2C modular — hack de TV, armário, mesa, escrivaninha<span class="sub">A função já é vendida em plástico para 3.069 clientes (§6)</span></p><span class="chip bad">veta</span></div>
+      <div class="vrow"><p>Site configurador<span class="sub">É a lição de 2022 com mais dimensões: 3 larguras × 4 alturas × 3 cores = 36 combinações de barra em estoque</span></p><span class="chip bad">veta</span></div>
+      <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram</span></p><span class="chip warn">investiga antes</span></div>
+      <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 contra ~R$ 3,1 k consumidos — decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
+    </div>
+  </div>
+  <div class="call stop">
+    <span class="tag">As duas frases para levar</span>
+    <p>A proposta pede molde novo para uma peça que <strong>nenhum produto usa</strong>, dentro de uma linha cuja única receita foi vendida <strong>33% abaixo do custo para um cliente especial</strong>.</p>
+    <p>E a função que ela quer atacar <strong>já é vendida pela Nitron, em plástico, para 1.556 clientes</strong>.</p>
+  </div>
+  <div class="body">
+    <p>O que segue é o levantamento inteiro: a engenharia (§2 a §5) fica válida qualquer que seja a decisão comercial — é ativo reaproveitável e responde à pergunta das três larguras. O §6 ao §8 é o que sustenta o veto. Nada foi gravado em <code>pdp_lancamento</code>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§1</span><h2>Nitron Mob não é um produto de plástico</h2></div>
+  <div class="body">
+    <p>O NCM das quatorze PAs é <strong>9403.60.00 — móveis de madeira</strong>. A estrutura é pinus comprado da <strong>Braspine Madeiras</strong>: 19 PIs de barra de seção 15,3 × 26,6 mm em 19 comprimentos, mais painéis de 15 mm. A densidade medida bate exatamente entre barras e painéis, <span class="mono">0,556 g/cm³</span>, e o peso cadastrado de 10 das 12 barras conferidas fecha com fator 1,00 contra <span class="mono">0,22628 g/mm</span>.</p>
+    <p>O plástico injetado são <strong>só cinco conectores</strong>, e eles respondem por 5,6% a 21,7% do custo da PA. O resto é madeira de terceiro, corte e montagem.</p>
+  </div>
+  <div class="call stop">
+    <span class="tag">A decisão que está implícita</span>
+    <p>Nesta linha a Nitron entrega <strong>8,3% a 8,7% do valor</strong> do produto. Isso não é verticalização — é desverticalização: a empresa troca um processo onde tem 56 injetoras, resina mono-material e <strong>R$ 2,63 M/ano de vantagem de moído</strong> por um onde é revendedora com valor agregado de montagem, competindo com marcenaria por baixo e com aço por cima.</p>
+    <p>E o risco de contaminação não é químico, é <strong>de fluxo</strong>: pó de madeira no ambiente do moinho e dos silos ameaça o ciclo de moído. Não foi medido, e é o teste que precisa vir antes do molde — a montagem compartilha ar, piso ou fluxo de refugo com o moinho?</p>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>Peso real recalculado a partir da BOM contra o cadastrado. As catorze PAs têm o mesmo <code>PESOLIQ</code> copiado.</caption>
+      <thead><tr><th>PA</th><th>Referência</th><th>CUSGER</th><th>Conectores PP</th><th>Plástico</th><th>Peso real</th><th>Peso cadastrado</th></tr></thead>
+      <tbody>
+        <tr><td>Arara de roupa</td><td class="ref">850.004.N03</td><td class="n">R$ 90,10</td><td class="n">R$ 7,46</td><td class="n">8,3%</td><td class="n">5,140 kg</td><td class="n">0,525 kg <span class="chip bad">9,8×</span></td></tr>
+        <tr><td>Sapateira pequena</td><td class="ref">851.004.N03</td><td class="n">R$ 32,01</td><td class="n">R$ 6,94</td><td class="n">21,7%</td><td class="n">2,056 kg</td><td class="n">0,525 kg <span class="chip bad">3,9×</span></td></tr>
+        <tr><td>Sapateira grande</td><td class="ref">852.004.N03</td><td class="n">R$ 74,84</td><td class="n">R$ 4,18</td><td class="n">5,6%</td><td class="n">2,739 kg</td><td class="n">0,525 kg <span class="chip bad">5,2×</span></td></tr>
+        <tr><td>Prateleira G 2P</td><td class="ref">855.004.N03</td><td class="n">R$ 57,18</td><td class="n">R$ 4,88</td><td class="n">8,5%</td><td class="n">0,877 kg</td><td class="n">0,525 kg <span class="chip bad">1,7×</span></td></tr>
+        <tr><td>Prateleira G 3P</td><td class="ref">856.004.N03</td><td class="n">R$ 84,16</td><td class="n">R$ 7,30</td><td class="n">8,7%</td><td class="n">1,287 kg</td><td class="n">0,525 kg <span class="chip bad">2,5×</span></td></tr>
+        <tr><td>Prateleira G 4P</td><td class="ref">857.004.N03</td><td class="n">R$ 109,12</td><td class="n">R$ 9,73</td><td class="n">8,9%</td><td class="n">2,429 kg</td><td class="n">0,525 kg <span class="chip bad">4,6×</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§2</span><h2>As cinco peças, casadas ao PI pelo custo</h2></div>
+  <p class="lede">O casamento foi feito pelo volume da malha — as cinco fechadas, <strong>zero arestas não-manifold</strong> — contra o custo cadastrado. O R$/kg implícito cai entre 8,53 e 9,38, coerente com blend de PP moído e virgem clarificado.</p>
+  <div class="pecas">
+    <div class="peca">
+      <img src="data:image/png;base64,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" alt="Render isométrico da peça L: cotovelo de duas vias coplanares">
+      <div><h3>Peça L</h3><div class="ref">850-L · CODPROD 14812</div></div>
+      <span class="vias term">2 vias · termina</span>
+      <div class="spec">
+        <div><span>volume</span><span>35,36 cm³</span></div>
+        <div><span>massa PP</span><span>32,0 g</span></div>
+        <div><span>custo</span><span>R$ 0,3003</span></div>
+        <div><span>máquina</span><span>INJ 9</span></div>
+      </div>
+    </div>
+    <div class="peca">
+      <img src="data:image/png;base64,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" alt="Render isométrico da trizeta: três vias mutuamente ortogonais formando canto de caixa">
+      <div><h3>Trizeta</h3><div class="ref">850-TZ · CODPROD 14811</div></div>
+      <span class="vias term">3 vias · termina</span>
+      <div class="spec">
+        <div><span>volume</span><span>48,96 cm³</span></div>
+        <div><span>massa PP</span><span>44,3 g</span></div>
+        <div><span>custo</span><span>R$ 0,3875</span></div>
+        <div><span>máquina</span><span>INJ 8</span></div>
+      </div>
+    </div>
+    <div class="peca">
+      <img src="data:image/png;base64,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" alt="Render isométrico da cruzeta: quatro vias, um T no plano mais uma vertical">
+      <div><h3>Cruzeta</h3><div class="ref">850-CZ · CODPROD 14814</div></div>
+      <span class="vias pass">4 vias · atravessa</span>
+      <div class="spec">
+        <div><span>volume</span><span>62,57 cm³</span></div>
+        <div><span>massa PP</span><span>56,6 g</span></div>
+        <div><span>custo est.</span><span>R$ 0,495</span></div>
+        <div><span>máquina</span><span>nenhuma</span></div>
+      </div>
+    </div>
+    <div class="peca">
+      <img src="data:image/png;base64,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" alt="Render isométrico do porta-haste: clipe de perfil C com travas de retenção">
+      <div><h3>Porta-haste</h3><div class="ref">850-H · CODPROD 14815</div></div>
+      <span class="vias term">clipe em C</span>
+      <div class="spec">
+        <div><span>volume</span><span>11,29 cm³</span></div>
+        <div><span>massa PP</span><span>10,2 g</span></div>
+        <div><span>custo</span><span>R$ 0,0872</span></div>
+        <div><span>máquina</span><span>INJ 11</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="body">
+    <p><strong>Trizeta 01 e 02 são o par espelhado.</strong> 3.204 dos 3.238 vértices coincidem sob espelhamento em Z — é o “ESQ/DIR” da descrição. Mas a BOM consome um único <code>CODPROD</code> para as duas mãos e <code>AD_QTDCAVIDADE</code> está em 1: não há como planejar tiro por mão.</p>
+    <p><strong>A cruzeta nunca foi injetada.</strong> Zero registro em <code>AD_APONTACICLO</code>; as outras quatro rodaram um ciclo cada, em injetoras de 120–160 t. A tampinha (<code>850-T</code>, INJ 45) ainda não chegou em STL — o custo de R$ 0,0097 implica ~1,2 cm³ e ~1,1 g.</p>
+    <p><strong>O cadastro se contradiz em quatro campos.</strong> Os cinco PIs têm descrição “MOLDE DA…”, grupo 2000000 e <code>NCM</code> 39241000 — que é NCM de artigo plástico de uso doméstico, não de ferramenta — enquanto são consumidos como peça, com <code>QTDMISTURA</code> de 2 a 40 por PA e <code>CONTROLEPI = 'CINZA'</code>. O NCM confirma que são peça; a descrição e o grupo dizem o contrário.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§3</span><h2>O que a cruzeta muda</h2></div>
+  <p class="lede">Trizeta e L <em>terminam</em> o vão: a corrida de barra morre no canto, e todo móvel da linha é uma caixa fechada. A cruzeta é o nó de meio de vão — o que permitiria dois módulos compartilharem um montante.</p>
+  <div class="diag">
+    <svg viewBox="0 0 880 306" role="img" aria-label="Comparação de topologia: peça L com duas vias, trizeta com três vias ortogonais, cruzeta com quatro vias; abaixo, a diferença entre um vão e dois vãos compartilhando um montante">
+      <path d="M0 174.5H880" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <g transform="translate(20,20)">
+        <text x="0" y="10" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.3" fill="var(--muted)">PEÇA L · 2 VIAS</text>
+        <g stroke="var(--pinus)" stroke-width="9" stroke-dasharray="4 5" fill="none">
+          <path d="M28 44V16"/><path d="M84 100H112"/>
+        </g>
+        <g stroke="var(--ink)" stroke-width="9" stroke-linecap="square" fill="none">
+          <path d="M28 100V44"/><path d="M28 100H84"/>
+        </g>
+        <circle cx="28" cy="100" r="7" fill="var(--ink)"/>
+        <text x="0" y="134" font-size="12.5" fill="var(--muted)">cotovelo · fecha o canto</text>
+      </g>
+      <g transform="translate(270,20)">
+        <text x="0" y="10" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.3" fill="var(--muted)">TRIZETA · 3 VIAS</text>
+        <g stroke="var(--pinus)" stroke-width="9" stroke-dasharray="4 5" fill="none">
+          <path d="M46 44V16"/><path d="M102 100H130"/><path d="M18 122L2 134"/>
+        </g>
+        <g stroke="var(--ink)" stroke-width="9" stroke-linecap="square" fill="none">
+          <path d="M46 100V44"/><path d="M46 100H102"/><path d="M46 100L18 122"/>
+        </g>
+        <circle cx="46" cy="100" r="7" fill="var(--ink)"/>
+        <text x="0" y="152" font-size="12.5" fill="var(--muted)">canto de caixa · fecha</text>
+      </g>
+      <g transform="translate(540,20)">
+        <text x="0" y="10" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.3" fill="var(--accent)">CRUZETA · 4 VIAS</text>
+        <g stroke="var(--pinus)" stroke-width="9" stroke-dasharray="4 5" fill="none">
+          <path d="M14 100H-14"/><path d="M126 100H154"/><path d="M70 44V16"/><path d="M42 122L26 134"/>
+        </g>
+        <g stroke="var(--accent)" stroke-width="9" stroke-linecap="square" fill="none">
+          <path d="M70 100H14"/><path d="M70 100H126"/><path d="M70 100V44"/><path d="M70 100L42 122"/>
+        </g>
+        <circle cx="70" cy="100" r="7" fill="var(--accent)"/>
+        <text x="0" y="152" font-size="12.5" fill="var(--accent)">atravessa o vão · prolonga</text>
+      </g>
+      <g transform="translate(20,200)">
+        <text x="0" y="10" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.3" fill="var(--muted)">1 VÃO · 4 TRIZETAS</text>
+        <path d="M14 56H154" fill="none" stroke="var(--pinus)" stroke-width="7"/>
+        <circle cx="14" cy="56" r="8" fill="var(--ink)"/><circle cx="154" cy="56" r="8" fill="var(--ink)"/>
+        <text x="0" y="88" font-size="12.5" fill="var(--muted)">1 × barra · 4 montantes</text>
+      </g>
+      <g transform="translate(340,200)">
+        <text x="0" y="10" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.3" fill="var(--accent)">2 VÃOS · 4 TRIZETAS + 2 CRUZETAS</text>
+        <g fill="none" stroke="var(--pinus)" stroke-width="7"><path d="M14 56H154"/><path d="M186 56H326"/></g>
+        <circle cx="14" cy="56" r="8" fill="var(--ink)"/><circle cx="326" cy="56" r="8" fill="var(--ink)"/>
+        <circle cx="170" cy="56" r="10" fill="var(--accent)"/>
+        <text x="0" y="88" font-size="12.5" fill="var(--accent)">2 × barra + 1 nó compartilhado · 2 montantes a menos</text>
+      </g>
+    </svg>
+    <p class="dcap">Traço cheio: o corpo do conector. Tracejado ocre: a barra de pinus, que entra 40,60 mm em cada encaixe.</p>
+  </div>
+  <div class="body"><p>Com a barra G (<code>PSC-03</code>, 595 mm) em dois vãos chega-se à ordem de <strong>1,2 m</strong> — a faixa de módulo de gôndola de PDV — <strong>sem criar barra nova</strong>. É a rota tecnicamente correta para “alongar e prolongar”, e é a única razão que pesaria a favor do molde: reaproveitar barra e nó já pagos. Não pesa o bastante contra o §6.</p></div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§4</span><h2>A gramática de montagem</h2></div>
+  <p class="lede">Decodificada da estrutura e conferida peça por peça nas nove prateleiras. Na 855 (Multiuso G 2P): trizeta 8 = 4 × 2 níveis · <code>BLA-03-AC</code> 4 = 2 × 2 · <code>PSC-03</code> 4 = 2 × 2 · <code>PST-02</code> 10 = 5 × 2 · porta-haste 20 = 10 × 2 · pé 4 · tampa 4. Fecha.</p>
+  <div class="gram">
+    <div class="gcol">
+      <h3>Por nível de prateleira</h3>
+      <span class="tag">repete a cada prateleira</span>
+      <ul>
+        <li><b>4×</b><span>trizeta<i>os cantos</i></span></li>
+        <li><b>2×</b><span>barra de comprimento <code>PSC</code><i>define a largura</i></span></li>
+        <li><b>2×</b><span>barra de largura <code>BLA-03-AC</code><i>define a profundidade — 287 mm, única</i></span></li>
+        <li><b>5×</b><span>travessa <code>PST</code> / <code>BPS</code><i>as réguas do tampo</i></span></li>
+        <li><b>10×</b><span>porta-haste<i>2 clipes por régua</i></span></li>
+      </ul>
+    </div>
+    <div class="gcol">
+      <h3>Por coluna, entre níveis</h3>
+      <span class="tag">é aqui que a altura modula</span>
+      <ul>
+        <li><b>1×</b><span>barra de altura<i>2P → <code>PSA-03</code> 424 mm</i><i>3P → 2 × <code>PSA-02</code> 346 mm</i><i>4P → 3 × <code>BAL-02-AC</code> 270 mm</i></span></li>
+      </ul>
+    </div>
+    <div class="gcol">
+      <h3>Uma vez por móvel</h3>
+      <span class="tag">acabamento</span>
+      <ul>
+        <li><b>4×</b><span>pé <code>BPE-01-AC</code><i>60 mm</i></span></li>
+        <li><b>4×</b><span>tampa <code>850-T</code><i>fecha o topo dos montantes</i></span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="call">
+    <span class="tag">Regra observada — exata em 3 de 3 pares</span>
+    <p><span class="mono">travessa = comprimento + 22 mm</span> &nbsp;·&nbsp; 315 → 337 &nbsp;·&nbsp; 415 → 437 &nbsp;·&nbsp; 595 → 617</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§5</span><h2>As três larguras já existem — e não são as que você citou</h2></div>
+  <div class="body">
+    <p>Duas correções do dado, antes de qualquer especificação:</p>
+    <p><strong>1. <code>852.004.N03</code> é <em>Sapateira Grande</em>, não prateleira.</strong> As prateleiras são <code>855</code> a <code>863</code>. A provável origem da confusão: a 852 é a única PA da linha com painel (<code>PAN-01-AC</code>, 435 × 200 × 15 mm).</p>
+    <p><strong>2. As PAs 850, 851 e 852 têm todas a mesma largura.</strong> As três usam <code>PSC-02</code> = 415 mm e <code>PST-01</code> = 437 mm. Tirar três larguras delas devolveria <strong>uma</strong>.</p>
+    <p>As três larguras reais estão nas prateleiras, na camada de matéria-prima (<code>USOPRODMP='M'</code>) — por isso não aparecem na view PA→PI, e é por isso que P, M e G parecem idênticas quando se lê só a primeira camada da BOM.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Tamanho</th><th>Barra de comprimento</th><th>Largura</th><th>Travessa</th><th>Profundidade</th><th>Situação</th></tr></thead>
+      <tbody>
+        <tr><td><strong>P</strong></td><td class="ref">PSC-01</td><td class="n">315 mm</td><td class="ref">BPS-01 · 337</td><td class="n">287 mm</td><td><span class="chip ok">já comprada</span></td></tr>
+        <tr><td><strong>M</strong></td><td class="ref">PSC-02</td><td class="n">415 mm</td><td class="ref">PST-01 · 437</td><td class="n">287 mm</td><td><span class="chip ok">já comprada</span></td></tr>
+        <tr><td><strong>G</strong></td><td class="ref">PSC-03</td><td class="n">595 mm</td><td class="ref">PST-02 · 617</td><td class="n">287 mm</td><td><span class="chip ok">já comprada</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call">
+    <span class="tag">Resposta à pergunta das três larguras</span>
+    <p>Fixar <strong>315 / 415 / 595</strong> e <strong>não criar comprimento novo de barra</strong>. Os três já estão cadastrados, já foram comprados e já estão em BOM ativa: custo zero em SKU. A profundidade já é única em 287 mm nas nove prateleiras — mantê-la assim. Largura maior vem de <strong>mais vãos</strong>, não de barra mais longa.</p>
+    <p>Vale aqui a aritmética da lição de 2022: estoque de segurança é proporcional ao desvio, não à demanda. Partir a demanda em N comprimentos derruba a demanda por SKU para 1/N mas o desvio só para 1/√N — <strong>três comprimentos novos custariam +73% de estoque de segurança</strong> para vender o mesmo tanto, com a ruptura subindo junto.</p>
+  </div>
+  <div class="body">
+    <p>Um desvio a corrigir de saída: a <em>profundidade</em> da linha hoje tem três valores — 200 mm na Sapateira Grande, 207 mm na Sapateira Pequena e 287 mm nas nove prateleiras. Os 200 e 207 diferem em <strong>7 mm</strong>. Isso não é uma família de profundidades, é falta de padronização: consolidar os dois elimina um SKU de barra e uma linha de corte.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§6</span><h2>Por que o veto: a função já é vendida, em plástico</h2></div>
+  <p class="lede">A linha tem nove SKUs literalmente chamados “PRATELEIRA MULTIUSO P/M/G 2P/3P/4P”. A Nitron já vende exatamente essa função, injetada, para milhares de clientes.</p>
+  <div class="tw">
+    <table>
+      <caption>Busca no <code>TGFPRO</code> por <code>PRATELEIRA</code> / <code>SAPATEIRA</code> / <code>ARARA</code> / <code>EXPOSITOR</code> em produto acabado. Família <code>053</code> ≈ R$ 2,70 M · família <code>079</code> ≈ R$ 3,3 M.</caption>
+      <thead><tr><th>CODPROD</th><th>Produto</th><th>Ref</th><th>Material</th><th>Clientes</th><th>Faturamento vida</th></tr></thead>
+      <tbody>
+        <tr><td class="n">3307</td><td>Porta Shampoo e Prateleira Madri Preto</td><td class="ref">079.012.003</td><td>plástico</td><td class="n">3.866</td><td class="n">R$ 1.666.356</td></tr>
+        <tr><td class="n">3306</td><td>Porta Shampoo e Prateleira Madri Branco</td><td class="ref">079.012.002</td><td>plástico</td><td class="n">3.881</td><td class="n">R$ 1.626.178</td></tr>
+        <tr><td class="n">434</td><td>Prateleira Multi Uso 4 Andares Preta</td><td class="ref">053.004.003</td><td>plástico</td><td class="n">1.556</td><td class="n">R$ 1.105.280</td></tr>
+        <tr><td class="n">3108</td><td>Prateleira Multi Uso 4 Andares Branca</td><td class="ref">053.004.002</td><td>plástico</td><td class="n">1.513</td><td class="n">R$ 972.851</td></tr>
+        <tr><td class="n">236</td><td>Prateleira Multi Uso 4 Andares</td><td class="ref">053</td><td>plástico</td><td class="n">688</td><td class="n">R$ 596.361</td></tr>
+        <tr class="hl"><td class="n">855–863</td><td><strong>Prateleira Multiuso P/M/G 2P/3P/4P</strong></td><td class="ref">Nitron Mob</td><td>pinus comprado</td><td class="n">1</td><td class="n">R$ 1.904</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>Mesma função, mesmo nome, material comprado de terceiro, margem negativa — e o B2C configurador é o <strong>único</strong> caso em que a canibalização atinge <code>053</code> e <code>079</code>, os produtos mais bem distribuídos da empresa.</p>
+    <p>“Mesa” também já está no catálogo e nunca saiu: <code>11369</code> Tampo de Mesa em Teca 2500 × 800 × 18 (<code>631.010.M00</code>) e <code>11370</code> 1000 × 1500 × 18 (<code>633.020.M00</code>), cadastrados desde 2025, <strong>faturamento zero, nenhuma nota</strong>.</p>
+    <p>E o espaço de PDV não está vazio — está ocupado por aço. A própria Nitron <strong>compra</strong> gôndola: <code>13238</code> Gôndola Ponta 170 40×30 a <strong>R$ 414/un</strong> e <code>13239</code> Gôndola Centro a <strong>R$ 677/un</strong>, 8 unidades de cada, Balanças Bonsucesso, 12/08/2025. Um módulo em pinus 15,3 × 26,6 unido por conector de R$ 0,39 tem de ser mais barato que isso <strong>e</strong> aguentar carga de loja. É também o argumento a favor do único caminho aberto: <strong>o primeiro cliente de PDV pode ser a própria Nitron</strong>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§7</span><h2>A história comercial inteira, e a margem realizada</h2></div>
+  <p class="lede">O recorte padrão do projeto pega R$ 2.290,60. Fora dele há mais — e o que há fora é amostra e bonificação.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Parceiro</th><th>CODTIPOPER</th><th>Tabela</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Visual Comercio de Embalagens · 53828</td><td>3218 Venda Clientes Especiais</td><td class="n">165</td><td class="n">R$ 2.290,60</td></tr>
+        <tr class="dim"><td>Visual Comercio de Embalagens · 53828</td><td><strong>3211 Amostra</strong></td><td class="n">165</td><td class="n">R$ 516,26</td></tr>
+        <tr class="dim"><td>Viccomex Trade Solutions · 971</td><td><strong>3220 Bonificação Especial</strong></td><td class="n">0</td><td class="n">R$ 1.340,04</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="3">Vida inteira da linha · 2 parceiros · zero venda de canal</td><td>R$ 4.146,90</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>O preço praticado foi <strong>exatamente 0,670 × <code>CUSGER</code></strong> nas onze PAs, com a constante idêntica até a terceira casa. A tabela padrão tem piso <strong>exatamente em 2,00 × <code>CUSGER</code></strong> — o custo é confiável e a tabela é coerente; a venda é que saiu abaixo.</caption>
+      <thead><tr><th>Margem realizada nas 44 unidades faturadas</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Receita</td><td class="n">R$ 2.290,60</td></tr>
+        <tr><td>CPV — Σ qtd × <code>CUSGER</code></td><td class="n">R$ 3.418,84</td></tr>
+        <tr class="hl"><td><strong>Prejuízo bruto</strong></td><td class="n"><strong>−R$ 1.128,24</strong></td></tr>
+        <tr class="hl"><td><strong>Margem bruta</strong></td><td class="n"><strong>−49,3%</strong></td></tr>
+        <tr><td>Pior SKU — <code>14182</code> Prateleira G 4P</td><td class="n">−R$ 36,01/un</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call stop">
+    <span class="tag">Por que o payback da cruzeta não fecha</span>
+    <p>O molde de plástico não gera a margem do móvel — gera a margem da <strong>injeção de R$ 0,39/peça</strong>. Com 8 a 16 cruzetas por móvel, a contribuição de injeção é de <strong>R$ 2 a 6 por móvel</strong>; um molde de 2 cavidades precisaria de milhares de móveis/ano. A linha vendeu <strong>44 unidades na vida</strong>.</p>
+    <p>Creditar ao molde a margem cheia do móvel (2,00 × <code>CUSGER</code>) é creditar ao plástico a margem da <strong>madeira de terceiro</strong>. É o tipo de conta que produziu 3,4% de acerto em 2024. E o custo do molde <strong>não existe no ERP</strong>: <code>14814</code> tem zero linhas em <code>TGFITE</code> e <code>TGFCUS</code> — numerador desconhecido, denominador negativo.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>Madeira não escala nesta casa: R$ 1,388 M = <strong>1,7% dos R$ 83,1 M</strong>, caindo em 3 dos 4 grupos. Soma-se à lição já documentada — tampa plástica R$ 492.548 contra tampa teca R$ 16.192 no mesmo corpo, 30× de diferença.</caption>
+      <thead><tr><th>Grupo</th><th>12 M</th><th>12 M anteriores</th><th>Δ</th><th>Clientes</th></tr></thead>
+      <tbody>
+        <tr><td>1001802 Teca Organização</td><td class="n">R$ 775.194</td><td class="n">R$ 766.275</td><td class="n">+1,2%</td><td class="n">309</td></tr>
+        <tr><td>1001801 Teca Tábuas</td><td class="n">R$ 372.504</td><td class="n">R$ 400.906</td><td class="n">−7,1%</td><td class="n">213</td></tr>
+        <tr><td>1001803 Teca Cozinha</td><td class="n">R$ 204.418</td><td class="n">R$ 229.972</td><td class="n">−11,1%</td><td class="n">194</td></tr>
+        <tr><td>1001804 Teca Petisqueira</td><td class="n">R$ 35.980</td><td class="n">R$ 109.520</td><td class="n">−67,1%</td><td class="n">112</td></tr>
+        <tr class="hl"><td>1001901 Nitron Mob</td><td class="n">R$ 2.291</td><td class="n">R$ 0</td><td class="n">—</td><td class="n">1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§8</span><h2>O que mudaria o veredito</h2></div>
+  <p class="lede">Em ordem, do mais barato ao mais caro. O item 1 é pré-requisito dos outros oito.</p>
+  <ol class="steps">
+    <li><span><strong>Preço.</strong> Uma venda a <strong>≥ 2,00 × <code>CUSGER</code> para ≥ 3 clientes distintos</strong>, sem <code>CODTIPOPER</code> 3211 (amostra) nem 3220 (bonificação). Enquanto o único preço da história for 0,670 × <code>CUSGER</code>, nada mais na lista importa.</span></li>
+    <li><span><strong>Diagnosticar a <code>053</code>.</strong> Por que a prateleira de plástico, com 3.069 clientes somados e R$ 2,7 M, não é a resposta para a demanda que a Nitron Mob quer atender? Custa zero molde.</span></li>
+    <li><span><strong>Corrigir o cadastro</strong> de <code>14811</code>–<code>14815</code> e o NCM de <code>14183</code>.</span></li>
+    <li><span><strong>Custo do molde da cruzeta</strong> — nota ou orçamento formal, com valor, prazo e cavidades. Hoje é R$&nbsp;? no ERP.</span></li>
+    <li><span><strong>Volume/ano com nome de cliente</strong> para o móvel que consome cruzeta. É o denominador do payback.</span></li>
+    <li><span><strong>Carga estrutural</strong> do conector de PP em prateleira de gôndola carregada. Móvel de PDV que cede em loja de cliente é passivo, não SKU.</span></li>
+    <li><span><strong>Receita por m³</strong> do móvel contra a do pote. Se for muito pior, o canal atual não transporta isso.</span></li>
+    <li><span><strong>Contaminação de fluxo</strong> — a montagem de madeira compartilha ar, piso ou refugo com o moinho e os silos?</span></li>
+    <li><span><strong>Saldo Braspine hoje.</strong> R$ 84.211,67 comprados em 04/06/2026 contra ~R$ 3,1 k consumidos. Decidir <strong>separado</strong> da decisão de lançar — senão o estoque parado vira o argumento para lançar, exatamente como a capacidade ociosa.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§9</span><h2>Cinco correções ao CLAUDE.md</h2></div>
+  <div class="body">
+    <p><strong>A estrutura PA→PI existe em view direta.</strong> <code>VW_PA_PIS_QTD_NIT</code> e <code>VW_PA_PIS_ATIVOS_NIT</code> (<code>CODPRODPA</code>, <code>CODPRODPI</code>, <code>QTDMISTURA</code>), e <code>VW_COMPOSICAO_NIT</code> / <code>VW_BOM_EXPLODIDA</code> para descer à matéria-prima. O arquivo registra isso como não encontrado.</p>
+    <p><strong>A BOM tem duas camadas e a segunda é fácil de perder.</strong> A view PA→PI mostra só <code>USOPRODMP='2'</code>; as barras compradas entram com <code>USOPRODMP='M'</code> e só aparecem em <code>VW_COMPOSICAO_NIT</code>. Foi exatamente aí que estavam as três larguras.</p>
+    <p><strong><code>VW_COMPOSICAO_NIT</code> não serve para custo</strong> enquanto o <code>CUSGER</code> dos PIs de madeira estiver corrompido. Serve para quantidade.</p>
+    <p><strong><code>QTDCAPACIDADEPAD</code> é kN, não tonelada.</strong> As injetoras 8, 9 e 11 aparecem com 1600 enquanto <code>CAPDESCR</code> diz 160 — e 1600 kN ≈ 163 tf. O campo de tonelagem é <code>CAPDESCR</code>.</p>
+    <p><strong>⚠️ Consequência a verificar:</strong> isso levanta a suspeita de que <strong>as faixas de ocupação documentadas</strong> (≤260 t · 261–1.100 t · 1.101–2.000 t · &gt;2.000 t) <strong>estejam lendo kN como tonelada</strong> — o parque da Nitron não tem injetora de 2.000 t. As faixas precisam ser refeitas antes de serem usadas de novo. O WCP 45 (258 com <code>CAPDESCR</code> 120) não fecha na mesma conversão, então isto vale como suspeita a verificar, não como conclusão.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§10</span><h2>Se o configurador for adiante mesmo assim</h2></div>
+  <p class="lede">A decisão é sua, não do curador. Se for adiante, estas quatro pendências são bloqueantes — e a ordem importa, porque a P3 pode encerrar o assunto sozinha.</p>
+  <ol class="steps">
+    <li><span><strong>Carga admissível por vão.</strong> Sem isso não se pode oferecer hack de TV nem PDV — as duas aplicações que carregam peso e as duas que geram responsabilidade. Se o conector não passa, nada depois importa.</span></li>
+    <li><span><strong>Uma cruzeta injetada.</strong> Ela nunca rodou: não existe peça física para tryout, então a topologia de 4 vias está validada só em CAD.</span></li>
+    <li><span><strong>Uma medida física do nó em cada eixo.</strong> O nó é anisotrópico — 61,61 × 83,23 × 73,08 mm — então o incremento que ele soma à dimensão externa depende do eixo. A grade do configurador tem de ser <strong>centro-a-centro de nó</strong>, não dimensão externa, senão a matemática não fecha nos três eixos.</span></li>
+    <li><span><strong>A tampinha.</strong> STL não recebido. Sem ela não fecha o topo do montante no render nem na lista de peças.</span></li>
+  </ol>
+  <div class="call">
+    <span class="tag">O que já está pronto para o configurador</span>
+    <p>O catálogo de 19 comprimentos de barra compráveis, a gramática de montagem completa (§4), a interface de junta medida (barra 15,3 × 26,6 · encaixe 40,60 mm · parede 2,95 mm · passo de nó 73,08 mm) e a topologia dos quatro nós. A engenharia não é o gargalo — o preço é.</p>
+  </div>
+</section>
+
+<footer>
+  <span class="tag">Procedência</span>
+  <p>Estrutura, custo, preço, apontamento e compra lidos no Sankhya em 02/09/2026. Geometria medida nas cinco malhas STL — todas fechadas, zero arestas não-manifold — por ray casting e análise de faces planas. Massa dos conectores derivada do volume da malha a 0,905 g/cm³ e conferida contra o custo cadastrado. Parecer de portfólio emitido pelo curador com poder de veto, conforme o processo do projeto. <strong>Nada foi gravado em <code>pdp_lancamento</code>.</strong> Não foi possível medir o saldo em <code>TGFEST</code> — a tabela retornou timeout, consistente com o alerta já documentado de que ela não é legível sem mapa de local.</p>
+</footer>
+
+</div>
