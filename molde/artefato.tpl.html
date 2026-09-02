@@ -1,4 +1,4 @@
-<title>Tampa Portinhola</title>
+<title>Tampa de Correr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;700;800;900&family=Karla:wght@300;400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap">
@@ -140,17 +140,16 @@ footer{margin-top:76px;border-top:1px solid var(--rule);padding-top:18px}
 footer p{font-size:.83rem;color:var(--faint);max-width:78ch}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-
 <div class="wrap">
 
 <header>
-  <span class="tag">Molde 3D &middot; conceito &middot; plataforma Aro Comum &middot; setembro 2026</span>
+  <span class="tag">Molde 3D &middot; conceito v2 &middot; plataforma Aro Comum &middot; setembro 2026</span>
   <div class="title-row">
-    <h1>Tampa<br>Portinhola</h1>
-    <p class="lede">A porta articulada resolve o que a tampa deslizante não resolvia: o alimento sai por uma janela de
-      50&nbsp;cm² <em>sem abrir um único milímetro</em> do abraço no aro. A canaleta continua inteira,
-      592&nbsp;mm, e o problema de vedação some do perímetro do pote e vai para uma boca de 267&nbsp;mm
-      &mdash; pequena, plana e prensada pela própria trava.</p>
+    <h1>Tampa<br>de Correr</h1>
+    <p class="lede">Porta que corre sobre a mesa, como a da referência, e
+      <em>duas juntas de TPE</em> &mdash; uma no aro, outra em volta da boca. A vedação deixa de
+      depender da memória elástica do polipropileno e passa a depender de um elastômero comprimido
+      29%, com a compressão fixada por batente e a força aplicada por duas travas de correr.</p>
   </div>
   <div class="hd-meta" id="hd"></div>
 </header>
@@ -163,171 +162,162 @@ footer p{font-size:.83rem;color:var(--faint);max-width:78ch}
         <span class="lbl">vista</span>
         <button data-v="0" aria-pressed="true">montado</button>
         <button data-v="1" aria-pressed="false">explodido</button>
-        <button data-v="2" aria-pressed="false">porta aberta</button>
-        <button data-v="3" aria-pressed="false">corte</button>
+        <button data-v="2" aria-pressed="false">corte</button>
+      </div>
+      <div class="seg" role="group" aria-label="Porta">
+        <span class="lbl">porta</span>
+        <button id="door" aria-pressed="false">fechada</button>
       </div>
       <div class="seg" role="group" aria-label="Trava">
         <span class="lbl">trava</span>
         <button id="lock" aria-pressed="true">travada</button>
       </div>
-      <div class="seg" role="group" aria-label="Movimento">
-        <button id="spin" aria-pressed="true">girar</button>
-      </div>
+      <div class="seg"><button id="spin" aria-pressed="true">girar</button></div>
     </div>
     <div class="bar bottom">
       <div class="legend">
-        <div><span class="sw" style="background:#C3D0D4"></span>corpo AC-21 &mdash; PP transparente</div>
-        <div><span class="sw" style="background:#17959F"></span>tampa D &mdash; PP pigmentado</div>
-        <div><span class="sw" style="background:#E4E8E8"></span>portinhola &mdash; PP transparente</div>
-        <div><span class="sw" style="background:#A8703C"></span>trava de correr &mdash; 2 por tampa</div>
+        <div><span class="sw" style="background:#C3D0D4"></span>corpo AC-21 &mdash; PP</div>
+        <div><span class="sw" style="background:#17959F"></span>tampa &mdash; PP pigmentado</div>
+        <div><span class="sw" style="background:#E4E8E8"></span>cursor &mdash; PP</div>
+        <div><span class="sw" style="background:#A8703C"></span>trava de correr &mdash; 2 peças</div>
+        <div><span class="sw" style="background:#B23A22"></span>juntas &mdash; TPE shore 45A</div>
       </div>
-      <span class="hint">arraste para girar &middot; use o bot&atilde;o trava</span>
+      <span class="hint">arraste para girar &middot; abra a porta &middot; destrave</span>
     </div>
   </div>
-  <div class="fallback" id="fb">este render precisa de WebGL.<br>o corte cotado e as cotas abaixo funcionam sem ele.</div>
+  <div class="fallback" id="fb">este render precisa de WebGL.<br>os cortes cotados e as tabelas funcionam sem ele.</div>
 </div>
 
 <section>
-  <div class="sec-head"><span class="tag">01 / o problema</span><h2>Deslizante não veda. Porta veda.</h2></div>
+  <div class="sec-head"><span class="tag">01 / decisão</span><h2>Por que a junta muda o projeto inteiro</h2></div>
   <div class="cols">
     <div>
-      <p class="body">A tampa deslizante do estudo anterior tinha um defeito de nascença que estava escrito no
-        próprio desenho: para a sub-tampa sair, a canaleta era <strong>interrompida em 67&nbsp;mm</strong>. Onde a
-        canaleta some, a tampa só encosta no aro em vez de abraçá-lo &mdash; e uma face inteira do pote perde a
-        vedação. Nenhum ensaio ia salvar isso: era geometria.</p>
-      <p class="body">A portinhola inverte o problema em vez de mitigá-lo. O perímetro do pote volta a ser
-        <strong>contínuo</strong> e a abertura passa a viver <strong>dentro</strong> da mesa da tampa, cercada
-        por um gargalo próprio. Vedar 267&nbsp;mm de boca plana, com uma peça que tranca por cima, é um problema
-        muito menor do que vedar 592&nbsp;mm de aro com um rasgo no meio.</p>
-      <p class="body">Vale dizer o que isto <strong>não</strong> é: não é uma tampa de vácuo. Não há válvula,
-        e sem válvula não existe depressão interna. O que existe é barreira contra troca de umidade e contra
-        vazamento &mdash; que é exatamente o que murcha a bolacha e o que faz o sabão líquido escorrer.</p>
+      <p class="body">A versão anterior vedava com um lábio flexível de PP em interferência de
+        0,35&nbsp;mm. Funciona &mdash; até o polipropileno relaxar. <strong>PP sob deformação
+        constante perde tensão</strong>: o lábio continua encostando, mas com menos pressão de
+        contato a cada mês. É a explicação mais provável para as duas únicas quedas dentro da
+        plataforma de válvula, as referências <span class="mono">176</span> e
+        <span class="mono">210</span>, que caem 57% e 39% com a melhor margem da família.</p>
+      <p class="body">Um elastômero comprimido 29% não tem esse problema na mesma escala: a força
+        de contato cai nas primeiras semanas e depois <strong>estabiliza</strong>. É por isso que
+        todo pote que alega hermeticidade no mercado tem borracha, e nenhum resolve com geometria
+        de PP sozinha.</p>
+      <p class="body">O custo é real e precisa estar escrito: <strong>mais um material na casa</strong>.
+        A regra que protege os R$&nbsp;2,63&nbsp;M por ano do ciclo de moído é que o refugo seja
+        mono-resina. Por isso a junta entra <strong>montada, não bi-injetada</strong> &mdash; ver
+        seção 05.</p>
     </div>
     <div class="tbl-wrap"><table id="cmp"></table></div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">02 / vedação</span><h2>Três barreiras, nenhuma de borracha</h2></div>
+  <div class="sec-head"><span class="tag">02 / vedação</span><h2>Duas juntas e um batente</h2></div>
   <div class="grid3" id="bar3"></div>
   <div class="note">
-    <span class="tag">por que sem silicone</span>
-    <p>Silicone não roda nesta fábrica &mdash; LSR exige canal frio, molde aquecido a 150-200&nbsp;°C e bomba
-      bicomponente. E há um motivo pior para não misturar material: <strong>o ciclo de moído vale
-      R$&nbsp;2,63&nbsp;M por ano</strong> e só funciona porque o refugo é mono-resina. Uma guarnição de outro
-      material contamina esse ativo, e nenhum business case de lançamento contabiliza isso. As três barreiras
-      acima são todas <strong>geometria em PP</strong>, no mesmo material do resto da peça.</p>
+    <span class="tag">o elo mais fraco continua sendo a porta</span>
+    <p>A junta do aro trabalha em <strong>compressão pura, sem escorregar</strong> &mdash; é a
+      vedação boa. A junta da boca é comprimida por um cursor que desliza, e por melhor que seja o
+      mecanismo de descida ela vê 5.000 ciclos de abre-e-fecha na vida do produto. <strong>É ali
+      que qualquer alegação de estanqueidade vai falhar primeiro</strong>, e é ali que o ensaio de
+      ciclagem tem de ser feito. O aro pode ser dado como resolvido no projeto; a boca, não.</p>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">03 / corte A-A</span><h2>Onde a trava trava</h2></div>
-  <p class="body" style="margin-bottom:20px">Corte longitudinal a 12&nbsp;mm do eixo &mdash; passa pela trava de
-    alavanca, pelo ressalto do corpo e pelo ressalto de retenção da portinhola. As sobreposições no desenho são
-    <b class="sl">interferência de projeto</b>: no aro, o lábio deflete 0,35&nbsp;mm; na boca, a saia deflete
-    0,30&nbsp;mm. Cotas em milímetro, geradas do mesmo arquivo que gerou o modelo 3D.</p>
-  <div class="draw-wrap"><!--SECAO--></div>
+  <div class="sec-head"><span class="tag">03 / cortes</span><h2>A-A e B-B</h2></div>
+  <p class="body" style="margin-bottom:18px">Sobreposição no desenho é <b class="sl">interferência
+    de projeto</b>: a junta está desenhada solta e o aro entra 0,40&nbsp;mm nela. Cotas em
+    milímetro, geradas do mesmo arquivo que gerou o modelo 3D.</p>
+  <div class="draw-wrap"><!--SECAO_AA--></div>
+  <div class="draw-wrap" style="margin-top:16px"><!--SECAO_BB--></div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">04 / trava</span><h2>Trava de correr, não alavanca</h2></div>
+  <div class="sec-head"><span class="tag">04 / trava</span><h2>A trava, dimensionada</h2></div>
   <div class="cols">
     <div>
-      <p class="body">A trava corre num <strong>trilho em T</strong> moldado na saia da tampa e leva uma
-        lingueta que entra <strong>por baixo de uma aba do corpo</strong>. Fechado o pote, a trava está sobre a
-        janela de entrada — a região da aba que foi deixada aberta de propósito, por onde a lingueta desce junto
-        com a tampa. Um empurrão de <strong>22&nbsp;mm</strong> leva a lingueta para debaixo da aba e tranca.</p>
-      <p class="body">A ponta que avança tem <strong>rampa de 6&nbsp;mm</strong>; o resto é patamar. É a rampa
-        que faz o trabalho: ao correr, ela passa sob a aba e <strong>puxa a tampa 0,08&nbsp;mm contra o
-        batente</strong>. Depois disso o contato é plano contra plano — não há mola tensionada para relaxar com
-        o tempo, e nada volta sozinho por vibração.</p>
-      <p class="body">Isso troca um problema por outro, e o outro é melhor. A alavanca dependia de uma
-        <strong>dobradiça viva de 0,45&nbsp;mm</strong> em PP H&nbsp;105, que é homopolímero com clarificante —
-        nucleante deixa dobradiça frágil, e era a maior incerteza do conceito anterior. A trava não flexiona
-        nada: trabalha em <strong>cisalhamento</strong>. Em troca, vira uma quarta peça e um segundo clique de
-        montagem.</p>
-      <p class="body">A lingueta é <strong>cativa</strong> — presa no trilho, com batentes nas duas pontas. Não
-        é componente solto que o consumidor perde, como o copo dosador que o 008 embala junto.</p>
+      <p class="body">Com junta, fechar o pote deixa de ser um estalo e vira <strong>trabalho
+        mecânico</strong>: são 130&nbsp;N para comprimir 590&nbsp;mm de elastômero a 29%. Ninguém
+        fecha isso empurrando a tampa com a mão &mdash; e é exatamente por isso que todo pote
+        hermético do mercado tem trava, não encaixe.</p>
+      <p class="body">A trava de correr resolve com <strong>rampa</strong>. A lingueta entra sob a
+        aba do corpo e sua ponta sobe 0,55&nbsp;mm ao longo de 8&nbsp;mm &mdash; uma rampa de
+        2,9°, que multiplica a força do dedo por cerca de 14. Fecham-se 65&nbsp;N por trava com
+        <strong>23&nbsp;N de dedo</strong>. E 2,9° está muito abaixo do ângulo de atrito do PP
+        sobre PP (~16°), então a trava é <strong>autotravante</strong>: não volta com vibração,
+        nem com o pote deitado na sacola.</p>
+      <p class="body">A tabela ao lado é o dimensionamento, não uma esperança. A lingueta é
+        verificada em flexão na carga de projeto &mdash; três vezes a força de fechamento &mdash;
+        com o PP homopolímero a 30&nbsp;MPa de escoamento.</p>
+      <p class="body">Duas travas, uma em cada <strong>face longa</strong>, no meio do vão. Não é
+        estética: é onde a tampa flexiona. Nas faces curtas, o vão é de 105&nbsp;mm e os raios de
+        canto já enrijecem; nas longas são 206&nbsp;mm de tampa que a junta empurra para cima.</p>
     </div>
-    <div class="tbl-wrap"><table id="cotas"></table></div>
+    <div class="tbl-wrap"><table id="forca"></table></div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">05 / ferramentaria</span><h2>Três moldes, uma montagem</h2></div>
+  <div class="sec-head"><span class="tag">05 / ferramentaria</span><h2>Cinco moldes e a regra do moído</h2></div>
   <div class="tbl-wrap"><table id="mold"></table></div>
   <div class="note">
-    <span class="tag">a regra que decide o ponto de injeção</span>
-    <p>A mesa da tampa tem um furo de 62&nbsp;×&nbsp;82&nbsp;mm no meio. Todo furo gera <strong>linha de
-      solda</strong> a jusante, onde as duas frentes de material se reencontram &mdash; e linha de solda é a
-      região mais fraca e mais permeável da peça. Se uma delas cair <strong>sobre o gargalo</strong>, ela vira
-      caminho de vazamento na superfície que precisamente tem de vedar. Os pontos de injeção têm de ser
-      posicionados para jogar as linhas de solda na mesa, longe do gargalo e longe do lábio periférico. Isso é
-      simulação de preenchimento antes de cortar aço, não ajuste no tryout.</p>
+    <span class="tag">montada, não bi-injetada</span>
+    <p>Há duas rotas para pôr TPE numa peça de PP. A <strong>bi-injeção</strong> (2K) sobremolda o
+      elastômero direto na tampa: acabamento superior, zero montagem &mdash; e exige injetora de
+      dois canhões com mesa rotativa, que este parque não tem. Pior: o refugo passa a ser
+      <strong>PP contaminado com TPE</strong>, e o ciclo de moído que hoje vale
+      R$&nbsp;2,63&nbsp;M/ano depende de o refugo ser mono-resina.</p>
+    <p style="margin-top:9px">A rota escolhida é o <strong>anel injetado à parte e montado</strong>:
+      um molde família com as duas juntas, em prensa comum, com o Karinprene shore 45 que já está
+      cadastrado (<span class="mono">CODPROD 997</span>) e nunca foi comprado. O refugo de PP
+      continua limpo, o de TPE tem seu próprio ciclo, e o custo é um clique a mais de montagem por
+      junta. <strong>É a decisão que torna a junta compatível com a fábrica.</strong></p>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">06 / precedente</span><h2>A casa já injeta dobradiça</h2></div>
-  <div class="cols">
-    <div>
-      <p class="body">Antes de tratar a portinhola como técnica nova, vale olhar o que já está em linha: as
-        jarras <span class="mono">153</span>, <span class="mono">222</span> e <span class="mono">182</span> são
-        <strong>flip top</strong> e fizeram <strong>R$&nbsp;1,06&nbsp;M em 12 meses para 1.527 clientes</strong>,
-        crescendo 2,1% enquanto a marca própria cai 18%. A articulação da tampa é rotina aqui.</p>
-      <p class="body">O aro também não é hipótese solta. O cadastro do Porta Sabão 008 traz
-        <span class="mono">10,5 × 20,7 × 25,0 cm</span> &mdash; o que confirma a ordem de grandeza dos
-        105&nbsp;×&nbsp;206&nbsp;mm em que a plataforma foi desenhada. <strong>Confirma, não resolve</strong>:
-        veja a primeira pendência.</p>
-      <p class="body">E a litragem cai onde deve cair. Os 2,18&nbsp;L úteis ficam na faixa de
-        <strong>2,1 a 3,5&nbsp;L</strong>, que subiu 56,5% em 12 meses com 7 de 11 referências crescendo &mdash;
-        a melhor faixa medida no projeto. Nada abaixo de 1&nbsp;L.</p>
-    </div>
-    <div class="tbl-wrap"><table id="ev"></table></div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head"><span class="tag">07 / claim</span><h2>O que dá para escrever na embalagem</h2></div>
-  <p class="body" style="margin-bottom:20px">Não existe norma ABNT de estanqueidade para utilidade doméstica.
-    &ldquo;Hermético&rdquo; é alegação publicitária sob o CDC, e o <strong>art.&nbsp;36</strong> obriga o
-    fornecedor a manter em seu poder os dados técnicos que a sustentam. Dos 267 anúncios que o projeto coletou
-    no Mercado Livre, só 8 dizem hermético &mdash; e os que dizem &ldquo;hermético + válvula&rdquo; são de
-    vidro com guarnição de silicone. A Sanremo, em plástico, escreve &ldquo;válvula micro-ondas&rdquo; e evita
-    o termo. Há uma razão para isso.</p>
+  <div class="sec-head"><span class="tag">06 / claim</span><h2>O que dá para escrever agora</h2></div>
+  <p class="body" style="margin-bottom:20px">Com junta de elastômero, &ldquo;hermético&rdquo; deixa
+    de ser retórica e passa a ser uma alegação sustentável &mdash; desde que exista o ensaio. O
+    art.&nbsp;36 do CDC obriga o fornecedor a manter em seu poder os dados técnicos que sustentam a
+    alegação. Dos 267 anúncios que o projeto coletou no Mercado Livre, só 8 dizem hermético, e os
+    que dizem &ldquo;hermético + válvula&rdquo; são de vidro com guarnição de silicone. Com estas
+    duas juntas, a Nitron entra nessa conversa em plástico.</p>
   <div class="claim">
     <div>
       <span class="tag">sustentável com ensaio</span>
       <ul>
-        <li><span class="ok">Fecha contra umidade</span> &mdash; ensaio de variação de massa: 200&nbsp;g de sal
-          refinado no pote fechado, 30 dias a 23&nbsp;°C e 50% UR, contra controle aberto.</li>
-        <li><span class="ok">Não vaza deitado</span> &mdash; 1,5&nbsp;L de água corada, 24&nbsp;h apoiado em
-          cada face, papel-toalha sob o pote.</li>
-        <li><span class="ok">A trava não abre na queda</span> &mdash; 3 quedas de 1,0&nbsp;m com 80% de carga:
-          fundo, aresta e tampa.</li>
-        <li><span class="ok">Continua vedando depois de guardado</span> &mdash; 30 dias fechado a 40&nbsp;°C e
-          repete a estanqueidade. Este é o ensaio que ninguém faz e é o que mede <strong>relaxação do PP sob
-          tensão de trava</strong>.</li>
+        <li><span class="ok">Hermético com a porta fechada</span> &mdash; perda de massa: 200&nbsp;g
+          de sal refinado, 30 dias a 23&nbsp;°C e 50% UR, contra controle aberto.</li>
+        <li><span class="ok">Não vaza deitado</span> &mdash; 1,5&nbsp;L de água corada, 24&nbsp;h
+          apoiado em cada face.</li>
+        <li><span class="ok">Continua vedando depois de guardado</span> &mdash; 30 dias fechado a
+          40&nbsp;°C e repete. Mede a relaxação do TPE sob compressão, que é o parâmetro que
+          governa a vida útil da junta (compression set).</li>
+        <li><span class="ok">A trava não abre na queda</span> &mdash; 3 quedas de 1,0&nbsp;m com
+          80% de carga: fundo, aresta e tampa.</li>
       </ul>
     </div>
     <div>
-      <span class="tag">não escrever</span>
+      <span class="tag">não escrever sem o ensaio de ciclagem</span>
       <ul>
-        <li><span class="no">Hermético, sozinho</span> &mdash; a palavra sugere vedação absoluta e não tem
-          ensaio associado que a delimite. Se for usada, tem de vir com o dado ao lado.</li>
-        <li><span class="no">Conserva a vácuo</span> &mdash; não há válvula nesta tampa. Vácuo é outra
+        <li><span class="no">Hermético, sem qualificar</span> &mdash; o pote é hermético com a
+          porta fechada. Com a porta aberta ele é um pote aberto, e o consumidor esquece a porta
+          aberta.</li>
+        <li><span class="no">Conserva a vácuo</span> &mdash; não há válvula. Vácuo é outra
           plataforma.</li>
-        <li><span class="no">Pode ir ao micro-ondas fechado</span> &mdash; vedação contínua e vapor não
-          combinam. Se for ao micro-ondas, é com a portinhola aberta, e isso precisa estar impresso.</li>
-        <li><span class="no">Mantém crocância por X dias</span> &mdash; número específico exige ensaio
-          específico, por alimento. Não temos.</li>
+        <li><span class="no">Pode ir ao micro-ondas fechado</span> &mdash; vedação boa e vapor não
+          combinam.</li>
+        <li><span class="no">Mantém crocância por X dias</span> &mdash; número específico exige
+          ensaio por alimento.</li>
       </ul>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="tag">08 / pendências</span><h2>O que falta antes disto virar proposta</h2></div>
+  <div class="sec-head"><span class="tag">07 / pendências</span><h2>O que falta antes disto virar proposta</h2></div>
   <ul class="checks" id="pend"></ul>
 </section>
 
@@ -338,74 +328,68 @@ footer p{font-size:.83rem;color:var(--faint);max-width:78ch}
 
 <script>/*GEO*/</script>
 <script>
-/* ============================================================
-   Fonte única: as cotas vêm de molde/pecas.py, exportadas em GEO.P/GEO.M
-   ============================================================ */
 const P = GEO.P, M = GEO.M;
 const br = (v, d = 0) => v.toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d});
 const mm = (v, d = 2) => br(v, d) + ' mm';
-const mil = v => 'R$ ' + br(v / 1000, 1) + ' k';
+const G = n => GEO[n].g;
+const TOTAL = G('corpo') + G('tampa') + G('cursor') + G('trava') + G('junta_aro') + G('junta_boca');
 
-/* ---------- cabeçalho ---------- */
 (function head(){
   const R = [['Aro', br(P.HX*2) + ' × ' + br(P.HY*2) + ' mm', 1],
              ['Útil', br(M.vol_util_l, 2) + ' L', 0],
-             ['Boca', br(M.boca_cm2, 1) + ' cm²', 0],
-             ['Vedação', br(M.perimetro_vedacao_mm) + ' mm contínuos', 1],
-             ['Peças', '5 · ' + br(GEO.corpo.g + GEO.tampa.g + GEO.portinhola.g + GEO.trava.g, 1) + ' g', 0],
+             ['Boca livre', br(M.abertura_livre_cm2, 1) + ' cm²', 0],
+             ['Juntas', br(M.perim_aro_mm) + ' + ' + br(M.perim_boca_mm) + ' mm de TPE', 1],
+             ['Peças', '7 · ' + br(TOTAL, 1) + ' g', 0],
+             ['Moldes', '5', 0],
              ['Status', 'conceito — não aprovado', 0]];
   document.getElementById('hd').innerHTML = R.map(r =>
     `<div><span class="tag">${r[0]}</span><span class="v${r[2] ? ' hi' : ''}">${r[1]}</span></div>`).join('');
 })();
 
-/* ---------- 01 · comparação ---------- */
 (function cmp(){
-  const R = [['Canaleta no aro', '622 mm com 67 mm abertos', br(M.perimetro_vedacao_mm) + ' mm contínuos'],
-             ['Perímetro a vedar na abertura', '— (a própria canaleta)', br(M.perimetro_boca_mm) + ' mm'],
-             ['Área de saída do produto', '62 × 82 mm na ponta', br(M.boca_cm2, 1) + ' cm² no meio da mesa'],
-             ['Peças móveis', 'sub-tampa solta no rebaixo', 'porta presa em 2 munhões'],
-             ['Componente que o consumidor perde', 'a sub-tampa', 'nenhum'],
-             ['Alegação de estanqueidade', 'impossível', 'possível, com ensaio']];
+  const R = [['Quem veda o aro', 'lábio de PP, interferência 0,35 mm', 'junta de TPE, aperto ' + mm(M.aperto_mm) + ' (' + M.aperto_pct + '%)'],
+             ['O que define o aperto', 'quanto a trava puxa', 'batente: topo do aro na mesa'],
+             ['Perda de força no tempo', 'relaxação do PP, contínua', 'compression set do TPE, estabiliza'],
+             ['Força para fechar', '≈ 20 N, dá para empurrar', br(M.aperto_aro_n) + ' N — precisa de trava com rampa'],
+             ['Abertura no topo', 'porta articulada', 'cursor que corre ' + mm(M.curso_porta_mm, 0)],
+             ['Peças', '3 · 1 material', '7 · 2 materiais'],
+             ['Moldes', '4', '5 (um deles família, para as juntas)']];
   document.getElementById('cmp').innerHTML =
-    '<thead><tr><th>&nbsp;</th><th>Tampa B · deslizante</th><th>Tampa D · portinhola</th></tr></thead><tbody>' +
+    '<thead><tr><th>&nbsp;</th><th>v1 · só PP</th><th>v2 · com TPE</th></tr></thead><tbody>' +
     R.map(r => `<tr><td>${r[0]}</td><td class="k">${r[1]}</td><td>${r[2]}</td></tr>`).join('') +
-    '</tbody><caption>A comparação não é de acabamento, é de topologia: a sub-tampa precisa atravessar o ' +
-    'perímetro de vedação para sair; a porta não.</caption>';
+    '</tbody><caption>A troca não é de acabamento: é trocar uma vedação que depende do tempo por ' +
+    'uma que depende de geometria, ao custo de um material e três peças a mais.</caption>';
 })();
 
-/* ---------- 02 · barreiras ---------- */
 (function bar3(){
   const C = [
-    {n: br(M.interferencia_aro, 2), u: 'mm de interferência · ' + br(M.perimetro_vedacao_mm) + ' mm',
-     t: 'barreira 1', h: 'Lábio flexível no aro',
-     p: ['Uma aba em balanço de 1,0 mm de espessura por 7,4 mm de comprimento desce da mesa por dentro do aro e ' +
-         'encosta com 0,35 mm de interferência na banda de saída zero do corpo.',
-         'Ela é <strong>flexível de propósito</strong>. Um cordão rígido esmagado dá muita força no primeiro dia e ' +
-         'perde quase tudo em semanas, porque o PP relaxa. Um lábio longo trabalha com deformação pequena e ' +
-         'mantém pressão de contato ao longo do tempo.',
-         'A perna externa do canal encosta no aro com apenas 0,35 mm de folga: a interferência vira ' +
-         '<strong>pressão de contato</strong> em vez de abrir a boca do pote para fora.'],
-     s: 'lábio 1,00 × 7,40 mm · cone 2° · canal 2,10 mm · folga externa 0,35 mm'},
-    {n: '0', u: 'mm de deformação livre no fechamento',
-     t: 'barreira 2', h: 'Batente, não aperto',
-     p: ['A mesa da tampa apoia no topo do aro. É esse encosto &mdash; e não a força da trava &mdash; que define ' +
-         'o quanto o lábio comprime.',
-         'Isso responde a uma dúvida aberta do projeto: as duas únicas quedas dentro da plataforma de válvula são ' +
-         'justamente as referências <span class="mono">176</span> e <span class="mono">210</span>, ' +
-         'trava + válvula, que caíram 57% e 39% <strong>com a melhor margem da família</strong>. Uma hipótese em ' +
-         'aberto é fluência do plástico sob tensão permanente de trava.',
-         'Com batente, a trava só carrega o fechamento; a vedação fica na geometria. Se a hipótese estiver certa, ' +
-         'esta tampa não herda o problema &mdash; mas isso ainda precisa ser medido.'],
-     s: 'apoio contínuo de 0,90 mm de largura · 592 mm de perímetro'},
-    {n: br(M.interferencia_porta, 2), u: 'mm de interferência · ' + br(M.perimetro_boca_mm) + ' mm',
-     t: 'barreira 3', h: 'Selo radial da portinhola',
-     p: ['A saia da porta entra num gargalo cônico de 3° e sela pela lateral, não pela face. Selo radial não ' +
-         'depende de força de fechamento &mdash; depende de encaixe, e o cone centra a peça sozinho.',
-         'A retenção é um ressalto de 0,90 mm na parede do rebaixo, em duas zonas de 16 mm ao lado da concha do ' +
-         'dedo. A porta afunda 1,6 mm e fica <strong>rente à mesa</strong>: a tampa continua plana e empilhável.',
-         'O eixo da dobradiça fica <strong>acima do plano da porta</strong>. É o que faz a saia sair na vertical ' +
-         'ao abrir, em vez de raspar a parede do gargalo.'],
-     s: 'gargalo 4,80 mm · cone 3° · retenção 0,90 mm · rebaixo 1,60 mm'}];
+    {n: br(M.aperto_pct), u: '% de aperto · ' + br(M.perim_aro_mm) + ' mm',
+     t: 'junta 1 · o aro', h: 'Compressão pura, sem escorregar',
+     p: ['Anel de TPE de ' + mm(P.TPE_W, 1) + ' × ' + mm(P.TPE_H, 1) + ' numa canaleta na face inferior da mesa. ' +
+         'O topo do aro do corpo entra ' + mm(M.aperto_mm) + ' nele e para quando a mesa encosta no aro.',
+         'O <strong>aperto é geometria</strong>: não depende de quanto a trava puxa nem de quanto o consumidor ' +
+         'apertou. E a canaleta tem 15% de folga de volume, então o elastômero nunca fica hidraulicamente preso.',
+         'A canaleta abre para baixo — <strong>saída reta</strong>, sem gaveta. O lábio de PP que antes vedava ' +
+         'virou guia: centra a tampa e protege a junta na hora de encaixar.'],
+     s: 'canaleta ' + mm(P.GR_D1 - P.GR_D0, 1) + ' × ' + mm(P.GR_Z - P.Z_PLATE_B, 1) + ' · anel montado, não bi-injetado'},
+    {n: br(M.perim_boca_mm), u: 'mm de junta na boca',
+     t: 'junta 2 · a boca', h: 'O cursor desce nos últimos 6 mm',
+     p: ['O cursor corre ' + mm(M.curso_porta_mm, 0) + ' sobre quatro <strong>patins</strong> de ' + mm(P.PAD_H) +
+         ', apoiados em duas pistas elevadas. Nessa altura ele passa 0,15 mm acima da junta — não encosta.',
+         'As pistas têm uma folga exatamente onde os quatro patins pousam na posição fechada. Os quatro descem ' +
+         '<strong>ao mesmo tempo</strong>, então o cursor não inclina em nenhum ponto do curso e a junta só é ' +
+         'tocada quando já está sendo comprimida de frente.',
+         'Isso importa porque junta que arrasta, desgasta. Aqui ela vê compressão, não arrasto.'],
+     s: 'patins 4 × ' + mm(P.PAD_H) + ' · pistas com folga sincronizada · lábio do trilho ' + mm(P.RAIL_LIP)},
+    {n: br(M.dedo_trava_n), u: 'N de dedo para travar',
+     t: 'as travas', h: 'Rampa de 2,9°, autotravante',
+     p: ['São ' + br(M.aperto_aro_n) + ' N para comprimir a junta do aro. As duas travas de correr aplicam essa ' +
+         'força por rampa: ' + mm(M.puxada_mm) + ' de subida em ' + mm(P.TG_RAMP_L, 0) + ' de avanço.',
+         'A vantagem mecânica é de cerca de 14×. Travar pede ' + br(M.dedo_trava_n) + ' N; destravar, ' +
+         br(M.dedo_destrava_n) + ' N — porque o atrito ajuda a segurar e atrapalha a soltar.',
+         '2,9° está muito abaixo do ângulo de atrito PP-PP. A trava <strong>não volta sozinha</strong>: nem por ' +
+         'vibração no transporte, nem com o pote deitado.'],
+     s: 'engate ' + mm(M.engate_mm) + ' · lingueta ' + br(M.largura_mm) + ' × ' + mm(M.espessura_mm) + ' · σ ' + br(M.sigma_mpa, 1) + ' MPa'}];
   document.getElementById('bar3').innerHTML = C.map(c =>
     `<div class="cell"><span class="tag">${c.t}</span>
       <div class="num">${c.n}<small>${c.u}</small></div>
@@ -413,108 +397,92 @@ const mil = v => 'R$ ' + br(v / 1000, 1) + ' k';
       <div class="spec">${c.s}</div></div>`).join('');
 })();
 
-/* ---------- 04 · cotas ---------- */
-(function cotas(){
-  const R = [['Parede do corpo', mm(P.WALL), 'saída 1,5° por lado'],
-             ['Fundo', mm(P.FLOOR), ''],
-             ['Mesa da tampa', mm(P.PLATE), ''],
-             ['Banda de vedação', mm(P.Z_SEAL1 - P.Z_SEAL0), 'saída 0° na face interna'],
-             ['Interferência do lábio', mm(M.interferencia_aro), 'contra a banda'],
-             ['Canal da tampa', mm(P.LEG_IN - P.LIP_ROOT), 'recebe aro de ' + mm(P.WALL, 1)],
-             ['Aba do corpo', mm(P.CATCH_D), '2 zonas de 22 mm, face a 0°'],
-             ['Engate da lingueta', mm(1.06), 'curso de ' + mm(P.TR_CURSO, 0)],
-             ['Aperto da rampa', mm(0.08), 'puxa a tampa contra o batente'],
-             ['Boca livre', br(P.TH_HX * 2) + ' × ' + br(P.TH_HY * 2) + ' mm', 'R' + br(P.TH_RC)],
-             ['Gargalo', mm(P.Z_PK - P.COLLAR_Z), 'cone 3°'],
-             ['Saia da portinhola', mm(P.Z_PK - P.LIP2_TIP), 'interferência ' + mm(M.interferencia_porta)],
-             ['Rebaixo da porta', mm(P.PLATE), 'porta rente à mesa'],
-             ['Altura total', br(P.H) + ' + 5,6 mm', 'corpo + dobradiça da porta']];
-  document.getElementById('cotas').innerHTML =
-    '<thead><tr><th>Cota</th><th>Valor</th><th>Observação</th></tr></thead><tbody>' +
+(function forca(){
+  const R = [['Aperto da junta do aro', br(M.aperto_aro_n) + ' N', 'TPE 45A a ' + M.aperto_pct + '%, ' + br(M.perim_aro_mm) + ' mm'],
+             ['Aperto da junta da boca', br(M.aperto_boca_n) + ' N', 'aplicado pelos patins do cursor'],
+             ['Por trava', br(M.por_trava_n) + ' N', '2 travas nas faces longas'],
+             ['Ângulo da rampa', br(M.rampa_graus, 1) + '°', 'autotravante: atrito PP-PP ≈ 16°'],
+             ['Dedo para travar', br(M.dedo_trava_n) + ' N', 'vantagem mecânica ≈ 14×'],
+             ['Dedo para destravar', br(M.dedo_destrava_n) + ' N', ''],
+             ['Carga de projeto', br(M.carga_n) + ' N', '3× a força de fechamento'],
+             ['Lingueta', br(M.largura_mm) + ' × ' + mm(M.espessura_mm), 'braço ' + mm(M.braco_mm)],
+             ['Tensão de flexão', br(M.sigma_mpa, 1) + ' MPa', 'PP escoa a ~30 MPa — folga de 1,7×'],
+             ['Cisalhamento', br(M.cisalh_mpa, 1) + ' MPa', 'PP resiste a ~25 MPa']];
+  document.getElementById('forca').innerHTML =
+    '<thead><tr><th>Grandeza</th><th>Valor</th><th>Base</th></tr></thead><tbody>' +
     R.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="k">${r[2]}</td></tr>`).join('') +
-    '</tbody><caption>Todas as cotas saem de <span class="mono">molde/pecas.py</span>. Alterar o arquivo ' +
-    'regenera o STL, este render e o corte acima &mdash; não existe cota digitada duas vezes.</caption>';
+    '</tbody><caption>Força da junta estimada em 0,22 N/mm para TPE shore 45A a 29% de aperto — ' +
+    'ordem de grandeza de catálogo, não ensaio. O número que decide o projeto é esse; ele tem de ' +
+    'ser medido com a resina real antes de cortar aço.</caption>';
 })();
 
-/* ---------- 05 · moldes ---------- */
 (function mold(){
-  const R = [['Corpo AC-21', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(GEO.corpo.g, 1),
-              'aba: 2 gavetas nas faces curtas — ou extração forçada, a ensaiar'],
-             ['Tampa D', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(GEO.tampa.g, 1),
-              'trilho em T: 2 gavetas retas, puxando em Y'],
-             ['Portinhola', br(M.area_porta_cm2, 1), '≈ ' + Math.round(M.area_porta_cm2 * 0.35), br(GEO.portinhola.g, 1),
-              'munhões na linha de partição'],
-             ['Trava de correr', '9,5', '≈ 4', br(GEO.trava.g / 2, 1) + ' cada',
-              'nenhuma — peça plana, 2 placas, 8 cavidades']];
+  const R = [['Corpo AC-21', 'PP', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(G('corpo'), 1),
+              'aba: 2 gavetas nas faces longas — ou extração forçada, a ensaiar'],
+             ['Tampa', 'PP', br(M.area_proj_cm2, 1), '≈ ' + M.forca_t, br(G('tampa'), 1),
+              'trilho da trava: 2 gavetas retas · lábio do trilho da porta ' + mm(P.RAIL_LIP) + ': extração forçada'],
+             ['Cursor', 'PP', '60,8', '≈ 21', br(G('cursor'), 1), 'nenhuma'],
+             ['Trava de correr', 'PP', '9,5', '≈ 4', br(G('trava') / 2, 2) + ' cada', 'nenhuma — 8 cavidades'],
+             ['Juntas (molde família)', 'TPE 45A', '—', '—',
+              br(G('junta_aro'), 2) + ' + ' + br(G('junta_boca'), 2), 'anéis montados; PP continua mono-resina']];
   document.getElementById('mold').innerHTML =
-    '<thead><tr><th>Peça</th><th>Área proj. cm²</th><th>Fechamento t</th><th>Massa g</th><th>Saída negativa</th></tr></thead><tbody>' +
-    R.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td class="k" style="text-align:left;white-space:normal">${r[4]}</td></tr>`).join('') +
-    `<tr class="tot"><td>Conjunto · 5 peças</td><td>—</td><td>—</td><td>${br(GEO.corpo.g + GEO.tampa.g + GEO.portinhola.g + GEO.trava.g, 1)}</td>` +
-    '<td class="k" style="text-align:left">3 cliques de montagem: porta + 2 travas</td></tr>' +
-    '</tbody><caption>Os três moldes caem na faixa de até 260 t, onde a ocupação medida neste projeto é de ' +
-    '56,9% com 7 de 15 injetoras paradas. Isso reduz risco de agenda, não custo de ferramenta: molde é 30 a 40% ' +
-    'do custo de um lançamento e CNC parado também pode ser gargalo de ferramentaria, não folga.</caption>';
+    '<thead><tr><th>Peça</th><th>Material</th><th>Área cm²</th><th>Fech. t</th><th>Massa g</th><th>Saída negativa</th></tr></thead><tbody>' +
+    R.map(r => `<tr><td><strong>${r[0]}</strong></td><td class="k">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td>` +
+      `<td class="k" style="text-align:left;white-space:normal">${r[5]}</td></tr>`).join('') +
+    `<tr class="tot"><td>Conjunto · 7 peças</td><td class="k">2 materiais</td><td>—</td><td>—</td><td>${br(TOTAL, 1)}</td>` +
+    '<td class="k" style="text-align:left">4 cliques de montagem: cursor, 2 travas, 2 juntas</td></tr>' +
+    '</tbody><caption>Os moldes de PP caem na faixa de até 260 t, onde a ocupação medida neste ' +
+    'projeto é de 56,9% com 7 de 15 injetoras paradas. Capacidade de máquina não é o gargalo — o ' +
+    'custo de ferramentaria é, e agora são cinco moldes em vez de um.</caption>';
 })();
 
-/* ---------- 06 · evidência ---------- */
-(function ev(){
-  const R = [['Jarras flip top', '153 · 222 · 182', 1058135, 1035866, 1527],
-             ['Porta Sabão 008', '008.012.002/003', 441631, 498835, 629]];
-  document.getElementById('ev').innerHTML =
-    '<thead><tr><th>Família</th><th>Ref.</th><th>Fat. 12 M</th><th>Δ</th><th>Clientes</th></tr></thead><tbody>' +
-    R.map(r => {const d = (r[2] / r[3] - 1) * 100;
-      return `<tr><td><strong>${r[0]}</strong></td><td class="k mono">${r[1]}</td><td>${mil(r[2])}</td>
-        <td class="${d > 0 ? 'up' : 'dn'}">${(d > 0 ? '+' : '') + br(d, 1)}%</td><td>${br(r[4])}</td></tr>`;}).join('') +
-    '</tbody><caption>Empresas 1, 2 e 14, notas liberadas, tipos V e D, sem transferência intercompany e sem as ' +
-    'tabelas 84 (Avon) e 3 (exportação). Janelas de 12 meses móveis encerradas em 01/09/2026.</caption>';
-})();
-
-/* ---------- 08 · pendências ---------- */
 (function pend(){
   const R = [
+    ['Medir a força da junta com a resina real',
+     'Todo o dimensionamento da trava sai de <strong>0,22 N/mm</strong>, que é ordem de grandeza de ' +
+     'catálogo para TPE 45A a 29% de aperto. Se o valor real for o dobro, a força de dedo passa de ' +
+     '23 para 46 N e a trava fica dura demais para a mão de quem compra pote de mantimento. Isso se ' +
+     'mede com um anel piloto e uma célula de carga, antes de cortar aço.', 'engenheiro-molde', 1],
     ['O aro tem de sair do desenho, não do cadastro',
-     'A interferência do lábio é de 0,35 mm. O cadastro do 008 diz 20,7 cm de profundidade; a plataforma foi ' +
-     'desenhada em 20,6. Um milímetro de divergência é <strong>três vezes a interferência</strong> — engole a ' +
-     'vedação inteira ou trava o encaixe. Medir o aro real no desenho de ferramentaria é pré-requisito de tudo ' +
-     'que está nesta página.', 'engenheiro-molde', 1],
+     'O cadastro do 008 diz 20,7 cm de profundidade; a plataforma foi desenhada em 20,6. Um milímetro ' +
+     'é mais de duas vezes o aperto da junta (' + mm(M.aperto_mm) + ') — engole a vedação ou trava o ' +
+     'encaixe. Continua sendo pré-requisito de tudo.', 'engenheiro-molde', 1],
+    ['Ciclagem da junta da boca',
+     '5.000 ciclos de abre-e-fecha com medição de estanqueidade no início, no meio e no fim. A junta ' +
+     'do aro é comprimida e liberada; a da boca vê o cursor descer e subir em cima dela. São dois ' +
+     'regimes diferentes e só um deles é confortável.', 'engenheiro-molde', 0],
+    ['Compression set do Karinprene em 40 °C',
+     'O TPE cadastrado (<span class="mono">CODPROD 997</span>) nunca foi comprado, então não há ' +
+     'histórico de desempenho na casa. O parâmetro que governa a vida da junta é o compression set: ' +
+     '30 dias a 40 °C sob aperto e medir quanto o anel volta.', 'engenheiro-molde', 0],
+    ['Dois materiais mudam a conta do moído',
+     'O ciclo de moído vale R$ 2,63 M/ano e só funciona porque o refugo é mono-resina. A rota de anel ' +
+     'montado protege isso, mas cria um segundo fluxo de refugo, pequeno e que precisa ser separado no ' +
+     'chão de fábrica. Se a separação falhar, a perda não é o TPE — é o PP contaminado.', 'curador-portfolio · veto', 1],
     ['O veredito vigente de Potes é “só kit”',
-     'Está gravado em <span class="mono">pdp_linha</span>: a linha marcou score 8 e o veredito é lançar apenas ' +
-     'kit, nada de SKU avulso — 487 SKUs ativos, R$ 16,0 M caindo 15,5%. Um pote novo solto contraria isso ' +
-     'frontalmente. A versão compatível é a tampa entrar como <strong>peça da plataforma</strong>, servindo os ' +
-     'quatro corpos do aro comum, e não como lançamento isolado.', 'curador-portfolio · veto', 1],
-    ['Quatro gavetas no total, duas de cada lado da decisão',
-     'A aba do corpo e o trilho da tampa são saída negativa: duas gavetas em cada molde. No corpo, extração ' +
-     'forçada pode substituir — a parede tem 1,3 mm e flexiona. No trilho da tampa, não: a seção é constante e ' +
-     'a gaveta puxa reta em Y, o que é barato de fazer e caro de esquecer no orçamento. É a maior incerteza de ' +
-     'custo desta ferramenta.', 'engenheiro-molde', 0],
-    ['Esforço para correr a trava, e para correr com a mão molhada',
-     'Uma trava boa fecha com pouca força e não abre sozinho. Falta medir: força para travar, força para ' +
-     'destravar, e o mesmo com a mão molhada e com sabão — este pote é para mantimento <strong>e para ' +
-     'limpeza</strong>. Se ficar duro, o consumidor deixa destravado e a vedação vira decoração. Ensaio de ' +
-     '5.000 ciclos com medição de força nas duas pontas.', 'engenheiro-molde', 0],
-    ['Por que 176 e 210 caíram com a melhor margem da família',
-     'São as duas únicas quedas dentro de uma plataforma que cresce 49,9%, e são justamente trava + válvula. Se ' +
-     'a causa for fluência sob tensão de trava, o batente desta tampa é a resposta certa. Se for conflito ' +
-     'funcional — o consumidor compra por vedação e a válvula frustra — então o problema é de promessa, e uma ' +
-     'porta articulada tem o mesmo risco.', 'analista-sankhya', 0],
-    ['Payback do molde, com o viés certo',
-     'A taxa de acerto de lançamento caiu de 28,0% em 2021 para 0,7% em 2025 — 2 SKUs em 278. O viés padrão do ' +
-     'projeto é <strong>não lançar</strong>. Esta página descreve uma peça que funciona; ela não demonstra que ' +
-     'a peça se paga. Enquanto o custo de ferramenta e o preço de venda não estiverem na mesa, nada aqui vai ' +
-     'para <span class="mono">pdp_lancamento</span>.', 'curador-portfolio · veto', 1]];
+     'Está gravado em <span class="mono">pdp_linha</span>: score 8, veredito de lançar apenas kit — ' +
+     '487 SKUs ativos, R$ 16,0 M caindo 15,5%. Cinco moldes para um SKU avulso contraria isso ' +
+     'frontalmente. A versão compatível é a tampa servir os quatro corpos do aro comum.', 'curador-portfolio · veto', 1],
+    ['Payback de cinco moldes com 0,7% de acerto',
+     'A taxa de acerto de lançamento caiu de 28,0% em 2021 para 0,7% em 2025 — 2 SKUs em 278. Esta ' +
+     'página mostra uma peça que funciona; ela não mostra que a peça se paga. Enquanto o orçamento de ' +
+     'ferramentaria e o preço de venda não estiverem na mesa, nada aqui vai para ' +
+     '<span class="mono">pdp_lancamento</span>.', 'curador-portfolio · veto', 1]];
   document.getElementById('pend').innerHTML = R.map(r =>
     `<li class="${r[3] ? 'veto' : ''}"><b>${r[0]}</b><span>${r[1]}</span>
       <span class="agent${r[3] ? ' v' : ''}">${r[2]}</span></li>`).join('');
   document.getElementById('fnote').innerHTML =
-    'Modelo 3D, corte cotado e tabela de cotas gerados por <span class="mono">molde/pecas.py</span> ' +
-    '(' + br(GEO.corpo.nt + GEO.tampa.nt + GEO.portinhola.nt) + ' triângulos, STL binário no repositório). ' +
-    'Massas calculadas por integral de volume da malha com PP a 0,905 g/cm³. Faturamento, clientes e variação ' +
-    'vêm de consulta ao Sankhya; dimensões do 008 vêm de <span class="mono">TGFPRO</span> e precisam de ' +
-    'conferência no desenho. Alturas, raios, interferências, ângulos de cone e a geometria da dobradiça são ' +
-    'hipótese deste conceito e não foram validadas em molde, ensaio ou tryout. Nada foi gravado em ' +
+    'Modelo 3D, cortes cotados e tabelas gerados por <span class="mono">molde/pecas.py</span> (' +
+    br(GEO.corpo.nt + GEO.tampa.nt + GEO.cursor.nt + GEO.trava.nt + GEO.junta_aro.nt + GEO.junta_boca.nt) +
+    ' triângulos, STL binário no repositório). Massas por integral de volume da malha, PP a 0,905 e ' +
+    'TPE a 0,89 g/cm³. Forças de junta e tensões são cálculo de projeto com propriedades de catálogo, ' +
+    'não ensaio. Dimensões do 008 vêm de <span class="mono">TGFPRO</span> e precisam de conferência no ' +
+    'desenho. Alturas, raios, apertos, ângulos e a geometria da trava são hipótese deste conceito e não ' +
+    'foram validados em molde, ensaio ou tryout. Nada foi gravado em ' +
     '<span class="mono">pdp_lancamento</span>.';
 })();
-
+</script>
+<script>
 /* ============================================================
    Render 3D — WebGL sem biblioteca externa
    ============================================================ */
@@ -568,18 +536,14 @@ function part(g){
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(b64(g.i)), gl.STATIC_DRAW);
   return o;
 }
-const CORPO = part(GEO.corpo), TAMPA = part(GEO.tampa),
-      PORTA = part(GEO.portinhola), TRAVA = part(GEO.trava);
+const CORPO = part(GEO.corpo), TAMPA = part(GEO.tampa), CURSOR = part(GEO.cursor),
+      TRAVA = part(GEO.trava), JARO = part(GEO.junta_aro), JBOCA = part(GEO.junta_boca);
 
-/* --- álgebra --- */
 const mul = (a, b) => { const o = new Float32Array(16);
   for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) { let v = 0;
     for (let k = 0; k < 4; k++) v += a[k*4+r]*b[c*4+k]; o[c*4+r] = v; } return o; };
 const ident = () => new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
 function trans(x, y, z){ const m = ident(); m[12] = x; m[13] = y; m[14] = z; return m; }
-function rotXat(th, cy, cz){ const c = Math.cos(th), s = Math.sin(th), m = ident();
-  m[5] = c; m[6] = s; m[9] = -s; m[10] = c;
-  m[13] = cy - cy*c + cz*s; m[14] = cz - cy*s - cz*c; return m; }
 function persp(f, asp, n, fa){ const t = 1/Math.tan(f/2); return new Float32Array(
   [t/asp,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); }
 const dt = (a, b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
@@ -591,11 +555,10 @@ function look(e, c, up){ const z = nr([e[0]-c[0], e[1]-c[1], e[2]-c[2]]);
     -dt(x,e), -dt(y,e), -dt(z,e), 1]); }
 function nm3(m){ return new Float32Array([m[0],m[1],m[2], m[4],m[5],m[6], m[8],m[9],m[10]]); }
 
-/* --- estado --- */
 const TGT = [0, 6, 62];
 let yaw = -0.62, pit = 0.30, spin = !matchMedia('(prefers-reduced-motion:reduce)').matches;
-let view = 0, exp = 0, ang = 0, clip = 0, tExp = 0, tAng = 0, tClip = 0;
-let lock = 1, tLock = 1;
+let exp = 0, clip = 0, tExp = 0, tClip = 0;
+let door = 0, tDoor = 0, lock = 1, tLock = 1;
 let drag = null;
 
 cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; cv.classList.add('dragging');
@@ -609,6 +572,13 @@ cv.addEventListener('pointerup', stop); cv.addEventListener('pointercancel', sto
 function setSpin(){ document.getElementById('spin').setAttribute('aria-pressed', spin ? 'true' : 'false'); }
 setSpin();
 document.getElementById('spin').addEventListener('click', () => { spin = !spin; setSpin(); });
+
+const doorBtn = document.getElementById('door');
+doorBtn.addEventListener('click', () => {
+  tDoor = tDoor > 0.5 ? 0 : 1;
+  doorBtn.setAttribute('aria-pressed', tDoor > 0.5 ? 'true' : 'false');
+  doorBtn.textContent = tDoor > 0.5 ? 'aberta' : 'fechada';
+});
 const lockBtn = document.getElementById('lock');
 lockBtn.addEventListener('click', () => {
   tLock = tLock > 0.5 ? 0 : 1;
@@ -616,13 +586,13 @@ lockBtn.addEventListener('click', () => {
   lockBtn.textContent = tLock > 0.5 ? 'travada' : 'destravada';
 });
 document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => {
-  view = +b.dataset.v;
+  const v = +b.dataset.v;
   document.querySelectorAll('[data-v]').forEach(o =>
     o.setAttribute('aria-pressed', o === b ? 'true' : 'false'));
-  tExp = view === 1 ? 1 : 0; tAng = view === 2 ? 1 : 0; tClip = view === 3 ? 1 : 0;
+  tExp = v === 1 ? 1 : 0; tClip = v === 2 ? 1 : 0;
 }));
 
-function draw(o, mdl, col, alpha, cam){
+function draw(o, mdl, col, alpha){
   gl.uniformMatrix4fv(uM, false, mdl);
   gl.uniformMatrix3fv(uNM, false, nm3(mdl));
   gl.uniform3fv(uColor, col); gl.uniform1f(uAlpha, alpha);
@@ -641,8 +611,8 @@ function frame(now){
   const dt_ = Math.min(0.05, (now - last) / 1000); last = now;
   if (spin && !drag) yaw += dt_ * 0.24;
   exp += (tExp - exp) * Math.min(1, dt_ * 5.5);
-  ang += (tAng - ang) * Math.min(1, dt_ * 5.0);
   clip += (tClip - clip) * Math.min(1, dt_ * 8);
+  door += (tDoor - door) * Math.min(1, dt_ * 4.0);
   lock += (tLock - lock) * Math.min(1, dt_ * 5.0);
 
   const dpr = Math.min(2, devicePixelRatio || 1);
@@ -653,36 +623,34 @@ function frame(now){
 
   const vfov = 0.52, asp = w / h;
   const hf = 2 * Math.atan(Math.tan(vfov / 2) * asp);
-  const R = 138 + 72 * exp;
+  const R = 138 + 76 * exp;
   const dist = R / Math.sin(Math.min(vfov, hf) / 2) * 1.06;
   const eye = [TGT[0] + dist*Math.cos(pit)*Math.sin(yaw),
                TGT[1] + dist*Math.cos(pit)*Math.cos(yaw),
                TGT[2] + dist*Math.sin(pit)];
-  const V = look(eye, [TGT[0], TGT[1], TGT[2] + 30*exp], [0, 0, 1]);
+  const V = look(eye, [TGT[0], TGT[1], TGT[2] + 34*exp], [0, 0, 1]);
   const PJ = persp(vfov, asp, 40, dist + 900);
   const VP = mul(PJ, V);
   gl.uniform3fv(uCam, eye);
   gl.uniform1f(uClip, clip > 0.5 ? 1 : 0);
 
   const solid = clip > 0.5;
-  const mCorpo = ident();
-  const mTampa = trans(0, 0, 50 * exp);
-  const mTrava = trans(-P.TR_CURSO * (1 - lock), 0, 80 * exp);
-  const mPorta = mul(trans(0, 0, 110 * exp),
-                     rotXat(2.05 * ang, P.HINGE_Y, P.HINGE_Z));
-  const items = [[TAMPA, mTampa, [0.075, 0.565, 0.60], 1.0],
-                 [TRAVA, mTrava, [0.66, 0.44, 0.23], 1.0],
-                 [CORPO, mCorpo, [0.72, 0.78, 0.80], solid ? 1.0 : 0.30],
-                 [PORTA, mPorta, [0.87, 0.90, 0.90], solid ? 1.0 : 0.44]];
-  // opacos primeiro
+  const mTampa = trans(0, 0, 46 * exp);
+  const items = [
+    [TAMPA,  mTampa, [0.075, 0.565, 0.60], 1.0],
+    [TRAVA,  trans(0, -P.TR_CURSO * (1 - lock), 74 * exp), [0.66, 0.44, 0.23], 1.0],
+    [JARO,   trans(0, 0, 46 * exp + 16 * exp), [0.70, 0.23, 0.13], 1.0],
+    [JBOCA,  trans(0, 0, 46 * exp + 16 * exp), [0.70, 0.23, 0.13], 1.0],
+    [CURSOR, trans(0, -P.CU_CURSO * door, 46 * exp + 30 * exp + P.PAD_H * door),
+             [0.87, 0.90, 0.90], solid ? 1.0 : 0.55],
+    [CORPO,  ident(), [0.72, 0.78, 0.80], solid ? 1.0 : 0.28]];
   gl.disable(gl.BLEND); gl.depthMask(true);
   items.forEach(it => { if (it[3] > 0.99) {
-    gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3], eye); } });
-  // translúcidos: verso e depois frente
+    gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3]); } });
   gl.enable(gl.BLEND); gl.depthMask(false);
   [gl.FRONT, gl.BACK].forEach(face => { gl.cullFace(face);
     items.forEach(it => { if (it[3] <= 0.99) {
-      gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3], eye); } }); });
+      gl.uniformMatrix4fv(uMVP, false, mul(VP, it[1])); draw(it[0], it[1], it[2], it[3]); } }); });
   gl.cullFace(gl.BACK); gl.depthMask(true); gl.disable(gl.BLEND);
   requestAnimationFrame(frame);
 }

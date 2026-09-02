@@ -1,88 +1,86 @@
 # -*- coding: utf-8 -*-
 """
-Tampa Portinhola — plataforma Aro Comum (Nitron)
-Corpo AC-21 (2,1 L) + Tampa D (portinhola) + Portinhola.
+Tampa de Correr — plataforma Aro Comum (Nitron)
 
-Todas as cotas em milimetro. Z para cima, origem no centro do fundo externo.
-Este arquivo e a FONTE UNICA das cotas: STL, blob do visualizador e o
-desenho de secao saem daqui.
+Corpo AC-21 (2,1 L) + Tampa + Cursor (porta de correr) + 2 Travas de correr
++ 2 aneis de TPE (aro e boca).
+
+Cotas em milimetro. Z para cima, origem no centro do fundo externo do corpo.
+Este arquivo e a FONTE UNICA das cotas: STL, blob do visualizador, corte
+cotado e tabela saem do mesmo dicionario P.
 """
 import math, os, sys, json, base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from geo import outline, zone, zsum, Mesh, SEG, STR
+from geo import outline, zone, zsum, zval, Mesh, SEG, STR
 
 # ============================================================================
 # 1. PARAMETROS
 # ============================================================================
 P = dict(
-    # --- aro comum (face externa do aro do corpo, no topo) ---
-    HX=52.5, HY=103.0, RC=14.0,          # 105 x 206, R14 — base do Porta Sabao 008
+    # --- aro comum: face externa do ARO (topo), 105 x 206 R14 ---
+    HX=52.5, HY=103.0, RC=14.0,
     # --- corpo ---
     H=120.0, WALL=1.30, FLOOR=2.00, DRAFT=1.5,
-    Z_SEAL0=112.4, Z_SEAL1=118.6,        # banda de vedacao interna, saida 0 grau
-    CATCH_Z0=111.00, CATCH_Z1=113.00, CATCH_Z2=114.20,   # aba de encosto da trava
-    CATCH_D=1.40, CATCH_XC=13.0, CATCH_W=11.0,           # projecao, centro, meia-largura
+    RECUO=1.10,                   # a parede abaixo do aro e recuada; o aro engrossa
+    Z_FLARE0=115.60, Z_FLARE1=118.00,
+    # aba de encosto da trava (2 zonas nas faces longas)
+    ABA_D=2.05, ABA_Z0=111.00, ABA_Z1=113.00, ABA_Z2=114.20,
+    ABA_YC=13.75, ABA_W=11.25,
     # --- tampa ---
-    PLATE=1.60, LEG_T=1.60, LEG_IN=0.35, Z_SKIRT=114.60,
-    Z_PLATE_B=120.00,
-    LIP_T=1.00, LIP_ROOT=-1.75, FOLGA_LABIO=0.35,
-    Z_CREST=115.40, LIP_TIP=112.20,
+    PLATE=1.60, BORDA=1.00, BORDA_W=8.00,
+    Z_PLATE_B=120.00, LEG_IN=0.35, LEG_OUT=1.95, Z_SKIRT=114.40,
+    LIP_ROOT=-2.70, LIP_IN=-3.90, LIP_TIP=113.20,
     SEAM=-9.00,
-    # --- rebaixo da portinhola e gargalo ---
-    PK_HX=38.0, PK_HY=48.0, PK_RC=18.0, PK_CY=40.0,      # rebaixo
-    TH_HX=31.0, TH_HY=41.0, TH_RC=12.0,                  # boca (garganta)
-    COLLAR_Z=115.20, COLLAR_W=1.20, COLLAR_DRAFT=3.0,
-    BEAD=-0.90,                          # ressalto de retencao da portinhola
-    SCALLOP=4.50,                        # concha do dedo
-    # --- portinhola ---
-    GAP=0.35,                            # folga da aba no rebaixo
-    LIP2_T=1.00, LIP2_TIP=116.20, FOLGA_PORTA=0.30,
-    HINGE_Y=-5.0, HINGE_Z=124.00, HINGE_R=1.30,
-    # --- trava de correr ---
-    RAIL_D0=1.95, RAIL_D1=2.75, RAIL_D2=3.55,    # saia, alma e cabeca do trilho
-    RAIL_Z0=115.60, RAIL_Z1=116.20, RAIL_Z2=119.00, RAIL_Z3=119.60,
-    RAIL_X0=-26.0, RAIL_X1=26.0,
-    TR_HALF=13.0, TR_CURSO=22.0, TR_C=11.0, TR_ZB=114.90,   # meia-largura, curso, centro travado
-    TR_D3=5.15, TR_Z_TOP=120.30, TR_Z_BOT=109.20,
-    TG_HALF=10.0, TG_D=0.10,                     # lingueta: meia-largura e ponta
-    TG_LAND=111.08, TG_RAMP=110.35, TG_BOT=109.30,
+    # canaleta da junta do aro
+    GR_D0=-1.90, GR_D1=-0.50, GR_Z=121.60,
+    # --- pista da porta de correr ---
+    TK_HX=40.0, TK_HY=82.0, TK_RC=8.0, TK_CY=8.0,
+    Z_TRACK=119.20, Z_SLAB=116.80,
+    RAIL_W=2.60, RAIL_LIP=0.40, RAIL_Z=122.20, RAIL_LIP_Z=121.60,
+    RAIL_Y0=-74.0, RAIL_Y1=90.0,
+    PAD_H=0.55, PAD_X0=35.5, PAD_X1=39.6, PAD_RAMP=4.0,
+    PAD_A0=-72.0, PAD_A1=10.0, PAD_B0=22.0, PAD_B1=78.0,
+    SK_X0=35.5, SK_X1=39.4, SK_A0=12.0, SK_A1=20.0, SK_B0=80.0, SK_B1=88.0,
+    # boca e junta da boca
+    BC_HX=31.0, BC_HY=32.0, BC_RC=12.0, BC_CY=50.0,
+    GB_D0=2.40, GB_D1=3.80, GB_Z=117.55,
+    # --- cursor (porta de correr) ---
+    CU_HX=39.4, CU_HY=38.0, CU_RC=7.0, CU_CY=50.0,
+    CU_T=1.80, CU_CURSO=56.0,
+    # --- trava de correr (faces longas) ---
+    RAIL_D0=1.95, RAIL_D1=2.75, RAIL_D2=3.55,
+    TRV_Z0=115.40, TRV_Z1=116.00, TRV_Z2=118.60, TRV_Z3=119.20,
+    TRV_Y0=-27.0, TRV_Y1=27.0,
+    TR_HALF=13.0, TR_CURSO=22.0, TR_C=11.0,
+    TR_ZB=114.70, TR_D3=5.15, TR_Z_TOP=120.00, TR_Z_BOT=107.80,
+    TG_HALF=12.0, TG_D=-0.90, TG_BOT=107.80,
+    TG_LAND=111.00, TG_RAMP=110.45, TG_RAMP_L=8.0,
+    # --- juntas de TPE ---
+    TPE_W=1.40, TPE_H=1.40, TPE_SEAT=1.00,   # secao e quanto entra na canaleta
+    TPE_SHORE=45,
     # --- material ---
-    RHO=0.905,                           # g/cm3 — PP
+    RHO=0.905, RHO_TPE=0.89,
 )
-P['Z_PLATE_T'] = P['Z_PLATE_B'] + P['PLATE']
-P['Z_PK'] = P['Z_PLATE_T'] - P['PLATE']          # piso do rebaixo
-P['Z_SLAB_B'] = P['Z_PK'] - P['PLATE']           # face inferior da laje rebaixada
-P['LEG_OUT'] = P['LEG_IN'] + P['LEG_T']
-P['LIP_IN'] = P['LIP_ROOT'] - P['LIP_T']
-P['BEAD_Z'] = P['Z_PK'] + 0.9 * P['PLATE']
-P['LIP2_IN'] = -P['LIP2_T'] - 0.30
-P['Z_CREST2'] = P['Z_PK'] - 1.60
-
 K = math.tan(math.radians(P['DRAFT']))
-KC = math.tan(math.radians(P['COLLAR_DRAFT']))
-P['DI_SEAL'] = -(P['H'] - P['Z_SEAL1']) * K - P['WALL']
-P['LIP_CREST'] = P['DI_SEAL'] + P['FOLGA_LABIO']
-P['LIP2_CREST'] = P['FOLGA_PORTA'] - KC * (P['Z_PK'] - (P['Z_PK'] - 1.60))
+P['Z_PLATE_T'] = P['Z_PLATE_B'] + P['PLATE']
+P['Z_BORDA'] = P['Z_PLATE_T'] + P['BORDA']
+P['TPE_OUT'] = P['TPE_H'] - P['TPE_SEAT']        # quanto sobra para fora = aperto
 
 OUT = outline(P['HX'], P['HY'], P['RC'])
-PK = outline(P['PK_HX'], P['PK_HY'], P['PK_RC'], 0.0, P['PK_CY'])
-TH = outline(P['TH_HX'], P['TH_HY'], P['TH_RC'], 0.0, P['PK_CY'])
+TK = outline(P['TK_HX'], P['TK_HY'], P['TK_RC'], 0.0, P['TK_CY'])
+BC = outline(P['BC_HX'], P['BC_HY'], P['BC_RC'], 0.0, P['BC_CY'])
+CU = outline(P['CU_HX'], P['CU_HY'], P['CU_RC'], 0.0, P['CU_CY'])
 
-PK_FRONT = P['PK_CY'] + P['PK_HY'] - 0.01      # y da face frontal do rebaixo
-do = lambda z: -(P['H'] - z) * K                # offset da face externa do corpo
-di = lambda z: do(z) - P['WALL']                # offset da face interna
-DI_SEAL = P['DI_SEAL']
+do = lambda z: -(P['H'] - z) * K                  # face externa do ARO
+dw = lambda z: do(z) - P['RECUO']                 # parede abaixo do aro
+di = lambda z: do(z) - P['RECUO'] - P['WALL']     # face interna (continua)
 
-# zonas locais
-Z_CATCH = zone(OUT, P['CATCH_D'], lambda x, y: abs(y) > P['HY'] - 0.01,
-               P['CATCH_XC'], P['CATCH_W'], 1.6)
-Z_BEAD = zsum(zone(PK, P['BEAD'], lambda x, y: y > PK_FRONT, 16.0, 8.0, 1.5),
-              zone(PK, P['BEAD'], lambda x, y: y > PK_FRONT, -16.0, 8.0, 1.5))
-Z_SCAL = zone(PK, P['SCALLOP'], lambda x, y: y > PK_FRONT, 0.0, 7.0, 1.5)
-Z_TONG = zone(PK, 4.00, lambda x, y: y > PK_FRONT, 0.0, 6.0, 1.5)
-Z_CHAM = zsum(zone(PK, -0.60, lambda x, y: y > PK_FRONT, 16.0, 9.0, 1.5),
-              zone(PK, -0.60, lambda x, y: y > PK_FRONT, -16.0, 9.0, 1.5))
-ZERO_PK = [0.0] * len(PK)
+# zona da aba: faces longas (x = +-HX), corrida em Y
+def zona_y(ol, value, yc, half, feather=1.6):
+    return [zval(value, py, yc, half, feather) if abs(px) > P['HX'] - 0.01 else 0.0
+            for (px, py, nx, ny) in ol]
+
+Z_ABA = zona_y(OUT, P['ABA_D'], P['ABA_YC'], P['ABA_W'])
 
 
 # ============================================================================
@@ -90,246 +88,311 @@ ZERO_PK = [0.0] * len(PK)
 # ============================================================================
 def corpo():
     m = Mesh('corpo')
-    zc0, zc1, zc2 = P['CATCH_Z0'], P['CATCH_Z1'], P['CATCH_Z2']
+    a0, a1, a2 = P['ABA_Z0'], P['ABA_Z1'], P['ABA_Z2']
+    W = P['WALL'] + P['RECUO']                    # espessura no aro
     prof = [
-        (do(0.0) - 1.20, 0.00),          # face de apoio
-        (do(1.20), 1.20),                # chanfro do pe
-        (do(zc0 - 0.10), zc0 - 0.10),
-        (do(zc0), zc0),                  # face inferior da aba — encosto da lingueta
-        (do(zc1), zc1),                  # banda da aba
-        (do(zc2), zc2),                  # rampa de volta a parede
+        (dw(0.0) - 1.20, 0.00),                   # face de apoio
+        (dw(1.20), 1.20),                         # chanfro do pe
+        (dw(a0 - 0.10), a0 - 0.10),
+        (dw(a0), a0),                             # face inferior da aba (encosto)
+        (dw(a1), a1),
+        (dw(a2), a2),                             # rampa de volta a parede
+        (dw(P['Z_FLARE0']), P['Z_FLARE0']),
+        (do(P['Z_FLARE1']), P['Z_FLARE1']),       # engrossamento do aro
         (do(119.70), 119.70),
-        (-0.20, P['H']),                 # chanfro do aro
-        (-P['WALL'] + 0.20, P['H']),     # topo do aro (batente da tampa)
-        (-P['WALL'], 119.70),
-        (DI_SEAL, P['Z_SEAL1']),
-        (DI_SEAL, P['Z_SEAL0']),         # banda de vedacao, saida 0 grau
-        (di(P['Z_SEAL0'] - 0.40), P['Z_SEAL0'] - 0.40),
+        (-0.20, P['H']),                          # chanfro externo do aro
+        (-W + 0.20, P['H']),                      # TOPO DO ARO = batente da tampa
+        (-W, 119.70),
         (di(P['FLOOR']), P['FLOOR']),
     ]
     Z = [0.0] * len(OUT)
-    amps = [Z, Z, Z, Z_CATCH, Z_CATCH, Z, Z, Z, Z, Z, Z, Z, Z, Z]
+    amps = [Z, Z, Z, Z_ABA, Z_ABA, Z, Z, Z, Z, Z, Z, Z, Z]
     m.sweep(OUT, prof, amps)
-    m.fan(OUT, do(0.0) - 1.20, 0.0, up=False)          # fundo externo
-    m.fan(OUT, di(P['FLOOR']), P['FLOOR'], up=True)    # fundo interno
+    m.fan(OUT, dw(0.0) - 1.20, 0.0, up=False)
+    m.fan(OUT, di(P['FLOOR']), P['FLOOR'], up=True)
     return m
 
 
 # ============================================================================
-# 3. TAMPA D — portinhola
+# 3. TAMPA
 # ============================================================================
 def tampa():
     m = Mesh('tampa')
-    ZP = P['Z_PLATE_T']
-    # --- periferia: saia externa e mesa (ate a costura em SEAM) ---
+    ZT, ZB, ZBD = P['Z_PLATE_T'], P['Z_PLATE_B'], P['Z_BORDA']
+    # --- periferia: saia externa, borda alta e mesa ---
     m.sweep(OUT, [
         (P['LEG_OUT'], P['Z_SKIRT']),
-        (P['LEG_OUT'], ZP - 1.00),
-        (P['LEG_OUT'] - 0.45, ZP),
-        (P['SEAM'], ZP),
+        (P['LEG_OUT'], ZBD - 0.60),
+        (P['LEG_OUT'] - 0.40, ZBD),
+        (-P['BORDA_W'], ZBD),
+        (-P['BORDA_W'], ZT),
+        (P['SEAM'], ZT),
     ])
-    # --- periferia: face inferior, labio de vedacao, canal e perna ---
+    # --- periferia: face inferior, labio-guia, canaleta da junta e perna ---
     m.sweep(OUT, [
-        (P['SEAM'], P['Z_PLATE_B']),
-        (P['LIP_IN'], P['Z_PLATE_B']),          # face inferior da mesa
-        (P['LIP_IN'], P['LIP_TIP'] + 0.40),     # face interna do labio
-        (P['LIP_IN'] + 0.55, P['LIP_TIP']),     # ponta do labio
-        (-2.30, P['LIP_TIP'] + 0.60),           # entrada conica
-        (P['LIP_CREST'], P['Z_CREST']),         # crista de vedacao (interferencia)
-        (P['LIP_ROOT'], P['Z_CREST'] + 1.80),   # alivio acima da crista
-        (P['LIP_ROOT'], P['Z_PLATE_B']),
-        (P['LEG_IN'], P['Z_PLATE_B']),          # teto do canal = batente
+        (P['SEAM'], ZB),
+        (P['LIP_IN'], ZB),
+        (P['LIP_IN'], P['LIP_TIP'] + 0.40),
+        (P['LIP_IN'] + 0.40, P['LIP_TIP']),
+        (P['LIP_ROOT'] - 0.20, P['LIP_TIP'] + 0.40),
+        (P['LIP_ROOT'], P['LIP_TIP'] + 1.40),
+        (P['LIP_ROOT'], ZB),
+        (P['GR_D0'], ZB),                     # encosto interno
+        (P['GR_D0'], P['GR_Z']),              # canaleta da junta de TPE
+        (P['GR_D1'], P['GR_Z']),
+        (P['GR_D1'], ZB),
+        (P['LEG_IN'], ZB),                    # encosto externo
         (P['LEG_IN'], P['Z_SKIRT']),
         (P['LEG_OUT'], P['Z_SKIRT']),
     ])
-    # --- transicao mesa -> rebaixo ---
-    m.flat(PK, 0.0, OUT, P['SEAM'], ZP, up=True, amp_in=Z_SCAL)          # T1
-    m.sweep(PK, [(0.0, ZP), (0.0, P['BEAD_Z']), (0.0, P['Z_PK'])],
-            amps=[Z_SCAL, zsum(Z_SCAL, Z_BEAD), Z_SCAL])                 # T2 parede
-    m.flat(TH, 0.0, PK, 0.0, P['Z_PK'], up=True, amp_out=Z_SCAL)         # T3 piso
-    # --- gargalo ---
-    cw = P['COLLAR_W']
-    dcb = -KC * (P['Z_PK'] - P['COLLAR_Z'])
-    m.sweep(TH, [(0.0, P['Z_PK']), (dcb, P['COLLAR_Z'])])                # T4 assento
-    m.flat(TH, dcb, TH, cw, P['COLLAR_Z'], up=False)                     # T5
-    m.sweep(TH, [(cw, P['COLLAR_Z']), (cw, P['Z_SLAB_B'])])              # T6
-    m.flat(TH, cw, PK, 0.0, P['Z_SLAB_B'], up=False, amp_out=Z_SCAL)     # T7
-    m.sweep(PK, [(0.0, P['Z_SLAB_B']), (0.0, P['Z_PLATE_B'])],
-            amps=[Z_SCAL, Z_SCAL])                                       # T8
-    m.flat(PK, 0.0, OUT, P['SEAM'], P['Z_PLATE_B'], up=False, amp_in=Z_SCAL)  # T9
-    # --- travas de alavanca (2) e orelhas da dobradica (2) ---
+    # --- pista: mesa -> rebaixo -> boca ---
+    m.flat(TK, 0.0, OUT, P['SEAM'], ZT, up=True)
+    m.sweep(TK, [(0.0, ZT), (0.0, P['Z_TRACK'])])
+    m.flat(BC, P['GB_D1'], TK, 0.0, P['Z_TRACK'], up=True)
+    m.sweep(BC, [(P['GB_D1'], P['Z_TRACK']), (P['GB_D1'], P['GB_Z']),
+                 (P['GB_D0'], P['GB_Z']), (P['GB_D0'], P['Z_TRACK'])])
+    m.flat(BC, 0.0, BC, P['GB_D0'], P['Z_TRACK'], up=True)
+    m.sweep(BC, [(0.0, P['Z_TRACK']), (0.0, P['Z_SLAB'])])
+    m.flat(BC, 0.0, TK, 0.0, P['Z_SLAB'], up=False)
+    m.sweep(TK, [(0.0, P['Z_SLAB']), (0.0, ZB)])
+    m.flat(TK, 0.0, OUT, P['SEAM'], ZB, up=False)
+    # --- trilhos da porta, pistas de came e trilhos das travas ---
     for s in (1, -1):
-        trilho(m, s)
-        orelha(m, s)
+        trilho_porta(m, s)
+        rampa_came(m, s)
+        trilho_trava(m, s)
     return m
 
 
-def trilho(m, s):
-    """Trilho em T na face curta — secao constante em x, sai por gaveta reta."""
-    y = lambda d: P['HY'] + d
-    pieces = [
-        [(y(P['RAIL_D0']), P['RAIL_Z1']), (y(P['RAIL_D1']), P['RAIL_Z1']),
-         (y(P['RAIL_D1']), P['RAIL_Z2']), (y(P['RAIL_D0']), P['RAIL_Z2'])],      # alma
-        [(y(P['RAIL_D1']), P['RAIL_Z0']), (y(P['RAIL_D2']), P['RAIL_Z0']),
-         (y(P['RAIL_D2']), P['RAIL_Z3']), (y(P['RAIL_D1']), P['RAIL_Z3'])],      # cabeca
-    ]
-    for poly in pieces:
+def trilho_porta(m, s):
+    """Trilho em C da porta: parede + labio que segura o cursor."""
+    x0, x1 = P['TK_HX'], P['TK_HX'] + P['RAIL_W']
+    lp = P['TK_HX'] - P['RAIL_LIP']
+    poly = [(x0, P['Z_TRACK']), (x1, P['Z_TRACK']), (x1, P['RAIL_Z']),
+            (lp, P['RAIL_Z']), (lp, P['RAIL_LIP_Z']), (x0, P['RAIL_LIP_Z'])]
+    p = [(s * a, b) for (a, b) in poly]
+    if s < 0:
+        p = p[::-1]
+    m.prismY(p, P['RAIL_Y0'], P['RAIL_Y1'])
+
+
+def rampa_came(m, s):
+    """Pistas elevadas: o cursor corre 0,55 mm acima do piso e desce so no fim.
+
+    Dois trechos, com folga onde os quatro patins pousam na posicao fechada —
+    os quatro descem juntos, entao o cursor nao inclina em nenhum ponto do curso.
+    """
+    zt, h, r = P['Z_TRACK'], P['PAD_H'], P['PAD_RAMP']
+    alto = [(P['PAD_X0'], zt), (P['PAD_X1'], zt), (P['PAD_X1'], zt + h), (P['PAD_X0'], zt + h)]
+    baixo = [(P['PAD_X0'], zt), (P['PAD_X1'], zt),
+             (P['PAD_X1'], zt + 0.05), (P['PAD_X0'], zt + 0.05)]
+    p = lambda q: ([(s * a, b) for (a, b) in q][::-1] if s < 0
+                   else [(s * a, b) for (a, b) in q])
+    for (y0, y1, r0, r1) in ((P['PAD_A0'], P['PAD_A1'], 0, 1),
+                             (P['PAD_B0'], P['PAD_B1'], 1, 1)):
+        a, b = y0 + (r if r0 else 0), y1 - (r if r1 else 0)
+        m.prismY(p(alto), a, b)
+        if r0:
+            m.loftY(p(baixo), p(alto), y0, a)
+        if r1:
+            m.loftY(p(alto), p(baixo), b, y1)
+
+
+def trilho_trava(m, s):
+    """Trilho em T da trava, na face longa. Secao constante em Y: gaveta reta."""
+    x = lambda d: P['HX'] + d
+    for poly in ([(x(P['RAIL_D0']), P['TRV_Z1']), (x(P['RAIL_D1']), P['TRV_Z1']),
+                  (x(P['RAIL_D1']), P['TRV_Z2']), (x(P['RAIL_D0']), P['TRV_Z2'])],
+                 [(x(P['RAIL_D1']), P['TRV_Z0']), (x(P['RAIL_D2']), P['TRV_Z0']),
+                  (x(P['RAIL_D2']), P['TRV_Z3']), (x(P['RAIL_D1']), P['TRV_Z3'])]):
         p = [(s * a, b) for (a, b) in poly]
         if s < 0:
             p = p[::-1]
-        m.prismX(p, P['RAIL_X0'], P['RAIL_X1'])
-
-
-def orelha(m, s):
-    """Mancal aberto por cima para o munhao da portinhola."""
-    hy, hz, r = P['HINGE_Y'], P['HINGE_Z'], P['HINGE_R']
-    x0, x1 = s * 30.4, s * 33.6
-    if s < 0:
-        x0, x1 = x1, x0
-    base_t = hz - r - 0.40
-    m.box(x0, x1, hy - 3.6, hy + 3.6, P['Z_PLATE_T'], base_t)
-    m.box(x0, x1, hy - 3.6, hy - r - 0.15, base_t, hz + 1.6)
-    m.box(x0, x1, hy + r + 0.15, hy + 3.6, base_t, hz + 1.6)
+        m.prismY(p, P['TRV_Y0'], P['TRV_Y1'])
 
 
 # ============================================================================
-# 4. TRAVA DE CORRER (posicao travada)
+# 4. CURSOR — a porta de correr (posicao fechada)
+# ============================================================================
+def cursor():
+    m = Mesh('cursor')
+    z0 = P['Z_TRACK']
+    z1 = z0 + P['CU_T']
+    m.sweep(CU, [(0.0, z0), (0.0, z1 - 0.30), (-0.30, z1)])
+    m.fan(CU, -0.30, z1, up=True, cy=P['CU_CY'])
+    m.fan(CU, 0.0, z0, up=False, cy=P['CU_CY'])
+    for s in (1, -1):
+        for (a, b) in ((P['SK_A0'], P['SK_A1']), (P['SK_B0'], P['SK_B1'])):
+            xa, xb = s * P['SK_X0'], s * P['SK_X1']
+            m.box(min(xa, xb), max(xa, xb), a, b, z0 - P['PAD_H'], z0)   # patins
+    y0 = P['CU_CY'] - P['CU_HY']
+    m.box(-15.0, 15.0, y0 + 2.0, y0 + 8.0, z1, z1 + 1.40)       # pegador
+    for s in (1, -1):
+        m.box(s * 19.4, s * 20.6, y0 + 3.0, P['CU_CY'] + P['CU_HY'] - 3.0,
+              z1, z1 + 1.00) if s > 0 else m.box(-20.6, -19.4, y0 + 3.0,
+              P['CU_CY'] + P['CU_HY'] - 3.0, z1, z1 + 1.00)     # nervuras
+    return m
+
+
+# ============================================================================
+# 5. TRAVA DE CORRER (posicao travada)
 # ============================================================================
 def trava():
     m = Mesh('trava')
-    y = lambda d: P['HY'] + d
+    x = lambda d: P['HX'] + d
     c, h = P['TR_C'], P['TR_HALF']
-    x0, x1 = c - h, c + h
+    y0, y1 = c - h, c + h
     tg0, tg1 = c - P['TG_HALF'], c + P['TG_HALF']
-    land = [(y(P['TG_D']), P['TG_BOT']), (y(P['RAIL_D2']), P['TG_BOT']),
-            (y(P['RAIL_D2']), P['TG_LAND']), (y(P['TG_D']), P['TG_LAND'])]
-    ramp = [(y(P['TG_D']), P['TG_BOT']), (y(P['RAIL_D2']), P['TG_BOT']),
-            (y(P['RAIL_D2']), P['TG_RAMP']), (y(P['TG_D']), P['TG_RAMP'])]
+    land = [(x(P['TG_D']), P['TG_BOT']), (x(P['RAIL_D2']), P['TG_BOT']),
+            (x(P['RAIL_D2']), P['TG_LAND']), (x(P['TG_D']), P['TG_LAND'])]
+    ramp = [(x(P['TG_D']), P['TG_BOT']), (x(P['RAIL_D2']), P['TG_BOT']),
+            (x(P['RAIL_D2']), P['TG_RAMP']), (x(P['TG_D']), P['TG_RAMP'])]
     for s in (1, -1):
-        def M(poly):
-            p = [(s * a, b) for (a, b) in poly]
-            return p[::-1] if s < 0 else p
-        # placa externa (pega)
-        m.prismX(M([(y(P['RAIL_D2']), P['TR_ZB']), (y(P['TR_D3']), P['TR_ZB']),
-                    (y(P['TR_D3']), P['TR_Z_TOP']), (y(P['RAIL_D2']), P['TR_Z_TOP'])]), x0, x1)
-        # bracos que abracam a cabeca do trilho
-        for (za, zb) in ((P['TR_ZB'], P['RAIL_Z0']), (P['RAIL_Z3'], P['TR_Z_TOP'])):
-            m.prismX(M([(y(P['RAIL_D1'] - 0.20), za), (y(P['RAIL_D2']), za),
-                        (y(P['RAIL_D2']), zb), (y(P['RAIL_D1'] - 0.20), zb)]), x0, x1)
-        # perna que desce ate a lingueta
-        m.prismX(M([(y(P['RAIL_D2']), P['TR_Z_BOT']), (y(P['TR_D3']), P['TR_Z_BOT']),
-                    (y(P['TR_D3']), P['TR_ZB']), (y(P['RAIL_D2']), P['TR_ZB'])]), tg0, tg1)
-        # lingueta: patamar + rampa na ponta que avanca
-        m.prismX(M(land), tg0, tg1 - 6.0)
-        m.loftX(M(land), M(ramp), tg1 - 6.0, tg1)
-        # nervuras de pega
+        M = lambda q: ([(s * a, b) for (a, b) in q][::-1] if s < 0
+                       else [(s * a, b) for (a, b) in q])
+        m.prismY(M([(x(P['RAIL_D2']), P['TR_ZB']), (x(P['TR_D3']), P['TR_ZB']),
+                    (x(P['TR_D3']), P['TR_Z_TOP']), (x(P['RAIL_D2']), P['TR_Z_TOP'])]), y0, y1)
+        for (za, zb) in ((P['TR_ZB'], P['TRV_Z0']), (P['TRV_Z3'], P['TR_Z_TOP'])):
+            m.prismY(M([(x(P['RAIL_D1'] - 0.20), za), (x(P['RAIL_D2']), za),
+                        (x(P['RAIL_D2']), zb), (x(P['RAIL_D1'] - 0.20), zb)]), y0, y1)
+        m.prismY(M([(x(P['RAIL_D2']), P['TR_Z_BOT']), (x(P['TR_D3']), P['TR_Z_BOT']),
+                    (x(P['TR_D3']), P['TR_ZB']), (x(P['RAIL_D2']), P['TR_ZB'])]), tg0, tg1)
+        m.prismY(M(land), tg0, tg1 - P['TG_RAMP_L'])
+        m.loftY(M(land), M(ramp), tg1 - P['TG_RAMP_L'], tg1)
         for k in (-7.0, 0.0, 7.0):
-            m.prismX(M([(y(P['TR_D3']), 116.0), (y(P['TR_D3'] + 0.60), 116.0),
-                        (y(P['TR_D3'] + 0.60), 119.2), (y(P['TR_D3']), 119.2)]),
+            m.prismY(M([(x(P['TR_D3']), 116.2), (x(P['TR_D3'] + 0.60), 116.2),
+                        (x(P['TR_D3'] + 0.60), 119.0), (x(P['TR_D3']), 119.0)]),
                      c + k - 0.8, c + k + 0.8)
     return m
 
 
 # ============================================================================
-# 5. PORTINHOLA (posicao fechada)
+# 6. JUNTAS DE TPE
 # ============================================================================
-def portinhola():
-    m = Mesh('portinhola')
-    g = -P['GAP']
-    ZP, ZB = P['Z_PLATE_T'], P['Z_PK']
-    # aba
-    m.sweep(PK, [(g, ZB), (g, ZP - 0.30), (g - 0.30, ZP)],
-            amps=[Z_TONG, Z_TONG, zsum(Z_TONG, Z_CHAM)])
-    m.fan(PK, g - 0.30, ZP, up=True, cy=P['PK_CY'], amp=zsum(Z_TONG, Z_CHAM))
-    # face inferior da aba, ate a saia
-    m.flat(TH, -0.30, PK, g, ZB, up=False, amp_out=Z_TONG)
-    # saia de vedacao (selo radial)
-    m.sweep(TH, [
-        (-0.90, P['LIP2_TIP']),
-        (-0.55, P['LIP2_TIP'] + 0.80),
-        (P['LIP2_CREST'], P['Z_CREST2']),      # crista, interferencia 0,30
-        (-0.30, ZB),
+def junta_perfil(ol, d0, z_top, name):
+    """Anel de secao retangular arredondada, assentado numa canaleta."""
+    m = Mesh(name)
+    w, hh, seat = P['TPE_W'], P['TPE_H'], P['TPE_SEAT']
+    d1 = d0 + w
+    zb = z_top - hh
+    r = 0.35
+    m.sweep(ol, [
+        (d0 + r, zb), (d1 - r, zb), (d1, zb + r), (d1, z_top - r),
+        (d1 - r, z_top), (d0 + r, z_top), (d0, z_top - r), (d0, zb + r),
+        (d0 + r, zb),
     ])
-    m.flat(TH, P['LIP2_IN'], TH, -0.90, P['LIP2_TIP'], up=False)
-    m.sweep(TH, [(P['LIP2_IN'], ZB), (P['LIP2_IN'], P['LIP2_TIP'])])
-    m.fan(TH, P['LIP2_IN'], ZB, up=False, cy=P['PK_CY'])
-    # lugs + munhoes da dobradica
-    hy, hz, r = P['HINGE_Y'], P['HINGE_Z'], P['HINGE_R']
-    for s in (1, -1):
-        a, b = s * 26.0, s * 29.0
-        if s < 0:
-            a, b = b, a
-        m.box(a, b, hy - 2.5, hy + 3.0, ZB, hz + r)
-        m.box(a, b, hy + 1.0, P['PK_CY'] - P['PK_HY'] + 6.0, ZB, ZP)
-        m.cylX(hy, hz, r, s * 29.0 if s > 0 else s * 31.8,
-               s * 31.8 if s > 0 else s * 29.0)
     return m
 
 
+def junta_aro():
+    return junta_perfil(OUT, P['GR_D0'] + 0.05,
+                        P['Z_PLATE_B'] + P['TPE_SEAT'], 'junta_aro')
+
+
+def junta_boca():
+    return junta_perfil(BC, P['GB_D0'] + 0.05,
+                        P['Z_TRACK'] + P['TPE_OUT'], 'junta_boca')
+
+
 # ============================================================================
-# 6. METRICAS
+# 7. METRICAS
 # ============================================================================
 def area(d):
     hx, hy, rc = P['HX'] + d, P['HY'] + d, P['RC'] + d
     return 4 * hx * hy - (4 - math.pi) * rc * rc
 
 
+def perim(d):
+    hx, hy, rc = P['HX'] + d, P['HY'] + d, P['RC'] + d
+    return 2 * (2 * hx - 2 * rc) + 2 * (2 * hy - 2 * rc) + 2 * math.pi * rc
+
+
+def perim_bc(d):
+    hx, hy, rc = P['BC_HX'] + d, P['BC_HY'] + d, P['BC_RC'] + d
+    return 2 * (2 * hx - 2 * rc) + 2 * (2 * hy - 2 * rc) + 2 * math.pi * rc
+
+
 def volume_litros(z_top):
     n, acc = 400, 0.0
-    z0, z1 = P['FLOOR'], z_top
+    z0 = P['FLOOR']
     for i in range(n):
-        z = z0 + (i + 0.5) * (z1 - z0) / n
-        d = DI_SEAL if z > P['Z_SEAL0'] else di(z)
-        acc += area(d) * (z1 - z0) / n
+        z = z0 + (i + 0.5) * (z_top - z0) / n
+        acc += area(di(z)) * (z_top - z0) / n
     return acc / 1e6
 
 
+def forcas():
+    """Estimativa de forca: TPE shore 45A, 30% de aperto ~ 0,22 N/mm."""
+    n_mm = 0.22
+    aro = perim(P['GR_D0'] + P['TPE_W'] / 2) * n_mm
+    boca = perim_bc(P['GB_D0'] + P['TPE_W'] / 2) * n_mm
+    ramp = math.degrees(math.atan(P['TPE_OUT'] / P['TG_RAMP_L']))
+    mu = 0.30
+    f_trava = aro / 2.0
+    f_dedo = f_trava * (math.tan(math.radians(ramp)) + mu)
+    f_abre = f_trava * (mu - math.tan(math.radians(ramp)))
+    return dict(aperto_aro_n=round(aro), aperto_boca_n=round(boca),
+                por_trava_n=round(f_trava), rampa_graus=round(ramp, 1),
+                dedo_trava_n=round(f_dedo), dedo_destrava_n=round(max(f_abre, 0)))
+
+
+def tensoes():
+    """Lingueta em flexao no carregamento de projeto."""
+    F = forcas()['por_trava_n'] * 3.0             # fator de projeto 3x (queda)
+    b = 2 * P['TG_HALF']
+    t = P['TG_LAND'] - P['TG_BOT']
+    crest = dw(P['ABA_Z0']) + P['ABA_D']
+    arm = P['RAIL_D2'] - (P['TG_D'] + crest) / 2
+    Z = b * t * t / 6.0
+    return dict(carga_n=round(F), largura_mm=b, espessura_mm=round(t, 2),
+                braco_mm=round(arm, 2), sigma_mpa=round(F * arm / Z, 1),
+                cisalh_mpa=round(F / (b * t), 1))
+
+
 def metricas():
-    return dict(
+    m = dict(
         area_proj_cm2=round(area(0.0) / 100.0, 1),
         forca_t=round(area(0.0) / 100.0 * 0.35),
         vol_borda_l=round(volume_litros(P['H']), 2),
-        vol_util_l=round(volume_litros(P['Z_SEAL0']), 2),
-        boca_cm2=round((4 * P['TH_HX'] * P['TH_HY']
-                        - (4 - math.pi) * P['TH_RC'] ** 2) / 100.0, 1),
-        perimetro_boca_mm=round(2 * (2 * P['TH_HX'] - 2 * P['TH_RC'])
-                                + 2 * (2 * P['TH_HY'] - 2 * P['TH_RC'])
-                                + 2 * math.pi * P['TH_RC'], 1),
-        area_porta_cm2=round((4 * P['PK_HX'] * P['PK_HY']
-                              - (4 - math.pi) * P['PK_RC'] ** 2) / 100.0, 1),
-        perimetro_vedacao_mm=round(perimetro(P['LIP_CREST']), 1),
-        interferencia_aro=round(P['LIP_CREST'] - DI_SEAL, 3),
-        interferencia_porta=round(P['LIP2_CREST'] + KC * (P['Z_PK'] - P['Z_CREST2']), 3),
+        vol_util_l=round(volume_litros(P['Z_PLATE_B'] - 4.0), 2),
+        boca_cm2=round((4 * P['BC_HX'] * P['BC_HY']
+                        - (4 - math.pi) * P['BC_RC'] ** 2) / 100.0, 1),
+        curso_porta_mm=P['CU_CURSO'],
+        abertura_livre_cm2=round((2 * P['BC_HX']) * (P['CU_CURSO'] - 6.0) / 100.0, 1),
+        perim_aro_mm=round(perim(P['GR_D0'] + P['TPE_W'] / 2), 1),
+        perim_boca_mm=round(perim_bc(P['GB_D0'] + P['TPE_W'] / 2), 1),
+        aperto_mm=round(P['TPE_OUT'], 2),
+        aperto_pct=round(P['TPE_OUT'] / P['TPE_H'] * 100),
+        engate_mm=round((P['ABA_D'] - P['RECUO'] + do(P['ABA_Z0'])) - P['TG_D'], 2),
+        puxada_mm=round(P['TG_LAND'] - P['TG_RAMP'], 2),
     )
-
-
-def perimetro(d):
-    hx, hy, rc = P['HX'] + d, P['HY'] + d, P['RC'] + d
-    return 2 * (2 * hx - 2 * rc) + 2 * (2 * hy - 2 * rc) + 2 * math.pi * rc
+    m.update(forcas())
+    m.update(tensoes())
+    return m
 
 
 # ============================================================================
 if __name__ == '__main__':
     here = os.path.dirname(os.path.abspath(__file__))
-    parts = [corpo(), tampa(), portinhola(), trava()]
-    for m in parts:
-        m.stl(os.path.join(here, 'stl', m.name + '.stl'))
-        bb = m.bbox()
-        print('%-12s %6d tri  %6.1f cm3  %5.1f g   bbox x[%.1f %.1f] y[%.1f %.1f] z[%.1f %.1f]'
-              % (m.name, len(m.F), m.volume_cm3(), m.volume_cm3() * P['RHO'],
-                 bb[0], bb[1], bb[2], bb[3], bb[4], bb[5]))
-    print(json.dumps(metricas(), indent=1))
-    # blob do visualizador
+    parts = [corpo(), tampa(), cursor(), trava(), junta_aro(), junta_boca()]
     out = {}
-    for m in parts:
-        p, n, i = m.buffers()
-        out[m.name] = dict(p=base64.b64encode(p).decode(),
-                           n=base64.b64encode(n).decode(),
-                           i=base64.b64encode(i).decode(),
-                           nv=len(m.V), nt=len(m.F),
-                           g=round(m.volume_cm3() * P['RHO'], 1))
+    for p in parts:
+        p.stl(os.path.join(here, 'stl', p.name + '.stl'))
+        rho = P['RHO_TPE'] if p.name.startswith('junta') else P['RHO']
+        bb = p.bbox()
+        print('%-11s %6d tri %7.2f cm3 %6.2f g  x[%.1f %.1f] y[%.1f %.1f] z[%.1f %.1f]'
+              % (p.name, len(p.F), p.volume_cm3(), p.volume_cm3() * rho,
+                 bb[0], bb[1], bb[2], bb[3], bb[4], bb[5]))
+        b1, b2, b3 = p.buffers()
+        out[p.name] = dict(p=base64.b64encode(b1).decode(),
+                           n=base64.b64encode(b2).decode(),
+                           i=base64.b64encode(b3).decode(),
+                           nv=len(p.V), nt=len(p.F),
+                           g=round(p.volume_cm3() * rho, 2))
+    M = metricas()
+    print(json.dumps(M, indent=1))
     out['P'] = {k: (round(v, 3) if isinstance(v, float) else v) for k, v in P.items()}
-    out['M'] = metricas()
+    out['M'] = M
     js = 'window.GEO=' + json.dumps(out, separators=(',', ':')) + ';'
     open(os.path.join(here, 'web', 'geo.js'), 'w').write(js)
     print('geo.js  %.0f kB' % (len(js) / 1024))

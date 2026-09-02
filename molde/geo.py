@@ -200,6 +200,50 @@ class Mesh:
                 else:
                     self.tri(idx[0], idx[k + 1], idx[k])
 
+    def prismY(self, poly, y0, y1):
+        """poly: [(x,z)] CCW no plano XZ; extrudado ao longo de Y."""
+        n = len(poly)
+        for k in range(n):
+            (x0, z0) = poly[k]
+            (x1, z1) = poly[(k + 1) % n]
+            dx, dz = x1 - x0, z1 - z0
+            L = math.hypot(dx, dz) or 1.0
+            nx, nz = dz / L, -dx / L
+            a = self.add(x0, y0, z0, nx, 0, nz)
+            b = self.add(x1, y0, z1, nx, 0, nz)
+            c = self.add(x1, y1, z1, nx, 0, nz)
+            d = self.add(x0, y1, z0, nx, 0, nz)
+            self.quad(a, d, c, b)
+        for (yy, s) in ((y1, 1.0), (y0, -1.0)):
+            idx = [self.add(x, yy, z, 0, s, 0) for (x, z) in poly]
+            for k in range(1, n - 1):
+                if s > 0:
+                    self.tri(idx[0], idx[k + 1], idx[k])
+                else:
+                    self.tri(idx[0], idx[k], idx[k + 1])
+
+    def loftY(self, pa, pb, y0, y1):
+        n = len(pa)
+        for k in range(n):
+            (xa0, za0), (xa1, za1) = pa[k], pa[(k + 1) % n]
+            (xb0, zb0), (xb1, zb1) = pb[k], pb[(k + 1) % n]
+            dx = (xa1 + xb1) / 2 - (xa0 + xb0) / 2
+            dz = (za1 + zb1) / 2 - (za0 + zb0) / 2
+            L = math.hypot(dx, dz) or 1.0
+            nx, nz = dz / L, -dx / L
+            a = self.add(xa0, y0, za0, nx, 0, nz)
+            b = self.add(xa1, y0, za1, nx, 0, nz)
+            c = self.add(xb1, y1, zb1, nx, 0, nz)
+            d = self.add(xb0, y1, zb0, nx, 0, nz)
+            self.quad(a, d, c, b)
+        for (yy, poly, s) in ((y1, pb, 1.0), (y0, pa, -1.0)):
+            idx = [self.add(x, yy, z, 0, s, 0) for (x, z) in poly]
+            for k in range(1, n - 1):
+                if s > 0:
+                    self.tri(idx[0], idx[k + 1], idx[k])
+                else:
+                    self.tri(idx[0], idx[k], idx[k + 1])
+
     def box(self, x0, x1, y0, y1, z0, z1):
         self.prismX([(y0, z0), (y1, z0), (y1, z1), (y0, z1)], x0, x1)
 

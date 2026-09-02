@@ -393,13 +393,35 @@ que a sustenta. Proposta sem evidência não entra.
 
 ## 8. Modelo 3D — `molde/`
 
-Geometria paramétrica em Python puro (sem dependência) da **Tampa Portinhola** sobre a
+Geometria paramétrica em Python puro (sem dependência) da **Tampa de Correr** sobre a
 plataforma Aro Comum. `molde/pecas.py` é a **fonte única das cotas**: STL, render 3D do
 artefato, corte cotado e tabela saem do mesmo dicionário `P`. `molde/README.md` traz a
 arquitetura de vedação, a spec de ferramentaria e as pendências.
 
 Regenerar: `python3 pecas.py && python3 secao.py && python3 build_html.py`
 (`preview.py` rasteriza a malha em PNG para conferir sem abrir CAD).
+
+### A arquitetura que ficou (v2)
+
+Porta **de correr** sobre a mesa (não articulada) + **duas juntas de TPE**, uma no aro
+(590 mm) e outra em volta da boca (251 mm), + **duas travas de correr** nas faces longas.
+7 peças, 5 moldes, 178,6 g.
+
+- **PP relaxa; elastômero estabiliza.** Vedação por lábio de PP em interferência perde pressão
+  de contato com o tempo — é a hipótese mais provável para `176` e `210` caírem 57% e 39% com a
+  melhor MB da família. Junta comprimida 29% cai nas primeiras semanas e estabiliza.
+- **A junta entra montada, nunca bi-injetada.** 2K sobremolda TPE no PP e transforma o refugo
+  em PP contaminado — mata o ciclo de moído de R$ 2,63 M/ano. Anel injetado à parte (molde
+  família, Karinprene shore 45, `CODPROD 997`, cadastrado e nunca comprado) mantém o PP
+  mono-resina. **Essa é a decisão que torna TPE compatível com esta fábrica.**
+- **Junta muda a força de fechamento em uma ordem de grandeza.** 590 mm a 29% pedem ~130 N —
+  não se fecha empurrando com a mão. Por isso todo pote hermético do mercado tem trava, não
+  encaixe. A rampa de 2,9° da trava dá vantagem de 14× (23 N de dedo) e é autotravante.
+- **Cursor sobre 4 patins com pistas de folga sincronizada.** Os quatro descem juntos no fim do
+  curso, então o cursor não inclina em ponto nenhum e a junta vê compressão, nunca arrasto.
+  Junta que arrasta, desgasta.
+- **O elo mais fraco é a boca, não o aro.** O aro comprime e libera; a boca vê 5.000 ciclos de
+  cursor descendo em cima dela. Qualquer alegação de estanqueidade falha ali primeiro.
 
 ### O que essa rodada acrescentou de dado
 
@@ -414,7 +436,6 @@ Regenerar: `python3 pecas.py && python3 secao.py && python3 build_html.py`
   pote acoplado com rosca). Filtrar sempre por `REFERENCIA`.
 - **Parede de 1,8 mm é pesada** para essa pegada. O 008, mesmo aro e o dobro da altura, pesa
   230 g no cadastro — ou seja, a casa roda ~1,1 mm. O modelo usa 1,30.
-- **Trava de correr > alavanca.** A trava de alavanca exigia dobradiça viva de 0,45 mm em PP
-  H 105 (homopolímero com clarificante — nucleante deixa dobradiça frágil). O cursor de correr
-  trabalha em cisalhamento, não flexiona, e a rampa da lingueta puxa a tampa 0,08 mm contra o
-  batente. Custo: +1 molde pequeno e +2 cliques de montagem. Trilho em T sai por gaveta reta.
+- **Trava de correr > alavanca.** A alavanca exigia dobradiça viva de 0,45 mm em PP H 105
+  (homopolímero com clarificante — nucleante deixa dobradiça frágil). O cursor de correr
+  trabalha em cisalhamento e a rampa aplica a força de fechamento. Trilho em T sai por gaveta reta.
