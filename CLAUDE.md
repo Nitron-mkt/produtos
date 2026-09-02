@@ -427,10 +427,10 @@ Porta **de correr** sobre a mesa (não articulada) + **duas juntas de TPE**, uma
 
 - **A casa já injeta dobradiça articulada.** Jarras flip top `153` · `222` · `182`:
   **R$ 1,06 M em 12 M, +2,1%, 1.527 clientes** — crescendo enquanto a marca própria cai 18%.
-  Portinhola não é técnica nova aqui.
+  Mecanismo de tampa articulada não é técnica nova aqui.
 - **Cadastro do 008** (`TGFPRO`): `10,5 × 20,7 × 25,0 cm`, 230 g. Confirma a ordem de
-  grandeza do aro 105 × 206 e **ainda exige o desenho** — 1 mm de divergência é 3× a
-  interferência de vedação (0,35 mm).
+  grandeza do aro 105 × 206 e **ainda exige o desenho** — 1 mm de divergência é mais de duas
+  vezes o aperto da junta (0,40 mm).
 - **`CODPROD` ≠ `REFERENCIA`.** Os números `817/818/819`, `151/154/155/156` do item 5 são
   **referências**. Como CODPROD eles apontam para outras peças (cesto empilhável, alça,
   pote acoplado com rosca). Filtrar sempre por `REFERENCIA`.
