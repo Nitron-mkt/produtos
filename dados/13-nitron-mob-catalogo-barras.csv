@@ -1,0 +1,22 @@
+referencia,codprod,comprimento_mm,uso,peso_liq_g_cadastrado,peso_calculado_g,divergencia,derivadas_apos_corte
+PSC-01,15952,315,usada direto,71.28,71.28,ok,
+PSA-02,15927,346,usada direto,78.30,78.30,ok,
+PSC-02,15953,415,usada direto,93.91,93.91,ok,
+PSA-03,15940,424,usada direto,95.94,95.94,ok,
+PST-01,15956,437,usada direto,98.88,98.88,ok,
+PSA-04,15941,474,usada direto,107.25,107.25,ok,
+PSA-05,15942,513,usada direto,116.08,116.08,ok,
+PSC-03,15954,595,usada direto,134.63,134.63,ok,
+PST-02,15957,617,usada direto,139.62,139.62,ok,
+PSA-01,15922,654,usada direto,147.98,147.98,ok,
+PSC-04,15955,717,usada direto,162.24,162.24,ok,
+BPE-01,15863,310,cortada em 5,70.14,70.14,ok,BPE-01-AC 60mm
+BPS-01,15865,337,cortada em 2,76.25,76.25,ok,BPS-01-AC 167mm
+BCO-01,15850,362,cortada em 2,819.15,81.91,10x ERRADO,BCO-01-AC 180mm
+BAL-01,15838,368,cortada em 2,83.27,83.27,ok,BAL-01-AC 183mm
+BLA-01,15854,403,cortada em 2,91.19,91.19,ok,BLA-01-AC 200mm
+BLA-02,15859,417,cortada em 2,94.36,94.36,ok,BLA-02-AC 207mm
+BAL-02,15845,542,cortada em 2,122.64,122.64,ok,BAL-02-AC 270mm
+BLA-03,15861,577,cortada em 2,130.57,130.57,ok,BLA-03-AC 287mm
+BAL-02-AC,15847,270,componente,610.93,61.10,10x ERRADO,
+BLA-03-AC,15862,287,componente,649.41,64.94,10x ERRADO,

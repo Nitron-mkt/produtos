@@ -1,0 +1,15 @@
+item,codprod,campo,valor_cadastrado,valor_correto_ou_esperado,impacto,evidencia
+BCO-01,15850,PESOLIQ,0.81915 kg,0.08191 kg,MRP de madeira 10x,362mm x 0.22628 g/mm
+BAL-02-AC,15847,PESOLIQ,0.61093 kg,0.06110 kg,entra nas 3 prateleiras 4P,270mm x 0.22628 g/mm
+BLA-03-AC,15862,PESOLIQ,0.64941 kg,0.06494 kg,entra nas 9 prateleiras,287mm x 0.22628 g/mm
+850-TZ trizeta,14811,PESOLIQ,0.022 kg,0.0443 kg,resina subdeclarada 2.0x,volume STL 48.96 cm3 x 0.905
+850-L,14812,PESOLIQ,0.022 kg,0.0320 kg,resina subdeclarada 1.5x,volume STL 35.36 cm3 x 0.905
+850-H porta-haste,14815,PESOLIQ,0.022 kg,0.0102 kg,resina superdeclarada 2.2x,volume STL 11.29 cm3 x 0.905
+850-CZ cruzeta,14814,PESOLIQ,0.022 kg,0.0566 kg,resina subdeclarada 2.6x,volume STL 62.57 cm3 x 0.905
+850-T tampa,14813,PESOLIQ,0.022 kg,~0.0011 kg,resina superdeclarada 20x,custo R$ 0.00969 / R$ 8.74 por kg
+14 PAs da linha,14170-14183,PESOLIQ,0.525 kg identico nas 14,0.877 a 5.140 kg,frete e ficha,soma da BOM recalculada
+14 PAs da linha,14170-14183,ALTURA/LARGURA/ESPESSURA,1.2 / 21 / 39.5 identico nas 14,dimensao real por produto,frete e cubagem,valor unico copiado
+850-TZ trizeta,14811,AD_QTDCAVIDADE,1,2 ou mais (molde e ESQ/DIR),plano de injecao,STL 01 e 02 sao espelhos em Z (3204 de 3238 vertices)
+19 PIs de barra,15838-15957,CUSGER,R$ 14 a 33 MILHOES por unidade,R$ 1 a 25 por peca,VW_COMPOSICAO_NIT inutilizavel,compra Braspine R$ 168.423 em unidade que nao e a peca
+854 KIT SUPORTE DEC. (G),14183,estrutura,sem nenhuma linha de BOM,BOM completa,nao pode ser produzida nem custeada,ausente em VW_PA_PIS_QTD_NIT
+19 PIs de barra,15838-15957,CODGRUPOPROD,8000100 Diversos sob Exportacao,grupo de materia-prima de madeira,relatorio por grupo distorcido,TGFGRU
