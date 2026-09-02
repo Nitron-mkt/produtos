@@ -107,6 +107,41 @@ Esse erro já produziu uma recomendação publicada e errada.
 | `AD_FICHATECNICA` (tabela) | 4 linhas |
 | `TPRCPR` (roteiro) | 0 linhas |
 
+### Geografia — as armadilhas nº 3 e nº 4
+
+Caminho: `TGFPAR.CODCID → TSICID.CODCID`, UF em `TSICID.UF → TSIUFS.CODUF` (`TSIUFS.UF` é a sigla).
+Códigos: RO=11 · AC=20 · MT=5 · AM=18 · MS=12 · TO=14 · PA=9 · RR=24 · AP=28 · SP=7 · MG=1.
+
+**⚠️ `TSICID` tem cidades duplicadas.** `SUM(POPULACAO)` por UF dá **279 M** para o Brasil (SP sai com
+74,7 M). Confirmados: `Ji-Paraná` / `Ji-Paraná.`, `Belém` / `Belem`, `Nova Brasilândia D'Oeste` ×3.
+**Sempre deduplique por `CODMUNFIS`** (código IBGE) antes de somar população:
+
+```sql
+WITH DEDUP AS (SELECT UF, CODMUNFIS, MAX(POPULACAO) POP FROM TSICID
+               WHERE CODMUNFIS IS NOT NULL AND NVL(POPULACAO,0)>0 GROUP BY UF, CODMUNFIS)
+```
+Depois de deduplicar: **209,0 M de população e contagem de municípios batendo com o IBGE**
+(SP 645, MG 853, RO 52, MT 141, AM 62, AC 22). Aí `POPULACAO` é confiável.
+
+**⚠️ `TSICID.DISTANCIA` está 100% zerada.** Não serve para logística. Distância tem de vir de roteirizador.
+
+**⚠️ `ALTURA` / `LARGURA` / `ESPESSURA` de `TGFPRO` têm datas em serial Excel coladas dentro.**
+Estão preenchidas em ~89% dos 4.252 SKUs (unidade = **cm**) e são úteis para cubagem — mas há
+contaminação: `MAX(ALTURA)` sai **45.308 / 45.340 / 45.448** em Coloratto, Limpeza, POP e Potes
+(45.448 ≈ 11/06/2024). Um único registro desses zera qualquer média de m³ da linha inteira.
+**Filtre `BETWEEN 0.5 AND 200`** antes de calcular volume.
+
+**⚠️ `TGFCAB.VLRFRETE` é ~zero em toda a base** (R$ 1.536 em 27.803 notas no Brasil, R$ 0 no Norte).
+O frete não vai destacado na nota — a **NTR LOG (CODEMP 3)** é a transportadora do grupo. Custo de
+servir região não é mensurável pelo faturamento; tem de vir da NTR LOG.
+
+### As empresas do grupo (`TSIEMP`)
+
+Nitronplast é **1 e 2 (Guarulhos/SP)** e **14 (Extrema/MG)**. As outras 19 são outras empresas do grupo
+(Hyak, Mood Fruits, NTR Log, Now, Roga…) e **não entram no recorte de faturamento**.
+Relevantes para o projeto: **8 = TEAK BRAZIL (Guarulhos)** e **21 = TEAK BRAZIL (RONDÔNIA), em Ouro
+Preto do Oeste**, operando desde 09/04/2026.
+
 ### Capacidade de máquina
 
 - Parque: `VW_MAQUINA_CAPACIDADE` — `QTDCAPACIDADEPAD` é a tonelagem. 56 injetoras na
@@ -211,6 +246,44 @@ Laranja é a cor mais produtiva por SKU (R$ 233 k vs R$ 58 k do chumbo) porque �
 Organização **15 de 15** · Cozinha 12 · Potes 9 · Teca 7 (Tier D, Tramontina e Stolf
 prioridade máxima) · Limpeza 4 · Lixeiras 4 · Banheiro 3 · Geladeira 2 · ECO 2 · Infantil 1 ·
 **Frasqueiras, Micro-ondas, Jarras e Decor Util: ZERO**.
+
+### Geografia e expansão (Rondônia — análise de 02/09/2026)
+
+Ver `analise/06-filial-cd-rondonia.md`.
+
+- **Região RO+AC+MT+AM: R$ 1,69 M em 12 M = 2,05% do faturamento**, 241 clientes ativos, 1.996
+  cadastrados. **Mas é a mais rentável da casa: MB 55,4%** contra 49,2% do resto do Brasil,
+  **R$ 46,01/kg** (+14,7%) e **53,1% na tabela padrão** contra 13,3%.
+  Isso não é força de marca — é ausência de alternativa local, e é o prêmio que um CD dissolve.
+- **A região cresce +4,1% em 2 anos enquanto a casa cai −18,9%** (23 pontos de vantagem). Base pequena
+  e volátil: AC foi 196 k → 56 k → 222 k, que é ruído de 2 ou 3 pedidos.
+- **Penetração: 2,24 clientes ativos/100 mil hab** contra **6,12** no benchmark (Brasil ex-SP/RJ/MG/ES
+  e ex-Norte/CO) — 2,7× menos. Mas **R$/hab está só 18% abaixo**, porque cada cliente vale 2,3× mais.
+  O buraco é de cliente, não de faturamento.
+- **1.755 clientes cadastrados na região não compraram em 12 M** — 303 compraram nos últimos 1–3 anos
+  (**LTV acumulado R$ 3,38 M**, muitos parados desde jun–jul/25), 266 pararam há 3+ anos, 1.186 nunca
+  compraram. Teto por penetração: **657 ativos (gap de +416)**.
+- **O CD não fecha na aritmética.** Os R$ 934 k de lucro bruto de hoje saem com custo fixo incremental
+  ~zero. Um CD de R$ 960 k/ano exige a região em **R$ 3,42 M** só para empatar — e o **teto por
+  penetração é R$ 2,96 M**. Se o mix migrar da tabela padrão para canal (MB 49,2%), o break-even sobe
+  para R$ 3,64 M.
+- **ICMS é a variável decisiva e está fora do ERP.** Medido: Guarulhos → RO interestadual = **5,67%
+  efetivo** (alíquota 7%); **Extrema vendendo dentro de MG = 10,44%** (alíquota 12%). Localizar a venda
+  custa **+4,77 pontos** — R$ 162 k/ano sobre R$ 3,4 M. A alíquota interna de RO é maior que os 12% de
+  MG, então tende a ser pior. **Extrema só fecha porque MG tem regime especial.** Sem crédito presumido
+  de atacadista em RO, o CD está reprovado antes de qualquer outro estudo.
+- **Ouro Preto do Oeste é, surpreendentemente, o melhor hub testado**: 833 km médios ponderados por
+  demanda contra 872 de Porto Velho, 1.046 de Sinop, 1.188 de Cuiabá e 2.819 de Guarulhos — e é o único
+  que zera a cauda acima de 1.500 km. **Mas só 28,9% da demanda fica dentro de 400 km.** (Distâncias
+  aproximadas — `TSICID.DISTANCIA` está zerada.)
+- **Sortimento: 70 SKUs = 50% da receita regional · 184 = 80% · 277 = 90%**, de 707 comprados. Mediana
+  por SKU: **90 un/ano e R$ 755/ano**. Capital de giro não é gargalo (R$ 100–170 k). Se houver CD, ele é
+  de **184 SKUs**, nunca de 707.
+- **O Pará não é endereçável por RO.** É o maior mercado do Norte (R$ 4,55 M, +65%) mas é **Belém e o
+  leste do estado** — 2.500 km de Ouro Preto do Oeste.
+- **O precedente Extrema:** abriu em 2025 e chegou a R$ 37,25 M enquanto a Filial 2 caiu de R$ 98,27 M
+  para R$ 40,54 M e o total caiu 18,9%. **Nó novo move volume existente; não cria demanda.** Para RO, a
+  métrica que responde é **clientes ativos na região** (241 hoje), não o faturamento da nova empresa.
 
 ### Padrões finos já detectados
 - **Alto está crescendo, Raso está caindo** na família com travas (Alto: 3 de 4 subindo;
@@ -339,6 +412,23 @@ case de lançamento contabiliza.
    Nenhuma foi mal concebida — foram **executadas na litragem errada ou abandonadas**.
    A busca no `TGFPRO` com 3 palavras diferentes é obrigatória antes de propor.
 
+11. **Cadastro em lote não é mercado.** Ouro Preto do Oeste aparecia com **22 clientes cadastrados** —
+   mais que Ji-Paraná (20) e Ariquemes (18), numa cidade de 38 mil habitantes. Eram **14 pessoas
+   físicas cadastradas em lote em 07/05, 03/06 e 02/07/2026**: a folha/parceiros da operação Teak RO.
+   Clientes comerciais reais na cidade: **2**. Antes de ler contagem de `TGFPAR` como potencial de
+   mercado, olhe `DTCAD` e se a pessoa já comprou.
+12. **Sinergia de localização não é sinergia de demanda.** A fazenda de teca está em RO e a
+   **Linha Teca é a que menos vende na região: 0,74%** (R$ 10.254 em 33 SKUs) — e tem a **pior MB da
+   casa, 36,8%**, já marcada como "CORRIGIR ANTES". A Teak justifica o endereço (galpão, CNPJ, gente),
+   **não** justifica o investimento.
+13. **Teste a hipótese antes de contá-la.** A hipótese "frete distorce o mix da região" era plausível e
+   **não sobreviveu**: correlação entre densidade de valor e share regional é **r = +0,009** por R$/kg e
+   **r = −0,115** por R$/m³ (r² ≤ 0,04, n=14). Com 241 clientes e 300 notas o mix é resultado de poucos
+   pedidos individuais. Não construa sortimento sobre mix sem sinal.
+14. **Separe o lucro que já existe do lucro incremental.** O erro de business case de CD/filial é
+   comparar o custo fixo novo com o lucro bruto **total** da região. Os R$ 934 k de hoje já saem com
+   custo fixo incremental ~zero. O ativo novo tem de pagar a si mesmo com margem **incremental**.
+
 ### Achados abertos (valem mais que a maioria dos lançamentos)
 
 - **Branco em Organização cai 17,0%** — R$ 5,95 M → R$ 4,94 M, ~R$ 1 M/ano. Causa não
@@ -352,6 +442,14 @@ case de lançamento contabiliza.
 - **`TGFEST` não é legível sem mapa de local** — 120 combinações empresa/local para 3
   produtos, com o local 1080000 em negativo grande. Falta saber qual `CODLOCAL` é o
   armazém de PA para medir saldo e ruptura.
+- **Custo fixo real de um CD anexo à Teak RO** (galpão compartilhado, 6–8 pessoas). Sem esse número o
+  business case de Rondônia não fecha nem reprova. É o dado que falta.
+- **RO tem crédito presumido / regime especial de atacadista-distribuidor?** Decide sozinha a filial.
+- **Algum concorrente Tier A já tem estoque local no Norte?** Os 15 são fábricas do Sul/Sudeste, mas o
+  `mapa_concorrentes_nitron.md` não registra sede nem CD e `pdp_ml_oferta` não tem localização de
+  vendedor. Se algum já está instalado em RO, a tese de pioneirismo cai.
+- **Custo de frete por região tem de vir da NTR LOG (CODEMP 3)** — `TGFCAB.VLRFRETE` é ~zero. É o número
+  que mais move a tese de Rondônia e não está no faturamento.
 - **Perguntas para a fábrica:** os moldes de tampa aceitam inserto trocável? Os potes
   quadrados atuais são altos ou rasos?
 
