@@ -1,5 +1,33 @@
 # Filial + CD em Ouro Preto do Oeste (RO) — análise de mercado e de viabilidade
 
+> ### ⚠️ CORREÇÃO — 02/09/2026, após a análise de CNAE (`07-cnae-mercado-rondonia.md`)
+>
+> **As contagens de cliente deste relatório somavam pessoa física e pessoa jurídica.** PF não é
+> canal: são 13.973 registros que somam R$ 293 k (0,36% do faturamento) a **R$ 21 por ano cada**.
+> E a proporção de PF varia de 24% em RO a 85% na Bahia, o que distorceu toda a comparação
+> entre estados na §3.
+>
+> Refeita só com PJ, **a sub-penetração da região desaparece**: 0,79 cliente PJ por 100 mil
+> habitantes contra 0,82 do benchmark, e Rondônia sozinha em 1,32 — acima. Cruzando com o
+> cadastro de estabelecimentos do IBGE por CNAE, **Rondônia está 1,6× acima** da penetração de
+> estados comparáveis, e o gap endereçável é **+3 clientes na região**, não +416.
+>
+> | Item | Neste relatório | **Correto (PJ)** |
+> |---|---|---|
+> | Clientes ativos na região | 241 | **105** |
+> | Cadastrados ativos | 1.996 | **539** |
+> | Cadastrados sem compra em 12 M | 1.755 | **434** |
+> | Dormentes 1–3 anos | 303 | **119** (LTV R$ 3,375 M — era 99,9% PJ) |
+> | Teto por penetração | 657 ativos (+416) | **88 (+3)** no benchmark · 224 (+139) no teto de SP |
+>
+> **A recomendação não muda — fica mais forte.** O CD já não fechava com gap de +416; com +3,
+> ele exige a região na penetração de São Paulo só para empatar. Faturamento, margem (55,4%),
+> crescimento (+4,1%), ICMS, geografia e o precedente Extrema seguem válidos, e a Fase 1
+> (atacar dormentes) sobrevive intacta porque o LTV de R$ 3,38 M era quase todo PJ.
+>
+> **Leia a §3 e a §5 deste documento com os números da tabela acima.**
+
+
 **Data:** 02/09/2026 · **Fonte:** Sankhya produção (TGFCAB/TGFITE/TGFPRO/TGFGRU/TGFCUS/TGFTAB/TGFPAR/TSICID/TSIUFS/TSIEMP)
 **Recorte:** marca própria, empresas 1/2/14, `STATUSNOTA='L'`, `TIPMOV IN ('V','D')`, `ATUALFIN<>0`,
 transferências intercompany fora, `CODTAB` 84 (Avon) e 3 (exportação) excluídas.

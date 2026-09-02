@@ -247,6 +247,39 @@ Organização **15 de 15** · Cozinha 12 · Potes 9 · Teca 7 (Tier D, Tramontin
 prioridade máxima) · Limpeza 4 · Lixeiras 4 · Banheiro 3 · Geladeira 2 · ECO 2 · Infantil 1 ·
 **Frasqueiras, Micro-ondas, Jarras e Decor Util: ZERO**.
 
+### ⚠️ Pessoa física não é canal — a armadilha nº 5
+
+**A base de clientes real da Nitron é 3.376 PJ, não 17.349.** Os outros 13.973 são pessoa
+física: somam **R$ 293 k (0,36% do faturamento)** a **R$ 21 por ano cada**, em notas de R$ 20.
+É balcão, amostra e funcionário. PJ faz R$ 81,98 M, R$ 24.282 por cliente/ano.
+
+**Sempre separe `TGFPAR.TIPPESSOA` antes de contar cliente.** A proporção de PF varia de
+**24% em RO a 85% na Bahia** — qualquer comparação de contagem de clientes entre praças sem
+esse corte dá o resultado errado. Foi assim que a primeira análise de Rondônia mediu 2,7× de
+sub-penetração onde não havia nenhuma.
+
+Isso afeta **toda métrica de "número de clientes" já estabelecida neste projeto** (clientes por
+linha em `pdp_linha`, clientes por SKU, cobertura de cor). Refazer por PJ antes de usar.
+
+### CNAE — como dimensionar mercado endereçável
+
+`TGFPAR.CNAE` parece vazio (9,8% do cadastro) mas **entre PJ a cobertura é ~99%**; PF não tem
+CNAE. Formato: **subclasse de 7 dígitos** (`4759899`) — divisão = 2 primeiros, grupo = 3,
+**classe = 5 primeiros**. Descrições em `TLFCNAE` (`CODCNAE` tem tamanho variável por nível).
+
+Perfil dos compradores PJ: **96,6% do faturamento em divisões 46 e 47** (comércio).
+**12 classes = 82,3% dos clientes PJ:** 47598 (643) · 47130 (539) · 47555 (397) · 47121 (265) ·
+47113 (247) · 47890 (165) · 47814 (123) · 47440 (99) · 47610 (99) · 47636 (99) · 46494 (91) ·
+47725 (69). Esse é o **conjunto núcleo** de mercado endereçável.
+
+**Fonte externa de estabelecimentos: IBGE/CEMPRE via SIDRA.**
+- Tabela **9528** — unidades locais por **classe** da CNAE 2.0, níveis UF **e município**, 2022-2024.
+  `https://apisidra.ibge.gov.br/values/t/9528/n3/<cod_uf>/v/706/p/last/c12762/all`
+- Tabela **9529** — mesma coisa com **faixa de pessoal ocupado**, mas só até **grupo**.
+- Rótulos vêm como `47.59-8 Descrição` → classe = `47598`. Valores `..` e `-` são suprimidos.
+- **Códigos de UF do IBGE ≠ códigos do Sankhya** (MT: IBGE 51, Sankhya 5; AC: 12 vs 20).
+- Uma chamada por UF; `|` como separador de territórios é rejeitado.
+
 ### Geografia e expansão (Rondônia — análise de 02/09/2026)
 
 Ver `analise/06-filial-cd-rondonia.md`.
@@ -257,15 +290,22 @@ Ver `analise/06-filial-cd-rondonia.md`.
   Isso não é força de marca — é ausência de alternativa local, e é o prêmio que um CD dissolve.
 - **A região cresce +4,1% em 2 anos enquanto a casa cai −18,9%** (23 pontos de vantagem). Base pequena
   e volátil: AC foi 196 k → 56 k → 222 k, que é ruído de 2 ou 3 pedidos.
-- **Penetração: 2,24 clientes ativos/100 mil hab** contra **6,12** no benchmark (Brasil ex-SP/RJ/MG/ES
-  e ex-Norte/CO) — 2,7× menos. Mas **R$/hab está só 18% abaixo**, porque cada cliente vale 2,3× mais.
-  O buraco é de cliente, não de faturamento.
-- **1.755 clientes cadastrados na região não compraram em 12 M** — 303 compraram nos últimos 1–3 anos
-  (**LTV acumulado R$ 3,38 M**, muitos parados desde jun–jul/25), 266 pararam há 3+ anos, 1.186 nunca
-  compraram. Teto por penetração: **657 ativos (gap de +416)**.
+- **~~Penetração: 2,24 clientes ativos/100 mil hab contra 6,12 no benchmark~~ — ERRADO, contava PF.**
+  Só PJ: região **0,79 por 100 mil hab contra 0,82 do benchmark** — sem sub-penetração. Rondônia
+  sozinha em **1,32**, acima do benchmark. Ver `analise/07-cnae-mercado-rondonia.md`.
+- **Por CNAE (IBGE/CEMPRE 2024): RO tem 10.014 estabelecimentos nas 12 classes núcleo** (77% com 0–4
+  ocupados; ~2.298 com 5+). A Nitron tem 23 clientes PJ ali = **0,230% contra 0,144% do benchmark:
+  RO está 1,6× ACIMA.** Nas duas classes núcleo da casa, 2,9× e 2,3× acima; em minimercados, 18,1×.
+  **Gap endereçável de RO: −8,8 clientes.** Da região: **+3** — e todo ele no Amazonas.
+- **O estado sub-atendido da região é o AM**, não RO: 0,029% de penetração, **0,20× o benchmark**,
+  gap de **+20 clientes**, 4,3 M de habitantes. E Manaus não é servível por rodovia de Ouro Preto.
+- **Região (PJ): 105 clientes ativos, 539 cadastrados** (399 em CNAE núcleo), **434 sem compra em
+  12 M** — 119 dormentes de 1–3 anos com **LTV R$ 3.375.025** (99,9% do LTV era PJ), 147 dormentes
+  de 3+ anos, 168 nunca compraram. Alvo imediato: **287 empresas**.
 - **O CD não fecha na aritmética.** Os R$ 934 k de lucro bruto de hoje saem com custo fixo incremental
-  ~zero. Um CD de R$ 960 k/ano exige a região em **R$ 3,42 M** só para empatar — e o **teto por
-  penetração é R$ 2,96 M**. Se o mix migrar da tabela padrão para canal (MB 49,2%), o break-even sobe
+  ~zero. Um CD de R$ 960 k/ano exige a região em **R$ 3,42 M** só para empatar. Pelo CNAE, o teto no
+  benchmark é **R$ 1,41 M** e **só o teto de São Paulo (0,367% de penetração) chega a R$ 3,60 M** —
+  ou seja, **o CD exige a região tão penetrada quanto SP**. Se o mix migrar da tabela padrão para canal (MB 49,2%), o break-even sobe
   para R$ 3,64 M.
 - **ICMS é a variável decisiva e está fora do ERP.** Medido: Guarulhos → RO interestadual = **5,67%
   efetivo** (alíquota 7%); **Extrema vendendo dentro de MG = 10,44%** (alíquota 12%). Localizar a venda

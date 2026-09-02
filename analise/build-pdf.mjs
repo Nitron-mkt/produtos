@@ -1,6 +1,8 @@
-// Gera analise/06-filial-cd-rondonia.pdf a partir de analise/06-filial-cd-rondonia.html
+// Gera o PDF A4 de um relatorio da pasta analise/ a partir do HTML dele.
 //
-// Uso:  node analise/build-pdf.mjs
+// Uso:  node analise/build-pdf.mjs [nome-base ...]
+//       node analise/build-pdf.mjs                      # gera todos os relatorios conhecidos
+//       node analise/build-pdf.mjs 07-cnae-mercado-rondonia
 // Requer: playwright + Chromium (PLAYWRIGHT_BROWSERS_PATH aponta para o browser)
 //
 // Duas armadilhas que custaram tempo e estao resolvidas aqui:
@@ -21,9 +23,9 @@ import fs from 'fs';
 import path from 'path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const SRC = path.join(ROOT, 'analise/06-filial-cd-rondonia.html');
-const OUT = process.env.OUT || path.join(ROOT, 'analise/06-filial-cd-rondonia.pdf');
 const CACHE = path.join(ROOT, '.fontcache');
+const RELATORIOS = ['06-filial-cd-rondonia', '07-cnae-mercado-rondonia'];
+const alvos = process.argv.slice(2).length ? process.argv.slice(2) : RELATORIOS;
 
 const UA_LEGACY = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
   + '(KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
@@ -136,41 +138,53 @@ li { margin-bottom: 7pt; break-inside: auto; orphans: 2; widows: 2; }
 
 footer { margin-top: 26pt; padding-top: 12pt; font-size: 8.6pt; max-width: none; break-inside: avoid; }
 footer .lab { font-size: 7.6pt; }</style>`;
-const foot = `<div style="width:100%; padding:0 16mm; font-family:'IBM Plex Mono',monospace; font-size:7pt; color:#7C847E;
+const footTemplate = `<div style="width:100%; padding:0 16mm; font-family:'IBM Plex Mono',monospace; font-size:7pt; color:#7C847E;
             display:flex; justify-content:space-between; align-items:center; border-top:0.5pt solid #DBDED7; padding-top:3mm;">
-  <span>Nitron &middot; Projeto de Desenvolvimento de Produtos &middot; Filial e CD em Ouro Preto do Oeste (RO)</span>
+  <span>Nitron &middot; Projeto de Desenvolvimento de Produtos &middot; __TITULO__</span>
   <span>02 set 2026 &middot; <span class="pageNumber"></span>/<span class="totalPages"></span></span>
 </div>`;
 
-let report = fs.readFileSync(SRC, 'utf8')
-  .replace(/<link rel="preconnect"[^>]*>\s*/g, '')
-  .replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/,
-           '<style>' + embeddedFontCss() + '</style>');
-if (report.includes('fonts.googleapis.com')) throw new Error('link do Google Fonts nao foi substituido');
-
-// o artifact e um fragmento: envolve no mesmo esqueleto que o publicador usa
-const html = '<!doctype html><html lang="pt-BR" data-theme="light"><head><meta charset="utf-8">'
-  + '<meta name="viewport" content="width=device-width,initial-scale=1">'
-  + '<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>'
-  + '</head><body>' + report + printCss + '</body></html>';
-const tmp = path.join(ROOT, '.print.html');
-fs.writeFileSync(tmp, html);
+const fontCss = embeddedFontCss();   // baixa uma vez, reusa em todos os relatorios
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium' });
-const page = await browser.newPage();
-await page.emulateMedia({ media: 'print', colorScheme: 'light' });
-await page.goto('file://' + tmp, { waitUntil: 'load' });
-await page.evaluate(() => document.fonts.ready);
-await page.waitForTimeout(2500);
-await page.pdf({
-  path: OUT,
-  format: 'A4',
-  printBackground: true,
-  displayHeaderFooter: true,
-  headerTemplate: '<div></div>',
-  footerTemplate: foot,
-  margin: { top: '16mm', right: '16mm', bottom: '20mm', left: '16mm' },
-});
+
+for (const base of alvos) {
+  const SRC = path.join(ROOT, `analise/${base}.html`);
+  const OUT = path.join(ROOT, `analise/${base}.pdf`);
+  if (!fs.existsSync(SRC)) { console.error('sem HTML para ' + base + ', pulando'); continue; }
+
+  const report = fs.readFileSync(SRC, 'utf8')
+    .replace(/<link rel="preconnect"[^>]*>\s*/g, '')
+    .replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/,
+             '<style>' + fontCss + '</style>');
+  if (report.includes('fonts.googleapis.com')) throw new Error('link do Google Fonts nao foi substituido em ' + base);
+
+  const titulo = (report.match(/<title>(.*?)<\/title>/) || [, base])[1];
+
+  // o artifact e um fragmento: envolve no mesmo esqueleto que o publicador usa
+  const html = '<!doctype html><html lang="pt-BR" data-theme="light"><head><meta charset="utf-8">'
+    + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>'
+    + '</head><body>' + report + printCss + '</body></html>';
+  const tmp = path.join(ROOT, `.print-${base}.html`);
+  fs.writeFileSync(tmp, html);
+
+  const page = await browser.newPage();
+  await page.emulateMedia({ media: 'print', colorScheme: 'light' });
+  await page.goto('file://' + tmp, { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(2500);
+  await page.pdf({
+    path: OUT,
+    format: 'A4',
+    printBackground: true,
+    displayHeaderFooter: true,
+    headerTemplate: '<div></div>',
+    footerTemplate: footTemplate.replace('__TITULO__', titulo),
+    margin: { top: '16mm', right: '16mm', bottom: '20mm', left: '16mm' },
+  });
+  await page.close();
+  fs.unlinkSync(tmp);
+  console.log('gerado: ' + path.relative(ROOT, OUT));
+}
 await browser.close();
-fs.unlinkSync(tmp);
-console.log('gerado: ' + path.relative(ROOT, OUT));

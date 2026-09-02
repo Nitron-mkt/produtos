@@ -62,6 +62,25 @@ h1 em{font-style:normal; color:var(--terra)}
   display:flex; flex-wrap:wrap; gap:6px 20px;
 }
 
+/* ---------- correcao ---------- */
+.corr{
+  margin:40px 0 0; background:var(--terra-soft); border:1px solid var(--terra);
+  border-radius:2px; padding:24px 26px 22px;
+}
+.corr .lab{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--terra-ink); margin:0 0 12px;
+}
+.corr h2{
+  font-family:Archivo,sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,22px);
+  line-height:1.24; letter-spacing:-.01em; margin:0 0 14px; color:var(--ink); text-wrap:balance;
+}
+.corr p{margin:0 0 12px; font-size:16px; color:var(--ink-2); max-width:64ch}
+.corr p:last-child{margin:0}
+.corr strong{color:var(--ink); font-weight:600}
+.corr .tw{margin:18px 0 16px; border-color:var(--terra)}
+.corr a{color:var(--terra-ink); font-weight:600}
+
 /* ---------- verdict ---------- */
 .verdict{
   margin:44px 0 0; background:var(--surface); border:1px solid var(--rule);
@@ -235,6 +254,26 @@ footer .lab{
   <p class="standfirst">O mercado do corredor RO–AC–MT–AM existe, é o mais rentável da casa e está sub-atendido. Ainda assim, a conta do centro de distribuição não fecha nesta rodada.</p>
   <p class="byline"><span>Fonte: Sankhya produção</span><span>Recorte: marca própria, empresas 1/2/14</span><span>12 M móveis: set/25 – ago/26</span></p>
 </header>
+
+<div class="corr">
+  <p class="lab">Correção · 02 set 2026</p>
+  <h2>As contagens de cliente deste relatório somavam pessoa física. Refeitas por PJ, a sub-penetração da região desaparece.</h2>
+  <p>Pessoa física não é canal: são <strong>13.973 registros que somam R$ 293 k</strong> — 0,36% do faturamento — a <strong>R$ 21 por ano cada</strong>, em notas de R$ 20. E a proporção de PF varia de <strong>24% em Rondônia a 85% na Bahia</strong>, o que distorceu toda a comparação entre estados da seção 02.</p>
+  <p>Cruzando o CNAE dos compradores PJ com o cadastro de estabelecimentos do IBGE, <strong>Rondônia está 1,6× acima</strong> da penetração de estados comparáveis, e o gap endereçável da região é de <strong>+3 clientes</strong>, não +416.</p>
+  <div class="tw"><table>
+    <caption>O que fica corrigido</caption>
+    <thead><tr><th>Item</th><th>Neste relatório</th><th>Correto (PJ)</th></tr></thead>
+    <tbody>
+      <tr><td>Clientes ativos na região</td><td>241</td><td><strong>105</strong></td></tr>
+      <tr><td>Cadastrados ativos</td><td>1.996</td><td><strong>539</strong></td></tr>
+      <tr><td>Cadastrados sem compra em 12 M</td><td>1.755</td><td><strong>434</strong></td></tr>
+      <tr><td>Dormentes 1–3 anos</td><td>303</td><td><strong>119</strong> · LTV R$ 3,375 M, era 99,9% PJ</td></tr>
+      <tr><td>Teto por penetração</td><td>657 ativos (+416)</td><td><strong>88 (+3)</strong> no bench · 224 (+139) no teto de SP</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>A recomendação não muda — fica mais forte.</strong> O CD já não fechava com gap de +416; com +3, ele exige a região na penetração de São Paulo só para empatar. Faturamento, margem de 55,4%, crescimento de +4,1%, o pedágio de ICMS, a geografia e o precedente Extrema seguem válidos, e a Fase 1 sobrevive intacta porque o LTV dos dormentes era quase todo PJ.</p>
+  <p>Análise completa: <strong>Rondônia por CNAE</strong> (<code>analise/07-cnae-mercado-rondonia.md</code>). <strong>Leia as seções 02 e 04 deste documento com os números da tabela acima.</strong></p>
+</div>
 
 <div class="verdict">
   <p class="tag">Recomendação</p>

@@ -1,0 +1,569 @@
+<title>Rondônia por CNAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F1F2EF; --surface:#FCFCFB; --surface-2:#E9EBE6;
+  --ink:#161A18; --ink-2:#3B423D; --muted:#5B635E; --faint:#7C847E;
+  --rule:#DBDED7; --rule-2:#C8CCC3;
+  --terra:#A8401F; --terra-soft:#F0DED6; --terra-ink:#8A3418;
+  --rio:#0F6E9C; --rio-soft:#DCE9F1;
+  --good:#2F6B4F; --band:rgba(168,64,31,.10);
+  --shadow:0 1px 2px rgba(22,26,24,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141614; --surface:#1C1F1C; --surface-2:#252925;
+    --ink:#EDEFEA; --ink-2:#CFD3CC; --muted:#9BA39C; --faint:#7F877F;
+    --rule:#2C302C; --rule-2:#3A3F3A;
+    --terra:#D9714D; --terra-soft:#3A231A; --terra-ink:#E89570;
+    --rio:#3F9CC4; --rio-soft:#16292F;
+    --good:#6FB292; --band:rgba(217,113,77,.13);
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141614; --surface:#1C1F1C; --surface-2:#252925;
+  --ink:#EDEFEA; --ink-2:#CFD3CC; --muted:#9BA39C; --faint:#7F877F;
+  --rule:#2C302C; --rule-2:#3A3F3A;
+  --terra:#D9714D; --terra-soft:#3A231A; --terra-ink:#E89570;
+  --rio:#3F9CC4; --rio-soft:#16292F;
+  --good:#6FB292; --band:rgba(217,113,77,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.62; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 24px 96px}
+.col{max-width:64ch}
+
+/* ---------- masthead ---------- */
+header{padding:56px 0 0}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 20px;
+  display:flex; flex-wrap:wrap; gap:8px 18px;
+}
+h1{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-weight:700;
+  font-size:clamp(34px,5.2vw,52px); line-height:1.04; letter-spacing:-.022em;
+  margin:0 0 18px; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--terra)}
+.standfirst{font-size:20px; line-height:1.5; color:var(--ink-2); margin:0; max-width:56ch}
+.byline{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px; color:var(--faint);
+  letter-spacing:.03em; margin:26px 0 0; padding-top:16px; border-top:1px solid var(--rule);
+  display:flex; flex-wrap:wrap; gap:6px 20px;
+}
+
+/* ---------- verdict ---------- */
+.verdict{
+  margin:44px 0 0; background:var(--surface); border:1px solid var(--rule);
+  border-left:4px solid var(--terra); border-radius:2px; box-shadow:var(--shadow);
+  padding:28px 30px 26px;
+}
+.verdict .tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--terra); margin:0 0 12px;
+}
+.verdict h2{
+  font-family:Archivo,sans-serif; font-weight:700; font-size:clamp(21px,2.6vw,27px);
+  line-height:1.22; letter-spacing:-.012em; margin:0 0 16px; text-wrap:balance;
+}
+.verdict p{margin:0 0 14px; max-width:62ch; color:var(--ink-2)}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{color:var(--ink); font-weight:600}
+
+/* ---------- key figures ---------- */
+.figs{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  gap:1px; margin:28px 0 0; background:var(--rule); border:1px solid var(--rule); border-radius:2px;
+  overflow:hidden;
+}
+.fig{background:var(--surface); padding:18px 20px 16px}
+.fig dt{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;
+}
+.fig dd{
+  font-family:Archivo,sans-serif; font-weight:700; font-size:27px; letter-spacing:-.02em;
+  margin:0; font-variant-numeric:tabular-nums; line-height:1.1;
+}
+.fig .sub{
+  display:block; font-family:"Source Serif 4",serif; font-weight:400; font-size:13.5px;
+  letter-spacing:0; color:var(--muted); margin-top:6px; line-height:1.4;
+}
+.fig dd.up{color:var(--good)} .fig dd.down{color:var(--terra)}
+
+/* ---------- sections ---------- */
+section{margin:60px 0 0; scroll-margin-top:20px}
+.snum{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:600;
+  letter-spacing:.14em; color:var(--terra); display:block; margin:0 0 10px;
+}
+h2.sec{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:clamp(23px,3vw,30px);
+  line-height:1.16; letter-spacing:-.016em; margin:0 0 8px; text-wrap:balance;
+  padding-bottom:14px; border-bottom:2px solid var(--ink); display:block;
+}
+h3{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:17.5px; letter-spacing:-.005em;
+  margin:34px 0 10px; text-wrap:balance;
+}
+p{margin:0 0 16px}
+.sec + p{margin-top:20px}
+strong{font-weight:600}
+em.q{font-style:italic; color:var(--ink-2)}
+code, .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.88em}
+code{background:var(--surface-2); padding:1px 5px; border-radius:2px; color:var(--ink-2)}
+a{color:var(--rio); text-decoration-thickness:1px; text-underline-offset:2px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto; margin:24px 0 10px; border:1px solid var(--rule); border-radius:2px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:520px}
+caption{
+  text-align:left; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px;
+  font-weight:500; letter-spacing:.11em; text-transform:uppercase; color:var(--muted);
+  padding:14px 16px 10px;
+}
+th,td{padding:9px 16px; text-align:right; border-bottom:1px solid var(--rule); white-space:nowrap}
+th:first-child,td:first-child{text-align:left; white-space:normal; min-width:150px}
+th.tl,td.tl{text-align:left; white-space:normal; min-width:220px}
+tbody td.tl{font-family:"Source Serif 4",serif; font-size:14.5px}
+thead th{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:11.5px; letter-spacing:.03em;
+  text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--rule-2);
+  vertical-align:bottom;
+}
+tbody td{font-variant-numeric:tabular-nums; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:13px}
+tbody td:first-child{font-family:"Source Serif 4",serif; font-size:14.5px}
+tbody tr:last-child td{border-bottom:none}
+tr.tot td{background:var(--surface-2); font-weight:600}
+tr.tot td:first-child{font-weight:600}
+tr.hi td{background:var(--terra-soft)}
+td.pos{color:var(--good)} td.neg{color:var(--terra)}
+.tnote{font-size:13px; color:var(--muted); margin:0 0 4px; max-width:70ch; line-height:1.5}
+
+/* ---------- charts ---------- */
+figure{margin:30px 0 10px; background:var(--surface); border:1px solid var(--rule); border-radius:2px; padding:22px 22px 16px}
+figure h4{
+  font-family:Archivo,sans-serif; font-weight:600; font-size:15.5px; margin:0 0 3px; letter-spacing:-.005em;
+}
+figure .sub{font-size:13.5px; color:var(--muted); margin:0 0 18px; line-height:1.45}
+figure svg{display:block; width:100%; height:auto; overflow:visible}
+figcaption{font-size:13px; color:var(--muted); margin:14px 0 0; line-height:1.5; max-width:74ch}
+.cw{overflow-x:auto}
+.ct{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; fill:var(--muted)}
+.cl{font-family:"Source Serif 4",serif; font-size:14px; fill:var(--ink-2)}
+.cv{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px; font-weight:600; fill:var(--ink); paint-order:stroke; stroke:var(--surface); stroke-width:3.5px; stroke-linejoin:round}
+.cb{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:9.5px; font-weight:600; letter-spacing:.12em; fill:var(--terra)}
+.bar{transition:opacity .12s}
+.bar:hover{opacity:.82; cursor:default}
+#tip{
+  position:fixed; z-index:9; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--ink); color:var(--ground); font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11.5px; line-height:1.45; padding:7px 10px; border-radius:3px; max-width:260px;
+}
+
+/* ---------- callouts ---------- */
+.note{
+  margin:28px 0; padding:20px 22px; background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--rio); border-radius:2px;
+}
+.note.warn{border-left-color:var(--terra)}
+.note .lab{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--rio); margin:0 0 10px;
+}
+.note.warn .lab{color:var(--terra)}
+.note p{margin:0 0 12px; font-size:16px} .note p:last-child{margin:0}
+
+ul,ol{margin:0 0 18px; padding-left:0; list-style:none}
+li{margin:0 0 12px; padding-left:26px; position:relative}
+ul li::before{
+  content:""; position:absolute; left:6px; top:.62em; width:6px; height:6px;
+  background:var(--terra); border-radius:50%;
+}
+ol{counter-reset:o}
+ol li{counter-increment:o}
+ol li::before{
+  content:counter(o); position:absolute; left:0; top:.05em;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; font-weight:600;
+  color:var(--terra); width:18px; text-align:right;
+}
+
+/* ---------- gate ---------- */
+.gate{margin:24px 0 0; display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:2px; overflow:hidden}
+.gate .row{background:var(--surface); padding:16px 20px; display:flex; gap:14px; align-items:flex-start}
+.gate .box{
+  flex:0 0 auto; width:15px; height:15px; margin-top:5px; border:1.5px solid var(--rule-2);
+  border-radius:2px; background:var(--ground);
+}
+.gate .row div{font-size:15.5px; line-height:1.5}
+.gate .row .k{
+  display:block; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px;
+  font-weight:600; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;
+}
+
+footer{
+  margin:72px 0 0; padding-top:22px; border-top:1px solid var(--rule);
+  font-size:13.5px; color:var(--muted); line-height:1.55; max-width:74ch;
+}
+footer .lab{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); margin:0 0 10px;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+:focus-visible{outline:2px solid var(--rio); outline-offset:2px}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 18px 72px}
+  .verdict{padding:22px 20px}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow"><span>Projeto de Desenvolvimento de Produtos</span><span>Nitron · 02 set 2026</span><span>Mercado endereçável</span></p>
+  <h1>Rondônia por <em>CNAE</em></h1>
+  <p class="standfirst">Cruzando o CNAE dos nossos compradores com o cadastro de estabelecimentos do IBGE, Rondônia não está sub-atendida. Está atendida acima da média — e a análise anterior media a coisa errada.</p>
+  <p class="byline"><span>Interno: Sankhya, 12 M set/25–ago/26</span><span>Externo: IBGE/CEMPRE 2024, SIDRA t. 9528 e 9529</span></p>
+</header>
+
+<div class="verdict">
+  <p class="tag">O que o cruzamento mostra</p>
+  <h2>Rondônia está 1,6× acima da penetração de estados comparáveis. O gap endereçável é negativo.</h2>
+  <p>Existem <strong>10.014 estabelecimentos em RO</strong> nas 12 classes de CNAE onde a Nitron concentra 82% dos clientes — só <strong>~2.298 com 5 ou mais pessoas ocupadas</strong>. Temos <strong>23 clientes PJ</strong> ali: <strong>0,230% de penetração</strong> contra <strong>0,144%</strong> em estados de distância comparável.</p>
+  <p>Nas duas classes que são o núcleo da casa, RO está <strong>2,9× e 2,3×</strong> acima do benchmark; em minimercados, <strong>18,1×</strong>. O espaço que resta está em classes adjacentes onde não vendemos no estado, e soma <strong>+6 clientes</strong>. Gap total de RO: <strong>−8,8</strong>.</p>
+  <p>Isso <strong>corrige a análise de hoje mais cedo</strong>, que estimava +416 clientes de gap na região. Aquele número era artefato de contar pessoa física — que fatura <strong>R$ 21 por ano</strong>.</p>
+</div>
+
+<dl class="figs">
+  <div class="fig"><dt>Estab. em RO no CNAE núcleo</dt><dd>10.014<span class="sub">de 75.246 no estado · ~2.298 com 5+ ocupados</span></dd></div>
+  <div class="fig"><dt>Penetração RO</dt><dd class="up">0,230%<span class="sub">benchmark: 0,144% · RO é 1,6× acima</span></dd></div>
+  <div class="fig"><dt>Gap endereçável RO</dt><dd class="down">−8,8<span class="sub">clientes · da região: +3, todo no AM</span></dd></div>
+  <div class="fig"><dt>Base real de clientes</dt><dd>3.376<span class="sub">PJ · não 17.349 (13.973 eram PF)</span></dd></div>
+</dl>
+
+<section>
+  <span class="snum">01</span>
+  <h2 class="sec">Pessoa física não é canal</h2>
+  <div class="col">
+    <p><code>TGFPAR.CNAE</code> está preenchido em apenas 9,8% do cadastro, o que parecia inviabilizar a análise. <strong>Não é falha de cadastro.</strong> Entre PJ a cobertura de CNAE é <strong>~99%</strong> em todas as UFs; entre PF é zero, porque PF não tem CNAE. A maioria dos "clientes" é pessoa física.</p>
+  </div>
+
+  <figure>
+    <h4>81% dos clientes, 0,36% do faturamento</h4>
+    <p class="sub">Participação de PJ e PF no total de clientes e no total de faturamento — Brasil, 12 meses.</p>
+    <div class="cw"><svg viewBox="0 0 760 200" role="img" aria-label="Barras 100%: pessoa jurídica é 19,5% dos clientes e 99,64% do faturamento; pessoa física é 80,5% dos clientes e 0,36% do faturamento.">
+      <text class="cl" x="118" y="58" text-anchor="end">Clientes</text>
+      <g class="bar"><title>Pessoa jurídica: 3.376 clientes, 19,5% do total</title>
+        <rect x="130" y="38" width="115" height="30" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="140" y="58" fill="var(--surface)" stroke="none">19,5%</text></g>
+      <g class="bar"><title>Pessoa física: 13.973 clientes, 80,5% do total</title>
+        <rect x="249" y="38" width="471" height="30" rx="4" fill="var(--terra)"></rect>
+        <text class="cv" x="259" y="58" fill="var(--surface)" stroke="none">80,5%  ·  13.973 registros</text></g>
+
+      <text class="cl" x="118" y="112" text-anchor="end">Faturamento</text>
+      <g class="bar"><title>Pessoa jurídica: R$ 81.976.543, 99,64% do faturamento</title>
+        <rect x="130" y="92" width="586" height="30" rx="4" fill="var(--rio)"></rect>
+        <text class="cv" x="140" y="112" fill="var(--surface)" stroke="none">99,64%  ·  R$ 81,98 M</text></g>
+      <g class="bar"><title>Pessoa física: R$ 293.235, 0,36% do faturamento</title>
+        <rect x="718" y="92" width="2" height="30" fill="var(--terra)"></rect></g>
+      <text class="ct" x="724" y="112" fill="var(--terra)">0,36%</text>
+
+      <g transform="translate(130,158)">
+        <rect x="0" y="-9" width="11" height="11" rx="2" fill="var(--rio)"></rect>
+        <text class="ct" x="17" y="0">Pessoa jurídica — R$ 24.282 por cliente/ano</text>
+        <rect x="330" y="-9" width="11" height="11" rx="2" fill="var(--terra)"></rect>
+        <text class="ct" x="347" y="0">Pessoa física — R$ 21 por cliente/ano</text>
+      </g>
+    </svg></div>
+    <figcaption><strong>13.973 registros de PF somam R$ 293 k</strong>, a R$ 21 por ano cada, em notas de R$ 20. É venda de balcão, amostra e funcionário — não é revenda, não é canal, e não existe no CEMPRE.</figcaption>
+  </figure>
+
+  <div class="note warn">
+    <p class="lab">Por que isso quebrou a análise anterior</p>
+    <p>A proporção de PF <strong>varia enormemente por UF</strong>: 24% dos compradores de Rondônia contra 85% na Bahia. Comparar contagem de clientes entre estados sem separar PF de PJ mede a composição do cadastro, não o mercado.</p>
+    <p>Isso afeta <strong>toda métrica de "número de clientes" do projeto</strong> — clientes por linha, por SKU, cobertura de cor. A base real é <strong>3.376 PJ</strong>.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">02</span>
+  <h2 class="sec">Onde a Nitron realmente vende</h2>
+  <div class="col">
+    <p>Formato do campo: subclasse de 7 dígitos, classe são os 5 primeiros. Entre os compradores PJ, <strong>96,6% do faturamento está nas divisões 46 e 47</strong> — comércio atacadista e varejista. Doze classes concentram 82,3% dos clientes.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>Conjunto núcleo · clientes PJ por classe de CNAE, 12 M</caption>
+    <thead><tr><th>Classe</th><th>Clientes PJ</th><th>% acum.</th><th>R$/cliente/ano</th><th class="tl">Descrição</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td>47598</td><td>643</td><td>19,0%</td><td>18.422</td><td class="tl">Varejo de artigos de uso doméstico n.e.</td></tr>
+      <tr class="hi"><td>47130</td><td>539</td><td>35,0%</td><td>13.940</td><td class="tl">Mercadorias em geral s/ predom. alimentos (variedades)</td></tr>
+      <tr><td>47555</td><td>397</td><td>46,8%</td><td>20.528</td><td class="tl">Tecidos, cama, mesa e banho</td></tr>
+      <tr><td>47121</td><td>265</td><td>54,6%</td><td>11.525</td><td class="tl">Minimercados, mercearias, armazéns</td></tr>
+      <tr><td>47113</td><td>247</td><td>61,9%</td><td>18.230</td><td class="tl">Hiper e supermercados</td></tr>
+      <tr><td>47890</td><td>165</td><td>66,8%</td><td>16.545</td><td class="tl">Outros produtos novos n.e.</td></tr>
+      <tr><td>47814</td><td>123</td><td>70,5%</td><td>22.488</td><td class="tl">Vestuário e acessórios</td></tr>
+      <tr><td>47440</td><td>99</td><td>73,4%</td><td>61.134</td><td class="tl">Ferragens, madeira e material de construção</td></tr>
+      <tr><td>47610</td><td>99</td><td>76,3%</td><td>40.679</td><td class="tl">Livros, jornais, revistas e papelaria</td></tr>
+      <tr><td>47636</td><td>99</td><td>79,3%</td><td>21.693</td><td class="tl">Artigos recreativos e esportivos</td></tr>
+      <tr><td>46494</td><td>91</td><td>82,0%</td><td>168.536</td><td class="tl">Atacado de artigos de uso pessoal e doméstico n.e.</td></tr>
+      <tr><td>47725</td><td>69</td><td>84,0%</td><td>25.327</td><td class="tl">Cosméticos, perfumaria e higiene pessoal</td></tr>
+      <tr class="tot"><td>12 classes</td><td>2.836</td><td>82,3%</td><td>—</td><td class="tl">do total de 3.376 clientes PJ</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <span class="snum">03</span>
+  <h2 class="sec">O mercado de Rondônia, e quanto dele já é nosso</h2>
+  <div class="col">
+    <p>O IBGE conta <strong>75.246 unidades locais</strong> em Rondônia em todos os CNAEs. Nas 12 classes núcleo, <strong>10.014</strong>. Descontando o porte — 77% têm de zero a quatro pessoas ocupadas, faixa de micro e MEI —, o mercado realmente endereçável é de <strong>~2.298 estabelecimentos</strong>.</p>
+  </div>
+
+  <figure>
+    <h4>Penetração por classe: Rondônia contra estados comparáveis</h4>
+    <p class="sub">Nas classes que são o núcleo do negócio, RO já está acima do benchmark. Onde há espaço, temos zero cliente.</p>
+    <div class="cw"><svg viewBox="0 0 760 452" role="img" aria-label="Gráfico de pontos comparando a penetração da Nitron em Rondônia com o benchmark, por classe de CNAE. Em 47598 RO tem 5,00% contra 1,714% do benchmark; em 47130, 3,57% contra 1,563%. Nas demais classes RO tem zero ou pouco.">
+      <g class="ct" text-anchor="middle">
+        <text x="252" y="440">1%</text><text x="374" y="440">2%</text><text x="496" y="440">3%</text><text x="618" y="440">4%</text><text x="740" y="440">5%</text>
+      </g>
+      <line x1="130" y1="418" x2="740" y2="418" stroke="var(--rule-2)" stroke-width="1"></line>
+      <g stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4">
+        <line x1="252" y1="26" x2="252" y2="418"></line><line x1="374" y1="26" x2="374" y2="418"></line>
+        <line x1="496" y1="26" x2="496" y2="418"></line><line x1="618" y1="26" x2="618" y2="418"></line>
+      </g>
+
+      <g class="bar"><title>47598 varejo de artigos de uso doméstico: 240 estabelecimentos em RO, 12 clientes Nitron = 5,00%. Benchmark 1,714%. RO é 2,9x acima.</title>
+        <text class="cl" x="122" y="44" text-anchor="end">47598 uso doméstico</text>
+        <line x1="339" y1="39" x2="740" y2="39" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="339" cy="39" r="6" fill="var(--rio)"></circle>
+        <circle cx="740" cy="39" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="728" y="44" text-anchor="end">5,00%  ·  2,9× o bench</text></g>
+
+      <g class="bar"><title>47130 lojas de variedades: 168 estabelecimentos em RO, 6 clientes = 3,57%. Benchmark 1,563%. RO é 2,3x acima.</title>
+        <text class="cl" x="122" y="76" text-anchor="end">47130 variedades</text>
+        <line x1="321" y1="71" x2="566" y2="71" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="321" cy="71" r="6" fill="var(--rio)"></circle>
+        <circle cx="566" cy="71" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="578" y="76">3,57%  ·  2,3×</text></g>
+
+      <g class="bar"><title>47555 cama, mesa e banho: 328 estabelecimentos em RO, zero clientes. Benchmark 0,610% — é onde há mais espaço, +2,0 clientes.</title>
+        <text class="cl" x="122" y="108" text-anchor="end">47555 cama e banho</text>
+        <line x1="130" y1="103" x2="204" y2="103" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="204" cy="103" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="103" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="216" y="108">0,61% bench · RO zero</text></g>
+
+      <g class="bar"><title>47636 recreativos e esportivos: 351 estabelecimentos em RO, zero clientes. Benchmark 0,304%, espaço de +1,1 cliente.</title>
+        <text class="cl" x="122" y="140" text-anchor="end">47636 recreativos</text>
+        <line x1="130" y1="135" x2="167" y2="135" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="167" cy="135" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="135" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="179" y="140">0,30% bench · RO zero</text></g>
+
+      <g class="bar"><title>46494 atacado de artigos de uso doméstico: 190 estabelecimentos em RO, zero clientes. Benchmark 0,282%.</title>
+        <text class="cl" x="122" y="172" text-anchor="end">46494 atacado dom.</text>
+        <line x1="130" y1="167" x2="164" y2="167" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="164" cy="167" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="167" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="176" y="172">0,28% bench · RO zero</text></g>
+
+      <g class="bar"><title>47610 papelaria: 303 estabelecimentos em RO, zero clientes. Benchmark 0,220%.</title>
+        <text class="cl" x="122" y="204" text-anchor="end">47610 papelaria</text>
+        <line x1="130" y1="199" x2="157" y2="199" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="157" cy="199" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="199" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="169" y="204">0,22% bench · RO zero</text></g>
+
+      <g class="bar"><title>47890 outros produtos novos: 1.189 estabelecimentos em RO, zero clientes. Benchmark 0,083%, espaço de +1,0 cliente.</title>
+        <text class="cl" x="122" y="236" text-anchor="end">47890 outros prod.</text>
+        <line x1="130" y1="231" x2="140" y2="231" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="140" cy="231" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="231" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="152" y="236">0,08% bench · RO zero</text></g>
+
+      <g class="bar"><title>47814 vestuário: 2.606 estabelecimentos em RO, 1 cliente = 0,04%. Benchmark 0,049%. Praticamente empatado.</title>
+        <text class="cl" x="122" y="268" text-anchor="end">47814 vestuário</text>
+        <circle cx="135" cy="263" r="6" fill="var(--rio)"></circle>
+        <circle cx="135" cy="263" r="6" fill="var(--terra)" fill-opacity=".55"></circle>
+        <text class="cv" x="152" y="268">0,04% RO · 0,05% bench</text></g>
+
+      <g class="bar"><title>47113 hiper e supermercados: 498 estabelecimentos em RO, 1 cliente = 0,20%. Benchmark 0,039%. RO é 5,2x acima.</title>
+        <text class="cl" x="122" y="300" text-anchor="end">47113 hiper/super</text>
+        <line x1="135" y1="295" x2="154" y2="295" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="135" cy="295" r="6" fill="var(--rio)"></circle>
+        <circle cx="154" cy="295" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="166" y="300">0,20% RO  ·  5,2× o bench</text></g>
+
+      <g class="bar"><title>47121 minimercados: 1.708 estabelecimentos em RO, 3 clientes = 0,18%. Benchmark 0,010%. RO é 18,1x acima.</title>
+        <text class="cl" x="122" y="332" text-anchor="end">47121 minimercados</text>
+        <line x1="131" y1="327" x2="152" y2="327" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="131" cy="327" r="6" fill="var(--rio)"></circle>
+        <circle cx="152" cy="327" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="164" y="332">0,18% RO  ·  18,1× o bench</text></g>
+
+      <g class="bar"><title>47440 ferragens e material de construção: 2.046 estabelecimentos em RO, zero clientes. Benchmark 0,025%.</title>
+        <text class="cl" x="122" y="364" text-anchor="end">47440 ferragens</text>
+        <line x1="130" y1="359" x2="133" y2="359" stroke="var(--rule-2)" stroke-width="2"></line>
+        <circle cx="133" cy="359" r="6" fill="var(--rio)"></circle>
+        <circle cx="130" cy="359" r="6" fill="var(--terra)"></circle>
+        <text class="cv" x="145" y="364">0,03% bench · RO zero</text></g>
+
+      <g class="bar"><title>47725 cosméticos: 387 estabelecimentos em RO, zero clientes. Benchmark 0,010%, apurado sobre um único cliente — sem significado estatístico.</title>
+        <text class="cl" x="122" y="396" text-anchor="end">47725 cosméticos</text>
+        <circle cx="130" cy="391" r="6" fill="var(--terra)"></circle>
+        <circle cx="131" cy="391" r="6" fill="var(--rio)" fill-opacity=".55"></circle>
+        <text class="cv" x="145" y="396">0,01% bench (1 cliente)</text></g>
+
+      <g transform="translate(130,20)">
+        <circle cx="6" cy="-4" r="6" fill="var(--terra)"></circle>
+        <text class="ct" x="19" y="0">Rondônia</text>
+        <circle cx="106" cy="-4" r="6" fill="var(--rio)"></circle>
+        <text class="ct" x="119" y="0">Benchmark — BA, CE, GO, PB, PE</text>
+      </g>
+    </svg></div>
+    <figcaption>Eixo em penetração: clientes PJ da Nitron dividido por estabelecimentos do CEMPRE naquela classe. <strong>Nas duas classes de cima — que são 35% da nossa base — Rondônia já está acima do benchmark.</strong> Todo o espaço positivo está nas classes onde temos zero cliente no estado, e soma +6,1 clientes.</figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <caption>Rondônia · as 12 classes núcleo</caption>
+    <thead><tr><th>Classe</th><th>Estab. RO</th><th>Clientes PJ</th><th>Penetr. RO</th><th>Penetr. bench</th><th>RO/bench</th><th>Gap</th></tr></thead>
+    <tbody>
+      <tr><td>47814 vestuário</td><td>2.606</td><td>1</td><td>0,04%</td><td>0,049%</td><td>0,8×</td><td class="pos">+0,3</td></tr>
+      <tr><td>47440 ferragens</td><td>2.046</td><td>0</td><td>0,00%</td><td>0,025%</td><td>—</td><td class="pos">+0,5</td></tr>
+      <tr><td>47121 minimercados</td><td>1.708</td><td>3</td><td>0,18%</td><td>0,010%</td><td><strong>18,1×</strong></td><td class="neg">−2,8</td></tr>
+      <tr><td>47890 outros prod. novos</td><td>1.189</td><td>0</td><td>0,00%</td><td>0,083%</td><td>—</td><td class="pos">+1,0</td></tr>
+      <tr><td>47113 hiper/super</td><td>498</td><td>1</td><td>0,20%</td><td>0,039%</td><td>5,2×</td><td class="neg">−0,8</td></tr>
+      <tr><td>47725 cosméticos</td><td>387</td><td>0</td><td>0,00%</td><td>0,010%</td><td>—</td><td>+0,0</td></tr>
+      <tr><td>47636 recreativos</td><td>351</td><td>0</td><td>0,00%</td><td>0,304%</td><td>—</td><td class="pos">+1,1</td></tr>
+      <tr><td>47555 cama e banho</td><td>328</td><td>0</td><td>0,00%</td><td>0,610%</td><td>—</td><td class="pos">+2,0</td></tr>
+      <tr><td>47610 papelaria</td><td>303</td><td>0</td><td>0,00%</td><td>0,220%</td><td>—</td><td class="pos">+0,7</td></tr>
+      <tr class="hi"><td>47598 uso doméstico</td><td>240</td><td>12</td><td><strong>5,00%</strong></td><td>1,714%</td><td><strong>2,9×</strong></td><td class="neg">−7,9</td></tr>
+      <tr><td>46494 atacado dom.</td><td>190</td><td>0</td><td>0,00%</td><td>0,282%</td><td>—</td><td class="pos">+0,5</td></tr>
+      <tr class="hi"><td>47130 variedades</td><td>168</td><td>6</td><td><strong>3,57%</strong></td><td>1,563%</td><td><strong>2,3×</strong></td><td class="neg">−3,4</td></tr>
+      <tr class="tot"><td>Total</td><td>10.014</td><td>23</td><td>0,230%</td><td>0,144%</td><td>1,6×</td><td class="neg">−8,8</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">Benchmark = BA + CE + GO + PB + PE — estados distantes da fábrica, fora do Norte e Centro-Oeste: 323 clientes PJ núcleo em 224.048 estabelecimentos.</p>
+</section>
+
+<section>
+  <span class="snum">04</span>
+  <h2 class="sec">A região, e o que o CD exigiria</h2>
+  <div class="tw"><table>
+    <caption>Penetração PJ por CNAE · região alvo contra o benchmark</caption>
+    <thead><tr><th>UF</th><th>Clientes PJ núcleo</th><th>Estab. núcleo</th><th>Penetração</th><th>vs benchmark</th><th>Gap</th></tr></thead>
+    <tbody>
+      <tr><td>Mato Grosso</td><td>50</td><td>25.752</td><td>0,194%</td><td>1,35×</td><td class="neg">−13</td></tr>
+      <tr class="hi"><td>Rondônia</td><td>23</td><td>10.014</td><td>0,230%</td><td><strong>1,60×</strong></td><td class="neg">−9</td></tr>
+      <tr><td>Acre</td><td>6</td><td>4.744</td><td>0,126%</td><td>0,88×</td><td class="neg">−1</td></tr>
+      <tr><td><strong>Amazonas</strong></td><td>6</td><td>20.458</td><td><strong>0,029%</strong></td><td><strong>0,20×</strong></td><td class="pos"><strong>+20</strong></td></tr>
+      <tr class="tot"><td>Região alvo</td><td>85</td><td>60.968</td><td>0,139%</td><td>0,97×</td><td class="pos">+3</td></tr>
+      <tr><td>Benchmark</td><td>323</td><td>224.048</td><td>0,144%</td><td>1,00×</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p><strong>A região alvo, somada, está na penetração do benchmark.</strong> O gap endereçável é <strong>+3 clientes</strong>, e todo ele está no Amazonas — que depende da BR-319 e não é servível por rodovia a partir de Ouro Preto do Oeste.</p>
+  </div>
+
+  <div class="tw"><table>
+    <caption>Teto da região contra o break-even do CD · 60.968 estab. núcleo, R$ 16.056 por cliente PJ/ano</caption>
+    <thead><tr><th>Se a região chegasse à penetração de…</th><th>Penetração</th><th>Clientes</th><th>Gap</th><th>Receita implícita</th><th class="tl">Paga o CD?</th></tr></thead>
+    <tbody>
+      <tr><td>Benchmark (BA/CE/GO/PB/PE)</td><td>0,144%</td><td>88</td><td>+3</td><td>R$ 1,41 M</td><td class="tl"><strong>não</strong></td></tr>
+      <tr class="hi"><td>São Paulo — mercado de casa</td><td>0,367%</td><td>224</td><td>+139</td><td>R$ 3,60 M</td><td class="tl">sim, no limite</td></tr>
+      <tr><td>Sergipe — melhor UF do país</td><td>0,511%</td><td>311</td><td>+226</td><td>R$ 5,00 M</td><td class="tl">sim</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn">
+    <p class="lab">O tamanho real da aposta</p>
+    <p>O break-even do CD é <strong>R$ 3,42 M</strong> (custo fixo de R$ 960 k/ano, MB 55,4%). <strong>Só o teto de São Paulo o alcança.</strong> Ou seja: o CD exige que RO, AC, MT e AM fiquem tão penetrados quanto o estado onde a fábrica está, onde há representante em rua desde sempre e o frete é de um dia.</p>
+    <p>E esse teto é otimista — assume que os 139 clientes novos faturem como os 85 atuais, R$ 16.056/ano. Cliente novo em praça nova fatura menos.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">05</span>
+  <h2 class="sec">O que estava errado na análise anterior</h2>
+  <div class="col">
+    <p>O relatório de hoje mais cedo media penetração como <strong>clientes ativos por 100 mil habitantes</strong> e concluiu 2,24 na região contra 6,12 no benchmark — 2,7× de sub-penetração, gap de <strong>+416 clientes</strong>. Aquela contagem somava PF e PJ.</p>
+  </div>
+  <div class="tw"><table>
+    <caption>A mesma métrica, refeita só com PJ</caption>
+    <thead><tr><th>Bloco</th><th>PJ núcleo / 100 mil hab</th></tr></thead>
+    <tbody>
+      <tr><td>Home (SP/RJ/MG/ES)</td><td>2,03</td></tr>
+      <tr><td>Benchmark (ex-home, ex-Norte/CO)</td><td>0,82</td></tr>
+      <tr class="hi"><td>Região alvo (RO/AC/MT/AM)</td><td><strong>0,79</strong></td></tr>
+      <tr class="hi"><td>Rondônia</td><td><strong>1,32</strong></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><p><strong>A sub-penetração desaparece.</strong> A região está em 0,79 contra 0,82 do benchmark, e Rondônia sozinha em 1,32 — acima. Os 2,7× eram a mistura de PF.</p></div>
+
+  <div class="tw"><table>
+    <caption>Números do relatório anterior que ficam corrigidos</caption>
+    <thead><tr><th>Item</th><th>Antes (PF+PJ)</th><th>Correto (PJ)</th></tr></thead>
+    <tbody>
+      <tr><td>Clientes ativos na região</td><td>241</td><td><strong>105</strong></td></tr>
+      <tr><td>Cadastrados ativos na região</td><td>1.996</td><td><strong>539</strong> (399 no CNAE núcleo)</td></tr>
+      <tr><td>Cadastrados sem compra em 12 M</td><td>1.755</td><td><strong>434</strong></td></tr>
+      <tr class="hi"><td>Dormentes 1–3 anos</td><td>303</td><td><strong>119</strong></td></tr>
+      <tr class="hi"><td>LTV dos dormentes 1–3 anos</td><td>R$ 3.379.019</td><td><strong>R$ 3.375.025</strong> — era 99,9% PJ</td></tr>
+      <tr><td>Dormentes 3+ anos</td><td>266</td><td><strong>147</strong></td></tr>
+      <tr><td>Nunca compraram</td><td>1.186</td><td><strong>168</strong></td></tr>
+      <tr class="tot"><td>Teto por penetração</td><td>657 ativos (+416)</td><td><strong>88 (+3)</strong> no bench · 224 (+139) no teto de SP</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p><strong>O que não muda:</strong> faturamento de R$ 1,69 M, margem de 55,4%, crescimento de +4,1%, o pedágio de ICMS de +4,77 pontos, Ouro Preto do Oeste como melhor hub, o precedente Extrema, e a recomendação de não abrir o CD nesta rodada.</p>
+    <p><strong>O que muda para pior:</strong> o CD já não fechava com gap de +416. Com +3, ele exige a penetração de São Paulo para empatar.</p>
+    <p><strong>O que se confirma:</strong> a Fase 1 sobrevive intacta, porque o LTV de R$ 3,38 M era 99,9% PJ. São <strong>119 empresas</strong>, não 303 registros — e continua sendo a jogada mais barata disponível.</p>
+  </div>
+</section>
+
+<section>
+  <span class="snum">06</span>
+  <h2 class="sec">O que fazer com isso</h2>
+  <ol class="col">
+    <li><strong>Trocar a métrica do projeto.</strong> Toda contagem de cliente passa a ser PJ: 17.349 virou 3.376. Isso muda taxa de acerto de lançamento, clientes por linha e cobertura de cor em toda a base de conclusões já estabelecida.</li>
+    <li><strong>A Fase 1 continua certa, com alvo corrigido:</strong> 119 PJ dormentes (R$ 3,38 M de LTV) mais 168 PJ cadastrados que nunca compraram — <strong>287 empresas</strong> endereçáveis na região, sem depender de CD.</li>
+    <li><strong>O crescimento em RO não vem de mais lojas de utilidades — elas já são clientes.</strong> Vem de classes adjacentes onde temos zero cliente no estado (cama/mesa/banho, papelaria, recreativos, ferragens) e de mais faturamento por cliente existente. Isso é sortimento e cobertura comercial, não logística.</li>
+    <li><strong>Amazonas é a única frente de penetração real da região</strong> — +20 clientes, 0,20× o benchmark, 4,3 M de habitantes. E não se resolve por Ouro Preto do Oeste: merece estudo próprio, provavelmente com distribuidor local em Manaus.</li>
+    <li><strong>Preencher o CNAE dos ~2% de PJ sem CNAE</strong> é barato e destrava essa análise por município — a tabela 9528 do IBGE tem nível municipal.</li>
+  </ol>
+</section>
+
+<footer>
+  <p class="lab">Limitações desta análise</p>
+  <p><strong>O CEMPRE conta estabelecimentos formais, não compradores potenciais</strong> — uma loja de material de construção existe no CNAE 47440 e pode nunca comprar utilidade doméstica. A penetração comparada neutraliza parte do viés, porque o benchmark carrega o mesmo, mas o TAM absoluto de 10.014 é teto formal, não demanda. <strong>O ano do CEMPRE é 2024</strong> contra dados internos de set/25 a ago/26 — defasagem de cerca de um ano. <strong>A faixa de porte vem do nível grupo</strong> (tabela 9529), não classe: os 23% com 5+ ocupados são aplicados proporcionalmente, não medidos em cada classe. <strong>O benchmark tem 323 clientes PJ núcleo</strong>, e em classes pequenas o denominador fica fino — a penetração de 47725 sai de um único cliente, então aquele "+0,0" não tem significado estatístico. <strong>A comparação assume que o benchmark é o alvo certo:</strong> se a Nitron está sub-penetrada em todo o Brasil fora de SP — e 0,144% contra 0,367% sugere que está — então bater o benchmark é meta modesta, e o teto de SP é o número ambicioso.</p>
+</footer>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var tip=document.getElementById('tip');
+  document.querySelectorAll('svg .bar').forEach(function(g){
+    var t=g.querySelector('title'); if(!t) return;
+    var txt=t.textContent;
+    function show(e){
+      tip.textContent=txt; tip.style.opacity='1';
+      var x=e.clientX+14, y=e.clientY+16, r=tip.getBoundingClientRect();
+      if(x+r.width>window.innerWidth-12) x=window.innerWidth-r.width-12;
+      if(y+r.height>window.innerHeight-12) y=e.clientY-r.height-12;
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+    }
+    g.addEventListener('mousemove',show);
+    g.addEventListener('mouseleave',function(){tip.style.opacity='0'});
+  });
+})();
+</script>
