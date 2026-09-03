@@ -155,3 +155,60 @@ utilizável para frete.
 - **Não vai para o B2C.** É onde a canibalização da `053`/`079` acontece.
 - **Não é configurador.** O site continua vetado até o item 4 acima passar.
 - **Não promete carga** antes do parecer estrutural.
+
+---
+
+## 7. Conferência independente de carga (minha, para checar o parecer do engenheiro)
+
+Cálculo de primeira ordem antes do parecer estrutural, para eu ter base de comparação.
+**Premissas explicitadas:** MOE do pinus taeda a ~12% de umidade = 9.000 MPa (faixa de
+literatura 8.000–12.000); tensão admissível de flexão em longa duração = 12 MPa
+(conservadora); régua simplesmente apoiada com carga uniforme; carga da prateleira dividida
+igualmente por 5 réguas. Vão e seção vêm das minhas medições, não de literatura.
+
+### A régua `PST-02` — vão 617 mm, seção 15,3 × 26,6 mm
+
+| Carga/prateleira | Por régua | σ eixo forte | FS | Flecha | σ eixo fraco | FS | Flecha |
+|---|---|---|---|---|---|---|---|
+| 20 kg | 39,2 N | 1,68 MPa | 7,2× | 0,56 mm (L/1110) | 2,92 MPa | 4,1× | 1,68 mm (L/367) |
+| 30 kg | 58,9 N | 2,52 MPa | 4,8× | 0,83 mm (L/740) | 4,37 MPa | 2,7× | 2,52 mm (L/245) |
+| **40 kg** | 78,5 N | **3,35 MPa** | **3,6×** | **1,11 mm (L/555)** | **5,83 MPa** | **2,1×** | **3,36 mm (L/184)** |
+
+**A madeira não é o limite.** Mesmo a 40 kg e na orientação fraca sobra 2,1× de folga.
+Fica a pergunta de qual orientação a régua realmente assenta — em pé (26,6 mm de altura) ou
+deitada (15,3 mm) — porque isso muda a flecha de 1,1 para 3,4 mm.
+
+### O nó trizeta em compressão
+
+Área de parede do encaixe = 2 × (15,7 + 27,0) × 2,95 = **252 mm²**.
+
+| Carga/prateleira | Módulo | Por coluna | σ | FS vs 10 MPa adm. do PP |
+|---|---|---|---|---|
+| 20 kg | 100 kg | 245 N | 0,97 MPa | 10,3× |
+| 30 kg | 150 kg | 368 N | 1,46 MPa | 6,8× |
+| **40 kg** | **200 kg** | **490 N** | **1,95 MPa** | **5,1×** |
+
+Também com folga.
+
+### O porta-haste — e aqui está o ponto
+
+Cada régua apoia em 2 clipes, então cada clipe pega **2 a 4 kgf**. Tensão nominal de
+**0,30 a 0,61 MPa** sobre ~65 mm² de parede. É baixíssimo.
+
+**Conclusão da conferência:** nenhuma das três frentes falha por ruptura de material.
+O que sobra como modo crítico não é resistência, é **rigidez e tempo**:
+
+1. **O "C" do clipe abrir sob carga** — geometria e pré-carga do snap, não tensão.
+2. **Creep do PP** relaxando a pré-carga do clipe e assentando a coluna ao longo de meses.
+   A 1,95 MPa o PP não rompe, mas escoa: 1–3% de deformação em um ano a temperatura ambiente
+   sobre 5 nós de 73 mm dá da ordem de **4 a 11 mm de assentamento** na coluna. Visível,
+   não catastrófico — mas é exatamente a família de problema já registrada nas refs
+   `176.024.001` e `210.024.001`.
+
+**Nenhum dos dois se resolve por cálculo de tensão.** O ensaio que fecha é físico:
+carga permanente de 40 kg/prateleira por 60 a 90 dias, medindo flecha e assentamento da
+coluna, mais tentativa de arrancamento do clipe carregado.
+
+⚠️ Isto é conferência de primeira ordem, não substitui o parecer do `engenheiro-molde`.
+Serve para eu saber se o parecer dele fecha com a física — e para não aceitar de saída um
+número de carga que não tenha ensaio atrás.
