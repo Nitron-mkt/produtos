@@ -172,7 +172,7 @@ footer .tag{display:block; margin-bottom:10px}
   <div class="headgrid">
     <div>
       <h1>A gramática<br>da Nitron Mob</h1>
-      <p class="thesis">Os 5 STLs cruzados com a estrutura do ERP. O sistema modular está inteiro decodificado e <b>as três larguras já existem e já estão compradas</b> — mas o curador veta a ramificação, e por um motivo que não estava no escopo da pergunta.</p>
+      <p class="thesis">Os 5 STLs cruzados com a estrutura do ERP. O sistema modular está inteiro decodificado e <b>as três larguras já existem e já estão compradas</b> — mas o curador veta a ramificação, e sobra uma rota: o piloto de PDV do §10, com zero molde novo.</p>
     </div>
     <div class="cotas">
       <div class="cota"><span class="v">15,3 × 26,6</span><span class="k">seção da barra de pinus, mm</span></div>
@@ -195,7 +195,7 @@ footer .tag{display:block; margin-bottom:10px}
       <div class="vrow"><p>Molde da cruzeta <code>850-CZ</code><span class="sub">Custo do molde não existe no ERP: zero linhas em <code>TGFITE</code> e <code>TGFCUS</code></span></p><span class="chip bad">veta</span></div>
       <div class="vrow"><p>B2C modular — hack de TV, armário, mesa, escrivaninha<span class="sub">A função já é vendida em plástico para 3.069 clientes (§6)</span></p><span class="chip bad">veta</span></div>
       <div class="vrow"><p>Site configurador<span class="sub">É a lição de 2022 com mais dimensões: 3 larguras × 4 alturas × 3 cores = 36 combinações de barra em estoque</span></p><span class="chip bad">veta</span></div>
-      <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram</span></p><span class="chip warn">investiga antes</span></div>
+      <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram — <strong>rota escolhida, especificada no §10</strong></span></p><span class="chip ok">rota aberta</span></div>
       <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 contra ~R$ 3,1 k consumidos — decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
     </div>
   </div>
@@ -205,7 +205,7 @@ footer .tag{display:block; margin-bottom:10px}
     <p>E a função que ela quer atacar <strong>já é vendida pela Nitron, em plástico, para 1.556 clientes</strong>.</p>
   </div>
   <div class="body">
-    <p>O que segue é o levantamento inteiro: a engenharia (§2 a §5) fica válida qualquer que seja a decisão comercial — é ativo reaproveitável e responde à pergunta das três larguras. O §6 ao §8 é o que sustenta o veto. Nada foi gravado em <code>pdp_lancamento</code>.</p>
+    <p>O que segue é o levantamento inteiro. A engenharia (§2 a §5) fica válida qualquer que seja a decisão comercial — é ativo reaproveitável e responde à pergunta das três larguras. O §6 ao §8 é o que sustenta o veto. O <strong>§10 especifica o piloto de PDV</strong>, a única rota aberta. Nada foi gravado em <code>pdp_lancamento</code>.</p>
   </div>
 </section>
 
@@ -222,15 +222,16 @@ footer .tag{display:block; margin-bottom:10px}
   </div>
   <div class="tw">
     <table>
-      <caption>Peso real recalculado a partir da BOM contra o cadastrado. As catorze PAs têm o mesmo <code>PESOLIQ</code> copiado.</caption>
+      <caption>Peso real recalculado somando <strong>as duas camadas da BOM</strong> — PI e matéria-prima. As catorze PAs têm o mesmo <code>PESOLIQ</code> 0,525 kg copiado; a linha está subdeclarada entre <strong>3,9× e 12,0×</strong>.</caption>
       <thead><tr><th>PA</th><th>Referência</th><th>CUSGER</th><th>Conectores PP</th><th>Plástico</th><th>Peso real</th><th>Peso cadastrado</th></tr></thead>
       <tbody>
         <tr><td>Arara de roupa</td><td class="ref">850.004.N03</td><td class="n">R$ 90,10</td><td class="n">R$ 7,46</td><td class="n">8,3%</td><td class="n">5,140 kg</td><td class="n">0,525 kg <span class="chip bad">9,8×</span></td></tr>
         <tr><td>Sapateira pequena</td><td class="ref">851.004.N03</td><td class="n">R$ 32,01</td><td class="n">R$ 6,94</td><td class="n">21,7%</td><td class="n">2,056 kg</td><td class="n">0,525 kg <span class="chip bad">3,9×</span></td></tr>
-        <tr><td>Sapateira grande</td><td class="ref">852.004.N03</td><td class="n">R$ 74,84</td><td class="n">R$ 4,18</td><td class="n">5,6%</td><td class="n">2,739 kg</td><td class="n">0,525 kg <span class="chip bad">5,2×</span></td></tr>
-        <tr><td>Prateleira G 2P</td><td class="ref">855.004.N03</td><td class="n">R$ 57,18</td><td class="n">R$ 4,88</td><td class="n">8,5%</td><td class="n">0,877 kg</td><td class="n">0,525 kg <span class="chip bad">1,7×</span></td></tr>
-        <tr><td>Prateleira G 3P</td><td class="ref">856.004.N03</td><td class="n">R$ 84,16</td><td class="n">R$ 7,30</td><td class="n">8,7%</td><td class="n">1,287 kg</td><td class="n">0,525 kg <span class="chip bad">2,5×</span></td></tr>
-        <tr><td>Prateleira G 4P</td><td class="ref">857.004.N03</td><td class="n">R$ 109,12</td><td class="n">R$ 9,73</td><td class="n">8,9%</td><td class="n">2,429 kg</td><td class="n">0,525 kg <span class="chip bad">4,6×</span></td></tr>
+        <tr><td>Sapateira grande</td><td class="ref">852.004.N03</td><td class="n">R$ 74,84</td><td class="n">R$ 4,18</td><td class="n">5,6%</td><td class="n">3,465 kg</td><td class="n">0,525 kg <span class="chip bad">6,6×</span></td></tr>
+        <tr><td>Kit Suporte Decorativo M</td><td class="ref">853.004.N03</td><td class="n">R$ 61,50</td><td class="n">R$ 6,28</td><td class="n">10,2%</td><td class="n">2,849 kg</td><td class="n">0,525 kg <span class="chip bad">5,4×</span></td></tr>
+        <tr><td>Prateleira G 2P</td><td class="ref">855.004.N03</td><td class="n">R$ 57,18</td><td class="n">R$ 4,88</td><td class="n">8,5%</td><td class="n">3,196 kg</td><td class="n">0,525 kg <span class="chip bad">6,1×</span></td></tr>
+        <tr><td>Prateleira G 3P</td><td class="ref">856.004.N03</td><td class="n">R$ 84,16</td><td class="n">R$ 7,30</td><td class="n">8,7%</td><td class="n">4,815 kg</td><td class="n">0,525 kg <span class="chip bad">9,2×</span></td></tr>
+        <tr class="hl"><td>Prateleira G 4P</td><td class="ref">857.004.N03</td><td class="n">R$ 109,12</td><td class="n">R$ 9,73</td><td class="n">8,9%</td><td class="n">6,298 kg</td><td class="n">0,525 kg <span class="chip bad">12,0×</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -514,7 +515,91 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§10</span><h2>Se o configurador for adiante mesmo assim</h2></div>
+  <div class="shead"><span class="snum">§10</span><h2>O piloto de PDV, especificado</h2></div>
+  <p class="lede">A rota que o curador deixou aberta, com as duas condições dele: contra pedido, sem SKU no catálogo, e sem molde novo. A cruzeta fica fora — o piloto roda com os quatro conectores que já foram injetados.</p>
+
+  <h3 style="font-size:19px;margin-top:34px">O canal de PDV já existe — e não é o que a proposta imaginava</h3>
+  <div class="tw">
+    <table>
+      <caption>Busca por expositor em produto acabado de marca própria. Recorte padrão do projeto. Compradores externos do 13998 incluem Eraldo Magazine Central, Himalaia, Macedo Utilidades e Adriana Pinheiro Moreira, com recompra mensal.</caption>
+      <thead><tr><th>CODPROD</th><th>Produto</th><th>Ref</th><th>Notas</th><th>Clientes</th><th>Qtd</th><th>Faturamento</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="n">13998</td><td><strong>Caixa Expositora com 40 kits com 10 cabides</strong></td><td class="ref">010.001.003</td><td class="n">11</td><td class="n">9</td><td class="n">15</td><td class="n">R$ 6.239,65</td></tr>
+        <tr class="dim"><td class="n">10123</td><td>Suporte Expositor Teca — Pizza</td><td class="ref">900.001.M00</td><td class="n">1</td><td class="n">1</td><td class="n">6</td><td class="n">R$ 0,06</td></tr>
+        <tr class="dim"><td class="n">10124</td><td>Suporte Expositor Teca — Tábuas</td><td class="ref">901.001.M00</td><td class="n">2</td><td class="n">1</td><td class="n">0</td><td class="n">R$ 0,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>De 06/03 a 22/07/2026, a R$ 352,14 a R$ 742,13 por unidade. <strong>Em cinco meses esse SKU fez 1,5× tudo que a Nitron Mob fez na vida, com 9× mais clientes.</strong> E os dois expositores de teca estão mortos — R$ 0,06 e R$ 0,00, repetindo a lição já documentada de que o mesmo conceito em madeira nobre não vende.</p>
+    <p>O formato que funciona é <strong>display carregado de produto</strong>, não móvel vazio: o cliente compra 400 cabides e o expositor vem com eles. Mas a BOM do 13998 tem três linhas — 400 corpos de cabide, uma etiqueta e a cartela. <strong>Não existe nenhuma estrutura de expositor na estrutura.</strong> Hoje o display é custo zero na ficha.</p>
+  </div>
+  <div class="call">
+    <span class="tag">Corta nos dois sentidos</span>
+    <p><strong>A favor:</strong> existe canal comprando display a R$ 352–742, e a Nitron não cobra nada pelo display hoje. Há espaço de preço.</p>
+    <p><strong>Contra:</strong> trocar caixa de papel por estrutura de pinus e PP <strong>adiciona</strong> custo a um item que já vende. O display só se paga se for reutilizável e permanente na loja, ou vendido separado.</p>
+    <p><strong>Ressalva:</strong> o <code>CUSGER</code> de R$ 375,03 diverge 7,9× dos R$ 47,56 somados na BOM. Não construir business case sobre nenhum dos dois antes de reconciliar.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">O módulo</h3>
+  <p class="lede">Não é o empilhamento de dois módulos de 4 prateleiras — esse caminho duplica estrutura e gera 8 prateleiras com passo de 215 mm, apertado demais para pote e balde. O módulo é construído de propósito pela gramática do §4, com 5 níveis.</p>
+  <div class="cotas" style="grid-template-columns:repeat(2,1fr);max-width:620px;margin-top:26px">
+    <div class="cota"><span class="v">~680 mm</span><span class="k">largura externa · PSC-03 595 + 85,26</span></div>
+    <div class="cota"><span class="v">~372 mm</span><span class="k">profundidade · BLA-03-AC 287 + 85,26</span></div>
+    <div class="cota"><span class="v">~1.737 mm</span><span class="k">altura · 5 nós + 4 barras PSA-03</span></div>
+    <div class="cota"><span class="v">~416 mm</span><span class="k">passo entre prateleiras</span></div>
+    <div class="cota"><span class="v">8,48 kg</span><span class="k">7,08 kg pinus + 1,40 kg PP</span></div>
+    <div class="cota"><span class="v">5</span><span class="k">prateleiras</span></div>
+  </div>
+  <div class="body"><p>A gôndola de aço que a Nitron compra tem <strong>1.700 mm</strong>. O módulo dá <strong>1.737 mm</strong>. Bate.</p></div>
+  <div class="tw">
+    <table>
+      <caption><strong>Zero peça nova. Zero molde novo. Zero comprimento de barra novo.</strong> A peça L não entra — ela é cotovelo de 2 vias, e num módulo de gôndola todos os nós são cantos de 3 vias.</caption>
+      <thead><tr><th>Peça</th><th>Ref</th><th>Qtd</th><th>Tipo</th><th>O que faz</th></tr></thead>
+      <tbody>
+        <tr><td>Trizeta</td><td class="ref">850-TZ</td><td class="n">20</td><td>PP injetado</td><td>4 cantos × 5 níveis</td></tr>
+        <tr><td>Porta-haste</td><td class="ref">850-H</td><td class="n">50</td><td>PP injetado</td><td>2 clipes × 5 réguas × 5 níveis</td></tr>
+        <tr><td>Tampa</td><td class="ref">850-T</td><td class="n">4</td><td>PP injetado</td><td>fecha o topo dos 4 montantes</td></tr>
+        <tr><td>Barra de comprimento</td><td class="ref">PSC-03 · 595</td><td class="n">10</td><td>pinus</td><td>2 por nível — define a largura</td></tr>
+        <tr><td>Barra de profundidade</td><td class="ref">BLA-03-AC · 287</td><td class="n">10</td><td>pinus</td><td>2 por nível</td></tr>
+        <tr><td>Travessa / régua</td><td class="ref">PST-02 · 617</td><td class="n">25</td><td>pinus</td><td>5 por nível — o tampo</td></tr>
+        <tr><td>Barra de altura</td><td class="ref">PSA-03 · 424</td><td class="n">16</td><td>pinus</td><td>4 colunas × 4 vãos verticais</td></tr>
+        <tr><td>Pé</td><td class="ref">BPE-01-AC · 60</td><td class="n">4</td><td>pinus</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">Contra o aço que a Nitron já compra</h3>
+  <div class="tw">
+    <table>
+      <caption>O custo de R$ 146,86 é <strong>estimado por escala de massa</strong> sobre a Prateleira G 4P (<code>CUSGER</code> R$ 109,12, fator 1,35) — não é custo apurado, e o <code>CUSGER</code> real depende de reconciliar o custo da madeira. Mesmo assim a conclusão aguenta a folga: os conectores são só R$ 12,15 dos R$ 147.</caption>
+      <thead><tr><th>Item</th><th>Valor</th><th>Contra a ponta de aço de R$ 414</th></tr></thead>
+      <tbody>
+        <tr><td>Conectores de PP</td><td class="n">R$ 12,15</td><td class="n">8,3% do custo do módulo</td></tr>
+        <tr><td>Custo total estimado</td><td class="n">R$ 146,86</td><td class="n">−64,5%</td></tr>
+        <tr class="hl"><td><strong>A 2,00 × custo</strong> — piso da tabela padrão</td><td class="n"><strong>R$ 293,73</strong></td><td class="n"><strong>−29,1%</strong></td></tr>
+        <tr><td>Gôndola Ponta 170 40×30 · aço · <code>13238</code></td><td class="n">R$ 414,00</td><td class="n">referência</td></tr>
+        <tr><td>Gôndola Centro 40×30 · aço · <code>13239</code></td><td class="n">R$ 677,00</td><td class="n">referência</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">O que o piloto testa, em ordem</h3>
+  <ol class="steps">
+    <li><span><strong>Carga admissível por vão.</strong> Se o nó de PP com parede de 2,95 mm e encaixe de 40,60 mm não aguenta 20–40 kg por prateleira sob carga permanente, o piloto morre aqui e nada depois importa.</span></li>
+    <li><span><strong>Uma amostra montada</strong>, usando o estoque de pinus da Braspine que já está pago.</span></li>
+    <li><span><strong>A Nitron como primeiro cliente.</strong> Substituir uma das gôndolas de aço de R$ 414 no próprio showroom ou num cliente que ela já mobilia — testa o produto sem SKU no catálogo e sem risco de canibalizar a <code>053</code>/<code>079</code>.</span></li>
+    <li><span><strong>Preço.</strong> Oferecer a ≥ 2,00 × custo para ≥ 3 clientes distintos, sem <code>CODTIPOPER</code> 3211 nem 3220. É o item nº 1 da lista do curador e o pré-requisito de tudo.</span></li>
+    <li><span><strong>Só então</strong> discutir molde de cruzeta — com volume/ano e nome de cliente na mão.</span></li>
+  </ol>
+  <div class="call stop">
+    <span class="tag">O que este piloto deliberadamente não faz</span>
+    <p>Não cria SKU no catálogo · não usa a cruzeta · não vai para o B2C, onde a canibalização acontece · não é configurador — o site continua vetado até o item 4 passar · e não promete carga antes do parecer estrutural.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§11</span><h2>Se o configurador for adiante mesmo assim</h2></div>
   <p class="lede">A decisão é sua, não do curador. Se for adiante, estas quatro pendências são bloqueantes — e a ordem importa, porque a P3 pode encerrar o assunto sozinha.</p>
   <ol class="steps">
     <li><span><strong>Carga admissível por vão.</strong> Sem isso não se pode oferecer hack de TV nem PDV — as duas aplicações que carregam peso e as duas que geram responsabilidade. Se o conector não passa, nada depois importa.</span></li>
