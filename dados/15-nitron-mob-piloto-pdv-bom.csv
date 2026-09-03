@@ -1,0 +1,9 @@
+peca,referencia,codprod,qtd,tipo,comprimento_mm,massa_unit_g,massa_total_g,custo_unit_brl,funcao
+Trizeta,850-TZ,14811,20,PP injetado,,44.31,886.2,0.3874596,4 cantos x 5 niveis
+Porta-haste,850-H,14815,50,PP injetado,,10.22,511.0,0.08717841,2 clipes x 5 reguas x 5 niveis
+Tampa,850-T,14813,4,PP injetado,,1.10,4.4,0.00968649,fecha o topo dos 4 montantes
+Barra de comprimento,PSC-03,15954,10,pinus,595,134.63,1346.3,,define a largura - 2 por nivel
+Barra de profundidade,BLA-03-AC,15862,10,pinus,287,64.94,649.4,,2 por nivel
+Travessa regua,PST-02,15957,25,pinus,617,139.62,3490.5,,5 por nivel - o tampo
+Barra de altura,PSA-03,15940,16,pinus,424,95.94,1535.0,,4 colunas x 4 vaos verticais
+Pe,BPE-01-AC,15864,4,pinus,60,13.58,54.3,,
