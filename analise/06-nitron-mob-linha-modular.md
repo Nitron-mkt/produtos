@@ -199,8 +199,8 @@ a Arara está **9,8× subdeclarada**. Isso é frete e cubagem.
 20× superdeclarada e a cruzeta 2,6× subdeclarada.
 
 **`CUSGER` dos 19 PIs de barra sai entre R$ 14 e R$ 33 MILHÕES por unidade.** A compra da
-Braspine (**R$ 168.423,34**, 2 notas de 04/06/2026) entrou com `QTDNEG` numa unidade que não é
-a peça. Efeito: `VW_COMPOSICAO_NIT` devolve **R$ 236 milhões** de custo para a Arara.
+Braspine (**R$ 84.211,67**, nota 1625091 de 04/06/2026) entrou com `QTDNEG` numa unidade que
+não é a peça. Efeito: `VW_COMPOSICAO_NIT` devolve **R$ 236 milhões** de custo para a Arara.
 O `CUSGER` das PAs (R$ 32 a R$ 109) não veio por esse caminho e está sadio.
 
 **`854.004.N03` Kit Suporte Decorativo (G) não tem nenhuma linha de estrutura** — ativa,

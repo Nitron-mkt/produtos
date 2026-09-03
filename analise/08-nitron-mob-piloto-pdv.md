@@ -212,3 +212,56 @@ coluna, mais tentativa de arrancamento do clipe carregado.
 ⚠️ Isto é conferência de primeira ordem, não substitui o parecer do `engenheiro-molde`.
 Serve para eu saber se o parecer dele fecha com a física — e para não aceitar de saída um
 número de carga que não tenha ensaio atrás.
+
+---
+
+## 8. O estoque de pinus: onde está, quanto é, e por que não baixou
+
+O `CLAUDE.md` registra que `TGFEST` "não é legível sem mapa de local". Para esta linha o mapa é
+simples: **um único local**.
+
+| | |
+|---|---|
+| Empresa | **1** (Matriz) |
+| Local | **1010000 — "Terreo"** |
+| Itens com saldo | 19 PIs de barra + 13 itens menores |
+| Valor parado | **R$ 84.211,67** |
+| Percentual parado | **100% do comprado** |
+| Parado desde | **04/06/2026** — três meses |
+
+### Correção de um número que eu publiquei errado
+
+Eu havia reportado a compra da Braspine como **R$ 168.423,34 em 2 notas**. Está errado: são
+duas notas do mesmo dia com valor idêntico, e uma delas é o pedido, não a compra.
+
+| NUNOTA | TIPMOV | CODTIPOPER | Operação | Qtd | Valor |
+|---|---|---|---|---|---|
+| 1625037 | `O` | 2001 | **Pedido Compra Consumo** | 0,000572448 | R$ 13.269,22 |
+| 1625091 | `C` | 2101 | **Compra Consumo** | 0,000572448 | R$ 13.269,22 |
+
+*(exemplo do `PST-01`; o padrão se repete nos 19 itens)*
+
+Meu filtro `TIPMOV IN ('C','O','E')` somou o **pedido junto com a nota**. A compra real é
+**R$ 84.211,67** — que é exatamente o número que o curador havia apurado. O valor dele estava
+certo e o meu não.
+
+### E o pinus não baixou nada
+
+O saldo em `TGFEST` é **exatamente igual à quantidade comprada** nos 19 itens — 50,0% da minha
+soma inflada, ou seja, 100% da compra real. **Nenhuma baixa de estoque de pinus foi lançada**,
+apesar de a linha ter faturado 44 unidades.
+
+Duas explicações possíveis, e as duas importam:
+1. As 44 unidades foram montadas à mão como amostra, sem apontamento de consumo — coerente com
+   as notas de amostra e bonificação do §7 do dossiê.
+2. O material foi comprado como **"Compra Consumo"** (`CODTIPOPER` 2101), não como
+   matéria-prima de estoque. Item de consumo costuma ser apropriado na entrada e não consumido
+   via BOM — o que fecha com os 19 PIs estarem no grupo `8000100` "Diversos" sob *Exportação*.
+
+**Consequência prática para o piloto:** os R$ 84.211,67 de pinus estão fisicamente lá e pagos,
+então a amostra do piloto sai de estoque existente. Mas **não é possível dizer quantos módulos
+saem dele** enquanto a unidade de `QTDNEG` não for corrigida — a quantidade em estoque está na
+mesma unidade quebrada da compra, e ela não é a peça. Contar peça de pinus hoje exige contagem
+física, não consulta.
+
+Isso torna a correção da unidade um bloqueio do planejamento, não só da contabilidade.

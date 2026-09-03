@@ -14,3 +14,5 @@ BLA-03-AC,15862,PESOLIQ,0.64941 kg,0.06494 kg,entra nas 9 prateleiras,287mm x 0.
 854 KIT SUPORTE DEC. (G),14183,estrutura,sem nenhuma linha de BOM,BOM completa,nao pode ser produzida nem custeada,ausente em VW_PA_PIS_QTD_NIT
 19 PIs de barra,15838-15957,CODGRUPOPROD,8000100 Diversos sob Exportacao,grupo de materia-prima de madeira,relatorio por grupo distorcido,TGFGRU
 5 PIs conectores,14811-14815,DESCRPROD/NCM/GRUPO,"MOLDE DA... / NCM 39241000 / grupo 2000000",peca com NCM de artigo plastico,cadastro incoerente em 4 campos,consumidos como peca com QTDMISTURA 2 a 40 e CONTROLEPI CINZA
+19 PIs de barra,15838-15957,CODTIPOPER da compra,2101 Compra Consumo,materia-prima de estoque,item de consumo nao baixa via BOM,estoque em TGFEST igual a 100% do comprado apesar de 44 un faturadas
+19 PIs de barra,15838-15957,QTDNEG em TGFEST,unidade quebrada igual a da compra,peca,impossivel planejar consumo sem contagem fisica,local 1010000 Terreo CODEMP 1

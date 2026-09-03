@@ -196,7 +196,7 @@ footer .tag{display:block; margin-bottom:10px}
       <div class="vrow"><p>B2C modular — hack de TV, armário, mesa, escrivaninha<span class="sub">A função já é vendida em plástico para 3.069 clientes (§6)</span></p><span class="chip bad">veta</span></div>
       <div class="vrow"><p>Site configurador<span class="sub">É a lição de 2022 com mais dimensões: 3 larguras × 4 alturas × 3 cores = 36 combinações de barra em estoque</span></p><span class="chip bad">veta</span></div>
       <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram — <strong>rota escolhida, especificada no §10</strong></span></p><span class="chip ok">rota aberta</span></div>
-      <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 contra ~R$ 3,1 k consumidos — decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
+      <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 com <strong>zero baixa de estoque lançada</strong> — medido, §9. Decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
     </div>
   </div>
   <div class="call stop">
@@ -499,18 +499,20 @@ footer .tag{display:block; margin-bottom:10px}
     <li><span><strong>Carga estrutural</strong> do conector de PP em prateleira de gôndola carregada. Móvel de PDV que cede em loja de cliente é passivo, não SKU.</span></li>
     <li><span><strong>Receita por m³</strong> do móvel contra a do pote. Se for muito pior, o canal atual não transporta isso.</span></li>
     <li><span><strong>Contaminação de fluxo</strong> — a montagem de madeira compartilha ar, piso ou refugo com o moinho e os silos?</span></li>
-    <li><span><strong>Saldo Braspine hoje.</strong> R$ 84.211,67 comprados em 04/06/2026 contra ~R$ 3,1 k consumidos. Decidir <strong>separado</strong> da decisão de lançar — senão o estoque parado vira o argumento para lançar, exatamente como a capacidade ociosa.</span></li>
+    <li><span><strong>Saldo Braspine.</strong> <span class="chip ok">medido</span> R$ 84.211,67 parados no local <code>1010000</code> “Terreo” da empresa 1, com <strong>zero baixa lançada</strong> — 100% do comprado, desde 04/06/2026. Detalhe no §9. Decidir <strong>separado</strong> da decisão de lançar — senão o estoque parado vira o argumento para lançar, exatamente como a capacidade ociosa.</span></li>
   </ol>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§9</span><h2>Cinco correções ao CLAUDE.md</h2></div>
+  <div class="shead"><span class="snum">§9</span><h2>Seis correções ao CLAUDE.md</h2></div>
   <div class="body">
     <p><strong>A estrutura PA→PI existe em view direta.</strong> <code>VW_PA_PIS_QTD_NIT</code> e <code>VW_PA_PIS_ATIVOS_NIT</code> (<code>CODPRODPA</code>, <code>CODPRODPI</code>, <code>QTDMISTURA</code>), e <code>VW_COMPOSICAO_NIT</code> / <code>VW_BOM_EXPLODIDA</code> para descer à matéria-prima. O arquivo registra isso como não encontrado.</p>
     <p><strong>A BOM tem duas camadas e a segunda é fácil de perder.</strong> A view PA→PI mostra só <code>USOPRODMP='2'</code>; as barras compradas entram com <code>USOPRODMP='M'</code> e só aparecem em <code>VW_COMPOSICAO_NIT</code>. Foi exatamente aí que estavam as três larguras.</p>
     <p><strong><code>VW_COMPOSICAO_NIT</code> não serve para custo</strong> enquanto o <code>CUSGER</code> dos PIs de madeira estiver corrompido. Serve para quantidade.</p>
     <p><strong><code>QTDCAPACIDADEPAD</code> é kN, não tonelada.</strong> As injetoras 8, 9 e 11 aparecem com 1600 enquanto <code>CAPDESCR</code> diz 160 — e 1600 kN ≈ 163 tf. O campo de tonelagem é <code>CAPDESCR</code>.</p>
     <p><strong>⚠️ Consequência a verificar:</strong> isso levanta a suspeita de que <strong>as faixas de ocupação documentadas</strong> (≤260 t · 261–1.100 t · 1.101–2.000 t · &gt;2.000 t) <strong>estejam lendo kN como tonelada</strong> — o parque da Nitron não tem injetora de 2.000 t. As faixas precisam ser refeitas antes de serem usadas de novo. O WCP 45 (258 com <code>CAPDESCR</code> 120) não fecha na mesma conversão, então isto vale como suspeita a verificar, não como conclusão.</p>
+    <p><strong><code>TGFEST</code> é legível para esta linha — o mapa de local é um só.</strong> O arquivo registra que a tabela “não é legível sem mapa de local”. Para os 19 PIs de barra existe um único par: <strong>empresa 1, local <code>1010000</code> “Terreo”</strong>, com <strong>R$ 84.211,67</strong> parados e <strong>zero baixa lançada</strong> — 100% do comprado, desde 04/06/2026, apesar das 44 unidades faturadas.</p>
+    <p>Duas causas possíveis, e as duas importam: as 44 unidades foram montadas à mão como amostra sem apontamento de consumo; ou o material entrou como <strong>“Compra Consumo”</strong> (<code>CODTIPOPER</code> 2101) e não como matéria-prima de estoque — item de consumo é apropriado na entrada e não baixa via BOM, o que fecha com os 19 PIs estarem no grupo <code>8000100</code> “Diversos” sob <em>Exportação</em>.</p>
   </div>
 </section>
 
@@ -587,7 +589,7 @@ footer .tag{display:block; margin-bottom:10px}
   <h3 style="font-size:19px;margin-top:38px">O que o piloto testa, em ordem</h3>
   <ol class="steps">
     <li><span><strong>Carga admissível por vão.</strong> Se o nó de PP com parede de 2,95 mm e encaixe de 40,60 mm não aguenta 20–40 kg por prateleira sob carga permanente, o piloto morre aqui e nada depois importa.</span></li>
-    <li><span><strong>Uma amostra montada</strong>, usando o estoque de pinus da Braspine que já está pago.</span></li>
+    <li><span><strong>Uma amostra montada</strong>, usando o estoque de pinus da Braspine que já está pago — os R$ 84.211,67 estão fisicamente lá, no local <code>1010000</code>. Mas <strong>quantos módulos saem dele não é consultável</strong>: a quantidade em <code>TGFEST</code> está na mesma unidade quebrada da compra, então contar peça de pinus hoje exige contagem física. Isso faz da correção da unidade um bloqueio de planejamento, não só de contabilidade.</span></li>
     <li><span><strong>A Nitron como primeiro cliente.</strong> Substituir uma das gôndolas de aço de R$ 414 no próprio showroom ou num cliente que ela já mobilia — testa o produto sem SKU no catálogo e sem risco de canibalizar a <code>053</code>/<code>079</code>.</span></li>
     <li><span><strong>Preço.</strong> Oferecer a ≥ 2,00 × custo para ≥ 3 clientes distintos, sem <code>CODTIPOPER</code> 3211 nem 3220. É o item nº 1 da lista do curador e o pré-requisito de tudo.</span></li>
     <li><span><strong>Só então</strong> discutir molde de cruzeta — com volume/ano e nome de cliente na mão.</span></li>
@@ -615,7 +617,7 @@ footer .tag{display:block; margin-bottom:10px}
 
 <footer>
   <span class="tag">Procedência</span>
-  <p>Estrutura, custo, preço, apontamento e compra lidos no Sankhya em 02/09/2026. Geometria medida nas cinco malhas STL — todas fechadas, zero arestas não-manifold — por ray casting e análise de faces planas. Massa dos conectores derivada do volume da malha a 0,905 g/cm³ e conferida contra o custo cadastrado. Parecer de portfólio emitido pelo curador com poder de veto, conforme o processo do projeto. <strong>Nada foi gravado em <code>pdp_lancamento</code>.</strong> Não foi possível medir o saldo em <code>TGFEST</code> — a tabela retornou timeout, consistente com o alerta já documentado de que ela não é legível sem mapa de local.</p>
+  <p>Estrutura, custo, preço, apontamento e compra lidos no Sankhya em 02/09/2026. Geometria medida nas cinco malhas STL — todas fechadas, zero arestas não-manifold — por ray casting e análise de faces planas. Massa dos conectores derivada do volume da malha a 0,905 g/cm³ e conferida contra o custo cadastrado. Parecer de portfólio emitido pelo curador com poder de veto, conforme o processo do projeto. <strong>Nada foi gravado em <code>pdp_lancamento</code>.</strong> O saldo em <code>TGFEST</code> <strong>foi medido</strong> nesta rodada — empresa 1, local <code>1010000</code>. Uma correção de número minha: eu havia reportado a compra da Braspine como R$ 168.423,34 em duas notas; são duas notas de valor idêntico do mesmo dia, e uma é o <em>pedido</em> (<code>TIPMOV</code> “O”, operação 2001) e a outra a <em>compra</em> (“C”, operação 2101). O valor real é <strong>R$ 84.211,67</strong>.</p>
 </footer>
 
 </div>
