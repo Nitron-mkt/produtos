@@ -180,7 +180,7 @@ footer .tag{display:block; margin-bottom:10px}
       <div class="cota"><span class="v">73,08</span><span class="k">passo vertical do nó, mm</span></div>
       <div class="cota"><span class="v">2,95</span><span class="k">parede do conector, mm</span></div>
       <div class="cota"><span class="v">R$ 4.146,90</span><span class="k">receita da vida inteira</span></div>
-      <div class="cota"><span class="v">−49,3%</span><span class="k">margem bruta realizada</span></div>
+      <div class="cota"><span class="v">20 kg</span><span class="k">carga por prateleira sustentável hoje</span></div>
     </div>
   </div>
 </header>
@@ -588,7 +588,7 @@ footer .tag{display:block; margin-bottom:10px}
 
   <h3 style="font-size:19px;margin-top:38px">O que o piloto testa, em ordem</h3>
   <ol class="steps">
-    <li><span><strong>Carga admissível por vão.</strong> Se o nó de PP com parede de 2,95 mm e encaixe de 40,60 mm não aguenta 20–40 kg por prateleira sob carga permanente, o piloto morre aqui e nada depois importa.</span></li>
+    <li><span><strong>Carga admissível por vão.</strong> <span class="chip ok">respondido — §12</span> O parecer estrutural saiu e o corte de seção da malha fechou a conta: <strong>20 kg por prateleira</strong> é o número sustentável hoje, e 40 kg depende de um ensaio que vale 100× em tensão.</span></li>
     <li><span><strong>Uma amostra montada</strong>, usando o estoque de pinus da Braspine que já está pago — os R$ 84.211,67 estão fisicamente lá, no local <code>1010000</code>. Mas <strong>quantos módulos saem dele não é consultável</strong>: a quantidade em <code>TGFEST</code> está na mesma unidade quebrada da compra, então contar peça de pinus hoje exige contagem física. Isso faz da correção da unidade um bloqueio de planejamento, não só de contabilidade.</span></li>
     <li><span><strong>A Nitron como primeiro cliente.</strong> Substituir uma das gôndolas de aço de R$ 414 no próprio showroom ou num cliente que ela já mobilia — testa o produto sem SKU no catálogo e sem risco de canibalizar a <code>053</code>/<code>079</code>.</span></li>
     <li><span><strong>Preço.</strong> Oferecer a ≥ 2,00 × custo para ≥ 3 clientes distintos, sem <code>CODTIPOPER</code> 3211 nem 3220. É o item nº 1 da lista do curador e o pré-requisito de tudo.</span></li>
@@ -613,6 +613,108 @@ footer .tag{display:block; margin-bottom:10px}
     <span class="tag">O que já está pronto para o configurador</span>
     <p>O catálogo de 19 comprimentos de barra compráveis, a gramática de montagem completa (§4), a interface de junta medida (barra 15,3 × 26,6 · encaixe 40,60 mm · parede 2,95 mm · passo de nó 73,08 mm) e a topologia dos quatro nós. A engenharia não é o gargalo — o preço é.</p>
   </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§12</span><h2>O parecer estrutural, e o corte de seção que ele pediu</h2></div>
+  <p class="lede">O parecer confirmou as quatro contas de primeira ordem número por número e acrescentou um check de flambagem local da parede como placa: σ<sub>cr</sub> ≈ 68 MPa contra 1,95 MPa de trabalho, então a parede não flamba antes de esmagar. <strong>Ruptura por compressão está descartada.</strong> Mas apontou um buraco real: a premissa de que a carga desce pela parede não estava verificada — o encaixe tem 40,60 mm num nó de 73,08 mm, então há estrutura interna no meio. Ele pediu corte de seção; fiz o corte na malha, varrendo a área maciça de 0,25 em 0,25 mm.</p>
+  <div class="tw">
+    <table>
+      <caption><strong>Parede uniforme de 2,9 a 3,1 mm em toda a peça</strong>, igual à parede externa de 2,95 mm — projeto de injeção correto, nenhum ponto maciço, nenhuma nervura grossa.</caption>
+      <thead><tr><th>Elemento</th><th>z relativo</th><th>Espessura</th><th>Área maciça</th></tr></thead>
+      <tbody>
+        <tr><td>Parede da base</td><td class="n">0 → 40,0 mm</td><td class="n">—</td><td class="n"><strong>288 mm²</strong> — mínimo da peça</td></tr>
+        <tr class="hl"><td><strong>Chapa 1 — fundo do encaixe</strong></td><td class="n">40,0 → 42,9 mm</td><td class="n"><strong>~2,9 mm</strong></td><td class="n">1.857 mm²</td></tr>
+        <tr><td>Parede intermediária</td><td class="n">43 → 51 mm</td><td class="n">—</td><td class="n">~600 mm²</td></tr>
+        <tr><td>Chapa 2</td><td class="n">51,3 → 54,4 mm</td><td class="n">~3,1 mm</td><td class="n">1.828 mm²</td></tr>
+        <tr><td>Parede superior</td><td class="n">54,5 → 69 mm</td><td class="n">—</td><td class="n">728 mm²</td></tr>
+        <tr><td>Chapa 3 — face de topo</td><td class="n">70,0 → 72,9 mm</td><td class="n">~2,9 mm</td><td class="n"><strong>3.114 mm²</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p><strong>Primeiro resultado: minha premissa estava conservadora, não otimista.</strong> A seção vertical contínua mínima é <strong>288 mm²</strong>, não os 252 mm² que eu havia estimado pelo perímetro da parede — 14% a mais. A tensão a 40 kg/prateleira cai de 1,95 para <strong>1,70 MPa</strong>, e a folga sobe de 5,1× para <strong>5,9×</strong>.</p>
+    <p><strong>Segundo resultado, e é o que decide: a chapa 1 está em z relativo 40,0 mm — exatamente onde o encaixe de 40,60 mm termina.</strong> A barra vertical, no fundo de curso, apoia numa chapa de 2,9 mm. A dúvida do engenheiro estava certa, só não no lugar em que ele supôs: não é a parede, é o fundo do encaixe.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>A faixa da hipótese B vem da condição de borda — 8,5 MPa engastada, 18,4 MPa apoiada, para uma placa de 15,7 × 27,0 mm sob pressão uniforme de 1,16 MPa.</caption>
+      <thead><tr><th>Hipótese</th><th>Caminho de carga</th><th>σ a 40 kg/prateleira</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td>Parede em compressão · 288 mm²</td><td class="n">1,70 MPa · FS 5,9×</td><td><span class="chip ok">tranquilo</span></td></tr>
+        <tr class="hl"><td><strong>B</strong></td><td>Barra apoia na chapa 1 em flexão · t = 2,9 mm</td><td class="n"><strong>8,5 a 18,4 MPa</strong></td><td><span class="chip bad">no limite ou acima</span></td></tr>
+        <tr><td><strong>C</strong></td><td>Trizeta apoia em trizeta pela chapa 3 · 3.114 mm²</td><td class="n">0,16 MPa</td><td><span class="chip ok">irrelevante</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>Hipótese B por carga. Admissível de longa duração do PP ≈ 10 MPa.</caption>
+      <thead><tr><th>Carga por prateleira</th><th>Bordas apoiadas</th><th>Bordas engastadas</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><strong>20 kg</strong></td><td class="n">9,2 MPa · FS 1,1×</td><td class="n">4,2 MPa · FS 2,4×</td></tr>
+        <tr><td>30 kg</td><td class="n">13,8 MPa · <strong>acima</strong></td><td class="n">6,4 MPa · FS 1,6×</td></tr>
+        <tr><td>40 kg</td><td class="n">18,4 MPa · <strong>acima</strong></td><td class="n">8,5 MPa · FS 1,2×</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call">
+    <span class="tag">A evidência aponta para a hipótese C — mas não fecha</span>
+    <p>As coordenadas de montagem dos STLs favorecem C: <strong>a Trizeta 02 assenta exatamente sobre a Trizeta 01</strong> — a fronteira é Z = 230,37 nas duas — e a chapa 3 é justamente a face de topo. Se o par espelhado se apoia chapa contra chapa, a coluna descarrega em 3.114 mm² e o problema desaparece.</p>
+    <p>Mas isso é leitura de coordenada de exportação, não de peça montada. <strong>Só a montagem física decide, e a decisão vale 100× em tensão.</strong></p>
+  </div>
+  <div class="call stop">
+    <span class="tag">O número que se sustenta hoje</span>
+    <p><strong>20 kg por prateleira.</strong> É a única carga que sobrevive à hipótese mais pessimista — 9,2 MPa contra 10 MPa admissíveis, FS 1,1×. Declarar 40 kg exige antes provar que o caminho de carga é A ou C.</p>
+    <p>E FS de 1,1× é fino demais para carga permanente de loja: mesmo os 20 kg são <strong>provisórios até o ensaio</strong>, não número de etiqueta.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">O elo fraco é o porta-haste — e não por tensão</h3>
+  <div class="body">
+    <p>É <strong>o único dos três conectores que depende de trava elástica ativa</strong>. Trizeta e tampa são geometria passiva. Ele é também o de maior contagem — 50 por módulo — e o que mais sofre ciclos de montagem e reposição em PDV.</p>
+    <p>Relaxamento de tensão do PP, por literatura genérica e não do composto da Nitron: perda de 20 a 30% da força de fixação nas primeiras 24 a 100 h, e 40 a 50% em semanas a poucos meses. O modo de falha é <strong>de serviço, não estrutural</strong>: régua frouxa, chocalho, aparência degradada num móvel que fica meses no chão de loja do cliente. Temperatura de loja perto de vitrine passa de 35–40 °C, o que acelera creep de PP fortemente — minha estimativa de 4 a 11 mm de assentamento em um ano pode estar otimista.</p>
+    <p><strong>Alterações baratas, sem molde novo:</strong> nervura no pé do cantilever da trava; fechar a folga de ~0,4 mm por solda e reusinagem local da cavidade; ou, a alavanca mais barata e com zero ferramentaria, <strong>trocar a resina só do porta-haste</strong> para PP copolímero com modificador de impacto, ou PP com fibra de vidro curta de 10 a 20%.</p>
+  </div>
+  <div class="call stop">
+    <span class="tag">Se for PP com fibra, atenção ao ativo de R$ 2,63 M/ano</span>
+    <p>O moído dessa peça <strong>não pode entrar no ciclo mono-resina</strong>. Precisa segregação — mas 50 peças por módulo é volume pequeno o bastante para isolar sem drama.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">Correção à minha leitura de capacidade</h3>
+  <p class="lede">Eu havia escrito que capacidade de injeção não é o gargalo, citando a faixa ≤260 t com 56,9% de ocupação. Está incompleto.</p>
+  <div class="tw">
+    <table>
+      <caption><strong>Estas quatro não são as 7 injetoras paradas da faixa</strong> — são máquinas ativas rodando outra coisa. A folga da faixa está em <em>outras</em> 160 t e 120 t do parque.</caption>
+      <thead><tr><th>WCP</th><th>Peça</th><th>Apontamentos · 12 M</th><th>Horas brutas</th><th>Ocupação bruta</th></tr></thead>
+      <tbody>
+        <tr><td class="n">8</td><td>trizeta</td><td class="n">113</td><td class="n">6.008 h</td><td class="n">~69%</td></tr>
+        <tr><td class="n">9</td><td>peça L</td><td class="n">127</td><td class="n">6.194 h</td><td class="n">~71%</td></tr>
+        <tr><td class="n">11</td><td>porta-haste</td><td class="n">125</td><td class="n">6.055 h</td><td class="n">~69%</td></tr>
+        <tr><td class="n">45</td><td>tampa</td><td class="n">68</td><td class="n">4.777 h</td><td class="n">~55%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>Em minutos absolutos o módulo é trivial — 15 a 25 min de máquina, ou 2,5 a 4 h/mês a 10 módulos. Então o risco não é “não cabe em horas”, é <strong>inserção na fila de máquina ocupada</strong>, com custo de troca e prioridade contra a produção regular. É decisão de PCP, não de engenharia.</p>
+    <p><strong>E <code>AD_APONTACICLO</code> não serve para cycle time.</strong> Há um único registro por peça, cobrindo dias: a trizeta com <code>DHTERMINOPRODUCAO</code> nulo, a tampa em 4,1 dias, o porta-haste em 29 dias. É o intervalo de abertura e fechamento de uma ordem que ficou na fila, não o tempo de um tiro. Cronometrar no chão de fábrica é o único caminho.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">O claim de carga</h3>
+  <div class="body">
+    <p>Não há confirmação de norma ABNT dedicada a estante ou expositor de PDV — a NBR 15878 é de móveis de escritório, escopo errado. <strong>Não afirmar que existe ou que não existe sem checar o catálogo da ABNT com o jurídico.</strong> A referência internacional de método é a <strong>EN 16121</strong> (mobiliário de armazenamento para uso não doméstico): não é obrigatória no Brasil, mas é o protocolo — carga de prova, carga permanente por tempo definido, medição de deformação residual — que sustentaria um número.</p>
+    <p>Vale o mesmo raciocínio já documentado para “hermético”: <strong>carga não é atributo do material, é o que o ensaio documentado mostrar</strong>, e o art. 36 do CDC obriga a guardar o ensaio que sustenta o número da etiqueta. A diferença é que aqui é claim de <strong>segurança estrutural</strong> — prateleira que cede em loja de cliente é dano material e responsabilidade do fabricante, não claim fraco. Texto de etiqueta passa pelo jurídico.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">Os seis ensaios que fecham as lacunas</h3>
+  <ol class="steps">
+    <li><span><strong>Montagem física de um nó carregado</strong> — decide entre A, B e C. É o de maior alavancagem: vale 100× em tensão e define a carga declarável.</span></li>
+    <li><span><strong>Inserção e retenção do porta-haste</strong> — força nova contra força após carga sustentada acelerada (estufa 40–50 °C, semanas), para ter curva real de relaxamento em vez de literatura.</span></li>
+    <li><span><strong>Módulo montado sob carga declarada por semanas</strong>, com leitura de flecha em t=0, 24 h, 1 semana e 4 semanas — mede creep de madeira e assentamento nos nós juntos.</span></li>
+    <li><span><strong>Cronometragem no chão de fábrica</strong> das 3 ferramentas na próxima rodada — ciclo real e cavidades, para substituir o <code>AD_APONTACICLO</code>.</span></li>
+    <li><span><strong>Flexão destrutiva em amostra das réguas</strong> do lote real de pinus — confirma se os 12 MPa são valor médio ou característico. Pinus tem COV de 20 a 30%; se for média, a FS de 2,1× no eixo fraco pode não se sustentar no pior lote.</span></li>
+    <li><span><strong>Carga de prova mais carga permanente do módulo completo</strong>, documentada, antes de qualquer número ir para etiqueta.</span></li>
+  </ol>
+  <div class="body"><p>E uma pergunta de geometria que muda a flecha em 3×: <strong>a régua assenta em pé (h = 26,6 mm) ou deitada (h = 15,3 mm)?</strong> Em pé a flecha é 1,11 mm; deitada, 3,36 mm — e com creep de madeira (k<sub>def</sub> ≈ 0,8) a deitada vai a ~6 mm em um ano.</p></div>
 </section>
 
 <footer>

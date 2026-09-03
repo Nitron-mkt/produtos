@@ -265,3 +265,164 @@ mesma unidade quebrada da compra, e ela não é a peça. Contar peça de pinus h
 física, não consulta.
 
 Isso torna a correção da unidade um bloqueio do planejamento, não só da contabilidade.
+
+---
+
+## 9. Parecer estrutural do engenheiro-molde, e o corte de seção que ele pediu
+
+O parecer **confirmou minhas quatro contas número por número** (régua 3,35 MPa / FS 3,6× /
+flecha 1,11 mm no eixo forte; 5,83 MPa / 2,1× / 3,36 mm no fraco; nó 1,95 MPa / FS 5,1×;
+clipe 0,60 MPa). Acrescentou um check que eu não fiz — **flambagem local da parede de
+2,95 mm como placa**: σcr ≈ 68 MPa, muito acima de 1,95 MPa, então a parede não flamba antes
+de esmagar. Ruptura por compressão está descartada.
+
+E apontou um buraco real no meu cálculo: **eu assumi que a carga desce pela parede em
+compressão**, mas o encaixe tem 40,60 mm num nó de 73,08 mm — logo existe estrutura interna
+entre o topo e a base que eu não havia medido. Se a carga passasse por uma nervura em flexão,
+a tensão real seria muito maior que 1,95 MPa.
+
+Ele pediu corte de seção. **Fiz o corte na malha**, varrendo a área maciça em Z de 0,25 em
+0,25 mm.
+
+### O que o corte mostrou
+
+| Elemento | z relativo | Espessura | Área |
+|---|---|---|---|
+| Parede da base | 0 → 40,0 mm | — | **288 mm²** (mínimo da peça) |
+| **Chapa 1** | 40,0 → 42,9 mm | **~2,9 mm** | 1.857 mm² |
+| Parede intermediária | 43 → 51 mm | — | ~600 mm² |
+| **Chapa 2** | 51,3 → 54,4 mm | **~3,1 mm** | 1.828 mm² |
+| Parede superior | 54,5 → 69 mm | — | 728 mm² |
+| **Chapa 3 — face de topo** | 70,0 → 72,9 mm | **~2,9 mm** | **3.114 mm²** |
+
+**Parede uniforme de 2,9 a 3,1 mm em toda a peça**, igual à parede externa de 2,95 mm.
+Projeto de injeção correto — nenhum ponto maciço, nenhuma nervura grossa.
+
+**Primeiro resultado: minha premissa estava conservadora, não otimista.** A seção vertical
+contínua mínima é **288 mm²**, e não os 252 mm² que eu havia estimado pelo perímetro da
+parede — 14% a mais. A tensão corrigida a 40 kg/prateleira cai de 1,95 para **1,70 MPa**,
+FS de 5,1× para **5,9×**.
+
+**Segundo resultado, e é o que importa: a chapa 1 está em z rel 40,0 mm — exatamente onde o
+encaixe de 40,60 mm termina.** Ou seja, **a barra vertical fundo-de-curso apoia numa chapa de
+2,9 mm**. A dúvida do engenheiro estava certa, só não no lugar em que ele supôs: não é a
+parede, é o fundo do encaixe.
+
+### Três caminhos de carga possíveis, e eles diferem em 100×
+
+| Hipótese | Caminho | σ a 40 kg/prateleira | Veredito |
+|---|---|---|---|
+| **A** | Parede em compressão, 288 mm² | **1,70 MPa** · FS 5,9× | tranquilo |
+| **B** | Barra apoia na chapa 1 em flexão, t = 2,9 mm | **8,5 a 18,4 MPa** | **no limite ou acima dos 10 MPa admissíveis** |
+| **C** | Trizeta apoia em trizeta pela chapa 3, 3.114 mm² | **0,16 MPa** | irrelevante |
+
+A faixa da hipótese B vem da condição de borda: **8,5 MPa com bordas engastadas, 18,4 MPa com
+bordas apoiadas** (placa 15,7 × 27,0 sob pressão uniforme de 1,16 MPa).
+
+Por carga:
+
+| Carga/prateleira | Hipótese B, bordas apoiadas | Hipótese B, engastadas |
+|---|---|---|
+| **20 kg** | 9,2 MPa · FS 1,1× | 4,2 MPa · FS 2,4× |
+| 30 kg | 13,8 MPa · **acima** | 6,4 MPa · FS 1,6× |
+| 40 kg | 18,4 MPa · **acima** | 8,5 MPa · FS 1,2× |
+
+### A evidência aponta para a hipótese C — mas não fecha
+
+As coordenadas de montagem dos STLs favorecem C: **a Trizeta 02 assenta exatamente sobre a
+Trizeta 01** (a fronteira é Z = 230,37 nas duas), e a chapa 3 é justamente a face de topo.
+Se o par espelhado se apoia chapa-contra-chapa, a coluna descarrega em 3.114 mm² e o
+problema desaparece.
+
+Mas isso é leitura de coordenada de exportação, não de peça montada. **Só a montagem física
+decide** — e a decisão vale 100× em tensão.
+
+### O número que eu sustentaria hoje
+
+**20 kg por prateleira.** É a única carga que sobrevive à hipótese mais pessimista
+(9,2 MPa contra 10 MPa admissíveis, FS 1,1×). Declarar 40 kg exige antes provar que o
+caminho de carga é A ou C.
+
+E a FS de 1,1× é fina demais para carga permanente de loja, então mesmo os 20 kg são
+**provisórios até o ensaio**, não um número de etiqueta.
+
+### O que o parecer corrigiu na minha leitura de capacidade
+
+Eu havia escrito que capacidade de injeção não é o gargalo, citando a faixa ≤260 t com
+56,9% de ocupação. **Está incompleto:**
+
+| WCP | Apontamentos (12 M) | Horas brutas | Ocupação bruta |
+|---|---|---|---|
+| 8 (trizeta) | 113 | 6.008 h | ~69% |
+| 9 (peça L) | 127 | 6.194 h | ~71% |
+| 11 (porta-haste) | 125 | 6.055 h | ~69% |
+| 45 (tampa) | 68 | 4.777 h | ~55% |
+
+**Estas quatro não são as 7 injetoras paradas da faixa** — são máquinas ativas rodando outra
+coisa. A folga da faixa está em *outras* 160 t e 120 t do parque. Em minutos absolutos o
+módulo é trivial (15 a 25 min de máquina, ou 2,5 a 4 h/mês a 10 módulos), então o risco não é
+"não cabe em horas" — é **inserção na fila de máquina ocupada**, com custo de troca e
+prioridade contra a produção regular. É decisão de PCP, não de engenharia.
+
+E `AD_APONTACICLO` **não serve para cycle time**: há um único registro por peça, cobrindo dias
+(trizeta com `DHTERMINOPRODUCAO` nulo, tampa 4,1 dias, porta-haste 29 dias). É o intervalo de
+abertura e fechamento de ordem que ficou na fila, não o tempo de um tiro. Cronometrar no chão
+de fábrica é o único caminho.
+
+### O elo fraco entre os conectores
+
+**O porta-haste** — não pela tensão, que é baixíssima, mas porque é **o único dos três que
+depende de trava elástica ativa**. Trizeta e tampa são geometria passiva. Ele também é o de
+maior contagem (50 por módulo) e o que mais sofre ciclos de montagem e reposição em PDV.
+
+Relaxamento de tensão do PP, por literatura genérica (não do composto da Nitron): perda de
+20 a 30% da força de fixação nas primeiras 24 a 100 h, 40 a 50% em semanas a poucos meses.
+O modo de falha é **de serviço, não estrutural**: régua frouxa, chocalho, aparência degradada
+num móvel que fica meses no chão de loja do cliente. E temperatura de loja perto de vitrine
+pode passar de 35–40 °C, o que acelera creep de PP fortemente — minha estimativa de 4 a 11 mm
+de assentamento em um ano pode estar otimista.
+
+**Alterações baratas que resolveriam, sem molde novo:** nervura no pé do cantilever da trava;
+fechar a folga de ~0,4 mm por solda e reusinagem local da cavidade; ou — a alavanca mais
+barata, zero ferramentaria — **trocar a resina só do porta-haste** para PP copolímero com
+modificador de impacto, ou PP com fibra de vidro curta de 10 a 20%.
+
+⚠️ Se for PP com fibra, **o moído dessa peça não pode entrar no ciclo mono-resina de
+R$ 2,63 M/ano**. Precisa segregação — mas 50 peças por módulo é volume pequeno o bastante
+para isolar sem drama.
+
+### Sobre o claim de carga
+
+Não há confirmação de norma ABNT dedicada a estante ou expositor de PDV — a NBR 15878 é de
+móveis de escritório, escopo errado. **Não afirmar que existe ou que não existe sem checar o
+catálogo da ABNT com o jurídico.** A referência internacional de método é a **EN 16121**
+(mobiliário de armazenamento para uso não doméstico): não é obrigatória no Brasil, mas é o
+protocolo — carga de prova, carga permanente por tempo definido, medição de deformação
+residual — que sustentaria um número.
+
+Vale o mesmo raciocínio já documentado para "hermético": **carga não é atributo do material,
+é o que o ensaio documentado mostrar**, e o art. 36 do CDC obriga a guardar o ensaio que
+sustenta o número da etiqueta. A diferença é que aqui é claim de **segurança estrutural** —
+prateleira que cede em loja de cliente é dano material e responsabilidade do fabricante, não
+claim fraco. Texto de etiqueta passa pelo jurídico.
+
+### Os seis ensaios que fecham as lacunas
+
+1. **Montagem física de um nó carregado** — decide entre as hipóteses A, B e C. É o ensaio de
+   maior alavancagem de todos: vale 100× em tensão e define a carga declarável.
+2. **Inserção e retenção do porta-haste** — força de montagem nova contra a força após carga
+   sustentada acelerada (estufa 40–50 °C, semanas), para ter curva real de relaxamento em vez
+   de literatura.
+3. **Módulo montado sob carga declarada por semanas**, com leitura de flecha em t=0, 24 h,
+   1 semana e 4 semanas — mede creep de madeira e assentamento nos nós juntos.
+4. **Cronometragem no chão de fábrica** das 3 ferramentas na próxima rodada — ciclo real e
+   número de cavidades, para substituir o `AD_APONTACICLO`.
+5. **Flexão destrutiva em amostra das réguas** do lote real de pinus — confirma se os 12 MPa
+   são valor médio ou característico. Pinus tem COV de 20 a 30%; se 12 MPa for média, a FS de
+   2,1× no eixo fraco pode não se sustentar no pior lote.
+6. **Carga de prova mais carga permanente do módulo completo**, documentada, antes de qualquer
+   número ir para etiqueta — é o que o art. 36 exige ter em mãos.
+
+E uma pergunta de geometria que muda a flecha em 3×: **a régua assenta em pé (h = 26,6 mm) ou
+deitada (h = 15,3 mm)?** Em pé a flecha é 1,11 mm, deitada 3,36 mm, e com creep de madeira
+(kdef ~0,8) a deitada vai a ~6 mm em um ano.
