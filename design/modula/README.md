@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.05** — medidas conferidas contra as referências, saída de 7,5° e vazado calibrado por tamanho.
+**rev.06** — o pé achatado vira uma **saia de 50 mm** recortada em arcos: ninha junto com o corpo e abre 5 cm entre os andares.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
@@ -13,15 +13,15 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 ## Os três tamanhos
 
-| | Externo (mm) | Canto | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Avanço do pé | Cubagem (10) | Fechamento |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 300 × 200 × 150 | R 26 | 1,8 mm | 245 g | R$ 2,45 | 5,4 L | 150 mm | 16 mm | 32 mm | 5,2× | 184–245 tf |
-| **M** | 400 × 300 × 200 | R 36 | 2,0 mm | 423 g | R$ 4,22 | 15,9 L | 200 mm | 17 mm | 40 mm | 5,6× | 367–490 tf |
-| **G** | 600 × 400 × 250 | R 46 | 2,3 mm | 820 g | R$ 8,18 | 42,7 L | 250 mm | 20 mm | 48 mm | 5,9× | 734–979 tf |
+| | Externo (mm) | Cesta + saia | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **P** | 300 × 200 × 200 | 150 + 50 | 1,8 mm | 271 g | R$ 2,71 | 5,4 L | 200 mm | 16 mm | 5,9× | 184–245 tf |
+| **M** | 400 × 300 × 250 | 200 + 50 | 2,0 mm | 472 g | R$ 4,71 | 15,9 L | 250 mm | 17 mm | 6,2× | 367–490 tf |
+| **G** | 600 × 400 × 300 | 250 + 50 | 2,3 mm | 912 g | R$ 9,10 | 42,7 L | 300 mm | 20 mm | 6,3× | 734–979 tf |
 
 Grade **1 : 2 : 4** — dois P dão exatamente um M, dois M dão exatamente um G.
 No palete 1200 × 800: 16 P, 8 M ou 4 G por camada, sem sobra.
-Dez M plugadas = 2.000 mm de altura; ninhadas = 355 mm.
+Dez M plugadas = 2.500 mm de altura; ninhadas = 403 mm.
 
 ## Contra as peças de referência
 
@@ -44,6 +44,20 @@ se mantém, mas nenhum dos três fecha palete.
 O P é o mais fechado de propósito — é a peça que vai à vista em casa e a que guarda coisa
 pequena; o G é o mais aberto, porque é caixa de estoque. `TAMANHOS` em `modelo.py` carrega
 `ripa` (material), `vao` (furo), `fileiras`, `barra` e `vao_fundo` para cada um.
+
+## A saia, no lugar do pezinho
+
+A rev.05 tinha quatro pés achatados colados na base: resolviam o encaixe e não faziam mais nada.
+Agora a **parede continua para baixo por 50 mm, com a mesma conicidade**, recortada em arcos.
+
+- Como a conicidade é a mesma, a saia **ninha junto com o corpo** — não custa um milímetro de cubagem.
+- Nas 4 posições de apoio ela **se abre para fora conforme desce**, até alcançar o envelope na
+  base: é ali que pousa na crista da peça de baixo.
+- Resultado: **5 cm de vão entre os andares** (dá para enfiar a mão e pegar o que está embaixo),
+  a peça sai do chão, e o apoio é distribuído em toda a volta em vez de quatro pontos.
+
+O único cuidado de projeto: a saia da peça de cima desce exatamente até o topo da de baixo — nem
+um milímetro a mais, senão roubaria volume útil de quem está embaixo.
 
 ## A lei da cubagem
 

@@ -48,11 +48,12 @@ RHO_PP = 0.905
 # O P e o mais fechado de proposito: e a peca que vai a vista em casa e a que
 # guarda coisa pequena. O G e o mais aberto: e caixa de estoque.
 TAMANHOS = {
-    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=1.8, R=26.0,
+    # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
+    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=200.0, perna=50.0, e=1.8, R=26.0,
               ripa=15.0, vao=6.0, fileiras=4, trav=10.0, barra=9.0, vao_fundo=6.0),
-    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.0, R=36.0,
+    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=250.0, perna=50.0, e=2.0, R=36.0,
               ripa=12.0, vao=10.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=11.0),
-    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.3, R=46.0,
+    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=300.0, perna=50.0, e=2.3, R=46.0,
               ripa=12.0, vao=16.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=17.0),
 }
 
@@ -63,7 +64,9 @@ def suave(t):
 
 def parametros(k):
     s = dict(TAMANHOS[k])
-    X, Y, H, e, R = s["X"], s["Y"], s["H"], s["e"], s["R"]
+    X, Y, e, R = s["X"], s["Y"], s["e"], s["R"]
+    s["H_total"] = s["H"]
+    s["hc"] = H = s["H"] - s["perna"]          # altura da cesta
     s["conic"] = con = H * TAN
     s["folga_pe"] = fp = 3.0                      # o pe passa por fora da saia
     s["aba"] = aba = round(8.0 + 0.006 * X, 1)
@@ -85,19 +88,25 @@ def parametros(k):
     # metade do trecho reto da lateral (constante em qualquer altura)
     s["b"] = s["Yt"] / 2 - s["Rt"]
     s["ax"] = s["Xt"] / 2 - s["Rt"]
-    s["larg_pe"] = round(22.0 + 0.022 * X, 1)
-    s["larg_ress"] = round(s["larg_pe"] - 14, 1)
+    s["larg_pe"] = 0.0                            # definido abaixo, a partir de b
     s["h_ress"] = round(7.0 + 0.010 * H, 1)
-    s["h_pe"] = round(s["h_ress"] + e + 4, 1)
+    s["h_pe"] = s["perna"]
+    s["cone_pe"] = 6.5                          # recuo do topo da perna, por lado
     s["y_pe_f"] = round(0.86 * s["b"], 1)
-    s["y_pe_t"] = round(-0.36 * s["b"], 1)
-    s["etiqueta"] = round(0.24 * X)
+    s["y_pe_t"] = round(-0.40 * s["b"], 1)
     dif = s["y_pe_f"] + s["y_pe_t"]               # |c| - |d|
+    s["larg_pe"] = round(dif - 8.0, 1)            # perna comprida, sobra 8 mm de folga
+    s["larg_ress"] = round(min(s["larg_pe"] - 14, 0.55 * dif), 1)
+    s["etiqueta"] = round(0.24 * X)
     f_ress = dif - (s["larg_pe"] + s["larg_ress"]) / 2
     f_pe = dif - s["larg_pe"]
     assert f_ress > 2, f"{k}: pe girado bate na crista (folga {f_ress:.1f} mm)"
     assert f_pe > 2, f"{k}: pe girado bate no pe de baixo (folga {f_pe:.1f} mm)"
     assert s["saia"] < s["passo_ninho"] - 2, f"{k}: saia nao cabe no passo do ninho"
+    # a perna da peca i+2 tem de envolver a da peca i, que esta a 2 passos
+    s["passo_perna"] = round(e / (s["cone_pe"] / s["perna"]), 1)
+    assert s["passo_perna"] < 2 * s["passo_ninho"] - 3, \
+        f"{k}: perna nao ninha ({s['passo_perna']:.0f} > {2*s['passo_ninho']:.0f} mm)"
     s["folga_giro"] = round(min(f_ress, f_pe), 1)
     return s
 
@@ -111,7 +120,8 @@ def ritmo(meia, passo_alvo, larg):
 
 def construir(k):
     s = parametros(k)
-    X, Y, H, e = s["X"], s["Y"], s["H"], s["e"]
+    X, Y, e = s["X"], s["Y"], s["e"]
+    H = s["hc"]                    # dentro daqui, H e a altura da CESTA
     aba, hf, hb, h_aro = s["aba"], s["hf"], s["hb"], s["h_aro"]
     cont = Contorno(s["Xb"], s["Yb"], s["Rb"], TAN,
                     passo=AMOSTRA[0], n_arco=int(AMOSTRA[1]))
@@ -277,17 +287,69 @@ def construir(k):
         L = lim(c, hy, hx, r) - 0.8
         m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
 
-    # ---- pes (na base) -----------------------------------------------------
-    lpe, hpe = s["larg_pe"], s["h_pe"]
-    largura_pe = X / 2 - (s["Xb"] / 2 - e) + 4.0        # cobre da parede ao envelope
-    for lado in (1, -1):
-        for yc in (s["y_pe_f"], s["y_pe_t"]):
-            cxp = lado * (X / 2 - largura_pe / 2)
-            tubo_roundrect(m, cxp, yc, largura_pe, lpe, min(14.0, lpe / 2.6),
-                           0.0, hpe, e, "pe", n_arco=8, cone=2.2)
+    # ---- saia: a parede continua para baixo, com recortes em arco ---------
+    # Como ela tem a MESMA conicidade da parede, ninha junto com o corpo — e e
+    # isso que deixa o pe integrado em vez de pendurado.
+    perna = s["perna"]
+    h_arco = perna * 0.56
+    y_pes = (s["y_pe_f"], s["y_pe_t"])
+    meia_pe = s["larg_pe"] / 2
+
+    def sobre_perna(i):
+        """Trecho em que a saia desce reta ate o chao (o pe)."""
+        tr, _ = cont.amostras[i % n]
+        if tr not in ("lat_d", "lat_e"):
+            return False
+        y = cont.y_de(i)
+        return any(abs(y - yc) <= meia_pe for yc in y_pes)
+
+    # poucos arcos, largos e circulares; entre eles sobra o pe da saia
+    alvo_ciclo = 92.0 + 0.11 * X
+    n_arcos = max(6, int(round(cont.perimetro / alvo_ciclo)))
+    ciclo = cont.perimetro / n_arcos
+    w_pe_saia = 0.30 * ciclo
+
+    def z_saia(i):
+        if sobre_perna(i):
+            return -perna
+        sm = (cont.s[i % n] + cont.s[(i % n) + 1]) / 2
+        t = sm % ciclo
+        if t < w_pe_saia / 2 or t > ciclo - w_pe_saia / 2:
+            return -perna
+        u = (t - w_pe_saia / 2) / (ciclo - w_pe_saia)      # 0..1 dentro do vao
+        return -perna + h_arco * math.sqrt(max(0.0, 1 - (2 * u - 1) ** 2))
+
+    # nas 4 posicoes de apoio a saia se abre para fora conforme desce, ate
+    # alcancar o envelope na base: e ali que ela pousa na crista da peca de baixo
+    sal = X / 2 - (s["Xb"] / 2 - perna * TAN) - 2.0
+    rampa_pe = s["larg_pe"] * 0.85
+
+    def fator_pe(i):
+        tr, _ = cont.amostras[i % n]
+        if tr not in ("lat_d", "lat_e"):
+            return 0.0
+        y = cont.y_de(i % n)
+        melhor = 0.0
+        for yc in y_pes:
+            d = abs(y - yc)
+            if d <= meia_pe:
+                melhor = 1.0
+            elif d <= meia_pe + rampa_pe:
+                melhor = max(melhor, 1 - suave((d - meia_pe) / rampa_pe))
+        return melhor
+
+    def off_pe(i, z):
+        f = fator_pe(i)
+        return 0.0 if f <= 0 else sal * f * suave(min(1.0, max(0.0, -z / perna)))
+
+    banda(m, cont, 0, n,
+          lambda i, z: off_pe(i, z),
+          lambda i, z: off_pe(i, z) - e,
+          z_saia, lambda i: 0.0, "saia", tampa_ini=False, tampa_fim=False)
+    m.mover(perna)
 
     # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
-    lim_crista = h_geral + 1.5
+    lim_crista = h_geral + s["perna"] + 1.5
     for i, (a, b, c, tag) in enumerate(m.tris):
         if tag != "pe" and (a[2] + b[2] + c[2]) / 3 > lim_crista:
             m.tris[i] = (a, b, c, "crista")
@@ -313,7 +375,7 @@ def ficha(k):
         return sum(area_interna(s, z0 + h * (i + .5)) for i in range(nn)) * h / 1e6
 
     s["litros_boca"] = integra(s["z_fundo"] + s["ef"], s["hf"])
-    s["litros_total"] = integra(s["z_fundo"] + s["ef"], s["H"])
+    s["litros_total"] = integra(s["z_fundo"] + s["ef"], s["hc"])
     ap = s["X"] * s["Y"] / 100.0
     s["area_projetada_cm2"] = ap
     s["ton_min"] = ap / 1e4 * 300 * 10.2
@@ -325,8 +387,8 @@ def ficha(k):
 if __name__ == "__main__":
     for k in ("P", "M", "G"):
         m, s = ficha(k)
-        print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} R={s['R']:.0f} | "
-              f"{s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | ninho "
-              f"{s['passo_ninho']:.0f} mm | ripa {s['ripa']}/{s['vao']} ({s['fileiras']} fil) | "
-              f"pe y={s['y_pe_f']:.0f} e {s['y_pe_t']:.0f}, avanca {s['sal_pe']:.0f} mm | "
+        print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} (cesta {s['hc']:.0f}"
+              f" + perna {s['perna']:.0f}) | {s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | "
+              f"ninho {s['passo_ninho']:.0f} mm (perna {s['passo_perna']:.0f}) | "
+              f"cubagem 10p {10*s['H']/(s['H']+9*s['passo_ninho']):.1f}x | "
               f"folga do giro {s['folga_giro']:.0f} mm | {s['n_triangulos']} tri")

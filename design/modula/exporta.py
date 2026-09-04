@@ -12,8 +12,9 @@ COR_CORPO = {"P": (243, 241, 236), "M": (206, 80, 38), "G": (66, 71, 78)}
 
 
 def paleta(base, destaque=False):
-    c = dict.fromkeys(["faixa", "ripa", "aro", "fundo", "pe", "crista"], base)
+    c = dict.fromkeys(["faixa", "ripa", "aro", "fundo", "pe", "crista", "saia"], base)
     c["pe"] = R.PALETA["destaque"] if destaque else base
+    c["saia"] = R.PALETA["destaque"] if destaque else base
     c["crista"] = R.PALETA["critico"] if destaque else tuple(
         min(255, int(v * 1.06)) for v in base)
     c["fundo"] = tuple(int(v * 0.95) for v in base)
@@ -28,7 +29,7 @@ def malha_json(m, s):
     ns = m.normais_suaves(42)
     grupos = {"corpo": [], "pe": [], "crista": []}
     for k, (a, b, c, tag) in enumerate(m.tris):
-        g = tag if tag in ("pe", "crista") else "corpo"
+        g = "pe" if tag in ("pe", "saia") else ("crista" if tag == "crista" else "corpo")
         grupos[g].append((a, b, c, ns[k]))
     saida = {}
     for g, tris in grupos.items():
@@ -48,6 +49,7 @@ def malha_json(m, s):
         passo=s["passo_ninho"], massa=round(s["massa_g"]),
         total=round(s["litros_total"], 1), boca=round(s["litros_boca"], 1),
         aba=s["aba"], pe=round(s["sal_pe"], 1), ripa=s["ripa"], vao=s["vao"],
+        cesta=s["hc"], perna=s["perna"],
         esc=esc, malha=saida)
 
 

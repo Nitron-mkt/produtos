@@ -165,6 +165,12 @@ class Malha:
             saida.append(cantos)
         return saida
 
+    def mover(self, dz):
+        """Sobe a malha inteira (usado para abrir espaco para as pernas)."""
+        self.tris = [((a[0], a[1], a[2] + dz), (b[0], b[1], b[2] + dz),
+                      (c[0], c[1], c[2] + dz), t) for a, b, c, t in self.tris]
+        return self
+
     def volume(self):
         """cm3 pelo teorema da divergencia (malha fechada o suficiente)."""
         v = 0.0
@@ -196,15 +202,17 @@ def banda(malha, cont, i0, i1, o_ext, o_int, z_de, z_ate, tag,
     """
     if i1 <= i0:
         return
+    fe = o_ext if callable(o_ext) else (lambda i, z: o_ext)
+    fi = o_int if callable(o_int) else (lambda i, z: o_int)
     for i in range(i0, i1):
         za0, za1 = z_de(i), z_ate(i)
         zb0, zb1 = z_de(i + 1), z_ate(i + 1)
         if za1 - za0 < 0.05 and zb1 - zb0 < 0.05:
             continue
-        ea0 = cont.pt(i, za0, o_ext); ea1 = cont.pt(i, za1, o_ext)
-        ia0 = cont.pt(i, za0, o_int); ia1 = cont.pt(i, za1, o_int)
-        eb0 = cont.pt(i + 1, zb0, o_ext); eb1 = cont.pt(i + 1, zb1, o_ext)
-        ib0 = cont.pt(i + 1, zb0, o_int); ib1 = cont.pt(i + 1, zb1, o_int)
+        ea0 = cont.pt(i, za0, fe(i, za0)); ea1 = cont.pt(i, za1, fe(i, za1))
+        ia0 = cont.pt(i, za0, fi(i, za0)); ia1 = cont.pt(i, za1, fi(i, za1))
+        eb0 = cont.pt(i + 1, zb0, fe(i + 1, zb0)); eb1 = cont.pt(i + 1, zb1, fe(i + 1, zb1))
+        ib0 = cont.pt(i + 1, zb0, fi(i + 1, zb0)); ib1 = cont.pt(i + 1, zb1, fi(i + 1, zb1))
         A0 = (ea0[0], ea0[1], za0); A1 = (ea1[0], ea1[1], za1)
         B0 = (eb0[0], eb0[1], zb0); B1 = (eb1[0], eb1[1], zb1)
         a0 = (ia0[0], ia0[1], za0); a1 = (ia1[0], ia1[1], za1)
