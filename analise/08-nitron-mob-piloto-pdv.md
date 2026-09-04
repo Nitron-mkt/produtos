@@ -426,3 +426,206 @@ claim fraco. Texto de etiqueta passa pelo jurídico.
 E uma pergunta de geometria que muda a flecha em 3×: **a régua assenta em pé (h = 26,6 mm) ou
 deitada (h = 15,3 mm)?** Em pé a flecha é 1,11 mm, deitada 3,36 mm, e com creep de madeira
 (kdef ~0,8) a deitada vai a ~6 mm em um ano.
+
+---
+
+## 10. A CRUZETA REENTRA — decisão do usuário, e ele está certo no mérito
+
+O curador vetou o molde e eu especifiquei o piloto sem a cruzeta. **O piloto de um vão que
+saiu dali é uma estante, não uma ilha nem uma parede modular** — com só trizeta e peça L,
+toda corrida de barra morre no canto. As quatro aplicações do projeto (ilha, ponta de gôndola,
+checkout, parede modular) são todas de **mais de um vão**, e nenhuma delas existe sem nó de
+meio de vão.
+
+A decisão de incluir é do usuário e está registrada. O que segue é o projeto com a cruzeta.
+
+### A álgebra dos nós — é isso que o configurador precisa
+
+Para uma corrida encadeada de **N vãos**, por nível de prateleira:
+
+| | |
+|---|---|
+| **trizetas** | **4** — fixo, só as quatro quinas das duas pontas |
+| **cruzetas** | **2 × (N − 1)** |
+| linhas de montante | N + 1 |
+| montantes | 2 × (N + 1) |
+| barras de largura `PSC` | 2N |
+| barras de profundidade `BLA-03-AC` | N + 1 |
+| réguas `PST` | 5N |
+| porta-hastes | 10N |
+
+**A contagem de trizeta nunca cresce.** Só a de cruzeta. Essa é a assinatura de um sistema
+modular de verdade, e é o argumento estrutural a favor da peça.
+
+### As larguras que saem disso
+
+| N vãos | Largura externa | Trizetas | Cruzetas | Montantes | Peso | Custo est. | 2× custo |
+|---|---|---|---|---|---|---|---|
+| 1 | 680 mm | 20 | **0** | 4 | 8,5 kg | R$ 146,79 | R$ 293,59 |
+| **2** | **1.361 mm** | 20 | **10** | 6 | 15,5 kg | R$ 269,47 | R$ 538,94 |
+| 3 | 2.041 mm | 20 | 20 | 8 | 22,6 kg | R$ 392,14 | R$ 784,29 |
+| 4 | 2.721 mm | 20 | 30 | 10 | 29,6 kg | R$ 514,82 | R$ 1.029,64 |
+| 5 | 3.402 mm | 20 | 40 | 12 | 36,6 kg | R$ 637,49 | R$ 1.274,99 |
+| 6 | 4.082 mm | 20 | 50 | 14 | 43,7 kg | R$ 760,17 | R$ 1.520,34 |
+
+**2 vãos = 1.361 mm** é a faixa de módulo de gôndola. E o catálogo já tem um item chamado
+`CONJ. CRUZETAS E MOLAS 1330` (CODPROD 6004) — a coincidência de 1.330 com 1.361 vale
+conferir com quem desenhou.
+
+### Encadear é 11% MAIS BARATO que módulos separados
+
+A cruzeta não só viabiliza — ela **reduz custo**. Três vãos:
+
+| | Custo | Nós | Montantes |
+|---|---|---|---|
+| 3 módulos de 1 vão, lado a lado | R$ 440,38 | 60 trizetas | 12 |
+| **1 parede de 3 vãos** | **R$ 392,14** | 20 trizetas + 20 cruzetas | **8** |
+| **Economia** | **R$ 48,24 · 11,0%** | **−20 nós** | **−4** |
+
+Poupa também 10 barras de profundidade, 4 pés e 4 tampas. E entrega **um** móvel em vez de
+três encostados, sem emenda visível.
+
+---
+
+## 11. A cruzeta é a peça crítica do sistema — e isso é novo
+
+Cortei a malha da cruzeta do mesmo jeito que a da trizeta, varrendo área maciça de 0,25 em
+0,25 mm. **A arquitetura interna é idêntica** — chapas nas mesmas cotas — o que confirma um
+projeto de família bem feito: mesma gramática vertical, ramificação diferente no plano.
+
+| Elemento | Trizeta | **Cruzeta** |
+|---|---|---|
+| Chapa 1 — fundo do encaixe | z rel 40,0 → 42,9 · **2,90 mm** · 1.857 mm² | z rel 40,0 → 42,8 · **2,75 mm** · 1.888 mm² |
+| Chapa 2 | z rel 51,3 → 54,4 · 3,10 mm · 1.828 mm² | z rel 51,3 → 54,3 · 3,00 mm · 3.137 mm² |
+| Chapa 3 — topo | z rel 70,0 → 72,9 · 2,90 mm · 3.114 mm² | z rel 70,0 → 72,8 · 2,75 mm · **4.370 mm²** |
+| **Seção contínua mínima** | **288 mm²** | **258 mm² — 10% MENOR** |
+
+E o ponto: **como nó de meio de vão, a cruzeta carrega o dobro da carga de um canto.**
+Por vão de carga L, cada linha de montante de ponta pega L/2 (logo L/4 por montante), e cada
+linha intermediária pega 2 × L/2 = L (logo **L/2 por montante**).
+
+**Seção 10% menor, chapa 5% mais fina, carga 2× maior.**
+
+| Carga/prateleira | Hipótese | Trizeta | **Cruzeta** |
+|---|---|---|---|
+| **20 kg** | A · parede em compressão | 0,85 MPa · FS 11,7× | **1,90 MPa · FS 5,3×** |
+| | B · chapa 1, borda apoiada | 9,2 MPa · FS 1,1× | **20,5 MPa · ACIMA** |
+| | B · chapa 1, borda engastada | 4,2 MPa · FS 2,4× | **9,4 MPa · FS 1,1×** |
+| | C · chapa de topo | 0,08 MPa | 0,11 MPa |
+| **40 kg** | A · parede em compressão | 1,70 MPa · FS 5,9× | **3,80 MPa · FS 2,6×** |
+| | B · chapa 1, borda apoiada | 18,4 MPa · ACIMA | **41,0 MPa · ACIMA** |
+| | B · chapa 1, borda engastada | 8,5 MPa · FS 1,2× | **18,9 MPa · ACIMA** |
+| | C · chapa de topo | 0,16 MPa | 0,22 MPa |
+
+**Consequência direta:** a carga declarável do sistema passa a ser governada pela cruzeta, não
+pela trizeta. E o ensaio nº 1 — montar um nó e carregá-lo — fica ainda mais decisivo, porque
+agora ele decide entre *"40 kg tranquilo"* (hipóteses A ou C) e *"nem 20 kg"* (hipótese B com
+borda apoiada).
+
+Se der hipótese B, a correção é conhecida e barata: **engrossar a chapa 1 da cruzeta** —
+alteração de aço na cavidade existente, não molde novo. Passar de 2,75 para 4,0 mm derruba a
+tensão pelo quadrado da espessura, de 20,5 para 9,7 MPa.
+
+---
+
+## 12. O molde: três bases de payback, e qual delas é honesta
+
+A cruzeta custa **~R$ 0,495/peça** (volume de malha 62,57 cm³ × 0,905 g/cm³ × o R$/kg
+implícito dos irmãos). Uma parede de 3 vãos leva **20 cruzetas**.
+
+| Base de atribuição | Por parede de 3 vãos |
+|---|---|
+| (a) Contribuição da **injeção só** — 2× o custo da peça | R$ 9,90 |
+| (b) **Economia** de encadear contra módulos separados | R$ 48,24 |
+| (c) Margem do **produto que a cruzeta viabiliza** — 2× custo | **R$ 392,14** |
+
+Payback, em meses:
+
+| Molde | (a) a 3/mês | (b) a 3/mês | **(c) a 3/mês** | **(c) a 10/mês** |
+|---|---|---|---|---|
+| R$ 20.000 | 673 | 138 | **17,0** | **5,1** |
+| R$ 30.000 | 1.010 | 207 | **25,5** | **7,7** |
+| R$ 50.000 | 1.683 | 345 | **42,5** | **12,8** |
+| R$ 80.000 | 2.693 | 553 | **68,0** | **20,4** |
+
+A base (c) é a que o curador rejeitou, por creditar ao plástico a margem da madeira. **A
+objeção é legítima e o enquadramento correto é outro: o molde não é centro de lucro, é
+portão.** Investimento de portão se julga pela contribuição do portfólio que ele destrava —
+decisão de capital normal — desde que fique dito, e fica: **a contribuição vem majoritariamente
+de madeira comprada e montagem, não de injeção.**
+
+E o que decide não é o molde, é o volume. A 10 paredes/mês um molde de R$ 50 k paga em
+**13 meses**; a 3 paredes/mês, **43 meses**. O análogo mais próximo no catálogo — a Caixa
+Expositora `010.001.003` — roda a **3 unidades/mês**. Então o intervalo honesto hoje é
+**13 a 43 meses, e a variável é o volume, não o molde.**
+
+### O achado que pode dispensar essa conta inteira
+
+Os cinco moldes foram cadastrados em **17/07/2026 dentro de 79 segundos** um do outro:
+
+| Hora | CODPROD | Peça | Já injetada? |
+|---|---|---|---|
+| **14:25:00** | **14814** | **CRUZETA** | **não** |
+| 14:25:26 | 14815 | Haste / porta-haste | sim, WCP 11 |
+| 14:25:43 | 14812 | Peça L | sim, WCP 9 |
+| 14:26:00 | 14813 | Tampa | sim, WCP 45 |
+| 14:26:19 | 14811 | Trizeta | sim, WCP 8 |
+
+**A cruzeta foi a PRIMEIRA das cinco a ser cadastrada.** Não foi adendo — foi especificada
+como parte de um conjunto de cinco, e quatro desses cinco já rodaram na máquina.
+
+**Então a pergunta não é "devemos comprar um molde". É "onde está o quinto molde do
+conjunto?"** Isso é pergunta para a ferramentaria, custa um telefonema, e se o molde existir —
+pronto ou em tryout — toda a tabela de payback acima vira irrelevante.
+
+É o item nº 1 da lista agora, à frente de qualquer ensaio.
+
+---
+
+## 13. As quatro aplicações, mapeadas na álgebra
+
+| Aplicação | Topologia | Nós por nível | Situação |
+|---|---|---|---|
+| **Parede modular** | corrida reta de N vãos | 4 trizetas + 2(N−1) cruzetas | ✅ resolvida pela cruzeta |
+| **Ponta de gôndola** | 1–2 vãos, com a linha final aberta para emendar na corrida | a linha de junção usa cruzeta em vez de trizeta | ✅ resolvida |
+| **Checkout em L** | duas corridas a 90° | canto interno = **trizeta** (2 vias no plano); retas = cruzeta | ✅ resolvida |
+| **Ilha costa a costa** | duas corridas partilhando a linha de montantes | exigiria **5 vias**: −X, +X, +Y, −Y, Z | ⚠️ ver abaixo |
+
+### O limite honesto: a ilha costa a costa
+
+A cruzeta tem **4 vias**: −X, +X (a corrida passa através), +Y (a ramificação de profundidade)
+e Z. Um nó partilhado entre duas corridas costa a costa precisaria de ramificação em **+Y e
+−Y ao mesmo tempo** — cinco vias. **A cruzeta, sozinha, não faz isso.**
+
+Duas saídas, e a primeira é provavelmente a resposta:
+
+1. **A hipótese do par espelhado.** A trizeta vem como par ESQ/DIR e as duas mãos **assentam
+   uma sobre a outra** — foi isso que as coordenadas dos STLs mostraram (Trizeta 02 sobre a 01,
+   fronteira em Z = 230,37). O cadastro da cruzeta diz **"2 CAVIDADES"** e `AD_QTDCAVIDADE = 2`.
+   **Se essas duas cavidades forem o par esq/dir**, então uma cruzeta esquerda empilhada sobre
+   uma direita dá ramificação em +Y e −Y no mesmo nó — e a ilha costa a costa está resolvida
+   com a peça que já existe. **Isto é hipótese testável e é pergunta de uma frase para quem
+   desenhou.**
+2. **Duas corridas independentes lado a lado**, cada uma com seus montantes. Funciona hoje,
+   sem peça nenhuma nova — só fica mais pesada e mais caras (é exatamente o caso "módulos
+   separados" da tabela do §10, 11% mais caro).
+
+Não vou afirmar qual é sem confirmação. Mas se for a hipótese 1, o projeto fecha inteiro com
+os cinco moldes do conjunto original — nenhuma peça nova.
+
+---
+
+## 14. A lista atualizada, em ordem
+
+1. **Ferramentaria: onde está o molde da cruzeta?** Cadastrado 17/07/2026, primeiro dos cinco,
+   quatro irmãos já rodando. Um telefonema. Se existe, o payback sai da conversa.
+2. **As 2 cavidades da cruzeta são o par esq/dir?** Uma pergunta a quem desenhou. Decide se a
+   ilha costa a costa existe ou não.
+3. **Montar um nó de cruzeta e carregá-lo.** Decide entre as hipóteses A, B e C — e agora com a
+   cruzeta no circuito o intervalo é de "40 kg tranquilo" a "nem 20 kg".
+4. **A régua assenta em pé ou deitada?** Muda a flecha de 1,11 para 3,36 mm.
+5. **A tampinha** — STL ainda pendente.
+6. **Preço**: uma venda a ≥ 2,00 × custo para ≥ 3 clientes, sem amostra nem bonificação.
+   Continua sendo o item que destrava tudo do lado comercial.
+7. **Corrigir a unidade de `QTDNEG`** dos PIs de madeira — sem ela não se planeja consumo do
+   estoque de R$ 84.211,67 que está parado no local `1010000`.

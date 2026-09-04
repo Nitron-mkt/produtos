@@ -175,12 +175,12 @@ footer .tag{display:block; margin-bottom:10px}
       <p class="thesis">Os 5 STLs cruzados com a estrutura do ERP. O sistema modular está inteiro decodificado e <b>as três larguras já existem e já estão compradas</b> — mas o curador veta a ramificação, e sobra uma rota: o piloto de PDV do §10, com zero molde novo.</p>
     </div>
     <div class="cotas">
+      <div class="cota"><span class="v">2 × (N−1)</span><span class="k">cruzetas por nível, N vãos</span></div>
+      <div class="cota"><span class="v">4</span><span class="k">trizetas por nível — não cresce</span></div>
       <div class="cota"><span class="v">15,3 × 26,6</span><span class="k">seção da barra de pinus, mm</span></div>
       <div class="cota"><span class="v">40,60</span><span class="k">profundidade do encaixe, mm</span></div>
-      <div class="cota"><span class="v">73,08</span><span class="k">passo vertical do nó, mm</span></div>
-      <div class="cota"><span class="v">2,95</span><span class="k">parede do conector, mm</span></div>
-      <div class="cota"><span class="v">R$ 4.146,90</span><span class="k">receita da vida inteira</span></div>
-      <div class="cota"><span class="v">20 kg</span><span class="k">carga por prateleira sustentável hoje</span></div>
+      <div class="cota"><span class="v">258 mm²</span><span class="k">seção da cruzeta — a peça crítica</span></div>
+      <div class="cota"><span class="v">−11%</span><span class="k">custo de encadear vs módulos soltos</span></div>
     </div>
   </div>
 </header>
@@ -192,11 +192,11 @@ footer .tag{display:block; margin-bottom:10px}
       <h2>Parecer do curador de portfólio</h2>
     </div>
     <div class="vrows">
-      <div class="vrow"><p>Molde da cruzeta <code>850-CZ</code><span class="sub">Custo do molde não existe no ERP: zero linhas em <code>TGFITE</code> e <code>TGFCUS</code></span></p><span class="chip bad">veta</span></div>
-      <div class="vrow"><p>B2C modular — hack de TV, armário, mesa, escrivaninha<span class="sub">A função já é vendida em plástico para 3.069 clientes (§6)</span></p><span class="chip bad">veta</span></div>
+      <div class="vrow"><p>Molde da cruzeta <code>850-CZ</code><span class="sub">Curador vetou: custo do molde não existe no ERP, zero linhas em <code>TGFITE</code> e <code>TGFCUS</code>. <strong>Decisão tomada de reincluir</strong> — sem nó de meio de vão nenhuma das quatro aplicações existe. Ver §2.</span></p><span class="chip warn">reincluída</span></div>
+      <div class="vrow"><p>B2C modular — hack de TV, armário, mesa, escrivaninha<span class="sub">A função já é vendida em plástico para 3.069 clientes (§7) — o veto segue de pé</span></p><span class="chip bad">veta</span></div>
       <div class="vrow"><p>Site configurador<span class="sub">É a lição de 2022 com mais dimensões: 3 larguras × 4 alturas × 3 cores = 36 combinações de barra em estoque</span></p><span class="chip bad">veta</span></div>
-      <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram — <strong>rota escolhida, especificada no §10</strong></span></p><span class="chip ok">rota aberta</span></div>
-      <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 com <strong>zero baixa de estoque lançada</strong> — medido, §9. Decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
+      <div class="vrow"><p>B2B móvel de PDV<span class="sub">Piloto contra pedido, sem SKU no catálogo, sem molde novo, com os 4 conectores que já rodaram — <strong>rota escolhida, especificada no §11</strong></span></p><span class="chip ok">rota aberta</span></div>
+      <div class="vrow"><p>Estoque de pinus parado da Braspine<span class="sub">R$ 84.211,67 comprados em 04/06 com <strong>zero baixa de estoque lançada</strong> — medido, §10. Decidir separado de lançar</span></p><span class="chip warn">liquidação</span></div>
     </div>
   </div>
   <div class="call stop">
@@ -205,7 +205,7 @@ footer .tag{display:block; margin-bottom:10px}
     <p>E a função que ela quer atacar <strong>já é vendida pela Nitron, em plástico, para 1.556 clientes</strong>.</p>
   </div>
   <div class="body">
-    <p>O que segue é o levantamento inteiro. A engenharia (§2 a §5) fica válida qualquer que seja a decisão comercial — é ativo reaproveitável e responde à pergunta das três larguras. O §6 ao §8 é o que sustenta o veto. O <strong>§10 especifica o piloto de PDV</strong>, a única rota aberta. Nada foi gravado em <code>pdp_lancamento</code>.</p>
+    <p>O parecer do curador está registrado como emitido, e o veto ao B2C e ao configurador segue de pé. Mas <strong>a cruzeta foi reincluída por decisão</strong>, e o mérito técnico dela se sustenta: o piloto de um vão que eu havia especificado é uma estante, não uma ilha nem uma parede modular. O <strong>§2 é o projeto com a cruzeta</strong>. A engenharia dos §3 a §6 vale em qualquer cenário. Nada foi gravado em <code>pdp_lancamento</code>.</p>
   </div>
 </section>
 
@@ -238,7 +238,158 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§2</span><h2>As cinco peças, casadas ao PI pelo custo</h2></div>
+  <div class="shead"><span class="snum">§2</span><h2>A cruzeta reentra — e a álgebra é o produto</h2></div>
+  <p class="lede">Com trizeta e peça L, toda corrida de barra morre no canto: o módulo de um vão do §11 é uma estante. Ilha, ponta de gôndola, checkout e parede modular são todos de <strong>mais de um vão</strong>, e nenhum existe sem nó de meio de vão. A cruzeta é esse nó.</p>
+
+  <div class="call">
+    <span class="tag">A regra que o configurador precisa</span>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:2">
+      trizetas &nbsp;=&nbsp; <strong>4</strong> &nbsp;&nbsp;— fixo, só as quinas das duas pontas<br>
+      cruzetas &nbsp;=&nbsp; <strong>2 × (N − 1)</strong><br>
+      montantes =&nbsp; 2 × (N + 1)
+    </p>
+    <p><strong>A contagem de trizeta nunca cresce. Só a de cruzeta.</strong> Essa é a assinatura de um sistema modular de verdade, e é o argumento estrutural a favor da peça.</p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>Largura externa por número de vãos, com a lista de nós e o custo estimado. Os <strong>2 vãos, 1.361 mm</strong>, são a faixa de módulo de gôndola — e o catálogo já tem um item chamado <code>CONJ. CRUZETAS E MOLAS 1330</code> (CODPROD 6004), coincidência que vale conferir com quem desenhou.</caption>
+      <thead><tr><th>N vãos</th><th>Largura externa</th><th>Trizetas</th><th>Cruzetas</th><th>Montantes</th><th>Peso</th><th>Custo est.</th><th>2× custo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td class="n">680 mm</td><td class="n">20</td><td class="n">0</td><td class="n">4</td><td class="n">8,5 kg</td><td class="n">R$ 146,79</td><td class="n">R$ 293,59</td></tr>
+        <tr class="hl"><td class="n"><strong>2</strong></td><td class="n"><strong>1.361 mm</strong></td><td class="n">20</td><td class="n"><strong>10</strong></td><td class="n">6</td><td class="n">15,5 kg</td><td class="n">R$ 269,47</td><td class="n">R$ 538,94</td></tr>
+        <tr><td class="n">3</td><td class="n">2.041 mm</td><td class="n">20</td><td class="n">20</td><td class="n">8</td><td class="n">22,6 kg</td><td class="n">R$ 392,14</td><td class="n">R$ 784,29</td></tr>
+        <tr><td class="n">4</td><td class="n">2.721 mm</td><td class="n">20</td><td class="n">30</td><td class="n">10</td><td class="n">29,6 kg</td><td class="n">R$ 514,82</td><td class="n">R$ 1.029,64</td></tr>
+        <tr><td class="n">5</td><td class="n">3.402 mm</td><td class="n">20</td><td class="n">40</td><td class="n">12</td><td class="n">36,6 kg</td><td class="n">R$ 637,49</td><td class="n">R$ 1.274,99</td></tr>
+        <tr><td class="n">6</td><td class="n">4.082 mm</td><td class="n">20</td><td class="n">50</td><td class="n">14</td><td class="n">43,7 kg</td><td class="n">R$ 760,17</td><td class="n">R$ 1.520,34</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">Encadear é 11% mais barato que módulos separados</h3>
+  <p class="lede">A cruzeta não só viabiliza — ela <strong>reduz custo</strong>. Três vãos:</p>
+  <div class="tw">
+    <table>
+      <caption>Poupa também 10 barras de profundidade, 4 pés e 4 tampas. E entrega <strong>um</strong> móvel em vez de três encostados, sem emenda visível.</caption>
+      <thead><tr><th></th><th>Custo</th><th>Nós</th><th>Montantes</th></tr></thead>
+      <tbody>
+        <tr><td>3 módulos de 1 vão, lado a lado</td><td class="n">R$ 440,38</td><td class="n">60 trizetas</td><td class="n">12</td></tr>
+        <tr><td><strong>1 parede de 3 vãos</strong></td><td class="n"><strong>R$ 392,14</strong></td><td class="n">20 trizetas + 20 cruzetas</td><td class="n"><strong>8</strong></td></tr>
+        <tr class="hl"><td><strong>Economia</strong></td><td class="n"><strong>R$ 48,24 · 11,0%</strong></td><td class="n"><strong>−20 nós</strong></td><td class="n"><strong>−4</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">As quatro aplicações, mapeadas na álgebra</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Aplicação</th><th>Topologia</th><th>Nós por nível</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><strong>Parede modular</strong></td><td>corrida reta de N vãos</td><td class="n">4 trizetas + 2(N−1) cruzetas</td><td><span class="chip ok">resolvida</span></td></tr>
+        <tr><td><strong>Ponta de gôndola</strong></td><td>1–2 vãos, linha final aberta para emendar na corrida</td><td class="n">a linha de junção usa cruzeta</td><td><span class="chip ok">resolvida</span></td></tr>
+        <tr><td><strong>Checkout em L</strong></td><td>duas corridas a 90°</td><td class="n">canto interno = trizeta; retas = cruzeta</td><td><span class="chip ok">resolvida</span></td></tr>
+        <tr class="hl"><td><strong>Ilha costa a costa</strong></td><td>duas corridas partilhando a linha de montantes</td><td class="n">exigiria 5 vias: −X, +X, +Y, −Y, Z</td><td><span class="chip warn">ver abaixo</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>A cruzeta tem <strong>4 vias</strong>: −X e +X (a corrida passa através), +Y (a ramificação de profundidade) e Z. Um nó partilhado entre duas corridas costa a costa precisaria ramificar em <strong>+Y e −Y ao mesmo tempo</strong> — cinco vias. A cruzeta, sozinha, não faz isso.</p>
+  </div>
+  <div class="call">
+    <span class="tag">A hipótese que provavelmente resolve a ilha — e é uma pergunta de uma frase</span>
+    <p>A trizeta vem como par <strong>ESQ/DIR</strong>, e as duas mãos <strong>assentam uma sobre a outra</strong> — foi isso que as coordenadas dos STLs mostraram, com a Trizeta 02 sobre a 01 na fronteira Z = 230,37. O cadastro da cruzeta diz <strong>“2 CAVIDADES”</strong> e <code>AD_QTDCAVIDADE = 2</code>.</p>
+    <p><strong>Se essas duas cavidades forem o par esq/dir</strong>, uma cruzeta esquerda empilhada sobre uma direita ramifica em +Y e −Y no mesmo nó — e a ilha costa a costa está resolvida com a peça que já existe, sem peça nova nenhuma.</p>
+    <p>A alternativa, que funciona hoje sem nada novo: duas corridas independentes lado a lado, cada uma com seus montantes. É exatamente o caso “módulos separados” da tabela acima — 11% mais caro e mais pesado.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">A cruzeta é a peça crítica do sistema</h3>
+  <p class="lede">Cortei a malha da cruzeta como fiz com a trizeta. A arquitetura interna é <strong>idêntica</strong> — chapas nas mesmas cotas — o que confirma um projeto de família bem feito: mesma gramática vertical, ramificação diferente no plano. Mas os números não são iguais.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Elemento</th><th>Trizeta</th><th>Cruzeta</th></tr></thead>
+      <tbody>
+        <tr><td>Chapa 1 — fundo do encaixe</td><td class="n">z rel 40,0→42,9 · <strong>2,90 mm</strong> · 1.857 mm²</td><td class="n">z rel 40,0→42,8 · <strong>2,75 mm</strong> · 1.888 mm²</td></tr>
+        <tr><td>Chapa 2</td><td class="n">3,10 mm · 1.828 mm²</td><td class="n">3,00 mm · 3.137 mm²</td></tr>
+        <tr><td>Chapa 3 — topo</td><td class="n">2,90 mm · 3.114 mm²</td><td class="n">2,75 mm · <strong>4.370 mm²</strong></td></tr>
+        <tr class="hl"><td><strong>Seção contínua mínima</strong></td><td class="n"><strong>288 mm²</strong></td><td class="n"><strong>258 mm² — 10% menor</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>E o ponto: <strong>como nó de meio de vão, a cruzeta carrega o dobro da carga de um canto.</strong> Por vão de carga L, cada linha de montante de ponta pega L/2 — logo L/4 por montante. Cada linha intermediária pega 2 × L/2 = L — logo <strong>L/2 por montante</strong>.</p>
+    <p><strong>Seção 10% menor, chapa 5% mais fina, carga 2× maior.</strong></p>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>As hipóteses A, B e C são os três caminhos de carga do §13. Admissível de longa duração do PP ≈ 10 MPa.</caption>
+      <thead><tr><th>Carga/prat.</th><th>Hipótese</th><th>Trizeta</th><th>Cruzeta</th></tr></thead>
+      <tbody>
+        <tr><td class="n" rowspan="4"><strong>20 kg</strong></td><td>A · parede em compressão</td><td class="n">0,85 MPa · FS 11,7×</td><td class="n">1,90 MPa · FS 5,3×</td></tr>
+        <tr><td>B · chapa 1, borda apoiada</td><td class="n">9,2 MPa · FS 1,1×</td><td class="n"><strong>20,5 MPa · acima</strong></td></tr>
+        <tr><td>B · chapa 1, borda engastada</td><td class="n">4,2 MPa · FS 2,4×</td><td class="n">9,4 MPa · FS 1,1×</td></tr>
+        <tr><td>C · chapa de topo</td><td class="n">0,08 MPa</td><td class="n">0,11 MPa</td></tr>
+        <tr><td class="n" rowspan="4"><strong>40 kg</strong></td><td>A · parede em compressão</td><td class="n">1,70 MPa · FS 5,9×</td><td class="n">3,80 MPa · FS 2,6×</td></tr>
+        <tr><td>B · chapa 1, borda apoiada</td><td class="n">18,4 MPa · acima</td><td class="n"><strong>41,0 MPa · acima</strong></td></tr>
+        <tr><td>B · chapa 1, borda engastada</td><td class="n">8,5 MPa · FS 1,2×</td><td class="n"><strong>18,9 MPa · acima</strong></td></tr>
+        <tr><td>C · chapa de topo</td><td class="n">0,16 MPa</td><td class="n">0,22 MPa</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call stop">
+    <span class="tag">Consequência</span>
+    <p>A carga declarável do sistema passa a ser governada <strong>pela cruzeta, não pela trizeta</strong>. E o ensaio de montar um nó e carregá-lo fica ainda mais decisivo: agora ele decide entre <em>“40 kg tranquilo”</em> (hipóteses A ou C) e <em>“nem 20 kg”</em> (hipótese B com borda apoiada).</p>
+    <p>Se der hipótese B, a correção é conhecida e barata: <strong>engrossar a chapa 1 da cruzeta</strong> — alteração de aço na cavidade existente, não molde novo. De 2,75 para 4,0 mm a tensão cai pelo quadrado da espessura, de 20,5 para 9,7 MPa.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">O molde: três bases de payback, e qual é honesta</h3>
+  <p class="lede">A cruzeta custa <strong>~R$ 0,495/peça</strong> — volume de malha 62,57 cm³ × 0,905 g/cm³ × o R$/kg implícito dos irmãos. Uma parede de 3 vãos leva 20 cruzetas.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Base de atribuição</th><th>Por parede de 3 vãos</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Contribuição da <strong>injeção só</strong> — 2× o custo da peça</td><td class="n">R$ 9,90</td></tr>
+        <tr><td>(b) <strong>Economia</strong> de encadear contra módulos separados</td><td class="n">R$ 48,24</td></tr>
+        <tr class="hl"><td>(c) Margem do <strong>produto que a cruzeta viabiliza</strong> — 2× custo</td><td class="n"><strong>R$ 392,14</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>Payback em meses. As colunas (a) e (b) nunca fecham; a (c) é a que decide, e nela <strong>a variável é o volume, não o molde</strong>.</caption>
+      <thead><tr><th>Molde</th><th>(a) a 3/mês</th><th>(b) a 3/mês</th><th>(c) a 3/mês</th><th>(c) a 10/mês</th></tr></thead>
+      <tbody>
+        <tr><td class="n">R$ 20.000</td><td class="n">673</td><td class="n">138</td><td class="n"><strong>17,0</strong></td><td class="n"><strong>5,1</strong></td></tr>
+        <tr><td class="n">R$ 30.000</td><td class="n">1.010</td><td class="n">207</td><td class="n"><strong>25,5</strong></td><td class="n"><strong>7,7</strong></td></tr>
+        <tr class="hl"><td class="n">R$ 50.000</td><td class="n">1.683</td><td class="n">345</td><td class="n"><strong>42,5</strong></td><td class="n"><strong>12,8</strong></td></tr>
+        <tr><td class="n">R$ 80.000</td><td class="n">2.693</td><td class="n">553</td><td class="n"><strong>68,0</strong></td><td class="n"><strong>20,4</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body">
+    <p>A base (c) é a que o curador rejeitou, por creditar ao plástico a margem da madeira. <strong>A objeção é legítima e o enquadramento correto é outro: o molde não é centro de lucro, é portão.</strong> Investimento de portão se julga pela contribuição do portfólio que ele destrava — decisão de capital normal — desde que fique dito, e fica: a contribuição vem majoritariamente de madeira comprada e montagem, não de injeção.</p>
+    <p>E o análogo mais próximo no catálogo, a Caixa Expositora <code>010.001.003</code>, roda a <strong>3 unidades/mês</strong>. Então o intervalo honesto hoje é <strong>13 a 43 meses</strong> para um molde de R$ 50 k, e o que move esse número é o volume.</p>
+  </div>
+
+  <div class="call">
+    <span class="tag">O achado que pode dispensar a conta inteira</span>
+    <p>Os cinco moldes foram cadastrados em <strong>17/07/2026 dentro de 79 segundos</strong> um do outro — e <strong>a cruzeta foi a primeira das cinco</strong>, às 14:25:00, antes da haste (14:25:26), do L (14:25:43), da tampa (14:26:00) e da trizeta (14:26:19). Os outros quatro já rodaram na máquina.</p>
+    <p><strong>Não foi adendo: foi especificada como parte de um conjunto de cinco.</strong> Então a pergunta não é “devemos comprar um molde”, é <strong>“onde está o quinto molde do conjunto?”</strong> — pergunta para a ferramentaria, custa um telefonema, e se o molde existir, pronto ou em tryout, toda a tabela acima vira irrelevante.</p>
+  </div>
+
+  <h3 style="font-size:19px;margin-top:38px">A lista atualizada, em ordem</h3>
+  <ol class="steps">
+    <li><span><strong>Ferramentaria: onde está o molde da cruzeta?</strong> Primeiro dos cinco cadastrados, quatro irmãos já rodando. Um telefonema — e tira o payback da conversa.</span></li>
+    <li><span><strong>As 2 cavidades da cruzeta são o par esq/dir?</strong> Uma pergunta a quem desenhou. Decide se a ilha costa a costa existe.</span></li>
+    <li><span><strong>Montar um nó de cruzeta e carregá-lo.</strong> Decide entre A, B e C — agora com intervalo de “40 kg tranquilo” a “nem 20 kg”.</span></li>
+    <li><span><strong>A régua assenta em pé ou deitada?</strong> Muda a flecha de 1,11 para 3,36 mm.</span></li>
+    <li><span><strong>A tampinha</strong> — STL ainda pendente.</span></li>
+    <li><span><strong>Preço:</strong> uma venda a ≥ 2,00 × custo para ≥ 3 clientes, sem amostra nem bonificação. Continua sendo o que destrava o lado comercial.</span></li>
+    <li><span><strong>Corrigir a unidade de <code>QTDNEG</code></strong> dos PIs de madeira — sem ela não se planeja consumo do estoque de R$ 84.211,67 parado no local <code>1010000</code>.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">§3</span><h2>As cinco peças, casadas ao PI pelo custo</h2></div>
   <p class="lede">O casamento foi feito pelo volume da malha — as cinco fechadas, <strong>zero arestas não-manifold</strong> — contra o custo cadastrado. O R$/kg implícito cai entre 8,53 e 9,38, coerente com blend de PP moído e virgem clarificado.</p>
   <div class="pecas">
     <div class="peca">
@@ -294,7 +445,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§3</span><h2>O que a cruzeta muda</h2></div>
+  <div class="shead"><span class="snum">§4</span><h2>O que a cruzeta muda</h2></div>
   <p class="lede">Trizeta e L <em>terminam</em> o vão: a corrida de barra morre no canto, e todo móvel da linha é uma caixa fechada. A cruzeta é o nó de meio de vão — o que permitiria dois módulos compartilharem um montante.</p>
   <div class="diag">
     <svg viewBox="0 0 880 306" role="img" aria-label="Comparação de topologia: peça L com duas vias, trizeta com três vias ortogonais, cruzeta com quatro vias; abaixo, a diferença entre um vão e dois vãos compartilhando um montante">
@@ -352,7 +503,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§4</span><h2>A gramática de montagem</h2></div>
+  <div class="shead"><span class="snum">§5</span><h2>A gramática de montagem</h2></div>
   <p class="lede">Decodificada da estrutura e conferida peça por peça nas nove prateleiras. Na 855 (Multiuso G 2P): trizeta 8 = 4 × 2 níveis · <code>BLA-03-AC</code> 4 = 2 × 2 · <code>PSC-03</code> 4 = 2 × 2 · <code>PST-02</code> 10 = 5 × 2 · porta-haste 20 = 10 × 2 · pé 4 · tampa 4. Fecha.</p>
   <div class="gram">
     <div class="gcol">
@@ -389,7 +540,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§5</span><h2>As três larguras já existem — e não são as que você citou</h2></div>
+  <div class="shead"><span class="snum">§6</span><h2>As três larguras já existem — e não são as que você citou</h2></div>
   <div class="body">
     <p>Duas correções do dado, antes de qualquer especificação:</p>
     <p><strong>1. <code>852.004.N03</code> é <em>Sapateira Grande</em>, não prateleira.</strong> As prateleiras são <code>855</code> a <code>863</code>. A provável origem da confusão: a 852 é a única PA da linha com painel (<code>PAN-01-AC</code>, 435 × 200 × 15 mm).</p>
@@ -417,7 +568,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§6</span><h2>Por que o veto: a função já é vendida, em plástico</h2></div>
+  <div class="shead"><span class="snum">§7</span><h2>Por que o veto: a função já é vendida, em plástico</h2></div>
   <p class="lede">A linha tem nove SKUs literalmente chamados “PRATELEIRA MULTIUSO P/M/G 2P/3P/4P”. A Nitron já vende exatamente essa função, injetada, para milhares de clientes.</p>
   <div class="tw">
     <table>
@@ -441,7 +592,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§7</span><h2>A história comercial inteira, e a margem realizada</h2></div>
+  <div class="shead"><span class="snum">§8</span><h2>A história comercial inteira, e a margem realizada</h2></div>
   <p class="lede">O recorte padrão do projeto pega R$ 2.290,60. Fora dele há mais — e o que há fora é amostra e bonificação.</p>
   <div class="tw">
     <table>
@@ -488,7 +639,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§8</span><h2>O que mudaria o veredito</h2></div>
+  <div class="shead"><span class="snum">§9</span><h2>O que mudaria o veredito</h2></div>
   <p class="lede">Em ordem, do mais barato ao mais caro. O item 1 é pré-requisito dos outros oito.</p>
   <ol class="steps">
     <li><span><strong>Preço.</strong> Uma venda a <strong>≥ 2,00 × <code>CUSGER</code> para ≥ 3 clientes distintos</strong>, sem <code>CODTIPOPER</code> 3211 (amostra) nem 3220 (bonificação). Enquanto o único preço da história for 0,670 × <code>CUSGER</code>, nada mais na lista importa.</span></li>
@@ -499,12 +650,12 @@ footer .tag{display:block; margin-bottom:10px}
     <li><span><strong>Carga estrutural</strong> do conector de PP em prateleira de gôndola carregada. Móvel de PDV que cede em loja de cliente é passivo, não SKU.</span></li>
     <li><span><strong>Receita por m³</strong> do móvel contra a do pote. Se for muito pior, o canal atual não transporta isso.</span></li>
     <li><span><strong>Contaminação de fluxo</strong> — a montagem de madeira compartilha ar, piso ou refugo com o moinho e os silos?</span></li>
-    <li><span><strong>Saldo Braspine.</strong> <span class="chip ok">medido</span> R$ 84.211,67 parados no local <code>1010000</code> “Terreo” da empresa 1, com <strong>zero baixa lançada</strong> — 100% do comprado, desde 04/06/2026. Detalhe no §9. Decidir <strong>separado</strong> da decisão de lançar — senão o estoque parado vira o argumento para lançar, exatamente como a capacidade ociosa.</span></li>
+    <li><span><strong>Saldo Braspine.</strong> <span class="chip ok">medido</span> R$ 84.211,67 parados no local <code>1010000</code> “Terreo” da empresa 1, com <strong>zero baixa lançada</strong> — 100% do comprado, desde 04/06/2026. Detalhe no §10. Decidir <strong>separado</strong> da decisão de lançar — senão o estoque parado vira o argumento para lançar, exatamente como a capacidade ociosa.</span></li>
   </ol>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§9</span><h2>Seis correções ao CLAUDE.md</h2></div>
+  <div class="shead"><span class="snum">§10</span><h2>Seis correções ao CLAUDE.md</h2></div>
   <div class="body">
     <p><strong>A estrutura PA→PI existe em view direta.</strong> <code>VW_PA_PIS_QTD_NIT</code> e <code>VW_PA_PIS_ATIVOS_NIT</code> (<code>CODPRODPA</code>, <code>CODPRODPI</code>, <code>QTDMISTURA</code>), e <code>VW_COMPOSICAO_NIT</code> / <code>VW_BOM_EXPLODIDA</code> para descer à matéria-prima. O arquivo registra isso como não encontrado.</p>
     <p><strong>A BOM tem duas camadas e a segunda é fácil de perder.</strong> A view PA→PI mostra só <code>USOPRODMP='2'</code>; as barras compradas entram com <code>USOPRODMP='M'</code> e só aparecem em <code>VW_COMPOSICAO_NIT</code>. Foi exatamente aí que estavam as três larguras.</p>
@@ -517,7 +668,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§10</span><h2>O piloto de PDV, especificado</h2></div>
+  <div class="shead"><span class="snum">§11</span><h2>O piloto de PDV, especificado</h2></div>
   <p class="lede">A rota que o curador deixou aberta, com as duas condições dele: contra pedido, sem SKU no catálogo, e sem molde novo. A cruzeta fica fora — o piloto roda com os quatro conectores que já foram injetados.</p>
 
   <h3 style="font-size:19px;margin-top:34px">O canal de PDV já existe — e não é o que a proposta imaginava</h3>
@@ -544,7 +695,7 @@ footer .tag{display:block; margin-bottom:10px}
   </div>
 
   <h3 style="font-size:19px;margin-top:38px">O módulo</h3>
-  <p class="lede">Não é o empilhamento de dois módulos de 4 prateleiras — esse caminho duplica estrutura e gera 8 prateleiras com passo de 215 mm, apertado demais para pote e balde. O módulo é construído de propósito pela gramática do §4, com 5 níveis.</p>
+  <p class="lede">Não é o empilhamento de dois módulos de 4 prateleiras — esse caminho duplica estrutura e gera 8 prateleiras com passo de 215 mm, apertado demais para pote e balde. O módulo é construído de propósito pela gramática do §5, com 5 níveis.</p>
   <div class="cotas" style="grid-template-columns:repeat(2,1fr);max-width:620px;margin-top:26px">
     <div class="cota"><span class="v">~680 mm</span><span class="k">largura externa · PSC-03 595 + 85,26</span></div>
     <div class="cota"><span class="v">~372 mm</span><span class="k">profundidade · BLA-03-AC 287 + 85,26</span></div>
@@ -588,7 +739,7 @@ footer .tag{display:block; margin-bottom:10px}
 
   <h3 style="font-size:19px;margin-top:38px">O que o piloto testa, em ordem</h3>
   <ol class="steps">
-    <li><span><strong>Carga admissível por vão.</strong> <span class="chip ok">respondido — §12</span> O parecer estrutural saiu e o corte de seção da malha fechou a conta: <strong>20 kg por prateleira</strong> é o número sustentável hoje, e 40 kg depende de um ensaio que vale 100× em tensão.</span></li>
+    <li><span><strong>Carga admissível por vão.</strong> <span class="chip ok">respondido — §13</span> O parecer estrutural saiu e o corte de seção da malha fechou a conta: <strong>20 kg por prateleira</strong> é o número sustentável hoje, e 40 kg depende de um ensaio que vale 100× em tensão.</span></li>
     <li><span><strong>Uma amostra montada</strong>, usando o estoque de pinus da Braspine que já está pago — os R$ 84.211,67 estão fisicamente lá, no local <code>1010000</code>. Mas <strong>quantos módulos saem dele não é consultável</strong>: a quantidade em <code>TGFEST</code> está na mesma unidade quebrada da compra, então contar peça de pinus hoje exige contagem física. Isso faz da correção da unidade um bloqueio de planejamento, não só de contabilidade.</span></li>
     <li><span><strong>A Nitron como primeiro cliente.</strong> Substituir uma das gôndolas de aço de R$ 414 no próprio showroom ou num cliente que ela já mobilia — testa o produto sem SKU no catálogo e sem risco de canibalizar a <code>053</code>/<code>079</code>.</span></li>
     <li><span><strong>Preço.</strong> Oferecer a ≥ 2,00 × custo para ≥ 3 clientes distintos, sem <code>CODTIPOPER</code> 3211 nem 3220. É o item nº 1 da lista do curador e o pré-requisito de tudo.</span></li>
@@ -601,7 +752,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§11</span><h2>Se o configurador for adiante mesmo assim</h2></div>
+  <div class="shead"><span class="snum">§12</span><h2>Se o configurador for adiante mesmo assim</h2></div>
   <p class="lede">A decisão é sua, não do curador. Se for adiante, estas quatro pendências são bloqueantes — e a ordem importa, porque a P3 pode encerrar o assunto sozinha.</p>
   <ol class="steps">
     <li><span><strong>Carga admissível por vão.</strong> Sem isso não se pode oferecer hack de TV nem PDV — as duas aplicações que carregam peso e as duas que geram responsabilidade. Se o conector não passa, nada depois importa.</span></li>
@@ -616,7 +767,7 @@ footer .tag{display:block; margin-bottom:10px}
 </section>
 
 <section>
-  <div class="shead"><span class="snum">§12</span><h2>O parecer estrutural, e o corte de seção que ele pediu</h2></div>
+  <div class="shead"><span class="snum">§13</span><h2>O parecer estrutural, e o corte de seção que ele pediu</h2></div>
   <p class="lede">O parecer confirmou as quatro contas de primeira ordem número por número e acrescentou um check de flambagem local da parede como placa: σ<sub>cr</sub> ≈ 68 MPa contra 1,95 MPa de trabalho, então a parede não flamba antes de esmagar. <strong>Ruptura por compressão está descartada.</strong> Mas apontou um buraco real: a premissa de que a carga desce pela parede não estava verificada — o encaixe tem 40,60 mm num nó de 73,08 mm, então há estrutura interna no meio. Ele pediu corte de seção; fiz o corte na malha, varrendo a área maciça de 0,25 em 0,25 mm.</p>
   <div class="tw">
     <table>
