@@ -133,15 +133,15 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <div class="wrap">
 <header>
   <div class="eyeb"><span class="lab">NITRON · DESENVOLVIMENTO DE PRODUTOS</span>
-  <span class="lab">CADERNO DE ESPECIFICAÇÃO · PDV</span><span class="lab">REV. 3 · 04/09/2026</span></div>
+  <span class="lab">CADERNO DE ESPECIFICAÇÃO · PDV</span><span class="lab">REV. 4 · 04/09/2026</span></div>
   <div class="hg">
     <div><h1>Sistema PDV<br>Nitron Mob</h1><p class="slog">toda casa tem</p>
-    <p class="thesis">Medida fixa. <strong>4 ripas de comprimento, 3 de largura, 2 verticais e 12 painéis</strong> — nada fora dessa lista. A cota externa não é a soma das ripas: cada ripa entra <strong>40,60 mm</strong> dentro do nó, e o nó sobra para fora. <strong>Nenhuma ripa nova.</strong></p></div>
+    <p class="thesis">Largura, comprimento e altura — nessa ordem. <strong>7 painéis e 9 ripas</strong>, e nada fora dessa lista. Cada baia tem a sua ripa, então o mesmo módulo mistura prateleira baixa e vão alto; a <strong>peça L</strong> fecha o poste no topo e dá altura sem somar prateleira. <strong>Nenhuma ripa nova.</strong></p></div>
     <div class="bars">
-      <div class="bar"><b>+42,02</b><span>eixo do <strong>COMPRIMENTO</strong> · nó de 61,61<i>externo = ripa + 42,02 · confirmado pelos 4 painéis</i></span></div>
-      <div class="bar"><b>+85,26</b><span>eixo da <strong>PROFUNDIDADE</strong> · nó de 83,23<i>externo = ripa + 85,26 · a tábua apoia e sobressai</i></span></div>
-      <div class="bar"><b>+20,10</b><span>cada <strong>VÃO</strong> a mais · cruzeta de 101,30<i>a cruzeta come os mesmos 81,20 e ocupa 101,30</i></span></div>
-      <div class="bar"><b>261,9</b><span>passo <strong>VERTICAL</strong> · ripa BAL-02-AC 270<i>modelo A do nó — falta a fita no showroom</i></span></div>
+      <div class="bar"><b>1,3–2,6</b><span>a <strong>REGRA DA PROPORÇÃO</strong> do painel<i>comprimento ÷ largura · corta a grade de 12 para 7</i></span></div>
+      <div class="bar"><b>90,5%</b><span>da <strong>CURVA</strong> na profundidade de 300<i>contra 56,8% em 200 e 99,9% em 460</i></span></div>
+      <div class="bar"><b>73,08</b><span>a <strong>PEÇA L</strong> no eixo vertical<i>igual à trizeta — é por isso que ela é nó de topo</i></span></div>
+      <div class="bar"><b>+42,02</b><span>eixo do <strong>COMPRIMENTO</strong> · nó de 61,61<i>externo = ripa + 42,02 · confirmado pelos painéis</i></span></div>
     </div>
   </div>
 </header>
@@ -163,18 +163,18 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
   </table></div>
   <div class="call">
     <span class="lab">O CADASTRO JÁ SEPARA OS DOIS EIXOS — E A LISTA FIXA RESPEITA ISSO</span>
-    <p>A família <code>BLA</code> (campo <code>LARGURA</code>) é a ripa que vai da frente ao fundo; a família <code>PSC</code> (campo <code>COMPRIMENTO</code>) é a que vence o vão. A lista fixa usa cada uma no seu papel: <strong>BLA-01-AC 200 · BLA-03-AC 287 · PSC-02 415</strong> na profundidade, <strong>PSC-01 315 · PSC-02 415 · PSC-03 595 · PSC-04 717</strong> no comprimento.</p>
+    <p>A família <code>BLA</code> (campo <code>LARGURA</code>) é a ripa que vai da frente ao fundo; a família <code>PSC</code> (campo <code>COMPRIMENTO</code>) é a que vence o vão. A lista fixa usa cada uma no seu papel: <strong>BLA-01-AC 200 · BLA-03-AC 287 · PSC-02 415</strong> na largura, <strong>PSC-01 315 · PSC-02 415 · PSC-03 595 · PSC-04 717</strong> no comprimento.</p>
     <p>A <code>PSC-02</code> aparece nas duas listas — é a mesma ripa fazendo dois papéis, o que já acontece no cadastro: ela é comprimento na sapateira e serve de largura na ilha.</p>
   </div>
   <div class="call stop">
-    <span class="lab">A LEITURA ANTERIOR — “TRÊS LARGURAS DAS TRÊS REFERÊNCIAS” — FOI SUBSTITUÍDA</span>
-    <p>A Rev. 2 fixava três larguras (415 sapateira · 595 multiuso · 717 arara) e deixava profundidade livre entre 19 barras. A Rev. 3 fecha os dois eixos, e o que era “largura fixa” virou o <strong>eixo do comprimento</strong>, com quatro valores em vez de três. Os números de corrida não mudaram — 457, 892, 1.252, 1.496 continuam valendo. O que mudou é que <strong>a profundidade também é fixa</strong>, em três valores, e vem casada com o painel.</p>
+    <span class="lab">E O CADASTRO AINDA RESPONDE O QUE CABE NA PRATELEIRA</span>
+    <p><code>TGFPRO.LARGURA</code>, <code>ALTURA</code> e <code>ESPESSURA</code> (em centímetros) estão preenchidas em <strong>2.742 dos 3.079 PAs ativos</strong>. Cruzando com o faturamento de marca própria de 12 meses — 1.273 SKUs, <strong>R$ 83,8 M</strong>, tabelas 84 e 3 fora — dá para medir a cobertura de cada profundidade e de cada altura de baia, em vez de estimar. É o que decide o §4 e o §3.</p>
   </div>
 </section>
 
 <section>
   <div class="sh"><span class="snum">§2</span><h2>Comprimento · as 4 ripas e a corrida</h2></div>
-  <p class="lede">Quatro ripas de comprimento, cada uma casada com um painel. O <strong>comprimento é a corrida</strong>: N vãos daquela ripa, encadeados pela cruzeta. A trizeta fica fixa em 4 por nível; só a cruzeta cresce, a 2 × (N−1) por nível.</p>
+  <p class="lede">Quatro ripas de comprimento. O <strong>comprimento é a corrida</strong>: N vãos daquela ripa, encadeados pela cruzeta. A trizeta fica fixa em 4 por nível; só a cruzeta cresce, a 2 × (N−1) por nível.</p>
   <div class="tw"><table>
     <caption>Cota externa da corrida em milímetros. Fórmula: 2 × 61,61 + (N−1) × 101,30 + N × (ripa − 81,20).</caption>
     <thead><tr><th>N vãos</th><th>PSC-01 · 315</th><th>PSC-02 · 415</th><th>PSC-03 · 595</th><th>PSC-04 · 717</th><th>Trizetas</th><th>Cruzetas</th></tr></thead>
@@ -182,59 +182,80 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
   </table></div>
   <div class="call">
     <span class="lab">A CONFERÊNCIA QUE FECHA O MODELO</span>
-    <p>As quatro ripas dão <strong>357,02 · 457,02 · 637,02 · 759,02</strong> mm de cota externa por vão. Os quatro painéis fixados são <strong>360 · 450 · 634 · 754</strong>. Diferença de <strong>+2,98 / −7,02 / −3,02 / −5,02</strong> mm — quatro em quatro dentro de ±7 mm.</p>
-    <p>Isso prova que o painel foi cortado na <strong>cota externa do vão</strong>: ele deita sobre os nós e cobre o vão de ponta a ponta. Se fosse cortado no vão livre entre nós, daria 233,8 / 333,8 / 513,8 / 635,8 — e não é o que está na lista.</p>
+    <p>As quatro ripas dão <strong>357,02 · 457,02 · 637,02 · 759,02</strong> mm de cota externa por vão. Os quatro painéis são <strong>360 · 450 · 634 · 754</strong>. Diferença de <strong>+2,98 / −7,02 / −3,02 / −5,02</strong> mm — quatro em quatro dentro de ±7 mm.</p>
+    <p>Isso prova que o painel foi cortado na <strong>cota externa do vão</strong>: ele deita sobre os nós e cobre o vão de ponta a ponta. E é por isso que o painel <strong>não</strong> é a peça que estica o móvel: <strong>o comprimento vem da corrida</strong>, não da tábua.</p>
   </div>
 </section>
 
 <section>
-  <div class="sh"><span class="snum">§3</span><h2>Altura · duas ripas e uma medida em falta</h2></div>
-  <p class="lede">Duas ripas verticais na lista: <strong><code>BAL-02-AC</code> 270</strong>, que dá o passo curto usável para pote, balde e lixeira em pé, e <strong><code>PSA-05</code> 513</strong> para vão alto. Trocar de altura é trocar a contagem de prateleiras, nunca a ripa. As quatro famílias usam a de 270.</p>
+  <div class="sh"><span class="snum">§3</span><h2>Altura · uma ripa por baia, e a peça L no topo</h2></div>
+  <p class="lede">A altura deixou de ser <em>n × uma ripa só</em>. <strong>Cada baia tem a sua ripa</strong> — <code>BAL-02-AC</code> 270 ou <code>PSA-05</code> 513 — e a soma é o que fecha a cota. No topo, a <strong>peça L</strong> fecha o poste e segura uma ripa atravessada, sem prateleira: é a coroa.</p>
   <div class="tw"><table>
-    <caption>Altura externa em milímetros. Fórmula: n × 73,08 + (n−1) × (ripa − 81,20) + 19,40 no modelo A.</caption>
-    <thead><tr><th>Prateleiras</th><th>BAL-02-AC · modelo A</th><th>BAL-02-AC · modelo B</th><th>PSA-05 · modelo A</th><th>Uso</th></tr></thead>
-    <tbody><tr><td class="n">2</td><td class="n">354</td><td class="n">501</td><td class="n">597</td><td>mesa baixa</td></tr><tr><td class="n">3</td><td class="n">616</td><td class="n">835</td><td class="n">1.102</td><td>mesa de exposição</td></tr><tr class="hl"><td class="n">4</td><td class="n"><strong>878</strong></td><td class="n">1.170</td><td class="n">1.607</td><td><strong>ilha</strong> · balcão 900</td></tr><tr class="hl"><td class="n">5</td><td class="n"><strong>1.140</strong></td><td class="n">1.505</td><td class="n">2.112</td><td><strong>checkout</strong> · display 1.200</td></tr><tr><td class="n">6</td><td class="n">1.402</td><td class="n">1.840</td><td class="n">2.617</td><td>gôndola central</td></tr><tr class="hl"><td class="n">7</td><td class="n"><strong>1.664</strong></td><td class="n">2.175</td><td class="n">3.122</td><td><strong>ponta de gôndola</strong> · 1.600</td></tr><tr class="hl"><td class="n">8</td><td class="n"><strong>1.926</strong></td><td class="n">2.510</td><td class="n">3.627</td><td><strong>paredão</strong> · parede 2.000</td></tr></tbody>
+    <caption>Altura externa em milímetros. Fórmula: 19,40 + n_nós × 73,08 + Σ (ripa − 81,20). A coroa acrescenta um nó.</caption>
+    <thead><tr><th>Prateleiras</th><th>Só 270</th><th>+ coroa 270</th><th>+ coroa 513</th><th>Baia de cima 513</th><th>Uso</th></tr></thead>
+    <tbody><tr><td class="n">2</td><td class="n">354</td><td class="n">616</td><td class="n">859</td><td class="n">597</td><td>mesa baixa</td></tr><tr><td class="n">3</td><td class="n">616</td><td class="n">878</td><td class="n">1.121</td><td class="n">859</td><td>mesa de exposição</td></tr><tr class="hl"><td class="n">4</td><td class="n"><strong>878</strong></td><td class="n">1.140</td><td class="n">1.383</td><td class="n">1.121</td><td><strong>ilha</strong> · balcão 900</td></tr><tr class="hl"><td class="n">5</td><td class="n"><strong>1.140</strong></td><td class="n">1.402</td><td class="n">1.645</td><td class="n">1.383</td><td><strong>checkout</strong> com coroa</td></tr><tr class="hl"><td class="n">6</td><td class="n"><strong>1.402</strong></td><td class="n">1.664</td><td class="n">1.907</td><td class="n">1.645</td><td><strong>ponta</strong> com coroa 513</td></tr><tr><td class="n">7</td><td class="n">1.664</td><td class="n">1.926</td><td class="n">2.169</td><td class="n">1.907</td><td>gôndola alta</td></tr><tr class="hl"><td class="n">8</td><td class="n"><strong>1.926</strong></td><td class="n">2.188</td><td class="n">2.431</td><td class="n">2.169</td><td><strong>paredão</strong> · parede 2.000</td></tr></tbody>
+  </table></div>
+  <div class="call">
+    <span class="lab">A PEÇA L TEM O MESMO PASSO VERTICAL DA TRIZETA — E ISSO É O ACHADO</span>
+    <p>Bounding box da peça L: <strong>21,92 × 83,23 × 73,08 mm</strong>. O <strong>73,08</strong> é idêntico ao da trizeta, então ela <strong>empilha no poste como um nó de prateleira</strong>. Mas tem só <strong>2 vias coplanares</strong>: segura uma ripa atravessada e nada mais. É assim que a arara ganha altura sem ganhar prateleira.</p>
+    <p>A coroa acrescenta <code>(ripa − 81,20) + 73,08</code>, ou seja <strong>ripa − 8,12 mm</strong>: <strong>+261,88</strong> com a ripa 270 e <strong>+504,88</strong> com a 513. E ela é <strong>mais larga que a estrutura</strong>: o L tem 83,23 mm nesse eixo contra 61,61 da trizeta, então passa <strong>21,62 mm por lado</strong> — a cabeceira acompanha essa cota.</p>
+  </div>
+  <div class="tw" style="margin-top:22px"><table>
+    <caption>Altura livre da baia contra a altura do produto. <code>TGFPRO.ALTURA</code> × faturamento de 12 M.</caption>
+    <thead><tr><th>Ripa vertical</th><th>Passo</th><th>Livre (menos o painel)</th><th>% do faturamento em pé</th></tr></thead>
+    <tbody>
+      <tr><td class="n">BAL-02-AC 270</td><td class="n">261,88</td><td class="n"><strong>247 mm</strong></td><td class="n">79.1%</td></tr>
+      <tr><td class="n">PSA-05 513</td><td class="n">504,88</td><td class="n"><strong>490 mm</strong></td><td class="n">98.2%</td></tr>
+    </tbody>
   </table></div>
   <div class="call stop">
-    <span class="lab">O QUE FALTA MEDIR — E É UMA FITA, NÃO UM ENSAIO</span>
-    <p>O encaixe vertical da trizeta <strong>abre para baixo</strong> e a face de topo é fechada (chapa medida em z relativo 70,0–72,9 mm). Por isso a peça sai em <strong>par espelhado ESQ/DIR</strong>, e isso deixa duas leituras do passo: <strong>261,88 mm</strong> (um nó por nível) ou <strong>334,96 mm</strong> (par espelhado). A lista de painéis não resolve — ela só restringe os eixos horizontais.</p>
-    <p>Monte duas prateleiras com a ripa de 270 e meça de apoio a apoio. <strong>261,9 → modelo A. 335,0 → modelo B.</strong> Não tem meio. Este caderno usa o modelo A.</p>
+    <span class="lab">POR QUE A ALTURA MISTA NÃO É LUXO</span>
+    <p>Um módulo só de ripa 270 deixa <strong>21% do faturamento de fora</strong> — o que não fica de pé em 247 mm. Um módulo só de 513 desperdiça altura em 79% dos casos. <strong>Misturar as duas na mesma pilha é o que cobre o catálogo inteiro.</strong></p>
+    <p>E continua faltando uma fita: o encaixe vertical da trizeta abre para <strong>baixo</strong> e o topo é fechado (chapa em z 70,0–72,9 mm), por isso ela sai em <strong>par espelhado</strong>. O passo é <strong>261,88 mm</strong> se o par empilha um nó por nível, <strong>334,96 mm</strong> se empilha dois. Este caderno usa o primeiro.</p>
   </div>
 </section>
 
 <section>
-  <div class="sh"><span class="snum">§4</span><h2>Profundidade · 3 ripas, 12 painéis</h2></div>
-  <p class="lede">A profundidade também é fixa agora: três ripas de largura, cada uma casada com uma tábua. A tábua <strong>não</strong> alcança a cota externa — o nó sobra 42,63 mm por lado. Ela apoia nas duas ripas e sobressai um pouco para a frente e para o fundo.</p>
+  <div class="sh"><span class="snum">§4</span><h2>Largura · 3 ripas, e a grade que caiu de 12 para 7</h2></div>
+  <p class="lede">Três ripas de largura, cada uma casada com uma tábua. A tábua <strong>não</strong> alcança a cota externa — o nó sobra 42,63 mm por lado. Ela apoia nas duas ripas e sobressai: 0,00 mm na de 200, +6,50 na de 300, +22,50 na de 460.</p>
   <div class="tw"><table>
-    <caption>Cota externa = ripa + 85,26 mm. A tábua apoia na ripa, não no nó.</caption>
-    <thead><tr><th>Tábua</th><th>Ripa de largura</th><th>Profundidade externa</th><th>Sobressai/lado</th><th>Vão livre entre nós</th><th>Onde entra</th></tr></thead>
-    <tbody><tr><td class="n">200</td><td class="n">BLA-01-AC · 200</td><td class="n"><strong>285</strong></td><td class="n">0,00</td><td class="n">119</td><td>paredão · ponta rasa</td></tr><tr><td class="n">300</td><td class="n">BLA-03-AC · 287</td><td class="n"><strong>372</strong></td><td class="n">6,50</td><td class="n">206</td><td>checkout · ponta</td></tr><tr><td class="n">460</td><td class="n">PSC-02 · 415</td><td class="n"><strong>500</strong></td><td class="n">22,50</td><td class="n">334</td><td>ilha</td></tr></tbody>
+    <caption>A regra: comprimento entre <strong>1,3 e 2,6 ×</strong> a largura. Cada célula é a razão. Sete passam, cinco caem.</caption>
+    <thead><tr><th>Tábua</th><th>360</th><th>450</th><th>634</th><th>754</th><th>Prof. externa</th><th>Curva de lado</th><th>De frente</th></tr></thead>
+    <tbody><tr><td class="n"><strong>200</strong></td><td class="n"><strong>1,80</strong> ✅</td><td class="n"><strong>2,25</strong> ✅</td><td class="n">3,17 ❌</td><td class="n">3,77 ❌</td><td class="n">285</td><td class="n">56.8%</td><td class="n">18.1%</td></tr><tr><td class="n"><strong>300</strong></td><td class="n">1,20 ❌</td><td class="n"><strong>1,50</strong> ✅</td><td class="n"><strong>2,11</strong> ✅</td><td class="n"><strong>2,51</strong> ✅</td><td class="n">372</td><td class="n">90.5%</td><td class="n">67.0%</td></tr><tr><td class="n"><strong>460</strong></td><td class="n">0,78 ❌</td><td class="n">0,98 ❌</td><td class="n"><strong>1,38</strong> ✅</td><td class="n"><strong>1,64</strong> ✅</td><td class="n">500</td><td class="n">99.9%</td><td class="n">96.1%</td></tr></tbody>
   </table></div>
-  <div class="tw" style="margin-top:22px"><table>
-    <caption>As 12 combinações. Linha = tábua e profundidade; coluna = ripa de comprimento.</caption>
-    <thead><tr><th>Tábua</th><th>PSC-01 · vão 357</th><th>PSC-02 · vão 457</th><th>PSC-03 · vão 637</th><th>PSC-04 · vão 759</th><th>Prof. externa</th></tr></thead>
-    <tbody><tr><td class="n"><strong>200</strong></td><td class="n">200 × 360</td><td class="n">200 × 450</td><td class="n">200 × 634</td><td class="n">200 × 754</td><td class="n">285</td></tr><tr><td class="n"><strong>300</strong></td><td class="n">300 × 360</td><td class="n">300 × 450</td><td class="n">300 × 634</td><td class="n">300 × 754</td><td class="n">372</td></tr><tr><td class="n"><strong>460</strong></td><td class="n">460 × 360</td><td class="n">460 × 450</td><td class="n">460 × 634</td><td class="n">460 × 754</td><td class="n">500</td></tr></tbody>
-  </table></div>
-  <div class="call stop"><span class="lab">O LIMITE — E ELE MUDOU DE LUGAR</span>
-    <p>A Rev. 2 esbarrava no comprimento de barra (717 mm dava 802 mm de profundidade). A Rev. 3 esbarra na <strong>chapa crua</strong>: a <code>PAN-01</code> tem <strong>200 mm de largura</strong>. A tábua de 200 sai direto; as de <strong>300 e 460 exigem emenda ou chapa mais larga</strong>. É o único item novo de fornecimento em toda a grade — e ele atinge 8 dos 12 painéis.</p></div>
+  <div class="call">
+    <span class="lab">OS CINCO CORTES SÃO UM ÚNICO CRITÉRIO</span>
+    <p>Fora ficaram <strong>200×634 e 200×754</strong> (razão 3,17 e 3,77 — tira estreita e comprida) e <strong>300×360, 460×360 e 460×450</strong> (razão 1,20, 0,78 e 0,98 — quadrado, ou mais fundo que longo). A banda que sobra é <strong>1,38 a 2,51</strong>, e os vizinhos excluídos estão em 1,20 e 3,17: folga confortável dos dois lados, então a regra é critério, não ajuste de curva.</p>
+    <p>Lida na diagonal, a tabela dá a frase do catálogo: <strong>quanto mais funda a prateleira, mais longo o vão.</strong> Nenhuma ripa sai da lista — <strong>só o estoque de painel cai 42%</strong>.</p>
+  </div>
+  <div class="call stop">
+    <span class="lab">SOBRE O EMPENAMENTO, O MECANISMO É OUTRO</span>
+    <p>O painel <strong>não</strong> é apoiado só nas pontas: ele deita sobre as duas ripas de comprimento e sobre as duas de largura, apoiado nos quatro lados, e flexiona na direção <strong>curta</strong>. Sob carga, o painel de 200 é o <strong>mais rígido</strong> dos três. Sag não é o problema.</p>
+    <p>O que existe de real numa tábua de 15 mm em proporção 3,8:1 é <strong>arqueamento e torção</strong> ao longo do comprimento — instabilidade dimensional, não flexão. O argumento decisivo, porém, é o da direita da tabela: <strong>a prateleira de 200 acomoda 56,8% do faturamento de lado e 18,1% de frente.</strong> Seria a maior área de exposição do sistema servindo a menor parte do catálogo.</p>
+  </div>
+  <div class="call stop"><span class="lab">O LIMITE DE FORNECIMENTO NÃO SE RESOLVEU</span>
+    <p>A chapa crua <code>PAN-01</code> tem <strong>200 mm de largura</strong>. Dos 7 painéis, <strong>5 são de 300 ou 460</strong> e exigem emenda ou chapa mais larga. E o <strong>painel de fundo não sai da lista</strong>: fechar uma baia pede um corte de comprimento × altura livre (634 × 247, 754 × 247…), que não existe na grade.</p></div>
 </section>
 
 <section>
   <div class="sh"><span class="snum">§5</span><h2>As quatro famílias</h2></div>
-  <p class="lede">Cada uma nasce numa combinação distinta de painel, corrida e altura — não é o mesmo quadro em três tamanhos. Nenhuma repete o painel de outra. O que muda: painel de fundo, top deck, gancheira, casinha e o número de faces de acesso.</p>
+  <p class="lede">Cada uma nasce numa combinação distinta de painel, corrida e pilha de baias — não é o mesmo quadro em três tamanhos. Nenhuma repete o painel de outra. Duas usam coroa em peça L, duas não; o que muda além disso: painel de fundo, top deck, gancheira, casinha e o número de faces de acesso.
 
-  <h3 style="margin-top:46px;font-size:21px">Checkout · painel 300 × 450 · 5 prateleiras · 1.140 mm</h3>
-  <p class="lede" style="font-size:14.5px">Face única para o cliente na fila, profundidade média de <strong>372 mm</strong>, altura de <strong>1.140 mm</strong> — a mais próxima do balcão de caixa. Cinco prateleiras: cestos na base, <strong>gancheira</strong> com ripa de 415 e ganchos no meio, e bandeja no topo. Cápsula de ativação suspensa no vão de cima.</p>
+  <h3 style="margin-top:46px;font-size:21px">Checkout · painel 300 × 450 · 5 prateleiras · 1.402 mm</h3>
+  <p class="lede" style="font-size:14.5px">Face unica para o cliente na fila, profundidade media de <strong>372 mm</strong> — a que acomoda <strong>90,5% da curva</strong> de lado. Cinco prateleiras de passo curto e uma <strong>coroa em peca L</strong> no topo, com gancheira de ripa 415 e porta-hastes para blister e cartela.</p>
   <div class="tw"><table>
-    <caption>Ripa de comprimento <code>PSC-02</code> 415 · ripa de largura <code>BLA-03-AC</code> 287 · vertical <code>BAL-02-AC</code> 270. Custo por escala de massa, não apurado.</caption>
-    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th><th>Tampa</th>
-    <th>Ripa 415</th><th>Ripa 287</th><th>Ripa 270</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
-    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">457 × 372 × 1140</td><td class="n">20</td><td class="n">0</td><td class="n">4</td><td class="n">11</td><td class="n">10</td><td class="n">16</td><td class="n">5</td><td class="n">9,23 kg</td><td class="n">R$ 166,57</td><td class="n">R$ 333,14</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>892 × 372 × 1140</strong></td><td class="n">20</td><td class="n">10</td><td class="n">6</td><td class="n">22</td><td class="n">15</td><td class="n">24</td><td class="n">10</td><td class="n">17,31 kg</td><td class="n">R$ 314,32</td><td class="n">R$ 628,65</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1327 × 372 × 1140</td><td class="n">20</td><td class="n">20</td><td class="n">8</td><td class="n">33</td><td class="n">20</td><td class="n">32</td><td class="n">15</td><td class="n">25,38 kg</td><td class="n">R$ 462,08</td><td class="n">R$ 924,16</td></tr></tbody></table></div>
-  <figure class="plate"><div class="pin"><svg viewBox="-250 -250 1962 1690" role="img" aria-label="Elevacao frontal cotada: CHECKOUT, 892 por 372 por 1140 milimetros, 2 vaos e 5 prateleiras">
-<rect x="0" y="-180" width="892" height="140" fill="#08a9b1"/>
-<text class="sbn" x="446" y="-102" text-anchor="middle" font-size="62" fill="#fff">NITRON</text>
-<text class="sal" x="446" y="-58" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
-<path d="M916 -110 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="-110" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 140 mm</text>
+    <caption>Ripa de largura <code>BLA-03-AC</code> 287 · comprimento <code>PSC-02</code> 415 · pilha de baias 270 · 270 · 270 · 270 mm (coroa 270 + gancheira). Custo por escala de massa, não apurado.</caption>
+    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Peça L</th><th>Cruzeta</th><th>Tampa</th><th>Porta-haste</th>
+    <th>Ripa 415</th><th>Ripa 287</th><th>Verticais</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
+    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">457 × 372 × 1402</td><td class="n">20</td><td class="n">4</td><td class="n">0</td><td class="n">4</td><td class="n">2</td><td class="n">13</td><td class="n">10</td><td class="n">20×270</td><td class="n">5</td><td class="n">9,81 kg</td><td class="n">R$ 176,17</td><td class="n">R$ 352,34</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>892 × 372 × 1402</strong></td><td class="n">20</td><td class="n">4</td><td class="n">12</td><td class="n">6</td><td class="n">4</td><td class="n">26</td><td class="n">15</td><td class="n">30×270</td><td class="n">10</td><td class="n">18,33 kg</td><td class="n">R$ 330,99</td><td class="n">R$ 661,98</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1327 × 372 × 1402</td><td class="n">20</td><td class="n">4</td><td class="n">24</td><td class="n">8</td><td class="n">6</td><td class="n">39</td><td class="n">20</td><td class="n">40×270</td><td class="n">15</td><td class="n">26,85 kg</td><td class="n">R$ 485,81</td><td class="n">R$ 971,61</td></tr></tbody></table></div>
+  <figure class="plate"><div class="pin"><svg viewBox="-271.62 -290 2005.2399999999998 1992" role="img" aria-label="Elevacao frontal cotada: CHECKOUT, 892 por 372 por 1402 milimetros, 2 vaos, 5 prateleiras e coroa em peca L">
+<rect x="-22" y="-220" width="935" height="180" fill="#08a9b1"/>
+<text class="sbn" x="446" y="-119" text-anchor="middle" font-size="79" fill="#fff">NITRON</text>
+<text class="sal" x="446" y="-63" text-anchor="middle" font-size="34" fill="#fff">toda casa tem</text>
+<path d="M916 -130 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="-130" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 180 mm · 935 mm de largura</text>
+<rect x="0" y="1332" width="892" height="28" fill="var(--wood)"/>
+<rect x="74" y="1362" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="1362" width="371" height="40" fill="#08a9b1" opacity=".92"/>
 <rect x="0" y="1070" width="892" height="28" fill="var(--wood)"/>
 <rect x="74" y="1100" width="391" height="40" fill="#08a9b1" opacity=".92"/>
 <rect x="509" y="1100" width="371" height="40" fill="#08a9b1" opacity=".92"/>
@@ -244,56 +265,57 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="0" y="546" width="892" height="28" fill="var(--wood)"/>
 <rect x="74" y="576" width="391" height="40" fill="#08a9b1" opacity=".92"/>
 <rect x="509" y="576" width="371" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="284" width="892" height="28" fill="var(--wood)"/>
-<rect x="74" y="314" width="391" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="509" y="314" width="371" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="17" width="892" height="40" fill="var(--wood2)"/>
-<rect x="74" y="53" width="391" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="509" y="53" width="371" height="40" fill="#08a9b1" opacity=".92"/>
-<path d="M916 37 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="37" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">top deck · painel inteiro</text>
-<path d="M916 1120 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="1120" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
-<rect x="61.61" y="416" width="769" height="26" fill="var(--no-tz)"/>
-<path d="M106.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M196.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M286.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M376.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M466.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M556.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M646.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M736.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
-<path d="M916 459 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="459" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">gancheira · ripa 415 + ganchos</text>
-<rect x="0" y="37" width="62" height="1084" fill="var(--wood2)"/>
+<rect x="0" y="279" width="892" height="40" fill="var(--wood2)"/>
+<rect x="74" y="315" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="315" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<path d="M916 299 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="299" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">top deck · painel inteiro</text>
+<path d="M916 1382 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="1382" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
+<rect x="0" y="0" width="62" height="1382" fill="var(--wood2)"/>
+<rect x="0" y="1310" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="1048" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="786" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="-0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="15" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="395" y="37" width="101" height="1084" fill="var(--wood2)"/>
+<rect x="-22" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="15" y="1383" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="395" y="0" width="101" height="1382" fill="var(--wood2)"/>
+<rect x="395" y="1310" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="395" y="1048" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="395" y="786" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="395" y="524" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="395" y="262" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="395" y="-0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="430" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="830" y="37" width="62" height="1084" fill="var(--wood2)"/>
+<rect x="395" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="430" y="1383" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="830" y="0" width="62" height="1382" fill="var(--wood2)"/>
+<rect x="830" y="1310" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="830" y="1048" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="830" y="786" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="830" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="830" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="830" y="-0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="845" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
-<path d="M916 822 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="822" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
-<rect x="259" y="131" width="375" height="72" rx="36" fill="#08a9b1"/>
-<text class="sbn" x="446" y="181" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
-<rect x="84" y="632" width="340" height="170" fill="#08a9b1" rx="12"/>
-<text class="sbn" x="254" y="727" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
-<text class="sal" x="254" y="772" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1260 H892"/><path d="M0 1236 V1284"/><path d="M892 1236 V1284"/></g><text class="sbn" x="446" y="1228" text-anchor="middle" font-size="58" fill="var(--dim-t)">892 mm</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1365 H497"/><path d="M62 1341 V1389"/><path d="M497 1341 V1389"/></g><text class="sbn" x="279" y="1333" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 435</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -180 V1140"/><path d="M-94 -180 H-46"/><path d="M-94 1140 H-46"/></g><text class="sbn" transform="translate(-100,480) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">1320 mm total</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 822 V1084"/><path d="M-200 822 H-152"/><path d="M-200 1084 H-152"/></g><text class="sbn" transform="translate(-206,953) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
-<g transform="translate(0,1470)">
+<rect x="809" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="845" y="1383" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M916 1084 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="1084" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
+<rect x="-22" y="24" width="935" height="26" fill="var(--wood2)"/>
+<path d="M916 37 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="37" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">coroa · peca L fecha o poste · +21.62 mm por lado</text>
+<rect x="61.61" y="107" width="769" height="22" fill="var(--no-tz)"/>
+<path d="M117 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M227 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M337 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M447 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M557 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M667 129 v46 a15 15 0 0 0 30 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M916 153 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="153" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">gancheira · ripa 415 + porta-hastes</text>
+<rect x="259" y="393" width="375" height="72" rx="36" fill="#08a9b1"/>
+<text class="sbn" x="446" y="443" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
+<rect x="84" y="1137" width="340" height="159" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="1226" text-anchor="middle" font-size="64" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="1267" text-anchor="middle" font-size="25" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1522 H892"/><path d="M0 1498 V1546"/><path d="M892 1498 V1546"/></g><text class="sbn" x="446" y="1490" text-anchor="middle" font-size="58" fill="var(--dim-t)">892 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1627 H497"/><path d="M62 1603 V1651"/><path d="M497 1603 V1651"/></g><text class="sbn" x="279" y="1595" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 435</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-91.62 -220 V1402"/><path d="M-115.62 -220 H-67.62"/><path d="M-115.62 1402 H-67.62"/></g><text class="sbn" transform="translate(-121.62,591) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">1622 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-197.62 1121 V1383"/><path d="M-221.62 1121 H-173.62"/><path d="M-221.62 1383 H-173.62"/></g><text class="sbn" transform="translate(-227.62,1252) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-303.62 73 V335"/><path d="M-327.62 73 H-279.62"/><path d="M-327.62 335 H-279.62"/></g><text class="sbn" transform="translate(-333.62,204) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">coroa 262</text>
+<g transform="translate(0,1732)">
 <rect x="0" y="0" width="375" height="156" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
 <path d="M187 -40 l-26 -22 h52 z" transform="rotate(0,187,-40)" fill="var(--brand-deep)"/>
 <path d="M187 196 l-26 -22 h52 z" transform="rotate(180,187,196)" fill="var(--brand-deep)"/>
@@ -301,16 +323,16 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <path d="M415 78 l-26 -22 h52 z" transform="rotate(90,415,78)" fill="var(--brand-deep)"/>
 <text class="sbn" x="455" y="78" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · acesso pelas 4 faces</text>
 <text class="sbn" x="187" y="252" text-anchor="middle" font-size="50" fill="var(--dim-t)">892 × 372 mm</text>
-</g></svg></div><figcaption>Checkout M — 892 × 372 × 1.140 mm, 2 vãos, painel 300 × 450. A gancheira é o que diferencia o checkout: uma ripa de 415 mm entre duas prateleiras, com ganchos, para blister e cartela. A planta mostra as quatro faces livres — o checkout fica em ilha ao lado do caixa.</figcaption></figure>
+</g></svg></div><figcaption>Checkout M — 892 × 372 × 1.402 mm, 2 vãos, painel 300 × 450 · coroa de 935 mm. A coroa e o que diferencia o checkout: a peca L fecha o poste acima da ultima prateleira e segura a ripa da gancheira. Ela passa 21,62 mm de cada lado do corpo, e a cabeceira acompanha essa cota.</figcaption></figure>
 
   <h3 style="margin-top:46px;font-size:21px">Ilha · painel 460 × 634 · 4 prateleiras · 878 mm</h3>
-  <p class="lede" style="font-size:14.5px">A mais funda das quatro: <strong>500 mm</strong>, vencidos pela ripa de largura de 415 mm — a maior da lista. Aberta pelas <strong>quatro faces</strong>, altura de balcão (<strong>878 mm</strong>). <strong>Top deck</strong> de painel inteiro na prateleira de cima para exposição, as de baixo para estoque.</p>
+  <p class="lede" style="font-size:14.5px">A mais funda das quatro: <strong>500 mm</strong>, que acomodam <strong>99,9% da curva</strong> de lado e 96,1% de frente. Aberta pelas <strong>quatro faces</strong>, altura de balcao (<strong>878 mm</strong>), <strong>top deck</strong> de painel inteiro na prateleira de cima.</p>
   <div class="tw"><table>
-    <caption>Ripa de comprimento <code>PSC-03</code> 595 · ripa de largura <code>PSC-02</code> 415 · vertical <code>BAL-02-AC</code> 270. Custo por escala de massa, não apurado.</caption>
-    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th><th>Tampa</th>
-    <th>Ripa 595</th><th>Ripa 415</th><th>Ripa 270</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
-    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">637 × 500 × 878</td><td class="n">16</td><td class="n">0</td><td class="n">4</td><td class="n">8</td><td class="n">8</td><td class="n">12</td><td class="n">4</td><td class="n">13,06 kg</td><td class="n">R$ 241,16</td><td class="n">R$ 482,32</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>1252 × 500 × 878</strong></td><td class="n">16</td><td class="n">8</td><td class="n">6</td><td class="n">16</td><td class="n">12</td><td class="n">18</td><td class="n">8</td><td class="n">25,09 kg</td><td class="n">R$ 465,42</td><td class="n">R$ 930,85</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1867 × 500 × 878</td><td class="n">16</td><td class="n">16</td><td class="n">8</td><td class="n">24</td><td class="n">16</td><td class="n">24</td><td class="n">12</td><td class="n">37,12 kg</td><td class="n">R$ 689,69</td><td class="n">R$ 1.379,38</td></tr></tbody></table></div>
-  <figure class="plate"><div class="pin"><svg viewBox="-250 -220 2322 1398" role="img" aria-label="Elevacao frontal cotada: ILHA, 1252 por 500 por 878 milimetros, 2 vaos e 4 prateleiras">
+    <caption>Ripa de largura <code>PSC-02</code> 415 · comprimento <code>PSC-03</code> 595 · pilha de baias 270 · 270 · 270 mm (sem coroa). Custo por escala de massa, não apurado.</caption>
+    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Peça L</th><th>Cruzeta</th><th>Tampa</th><th>Porta-haste</th>
+    <th>Ripa 595</th><th>Ripa 415</th><th>Verticais</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
+    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">637 × 500 × 878</td><td class="n">16</td><td class="n">—</td><td class="n">0</td><td class="n">4</td><td class="n">—</td><td class="n">8</td><td class="n">8</td><td class="n">12×270</td><td class="n">4</td><td class="n">13,06 kg</td><td class="n">R$ 241,16</td><td class="n">R$ 482,32</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>1252 × 500 × 878</strong></td><td class="n">16</td><td class="n">—</td><td class="n">8</td><td class="n">6</td><td class="n">—</td><td class="n">16</td><td class="n">12</td><td class="n">18×270</td><td class="n">8</td><td class="n">25,09 kg</td><td class="n">R$ 465,42</td><td class="n">R$ 930,85</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1867 × 500 × 878</td><td class="n">16</td><td class="n">—</td><td class="n">16</td><td class="n">8</td><td class="n">—</td><td class="n">24</td><td class="n">16</td><td class="n">24×270</td><td class="n">12</td><td class="n">37,12 kg</td><td class="n">R$ 689,69</td><td class="n">R$ 1.379,38</td></tr></tbody></table></div>
+  <figure class="plate"><div class="pin"><svg viewBox="-250 -220 2322 1398" role="img" aria-label="Elevacao frontal cotada: ILHA, 1252 por 500 por 878 milimetros, 2 vaos, 4 prateleiras">
 <rect x="0" y="-150" width="1252" height="110" fill="#08a9b1"/>
 <text class="sbn" x="626" y="-88" text-anchor="middle" font-size="48" fill="#fff">NITRON</text>
 <text class="sal" x="626" y="-54" text-anchor="middle" font-size="21" fill="#fff">toda casa tem</text>
@@ -329,34 +351,34 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="689" y="52" width="551" height="40" fill="#08a9b1" opacity=".92"/>
 <path d="M1276 36 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="36" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">top deck · painel inteiro</text>
 <path d="M1276 858 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="858" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
-<rect x="0" y="36" width="62" height="822" fill="var(--wood2)"/>
+<rect x="0" y="-0" width="62" height="859" fill="var(--wood2)"/>
 <rect x="0" y="786" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="-0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="15" y="858.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="575" y="36" width="101" height="822" fill="var(--wood2)"/>
+<rect x="15" y="859" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="575" y="-0" width="101" height="859" fill="var(--wood2)"/>
 <rect x="575" y="786" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="575" y="524" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="575" y="262" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="575" y="-0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="610" y="858.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="1190" y="36" width="62" height="822" fill="var(--wood2)"/>
+<rect x="610" y="859" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1190" y="-0" width="62" height="859" fill="var(--wood2)"/>
 <rect x="1190" y="786" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="1190" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="1190" y="262" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="1190" y="-0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1205" y="858.6" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1205" y="859" width="32" height="19.4" fill="var(--wood2)"/>
 <path d="M1276 560 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="560" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
-<rect x="436" y="131" width="380" height="72" rx="36" fill="#08a9b1"/>
-<text class="sbn" x="626" y="181" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
-<rect x="84" y="370" width="340" height="170" fill="#08a9b1" rx="12"/>
-<text class="sbn" x="254" y="465" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
-<text class="sal" x="254" y="510" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
+<rect x="436" y="393" width="380" height="72" rx="36" fill="#08a9b1"/>
+<text class="sbn" x="626" y="443" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
+<rect x="84" y="613" width="340" height="159" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="702" text-anchor="middle" font-size="64" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="743" text-anchor="middle" font-size="25" fill="#fff">toda casa tem</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 998 H1252"/><path d="M0 974 V1022"/><path d="M1252 974 V1022"/></g><text class="sbn" x="626" y="966" text-anchor="middle" font-size="58" fill="var(--dim-t)">1252 mm</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1103 H677"/><path d="M62 1079 V1127"/><path d="M677 1079 V1127"/></g><text class="sbn" x="369" y="1071" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 615</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -150 V878"/><path d="M-94 -150 H-46"/><path d="M-94 878 H-46"/></g><text class="sbn" transform="translate(-100,364) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">1028 mm total</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 560 V822"/><path d="M-200 560 H-152"/><path d="M-200 822 H-152"/></g><text class="sbn" transform="translate(-206,691) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 597 V859"/><path d="M-200 597 H-152"/><path d="M-200 859 H-152"/></g><text class="sbn" transform="translate(-206,728) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
 <g transform="translate(0,1208)">
 <rect x="0" y="0" width="526" height="210" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
 <path d="M263 -40 l-26 -22 h52 z" transform="rotate(0,263,-40)" fill="var(--brand-deep)"/>
@@ -365,105 +387,120 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <path d="M566 105 l-26 -22 h52 z" transform="rotate(90,566,105)" fill="var(--brand-deep)"/>
 <text class="sbn" x="606" y="105" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · acesso pelas 4 faces</text>
 <text class="sbn" x="263" y="306" text-anchor="middle" font-size="50" fill="var(--dim-t)">1252 × 500 mm</text>
-</g></svg></div><figcaption>Ilha M — 1.252 × 500 × 878 mm, 2 vãos, painel 460 × 634. A ilha é a única que usa a ripa de largura PSC-02 de 415 mm. Sem linha de montante no meio da profundidade, ela fica acessível dos dois lados.</figcaption></figure>
+</g></svg></div><figcaption>Ilha M — 1.252 × 500 × 878 mm, 2 vãos, painel 460 × 634. A ilha e a unica que usa a ripa de largura PSC-02 de 415 mm, e a unica sem coroa: ela precisa ficar na altura do balcao para trabalhar pelas quatro faces.</figcaption></figure>
 
-  <h3 style="margin-top:46px;font-size:21px">Ponta de gôndola · painel 300 × 634 · 7 prateleiras · 1.664 mm</h3>
-  <p class="lede" style="font-size:14.5px">Alta e de profundidade média: <strong>1.664 mm</strong> em sete prateleiras, <strong>372 mm</strong> de profundidade. <strong>Painel de fundo</strong> fecha a face de trás e <strong>topper casinha</strong> marca o topo. Encosta na corrida da gôndola, então só a face da frente trabalha.</p>
+  <h3 style="margin-top:46px;font-size:21px">Ponta de gondola · painel 300 × 634 · 6 prateleiras · 1.907 mm</h3>
+  <p class="lede" style="font-size:14.5px">Seis prateleiras de passo curto e uma <strong>coroa de 513</strong> no topo, que da <strong>504,88 mm</strong> de altura sem somar prateleira — e onde a casinha se apoia. Fundo fechado, encosta na corrida da gondola.</p>
   <div class="tw"><table>
-    <caption>Ripa de comprimento <code>PSC-03</code> 595 · ripa de largura <code>BLA-03-AC</code> 287 · vertical <code>BAL-02-AC</code> 270. Custo por escala de massa, não apurado.</caption>
-    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th><th>Tampa</th>
-    <th>Ripa 595</th><th>Ripa 287</th><th>Ripa 270</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
-    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">637 × 372 × 1664</td><td class="n">28</td><td class="n">0</td><td class="n">4</td><td class="n">14</td><td class="n">14</td><td class="n">24</td><td class="n">13</td><td class="n">26,18 kg</td><td class="n">R$ 485,42</td><td class="n">R$ 970,85</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>1252 × 372 × 1664</strong></td><td class="n">28</td><td class="n">14</td><td class="n">6</td><td class="n">28</td><td class="n">21</td><td class="n">36</td><td class="n">26</td><td class="n">50,70 kg</td><td class="n">R$ 943,79</td><td class="n">R$ 1.887,58</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1867 × 372 × 1664</td><td class="n">28</td><td class="n">28</td><td class="n">8</td><td class="n">42</td><td class="n">28</td><td class="n">48</td><td class="n">39</td><td class="n">75,21 kg</td><td class="n">R$ 1.402,16</td><td class="n">R$ 2.804,31</td></tr></tbody></table></div>
-  <figure class="plate"><div class="pin"><svg viewBox="-250 -595 2322 2559" role="img" aria-label="Elevacao frontal cotada: PONTA DE GONDOLA, 1252 por 372 por 1664 milimetros, 2 vaos e 7 prateleiras">
-<path d="M0 -250 L626 -525 L1252 -250 Z" fill="#08a9b1"/>
-<path d="M1276 -388 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-388" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">casinha · frontao 275 mm</text>
-<rect x="0" y="-250" width="1252" height="210" fill="#08a9b1"/>
-<text class="sbn" x="626" y="-132" text-anchor="middle" font-size="92" fill="#fff">NITRON</text>
-<text class="sal" x="626" y="-67" text-anchor="middle" font-size="40" fill="#fff">toda casa tem</text>
-<path d="M1276 -145 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-145" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 210 mm</text>
-<rect x="61.61" y="37" width="1129" height="1571" fill="var(--wood)" opacity=".28"/>
-<path d="M1276 822 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="822" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · fecha a face</text>
-<rect x="0" y="1594" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1624" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1624" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="1332" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1362" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1362" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="1070" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1100" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1100" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="808" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="838" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="838" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="547" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="577" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="577" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="285" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="315" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="315" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="23" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="53" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="53" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<path d="M1276 1644 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1644" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
-<rect x="0" y="37" width="62" height="1608" fill="var(--wood2)"/>
-<rect x="0" y="1572" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="1310" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="1048" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="786" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="15" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="575" y="37" width="101" height="1608" fill="var(--wood2)"/>
-<rect x="575" y="1572" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="1310" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="1048" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="786" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="524" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="262" width="101" height="73" fill="var(--no-cz)"/>
+    <caption>Ripa de largura <code>BLA-03-AC</code> 287 · comprimento <code>PSC-03</code> 595 · pilha de baias 270 · 270 · 270 · 270 · 270 mm (coroa 513). Custo por escala de massa, não apurado.</caption>
+    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Peça L</th><th>Cruzeta</th><th>Tampa</th><th>Porta-haste</th>
+    <th>Ripa 595</th><th>Ripa 287</th><th>Verticais</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
+    <tbody><tr><td><strong>P</strong></td><td class="n">1</td><td class="n">637 × 372 × 1907</td><td class="n">24</td><td class="n">4</td><td class="n">0</td><td class="n">4</td><td class="n">—</td><td class="n">14</td><td class="n">12</td><td class="n">20×270 + 4×513</td><td class="n">6</td><td class="n">21,65 kg</td><td class="n">R$ 399,75</td><td class="n">R$ 799,50</td></tr><tr><td><strong>M</strong></td><td class="n">2</td><td class="n"><strong>1252 × 372 × 1907</strong></td><td class="n">24</td><td class="n">4</td><td class="n">14</td><td class="n">6</td><td class="n">—</td><td class="n">28</td><td class="n">18</td><td class="n">30×270 + 6×513</td><td class="n">12</td><td class="n">41,64 kg</td><td class="n">R$ 771,94</td><td class="n">R$ 1.543,87</td></tr><tr><td><strong>G</strong></td><td class="n">3</td><td class="n">1867 × 372 × 1907</td><td class="n">24</td><td class="n">4</td><td class="n">28</td><td class="n">8</td><td class="n">—</td><td class="n">42</td><td class="n">24</td><td class="n">40×270 + 8×513</td><td class="n">18</td><td class="n">61,62 kg</td><td class="n">R$ 1.144,12</td><td class="n">R$ 2.288,24</td></tr></tbody></table></div>
+  <figure class="plate"><div class="pin"><svg viewBox="-271.62 -625 2365.24 2832" role="img" aria-label="Elevacao frontal cotada: PONTA DE GONDOLA, 1252 por 372 por 1907 milimetros, 2 vaos, 6 prateleiras e coroa em peca L">
+<path d="M-22 -280 L626 -555 L1274 -280 Z" fill="#08a9b1"/>
+<path d="M1276 -418 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-418" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">casinha · frontao 275 mm</text>
+<rect x="-22" y="-280" width="1295" height="240" fill="#08a9b1"/>
+<text class="sbn" x="626" y="-146" text-anchor="middle" font-size="106" fill="#fff">NITRON</text>
+<text class="sal" x="626" y="-71" text-anchor="middle" font-size="46" fill="#fff">toda casa tem</text>
+<path d="M1276 -160 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-160" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 240 mm · 1295 mm de largura</text>
+<rect x="61.61" y="1626" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1364" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1102" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="840" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="578" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<path d="M1276 944 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="944" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · corte dedicado por baia</text>
+<rect x="0" y="1837" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1867" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1867" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1575" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1605" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1605" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1313" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1343" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1343" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1051" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1081" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1081" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="790" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="820" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="820" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="528" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="558" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="558" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<path d="M1276 1887 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1887" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
+<rect x="0" y="0" width="62" height="1887" fill="var(--wood2)"/>
+<rect x="0" y="1815" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1553" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1291" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1029" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="767" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="505" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="-22" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="15" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="575" y="0" width="101" height="1887" fill="var(--wood2)"/>
+<rect x="575" y="1815" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1553" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1291" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1029" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="767" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="505" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="575" y="0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="610" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="1190" y="37" width="62" height="1608" fill="var(--wood2)"/>
-<rect x="1190" y="1572" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="1310" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="1048" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="786" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="524" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1205" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<path d="M1276 1346 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1346" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
-<rect x="436" y="132" width="380" height="72" rx="36" fill="#08a9b1"/>
-<text class="sbn" x="626" y="182" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
-<rect x="84" y="1156" width="340" height="170" fill="#08a9b1" rx="12"/>
-<text class="sbn" x="254" y="1251" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
-<text class="sal" x="254" y="1296" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1784 H1252"/><path d="M0 1760 V1808"/><path d="M1252 1760 V1808"/></g><text class="sbn" x="626" y="1752" text-anchor="middle" font-size="58" fill="var(--dim-t)">1252 mm</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1889 H677"/><path d="M62 1865 V1913"/><path d="M677 1865 V1913"/></g><text class="sbn" x="369" y="1857" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 615</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -525 V1664"/><path d="M-94 -525 H-46"/><path d="M-94 1664 H-46"/></g><text class="sbn" transform="translate(-100,570) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">2189 mm total</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1346 V1608"/><path d="M-200 1346 H-152"/><path d="M-200 1608 H-152"/></g><text class="sbn" transform="translate(-206,1477) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
-<g transform="translate(0,1994)">
+<rect x="610" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1190" y="0" width="62" height="1887" fill="var(--wood2)"/>
+<rect x="1190" y="1815" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1553" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1291" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1029" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="767" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="505" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1169" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="1205" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M1276 1589 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1589" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
+<rect x="-22" y="24" width="1295" height="26" fill="var(--wood2)"/>
+<path d="M1276 37 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="37" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">coroa · peca L fecha o poste · +21.62 mm por lado</text>
+<rect x="436" y="253" width="380" height="72" rx="36" fill="#08a9b1"/>
+<text class="sbn" x="626" y="303" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
+<rect x="84" y="1642" width="340" height="159" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="1731" text-anchor="middle" font-size="64" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="1772" text-anchor="middle" font-size="25" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 2027 H1252"/><path d="M0 2003 V2051"/><path d="M1252 2003 V2051"/></g><text class="sbn" x="626" y="1995" text-anchor="middle" font-size="58" fill="var(--dim-t)">1252 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 2132 H677"/><path d="M62 2108 V2156"/><path d="M677 2108 V2156"/></g><text class="sbn" x="369" y="2100" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 615</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-91.62 -555 V1907"/><path d="M-115.62 -555 H-67.62"/><path d="M-115.62 1907 H-67.62"/></g><text class="sbn" transform="translate(-121.62,676) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">2462 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-197.62 1626 V1888"/><path d="M-221.62 1626 H-173.62"/><path d="M-221.62 1888 H-173.62"/></g><text class="sbn" transform="translate(-227.62,1757) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-303.62 73 V578"/><path d="M-327.62 73 H-279.62"/><path d="M-327.62 578 H-279.62"/></g><text class="sbn" transform="translate(-333.62,326) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">coroa 505</text>
+<g transform="translate(0,2237)">
 <rect x="0" y="0" width="526" height="156" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
 <rect x="0" y="-34" width="526" height="26" fill="var(--no-tz)"/>
 <path d="M263 196 l-26 -22 h52 z" fill="var(--brand-deep)"/>
 <text class="sbn" x="606" y="78" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · face unica · fundo fechado</text>
 <text class="sbn" x="263" y="252" text-anchor="middle" font-size="50" fill="var(--dim-t)">1252 × 372 mm</text>
-</g></svg></div><figcaption>Ponta de gôndola M — 1.252 × 372 × 1.664 mm, 2 vãos, painel 300 × 634. A ponta é a única com casinha. O painel de fundo fecha a face de trás — a planta mostra uma face de acesso só.</figcaption></figure>
+</g></svg></div><figcaption>Ponta de gondola M — 1.252 × 372 × 1.907 mm, 2 vãos, painel 300 × 634 · coroa de 1.295 mm. A coroa de 513 mostra o que a peca L resolve: altura de comunicacao no topo sem gastar uma prateleira. O painel de fundo, porem, exige corte dedicado por baia.</figcaption></figure>
 
-  <h3 style="margin-top:46px;font-size:21px">Paredão · painel 200 × 754 · 8 prateleiras · 1.926 mm</h3>
-  <p class="lede" style="font-size:14.5px">O vão mais longo (<strong>PSC-04 717</strong>) e a menor profundidade (<strong>285 mm</strong>), oito prateleiras a <strong>1.926 mm</strong>. A corrida não tem limite de vãos: cada um recebe uma <strong>faixa de categoria</strong> de 90 mm na cabeceira.</p>
+  <h3 style="margin-top:46px;font-size:21px">Paredao · painel 300 × 754 · 8 prateleiras · 1.926 mm</h3>
+  <p class="lede" style="font-size:14.5px">O vao mais longo da lista (<strong>PSC-04 717</strong>) na profundidade media. Era 200 × 754 na Rev. 3 e passou a <strong>300 × 754</strong>: o painel de razao 3,77 caiu pela regra, e a profundidade subiu de 285 para 372 mm — <strong>de 56,8% para 90,5% da curva</strong>. A corrida nao mudou.</p>
   <div class="tw"><table>
-    <caption>Ripa de comprimento <code>PSC-04</code> 717 · ripa de largura <code>BLA-01-AC</code> 200 · vertical <code>BAL-02-AC</code> 270. Custo por escala de massa, não apurado.</caption>
-    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th><th>Tampa</th>
-    <th>Ripa 717</th><th>Ripa 200</th><th>Ripa 270</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
-    <tbody><tr><td><strong>P</strong></td><td class="n">3</td><td class="n">2233 × 285 × 1926</td><td class="n">32</td><td class="n">32</td><td class="n">8</td><td class="n">48</td><td class="n">32</td><td class="n">56</td><td class="n">45</td><td class="n">72,60 kg</td><td class="n">R$ 1.348,26</td><td class="n">R$ 2.696,52</td></tr><tr><td><strong>M</strong></td><td class="n">4</td><td class="n"><strong>2970 × 285 × 1926</strong></td><td class="n">32</td><td class="n">48</td><td class="n">10</td><td class="n">64</td><td class="n">40</td><td class="n">70</td><td class="n">60</td><td class="n">96,21 kg</td><td class="n">R$ 1.788,29</td><td class="n">R$ 3.576,57</td></tr><tr><td><strong>G</strong></td><td class="n">5</td><td class="n">3707 × 285 × 1926</td><td class="n">32</td><td class="n">64</td><td class="n">12</td><td class="n">80</td><td class="n">48</td><td class="n">84</td><td class="n">75</td><td class="n">119,83 kg</td><td class="n">R$ 2.228,31</td><td class="n">R$ 4.456,63</td></tr></tbody></table></div>
-  <figure class="plate"><div class="pin"><svg viewBox="-250 -480 4040 2706" role="img" aria-label="Elevacao frontal cotada: PAREDAO, 2970 por 285 por 1926 milimetros, 4 vaos e 8 prateleiras">
+    <caption>Ripa de largura <code>BLA-03-AC</code> 287 · comprimento <code>PSC-04</code> 717 · pilha de baias 270 · 270 · 270 · 270 · 270 · 270 · 270 mm (sem coroa). Custo por escala de massa, não apurado.</caption>
+    <thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Peça L</th><th>Cruzeta</th><th>Tampa</th><th>Porta-haste</th>
+    <th>Ripa 717</th><th>Ripa 287</th><th>Verticais</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead>
+    <tbody><tr><td><strong>P</strong></td><td class="n">3</td><td class="n">2233 × 372 × 1926</td><td class="n">32</td><td class="n">—</td><td class="n">32</td><td class="n">8</td><td class="n">—</td><td class="n">48</td><td class="n">32</td><td class="n">56×270</td><td class="n">24</td><td class="n">94,53 kg</td><td class="n">R$ 1.765,56</td><td class="n">R$ 3.531,12</td></tr><tr><td><strong>M</strong></td><td class="n">4</td><td class="n"><strong>2970 × 372 × 1926</strong></td><td class="n">32</td><td class="n">—</td><td class="n">48</td><td class="n">10</td><td class="n">—</td><td class="n">64</td><td class="n">40</td><td class="n">70×270</td><td class="n">32</td><td class="n">125,40 kg</td><td class="n">R$ 2.343,69</td><td class="n">R$ 4.687,38</td></tr><tr><td><strong>G</strong></td><td class="n">5</td><td class="n">3707 × 372 × 1926</td><td class="n">32</td><td class="n">—</td><td class="n">64</td><td class="n">12</td><td class="n">—</td><td class="n">80</td><td class="n">48</td><td class="n">84×270</td><td class="n">40</td><td class="n">156,27 kg</td><td class="n">R$ 2.921,82</td><td class="n">R$ 5.843,64</td></tr></tbody></table></div>
+  <figure class="plate"><div class="pin"><svg viewBox="-250 -480 4040 2706" role="img" aria-label="Elevacao frontal cotada: PAREDAO, 2970 por 372 por 1926 milimetros, 4 vaos, 8 prateleiras">
 <rect x="0" y="-290" width="2970" height="250" fill="#08a9b1"/>
 <text class="sbn" x="1485" y="-150" text-anchor="middle" font-size="110" fill="#fff">NITRON</text>
 <text class="sal" x="1485" y="-72" text-anchor="middle" font-size="48" fill="#fff">toda casa tem</text>
 <path d="M2994 -165 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="-165" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 250 mm</text>
-<rect x="61.61" y="37" width="2847" height="1833" fill="var(--wood)" opacity=".28"/>
-<path d="M2994 953 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="953" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · fecha a face</text>
+<rect x="72" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
+<rect x="809" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
+<rect x="1546" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
+<rect x="2283" y="-398" width="677" height="92" fill="#08a9b1" rx="10"/>
+<path d="M2994 -352 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="-352" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de categoria 90 mm</text>
+<rect x="61.61" y="1645" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1383" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1121" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="859" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="597" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="335" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="73" width="2847" height="189" fill="var(--wood)" opacity=".28"/>
+<path d="M2994 953 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="953" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · corte dedicado por baia</text>
 <rect x="0" y="1856" width="2970" height="28" fill="var(--wood)"/>
 <rect x="74" y="1886" width="693" height="40" fill="#08a9b1" opacity=".92"/>
 <rect x="811" y="1886" width="693" height="40" fill="#08a9b1" opacity=".92"/>
@@ -505,12 +542,7 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="1548" y="53" width="693" height="40" fill="#08a9b1" opacity=".92"/>
 <rect x="2285" y="53" width="673" height="40" fill="#08a9b1" opacity=".92"/>
 <path d="M2994 1906 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="1906" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
-<rect x="72" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
-<rect x="809" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
-<rect x="1546" y="-398" width="697" height="92" fill="#08a9b1" rx="10"/>
-<rect x="2283" y="-398" width="677" height="92" fill="#08a9b1" rx="10"/>
-<path d="M2994 -352 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="-352" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de categoria 90 mm</text>
-<rect x="0" y="37" width="62" height="1870" fill="var(--wood2)"/>
+<rect x="0" y="0" width="62" height="1906" fill="var(--wood2)"/>
 <rect x="0" y="1834" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="1572" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="1310" width="62" height="73" fill="var(--no-tz)"/>
@@ -519,8 +551,8 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="0" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="15" y="1906.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="697" y="37" width="101" height="1870" fill="var(--wood2)"/>
+<rect x="15" y="1907" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="697" y="0" width="101" height="1906" fill="var(--wood2)"/>
 <rect x="697" y="1834" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="697" y="1572" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="697" y="1310" width="101" height="73" fill="var(--no-cz)"/>
@@ -529,8 +561,8 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="697" y="524" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="697" y="262" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="697" y="0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="732" y="1906.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="1435" y="37" width="101" height="1870" fill="var(--wood2)"/>
+<rect x="732" y="1907" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1435" y="0" width="101" height="1906" fill="var(--wood2)"/>
 <rect x="1435" y="1834" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="1435" y="1572" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="1435" y="1310" width="101" height="73" fill="var(--no-cz)"/>
@@ -539,8 +571,8 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="1435" y="524" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="1435" y="262" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="1435" y="0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="1469" y="1906.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="2172" y="37" width="101" height="1870" fill="var(--wood2)"/>
+<rect x="1469" y="1907" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="2172" y="0" width="101" height="1906" fill="var(--wood2)"/>
 <rect x="2172" y="1834" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="2172" y="1572" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="2172" y="1310" width="101" height="73" fill="var(--no-cz)"/>
@@ -549,8 +581,8 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="2172" y="524" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="2172" y="262" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="2172" y="0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="2206" y="1906.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="2908" y="37" width="62" height="1870" fill="var(--wood2)"/>
+<rect x="2206" y="1907" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="2908" y="0" width="62" height="1906" fill="var(--wood2)"/>
 <rect x="2908" y="1834" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="2908" y="1572" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="2908" y="1310" width="62" height="73" fill="var(--no-tz)"/>
@@ -559,35 +591,36 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <rect x="2908" y="524" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="2908" y="262" width="62" height="73" fill="var(--no-tz)"/>
 <rect x="2908" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="2923" y="1906.6" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="2923" y="1907" width="32" height="19.4" fill="var(--wood2)"/>
 <path d="M2994 1608 H3066" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="3082" y="1608" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
-<rect x="84" y="1418" width="340" height="170" fill="#08a9b1" rx="12"/>
-<text class="sbn" x="254" y="1513" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
-<text class="sal" x="254" y="1558" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
+<rect x="84" y="1661" width="340" height="159" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="1750" text-anchor="middle" font-size="64" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="1791" text-anchor="middle" font-size="25" fill="#fff">toda casa tem</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 2046 H2970"/><path d="M0 2022 V2070"/><path d="M2970 2022 V2070"/></g><text class="sbn" x="1485" y="2014" text-anchor="middle" font-size="58" fill="var(--dim-t)">2970 mm</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 2151 H799"/><path d="M62 2127 V2175"/><path d="M799 2127 V2175"/></g><text class="sbn" x="430" y="2119" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 737</text>
 <g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -290 V1926"/><path d="M-94 -290 H-46"/><path d="M-94 1926 H-46"/></g><text class="sbn" transform="translate(-100,818) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">2216 mm total</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1608 V1870"/><path d="M-200 1608 H-152"/><path d="M-200 1870 H-152"/></g><text class="sbn" transform="translate(-206,1739) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1645 V1907"/><path d="M-200 1645 H-152"/><path d="M-200 1907 H-152"/></g><text class="sbn" transform="translate(-206,1776) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
 <g transform="translate(0,2256)">
-<rect x="0" y="0" width="1247" height="120" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
+<rect x="0" y="0" width="1247" height="156" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
 <rect x="0" y="-34" width="1247" height="26" fill="var(--no-tz)"/>
-<path d="M624 160 l-26 -22 h52 z" fill="var(--brand-deep)"/>
-<text class="sbn" x="1327" y="60" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · face unica · fundo fechado</text>
-<text class="sbn" x="624" y="216" text-anchor="middle" font-size="50" fill="var(--dim-t)">2970 × 285 mm</text>
-</g></svg></div><figcaption>Paredão M — 2.970 × 285 × 1.926 mm, 4 vãos, painel 200 × 754. O paredão é a corrida: cada vão a mais soma 737 mm e uma faixa de categoria. Fundo fechado, uma face de acesso.</figcaption></figure>
+<path d="M624 196 l-26 -22 h52 z" fill="var(--brand-deep)"/>
+<text class="sbn" x="1327" y="78" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · face unica · fundo fechado</text>
+<text class="sbn" x="624" y="252" text-anchor="middle" font-size="50" fill="var(--dim-t)">2970 × 372 mm</text>
+</g></svg></div><figcaption>Paredao M — 2.970 × 372 × 1.926 mm, 4 vãos, painel 300 × 754. O paredao e a corrida: cada vao a mais soma 737 mm e uma faixa de categoria. Oito prateleiras de passo curto, fundo fechado, uma face de acesso.</figcaption></figure>
 </section>
 
 <section>
   <div class="sh"><span class="snum">§6</span><h2>O que muda entre as famílias</h2></div>
   <div class="tw"><table>
-    <caption>O que diferencia as famílias. As cinco primeiras linhas são dimensionais — <strong>nenhuma repete o painel de outra</strong>. As demais saem de peça que já existe; a gancheira é uma ripa de comprimento montada na horizontal.</caption>
+    <caption>O que diferencia as famílias. As seis primeiras linhas são dimensionais — <strong>nenhuma repete o painel de outra</strong>. As demais saem de peça que já existe; a gancheira é uma ripa de comprimento presa por porta-hastes na baia da coroa.</caption>
     <thead><tr><th>Elemento</th><th>Checkout</th><th>Ilha</th><th>Ponta de gôndola</th><th>Paredão</th></tr></thead>
     <tbody>
-      <tr class="hl"><td><strong>Painel</strong></td><td class="n">300 × 450</td><td class="n">460 × 634</td><td class="n">300 × 634</td><td class="n">200 × 754</td></tr>
+      <tr class="hl"><td><strong>Painel</strong></td><td class="n">300 × 450</td><td class="n">460 × 634</td><td class="n">300 × 634</td><td class="n">300 × 754</td></tr>
+      <tr><td><strong>Ripa de largura</strong></td><td class="n">BLA-03-AC · 287</td><td class="n">PSC-02 · 415</td><td class="n">BLA-03-AC · 287</td><td class="n">BLA-03-AC · 287</td></tr>
       <tr><td><strong>Ripa de comprimento</strong></td><td class="n">PSC-02 · 415</td><td class="n">PSC-03 · 595</td><td class="n">PSC-03 · 595</td><td class="n">PSC-04 · 717</td></tr>
-      <tr><td><strong>Ripa de largura</strong></td><td class="n">BLA-03-AC · 287</td><td class="n">PSC-02 · 415</td><td class="n">BLA-03-AC · 287</td><td class="n">BLA-01-AC · 200</td></tr>
-      <tr class="hl"><td><strong>Medida final M</strong></td><td class="n">892 × 372 × 1.140</td><td class="n">1.252 × 500 × 878</td><td class="n">1.252 × 372 × 1.664</td><td class="n">2.970 × 285 × 1.926</td></tr>
-      <tr><td><strong>Prateleiras</strong></td><td class="n">5</td><td class="n">4</td><td class="n">7</td><td class="n">8</td></tr>
+      <tr><td><strong>Pilha de baias</strong></td><td class="n">270 × 4</td><td class="n">270 × 3</td><td class="n">270 × 5</td><td class="n">270 × 7</td></tr>
+      <tr class="hl"><td><strong>Coroa em peça L</strong></td><td><span class="chip w">270 + gancheira</span></td><td>—</td><td><span class="chip w">513</span></td><td>—</td></tr>
+      <tr class="hl"><td><strong>Medida final M</strong></td><td class="n">892 × 372 × 1.402</td><td class="n">1.252 × 500 × 878</td><td class="n">1.252 × 372 × 1.907</td><td class="n">2.970 × 372 × 1.926</td></tr>
       <tr><td><strong>Painel de fundo</strong></td><td>—</td><td>—</td><td><span class="chip w">sim</span></td><td><span class="chip w">sim</span></td></tr>
       <tr><td><strong>Top deck</strong></td><td><span class="chip w">sim</span></td><td><span class="chip w">sim</span></td><td>—</td><td>—</td></tr>
       <tr><td><strong>Gancheira</strong></td><td><span class="chip w">sim</span></td><td>—</td><td>—</td><td>—</td></tr>
@@ -630,15 +663,17 @@ footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
 <section>
   <div class="sh"><span class="snum">§8</span><h2>O que falta</h2></div>
   <ol class="steps">
-    <li><span><strong>A fita do passo vertical.</strong> Monte duas prateleiras com a ripa <code>BAL-02-AC</code> de 270 e meça de apoio a apoio: <strong>261,9 mm confirma o modelo A, 335,0 mm o modelo B.</strong> É a única cota do sistema que a lista de painéis não fecha, e ela muda todas as alturas deste caderno.</span></li>
-    <li><span><strong>A profundidade externa montada.</strong> Um nó com a ripa <code>BLA-01-AC</code> de 200, medindo face externa a face externa, deve dar <strong>285,3 mm</strong>. Se der outro número, a extensão de 83,23 mm do nó nesse eixo precisa ser remedida.</span></li>
-    <li><span><strong>A decisão do painel.</strong> A chapa <code>PAN-01</code> (1.200 × 200 × 15) só tem 200 mm de largura. <strong>8 dos 12 painéis</strong> — todos os de 300 e 460 — precisam de emenda, tira aparente ou chapa nova.</span></li>
+    <li><span><strong>A fita do passo vertical.</strong> Monte duas prateleiras com a ripa <code>BAL-02-AC</code> de 270 e meça de apoio a apoio: <strong>261,9 mm confirma um nó por nível, 335,0 mm o par espelhado.</strong> É a única cota do sistema que a lista de painéis não fecha, e ela muda todas as alturas deste caderno.</span></li>
+    <li><span><strong>A orientação de uso da peça L.</strong> O bounding box (21,92 × 83,23 × 73,08) não diz em que plano ela é montada. Se for no plano da frente, como este caderno assume, a coroa passa <strong>21,62 mm por lado</strong> do corpo. Com a coroa montada, uma fita confirma.</span></li>
+    <li><span><strong>A profundidade externa montada.</strong> Um nó com a ripa <code>BLA-01-AC</code> de 200, face externa a face externa, deve dar <strong>285,3 mm</strong>.</span></li>
+    <li><span><strong>A decisão do painel.</strong> A <code>PAN-01</code> tem 200 mm de largura e <strong>5 dos 7 painéis</strong> são de 300 ou 460. Some o <strong>painel de fundo, que não sai da grade</strong>: cada baia fechada é um corte de comprimento × altura livre.</span></li>
     <li><span><strong>Ferramentaria: onde está o molde da cruzeta?</strong> Só as versões de 1 vão (ilha P e ponta P) rodam sem ela. Primeira de cinco cadastrada em 17/07/2026, quatro já injetadas; ainda não sabemos se as 2 cavidades são o par esq/dir.</span></li>
     <li><span><strong>Montar um nó de cruzeta e carregá-lo.</strong> A chapa 1 da trizeta está em z relativo 40,0 mm, exatamente onde o encaixe de 40,60 mm termina — a ripa apoia numa chapa de 2,9 mm, dando 8,5–18,4 MPa. A carga de 20 kg por prateleira é provisória.</span></li>
     <li><span><strong>Aprovação de marca para o verde</strong> <code>#08a9b1</code> contra o <code>#1EA7AC</code> declarado no manual.</span></li>
-    <li><span><strong>A tampinha</strong> — STL não recebido. São 8 a 12 tampas por módulo, entrando na conta pelo peso cadastrado (1,10 g).</span></li>
+    <li><span><strong>A tampinha</strong> — STL não recebido. Entra na conta pelo peso cadastrado (1,10 g).</span></li>
+    <li><span><strong>Um registro sujo no cadastro:</strong> <code>CODPROD</code> 3579 (Kit Potes Acoplados c/ 5 peças) tem <code>ALTURA</code> = 45437 — uma data digitada no campo de altura. Foi excluído da conta de cobertura.</span></li>
   </ol>
 </section>
 
-<footer><p>Papéis das ripas extraídos de <code>VW_COMPOSICAO_NIT</code> para as 13 PAs com estrutura. Cotas de nó, encaixe e parede medidas nas malhas STL — as cinco fechadas, zero arestas não-manifold. Painéis e ripas conforme a lista fixa do usuário. Identidade visual, tipografia e regras de PDV do manual oficial em <a href="https://marca.nitron.com.br/">marca.nitron.com.br</a>. Cotas externas pelo modelo de encaixe de 40,60 mm em nó de 61,61 mm no eixo do comprimento, 83,23 mm no da profundidade e 73,08 mm no vertical — o eixo do comprimento está confirmado pela própria lista de painéis; <strong>o vertical depende do modelo de nó, ainda não medido fisicamente</strong>. Custos estimados por escala de massa, não apurados. Nada gravado em <code>pdp_lancamento</code>.</p></footer>
+<footer><p>Papéis das ripas extraídos de <code>VW_COMPOSICAO_NIT</code> para as 13 PAs com estrutura. Cotas de nó, encaixe e parede medidas nas malhas STL — as cinco fechadas, zero arestas não-manifold. A <strong>peça L</strong> tem bounding box 21,92 × 83,23 × 73,08 mm: o passo vertical de 73,08 é idêntico ao da trizeta, o que a torna um nó de topo. A cobertura da curva vem de <code>TGFPRO.LARGURA/ALTURA/ESPESSURA</code> (cm), preenchidas em 2.742 dos 3.079 PAs ativos, cruzadas com 1.273 SKUs e R$ 83,8 M de faturamento de marca própria em 12 meses até 24/08/2026, tabelas 84 e 3 fora. Identidade visual e regras de PDV do manual oficial em <a href="https://marca.nitron.com.br/">marca.nitron.com.br</a>. Cotas externas pelo modelo de encaixe de 40,60 mm; o eixo do comprimento está confirmado pela própria lista de painéis, <strong>o vertical depende do modelo de nó e a sobra da coroa depende da orientação da peça L — as duas fitas do §8 fecham isso</strong>. Custos estimados por escala de massa, não apurados. Nada gravado em <code>pdp_lancamento</code>.</p></footer>
 </div>

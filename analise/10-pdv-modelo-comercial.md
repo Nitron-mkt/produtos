@@ -1,11 +1,11 @@
 # Como o PDV chega ao lojista — duas rotas
 
-Rev. 2 · 04/09/2026 · substitui a versão de quatro rotas.
-Saíram **coparticipação** e **comodato** por decisão do usuário: ficam
-**venda direta** e **bonificação por volume**.
+Rev. 3 · 04/09/2026 · duas rotas (**venda direta** e **bonificação por volume**);
+saíram coparticipação e comodato por decisão do usuário. Custos refeitos na
+grade de 7 painéis, com coroa em peça L e pilha de baias.
 
-Custos por módulo em `dados/26-pdv-escada-comercial-rev3.csv`, na estrutura de
-medida fixa (`analise/11-nitron-mob-cota-final.md`).
+Custos por módulo em `dados/27-pdv-escada-comercial.csv`, derivados de
+`analise/11-nitron-mob-cota-final.md`.
 ⚠️ Custo **estimado por escala de massa, não apurado** — depende de reconciliar o custo da
 madeira, que hoje está corrompido no ERP.
 
@@ -51,29 +51,38 @@ Nitron Mob.
 
 Doze módulos: quatro famílias × três versões (P/M/G por número de vãos).
 
-| Módulo | Painel | Medida final (mm) | Custo est. | Venda direta (2×) | 20 × custo | **Faixa qualificadora** |
+| Módulo | Painel | Coroa | Medida final (mm) | Custo est. | Venda direta (2×) | **Faixa qualificadora** |
 |---|---|---|---|---|---|---|
-| Checkout P | 300 × 450 | 457 × 372 × 1.140 | R$ 167 | R$ 333 | R$ 3.331 | **R$ 10.000** |
-| Ilha P | 460 × 634 | 637 × 500 × 878 | R$ 241 | R$ 482 | R$ 4.823 | **R$ 10.000** |
-| Checkout M | 300 × 450 | 892 × 372 × 1.140 | R$ 314 | R$ 629 | R$ 6.286 | **R$ 10.000** |
-| Checkout G | 300 × 450 | 1.327 × 372 × 1.140 | R$ 462 | R$ 924 | R$ 9.242 | **R$ 10.000** |
-| Ilha M | 460 × 634 | 1.252 × 500 × 878 | R$ 465 | R$ 931 | R$ 9.308 | **R$ 10.000** |
-| Ponta P | 300 × 634 | 637 × 372 × 1.664 | R$ 485 | R$ 971 | R$ 9.708 | **R$ 10.000** |
-| Ilha G | 460 × 634 | 1.867 × 500 × 878 | R$ 690 | R$ 1.379 | R$ 13.794 | **R$ 15.000** |
-| Ponta M | 300 × 634 | 1.252 × 372 × 1.664 | R$ 944 | R$ 1.888 | R$ 18.876 | **R$ 25.000** |
-| Paredão P | 200 × 754 | 2.233 × 285 × 1.926 | R$ 1.348 | R$ 2.697 | R$ 26.965 | **R$ 40.000** |
-| Ponta G | 300 × 634 | 1.867 × 372 × 1.664 | R$ 1.402 | R$ 2.804 | R$ 28.043 | **R$ 40.000** |
-| Paredão M | 200 × 754 | 2.970 × 285 × 1.926 | R$ 1.788 | R$ 3.577 | R$ 35.766 | **R$ 40.000** |
-| Paredão G | 200 × 754 | 3.707 × 285 × 1.926 | R$ 2.228 | R$ 4.457 | R$ 44.566 | **R$ 65.000** |
+| Checkout P | 300 × 450 | 270 + gancheira | 457 × 372 × 1.402 | R$ 176 | R$ 352 | **R$ 10.000** |
+| Ilha P | 460 × 634 | — | 637 × 500 × 878 | R$ 241 | R$ 482 | **R$ 10.000** |
+| Checkout M | 300 × 450 | 270 + gancheira | 892 × 372 × 1.402 | R$ 331 | R$ 662 | **R$ 10.000** |
+| Ponta P | 300 × 634 | 513 | 637 × 372 × 1.907 | R$ 400 | R$ 800 | **R$ 10.000** |
+| Ilha M | 460 × 634 | — | 1.252 × 500 × 878 | R$ 465 | R$ 931 | **R$ 10.000** |
+| Checkout G | 300 × 450 | 270 + gancheira | 1.327 × 372 × 1.402 | R$ 486 | R$ 972 | **R$ 10.000** |
+| Ilha G | 460 × 634 | — | 1.867 × 500 × 878 | R$ 690 | R$ 1.379 | **R$ 15.000** |
+| Ponta M | 300 × 634 | 513 | 1.252 × 372 × 1.907 | R$ 772 | R$ 1.544 | **R$ 25.000** |
+| Ponta G | 300 × 634 | 513 | 1.867 × 372 × 1.907 | R$ 1.144 | R$ 2.288 | **R$ 25.000** |
+| Paredão P | 300 × 754 | — | 2.233 × 372 × 1.926 | R$ 1.766 | R$ 3.531 | **R$ 40.000** |
+| Paredão M | 300 × 754 | — | 2.970 × 372 × 1.926 | R$ 2.344 | R$ 4.687 | **R$ 65.000** |
+| Paredão G | 300 × 754 | — | 3.707 × 372 × 1.926 | R$ 2.922 | R$ 5.844 | **R$ 65.000** |
 
 Para converter em caixas: divida a faixa pelo preço médio de caixa. A **R$ 250 por caixa**,
 a faixa de R$ 10 k são **40 caixas** e a de R$ 65 k são **260 caixas**. O portal faz essa
 conversão ao vivo com o preço que você informar.
 
-**Seis dos doze módulos caem na primeira faixa (R$ 10 k).** É a consequência de a estrutura
-nova ser mais barata que a Rev. 2 — o checkout M caiu de R$ 711 para R$ 314, porque o painel
-passou de 435 × 431 mm para 300 × 450 e a altura de 6 para 5 prateleiras. Na prática,
-**a escada só começa a discriminar de verdade a partir da ponta M**.
+**Seis dos doze módulos caem na primeira faixa (R$ 10 k)** e o mais barato — checkout P a
+**R$ 352 de venda direta** — é pequeno o bastante para ser vendido sem contrapartida. Na
+prática a escada só discrimina a partir da **ponta M**, e o paredão é a única família que
+sozinha justifica faixa de R$ 40 k a R$ 65 k.
+
+O paredão é também o que mais mudou: ao passar de 200 para 300 mm de profundidade ele saiu
+de **R$ 1.946 / 104,5 kg** para **R$ 2.344 / 125,4 kg** — **+20% de custo e +21 kg**. A
+contrapartida é a cobertura da curva subir de 56,8% para 90,5%. Ver a comparação das quatro
+rotas de paredão em `analise/11-nitron-mob-cota-final.md` §6.
+
+⚠️ **125 kg num módulo é decisão de logística, não de projeto.** O paredão M passa a exigir
+transporte e montagem em duas partes, ou a versão P (2.233 mm, 94,5 kg) como unidade padrão
+de embarque.
 
 ---
 

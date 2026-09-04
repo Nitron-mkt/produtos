@@ -1,0 +1,9 @@
+eixo,opcao_mm,cota_externa_mm,livre_mm,pct_faturamento,orientacao,fonte
+profundidade,200,285.3,,56.8,produto de lado,TGFPRO.LARGURA/ESPESSURA x faturamento 12M marca propria
+profundidade,200,285.3,,18.1,produto de frente,idem
+profundidade,300,372.3,,90.5,produto de lado,idem
+profundidade,300,372.3,,67.0,produto de frente,idem
+profundidade,460,500.3,,99.9,produto de lado,idem
+profundidade,460,500.3,,96.1,produto de frente,idem
+altura da baia,270,,246.9,79.1,produto em pe,TGFPRO.ALTURA x faturamento 12M marca propria
+altura da baia,513,,489.9,98.2,produto em pe,idem

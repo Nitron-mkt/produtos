@@ -72,13 +72,22 @@ cai nos três botões de saída: e-mail, download do JSON e imprimir/PDF.
 
 | eixo | opções | fonte |
 |---|---|---|
-| comprimento | PSC-01 315 · PSC-02 415 · PSC-03 595 · PSC-04 717 | PI de comprimento |
 | largura (profundidade) | BLA-01-AC 200 · BLA-03-AC 287 · PSC-02 415 | PI de largura |
+| comprimento | PSC-01 315 · PSC-02 415 · PSC-03 595 · PSC-04 717 | PI de comprimento |
 | vertical | BAL-02-AC 270 · PSA-05 513 | PI de altura |
-| painéis | 200/300/460 × 360/450/634/754 (12) | lista do usuário |
+| painéis | **7**, pela regra `1,3 ≤ comprimento ÷ largura ≤ 2,6` | grade da Rev. 2 |
 
-A geometria e as três fórmulas estão em `analise/11-nitron-mob-cota-final.md` e
-nos CSVs `dados/22` a `dados/25`.
+Painéis mantidos: `200×360 · 200×450 · 300×450 · 300×634 · 300×754 · 460×634 ·
+460×754`. Cortados por proporção: 200×634, 200×754 (tira), 300×360, 460×360,
+460×450 (quadrado).
+
+A altura é uma **pilha de baias** — uma ripa vertical por baia, então o mesmo
+módulo mistura passo curto e vão alto. No topo, a **peça L** (`850-L`) fecha o
+poste e segura uma ripa atravessada sem somar prateleira: é a coroa, e ela passa
+21,62 mm de cada lado do corpo.
+
+A geometria, as fórmulas e a cobertura da curva estão em
+`analise/11-nitron-mob-cota-final.md` e nos CSVs `dados/22` a `dados/27`.
 
 ## Versão do artefato
 

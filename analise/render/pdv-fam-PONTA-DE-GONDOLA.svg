@@ -1,72 +1,76 @@
-<svg viewBox="-250 -595 2322 2559" role="img" aria-label="Elevacao frontal cotada: PONTA DE GONDOLA, 1252 por 372 por 1664 milimetros, 2 vaos e 7 prateleiras">
-<path d="M0 -250 L626 -525 L1252 -250 Z" fill="#08a9b1"/>
-<path d="M1276 -388 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-388" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">casinha · frontao 275 mm</text>
-<rect x="0" y="-250" width="1252" height="210" fill="#08a9b1"/>
-<text class="sbn" x="626" y="-132" text-anchor="middle" font-size="92" fill="#fff">NITRON</text>
-<text class="sal" x="626" y="-67" text-anchor="middle" font-size="40" fill="#fff">toda casa tem</text>
-<path d="M1276 -145 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-145" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 210 mm</text>
-<rect x="61.61" y="37" width="1129" height="1571" fill="var(--wood)" opacity=".28"/>
-<path d="M1276 822 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="822" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · fecha a face</text>
-<rect x="0" y="1594" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1624" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1624" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="1332" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1362" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1362" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="1070" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="1100" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="1100" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="808" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="838" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="838" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="547" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="577" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="577" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="285" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="315" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="315" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="0" y="23" width="1252" height="28" fill="var(--wood)"/>
-<rect x="74" y="53" width="571" height="40" fill="#08a9b1" opacity=".92"/>
-<rect x="689" y="53" width="551" height="40" fill="#08a9b1" opacity=".92"/>
-<path d="M1276 1644 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1644" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
-<rect x="0" y="37" width="62" height="1608" fill="var(--wood2)"/>
-<rect x="0" y="1572" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="1310" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="1048" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="786" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="0" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="15" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="575" y="37" width="101" height="1608" fill="var(--wood2)"/>
-<rect x="575" y="1572" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="1310" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="1048" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="786" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="524" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="575" y="262" width="101" height="73" fill="var(--no-cz)"/>
+<svg viewBox="-271.62 -625 2365.24 2832" role="img" aria-label="Elevacao frontal cotada: PONTA DE GONDOLA, 1252 por 372 por 1907 milimetros, 2 vaos, 6 prateleiras e coroa em peca L">
+<path d="M-22 -280 L626 -555 L1274 -280 Z" fill="#08a9b1"/>
+<path d="M1276 -418 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-418" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">casinha · frontao 275 mm</text>
+<rect x="-22" y="-280" width="1295" height="240" fill="#08a9b1"/>
+<text class="sbn" x="626" y="-146" text-anchor="middle" font-size="106" fill="#fff">NITRON</text>
+<text class="sal" x="626" y="-71" text-anchor="middle" font-size="46" fill="#fff">toda casa tem</text>
+<path d="M1276 -160 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="-160" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 240 mm · 1295 mm de largura</text>
+<rect x="61.61" y="1626" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1364" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="1102" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="840" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<rect x="61.61" y="578" width="1129" height="189" fill="var(--wood)" opacity=".28"/>
+<path d="M1276 944 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="944" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">painel de fundo · corte dedicado por baia</text>
+<rect x="0" y="1837" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1867" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1867" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1575" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1605" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1605" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1313" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1343" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1343" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="1051" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="1081" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="1081" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="790" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="820" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="820" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="528" width="1252" height="28" fill="var(--wood)"/>
+<rect x="74" y="558" width="571" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="689" y="558" width="551" height="40" fill="#08a9b1" opacity=".92"/>
+<path d="M1276 1887 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1887" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
+<rect x="0" y="0" width="62" height="1887" fill="var(--wood2)"/>
+<rect x="0" y="1815" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1553" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1291" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1029" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="767" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="505" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="-22" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="15" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="575" y="0" width="101" height="1887" fill="var(--wood2)"/>
+<rect x="575" y="1815" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1553" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1291" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="1029" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="767" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="575" y="505" width="101" height="73" fill="var(--no-cz)"/>
 <rect x="575" y="0" width="101" height="73" fill="var(--no-cz)"/>
-<rect x="610" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<rect x="1190" y="37" width="62" height="1608" fill="var(--wood2)"/>
-<rect x="1190" y="1572" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="1310" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="1048" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="786" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="524" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="262" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1190" y="0" width="62" height="73" fill="var(--no-tz)"/>
-<rect x="1205" y="1644.6" width="32" height="19.4" fill="var(--wood2)"/>
-<path d="M1276 1346 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1346" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
-<rect x="436" y="132" width="380" height="72" rx="36" fill="#08a9b1"/>
-<text class="sbn" x="626" y="182" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
-<rect x="84" y="1156" width="340" height="170" fill="#08a9b1" rx="12"/>
-<text class="sbn" x="254" y="1251" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
-<text class="sal" x="254" y="1296" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1784 H1252"/><path d="M0 1760 V1808"/><path d="M1252 1760 V1808"/></g><text class="sbn" x="626" y="1752" text-anchor="middle" font-size="58" fill="var(--dim-t)">1252 mm</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1889 H677"/><path d="M62 1865 V1913"/><path d="M677 1865 V1913"/></g><text class="sbn" x="369" y="1857" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 615</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -525 V1664"/><path d="M-94 -525 H-46"/><path d="M-94 1664 H-46"/></g><text class="sbn" transform="translate(-100,570) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">2189 mm total</text>
-<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1346 V1608"/><path d="M-200 1346 H-152"/><path d="M-200 1608 H-152"/></g><text class="sbn" transform="translate(-206,1477) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
-<g transform="translate(0,1994)">
+<rect x="610" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1190" y="0" width="62" height="1887" fill="var(--wood2)"/>
+<rect x="1190" y="1815" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1553" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1291" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="1029" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="767" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1190" y="505" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1169" y="0" width="83" height="73" fill="var(--brand-deep)"/>
+<rect x="1205" y="1888" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M1276 1589 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="1589" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
+<rect x="-22" y="24" width="1295" height="26" fill="var(--wood2)"/>
+<path d="M1276 37 H1348" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1364" y="37" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">coroa · peca L fecha o poste · +21.62 mm por lado</text>
+<rect x="436" y="253" width="380" height="72" rx="36" fill="#08a9b1"/>
+<text class="sbn" x="626" y="303" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
+<rect x="84" y="1642" width="340" height="159" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="1731" text-anchor="middle" font-size="64" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="1772" text-anchor="middle" font-size="25" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 2027 H1252"/><path d="M0 2003 V2051"/><path d="M1252 2003 V2051"/></g><text class="sbn" x="626" y="1995" text-anchor="middle" font-size="58" fill="var(--dim-t)">1252 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 2132 H677"/><path d="M62 2108 V2156"/><path d="M677 2108 V2156"/></g><text class="sbn" x="369" y="2100" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 615</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-91.62 -555 V1907"/><path d="M-115.62 -555 H-67.62"/><path d="M-115.62 1907 H-67.62"/></g><text class="sbn" transform="translate(-121.62,676) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">2462 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-197.62 1626 V1888"/><path d="M-221.62 1626 H-173.62"/><path d="M-221.62 1888 H-173.62"/></g><text class="sbn" transform="translate(-227.62,1757) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-303.62 73 V578"/><path d="M-327.62 73 H-279.62"/><path d="M-327.62 578 H-279.62"/></g><text class="sbn" transform="translate(-333.62,326) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">coroa 505</text>
+<g transform="translate(0,2237)">
 <rect x="0" y="0" width="526" height="156" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
 <rect x="0" y="-34" width="526" height="26" fill="var(--no-tz)"/>
 <path d="M263 196 l-26 -22 h52 z" fill="var(--brand-deep)"/>

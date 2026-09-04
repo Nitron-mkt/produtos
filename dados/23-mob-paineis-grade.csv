@@ -1,0 +1,13 @@
+painel,largura_mm,comprimento_mm,razao,mantido,motivo,profundidade,ripa_comprimento,ripa_comprimento_mm,ripa_largura,ripa_largura_mm,vao_externo_mm,profundidade_externa_mm,painel_menos_vao_mm,sobressai_por_lado_mm,vao_livre_entre_nos_mm,pct_curva_de_lado,pct_curva_de_frente
+200x360,200,360,1.8,SIM,mantido,rasa,PSC-01,315,BLA-01-AC,200,357.02,285.26,2.98,0.0,233.8,56.8,18.1
+200x450,200,450,2.25,SIM,mantido,rasa,PSC-02,415,BLA-01-AC,200,457.02,285.26,-7.02,0.0,333.8,56.8,18.1
+200x634,200,634,3.17,NAO,cortado: tira estreita e comprida,rasa,PSC-03,595,BLA-01-AC,200,637.02,285.26,-3.02,0.0,513.8,56.8,18.1
+200x754,200,754,3.77,NAO,cortado: tira estreita e comprida,rasa,PSC-04,717,BLA-01-AC,200,759.02,285.26,-5.02,0.0,635.8,56.8,18.1
+300x360,300,360,1.2,NAO,cortado: quadrado ou mais fundo que longo,media,PSC-01,315,BLA-03-AC,287,357.02,372.26,2.98,6.5,233.8,90.5,67.0
+300x450,300,450,1.5,SIM,mantido,media,PSC-02,415,BLA-03-AC,287,457.02,372.26,-7.02,6.5,333.8,90.5,67.0
+300x634,300,634,2.11,SIM,mantido,media,PSC-03,595,BLA-03-AC,287,637.02,372.26,-3.02,6.5,513.8,90.5,67.0
+300x754,300,754,2.51,SIM,mantido,media,PSC-04,717,BLA-03-AC,287,759.02,372.26,-5.02,6.5,635.8,90.5,67.0
+460x360,460,360,0.78,NAO,cortado: quadrado ou mais fundo que longo,funda,PSC-01,315,PSC-02,415,357.02,500.26,2.98,22.5,233.8,99.9,96.1
+460x450,460,450,0.98,NAO,cortado: quadrado ou mais fundo que longo,funda,PSC-02,415,PSC-02,415,457.02,500.26,-7.02,22.5,333.8,99.9,96.1
+460x634,460,634,1.38,SIM,mantido,funda,PSC-03,595,PSC-02,415,637.02,500.26,-3.02,22.5,513.8,99.9,96.1
+460x754,460,754,1.64,SIM,mantido,funda,PSC-04,717,PSC-02,415,759.02,500.26,-5.02,22.5,635.8,99.9,96.1
