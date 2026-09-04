@@ -22,7 +22,16 @@ TRECHOS_RETOS = ("lat_d", "frente", "lat_e", "traseira")
 
 
 class Contorno:
-    """Retangulo de cantos arredondados, avaliavel em qualquer z."""
+    """
+    Retangulo de cantos arredondados, avaliavel em qualquer z.
+
+    O RAIO E CONSTANTE em toda a altura; o que cresce sao as meias-dimensoes.
+    Isso tem duas consequencias boas: o canto nao degenera quando a saida e
+    grande (com offset puro o raio da base ficaria negativo), e a superficie do
+    canto fica MAIS inclinada que a dos lados (no vertice a 45 graus, 1,41x),
+    o que ajuda o ninho em vez de limita-lo — quem manda no passo continua
+    sendo o trecho reto.
+    """
 
     def __init__(self, X, Y, R, tan, passo=5.0, n_arco=9):
         self.X, self.Y, self.R, self.tan = X, Y, R, tan
@@ -48,7 +57,7 @@ class Contorno:
         """(x, y, nx, ny) da amostra i na altura z; n = normal externa."""
         tr, t = self.amostras[i % self.n]
         d = z * self.tan
-        hx, hy, r = self.X / 2 + d, self.Y / 2 + d, self.R + d
+        hx, hy, r = self.X / 2 + d, self.Y / 2 + d, self.R
         a, b = hx - r, hy - r
         if tr == "lat_d":
             return (hx, -b + t * 2 * b, 1.0, 0.0)

@@ -88,8 +88,8 @@ def main():
 
     # ---- 03 ninho ---------------------------------------------------------
     g = [grupo("M", offset=(0, 0, i * s["passo_ninho"]), giro=bool(i % 2))
-         for i in range(6)]
-    R.cena(g, 1150, 950, az=44, el=18).save(os.path.join(SAIDA, "03-ninho.png"))
+         for i in range(10)]
+    R.cena(g, 1100, 950, az=44, el=17).save(os.path.join(SAIDA, "03-ninho.png"))
 
     # ---- 04 pilha ---------------------------------------------------------
     g = [grupo("M", offset=(0, 0, i * s["H"])) for i in range(3)]
@@ -101,9 +101,9 @@ def main():
     R.cena(g, 1150, 1000, az=58, el=14).save(os.path.join(SAIDA, "05-encaixe.png"))
 
     # ---- 06 ninho x pilha -------------------------------------------------
-    g = [grupo("M", offset=(-330, 0, i * s["passo_ninho"]), giro=bool(i % 2))
-         for i in range(6)]
-    g += [grupo("M", offset=(330, 0, i * s["H"]), cor=COR_CORPO["G"]) for i in range(3)]
+    g = [grupo("M", offset=(-340, 0, i * s["passo_ninho"]), giro=bool(i % 2))
+         for i in range(10)]
+    g += [grupo("M", offset=(340, 0, i * s["H"]), cor=COR_CORPO["G"]) for i in range(3)]
     R.cena(g, 1450, 900, az=40, el=15).save(os.path.join(SAIDA, "06-ninho-x-pilha.png"))
 
     # ---- 07 a peca de casa: torre de tres P em branco ---------------------

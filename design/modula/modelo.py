@@ -40,7 +40,7 @@ import math
 from geometria import DEG, Contorno, Malha, banda, tubo_roundrect
 
 AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
-SAIDA_GR = 5.0
+SAIDA_GR = 10.0
 TAN = math.tan(SAIDA_GR * DEG)
 RHO_PP = 0.905
 
@@ -59,15 +59,15 @@ def parametros(k):
     s = dict(TAMANHOS[k])
     X, Y, H, e, R = s["X"], s["Y"], s["H"], s["e"], s["R"]
     s["conic"] = con = H * TAN
-    s["folga_pe"] = fp = 3.5                      # o pe passa por fora da saia
-    s["aba"] = aba = round(10.0 + 0.008 * X, 1)
-    s["saia"] = round(12.0 + 0.014 * H, 1)
+    s["folga_pe"] = fp = 3.0                      # o pe passa por fora da saia
+    s["aba"] = aba = round(8.0 + 0.006 * X, 1)
+    s["passo_ninho"] = pn = round(e / TAN + 2.0, 1)
+    s["saia"] = round(pn - 4.0, 1)                # a saia tem de caber no passo
     s["aro_ext"] = X / 2 - fp                     # face externa do aro
     s["Xt"] = X - 2 * (fp + aba)                  # parede no topo
     s["Yt"] = Y - 2 * (fp + aba)
     s["Xb"], s["Yb"] = s["Xt"] - 2 * con, s["Yt"] - 2 * con
-    s["Rt"] = R - fp - aba
-    s["Rb"] = max(7.0, s["Rt"] - con)
+    s["Rt"] = s["Rb"] = R - fp - aba               # raio constante em toda a altura
     s["hf"] = round(0.40 * H)
     s["mergulho"] = round(0.28 * s["hf"])
     s["hb"] = round(14.0 + 0.05 * H)              # faixa cheia junto ao fundo
@@ -77,21 +77,24 @@ def parametros(k):
     s["ripa"] = round(7.0 + 0.005 * X, 1)
     s["vao"] = round(14.0 + 0.012 * X, 1)
     s["fileiras"] = 3 if H >= 230 else 2
-    s["passo_ninho"] = round(e / TAN + 2.0, 1)
     s["sal_pe"] = round(fp + aba + con, 1)        # o quanto o pe avanca
     # metade do trecho reto da lateral (constante em qualquer altura)
     s["b"] = s["Yt"] / 2 - s["Rt"]
     s["ax"] = s["Xt"] / 2 - s["Rt"]
-    s["larg_pe"] = round(24.0 + 0.025 * X, 1)
+    s["larg_pe"] = round(22.0 + 0.022 * X, 1)
     s["larg_ress"] = round(s["larg_pe"] - 14, 1)
-    s["h_ress"] = round(8.0 + 0.012 * H, 1)
-    s["h_pe"] = round(s["h_ress"] + e + 8, 1)
-    s["y_pe_f"] = round(0.85 * s["b"], 1)
-    s["y_pe_t"] = round(-0.42 * s["b"], 1)
+    s["h_ress"] = round(7.0 + 0.010 * H, 1)
+    s["h_pe"] = round(s["h_ress"] + e + 4, 1)
+    s["y_pe_f"] = round(0.86 * s["b"], 1)
+    s["y_pe_t"] = round(-0.36 * s["b"], 1)
     s["etiqueta"] = round(0.24 * X)
-    folga = (s["y_pe_f"] + s["y_pe_t"]) - (s["larg_pe"] + s["larg_ress"]) / 2
-    assert folga > 0, f"{k}: pe girado bate no ressalto (folga {folga:.1f} mm)"
-    s["folga_giro"] = round(folga, 1)
+    dif = s["y_pe_f"] + s["y_pe_t"]               # |c| - |d|
+    f_ress = dif - (s["larg_pe"] + s["larg_ress"]) / 2
+    f_pe = dif - s["larg_pe"]
+    assert f_ress > 2, f"{k}: pe girado bate na crista (folga {f_ress:.1f} mm)"
+    assert f_pe > 2, f"{k}: pe girado bate no pe de baixo (folga {f_pe:.1f} mm)"
+    assert s["saia"] < s["passo_ninho"] - 2, f"{k}: saia nao cabe no passo do ninho"
+    s["folga_giro"] = round(min(f_ress, f_pe), 1)
     return s
 
 
@@ -276,8 +279,8 @@ def construir(k):
     for lado in (1, -1):
         for yc in (s["y_pe_f"], s["y_pe_t"]):
             cxp = lado * (X / 2 - largura_pe / 2)
-            tubo_roundrect(m, cxp, yc, largura_pe, lpe, min(11.0, lpe / 3),
-                           0.0, hpe, e, "pe", n_arco=6, cone=1.6)
+            tubo_roundrect(m, cxp, yc, largura_pe, lpe, min(14.0, lpe / 2.6),
+                           0.0, hpe, e, "pe", n_arco=8, cone=2.2)
 
     # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
     lim_crista = h_geral + 1.5

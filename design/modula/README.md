@@ -1,10 +1,10 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.03** — borda superior contínua e fechada, cantos arredondados, parede inteira vazada.
+**rev.04** — saída de 10°: o ninho fecha em 13–16 mm e a cubagem vai a 6×.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
-frente aberta que **encaixam um dentro do outro no transporte** e **plugam um sobre
-o outro no uso**, formando andares.
+frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
+no uso**, formando andares. Dez peças ninhadas ocupam menos altura que três plugadas.
 
 > Sem STL nesta revisão, por decisão de projeto: a forma ainda está em ajuste.
 
@@ -13,31 +13,52 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 ## Os três tamanhos
 
-| | Externo (mm) | Canto | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Ganho transp. | Fechamento |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 300 × 200 × 150 | R 26 | 2,0 mm | 223 g | R$ 2,23 | 5,4 L | 150 mm | 25 mm | 3,3× | 184–245 tf |
-| **M** | 400 × 300 × 200 | R 36 | 2,2 mm | 438 g | R$ 4,37 | 16,2 L | 200 mm | 27 mm | 3,6× | 367–490 tf |
-| **G** | 600 × 400 × 250 | R 46 | 2,5 mm | 891 g | R$ 8,89 | 43,7 L | 250 mm | 31 mm | 3,7× | 734–979 tf |
+| | Externo (mm) | Canto | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Avanço do pé | Cubagem (10) | Fechamento |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **P** | 300 × 200 × 150 | R 26 | 2,0 mm | 177 g | R$ 1,77 | 5,0 L | 150 mm | 13 mm | 39 mm | 5,6× | 184–245 tf |
+| **M** | 400 × 300 × 200 | R 36 | 2,2 mm | 362 g | R$ 3,61 | 14,9 L | 200 mm | 15 mm | 49 mm | 6,1× | 367–490 tf |
+| **G** | 600 × 400 × 250 | R 46 | 2,5 mm | 765 g | R$ 7,63 | 40,3 L | 250 mm | 16 mm | 59 mm | 6,3× | 734–979 tf |
 
 Grade **1 : 2 : 4** — dois P dão exatamente um M, dois M dão exatamente um G.
 No palete 1200 × 800: 16 P, 8 M ou 4 G por camada, sem sobra.
-Seis M plugadas = 1.200 mm de altura; ninhadas = 336 mm.
+Dez M plugadas = 2.000 mm de altura; ninhadas = 330 mm.
 
 Resina a R$ 9,98/kg (80% virgem clarificado a R$ 10,96 + 20% moído a R$ 6,07).
 
-### O caminho das revisões
+## A lei da cubagem
 
-| | rev.01 | rev.02 | rev.03 |
-|---|---|---|---|
-| arquitetura | parede cheia, 8 canais grossos | parede vazada, pé por dentro | parede vazada, pé por fora |
-| massa M | 886 g | 414 g | 438 g |
-| capacidade M | 17,4 L | 17,2 L | 16,2 L |
-| buracos no aro | 0 | **4** | **0** |
-| exceções no ritmo da parede | 8 | 4 | **0** |
+Ninho fundo e encaixe pequeno são grandezas **inversas**:
 
-A rev.02 cortou metade da resina, mas pagou com quatro janelas rasgadas no aro — a peça
-ficava com a borda de cima solta. A rev.03 fecha a borda por ~5% de resina e ~6% de
-capacidade, e ainda mantém metade da resina da rev.01.
+```
+passo do ninho = espessura / tan(saída)
+avanço do pé   = altura × tan(saída)
+-------------------------------------------------
+passo × avanço ~ espessura × altura   (constante da peça)
+```
+
+No M isso dá 2,2 × 200 = **440 mm²**. Para o ninho fechar em 14 mm, o pé **tem** de avançar
+uns 31 mm da parede. Não é escolha de estilo: é aritmética.
+
+| | rev.03 (5°) | rev.04 (10°) |
+|---|---|---|
+| passo do ninho (M) | 27 mm | **15 mm** |
+| 10 peças ninhadas | 444 mm | **330 mm** |
+| cubagem (10 peças) | 4,5× | **6,1×** |
+| massa (M) | 438 g | **362 g** |
+| capacidade (M) | 16,2 L | 14,9 L |
+| avanço do pé (M) | 34 mm | 49 mm |
+
+O pé cresceu 15 mm mas **continua dentro do envelope**: a base encolheu exatamente o quanto
+o pé cresceu, então nada ultrapassa os 400 × 300 mm e o palete não muda. Custo: 8% de
+capacidade, porque a peça fica mais cônica. Ganho, além da cubagem: 17% menos resina —
+parede mais inclinada é parede menor.
+
+### O raio do canto é constante em toda a altura
+
+Com 10° de saída, um contorno gerado por offset puro teria raio negativo na base. O
+`Contorno` mantém o **raio fixo** e move só os centros dos arcos. Efeito colateral bom: a
+superfície do canto fica mais inclinada que a dos lados (1,41× no vértice a 45°), então
+quem manda no passo do ninho continua sendo o trecho reto da lateral.
 
 ## A mecânica — pé por fora, crista no aro
 
@@ -45,8 +66,8 @@ O aro corre `h_ress` abaixo do topo e **sobe em quatro pontos**, formando crista
 rampa suave dos dois lados. Na base, quatro pés avançam para fora, além da saia do aro.
 
 ```
-MODULA M:  cristas em y = +97 e -48      descidas em y = +48 e -97
-           folga do giro 22 mm           o pé avança 34 mm da parede
+MODULA M:  cristas em y = +98 e -41      descidas em y = +41 e -98
+           folga do giro 26 mm           o pé avança 49 mm da parede
 ```
 
 - **Alinhada (0°)** → cada pé pousa numa crista e a abraça; a rampa centraliza sozinha:
