@@ -40,14 +40,20 @@ import math
 from geometria import DEG, Contorno, Malha, banda, tubo_roundrect
 
 AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
-SAIDA_GR = 10.0
+SAIDA_GR = 7.5
 TAN = math.tan(SAIDA_GR * DEG)
 RHO_PP = 0.905
 
+# ripa = largura do material entre furos; vao = largura do furo.
+# O P e o mais fechado de proposito: e a peca que vai a vista em casa e a que
+# guarda coisa pequena. O G e o mais aberto: e caixa de estoque.
 TAMANHOS = {
-    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=2.0, R=26.0),
-    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.2, R=36.0),
-    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.5, R=46.0),
+    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=1.8, R=26.0,
+              ripa=15.0, vao=6.0, fileiras=4, trav=10.0, barra=9.0, vao_fundo=6.0),
+    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.0, R=36.0,
+              ripa=12.0, vao=10.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=11.0),
+    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.3, R=46.0,
+              ripa=12.0, vao=16.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=17.0),
 }
 
 
@@ -70,13 +76,11 @@ def parametros(k):
     s["Rt"] = s["Rb"] = R - fp - aba               # raio constante em toda a altura
     s["hf"] = round(0.40 * H)
     s["mergulho"] = round(0.28 * s["hf"])
-    s["hb"] = round(14.0 + 0.05 * H)              # faixa cheia junto ao fundo
+    s["hb"] = round(16.0 + 0.055 * H)              # faixa cheia junto ao fundo
     s["h_aro"] = round(8.0 + 0.030 * H)           # parede cheia sob o aro
     s["z_fundo"] = 6.0
     s["ef"] = e + 0.5
-    s["ripa"] = round(7.0 + 0.005 * X, 1)
-    s["vao"] = round(14.0 + 0.012 * X, 1)
-    s["fileiras"] = 3 if H >= 230 else 2
+
     s["sal_pe"] = round(fp + aba + con, 1)        # o quanto o pe avanca
     # metade do trecho reto da lateral (constante em qualquer altura)
     s["b"] = s["Yt"] / 2 - s["Rt"]
@@ -188,7 +192,7 @@ def construir(k):
         return r_furo - math.sqrt(max(0.0, r_furo * r_furo - (r_furo - d) ** 2))
 
     # ---- travessas coplanares entre as fileiras ---------------------------
-    w_trav = round(6.0 + 0.006 * X, 1)
+    w_trav = s["trav"]
     nfil = s["fileiras"]
 
     def z_aro_inf(i):
@@ -260,8 +264,8 @@ def construir(k):
         d = abs(c) - (ha - rr)
         return hb_ if d <= 0 else (hb_ - rr) + math.sqrt(max(0.0, rr * rr - d * d))
 
-    barra = round(5.0 + 0.0035 * X, 1)
-    passo_f = barra + 10.0 + 0.010 * X
+    barra = s["barra"]
+    passo_f = barra + s["vao_fundo"]
     nx = max(2, int(round(2 * hx / passo_f)))
     ny = max(2, int(round(2 * hy / passo_f)))
     for i in range(1, nx):

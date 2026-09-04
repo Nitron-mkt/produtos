@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.04** — saída de 10°: o ninho fecha em 13–16 mm e a cubagem vai a 6×.
+**rev.05** — medidas conferidas contra as referências, saída de 7,5° e vazado calibrado por tamanho.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
@@ -15,15 +15,35 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Canto | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Avanço do pé | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 300 × 200 × 150 | R 26 | 2,0 mm | 177 g | R$ 1,77 | 5,0 L | 150 mm | 13 mm | 39 mm | 5,6× | 184–245 tf |
-| **M** | 400 × 300 × 200 | R 36 | 2,2 mm | 362 g | R$ 3,61 | 14,9 L | 200 mm | 15 mm | 49 mm | 6,1× | 367–490 tf |
-| **G** | 600 × 400 × 250 | R 46 | 2,5 mm | 765 g | R$ 7,63 | 40,3 L | 250 mm | 16 mm | 59 mm | 6,3× | 734–979 tf |
+| **P** | 300 × 200 × 150 | R 26 | 1,8 mm | 245 g | R$ 2,45 | 5,4 L | 150 mm | 16 mm | 32 mm | 5,2× | 184–245 tf |
+| **M** | 400 × 300 × 200 | R 36 | 2,0 mm | 423 g | R$ 4,22 | 15,9 L | 200 mm | 17 mm | 40 mm | 5,6× | 367–490 tf |
+| **G** | 600 × 400 × 250 | R 46 | 2,3 mm | 820 g | R$ 8,18 | 42,7 L | 250 mm | 20 mm | 48 mm | 5,9× | 734–979 tf |
 
 Grade **1 : 2 : 4** — dois P dão exatamente um M, dois M dão exatamente um G.
 No palete 1200 × 800: 16 P, 8 M ou 4 G por camada, sem sobra.
-Dez M plugadas = 2.000 mm de altura; ninhadas = 330 mm.
+Dez M plugadas = 2.000 mm de altura; ninhadas = 355 mm.
 
-Resina a R$ 9,98/kg (80% virgem clarificado a R$ 10,96 + 20% moído a R$ 6,07).
+## Contra as peças de referência
+
+Medidas tiradas da fita nas fotos (≈24 px/cm, erro de ~10%) — **não do paquímetro**:
+
+| Referência | Medida na foto | MODULA | Diferença | Vazado da parede |
+|---|---|---|---|---|
+| laranja (pequena) | ≈ 26 × 20 cm | **P** 30 × 20 | +4 cm na largura | fechado, furo de 6 mm |
+| preta média | ≈ 41 × 34 cm | **M** 40 × 30 | −1 e −4 cm | meio, furo de 10 mm |
+| preta grande | ≈ 73 × 49 cm | **G** 60 × 40 | **−13 e −9 cm** | aberto, furo de 16 mm |
+
+**Por que o G não seguiu os 73 × 49.** Ele não fecha palete: em 1200 × 800 cabem duas peças
+e sobram 26 cm de faixa morta — 22% da camada jogada fora. Já 600 × 400 entra quatro vezes
+sem sobrar nada, e é o que faz a grade 1 : 2 : 4 funcionar. Se o tamanho da referência for
+inegociável, a família inteira sobe para `350 × 250 / 500 × 350 / 700 × 500`: a modularidade
+se mantém, mas nenhum dos três fecha palete.
+
+### Vazado por tamanho
+
+O P é o mais fechado de propósito — é a peça que vai à vista em casa e a que guarda coisa
+pequena; o G é o mais aberto, porque é caixa de estoque. `TAMANHOS` em `modelo.py` carrega
+`ripa` (material), `vao` (furo), `fileiras`, `barra` e `vao_fundo` para cada um.
 
 ## A lei da cubagem
 
@@ -36,22 +56,17 @@ avanço do pé   = altura × tan(saída)
 passo × avanço ~ espessura × altura   (constante da peça)
 ```
 
-No M isso dá 2,2 × 200 = **440 mm²**. Para o ninho fechar em 14 mm, o pé **tem** de avançar
-uns 31 mm da parede. Não é escolha de estilo: é aritmética.
+No M isso dá 2,0 × 200 = **400 mm²**. Com 5° o ninho parava em 27 mm; com 10° fechava em
+14 mm, mas a peça ficava afunilada demais para a referência. **7,5° é o ponto de equilíbrio**:
+ninho de 17 mm, cubagem de 5,6× e um perfil parecido com o das peças reais.
 
-| | rev.03 (5°) | rev.04 (10°) |
-|---|---|---|
-| passo do ninho (M) | 27 mm | **15 mm** |
-| 10 peças ninhadas | 444 mm | **330 mm** |
-| cubagem (10 peças) | 4,5× | **6,1×** |
-| massa (M) | 438 g | **362 g** |
-| capacidade (M) | 16,2 L | 14,9 L |
-| avanço do pé (M) | 34 mm | 49 mm |
-
-O pé cresceu 15 mm mas **continua dentro do envelope**: a base encolheu exatamente o quanto
-o pé cresceu, então nada ultrapassa os 400 × 300 mm e o palete não muda. Custo: 8% de
-capacidade, porque a peça fica mais cônica. Ganho, além da cubagem: 17% menos resina —
-parede mais inclinada é parede menor.
+| | 5° | 7,5° (adotado) | 10° |
+|---|---|---|---|
+| passo do ninho (M) | 27 mm | **17 mm** | 14 mm |
+| 10 peças ninhadas | 444 mm | **355 mm** | 330 mm |
+| cubagem (10 peças) | 4,5× | **5,6×** | 6,1× |
+| capacidade (M) | 16,2 L | **15,9 L** | 14,9 L |
+| avanço do pé (M) | 34 mm | **40 mm** | 49 mm |
 
 ### O raio do canto é constante em toda a altura
 
@@ -67,7 +82,7 @@ rampa suave dos dois lados. Na base, quatro pés avançam para fora, além da sa
 
 ```
 MODULA M:  cristas em y = +98 e -41      descidas em y = +41 e -98
-           folga do giro 26 mm           o pé avança 49 mm da parede
+           folga do giro 26 mm           o pé avança 40 mm da parede
 ```
 
 - **Alinhada (0°)** → cada pé pousa numa crista e a abraça; a rampa centraliza sozinha:
