@@ -1,0 +1,12 @@
+grandeza,valor_mm,origem,o_que_significa
+encaixe (ENC),40.6,"face +Y da peca L, mediana de 1.666 raios","quanto a ripa entra dentro do no, dos dois lados"
+no no comprimento (NOX),61.61,malha da trizeta,sobra 21.01 mm por extremidade: externo = ripa + 42.02
+cruzeta no comprimento (NOXC),101.3,malha da cruzeta,no do meio do vao: consome 81.2 e soma 20.10 de passo
+no na profundidade (NOY),83.23,malha da trizeta,sobra 42.63 mm por extremidade: externo = ripa + 85.26
+no no vertical (NOZ),73.08,malha da trizeta,passo do no no eixo Z
+pe exposto (PEX),19.4,BPE-01-AC de 60 mm menos o encaixe,soma uma vez na altura total
+consumido por ripa,81.2,2 x encaixe,o que os dois nos comem do comprimento nominal da ripa
+FORMULA comprimento,0,2*61.61 + (N-1)*101.3 + N*(ripa - 81.2),N = numero de vaos na corrida
+FORMULA profundidade,0,ripa + 2*42.63,uma ripa de largura por linha de no
+FORMULA altura modelo A,0,n*73.08 + (n-1)*(ripa - 81.2) + 19.4,n = prateleiras; um no por nivel
+FORMULA altura modelo B,0,n*2*73.08 + (n-1)*(ripa - 81.2) + 19.4,par de trizetas espelhadas por nivel — a ler confirmar no showroom

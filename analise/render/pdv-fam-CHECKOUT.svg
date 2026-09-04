@@ -1,0 +1,72 @@
+<svg viewBox="-250 -250 1962 1690" role="img" aria-label="Elevacao frontal cotada: CHECKOUT, 892 por 372 por 1140 milimetros, 2 vaos e 5 prateleiras">
+<rect x="0" y="-180" width="892" height="140" fill="#08a9b1"/>
+<text class="sbn" x="446" y="-102" text-anchor="middle" font-size="62" fill="#fff">NITRON</text>
+<text class="sal" x="446" y="-58" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
+<path d="M916 -110 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="-110" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">cabeceira 140 mm</text>
+<rect x="0" y="1070" width="892" height="28" fill="var(--wood)"/>
+<rect x="74" y="1100" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="1100" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="808" width="892" height="28" fill="var(--wood)"/>
+<rect x="74" y="838" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="838" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="546" width="892" height="28" fill="var(--wood)"/>
+<rect x="74" y="576" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="576" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="284" width="892" height="28" fill="var(--wood)"/>
+<rect x="74" y="314" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="314" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="0" y="17" width="892" height="40" fill="var(--wood2)"/>
+<rect x="74" y="53" width="391" height="40" fill="#08a9b1" opacity=".92"/>
+<rect x="509" y="53" width="371" height="40" fill="#08a9b1" opacity=".92"/>
+<path d="M916 37 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="37" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">top deck · painel inteiro</text>
+<path d="M916 1120 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="1120" dominant-baseline="middle" font-size="50" fill="var(--dim-t)">faixa de preco 40 mm</text>
+<rect x="61.61" y="416" width="769" height="26" fill="var(--no-tz)"/>
+<path d="M106.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M196.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M286.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M376.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M466.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M556.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M646.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M736.61 442.3599999999999 v46 a16 16 0 0 0 32 0" stroke="var(--no-tz)" stroke-width="7" fill="none"/>
+<path d="M916 459 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="459" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">gancheira · ripa 415 + ganchos</text>
+<rect x="0" y="37" width="62" height="1084" fill="var(--wood2)"/>
+<rect x="0" y="1048" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="786" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="524" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="262" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="15" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="395" y="37" width="101" height="1084" fill="var(--wood2)"/>
+<rect x="395" y="1048" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="395" y="786" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="395" y="524" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="395" y="262" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="395" y="-0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="430" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="830" y="37" width="62" height="1084" fill="var(--wood2)"/>
+<rect x="830" y="1048" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="830" y="786" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="830" y="524" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="830" y="262" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="830" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="845" y="1120.6" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M916 822 H988" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1004" y="822" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">cruzeta · no de meio de vao</text>
+<rect x="259" y="131" width="375" height="72" rx="36" fill="#08a9b1"/>
+<text class="sbn" x="446" y="181" text-anchor="middle" font-size="44" fill="#fff">LEVE MAIS</text>
+<rect x="84" y="632" width="340" height="170" fill="#08a9b1" rx="12"/>
+<text class="sbn" x="254" y="727" text-anchor="middle" font-size="68" fill="#fff">NITRON</text>
+<text class="sal" x="254" y="772" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1260 H892"/><path d="M0 1236 V1284"/><path d="M892 1236 V1284"/></g><text class="sbn" x="446" y="1228" text-anchor="middle" font-size="58" fill="var(--dim-t)">892 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1365 H497"/><path d="M62 1341 V1389"/><path d="M497 1341 V1389"/></g><text class="sbn" x="279" y="1333" text-anchor="middle" font-size="58" fill="var(--dim-t)">vao 435</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -180 V1140"/><path d="M-94 -180 H-46"/><path d="M-94 1140 H-46"/></g><text class="sbn" transform="translate(-100,480) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">1320 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 822 V1084"/><path d="M-200 822 H-152"/><path d="M-200 1084 H-152"/></g><text class="sbn" transform="translate(-206,953) rotate(-90)" text-anchor="middle" font-size="50" fill="var(--dim-t)">passo 262</text>
+<g transform="translate(0,1470)">
+<rect x="0" y="0" width="375" height="156" fill="var(--wood)" opacity=".45" stroke="var(--dim)" stroke-width="4"/>
+<path d="M187 -40 l-26 -22 h52 z" transform="rotate(0,187,-40)" fill="var(--brand-deep)"/>
+<path d="M187 196 l-26 -22 h52 z" transform="rotate(180,187,196)" fill="var(--brand-deep)"/>
+<path d="M-40 78 l-26 -22 h52 z" transform="rotate(270,-40,78)" fill="var(--brand-deep)"/>
+<path d="M415 78 l-26 -22 h52 z" transform="rotate(90,415,78)" fill="var(--brand-deep)"/>
+<text class="sbn" x="455" y="78" dominant-baseline="middle" font-size="50" fill="var(--brand-deep)">planta · acesso pelas 4 faces</text>
+<text class="sbn" x="187" y="252" text-anchor="middle" font-size="50" fill="var(--dim-t)">892 × 372 mm</text>
+</g></svg>

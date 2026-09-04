@@ -1,6 +1,11 @@
-# Como o PDV chega ao lojista — quatro rotas
+# Como o PDV chega ao lojista — duas rotas
 
-Todas as contas saem do custo estimado por módulo (`dados/17-pdv-12-modulos.csv`).
+Rev. 2 · 04/09/2026 · substitui a versão de quatro rotas.
+Saíram **coparticipação** e **comodato** por decisão do usuário: ficam
+**venda direta** e **bonificação por volume**.
+
+Custos por módulo em `dados/26-pdv-escada-comercial-rev3.csv`, na estrutura de
+medida fixa (`analise/11-nitron-mob-cota-final.md`).
 ⚠️ Custo **estimado por escala de massa, não apurado** — depende de reconciliar o custo da
 madeira, que hoje está corrompido no ERP.
 
@@ -23,89 +28,92 @@ de R$ 10 k · 15 k · 25 k · 40 k · 65 k · 100 k · 150 k.
 
 ---
 
-## As quatro rotas
+## As duas rotas
 
 | Rota | O que o lojista faz | O que a Nitron entrega | Prova preço? |
 |---|---|---|---|
-| **1 · Compra** | paga 2 × custo | nota de venda, ativo do lojista | **sim** |
-| **2 · Coparticipação 50/50** | paga 50% do móvel **e** compra metade da faixa | nota de venda parcial | **sim** |
-| **3 · Bonificação por volume** | compra a faixa cheia no período | móvel sem custo, `CODTIPOPER` 3220 | **não** |
-| **4 · Comodato** | assina contrato de exposição | móvel cedido, ativo fica da Nitron | **não** |
+| **1 · Venda direta** | paga 2 × o custo de material | nota de venda, ativo do lojista no ato | **sim** |
+| **2 · Bonificação por volume** | compra a faixa cheia no período | móvel sem custo, `CODTIPOPER` 3220 | **não** |
 
-### 1 · Compra
-Preço = **2,00 × custo**, o piso da tabela. Para quem quer o móvel independente de volume, ou
-para não-cliente. Faixa: **R$ 759 a R$ 6.270** conforme o módulo.
+### 1 · Venda direta
+Preço = **2,00 × custo**, o piso da tabela. Não depende de meta de compra: serve para quem
+quer o móvel independente de volume e para não-cliente. Faixa hoje: **R$ 333 a R$ 4.457**
+conforme o módulo — o checkout P entra abaixo de R$ 350.
 
-### 2 · Coparticipação 50/50 — a que costuma converter mais
-O lojista paga metade do móvel e compra metade da faixa qualificadora. Menos atrito que a
-compra pura, e **ainda gera nota de venda** — então conta para o teste de preço.
-
-### 3 · Bonificação por volume — o "ganhando"
-Comprou a faixa no período, o móvel vai sem custo. O ERP já tem a operação:
-**`CODTIPOPER` 3220 Bonificação Especial**, que apareceu no histórico da própria Nitron Mob.
-
-### 4 · Comodato
-O móvel continua da Nitron, cedido por contrato de exposição: mix mínimo, ocupação combinada
-e prazo. Indicado para **paredão e ponta de gôndola** — os módulos caros, que a Nitron
-recupera se o cliente sair. Exige contrato e o ativo permanece no balanço.
+### 2 · Bonificação por volume — o "ganhando"
+Comprou a faixa no período, o móvel vai sem custo e passa a ser do lojista. O ERP já tem a
+operação: **`CODTIPOPER` 3220 Bonificação Especial**, que apareceu no histórico da própria
+Nitron Mob.
 
 ---
 
 ## A escada, módulo por módulo
 
-| Módulo | Custo est. | Compra (2×) | 20 × custo | **Faixa qualificadora** |
-|---|---|---|---|---|
-| Ilha P | R$ 380 | R$ 759 | R$ 7.594 | **R$ 10.000** |
-| Checkout P | R$ 482 | R$ 965 | R$ 9.648 | **R$ 10.000** |
-| Ponta P | R$ 545 | R$ 1.090 | R$ 10.903 | **R$ 15.000** |
-| Checkout M | R$ 711 | R$ 1.423 | R$ 14.227 | **R$ 15.000** |
-| Ilha M | R$ 737 | R$ 1.475 | R$ 14.746 | **R$ 15.000** |
-| Checkout G | R$ 940 | R$ 1.881 | R$ 18.806 | **R$ 25.000** |
-| Ponta M | R$ 1.057 | R$ 2.114 | R$ 21.142 | **R$ 25.000** |
-| Ilha G | R$ 1.095 | R$ 2.190 | R$ 21.898 | **R$ 25.000** |
-| Ponta G | R$ 1.569 | R$ 3.138 | R$ 31.382 | **R$ 40.000** |
-| Paredão P | R$ 1.893 | R$ 3.787 | R$ 37.867 | **R$ 40.000** |
-| Paredão M | R$ 2.514 | R$ 5.028 | R$ 50.282 | **R$ 65.000** |
-| Paredão G | R$ 3.135 | R$ 6.270 | R$ 62.697 | **R$ 65.000** |
+Doze módulos: quatro famílias × três versões (P/M/G por número de vãos).
+
+| Módulo | Painel | Medida final (mm) | Custo est. | Venda direta (2×) | 20 × custo | **Faixa qualificadora** |
+|---|---|---|---|---|---|---|
+| Checkout P | 300 × 450 | 457 × 372 × 1.140 | R$ 167 | R$ 333 | R$ 3.331 | **R$ 10.000** |
+| Ilha P | 460 × 634 | 637 × 500 × 878 | R$ 241 | R$ 482 | R$ 4.823 | **R$ 10.000** |
+| Checkout M | 300 × 450 | 892 × 372 × 1.140 | R$ 314 | R$ 629 | R$ 6.286 | **R$ 10.000** |
+| Checkout G | 300 × 450 | 1.327 × 372 × 1.140 | R$ 462 | R$ 924 | R$ 9.242 | **R$ 10.000** |
+| Ilha M | 460 × 634 | 1.252 × 500 × 878 | R$ 465 | R$ 931 | R$ 9.308 | **R$ 10.000** |
+| Ponta P | 300 × 634 | 637 × 372 × 1.664 | R$ 485 | R$ 971 | R$ 9.708 | **R$ 10.000** |
+| Ilha G | 460 × 634 | 1.867 × 500 × 878 | R$ 690 | R$ 1.379 | R$ 13.794 | **R$ 15.000** |
+| Ponta M | 300 × 634 | 1.252 × 372 × 1.664 | R$ 944 | R$ 1.888 | R$ 18.876 | **R$ 25.000** |
+| Paredão P | 200 × 754 | 2.233 × 285 × 1.926 | R$ 1.348 | R$ 2.697 | R$ 26.965 | **R$ 40.000** |
+| Ponta G | 300 × 634 | 1.867 × 372 × 1.664 | R$ 1.402 | R$ 2.804 | R$ 28.043 | **R$ 40.000** |
+| Paredão M | 200 × 754 | 2.970 × 285 × 1.926 | R$ 1.788 | R$ 3.577 | R$ 35.766 | **R$ 40.000** |
+| Paredão G | 200 × 754 | 3.707 × 285 × 1.926 | R$ 2.228 | R$ 4.457 | R$ 44.566 | **R$ 65.000** |
 
 Para converter em caixas: divida a faixa pelo preço médio de caixa. A **R$ 250 por caixa**,
 a faixa de R$ 10 k são **40 caixas** e a de R$ 65 k são **260 caixas**. O portal faz essa
 conversão ao vivo com o preço que você informar.
 
+**Seis dos doze módulos caem na primeira faixa (R$ 10 k).** É a consequência de a estrutura
+nova ser mais barata que a Rev. 2 — o checkout M caiu de R$ 711 para R$ 314, porque o painel
+passou de 435 × 431 mm para 300 × 450 e a altura de 6 para 5 prateleiras. Na prática,
+**a escada só começa a discriminar de verdade a partir da ponta M**.
+
 ---
 
-## A armadilha que precisa estar na mesa
+## A armadilha, e ela ficou mais apertada com duas rotas
 
 O curador de portfólio pôs uma condição para a linha seguir: **uma venda a ≥ 2,00 × `CUSGER`
 para ≥ 3 clientes distintos, sem `CODTIPOPER` 3211 (amostra) nem 3220 (bonificação)**.
 
-**Se todo PDV sair como bonificação ou comodato, a linha nunca prova preço** — e continua
-travada no mesmo lugar onde está hoje (R$ 4.146,90 na vida, 2 parceiros, margem realizada de
-−49,3%).
+Na versão de quatro rotas havia **duas** que geravam nota (compra e coparticipação). Agora há
+**uma só**. Ou seja: **se o programa rodar predominantemente por bonificação, a linha nunca
+prova preço** — e continua travada onde está hoje (R$ 4.146,90 na vida, 2 parceiros, margem
+realizada de −49,3%).
 
-Daí a recomendação de desenho do programa:
+Recomendação de desenho do programa, ajustada:
 
-1. **A rota de compra e a de coparticipação têm de existir e ser oferecidas primeiro.** São as
-   duas que geram nota de venda.
-2. **Bonificação como aceleradora, não como padrão** — para o cliente que já compra volume,
-   não como forma de entrar.
-3. **Comodato reservado ao paredão e à ponta de gôndola**, onde o valor do ativo justifica o
-   contrato e a Nitron quer o móvel de volta se o cliente sair.
-4. **Meta explícita: os 3 primeiros PDVs saem pela rota 1 ou 2.** É o que destrava o veredito
-   do portfólio.
+1. **Venda direta é a rota oferecida primeiro**, sempre. É a única que gera nota.
+2. **Bonificação como aceleradora, não como porta de entrada** — para o cliente que já compra
+   volume, não como forma de começar.
+3. **Meta explícita: os 3 primeiros PDVs saem por venda direta.** É o que destrava o veredito
+   do portfólio, e agora não há rota alternativa que também sirva.
+4. O preço de venda direta ajuda: com o checkout P a **R$ 333** e o M a **R$ 629**, a venda
+   direta virou uma proposta pequena o suficiente para ser aceita sem contrapartida — o que
+   não era verdade quando o módulo de entrada custava R$ 965.
 
 ---
 
 ## Nota de escopo do portal
 
-O portal (`frontend/monte-seu-pdv.html`) grava as solicitações no banco do artefato, e um
-artefato que declara `db` é **interno à organização** — não pode ser compartilhado
-publicamente. Na prática:
+O portal (`frontend/monte-seu-pdv.html`) é um **documento único e autônomo, sem chave de
+API** — sobe em qualquer host estático e funciona offline. Ele não lê o Supabase.
 
-- **Funciona hoje** como ferramenta do representante: ele configura junto com o lojista, e o
-  time comercial lê a fila de solicitações.
-- **Não serve** como portal público de autoatendimento para o lojista final. Para isso seria
-  preciso uma aplicação web de verdade, com domínio, autenticação e integração ao Sankhya.
+A versão de artefato (`frontend/_artifact-monte-seu-pdv.html`) declara `db` para gravar a
+fila de solicitações, e um artefato que declara `db` é **interno à organização** — não pode
+ser compartilhado publicamente. Na prática:
+
+- **A versão de artefato funciona hoje** como ferramenta do representante: ele configura junto
+  com o lojista, e o time comercial lê a fila.
+- **Para autoatendimento público** use o arquivo autônomo em domínio próprio, apontando
+  `ENDPOINT` para um backend seu. Sem `ENDPOINT`, ele cai em e-mail, download do JSON e
+  impressão — o que já resolve o piloto.
 
 O portal é o protótipo do fluxo e a especificação viva do configurador — a matemática dele é
-a mesma do caderno de especificação.
+a mesma do caderno de especificação e do documento de cota.

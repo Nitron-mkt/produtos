@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Monte seu PDV Nitron</title>
-<meta name="description" content="Configure o seu móvel de PDV Nitron Mob: família, tamanho, altura e marca. Veja o desenho, o que cabe e como levar.">
+<meta name="description" content="Monte seu PDV Nitron Mob: quatro famílias, 12 painéis e 9 ripas de medida fixa. A página calcula a cota externa real do módulo, com a conta à vista.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Aleo:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -98,6 +98,10 @@ h1{font-size:clamp(34px,4.6vw,54px)}
   width:27px;height:27px;border-radius:50%;display:grid;place-items:center;flex:none}
 .sh h2{font-size:22px}
 .sh .sub{font-size:12.5px;color:var(--muted);margin-left:auto;text-align:right;max-width:30ch;line-height:1.35}
+@media(max-width:559px){
+  .sh{flex-wrap:wrap}
+  .sh .sub{flex:1 1 100%;margin-left:0;text-align:left;max-width:100%;margin-top:2px}
+}
 .sb{padding:18px 20px 22px}
 fieldset{border:0;margin:0;padding:0}
 legend{font-size:13px;color:var(--muted);margin-bottom:8px;padding:0}
@@ -260,13 +264,53 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
   body{padding:0;background:#fff}
   .cols{grid-template-columns:1fr}
   .side{position:static}
-  .card,.res,.stage{break-inside:avoid;box-shadow:none}
+  .card,.res,.stage,.fit,.cota{break-inside:avoid;box-shadow:none}
   details.tech{display:block} details.tech .techb{display:grid!important}
   .stage .sh{border:0}
 }
+
+/* cota — a conta da medida final */
+.cota{border-top:1px solid var(--rule-2);padding:14px 17px;display:grid;gap:11px}
+.cota .row{display:grid;gap:3px}
+.cota .rk{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.12em;color:var(--muted)}
+.cota .eq{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-2);
+  line-height:1.55;overflow-wrap:anywhere}
+.cota .eq b{color:var(--brand-deep);font-weight:600}
+.cotah{padding:12px 17px 0;font-family:"Bebas Neue",sans-serif;font-size:12px;
+  letter-spacing:.12em;color:var(--brand-ink)}
+
+/* ficha de encaixe do painel */
+.fit{border:1px solid var(--rule);border-radius:8px;background:var(--raise);
+  padding:14px 16px;margin-top:18px;display:grid;gap:10px}
+.fit .fh{font-family:"Bebas Neue",sans-serif;font-size:17px;letter-spacing:.04em}
+.fit .fh span{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);
+  letter-spacing:0;margin-left:8px}
+.fit ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fit li{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:baseline;font-size:12.5px}
+.fit li b{font-family:"IBM Plex Mono",monospace;font-size:13px;white-space:nowrap}
+.fit li span{color:var(--muted);line-height:1.4}
+.fit li.ok b{color:var(--ok)} .fit li.w b{color:var(--warn)} .fit li.b b{color:var(--bad)}
+
+/* seletor de painel: barra + medida */
+.opt2{border:2px solid var(--rule);background:var(--raise);border-radius:8px;padding:11px 14px;
+  cursor:pointer;font:inherit;color:inherit;text-align:left;display:grid;gap:2px;
+  transition:border-color .12s,background .12s}
+.opt2:hover{border-color:var(--brand)}
+.opt2[aria-checked="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.opt2 b{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;display:block}
+.opt2 i{font-style:normal;font-size:11.5px;color:var(--muted);display:block;line-height:1.35}
+.g3{display:grid;gap:9px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){ .g3{grid-template-columns:repeat(4,1fr)} }
+.g3.c3{grid-template-columns:repeat(3,1fr)}
+details.val{border:1px dashed var(--rule);border-radius:8px;margin-top:20px;background:var(--raise)}
+details.val summary{padding:11px 15px;cursor:pointer;font-size:12.5px;color:var(--muted);
+  font-family:"Bebas Neue",sans-serif;letter-spacing:.11em;list-style:none}
+details.val summary::-webkit-details-marker{display:none}
+details.val summary::before{content:"▸ ";color:var(--brand)}
+details.val[open] summary::before{content:"▾ "}
+details.val .vb{padding:0 15px 15px}
 </style>
 </head>
-<body>
 
 <header class="top">
   <div class="topin">
@@ -280,7 +324,7 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
   <div class="hero">
     <span class="kicker">PROGRAMA DE PDV · LINHA NITRON MOB</span>
     <h1>Monte seu PDV</h1>
-    <p>Escolha onde o móvel vai ficar e o tamanho. Ele é montado com as peças que a Nitron já produz — encaixe seco, sem parafuso na estrutura — e desmonta plano para o transporte. No fim você escolhe se compra, divide ou ganha por volume.</p>
+    <p>Quatro famílias, medidas fixas. O móvel é montado com os painéis e as ripas que a Nitron já corta — encaixe seco, sem parafuso na estrutura, desmonta plano para o transporte. A medida final que aparece aqui é a cota externa real: <strong>a ripa entra 40,6 mm dentro de cada nó</strong>, e o nó sobra para fora.</p>
   </div>
 
   <div class="cols">
@@ -288,7 +332,7 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
       <!-- ETAPA 1 -->
       <section class="stage" id="e1" aria-labelledby="e1h">
         <div class="sh"><span class="num">1</span><h2 id="e1h">Onde vai ficar</h2>
-          <span class="sub">a família muda faces de acesso, fundo, gancheira e topper</span></div>
+          <span class="sub">a família define faces de acesso, fundo, gancheira e topper</span></div>
         <div class="sb">
           <fieldset class="fgroup"><legend>Escolha a família</legend>
             <div class="fams" id="fams" role="radiogroup" aria-label="Família de móvel"></div>
@@ -307,21 +351,37 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
       <!-- ETAPA 2 -->
       <section class="stage" id="e2" aria-labelledby="e2h">
         <div class="sh"><span class="num">2</span><h2 id="e2h">Que tamanho</h2>
-          <span class="sub">largura fixa · comprimento, altura e profundidade modulam</span></div>
+          <span class="sub">12 painéis e 9 ripas — nada fora dessa lista</span></div>
         <div class="sb">
-          <fieldset class="fgroup"><legend>Largura do vão — fixa, vem das três referências da linha</legend>
-            <div class="wide" id="largs" role="radiogroup" aria-label="Largura fixa do vão"></div>
+          <fieldset class="fgroup"><legend>Comprimento do vão — escolhe a ripa e o painel juntos</legend>
+            <div class="g3" id="comps" role="radiogroup" aria-label="Comprimento do vão"></div>
           </fieldset>
-          <fieldset class="fgroup"><legend>Comprimento — quantos vãos na corrida</legend>
+          <fieldset class="fgroup"><legend>Profundidade — a ripa de largura e a tábua que apoia nela</legend>
+            <div class="g3 c3" id="largs" role="radiogroup" aria-label="Profundidade"></div>
+          </fieldset>
+          <fieldset class="fgroup"><legend>Quantos vãos na corrida — a cruzeta emenda no meio</legend>
             <div class="seg" id="vaos" role="radiogroup" aria-label="Número de vãos"></div>
           </fieldset>
-          <fieldset class="fgroup"><legend>Altura — o passo entre prateleiras é 262 mm</legend>
-            <div class="wide" id="alts" role="radiogroup" aria-label="Altura por número de níveis"></div>
+          <fieldset class="fgroup"><legend>Ripa vertical — define o passo entre prateleiras</legend>
+            <div class="g3 c3" id="alts" role="radiogroup" aria-label="Ripa de altura"></div>
           </fieldset>
-          <fieldset class="fgroup">
-            <legend><label class="fl" for="prof" style="margin:0">Profundidade</label></legend>
-            <select id="prof" aria-label="Profundidade"></select>
+          <fieldset class="fgroup"><legend>Quantas prateleiras</legend>
+            <div class="seg" id="nivs" role="radiogroup" aria-label="Número de prateleiras"></div>
           </fieldset>
+
+          <div class="fit" id="fit"></div>
+
+          <details class="val"><summary>VALIDAÇÃO DIMENSIONAL — USO INTERNO</summary>
+            <div class="vb">
+              <p style="font-size:13px;color:var(--ink-2);margin:0 0 12px">
+                O encaixe vertical da trizeta abre para <strong>baixo</strong> e a face de topo é fechada
+                (chapa medida em z 70,0–72,9 mm na malha). Por isso a peça sai em <strong>par espelhado</strong>.
+                Isso deixa duas leituras do passo vertical, e a diferença é grande — é o que falta medir no showroom.
+              </p>
+              <div class="seg" id="modelos" role="radiogroup" aria-label="Modelo do nó vertical"></div>
+              <p class="mono" id="modelomsg" style="font-size:12px;color:var(--muted);margin:11px 0 0"></p>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -346,11 +406,11 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
       <!-- ETAPA 4 -->
       <section class="stage" id="e4" aria-labelledby="e4h">
         <div class="sh"><span class="num">4</span><h2 id="e4h">Como você quer levar</h2>
-          <span class="sub">os valores acompanham a sua configuração</span></div>
+          <span class="sub">duas rotas: venda direta ou bonificação por volume</span></div>
         <div class="sb">
           <div class="rotas" id="rotas" role="radiogroup" aria-label="Rota comercial"></div>
           <fieldset class="fgroup" style="margin-top:20px">
-            <legend><label class="fl" for="tk" style="margin:0">Seu preço médio de caixa — para converter a compra em caixas</label></legend>
+            <legend><label class="fl" for="tk" style="margin:0">Seu preço médio de caixa — para converter a faixa em caixas</label></legend>
             <div style="display:flex;gap:11px;align-items:center;max-width:320px">
               <span class="mono" style="color:var(--muted);flex:none">R$</span>
               <input type="number" id="tk" value="250" min="10" max="5000" step="10">
@@ -359,6 +419,7 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
           </fieldset>
           <div class="note w" style="margin-top:17px"><span class="lab">A CONTA DA BONIFICAÇÃO</span>
             <p>A compra qualificadora é <strong>20 × o custo do móvel</strong>, arredondada para a faixa comercial acima. Com margem de 50% na tabela, isso põe o móvel em <strong>10% da margem que a compra gera</strong> — o teto usual de investimento em material de PDV.</p>
+            <p>Na <strong>venda direta</strong> não há meta de compra: o móvel sai por 2× o custo de material, com nota, e o ativo é do lojista no ato.</p>
           </div>
         </div>
       </section>
@@ -423,18 +484,20 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
           <div><div class="k">PROFUNDIDADE</div><div class="v" id="dP">—<small> mm</small></div></div>
           <div><div class="k">ALTURA</div><div class="v" id="dA">—<small> mm</small></div></div>
         </div>
+        <div class="cotah">DE ONDE SAI ESSA MEDIDA</div>
+        <div class="cota" id="cota" style="border-top:0"></div>
         <div class="cabe"><h4>O QUE CABE</h4><ul id="cabe"></ul></div>
         <details class="tech"><summary>FICHA TÉCNICA E LISTA DE PEÇAS</summary>
           <div class="techb" id="tech"></div></details>
       </div>
       <div class="note"><span class="lab">MONTAGEM E CARGA</span>
-        <p>Encaixe seco: a barra entra <strong>40,6 mm</strong> em cada nó e a estrutura fecha sem parafuso. Desmonta plana e remonta na loja. <strong>Carga de 20 kg por prateleira</strong> — provisória até o ensaio de carga permanente.</p>
+        <p>Encaixe seco: a ripa entra <strong>40,6 mm</strong> em cada nó e a estrutura fecha sem parafuso. Desmonta plana e remonta na loja. <strong>Carga de 20 kg por prateleira</strong> — provisória até o ensaio de carga permanente.</p>
       </div>
     </aside>
   </div>
 
   <footer>
-    <p>Cotas derivadas das peças de linha: nó com passo vertical de 73,08 mm, encaixe de 40,60 mm, barra de pinus de seção 15,3 × 26,6 mm. Comprimentos de barra e códigos vêm do cadastro. <strong>Preços são estimados por escala de massa e não apurados</strong> — o orçamento fechado sai do time comercial. A carga de 20 kg por prateleira é provisória e depende do ensaio de carga permanente do nó. A capacidade em facings usa 120 mm de frente por SKU. Identidade visual conforme o manual da marca; logo e assinatura saem do arquivo vetorial oficial.</p>
+    <p>Cotas derivadas das peças de linha, medidas nas malhas 3D: encaixe de <strong>40,60 mm</strong>, extensão do nó de <strong>61,61 mm</strong> no eixo do comprimento, <strong>83,23 mm</strong> no eixo da profundidade, <strong>73,08 mm</strong> no vertical, cruzeta de <strong>101,30 mm</strong>, pé exposto de 19,40 mm. Ripa de pinus de seção 15,3 × 26,6 mm. Comprimentos de ripa, painéis e códigos vêm do cadastro. <strong>Preços são estimados por escala de massa e não apurados</strong> — o orçamento fechado sai do time comercial. A carga de 20 kg por prateleira é provisória e depende do ensaio de carga permanente do nó. O passo vertical depende do modelo de nó ainda não confirmado fisicamente. A capacidade em facings usa 120 mm de frente por SKU. Identidade visual conforme o manual da marca; logo e assinatura saem do arquivo vetorial oficial.</p>
   </footer>
 </main>
 
@@ -457,56 +520,95 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
   var EMAIL_DESTINO = "trade@nitron.com.br";
   /* ========================================================== */
 
+  /* ----------------------------------------------------------
+     GEOMETRIA — medida nas malhas STL das peças de linha.
+     ENC  encaixe: quanto a ripa entra dentro do nó
+     NOX  extensão do nó (trizeta) no eixo do COMPRIMENTO
+     NOXC extensão da CRUZETA no eixo do comprimento
+     NOY  extensão do nó no eixo da PROFUNDIDADE
+     NOZ  extensão do nó no eixo VERTICAL
+     PEX  pé BPE-01-AC de 60 mm menos o encaixe = trecho exposto
+     ---------------------------------------------------------- */
   var ENC=40.60, NOX=61.61, NOXC=101.30, NOY=83.23, NOZ=73.08, PEX=19.4;
+  var SOX=NOX-ENC;        // 21,01 mm de sobra por extremidade no comprimento
+  var SOY=NOY-ENC;        // 42,63 mm de sobra por extremidade na profundidade
+  var CONSOME=2*ENC;      // 81,20 mm que os dois nós comem de cada ripa
+
   var GMM=0.22628, RSKG=19.03, DENS=0.556/1000, PANT=15, PANL=1200, PANW=200;
   var C_TZ=0.3874596, C_CZ=0.4951, C_T=0.00968649;
-  var M_TZ=44.31, M_CZ=56.62, M_T=1.10, BVERT=270;
-  var FACING=120, CORR_MIN=900;
+  var M_TZ=44.31, M_CZ=56.62, M_T=1.10;
+  var FACING=120, CORR_MIN=900, H_MAX=2450;
 
-  var LARGS=[
-    {id:'SAPATEIRA',B:415,ref:'PSC-02',pa:'851.004.N03',nome:'Sapateira'},
-    {id:'MULTIUSO', B:595,ref:'PSC-03',pa:'855–857',    nome:'Multiuso G'},
-    {id:'ARARA',    B:717,ref:'PSC-04',pa:'850.004.N03',nome:'Arara'}
+  /* --------- as ripas e os painéis, fixos --------- */
+  var COMPS=[   // eixo do COMPRIMENTO: a ripa que vence o vão + o painel que a cobre
+    {id:'PSC-01', B:315, pan:360},
+    {id:'PSC-02', B:415, pan:450},
+    {id:'PSC-03', B:595, pan:634},
+    {id:'PSC-04', B:717, pan:754}
   ];
-  var PROFS=[['BPS-01-AC',167],['BCO-01-AC',180],['BAL-01-AC',183],['BLA-01-AC',200],
-    ['BLA-02-AC',207],['BAL-02-AC',270],['BLA-03-AC',287],['PSC-01',315],['BPS-01',337],
-    ['PSA-02',346],['PSC-02',415],['PSA-03',424],['PST-01',437],['PSA-04',474],
-    ['PSA-05',513],['PSC-03',595],['PST-02',617],['PSA-01',654],['PSC-04',717]];
-  var PADRAO={3:'mesa baixa',4:'altura de balcão · 900',5:'gôndola central · 1.200',
-    6:'checkout com display · 1.400',7:'ponta de gôndola · 1.600',8:'gôndola de parede · 2.000'};
+  var LARGS=[   // eixo da PROFUNDIDADE: a ripa de largura + a tábua que apoia nela
+    {id:'BLA-01-AC', B:200, pan:200, nome:'Rasa'},
+    {id:'BLA-03-AC', B:287, pan:300, nome:'Média'},
+    {id:'PSC-02',    B:415, pan:460, nome:'Funda'}
+  ];
+  var ALTS=[    // eixo VERTICAL
+    {id:'BAL-02-AC', B:270, nome:'Passo curto'},
+    {id:'PSA-05',    B:513, nome:'Passo alto'}
+  ];
+  var MODELOS=[
+    {id:'A', nome:'Modelo A · nó simples'},
+    {id:'B', nome:'Modelo B · par espelhado'}
+  ];
+
   var FAMS=[
-    {id:'CHECKOUT',nome:'Checkout',larg:'SAPATEIRA',prof:346,niv:6,vaos:3,
+    {id:'CHECKOUT',nome:'Checkout',comp:'PSC-02',larg:'BLA-03-AC',alt:'BAL-02-AC',vaos:2,niv:5,
      fundo:false,deck:true,peg:true,casa:false,caps:true,faces:4,
-     onde:'AO LADO DO CAIXA',desc:'Fila do caixa. Gancheira para blister, cestos e bandeja no topo.'},
-    {id:'ILHA',nome:'Ilha',larg:'MULTIUSO',prof:717,niv:4,vaos:2,
+     onde:'AO LADO DO CAIXA',desc:'Fila do caixa. Vão curto, gancheira para blister e bandeja no topo.'},
+    {id:'ILHA',nome:'Ilha',comp:'PSC-03',larg:'PSC-02',alt:'BAL-02-AC',vaos:2,niv:4,
      fundo:false,deck:true,peg:false,casa:false,caps:true,faces:4,
-     onde:'NO MEIO DA LOJA',desc:'Aberta pelas quatro faces, altura de balcão, top deck para exposição.'},
-    {id:'PONTA',nome:'Ponta de gôndola',larg:'SAPATEIRA',prof:346,niv:8,vaos:2,
+     onde:'NO MEIO DA LOJA',desc:'A mais funda das quatro. Aberta pelas quatro faces, altura de balcão, top deck.'},
+    {id:'PONTA',nome:'Ponta de gôndola',comp:'PSC-03',larg:'BLA-03-AC',alt:'BAL-02-AC',vaos:2,niv:7,
      fundo:true,deck:false,peg:false,casa:true,caps:true,faces:1,
-     onde:'NA PONTA DO CORREDOR',desc:'Alta e rasa, fundo fechado, topper casinha. Encosta na corrida.'},
-    {id:'PAREDAO',nome:'Paredão',larg:'MULTIUSO',prof:287,niv:8,vaos:4,
+     onde:'NA PONTA DO CORREDOR',desc:'Alta e média. Fundo fechado, topper casinha. Encosta na corrida.'},
+    {id:'PAREDAO',nome:'Paredão',comp:'PSC-04',larg:'BLA-01-AC',alt:'BAL-02-AC',vaos:4,niv:8,
      fundo:true,deck:false,peg:false,casa:false,caps:false,faces:1,
-     onde:'NA PAREDE',desc:'Corrida sem limite de vãos, uma faixa de categoria por vão.'}
+     onde:'NA PAREDE',desc:'O vão mais longo e a menor profundidade. Corrida sem limite, uma categoria por vão.'}
   ];
-  var TIERS=[10000,15000,25000,40000,65000,100000,150000];
-  var ROTAS=[{id:'COMPRA',nome:'Compra'},{id:'COPART',nome:'Coparticipação 50/50'},
-             {id:'BONIF',nome:'Bonificação por volume'},{id:'COMODATO',nome:'Comodato'}];
-  var RECOMENDADA='COPART';
-  var KEY='nitron-pdv-rascunho-v2';
+  var PADRAO={2:'mesa baixa',3:'mesa de exposição',4:'altura de balcão',5:'checkout com display',
+    6:'gôndola central',7:'ponta de gôndola',8:'gôndola de parede'};
 
-  var st={fam:'CHECKOUT',larg:'SAPATEIRA',vaos:3,niv:6,prof:346,rota:'COPART',
-          ativ:'LEVE MAIS',cat:'ORGANIZAÇÃO',corr:1400,tk:250};
+  var TIERS=[10000,15000,25000,40000,65000,100000,150000];
+  var ROTAS=[{id:'VENDA',nome:'Venda direta'},{id:'BONIF',nome:'Bonificação por volume'}];
+  var RECOMENDADA='BONIF';
+  var KEY='nitron-pdv-rascunho-v3';
+
+  var st={fam:'CHECKOUT',comp:'PSC-02',larg:'BLA-03-AC',alt:'BAL-02-AC',modelo:'A',
+          vaos:2,niv:5,rota:'BONIF',ativ:'LEVE MAIS',cat:'ORGANIZAÇÃO',corr:1400,tk:250};
   var DB=null, DL=null, ULTIMO=null;
 
   /* --------- helpers --------- */
   function $(id){ return document.getElementById(id); }
-  function fam(){ for(var i=0;i<FAMS.length;i++) if(FAMS[i].id===st.fam) return FAMS[i]; return FAMS[0]; }
-  function larg(){ for(var i=0;i<LARGS.length;i++) if(LARGS[i].id===st.larg) return LARGS[i]; return LARGS[0]; }
-  function comprimento(B,N){ return 2*NOX+(N-1)*NOXC+N*(B-2*ENC); }
-  function profExt(B){ return B+2*(NOY-ENC); }
-  function altura(n){ return n*NOZ+(n-1)*(BVERT-2*ENC)+PEX; }
-  function passoV(){ return (BVERT-2*ENC)+NOZ; }
-  function passoX(B){ return B+20.1; }
+  function pick(arr,id,fb){ for(var i=0;i<arr.length;i++) if(arr[i].id===id) return arr[i]; return arr[fb||0]; }
+  function fam(){ return pick(FAMS,st.fam); }
+  function bc(){ return pick(COMPS,st.comp); }
+  function bl(){ return pick(LARGS,st.larg); }
+  function ba(){ return pick(ALTS,st.alt); }
+  function nz(){ return st.modelo==='B' ? 2*NOZ : NOZ; }
+
+  /* AS TRÊS CONTAS DA COTA FINAL */
+  function extComp(B,N){ return 2*NOX + (N-1)*NOXC + N*(B-CONSOME); }
+  function extProf(B){ return B + 2*SOY; }
+  function extAlt(B,n){ return n*nz() + (n-1)*(B-CONSOME) + PEX; }
+  function passoV(){ return (ba().B-CONSOME) + nz(); }
+  function passoX(B){ return (B-CONSOME) + NOXC; }   // = B + 20,10
+  function vaoLivre(B){ return B - CONSOME; }
+
+  function niveisPossiveis(){
+    var B=ba().B, out=[];
+    for(var n=2;n<=9;n++) if(extAlt(B,n)<=H_MAX) out.push(n);
+    if(!out.length) out=[2];
+    return out;
+  }
   function nf(v,d){ return Number(v).toLocaleString('pt-BR', d==null?{}:{minimumFractionDigits:d,maximumFractionDigits:d}); }
   function brl(v){ return 'R$ '+nf(v,2); }
   function brl0(v){ return 'R$ '+nf(Math.round(v)); }
@@ -514,29 +616,30 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   function calc(){
-    var f=fam(), B=larg().B, N=st.vaos, n=st.niv, pb=st.prof, linhas=N+1;
+    var f=fam(), C=bc(), L=bl(), A=ba(), N=st.vaos, n=st.niv, linhas=N+1;
     var tz=4*n, cz=2*(N-1)*n, tp=2*linhas;
-    var bl=2*N*n+(f.peg?N:0), bp=linhas*n, bv=2*linhas*(n-1), pes=2*linhas;
-    var mad=(bl*B+bp*pb+bv*BVERT+pes*60)*GMM;
-    var pit=passoX(B), pl=pit, pp=profExt(pb);
-    var np=N*n+(f.fundo?N*(n-1):0);
-    var madp=np*pl*pp*PANT*DENS;
-    var tiras=Math.ceil(pp/PANW), porchapa=Math.max(1,Math.floor(PANL/pl));
+    var qbc=2*N*n+(f.peg?N:0), qbl=linhas*n, qba=2*linhas*(n-1), pes=2*linhas;
+    var mad=(qbc*C.B + qbl*L.B + qba*A.B + pes*60)*GMM;
+    var np=N*n + (f.fundo? N*(n-1) : 0);
+    var madp=np*C.pan*L.pan*PANT*DENS;
+    var tiras=Math.ceil(L.pan/PANW), porchapa=Math.max(1,Math.floor(PANL/C.pan));
     var conn=tz*C_TZ+cz*C_CZ+tp*C_T, plast=tz*M_TZ+cz*M_CZ+tp*M_T;
     var custo=conn+(mad+madp)/1000*RSKG;
-    var L=comprimento(B,N);
-    return {L:Math.round(L),P:Math.round(pp),A:Math.round(altura(n)),
-      tz:tz,cz:cz,tp:tp,bl:bl,bp:bp,bv:bv,pes:pes,np:np,
-      chapas:Math.ceil(np*tiras/porchapa),kg:(mad+madp+plast)/1000,
-      custo:custo,preco:2*custo,B:B,pit:pit,
-      painel:Math.round(pl)+'×'+Math.round(pp),
-      prateleiras:n,frente:L*n/1000,area:L*pp*n/1e6,facings:Math.floor(L/FACING)*n};
+    var Lx=extComp(C.B,N), P=extProf(L.B), H=extAlt(A.B,n);
+    return {L:Math.round(Lx),P:Math.round(P),A:Math.round(H),
+      Lx:Lx,Px:P,Hx:H,
+      tz:tz,cz:cz,tp:tp,qbc:qbc,qbl:qbl,qba:qba,pes:pes,np:np,
+      chapas:Math.ceil(np*tiras/porchapa),tiras:tiras,
+      kg:(mad+madp+plast)/1000,custo:custo,preco:2*custo,
+      pit:passoX(C.B), vao1:C.B-CONSOME,
+      painel:L.pan+'×'+C.pan,
+      prateleiras:n, frente:Lx*n/1000, area:np*C.pan*L.pan/1e6,
+      facings:Math.floor(Lx/FACING)*n};
   }
   function tier(c){ var q=20*c; for(var i=0;i<TIERS.length;i++) if(TIERS[i]>=q) return TIERS[i];
     return TIERS[TIERS.length-1]; }
-  function meiaFaixa(q){ for(var i=0;i<TIERS.length;i++) if(TIERS[i]>=q/2) return TIERS[i]; return q; }
 
-  /* --------- ícone --------- */
+  /* --------- ícone da família --------- */
   function icon(f){
     var top=f.casa?13:8, n=Math.min(f.niv,6), h=(54-top)/n, g='';
     if(f.fundo) g+='<rect x="9" y="'+top+'" width="42" height="'+(54-top)+'" fill="var(--wood)" opacity=".3"/>';
@@ -551,11 +654,12 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     return '<svg class="ic" viewBox="0 0 60 60" aria-hidden="true">'+g+'</svg>';
   }
 
-  /* --------- desenho --------- */
+  /* --------- desenho de frente --------- */
   function draw(){
-    var f=fam(), r=calc(), N=st.vaos, n=st.niv;
+    var f=fam(), r=calc(), N=st.vaos, n=st.niv, NH=nz();
     var cab=Math.round(0.13*r.A/10)*10, fh=f.casa?Math.round(0.22*r.L):0;
-    var ml=32, mr=32, mt=34+cab+fh, mb=86, W=r.L+ml+mr, H=r.A+mt+mb;
+    var catb=(f.id==='PAREDAO'&&st.cat)?104:0;
+    var ml=32, mr=32, mt=34+cab+fh+catb, mb=86, W=r.L+ml+mr, H=r.A+mt+mb;
     var s='<title id="drawt">'+esc(f.nome)+' de '+r.L+' por '+r.P+' por '+r.A+
       ' milímetros, '+N+' vão'+(N>1?'s':'')+' e '+n+' prateleiras</title>';
     s+='<g transform="translate('+ml+','+mt+')">';
@@ -565,7 +669,7 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     s+='<text x="'+(r.L/2)+'" y="'+(ty+cab*0.58)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="'+(cab*0.46).toFixed(0)+'" fill="#fff" letter-spacing="'+(cab*0.04).toFixed(0)+'">NITRON</text>';
     s+='<text x="'+(r.L/2)+'" y="'+(ty+cab*0.88)+'" text-anchor="middle" font-family="Aleo,serif" font-size="'+(cab*0.19).toFixed(0)+'" fill="#fff">toda casa tem</text>';
     var ys=[], pv=passoV();
-    for(var i=0;i<n;i++) ys.push(r.A-PEX-i*pv-NOZ/2);
+    for(var i=0;i<n;i++) ys.push(r.A-PEX-i*pv-NH/2);
     if(f.fundo) s+='<rect x="'+NOX+'" y="'+ys[n-1].toFixed(0)+'" width="'+(r.L-2*NOX).toFixed(0)+'" height="'+(ys[0]-ys[n-1]).toFixed(0)+'" fill="var(--wood)" opacity=".3"/>';
     if(f.id==='PAREDAO' && st.cat){
       for(var q=0;q<N;q++){ var cx=NOX+q*r.pit+8, cw=Math.min(r.pit-30,r.L-cx-8);
@@ -586,18 +690,19 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     for(var i2=0;i2<=N;i2++){
       var x=i2===0?0:(i2===N?r.L-NOX:NOX+i2*r.pit-NOXC), w2=(i2===0||i2===N)?NOX:NOXC;
       s+='<rect x="'+x.toFixed(0)+'" y="'+ys[n-1].toFixed(0)+'" width="'+w2.toFixed(0)+'" height="'+(r.A-PEX-ys[n-1]).toFixed(0)+'" fill="var(--wood2)"/>';
-      for(var t=0;t<n;t++) s+='<rect x="'+x.toFixed(0)+'" y="'+(ys[t]-NOZ/2).toFixed(0)+'" width="'+w2.toFixed(0)+'" height="'+NOZ.toFixed(0)+'" fill="'+((i2>0&&i2<N)?'var(--no-cz)':'var(--no-tz)')+'"/>';
+      for(var t=0;t<n;t++) s+='<rect x="'+x.toFixed(0)+'" y="'+(ys[t]-NH/2).toFixed(0)+'" width="'+w2.toFixed(0)+'" height="'+NH.toFixed(0)+'" fill="'+((i2>0&&i2<N)?'var(--no-cz)':'var(--no-tz)')+'"/>';
       s+='<rect x="'+(x+w2/2-15).toFixed(0)+'" y="'+(r.A-PEX).toFixed(0)+'" width="30" height="'+PEX+'" fill="var(--wood2)"/>';
     }
     if(f.caps&&st.ativ){ var cw2=Math.min(430,r.L*0.5), cx2=(r.L-cw2)/2,
         cyt = n>1 ? (ys[n-1]+ys[n-2])/2-35 : ys[n-1]+56;
       s+='<rect x="'+cx2.toFixed(0)+'" y="'+cyt.toFixed(0)+'" width="'+cw2.toFixed(0)+'" height="70" rx="35" fill="var(--brand)"/>';
       s+='<text x="'+(r.L/2)+'" y="'+(cyt+48).toFixed(0)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="44" fill="#fff" letter-spacing="3">'+esc(st.ativ.toUpperCase().slice(0,16))+'</text>'; }
-    var plw=Math.min(r.pit-70,330), plh=2*pv-80, py=ys[Math.min(2,n-1)];
-    if(plh>60&&plw>80){
-      s+='<rect x="'+(NOX+20)+'" y="'+(py-plh+56).toFixed(0)+'" width="'+plw.toFixed(0)+'" height="'+plh.toFixed(0)+'" rx="12" fill="var(--brand)"/>';
-      s+='<text x="'+(NOX+20+plw/2).toFixed(0)+'" y="'+(py-plh/2+42).toFixed(0)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="70" fill="#fff" letter-spacing="3">NITRON</text>';
-      s+='<text x="'+(NOX+20+plw/2).toFixed(0)+'" y="'+(py-plh/2+104).toFixed(0)+'" text-anchor="middle" font-family="Aleo,serif" font-size="32" fill="#fff">toda casa tem</text>'; }
+    var plw=Math.min(r.pit-70,340), plh=Math.min(pv-92,215), py=ys[Math.min(1,n-1)];
+    if(plh>70&&plw>110){
+      var pyt=py-20-plh, pxc=NOX+20+plw/2;
+      s+='<rect x="'+(NOX+20)+'" y="'+pyt.toFixed(0)+'" width="'+plw.toFixed(0)+'" height="'+plh.toFixed(0)+'" rx="12" fill="var(--brand)"/>';
+      s+='<text x="'+pxc.toFixed(0)+'" y="'+(pyt+plh*0.56).toFixed(0)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="'+(plh*0.4).toFixed(0)+'" fill="#fff" letter-spacing="3">NITRON</text>';
+      s+='<text x="'+pxc.toFixed(0)+'" y="'+(pyt+plh*0.82).toFixed(0)+'" text-anchor="middle" font-family="Aleo,serif" font-size="'+(plh*0.16).toFixed(0)+'" fill="#fff">toda casa tem</text>'; }
     s+='<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 '+(r.A+46)+' H'+r.L+'"/>'+
        '<path d="M0 '+(r.A+28)+' V'+(r.A+64)+'"/><path d="M'+r.L+' '+(r.A+28)+' V'+(r.A+64)+'"/></g>';
     s+='<text x="'+(r.L/2)+'" y="'+(r.A+34)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="46" fill="var(--muted)">'+r.L+' mm</text>';
@@ -609,96 +714,141 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
 
   /* --------- render --------- */
   function render(){
-    var f=fam(), L=larg(), r=calc();
+    var f=fam(), C=bc(), L=bl(), A=ba(), r=calc(), N=st.vaos, n=st.niv;
 
     $('fams').innerHTML=FAMS.map(function(x){
       return '<button class="fam" type="button" role="radio" data-f="'+x.id+'" aria-checked="'+(x.id===st.fam)+'" tabindex="'+(x.id===st.fam?0:-1)+'">'+
         icon(x)+'<span><b>'+x.nome+'</b><i>'+x.desc+'</i><span class="where">'+x.onde+'</span></span></button>';}).join('');
 
+    $('comps').innerHTML=COMPS.map(function(x){
+      return '<button class="opt2" type="button" role="radio" data-c="'+x.id+'" aria-checked="'+(x.id===st.comp)+'" tabindex="'+(x.id===st.comp?0:-1)+'">'+
+        '<b>'+nf(Math.round(extComp(x.B,1)))+' mm</b>'+
+        '<i>painel de '+x.pan+' · ripa '+x.id+' '+x.B+'</i></button>';}).join('');
+
     $('largs').innerHTML=LARGS.map(function(x){
-      return '<button class="wopt" type="button" role="radio" data-l="'+x.id+'" aria-checked="'+(x.id===st.larg)+'" tabindex="'+(x.id===st.larg?0:-1)+'">'+
-        '<span><b>'+x.nome+'</b><i>barra '+x.ref+' · '+x.B+' mm · da PA '+x.pa+'</i></span>'+
-        '<span class="v">'+nf(Math.round(comprimento(x.B,1)))+'<small>mm por vão</small></span></button>';}).join('');
+      return '<button class="opt2" type="button" role="radio" data-l="'+x.id+'" aria-checked="'+(x.id===st.larg)+'" tabindex="'+(x.id===st.larg?0:-1)+'">'+
+        '<b>'+nf(Math.round(extProf(x.B)))+' mm</b>'+
+        '<i>'+x.nome+' · tábua '+x.pan+' · ripa '+x.id+' '+x.B+'</i></button>';}).join('');
 
     var vh='';
-    for(var N=1;N<=6;N++) vh+='<button type="button" role="radio" data-v="'+N+'" aria-checked="'+(N===st.vaos)+'" tabindex="'+(N===st.vaos?0:-1)+'">'+
-      N+' vão'+(N>1?'s':'')+' · '+nf(Math.round(comprimento(L.B,N)))+' mm</button>';
+    for(var v=1;v<=6;v++) vh+='<button type="button" role="radio" data-v="'+v+'" aria-checked="'+(v===N)+'" tabindex="'+(v===N?0:-1)+'">'+
+      v+' vão'+(v>1?'s':'')+' · '+nf(Math.round(extComp(C.B,v)))+' mm</button>';
     $('vaos').innerHTML=vh;
 
-    $('alts').innerHTML=[3,4,5,6,7,8].map(function(n){
-      return '<button class="wopt" type="button" role="radio" data-n="'+n+'" aria-checked="'+(n===st.niv)+'" tabindex="'+(n===st.niv?0:-1)+'">'+
-        '<span><b>'+n+' prateleiras</b><i>'+(PADRAO[n]||'')+'</i></span>'+
-        '<span class="v">'+nf(Math.round(altura(n)))+'<small>mm de altura</small></span></button>';}).join('');
+    $('alts').innerHTML=ALTS.map(function(x){
+      return '<button class="opt2" type="button" role="radio" data-a="'+x.id+'" aria-checked="'+(x.id===st.alt)+'" tabindex="'+(x.id===st.alt?0:-1)+'">'+
+        '<b>passo '+nf((x.B-CONSOME)+nz(),1)+'</b>'+
+        '<i>'+x.nome+' · ripa '+x.id+' '+x.B+'</i></button>';}).join('');
 
-    var ps=$('prof');
-    if(!ps.options.length) ps.innerHTML=PROFS.map(function(p){
-      return '<option value="'+p[1]+'">'+nf(Math.round(profExt(p[1])))+' mm — barra '+p[0]+' · '+p[1]+' mm</option>';}).join('');
-    ps.value=String(st.prof);
+    var poss=niveisPossiveis();
+    if(poss.indexOf(n)<0){ st.niv=poss[Math.min(poss.length-1,Math.max(0,poss.length-1))];
+      n=st.niv; r=calc(); }
+    $('nivs').innerHTML=poss.map(function(x){
+      return '<button type="button" role="radio" data-n="'+x+'" aria-checked="'+(x===n)+'" tabindex="'+(x===n?0:-1)+'">'+
+        x+' · '+nf(Math.round(extAlt(A.B,x)))+' mm'+(PADRAO[x]?' · '+PADRAO[x]:'')+'</button>';}).join('');
 
-    /* corredor */
-    var livre=st.corr-r.P;
-    var cm=$('corrmsg');
+    $('modelos').innerHTML=MODELOS.map(function(x){
+      return '<button type="button" role="radio" data-m="'+x.id+'" aria-checked="'+(x.id===st.modelo)+'" tabindex="'+(x.id===st.modelo?0:-1)+'">'+
+        x.nome+'</button>';}).join('');
+    $('modelomsg').textContent='Modelo A: passo '+nf((A.B-CONSOME)+NOZ,2)+' mm · altura '+
+      nf(Math.round(n*NOZ+(n-1)*(A.B-CONSOME)+PEX))+' mm com '+n+' prateleiras.   '+
+      'Modelo B: passo '+nf((A.B-CONSOME)+2*NOZ,2)+' mm · altura '+
+      nf(Math.round(n*2*NOZ+(n-1)*(A.B-CONSOME)+PEX))+' mm. Meça o passo entre duas prateleiras montadas para fechar isso.';
+
+    /* ---- ficha de encaixe do painel ---- */
+    var dif=C.pan-extComp(C.B,1), sob=(L.pan-L.B)/2;
+    var cls=Math.abs(dif)<=8?'ok':(Math.abs(dif)<=15?'w':'b');
+    $('fit').innerHTML='<div class="fh">PAINEL '+L.pan+' × '+C.pan+' mm<span>ripa '+C.id+' '+C.B+
+      ' + ripa '+L.id+' '+L.B+'</span></div><ul>'+
+      '<li class="'+cls+'"><b>'+(dif>=0?'+':'')+nf(dif,1)+' mm</b><span>diferença do painel contra a cota externa do vão ('+
+        nf(extComp(C.B,1),2)+' mm). O painel deita sobre os nós e cobre o vão de ponta a ponta.</span></li>'+
+      '<li class="'+(sob>=0?'ok':'b')+'"><b>'+(sob>=0?'+':'')+nf(sob,2)+' mm/lado</b><span>a tábua de '+L.pan+
+        ' apoia na ripa de largura de '+L.B+' mm e sobressai isso para a frente e para o fundo.</span></li>'+
+      '<li><b>'+nf(vaoLivre(C.B),1)+' mm</b><span>vão livre entre as faces internas dos nós — o que o painel realmente vence sem apoio.</span></li>'+
+      (L.pan>PANW?'<li class="w"><b>'+r.tiras+' tiras</b><span>a chapa crua PAN-01 tem '+PANW+
+        ' mm de largura: a tábua de '+L.pan+' mm precisa de emenda ou de chapa mais larga.</span></li>':'')+
+      '</ul>';
+
+    /* ---- corredor ---- */
+    var livre=st.corr-r.P, cm=$('corrmsg');
     if(livre<0) cm.innerHTML='<div class="note b"><span class="lab">NÃO CABE</span><p>O módulo tem '+nf(r.P)+' mm de profundidade e o corredor tem '+nf(st.corr)+' mm. Escolha uma profundidade menor na etapa 2.</p></div>';
-    else if(livre<CORR_MIN) cm.innerHTML='<div class="note w"><span class="lab">CIRCULAÇÃO APERTADA</span><p>Sobram <strong>'+nf(livre)+' mm</strong> de passagem. O usual em loja é manter <strong>900 mm livres</strong> — considere uma profundidade menor ou outro ponto da loja.</p></div>';
+    else if(livre<CORR_MIN) cm.innerHTML='<div class="note w"><span class="lab">CIRCULAÇÃO APERTADA</span><p>Sobram <strong>'+nf(livre)+' mm</strong> de passagem. O usual em loja é manter <strong>900 mm livres</strong> — considere a profundidade rasa ou outro ponto da loja.</p></div>';
     else cm.innerHTML='<div class="note"><span class="lab">CIRCULAÇÃO OK</span><p>Sobram <strong>'+nf(livre)+' mm</strong> de passagem livre, acima dos 900 mm usuais de loja.</p></div>';
 
-    /* preview */
+    /* ---- preview ---- */
     $('pvt').textContent=f.nome.toUpperCase();
-    $('pvc').innerHTML=esc(L.nome)+' · '+st.vaos+' vão'+(st.vaos>1?'s':'')+'<br>'+st.niv+' prateleiras · '+nf(r.kg,1)+' kg';
+    $('pvc').innerHTML='painel '+L.pan+'×'+C.pan+' · '+N+' vão'+(N>1?'s':'')+'<br>'+n+' prateleiras · '+nf(r.kg,1)+' kg';
     $('dL').innerHTML=nf(r.L)+'<small> mm</small>';
     $('dP').innerHTML=nf(r.P)+'<small> mm</small>';
     $('dA').innerHTML=nf(r.A)+'<small> mm</small>';
 
+    $('cota').innerHTML=[
+      ['COMPRIMENTO',
+        '2 × '+nf(NOX,2)+' + '+(N-1)+' × '+nf(NOXC,2)+' + '+N+' × ('+C.B+' − '+nf(CONSOME,1)+')'+
+        ' = <b>'+nf(r.Lx,2)+' mm</b>',
+        'os dois nós de ponta sobram '+nf(SOX,2)+' mm cada; cada cruzeta intermediária soma '+nf(NOXC,2)+' mm'],
+      ['PROFUNDIDADE',
+        L.B+' + 2 × '+nf(SOY,2)+' = <b>'+nf(r.Px,2)+' mm</b>',
+        'a ripa de largura entra '+nf(ENC,1)+' mm em cada nó, que tem '+nf(NOY,2)+' mm nesse eixo'],
+      ['ALTURA',
+        n+' × '+nf(nz(),2)+' + '+(n-1)+' × ('+A.B+' − '+nf(CONSOME,1)+') + '+nf(PEX,1)+
+        ' = <b>'+nf(r.Hx,2)+' mm</b>',
+        'passo entre prateleiras de '+nf(passoV(),2)+' mm · modelo '+st.modelo+' do nó vertical']
+    ].map(function(x){ return '<div class="row"><div class="rk">'+x[0]+'</div><div class="eq">'+x[1]+
+      '</div><div class="eq" style="color:var(--muted);font-size:10.5px">'+x[2]+'</div></div>'; }).join('');
+
     $('cabe').innerHTML=[
-      ['▤',r.prateleiras+' prateleiras','de '+nf(Math.round(r.pit))+' × '+nf(r.P)+' mm'],
-      ['↔',nf(r.frente,1)+' m','de frente linear de exposição'],
-      ['▢',nf(r.area,2)+' m²','de área de prateleira'],
+      ['▤',r.prateleiras+' prateleiras','painel de '+L.pan+' × '+C.pan+' mm por vão'],
+      ['↔',nf(r.frente,2)+' m','de frente linear de exposição'],
+      ['▢',nf(r.area,2)+' m²','de área de painel'],
       ['◍','≈ '+nf(r.facings)+' facings','a 120 mm de frente por SKU'],
       ['⤓',nf(r.prateleiras*20)+' kg','de carga total, 20 kg por prateleira']
     ].map(function(x){ return '<li><span class="ig" aria-hidden="true">'+x[0]+'</span><b>'+x[1]+'</b><span>'+x[2]+'</span></li>'; }).join('');
 
     $('tech').innerHTML=[
       ['Trizetas',r.tz],['Cruzetas',r.cz],['Tampas',r.tp],
-      ['Barra de largura · '+r.B+' mm',r.bl],
-      ['Barra de profundidade · '+st.prof+' mm',r.bp],
-      ['Barra vertical · 270 mm',r.bv],['Pés · 60 mm',r.pes],
-      ['Painéis · '+r.painel+' mm',r.np],['Chapas 1.200 × 200',r.chapas],
-      ['Peso',nf(r.kg,1)+' kg'],['Faces de acesso',f.faces],
-      ['Custo estimado',brl(r.custo)]
+      ['Ripa comprimento · '+C.id+' '+C.B+' mm',r.qbc],
+      ['Ripa largura · '+L.id+' '+L.B+' mm',r.qbl],
+      ['Ripa vertical · '+A.id+' '+A.B+' mm',r.qba],
+      ['Pés · BPE-01-AC 60 mm',r.pes],
+      ['Painéis · '+r.painel+' × 15 mm',r.np],
+      ['Chapas cruas 1.200 × 200',r.chapas],
+      ['Peso do módulo',nf(r.kg,1)+' kg'],
+      ['Faces de acesso',f.faces],
+      ['Custo de material estimado',brl(r.custo)]
     ].map(function(x){ return '<div><span>'+x[0]+'</span><span>'+x[1]+'</span></div>'; }).join('');
 
-    /* rotas */
-    var q=tier(r.custo), mf=meiaFaixa(q), tk=Math.max(10,st.tk||250);
+    /* ---- rotas ---- */
+    var q=tier(r.custo), tk=Math.max(10,st.tk||250);
     $('caixas').textContent='A faixa de '+brl0(q)+' são ≈ '+nf(Math.ceil(q/tk))+' caixas a '+brl0(tk)+' cada.';
     var def={
-      COMPRA:{v:brl(r.preco),s:'à vista, nota de venda',
-        d:'Você compra o móvel. Preço em 2× o custo, o piso da tabela. O ativo é seu.',p:'<span class="pill ok">gera nota</span>'},
-      COPART:{v:brl(r.preco/2),s:'+ '+brl0(mf)+' em produto',
-        d:'Você paga metade do móvel e compra metade da faixa. Menos atrito que a compra pura, e ainda gera nota de venda.',p:'<span class="pill ok">gera nota</span>'},
+      VENDA:{v:brl(r.preco),s:'à vista, nota de venda',
+        d:'Você compra o móvel a 2× o custo de material, o piso da tabela. Não depende de meta: gera nota e o ativo é seu no ato.',
+        p:'<span class="pill ok">gera nota</span>'},
       BONIF:{v:brl0(q),s:'em produto, no período',
-        d:'Comprou a faixa, o móvel vai sem custo e passa a ser seu. Sai como bonificação.',p:'<span class="pill w">sem nota de venda</span>'},
-      COMODATO:{v:'sem custo',s:'contrato de exposição',
-        d:'O móvel continua da Nitron, cedido com mix mínimo, ocupação combinada e prazo. Indicado para paredão e ponta.',p:'<span class="pill w">ativo da Nitron</span>'}
+        d:'Comprou '+brl0(q)+' em produto no período e o móvel vai sem custo, já como seu. Sai como bonificação.',
+        p:'<span class="pill w">sem nota de venda</span>'}
     };
     $('rotas').innerHTML=ROTAS.map(function(x){
       var dd=def[x.id];
       return '<button class="rota" type="button" role="radio" data-r="'+x.id+'" aria-checked="'+(x.id===st.rota)+'" tabindex="'+(x.id===st.rota?0:-1)+'">'+
-        (x.id===RECOMENDADA?'<span class="rec">MAIS ESCOLHIDA</span>':'')+
+        (x.id===RECOMENDADA?'<span class="rec">MAIS PROCURADA</span>':'')+
         '<span class="rh"><span class="rn">'+x.nome+'</span>'+
         '<span class="rv">'+dd.v+'<small>'+dd.s+'</small></span></span>'+
         '<span class="rd">'+dd.d+' '+dd.p+'</span></button>';}).join('');
 
-    /* resumo */
-    var rn=''; for(var i=0;i<ROTAS.length;i++) if(ROTAS[i].id===st.rota) rn=ROTAS[i].nome;
+    /* ---- resumo ---- */
+    var rn=pick(ROTAS,st.rota).nome;
     $('res').innerHTML='<h4>O QUE VOCÊ ESTÁ SOLICITANDO</h4><dl>'+
       '<dt>Móvel</dt><dd>'+esc(f.nome)+'</dd>'+
-      '<dt>Medidas</dt><dd>'+nf(r.L)+' × '+nf(r.P)+' × '+nf(r.A)+' mm</dd>'+
-      '<dt>Prateleiras</dt><dd>'+r.prateleiras+'</dd>'+
+      '<dt>Medida final</dt><dd>'+nf(r.L)+' × '+nf(r.P)+' × '+nf(r.A)+' mm</dd>'+
+      '<dt>Painel</dt><dd>'+L.pan+' × '+C.pan+' mm</dd>'+
+      '<dt>Vãos × prateleiras</dt><dd>'+N+' × '+n+'</dd>'+
       '<dt>Ativação</dt><dd>'+(esc(st.ativ)||'—')+'</dd>'+
       '<dt>Rota</dt><dd>'+esc(rn)+'</dd>'+
-      '<dt>'+(st.rota==='COMODATO'?'Contrapartida':'Valor')+'</dt><dd>'+def[st.rota].v+'</dd></dl>';
+      '<dt>'+(st.rota==='BONIF'?'Compra qualificadora':'Valor')+'</dt><dd>'+def[st.rota].v+'</dd></dl>';
 
-    /* dock */
+    /* ---- dock ---- */
     $('dk1').textContent=f.nome+' · '+nf(r.L)+'×'+nf(r.P)+'×'+nf(r.A);
     $('dk2').textContent=rn+' · '+def[st.rota].v;
 
@@ -711,23 +861,26 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
   function carregar(){
     try{ var v=localStorage.getItem(KEY); if(!v) return;
       var o=JSON.parse(v); if(!o||typeof o!=='object') return;
-      ['fam','larg','rota','ativ','cat'].forEach(function(k){ if(typeof o[k]==='string') st[k]=o[k]; });
-      ['vaos','niv','prof','corr','tk'].forEach(function(k){ if(typeof o[k]==='number'&&isFinite(o[k])) st[k]=o[k]; });
+      ['fam','comp','larg','alt','modelo','rota','ativ','cat'].forEach(function(k){
+        if(typeof o[k]==='string') st[k]=o[k]; });
+      ['vaos','niv','corr','tk'].forEach(function(k){
+        if(typeof o[k]==='number'&&isFinite(o[k])) st[k]=o[k]; });
     }catch(e){}
   }
 
   /* --------- radiogroup: clique + teclado --------- */
-  var MAP={f:'fam',l:'larg',v:'vaos',n:'niv',r:'rota'};
+  var MAP={f:'fam',c:'comp',l:'larg',a:'alt',m:'modelo',v:'vaos',n:'niv',r:'rota'};
   function aplicar(b){
     for(var k in MAP){ if(b.dataset[k]!==undefined){
       var val=b.dataset[k];
-      if(k==='f'){ st.fam=val; var f=fam(); st.larg=f.larg; st.prof=f.prof; st.niv=f.niv; st.vaos=f.vaos; }
+      if(k==='f'){ var x=pick(FAMS,val); st.fam=val; st.comp=x.comp; st.larg=x.larg;
+        st.alt=x.alt; st.niv=x.niv; st.vaos=x.vaos; }
       else st[MAP[k]] = (k==='v'||k==='n') ? +val : val;
       return true; } }
     return false;
   }
   document.addEventListener('click',function(e){
-    var b=e.target.closest('[role="radio"]');
+    var b=e.target.closest&&e.target.closest('[role="radio"]');
     if(b&&aplicar(b)) render();
   });
   document.addEventListener('keydown',function(e){
@@ -747,9 +900,8 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
       if(novo) novo.focus();
     }
   });
-  $('prof').addEventListener('change',function(e){ st.prof=+e.target.value; render(); });
-  $('ativ').addEventListener('input',function(e){ st.ativ=e.target.value; draw(); render(); });
-  $('cat').addEventListener('input',function(e){ st.cat=e.target.value; draw(); render(); });
+  $('ativ').addEventListener('input',function(e){ st.ativ=e.target.value; render(); });
+  $('cat').addEventListener('input',function(e){ st.cat=e.target.value; render(); });
   $('corr').addEventListener('input',function(e){ st.corr=+e.target.value||0; render(); });
   $('tk').addEventListener('input',function(e){ st.tk=+e.target.value||250; render(); });
 
@@ -792,19 +944,23 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     return ok;
   }
   function montar(){
-    var r=calc(), f=fam(), L=larg(), rn='';
-    for(var i=0;i<ROTAS.length;i++) if(ROTAS[i].id===st.rota) rn=ROTAS[i].nome;
+    var r=calc(), f=fam(), C=bc(), L=bl(), A=ba(), rn=pick(ROTAS,st.rota).nome;
     return { protocolo:proto(), criado_em:new Date().toISOString(),
       loja:$('loja').value.trim(), responsavel:$('resp').value.trim(),
       email:$('mail').value.trim(), whatsapp:$('fone').value.trim(),
       cidade:$('cid').value.trim(), quantidade:+$('qtd').value||1,
       prazo:$('prazo').value, observacoes:$('obs').value.trim(),
-      corredor_mm:st.corr, familia:f.nome, largura_ref:L.nome, largura_barra:L.B,
-      vaos:st.vaos, niveis:st.niv, prof_barra:st.prof,
+      corredor_mm:st.corr, familia:f.nome,
+      painel:L.pan+'x'+C.pan, painel_comp_mm:C.pan, painel_larg_mm:L.pan,
+      ripa_comprimento:C.id, ripa_comprimento_mm:C.B,
+      ripa_largura:L.id, ripa_largura_mm:L.B,
+      ripa_vertical:A.id, ripa_vertical_mm:A.B,
+      modelo_no_vertical:st.modelo, passo_vertical_mm:+passoV().toFixed(2),
+      vaos:st.vaos, niveis:st.niv,
       comprimento_mm:r.L, profundidade_mm:r.P, altura_mm:r.A, peso_kg:+r.kg.toFixed(1),
       prateleiras:r.prateleiras, frente_linear_m:+r.frente.toFixed(2),
-      area_prateleira_m2:+r.area.toFixed(2), facings:r.facings,
-      trizetas:r.tz, cruzetas:r.cz, paineis:r.np,
+      area_painel_m2:+r.area.toFixed(2), facings:r.facings,
+      trizetas:r.tz, cruzetas:r.cz, tampas:r.tp, paineis:r.np,
       custo_estimado:+r.custo.toFixed(2), preco_2x:+r.preco.toFixed(2),
       rota:st.rota, rota_nome:rn, faixa_qualificadora:tier(r.custo),
       ativacao:st.ativ, categoria:st.cat, status:'novo' };
@@ -813,14 +969,18 @@ footer{padding:30px 0 0;color:var(--muted);font-size:12.5px;max-width:78ch;
     return ['Solicitação de PDV Nitron — protocolo '+p.protocolo,'',
       'Loja: '+p.loja,'Responsável: '+p.responsavel,'E-mail: '+p.email,
       'WhatsApp: '+(p.whatsapp||'—'),'Cidade: '+(p.cidade||'—'),'',
-      'MÓVEL','Família: '+p.familia,'Largura fixa: '+p.largura_ref+' ('+p.largura_barra+' mm)',
-      'Medidas: '+p.comprimento_mm+' × '+p.profundidade_mm+' × '+p.altura_mm+' mm',
-      'Vãos: '+p.vaos+'   Prateleiras: '+p.niveis+'   Peso: '+p.peso_kg+' kg',
-      'Frente linear: '+p.frente_linear_m+' m   Facings: ≈ '+p.facings,
+      'MÓVEL','Família: '+p.familia,
+      'Medida final: '+p.comprimento_mm+' × '+p.profundidade_mm+' × '+p.altura_mm+' mm',
+      'Painel: '+p.painel+' × 15 mm',
+      'Ripas: comprimento '+p.ripa_comprimento+' ('+p.ripa_comprimento_mm+') · largura '+
+        p.ripa_largura+' ('+p.ripa_largura_mm+') · vertical '+p.ripa_vertical+' ('+p.ripa_vertical_mm+')',
+      'Vãos: '+p.vaos+'   Prateleiras: '+p.niveis+'   Passo: '+p.passo_vertical_mm+' mm (modelo '+p.modelo_no_vertical+')',
+      'Peso: '+p.peso_kg+' kg   Frente linear: '+p.frente_linear_m+' m   Facings: ≈ '+p.facings,
+      'Conectores: '+p.trizetas+' trizetas · '+p.cruzetas+' cruzetas · '+p.tampas+' tampas',
       'Ativação: '+(p.ativacao||'—')+'   Categoria: '+(p.categoria||'—'),'',
       'COMERCIAL','Rota: '+p.rota_nome,
-      'Preço 2× custo: '+brl(p.preco_2x),
-      'Faixa qualificadora: '+brl0(p.faixa_qualificadora),
+      'Venda direta (2× custo de material): '+brl(p.preco_2x),
+      'Bonificação — compra qualificadora: '+brl0(p.faixa_qualificadora),
       'Quantidade: '+p.quantidade+'   Prazo: '+p.prazo,'',
       'Observações: '+(p.observacoes||'—'),'',
       'Valores estimados, não apurados. Orçamento fechado pelo time comercial.'].join('\n');

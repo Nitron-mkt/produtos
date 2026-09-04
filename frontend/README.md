@@ -43,3 +43,51 @@ Duas saídas antes de expor a chave:
 | `pdp_cor` | performance das 16 cores |
 | `pdp_capacidade` | ocupação das injetoras por faixa de tonelagem |
 | `pdp_lancamento_safra` | taxa de acerto de lançamento por safra |
+
+---
+
+# Portal do lojista — Monte seu PDV
+
+`monte-seu-pdv.html` — documento único e autônomo, sem build e **sem chave de
+API**. Sobe em qualquer host estático e funciona offline: nada nele lê o
+Supabase, então a ressalva de RLS acima não se aplica a esse arquivo.
+
+O lojista escolhe família, painel, corrida e altura; a página calcula a **cota
+externa real** do módulo (a ripa entra 40,60 mm dentro de cada nó) e monta a
+solicitação.
+
+## Integrar com o backend
+
+No topo do `<script>`:
+
+```js
+var ENDPOINT = "";                       // ex.: "https://api.nitron.com.br/pdv/solicitacoes"
+var EMAIL_DESTINO = "trade@nitron.com.br";
+```
+
+Com `ENDPOINT` preenchido a página faz `POST` do JSON do pedido. Em branco, ela
+cai nos três botões de saída: e-mail, download do JSON e imprimir/PDF.
+
+## O que é fixo
+
+| eixo | opções | fonte |
+|---|---|---|
+| comprimento | PSC-01 315 · PSC-02 415 · PSC-03 595 · PSC-04 717 | PI de comprimento |
+| largura (profundidade) | BLA-01-AC 200 · BLA-03-AC 287 · PSC-02 415 | PI de largura |
+| vertical | BAL-02-AC 270 · PSA-05 513 | PI de altura |
+| painéis | 200/300/460 × 360/450/634/754 (12) | lista do usuário |
+
+A geometria e as três fórmulas estão em `analise/11-nitron-mob-cota-final.md` e
+nos CSVs `dados/22` a `dados/25`.
+
+## Versão do artefato
+
+`_artifact-monte-seu-pdv.html` é **gerado**, não editado à mão:
+
+```bash
+python3 build-artifact.py
+```
+
+Ele tira o envelope `<!doctype>/<head>/<body>` do arquivo autônomo, porque o
+visualizador de artefato injeta o próprio esqueleto. Fonte de verdade única:
+edite só o `monte-seu-pdv.html`.
