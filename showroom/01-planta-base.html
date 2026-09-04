@@ -1,0 +1,380 @@
+<title>Planta do Showroom Nitron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#F4F4F6; --surface:#FFFFFF; --surface-2:#EDEDF0;
+  --ink:#191A1D; --ink-2:#41444A; --muted:#6A6D74;
+  --rule:#E1E2E5; --rule-2:#CFD1D6;
+  --accent:#B84E17;
+  --good:#0C6E42; --good-bg:#DCEDE4;
+  --warn:#8A6410; --warn-bg:#F5EBD3;
+  --bad:#A32820;  --bad-bg:#F5DEDC;
+  --paper:#FBFAF7; --hatch:#C9CBD0; --dim:#8A8D94;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --paper:#1A1C20; --hatch:#4A4E55; --dim:#8E939B;
+}}
+:root[data-theme="dark"]{
+  --ground:#16171A; --surface:#1E2024; --surface-2:#25282D;
+  --ink:#E9E9EC; --ink-2:#C3C5CA; --muted:#989CA4;
+  --rule:#2D2F34; --rule-2:#3A3D43;
+  --accent:#E5763A;
+  --good:#58B487; --good-bg:#16302A;
+  --warn:#D2A63F; --warn-bg:#322817;
+  --bad:#E0736A;  --bad-bg:#33201F;
+  --paper:#1A1C20; --hatch:#4A4E55; --dim:#8E939B;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 90px}
+.tnum{font-variant-numeric:tabular-nums}
+
+header.mast{border-bottom:2px solid var(--ink);padding:52px 0 20px;margin-bottom:8px}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+h1{font-size:clamp(2rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin:0 0 16px;text-wrap:balance}
+.standfirst{font-family:"Source Serif 4",Georgia,serif;font-size:1.12rem;color:var(--ink-2);max-width:62ch;margin:0 0 20px;line-height:1.6}
+.meta{display:flex;flex-wrap:wrap;gap:0 26px;font-size:11.5px;color:var(--muted)}
+.meta b{color:var(--ink-2);font-weight:600}
+
+section{padding-top:48px}
+h2{font-size:clamp(1.25rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-.022em;margin:0;line-height:1.15}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule-2);padding-bottom:11px;margin-bottom:22px}
+.snum{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.1em;padding-top:5px;flex:none}
+p{margin:0 0 15px;max-width:74ch}
+.lede{font-family:"Source Serif 4",Georgia,serif;font-size:1.03rem;color:var(--ink-2);line-height:1.62}
+strong,b{font-weight:700;color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);line-height:1.55;max-width:74ch}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px}
+.tile{background:var(--surface);padding:17px 18px 18px;display:flex;flex-direction:column;gap:5px}
+.tile .tl{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.tile .tv{font-size:1.72rem;font-weight:800;letter-spacing:-.032em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .tv small{font-size:.92rem;font-weight:600;letter-spacing:0;color:var(--ink-2);margin-left:2px}
+.tile .ts{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+/* plan */
+figure{margin:0;border:1px solid var(--rule);background:var(--paper);padding:18px 16px 12px}
+.plan-scroll{overflow-x:auto}
+svg.plan{display:block;width:100%;min-width:660px;height:auto}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.55;padding-top:12px;margin-top:12px;border-top:1px solid var(--rule);background:var(--surface);margin-left:-16px;margin-right:-16px;margin-bottom:-12px;padding:12px 16px}
+.wall{fill:none;stroke:var(--ink);stroke-width:5;stroke-linejoin:miter}
+.open{fill:none;stroke:var(--accent);stroke-width:3.4;stroke-dasharray:11 7;stroke-linecap:butt}
+.floor{fill:var(--surface)}
+.grid line{stroke:var(--rule-2);stroke-width:.7;opacity:.75}
+.dim{stroke:var(--dim);stroke-width:1}
+.ext{stroke:var(--dim);stroke-width:.7;opacity:.7}
+text{font-family:Archivo,sans-serif}
+.dtxt{fill:var(--ink-2);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.dtxt.sm{font-size:11.5px;font-weight:600;fill:var(--muted)}
+.wlbl{fill:var(--muted);font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.wlbl.acc{fill:var(--accent)}
+.area{fill:var(--ink);font-size:24px;font-weight:800;letter-spacing:-.03em}
+.area-sub{fill:var(--muted);font-size:11.5px;font-weight:600;letter-spacing:.05em}
+.callout{fill:var(--ink-2);font-size:11.5px;font-weight:600}
+
+/* tables */
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+thead th{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:11px;border-bottom:1.5px solid var(--rule-2);background:var(--surface-2);white-space:nowrap}
+td{padding:12px 11px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+td.k{font-weight:700;white-space:nowrap}
+td.d{color:var(--ink-2);font-size:13px}
+.chip{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:3px 7px;border-radius:2px;white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+
+/* wall bars */
+.bar{display:block;height:9px;background:var(--rule-2);position:relative;margin-top:6px;max-width:260px}
+.bar i{display:block;height:100%;background:var(--ink-2)}
+.bar.op i{background:var(--accent)}
+
+/* modular grid options */
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.mod{background:var(--surface);padding:18px}
+.mod h3{margin:0 0 4px;font-size:1.5rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.mod .ml{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.mod ul{margin:10px 0 0;padding:0;list-style:none;font-size:12.5px;color:var(--ink-2);line-height:1.65}
+.mod li{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--rule);padding:5px 0}
+.mod li span:last-child{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);white-space:nowrap}
+.mod.pick{background:var(--surface)}
+.mod.pick h3{color:var(--accent)}
+
+/* questions */
+ol.q{counter-reset:q;list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+ol.q li{counter-increment:q;background:var(--surface);padding:16px 18px 16px 54px;position:relative;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+ol.q li::before{content:counter(q,decimal-leading-zero);position:absolute;left:18px;top:16px;
+  font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+ol.q li b{display:block;color:var(--ink);font-size:14px;margin-bottom:3px}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-size:11.5px;color:var(--muted);line-height:1.6}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">Nitron-mob PDV · Levantamento do espaço</p>
+  <h1>Planta do showroom</h1>
+  <p class="standfirst">Croqui de campo transcrito para planta cotada. Três cotas foram medidas em campo (7,53 · 6,50 · 6,60), o comprimento total é <em>derivado</em> da soma, e a largura fecha com 3&nbsp;cm de diferença entre frente e fundo — desvio normal de trena em vão de 7,5&nbsp;m.</p>
+  <div class="meta">
+    <span><b>Área útil</b> ≈ 100,1 m²</span>
+    <span><b>Pé-direito</b> 3,40 m</span>
+    <span><b>Parede fechada</b> 34,19 m lineares</span>
+    <span><b>Fonte</b> croqui manual, trena</span>
+    <span><b>Status</b> aguardando 6 confirmações</span>
+  </div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><span class="tl">Área útil</span><span class="tv">100,1<small>m²</small></span><span class="ts">bruta 100,3 − 0,16 do pilar</span></div>
+  <div class="tile"><span class="tl">Comprimento</span><span class="tv">13,35<small>m</small></span><span class="ts">6,50 + 0,245 + 6,60 · derivado</span></div>
+  <div class="tile"><span class="tl">Largura</span><span class="tv">7,52<small>m</small></span><span class="ts">7,53 na frente · 7,50 no fundo</span></div>
+  <div class="tile"><span class="tl">Pé-direito</span><span class="tv">3,40<small>m</small></span><span class="ts">medido 2,07 + 1,32 = 3,39</span></div>
+  <div class="tile"><span class="tl">Parede fechada</span><span class="tv">34,2<small>m</small></span><span class="ts">116,2 m² de face a 3,40 m</span></div>
+  <div class="tile"><span class="tl">Volume</span><span class="tv">341<small>m³</small></span><span class="ts">define ar-condicionado e luz</span></div>
+</div>
+
+<section>
+  <div class="shead"><span class="snum">01</span><h2>A planta cotada</h2></div>
+  <p class="lede">Desenhada em escala a partir do croqui. A malha fina é de 1&nbsp;m. O único acidente do espaço é o volume de 0,67 × 0,245&nbsp;m na lateral norte, a 6,50&nbsp;m da frente — pela posição e pela proporção, é pilar ou prumada, e é o que vai definir onde a modulação quebra.</p>
+  <figure>
+    <div class="plan-scroll">
+    <svg class="plan" viewBox="0 0 900 600" role="img" aria-label="Planta baixa do showroom: 13,35 m de comprimento por 7,52 m de largura, com pilar de 0,67 por 0,245 m na lateral norte a 6,50 m da frente.">
+      <defs>
+        <clipPath id="floorclip">
+          <path d="M110,90 L448,90 L448,124.84 L460.74,124.84 L460.74,90 L803.94,90 L803.94,480 L110,481.56 Z"/>
+        </clipPath>
+        <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="var(--hatch)" stroke-width="2.6"/>
+        </pattern>
+        <marker id="tick" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+          <line x1="2.5" y1="7.5" x2="7.5" y2="2.5" stroke="var(--dim)" stroke-width="1.4"/>
+        </marker>
+      </defs>
+
+      <!-- piso -->
+      <path class="floor" d="M110,90 L448,90 L448,124.84 L460.74,124.84 L460.74,90 L803.94,90 L803.94,480 L110,481.56 Z"/>
+      <g class="grid" clip-path="url(#floorclip)">
+        <line x1="162" y1="88" x2="162" y2="483"/><line x1="214" y1="88" x2="214" y2="483"/>
+        <line x1="266" y1="88" x2="266" y2="483"/><line x1="318" y1="88" x2="318" y2="483"/>
+        <line x1="370" y1="88" x2="370" y2="483"/><line x1="422" y1="88" x2="422" y2="483"/>
+        <line x1="474" y1="88" x2="474" y2="483"/><line x1="526" y1="88" x2="526" y2="483"/>
+        <line x1="578" y1="88" x2="578" y2="483"/><line x1="630" y1="88" x2="630" y2="483"/>
+        <line x1="682" y1="88" x2="682" y2="483"/><line x1="734" y1="88" x2="734" y2="483"/>
+        <line x1="786" y1="88" x2="786" y2="483"/>
+        <line x1="108" y1="142" x2="806" y2="142"/><line x1="108" y1="194" x2="806" y2="194"/>
+        <line x1="108" y1="246" x2="806" y2="246"/><line x1="108" y1="298" x2="806" y2="298"/>
+        <line x1="108" y1="350" x2="806" y2="350"/><line x1="108" y1="402" x2="806" y2="402"/>
+        <line x1="108" y1="454" x2="806" y2="454"/>
+      </g>
+
+      <!-- paredes fechadas -->
+      <path class="wall" d="M110,90 L448,90 L448,124.84 L460.74,124.84 L460.74,90 L803.94,90 L803.94,480 L110,481.56"/>
+      <!-- frente (a confirmar) -->
+      <line class="open" x1="110" y1="90" x2="110" y2="481.56"/>
+      <!-- pilar hachurado -->
+      <rect x="448" y="90" width="12.74" height="34.84" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.6"/>
+
+      <!-- área central -->
+      <rect x="330" y="248" width="254" height="52" fill="var(--surface)"/>
+      <text class="area" x="457" y="272" text-anchor="middle">≈ 100 m²</text>
+      <text class="area-sub" x="457" y="292" text-anchor="middle">ÁREA ÚTIL DE PISO · MALHA DE 1 m</text>
+
+      <!-- rótulos de parede -->
+      <rect x="150" y="98" width="252" height="17" fill="var(--surface)"/>
+      <text class="wlbl" x="276" y="111" text-anchor="middle">Lateral norte · 13,35 m · com pilar</text>
+      <text class="wlbl" x="457" y="500" text-anchor="middle">Lateral sul · 13,35 m · face cega</text>
+      <text class="wlbl" x="795" y="285" text-anchor="middle" transform="rotate(-90 795 285)">Fundo · 7,50 m</text>
+      <text class="wlbl acc" x="126" y="285" text-anchor="middle" transform="rotate(-90 126 285)">Frente 7,53 m · acesso a confirmar</text>
+
+      <!-- cota total superior -->
+      <line class="ext" x1="110" y1="86" x2="110" y2="30"/>
+      <line class="ext" x1="803.94" y1="86" x2="803.94" y2="30"/>
+      <line class="dim" x1="110" y1="36" x2="803.94" y2="36" marker-start="url(#tick)" marker-end="url(#tick)"/>
+      <rect x="416" y="24" width="82" height="22" fill="var(--paper)"/>
+      <text class="dtxt" x="457" y="41" text-anchor="middle">13,35 m</text>
+      <text class="dtxt sm" x="457" y="17" text-anchor="middle">COMPRIMENTO TOTAL — DERIVADO DA SOMA, NÃO MEDIDO</text>
+
+      <!-- cotas parciais -->
+      <line class="dim" x1="110" y1="66" x2="448" y2="66" marker-start="url(#tick)" marker-end="url(#tick)"/>
+      <rect x="257" y="55" width="44" height="20" fill="var(--paper)"/>
+      <text class="dtxt" x="279" y="71" text-anchor="middle">6,50</text>
+      <line class="dim" x1="460.74" y1="66" x2="803.94" y2="66" marker-start="url(#tick)" marker-end="url(#tick)"/>
+      <rect x="610" y="55" width="44" height="20" fill="var(--paper)"/>
+      <text class="dtxt" x="632" y="71" text-anchor="middle">6,60</text>
+
+      <!-- cota frente -->
+      <line class="ext" x1="106" y1="90" x2="62" y2="90"/>
+      <line class="ext" x1="106" y1="481.56" x2="62" y2="481.56"/>
+      <line class="dim" x1="68" y1="90" x2="68" y2="481.56" marker-start="url(#tick)" marker-end="url(#tick)"/>
+      <rect x="46" y="262" width="44" height="46" fill="var(--paper)"/>
+      <text class="dtxt" x="68" y="290" text-anchor="middle" transform="rotate(-90 68 290)">7,53</text>
+
+      <!-- cota fundo -->
+      <line class="ext" x1="808" y1="90" x2="852" y2="90"/>
+      <line class="ext" x1="808" y1="480" x2="852" y2="480"/>
+      <line class="dim" x1="846" y1="90" x2="846" y2="480" marker-start="url(#tick)" marker-end="url(#tick)"/>
+      <rect x="824" y="262" width="44" height="46" fill="var(--paper)"/>
+      <text class="dtxt" x="846" y="290" text-anchor="middle" transform="rotate(-90 846 290)">7,50</text>
+
+      <!-- callout do pilar -->
+      <line class="ext" x1="454" y1="126" x2="520" y2="176"/>
+      <circle cx="454" cy="126" r="2.6" fill="var(--accent)"/>
+      <rect x="521" y="160" width="234" height="52" fill="var(--surface)"/>
+      <text class="callout" x="527" y="173">Pilar / volume construído</text>
+      <text class="callout" x="527" y="189" font-weight="700">0,67 m (avanço) × 0,245 m (face)</text>
+      <text class="callout" x="527" y="205" fill="var(--muted)">a 6,50 m da frente · 0,16 m² de piso</text>
+
+      <!-- escala -->
+      <g>
+        <text class="wlbl" x="110" y="533">Escala gráfica</text>
+        <rect x="110" y="541" width="52" height="7" fill="var(--ink)"/>
+        <rect x="162" y="541" width="52" height="7" fill="var(--paper)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="214" y="541" width="52" height="7" fill="var(--ink)"/>
+        <rect x="266" y="541" width="52" height="7" fill="var(--paper)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="318" y="541" width="52" height="7" fill="var(--ink)"/>
+        <text class="dtxt sm" x="110" y="566">0</text>
+        <text class="dtxt sm" x="214" y="566" text-anchor="middle">2 m</text>
+        <text class="dtxt sm" x="370" y="566" text-anchor="middle">5 m</text>
+      </g>
+      <g>
+        <line class="open" x1="560" y1="544" x2="606" y2="544"/>
+        <text class="dtxt sm" x="614" y="548">face aberta / acesso presumido</text>
+        <rect x="560" y="562" width="34" height="11" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.2"/>
+        <text class="dtxt sm" x="614" y="571">alvenaria / pilar</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>Orientação convencionada para este documento:</b> a lateral com o pilar é chamada de <b>norte</b>, o lado das cotas 7,53 é a <b>frente</b>. Não é orientação magnética — é só nomenclatura para não trocar as paredes na hora de modular. O norte real e a posição da porta entram na próxima rodada.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">02</span><h2>Cota por cota, o que o croqui diz</h2></div>
+  <p class="lede">Quatro cotas vieram da trena e estão firmes. Duas são leitura minha e precisam de confirmação — estão marcadas.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Cota</th><th>Valor</th><th>Onde</th><th>Leitura</th><th>Confiança</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Frente</td><td class="n">7,53 m</td><td class="d">Largura na face de acesso</td><td class="d">Escrito no croqui</td><td><span class="chip good">Medido</span></td></tr>
+        <tr><td class="k">Fundo</td><td class="n">7,50 m</td><td class="d">Largura na parede oposta</td><td class="d">Escrito no croqui</td><td><span class="chip good">Medido</span></td></tr>
+        <tr><td class="k">Lateral, trecho 1</td><td class="n">6,50 m</td><td class="d">Da frente até o pilar</td><td class="d">Escrito no croqui</td><td><span class="chip good">Medido</span></td></tr>
+        <tr><td class="k">Lateral, trecho 2</td><td class="n">6,60 m</td><td class="d">Do pilar até o fundo</td><td class="d">Escrito no croqui</td><td><span class="chip good">Medido</span></td></tr>
+        <tr><td class="k">Pilar — avanço</td><td class="n">0,67 m</td><td class="d">Quanto entra no salão</td><td class="d">Anotado “6,70 cm”; li como 67 cm</td><td><span class="chip warn">Confirmar</span></td></tr>
+        <tr><td class="k">Pilar — face</td><td class="n">0,245 m</td><td class="d">Quanto ocupa da parede</td><td class="d">Anotado “24,5”</td><td><span class="chip warn">Confirmar</span></td></tr>
+        <tr><td class="k">Pé-direito</td><td class="n">3,40 m</td><td class="d">Piso ao teto</td><td class="d">“3,40 altura”; a conta ao lado (2,07 + 1,32 = 3,39) parece ser a mesma medida tirada em duas etapas de trena</td><td><span class="chip warn">Confirmar</span></td></tr>
+        <tr><td class="k">Comprimento total</td><td class="n">13,35 m</td><td class="d">Frente ao fundo</td><td class="d">6,50 + 0,245 + 6,60 — <b>não foi medido direto</b></td><td><span class="chip bad">Derivado</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:14px">A cota de 13,35 m é a única estrutural que ninguém conferiu com trena. Ela sai da soma dos dois trechos mais a face do pilar, e é justamente ela que decide quantos módulos cabem no comprimento. <b>Uma trenada única da frente ao fundo resolve</b> — se der 13,10, o pilar é um nicho embutido e não um avanço, e a conta muda.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">03</span><h2>Parede disponível — o insumo da modulação</h2></div>
+  <p class="lede">O que o PDV Nitron-mob vai ocupar não é área de piso, é metro linear de parede e metro linear de ilha. Aqui está o estoque de parede, já descontado o pilar.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Face</th><th>Extensão</th><th>Face a 3,40 m</th><th>Situação</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k">Lateral norte<span class="bar"><i style="width:100%"></i></span></td>
+          <td class="n">13,35 m</td><td class="n">45,4 m²</td>
+          <td class="d">Quebrada pelo pilar a 6,50 m: dois panos de <b>6,50</b> e <b>6,60</b> m, mais 2 faces de 0,67 m no pilar</td>
+        </tr>
+        <tr>
+          <td class="k">Lateral sul<span class="bar"><i style="width:100%"></i></span></td>
+          <td class="n">13,35 m</td><td class="n">45,4 m²</td>
+          <td class="d">Pano corrido, sem acidente registrado — <b>a melhor parede do espaço</b></td>
+        </tr>
+        <tr>
+          <td class="k">Fundo<span class="bar"><i style="width:56%"></i></span></td>
+          <td class="n">7,50 m</td><td class="n">25,5 m²</td>
+          <td class="d">Pano corrido. Ponto de fuga de quem entra pela frente</td>
+        </tr>
+        <tr>
+          <td class="k">Frente<span class="bar op"><i style="width:56%"></i></span></td>
+          <td class="n">7,53 m</td><td class="n">25,6 m²</td>
+          <td class="d">Presumida aberta (acesso/vitrine). Se for parede cheia, entram +7,53 m no estoque</td>
+        </tr>
+        <tr>
+          <td class="k">Total fechado</td>
+          <td class="n">34,19 m</td><td class="n">116,2 m²</td>
+          <td class="d">Confere com a soma do croqui (33,9 m) dentro de 0,3 m</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:14px">Com prateleira de 0,60 m de profundidade nas duas laterais, sobram <b>6,32 m</b> de largura livre no miolo. Isso comporta uma ilha central de 1,20 m com dois corredores de <b>2,55 m</b> — folgado demais para varejo, o que significa que há espaço para uma segunda fileira de ilhas ou para áreas de demonstração, não só de exposição.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><h2>Três passos possíveis de malha</h2></div>
+  <p class="lede">Antes de desenhar o módulo, vale ver em qual passo o espaço fecha redondo. O fundo de 7,50 m é o teste: ele é o pano que todo mundo vê ao entrar, e um módulo cortado ali aparece.</p>
+  <div class="mods">
+    <div class="mod">
+      <div class="ml">Passo A</div><h3>1,00 m</h3>
+      <ul>
+        <li><span>Fundo 7,50 m</span><span>7 + 0,50 sobra</span></li>
+        <li><span>Lateral 13,35 m</span><span>13 + 0,35 sobra</span></li>
+        <li><span>Trecho até o pilar</span><span>6 + 0,50 sobra</span></li>
+        <li><span>Total nas 3 faces</span><span>33 módulos</span></li>
+      </ul>
+    </div>
+    <div class="mod pick">
+      <div class="ml">Passo B · fecha o fundo</div><h3>1,25 m</h3>
+      <ul>
+        <li><span>Fundo 7,50 m</span><span>6 exatos</span></li>
+        <li><span>Lateral 13,35 m</span><span>10 + 0,85 sobra</span></li>
+        <li><span>Trecho até o pilar</span><span>5 + 0,25 sobra</span></li>
+        <li><span>Total nas 3 faces</span><span>26 módulos</span></li>
+      </ul>
+    </div>
+    <div class="mod">
+      <div class="ml">Passo C</div><h3>1,50 m</h3>
+      <ul>
+        <li><span>Fundo 7,50 m</span><span>5 exatos</span></li>
+        <li><span>Lateral 13,35 m</span><span>8 + 1,35 sobra</span></li>
+        <li><span>Trecho até o pilar</span><span>4 + 0,50 sobra</span></li>
+        <li><span>Total nas 3 faces</span><span>22 módulos</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="note" style="margin-top:14px">Os dois passos que fecham o fundo sem corte são <b>1,25 m</b> (6 módulos) e <b>1,50 m</b> (5 módulos). O 1,25 deixa 0,85 m de sobra em cada lateral — exatamente o tamanho de um pano de serviço: caixa, prumada, entrada de depósito ou o próprio pilar. Não é sobra, é vaga útil. Isso é uma leitura de geometria, não uma decisão: o passo definitivo depende da largura do módulo Nitron-mob, que ainda não me foi passada.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">05</span><h2>O que preciso saber antes de modular</h2></div>
+  <p class="lede">A planta está fechada como volume. O que falta não é medida de parede — é onde estão os furos e o que vai dentro.</p>
+  <ol class="q">
+    <li><b>O comprimento total, na trena.</b> Uma medida só, frente ao fundo, encostando na parede. É a única cota estrutural derivada, e ela muda a contagem de módulos.</li>
+    <li><b>Aquele volume de 0,67 × 0,245 m é pilar, prumada ou nicho?</b> Se avança para dentro do salão, o módulo passa por trás dele ou se interrompe. Se é reentrância, vira nicho de destaque — que é o melhor ponto de um showroom.</li>
+    <li><b>Onde estão porta, janela e vitrine?</b> Assumi a face de 7,53 m como frente aberta porque foi a única deixada sem cota fechada no croqui. Se a entrada for pela lateral, a rota de quem entra inverte e o fundo deixa de ser o ponto de fuga.</li>
+    <li><b>Piso, teto e elétrica.</b> Pé-direito de 3,40 m dá para módulo de até 2,40 com respiro. Preciso saber: teto é laje, forro ou estrutura aparente? Existe forro rebaixado, viga ou duto que baixe os 3,40 em algum trecho? Onde estão os pontos de força e o quadro?</li>
+    <li><b>O que já está no showroom hoje.</b> Balcão, mesa de reunião, depósito, área de atendimento, banheiro — o que fica, o que sai, o que muda de lugar. Modular sem isso é desenhar um espaço vazio que não existe.</li>
+    <li><b>O módulo Nitron-mob.</b> Largura, profundidade, altura e como ele se prende (parede, piso, autoportante). O passo da malha sai daí; os três acima são só as opções que a geometria do espaço aceita.</li>
+  </ol>
+</section>
+
+<footer>
+  <b>Planta do Showroom Nitron</b> · levantamento transcrito de croqui manual em 04/09/2026 · projeto Nitron-mob PDV.<br>
+  Cotas em metros. Medidas de campo têm tolerância de trena; nenhuma cota aqui substitui conferência no local antes de cortar material ou encomendar módulo.
+</footer>
+
+</div>
