@@ -1,241 +1,305 @@
 """
-MODULA — familia de organizadores modulares Nitron (3 tamanhos, 3 moldes).
+MODULA rev.02 — familia de organizadores modulares Nitron (3 moldes).
 
-ARQUITETURA
-  Corpo tronco-piramidal de frente aberta, com 4 CANAIS VERTICAIS por lateral
-  (8 no total). Os canais sao vincos da propria parede (parede deslocada para
-  fora), nao nervuras macicas — numa peca que encaixa em ninho toda nervura
-  precisa ser vinco e o conjunto de vincos precisa ser simetrico frente/verso,
-  senao a peca de cima nao desce.
+FORMA
+  Planta de cantos arredondados; nenhuma quina viva. Parede inteira vazada em
+  ripas verticais de ritmo simetrico. Aro em perfil L (aba + saia) que e viga,
+  apoio e pega ao mesmo tempo. Fundo em grelha, recuado 6 mm, de modo que a
+  peca se apoia na propria saia.
 
-  Na base, 4 TALISCAS nascem dentro de 4 desses canais.
-  No topo, 2 canais por lateral tem o topo FECHADO (assento, com bolsao que
-  captura a talisca) e 2 tem o topo ABERTO (guia do ninho).
-  As posicoes fechadas e abertas sao espelhadas entre si:
+MECANICA — PE + PINO
+  Aro: 4 PINOS ocos sobre a aba.
+  Base: 4 PES ocos, embutidos na faixa inferior; o vazio do pe e o soquete.
 
-      fechado  y = +0,42Y  e  y = -0,12Y
-      aberto   y = -0,42Y  e  y = +0,12Y
+  . alinhada 0 grau   -> o pe pousa na aba e o pino entra no soquete: PLUGA.
+                         passo = altura da peca.
+  . girada 180 graus  -> cada pe cai onde falta uma ripa (a JANELA, na posicao
+                         espelhada) e desce por dentro: NINHO.
+                         passo = espessura / tan(saida).
 
-  -> alinhado (0 grau):  talisca cai no assento     => EMPILHA, passo = altura
-  -> girado (180 graus): talisca desce pelo canal   => NINHO,  passo = e/tan(saida)
+  As ripas de cada lateral sao distribuidas simetricamente em torno de y=0, de
+  modo que a posicao espelhada de uma ripa e sempre outra ripa. Os pinos ficam
+  em duas dessas ripas; as duas ripas espelhadas correspondentes sao removidas
+  e viram as janelas. A janela e, literalmente, uma ripa que falta — o ritmo da
+  parede continua inteiro.
 
-  Tudo sai na direcao de abertura do molde: nenhuma gaveta, nenhum movimento
-  lateral, nenhuma saida forcada.
+  Como o contorno cresce por OFFSET (e nao por escala), o trecho reto da
+  lateral tem o mesmo comprimento em qualquer altura: o pe da peca de cima cai
+  exatamente sobre o pino da de baixo, sem correcao de escala.
+
+REGRA QUE GOVERNA TUDO
+  Saliencia externa so e permitida na faixa do topo — altura menor que o passo
+  do ninho — porque essa faixa nunca precisa entrar dentro de outra peca.
+  Abaixo dela a parede e lisa por fora e todo o vazado e coplanar. E por isso
+  que a peca nao tem friso horizontal: ele mataria o ninho.
 """
 import math
-from geometria import DEG, Solido, painel, grade_furos
+from geometria import DEG, Contorno, Malha, banda
 
-SAIDA_GR = 4.0                    # angulo de saida de todas as paredes
+AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
+SAIDA_GR = 5.0
 TAN = math.tan(SAIDA_GR * DEG)
-RHO_PP = 0.905                    # g/cm3
+RHO_PP = 0.905
 
 TAMANHOS = {
-    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=2.0, fundo="fechado"),
-    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.2, fundo="fechado"),
-    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.6, fundo="grelha"),
+    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=2.0, R=22.0),
+    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.2, R=30.0),
+    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.5, R=40.0),
 }
 
-# posicoes dos canais, em fracao de Y medida NO TOPO
-CANAIS = [(+0.42, "fechado"), (+0.12, "aberto"),
-          (-0.12, "fechado"), (-0.42, "aberto")]
 
-
-def _perfil_em(perfil, u):
-    if u <= perfil[0][0]:
-        return perfil[0][1]
-    for (ua, za), (ub, zb) in zip(perfil, perfil[1:]):
-        if ua <= u <= ub:
-            return za + (zb - za) * ((u - ua) / (ub - ua)) if ub > ua else zb
-    return perfil[-1][1]
+def suave(t):
+    return t * t * (3 - 2 * t)
 
 
 def parametros(k):
     s = dict(TAMANHOS[k])
-    X, Y, H, e = s["X"], s["Y"], s["H"], s["e"]
-    s["conic"] = con = H * TAN                 # quanto a base recua por lado
-    s["v_topo"] = v = 1.10 * (con + 17.0)      # profundidade do canal no aro
-    s["sal"] = con + 12.0                      # saliencia da talisca (12 mm de apoio)
-    s["Xt"] = Xt = X - 2 * v                   # painel lateral no topo
-    s["Yt"] = Yt = Y
-    s["Xb"] = Xb = Xt - 2 * con
-    s["Yb"] = Yb = Yt - 2 * con
-    s["ax"], s["ay"] = Xb / 2.0, Yb / 2.0
-    s["v_base"] = v * Xb / Xt
-    s["ef"] = e + 0.4
-    s["hf"] = round(0.42 * H)                  # parede frontal
-    s["ky"] = Yt / Yb
-    s["kx"] = Xt / Xb
-    s["passo_ninho"] = e / TAN + 2.0
-    s["larg_canal"] = max(26.0, 0.085 * Y)
+    X, Y, H, e, R = s["X"], s["Y"], s["H"], s["e"], s["R"]
+    s["conic"] = con = H * TAN
+    s["aba"] = aba = round(9.0 + 0.008 * X, 1)
+    s["saia"] = round(11.0 + 0.014 * H, 1)
+    s["Xt"], s["Yt"] = X - 2 * aba, Y - 2 * aba
+    s["Xb"], s["Yb"] = s["Xt"] - 2 * con, s["Yt"] - 2 * con
+    s["Rb"] = max(6.0, R - aba - con)
+    s["hf"] = round(0.40 * H)
+    s["mergulho"] = round(0.26 * s["hf"])
+    s["hb"] = round(12.0 + 0.06 * H)
+    s["h_aro"] = round(9.0 + 0.035 * H)
+    s["z_fundo"] = 6.0
+    s["ef"] = e + 0.5
+    s["ripa"] = round(8.0 + 0.006 * X, 1)
+    s["vao"] = round(13.5 + 0.013 * X, 1)
+    s["passo_ninho"] = round(e / TAN + 2.0, 1)
+    s["sal_pe"] = aba + con
+    # metade do trecho reto da lateral (constante em qualquer altura)
+    s["b"] = (Y - 2 * aba) / 2 - (R - aba)
+    s["ax"] = (X - 2 * aba) / 2 - (R - aba)      # idem para frente/traseira
+    s["larg_pino"] = round(min(0.24 * s["b"], 18.0 + 0.02 * X), 1)
+    s["larg_pe"] = round(s["larg_pino"] + 2 * e + 4, 1)
+    s["h_pino"] = round(8.0 + 0.018 * H)
+    s["h_pe"] = round(s["h_pino"] + 7)
+    s["h_janela"] = 12.0
+    s["etiqueta"] = round(0.24 * X)               # painel cheio na frente
     return s
+
+
+def ritmo(meia, passo_alvo, larg):
+    """Posicoes simetricas em torno de zero dentro de [-meia, meia]."""
+    nj = max(1, int(round(meia / passo_alvo)))
+    p = meia / nj
+    return [(j + 0.5) * p for j in range(nj)], p
 
 
 def construir(k):
     s = parametros(k)
     X, Y, H, e = s["X"], s["Y"], s["H"], s["e"]
-    ax, ay, ef, hf = s["ax"], s["ay"], s["ef"], s["hf"]
-    ky, sal, vb, wc = s["ky"], s["sal"], s["v_base"], s["larg_canal"]
-    sol = Solido(s["Xb"], s["Yb"], TAN, TAN)
+    aba, hf, hb, h_aro = s["aba"], s["hf"], s["hb"], s["h_aro"]
+    cont = Contorno(s["Xb"], s["Yb"], s["Rb"], TAN,
+                    passo=AMOSTRA[0], n_arco=int(AMOSTRA[1]))
+    m = Malha()
+    n = cont.n
+    passo_alvo = s["ripa"] + s["vao"]
 
-    canais = [(f * Y / ky, tipo, f) for f, tipo in CANAIS]      # centro na base
-    fechados = [c for c in canais if c[1] == "fechado"]
-    y_diag = -0.05 * Y / ky                                      # inicio da diagonal
-    perfil = [(-ay, H), (y_diag, H), (ay, hf)]
+    # ---- perfil do aro ----------------------------------------------------
+    def ztopo(i):
+        tr, t = cont.amostras[i % n]
+        if tr == "canto_fd":
+            return H - (H - hf) * suave(t)
+        if tr == "canto_fe":
+            return hf + (H - hf) * suave(t)
+        if tr == "frente":
+            return hf - s["mergulho"] * 0.5 * (1 - math.cos(2 * math.pi * t))
+        return H
 
-    # ---------------- fundo -------------------------------------------------
-    if s["fundo"] == "fechado":
-        sol.add(-ax, ax, -ay, ay, 0.0, ef, tag="fundo")
-        nerv = max(7.0, 0.04 * H)
-        for i in (-1, 1):
-            sol.add(i * 0.34 * ax - e / 2, i * 0.34 * ax + e / 2, -ay + e, ay - e,
-                    ef, ef + nerv, tag="nervura")
-        for j in (-1, 1):
-            sol.add(-ax + e, ax - e, j * 0.34 * ay - e / 2, j * 0.34 * ay + e / 2,
-                    ef, ef + nerv, tag="nervura")
-    else:
-        b, mo = 9.0, 26.0
-        sol.add(-ax, ax, -ay, -ay + mo, 0.0, ef, tag="fundo")
-        sol.add(-ax, ax, ay - mo, ay, 0.0, ef, tag="fundo")
-        sol.add(-ax, -ax + mo, -ay + mo, ay - mo, 0.0, ef, tag="fundo")
-        sol.add(ax - mo, ax, -ay + mo, ay - mo, 0.0, ef, tag="fundo")
-        nx = int((2 * ax - 2 * mo) / 46.0)
-        ny = int((2 * ay - 2 * mo) / 46.0)
-        for i in range(1, nx):
-            c = -ax + mo + (2 * ax - 2 * mo) * i / nx
-            sol.add(c - b / 2, c + b / 2, -ay + mo, ay - mo, 0.0, ef, tag="fundo")
-        for j in range(1, ny):
-            c = -ay + mo + (2 * ay - 2 * mo) * j / ny
-            sol.add(-ax + mo, ax - mo, c - b / 2, c + b / 2, 0.0, ef, tag="fundo")
+    # ---- ritmo das ripas ---------------------------------------------------
+    pos_lat, passo_lat = ritmo(s["b"], passo_alvo, s["ripa"])
+    pos_fre, _ = ritmo(s["ax"], passo_alvo, s["ripa"])
 
-    # ---------------- paineis laterais -------------------------------------
-    banda = max(20.0, 0.13 * H)
-    furos_lat = []
-    livres = []                     # trechos de painel entre canais
-    bordas = sorted([(c[0] - wc / 2, c[0] + wc / 2) for c in canais])
-    pos = -ay
-    for a, b in bordas:
-        if a > pos:
-            livres.append((pos, a))
-        pos = max(pos, b)
-    if pos < ay:
-        livres.append((pos, ay))
-    for a, b in livres:
-        n = max(1, int((b - a) / 30.0))
-        zt = min(_perfil_em(perfil, a), _perfil_em(perfil, b))
-        nlin = 3 if zt - banda > 0.42 * H else 2
-        furos_lat += grade_furos(a + 11, b - 11, banda + 6, zt - 14, n, nlin, 11.0, 24.0)
-    for a, b in bordas:                                   # o canal ocupa o painel
-        furos_lat.append((a, b, -5.0, H + 5.0))
+    # as duas ripas que recebem pino, e as duas espelhadas que viram janela
+    y_pino_f = min(pos_lat, key=lambda p: abs(p - 0.87 * s["b"]))
+    y_pino_t = -min(pos_lat, key=lambda p: abs(p - 0.62 * s["b"]))
+    s["y_pino_f"], s["y_pino_t"] = y_pino_f, y_pino_t
+    s["y_janela_f"], s["y_janela_t"] = -y_pino_t, -y_pino_f
+    s["abertura"] = round(2 * passo_lat - s["ripa"], 1)
+    s["passo_lat"] = round(passo_lat, 1)
 
-    for lado in (-1, 1):
-        painel(sol, lado * (ax - e), lado * ax, -ay, ay, perfil, furos_lat,
-               tag="lateral", eixo="y")
-        # rebordo: engrossa os ultimos 12 mm do topo do painel
-        for a, b in livres:
-            n = max(2, int((b - a) / 10))
-            for i in range(n):
-                ya = a + (b - a) * i / n
-                yb = a + (b - a) * (i + 1) / n
-                za, zb = _perfil_em(perfil, ya), _perfil_em(perfil, yb)
-                sol.add(lado * ax, lado * (ax + 2.6), ya, yb,
-                        min(za, zb) - 12.0, za, zb, tag="rebordo")
+    janelas_y = (s["y_janela_f"], s["y_janela_t"])
+    meia_jan = passo_lat - s["ripa"] / 2
 
-        # ---- canais verticais ----
-        for cy, tipo, frac in canais:
-            y0, y1 = cy - wc / 2, cy + wc / 2
-            xi, xo = lado * ax, lado * (ax + vb)
-            # canal fechado sobe ate o topo (vira a orelha dianteira);
-            # canal aberto acompanha o perfil — a talisca entra por cima dele
-            if tipo == "fechado":
-                za = zb = H
-            else:
-                za, zb = _perfil_em(perfil, y0), _perfil_em(perfil, y1)
-            sol.add(xi, xo, y0, y0 + e, 0.0, za, zb, tag="canal")
-            sol.add(xi, xo, y1 - e, y1, 0.0, za, zb, tag="canal")
-            sol.add(xo - lado * e, xo, y0, y1, 0.0, za, zb, tag="canal")
-            if tipo == "fechado":
-                sol.add(xi, xo, y0, y1, H - e - 4.0, H, tag="assento")
-                sol.add(xo - lado * e, xo, y0, y1, H, H + 3.5, tag="assento")
-                sol.add(xi, xi + lado * (e + 1.5), y0, y1, H, H + 3.5, tag="assento")
+    def classifica(i):
+        tr, t = cont.amostras[i % n]
+        if tr in ("lat_d", "lat_e"):
+            y = cont.y_de(i)
+            for jy in janelas_y:
+                if abs(y - jy) <= meia_jan:
+                    return "janela"
+            for p in pos_lat:
+                if abs(abs(y) - p) <= s["ripa"] / 2:
+                    return "ripa"
+            return "vao"
+        if tr == "traseira":
+            x = cont.ponto(i, 0.0)[0]
+            for p in pos_fre:
+                if abs(abs(x) - p) <= s["ripa"] / 2:
+                    return "ripa"
+            return "vao"
+        if tr == "frente":
+            x = cont.ponto(i, 0.0)[0]
+            if abs(x) <= s["etiqueta"] / 2:
+                return "ripa"                       # painel de etiqueta
+            for p in pos_fre:
+                if abs(abs(x) - p) <= s["ripa"] / 2:
+                    return "ripa"
+            return "vao"
+        return "ripa" if 0.34 <= t <= 0.66 else "vao"   # uma ripa por canto
 
-    # ---------------- parede traseira --------------------------------------
-    ncx = max(5, int(round((2 * ax - 70) / 36.0)))
-    furos_tras = grade_furos(-ax + 28, ax - 28, banda + 6, H - 54, ncx, 3, 13.0, 26.0)
-    pega = min(0.34 * ax, 95.0)
-    furos_tras.append((-pega, pega, H - 42, H - 42 + 26.0))
-    painel(sol, -ay, -ay + e, -ax, ax, [(-ax, H), (ax, H)], furos_tras,
-           tag="traseira", eixo="x")
-    sol.add(-ax, ax, -ay - 2.6, -ay, H - 12.0, H, tag="rebordo")
+    tipo = [classifica(i) for i in range(n)]
+    eh_ripa = lambda i: tipo[i % n] == "ripa"
+    eh_janela = lambda i: tipo[i % n] == "janela"
 
-    # ---------------- parede frontal ---------------------------------------
-    dip = 0.72 * hf
-    meia = 0.30 * ax
-    perfil_frente = [(-ax, hf), (-meia - 26, hf), (-meia, dip), (meia, dip),
-                     (meia + 26, hf), (ax, hf)]
-    furos_frente = grade_furos(-meia + 8, meia - 8, banda, dip - 14,
-                               max(3, int(round(2 * meia / 42.0))), 1, 12.0, 22.0)
-    painel(sol, ay - e, ay, -ax, ax, perfil_frente, furos_frente,
-           tag="frontal", eixo="x")
-    n = 26
-    for i in range(n):
-        xa = -ax + 2 * ax * i / n
-        xb = -ax + 2 * ax * (i + 1) / n
-        zt = min(_perfil_em(perfil_frente, xa), _perfil_em(perfil_frente, xb))
-        sol.add(xa, xb, ay, ay + 2.6, zt - 10.0, zt, tag="rebordo")
+    # ---- arredondamento das pontas dos rasgos ------------------------------
+    # para cada aresta de vao, distancia (em mm de perimetro) ate a borda do vao
+    dist_borda = [0.0] * n
+    i = 0
+    while i < n:
+        if tipo[i] != "vao":
+            i += 1
+            continue
+        j = i
+        while j < n and tipo[j % n] == "vao":
+            j += 1
+        s0, s1 = cont.s[i], cont.s[j]
+        for q in range(i, j):
+            sm = (cont.s[q] + cont.s[q + 1]) / 2
+            dist_borda[q] = min(sm - s0, s1 - sm)
+        i = j
+    r_furo = min(9.0, s["vao"] / 2.2)
 
-    # ---------------- taliscas ---------------------------------------------
-    lug_alt = max(20.0, 0.11 * H)
-    lug_len = max(18.0, 0.06 * Y)
-    for lado in (-1, 1):
-        for cy, tipo, frac in fechados:
-            c = frac * Y                       # posicao ABSOLUTA do assento no topo
-            sol.add(lado * ax, lado * (ax + sal), c - lug_len / 2, c + lug_len / 2,
-                    0.0, lug_alt, tag="talisca")
-            sol.add(lado * ax, lado * (ax + sal * 0.55), c - lug_len / 2 - 12,
-                    c - lug_len / 2, 0.0, lug_alt * 0.6, tag="talisca")
-            sol.add(lado * ax, lado * (ax + sal * 0.55), c + lug_len / 2,
-                    c + lug_len / 2 + 12, 0.0, lug_alt * 0.6, tag="talisca")
+    def dz(i):
+        i %= n
+        if tipo[i] != "vao":
+            return 0.0
+        d = min(dist_borda[i], r_furo)
+        return r_furo - math.sqrt(max(0.0, r_furo * r_furo - (r_furo - d) ** 2))
 
-    s.update(dict(canais=canais, fechados=fechados, perfil=perfil,
-                  lug_alt=lug_alt, lug_len=lug_len, y_diag=y_diag))
-    return sol, s
+    # ---- travessa coplanar a meia altura (so onde o rasgo e alto) ----------
+    w_trav = round(6.0 + 0.008 * X, 1)
+    def z_aro_inf(i):
+        return ztopo(i) - h_aro
+    def alto(i):
+        return (z_aro_inf(i) - hb) > 0.42 * H
+    def z_trav(i):
+        c = (hb + z_aro_inf(i)) / 2
+        return c - w_trav / 2, c + w_trav / 2
+
+    # ---- emissao de bandas continuas --------------------------------------
+    def emitir(quer, o_ext, o_int, zde, zate, tag):
+        marcas = [quer(i) for i in range(n)]
+        if all(marcas):
+            banda(m, cont, 0, n, o_ext, o_int, zde, zate, tag,
+                  tampa_ini=False, tampa_fim=False)
+            return
+        if not any(marcas):
+            return
+        ini = next(i for i in range(n) if not marcas[i])
+        i = 0
+        while i < n:
+            if not marcas[(ini + i) % n]:
+                i += 1
+                continue
+            j = i
+            while j < n and marcas[(ini + j) % n]:
+                j += 1
+            banda(m, cont, ini + i, ini + j, o_ext, o_int, zde, zate, tag)
+            i = j
+
+    z0 = lambda i: 0.0
+    emitir(lambda i: not eh_janela(i), 0.0, -e, z0, lambda i: hb + dz(i), "faixa")
+    emitir(eh_janela, 0.0, -e, z0, lambda i: s["h_janela"], "faixa")
+    emitir(eh_ripa, 0.0, -e, lambda i: hb, ztopo, "ripa")
+    emitir(lambda i: tipo[i % n] == "vao" and alto(i), 0.0, -e,
+           lambda i: z_trav(i)[0] - dz(i), lambda i: z_trav(i)[1] + dz(i), "ripa")
+    emitir(lambda i: not (eh_ripa(i) or eh_janela(i)),
+           0.0, -e, lambda i: z_aro_inf(i) - dz(i), ztopo, "aro")
+    sem_jan = lambda i: not eh_janela(i)
+    emitir(sem_jan, aba, 0.0, lambda i: ztopo(i) - e, ztopo, "aro")
+    emitir(sem_jan, aba, aba - e, lambda i: ztopo(i) - s["saia"],
+           lambda i: ztopo(i) - e, "aro")
+
+    # ---- fundo em grelha ---------------------------------------------------
+    zf, ef = s["z_fundo"], s["ef"]
+    w_mold = round(10.0 + 0.012 * X, 1)
+    banda(m, cont, 0, n, -e, -e - w_mold, lambda i: zf, lambda i: zf + ef, "fundo")
+    hx = s["Xb"] / 2 + zf * TAN - e - w_mold
+    hy = s["Yb"] / 2 + zf * TAN - e - w_mold
+    r = max(2.0, s["Rb"] + zf * TAN - e - w_mold)
+
+    def lim(c, ha, hb_, rr):
+        d = abs(c) - (ha - rr)
+        return hb_ if d <= 0 else (hb_ - rr) + math.sqrt(max(0.0, rr * rr - d * d))
+
+    barra = round(5.5 + 0.004 * X, 1)
+    passo_f = barra + 11.0 + 0.011 * X
+    nx = max(2, int(round(2 * hx / passo_f)))
+    ny = max(2, int(round(2 * hy / passo_f)))
+    for i in range(1, nx):
+        c = -hx + 2 * hx * i / nx
+        L = lim(c, hx, hy, r) - 0.8
+        m.bloco(c - barra / 2, c + barra / 2, -L, L, zf, zf + ef, "fundo")
+    for j in range(1, ny):
+        c = -hy + 2 * hy * j / ny
+        L = lim(c, hy, hx, r) - 0.8
+        m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
+
+    # ---- pinos e pes -------------------------------------------------------
+    lp, hpin, hpe, lpe = s["larg_pino"], s["h_pino"], s["h_pe"], s["larg_pe"]
+    for lado in (1, -1):
+        for yc in (y_pino_f, y_pino_t):
+            xa, xb = sorted([lado * (X / 2 - 1.5), lado * (X / 2 - aba + 1.5)])
+            m.caixa_oca(xa, xb, yc - lp / 2, yc + lp / 2, H, H + hpin, e,
+                        "pino", tampa="topo")
+            xc, xd = sorted([lado * (s["Xb"] / 2 - e), lado * (X / 2)])
+            m.caixa_oca(xc, xd, yc - lpe / 2, yc + lpe / 2, 0.0, hpe, e,
+                        "pe", tampa="topo")
+            xp, xq = sorted([lado * (X / 2 - aba - 3.0 - e), lado * (X / 2 - aba - 3.0)])
+            m.bloco(xp, xq, yc - lpe / 2 + e, yc + lpe / 2 - e, 0.0, hpe, "pe")
+
+    s["cont"], s["ztopo"] = cont, ztopo
+    return m, s
+
+
+def area_interna(s, z):
+    W = s["Xb"] + 2 * z * TAN - 2 * s["e"]
+    D = s["Yb"] + 2 * z * TAN - 2 * s["e"]
+    r = max(0.0, s["Rb"] + z * TAN - s["e"])
+    return W * D - (4 - math.pi) * r * r
 
 
 def ficha(k):
-    sol, s = construir(k)
-    X, Y, H, e = s["X"], s["Y"], s["H"], s["e"]
-    vol = sol.volume_material()
-    s["volume_material_cm3"] = vol
-    s["massa_g"] = vol * RHO_PP
+    m, s = construir(k)
+    s["volume_material_cm3"] = v = m.volume()
+    s["massa_g"] = v * RHO_PP
 
-    def area_int(z):
-        return ((s["Xb"] - 2 * e) * sol.sx(z)) * ((s["Yb"] - 2 * e) * sol.sy(z))
+    def integra(z0, z1, nn=400):
+        h = (z1 - z0) / nn
+        return sum(area_interna(s, z0 + h * (i + .5)) for i in range(nn)) * h / 1e6
 
-    def integra(z0, z1, n=400):
-        h = (z1 - z0) / n
-        return sum(area_int(z0 + h * (i + .5)) for i in range(n)) * h / 1e6
-
-    s["litros_boca"] = integra(s["ef"], s["hf"])
-    s["litros_total"] = integra(s["ef"], H)
-    s["area_projetada_cm2"] = ap = X * Y / 100.0
+    s["litros_boca"] = integra(s["z_fundo"] + s["ef"], s["hf"])
+    s["litros_total"] = integra(s["z_fundo"] + s["ef"], s["H"])
+    ap = s["X"] * s["Y"] / 100.0
+    s["area_projetada_cm2"] = ap
     s["ton_min"] = ap / 1e4 * 300 * 10.2
     s["ton_max"] = ap / 1e4 * 400 * 10.2
-    s["n_triangulos"] = len(sol.pecas) * 12
-    return sol, s
+    s["n_triangulos"] = len(m.tris)
+    return m, s
 
 
 if __name__ == "__main__":
-    import collections
     for k in ("P", "M", "G"):
-        sol, s = ficha(k)
-        d = collections.Counter()
-        for p in sol.pecas:
-            zm = (p.z0 + max(p.z1a, p.z1b)) / 2
-            d[p.tag] += p.volume() * sol.sx(zm) * sol.sy(zm) / 1000. * RHO_PP
-        print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} | painel topo "
-              f"{s['Xt']:.0f}x{s['Yt']:.0f} | base {s['Xb']:.0f}x{s['Yb']:.0f} | "
-              f"e={s['e']} | {s['massa_g']:5.0f} g | util {s['litros_boca']:5.1f} L | "
-              f"total {s['litros_total']:5.1f} L | ninho {s['passo_ninho']:.0f} mm | "
-              f"canal {s['v_topo']:.0f} mm | talisca {s['sal']:.0f} mm | "
-              f"{s['ton_min']:.0f}-{s['ton_max']:.0f} tf | {s['n_triangulos']} tri")
-        print("         ", {t: round(g) for t, g in d.most_common()})
+        m, s = ficha(k)
+        print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} R={s['R']:.0f} | "
+              f"{s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | ninho "
+              f"{s['passo_ninho']:.0f} mm | ripa {s['ripa']}/{s['vao']} mm | "
+              f"pino y={s['y_pino_f']:.0f} e {s['y_pino_t']:.0f} | janela y="
+              f"{s['y_janela_f']:.0f} e {s['y_janela_t']:.0f} | abertura "
+              f"{s['abertura']:.0f} mm > pe {s['larg_pe']:.0f} mm | {s['n_triangulos']} tri")

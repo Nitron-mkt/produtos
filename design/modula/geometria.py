@@ -1,180 +1,178 @@
 """
-Nucleo geometrico da familia MODULA — organizador modular Nitron.
+Nucleo geometrico rev.02 — casca de contorno arredondado.
 
-Modelo de estudo construido por prismas retos (hexaedros) com topo opcionalmente
-inclinado. Toda a peca e desenhada no referencial da BASE (secao menor) e a
-conicidade e aplicada na emissao dos vertices como escalonamento em torno do
-eixo vertical:
+A peca deixa de ser uma caixa de faces planas: a planta e um retangulo de
+cantos arredondados, e a parede e uma CASCA varrida ao longo desse contorno.
 
-    x' = x * (1 + 2*z*tan(ax) / Xb)
-    y' = y * (1 + 2*z*tan(ay) / Yb)
+Toda a peca e definida por um contorno parametrico avaliavel em qualquer
+altura z:
 
-Isso reproduz um tronco de piramide com erro < 0,2 mm nas faces internas.
+    X(z) = X0 + 2*z*tan(saida)     Y(z) = Y0 + 2*z*tan(saida)
+    R(z) = R0 +   z*tan(saida)
+
+Cada amostra do contorno guarda (trecho, t), entao a amostra i em z=0 e a
+amostra i em z=H sao o MESMO ponto do perimetro — e um prisma entre duas
+alturas fecha sem torcao.
 """
 import math
 
 DEG = math.pi / 180.0
 
+TRECHOS_RETOS = ("lat_d", "frente", "lat_e", "traseira")
 
-class Prisma:
-    """Hexaedro: base retangular, topo podendo inclinar linearmente em y."""
 
-    __slots__ = ("x0", "x1", "y0", "y1", "z0", "z1a", "z1b", "tag")
+class Contorno:
+    """Retangulo de cantos arredondados, avaliavel em qualquer z."""
 
-    def __init__(self, x0, x1, y0, y1, z0, z1, z1b=None, tag="corpo"):
-        self.x0, self.x1 = min(x0, x1), max(x0, x1)
-        self.y0, self.y1 = min(y0, y1), max(y0, y1)
-        self.z0 = z0
-        self.z1a = z1
-        self.z1b = z1 if z1b is None else z1b
-        self.tag = tag
+    def __init__(self, X, Y, R, tan, passo=5.0, n_arco=9):
+        self.X, self.Y, self.R, self.tan = X, Y, R, tan
+        hx, hy = X / 2.0, Y / 2.0
+        n_lat = max(2, int(round(2 * (hy - R) / passo)))
+        n_fre = max(2, int(round(2 * (hx - R) / passo)))
+        self.amostras = []                       # (trecho, t)
+        for tr, n in (("lat_d", n_lat), ("canto_fd", n_arco), ("frente", n_fre),
+                      ("canto_fe", n_arco), ("lat_e", n_lat), ("canto_te", n_arco),
+                      ("traseira", n_fre), ("canto_td", n_arco)):
+            for i in range(n):
+                self.amostras.append((tr, i / n))
+        self.n = len(self.amostras)
+        base = [self.ponto(i, 0.0) for i in range(self.n)]
+        self.s = [0.0]
+        for i in range(1, self.n + 1):
+            a, b = base[i - 1], base[i % self.n]
+            self.s.append(self.s[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
+        self.perimetro = self.s[-1]
+
+    # -- avaliacao ---------------------------------------------------------
+    def ponto(self, i, z):
+        """(x, y, nx, ny) da amostra i na altura z; n = normal externa."""
+        tr, t = self.amostras[i % self.n]
+        d = z * self.tan
+        hx, hy, r = self.X / 2 + d, self.Y / 2 + d, self.R + d
+        a, b = hx - r, hy - r
+        if tr == "lat_d":
+            return (hx, -b + t * 2 * b, 1.0, 0.0)
+        if tr == "lat_e":
+            return (-hx, b - t * 2 * b, -1.0, 0.0)
+        if tr == "frente":
+            return (a - t * 2 * a, hy, 0.0, 1.0)
+        if tr == "traseira":
+            return (-a + t * 2 * a, -hy, 0.0, -1.0)
+        cx, cy, ang0 = {"canto_fd": (a, b, 0.0), "canto_fe": (-a, b, 90.0),
+                        "canto_te": (-a, -b, 180.0), "canto_td": (a, -b, 270.0)}[tr]
+        ang = (ang0 + t * 90.0) * DEG
+        return (cx + r * math.cos(ang), cy + r * math.sin(ang),
+                math.cos(ang), math.sin(ang))
+
+    def pt(self, i, z, o=0.0):
+        """Ponto do contorno na amostra i, altura z, deslocado o pela normal."""
+        x, y, nx, ny = self.ponto(i, z)
+        return (x + o * nx, y + o * ny)
+
+    def y_de(self, i):
+        return self.ponto(i, 0.0)[1]
+
+    def indice_livre(self):
+        return 0
+
+    def trecho(self, i):
+        return self.amostras[i % self.n][0]
+
+    def indices_por_y(self, lado, y0, y1):
+        """Amostras de um trecho lateral cujo y (em z=0) cai na faixa."""
+        tr = "lat_d" if lado > 0 else "lat_e"
+        return [i for i in range(self.n)
+                if self.trecho(i) == tr and y0 <= self.y_de(i) <= y1]
+
+
+class Malha:
+    """Acumula triangulos com etiqueta."""
+
+    def __init__(self):
+        self.tris = []
+
+    def tri(self, a, b, c, tag):
+        self.tris.append((a, b, c, tag))
+
+    def quad(self, a, b, c, d, tag):
+        self.tris.append((a, b, c, tag))
+        self.tris.append((a, c, d, tag))
+
+    def hexa(self, base, topo, tag):
+        """base/topo = 4 vertices em ordem (mesmo sentido)."""
+        b0, b1, b2, b3 = base
+        t0, t1, t2, t3 = topo
+        self.quad(b0, b3, b2, b1, tag)
+        self.quad(t0, t1, t2, t3, tag)
+        self.quad(b0, b1, t1, t0, tag)
+        self.quad(b1, b2, t2, t1, tag)
+        self.quad(b2, b3, t3, t2, tag)
+        self.quad(b3, b0, t0, t3, tag)
+
+    def bloco(self, x0, x1, y0, y1, z0, z1, tag):
+        self.hexa([(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0)],
+                  [(x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)], tag)
+
+    def caixa_oca(self, x0, x1, y0, y1, z0, z1, esp, tag, tampa="topo"):
+        """Bloco com as 4 paredes e uma tampa — o vazio vira encaixe."""
+        self.bloco(x0, x1, y0, y0 + esp, z0, z1, tag)
+        self.bloco(x0, x1, y1 - esp, y1, z0, z1, tag)
+        self.bloco(x0, x0 + esp, y0 + esp, y1 - esp, z0, z1, tag)
+        self.bloco(x1 - esp, x1, y0 + esp, y1 - esp, z0, z1, tag)
+        if tampa == "topo":
+            self.bloco(x0, x1, y0, y1, z1 - esp, z1, tag)
+        elif tampa == "fundo":
+            self.bloco(x0, x1, y0, y1, z0, z0 + esp, tag)
 
     def volume(self):
-        return (self.x1 - self.x0) * (self.y1 - self.y0) * (
-            (self.z1a + self.z1b) / 2.0 - self.z0)
-
-
-class Solido:
-    """Colecao de prismas + a lei de conicidade."""
-
-    def __init__(self, Xb, Yb, tan_x, tan_y):
-        self.Xb, self.Yb = Xb, Yb
-        self.tx, self.ty = tan_x, tan_y
-        self.pecas = []
-
-    def add(self, x0, x1, y0, y1, z0, z1, z1b=None, tag="corpo"):
-        if abs(x1 - x0) < 1e-6 or abs(y1 - y0) < 1e-6:
-            return
-        if max(z1, z1 if z1b is None else z1b) - z0 < 1e-6:
-            return
-        self.pecas.append(Prisma(x0, x1, y0, y1, z0, z1, z1b, tag))
-
-    # -- conicidade -------------------------------------------------------
-    def sx(self, z):
-        return 1.0 + 2.0 * z * self.tx / self.Xb
-
-    def sy(self, z):
-        return 1.0 + 2.0 * z * self.ty / self.Yb
-
-    def ponto(self, x, y, z):
-        return (x * self.sx(z), y * self.sy(z), z)
-
-    # -- malha ------------------------------------------------------------
-    def triangulos(self, offset=(0.0, 0.0, 0.0), giro180=False):
-        """Devolve [(v0,v1,v2,tag), ...] ja no espaco global."""
-        ox, oy, oz = offset
-        tris = []
-        for p in self.pecas:
-            zt = {(p.y0): p.z1a, (p.y1): p.z1b}
-            def V(x, y, top):
-                z = (p.z1a + (p.z1b - p.z1a) * ((y - p.y0) / (p.y1 - p.y0))) if top else p.z0
-                vx, vy, vz = self.ponto(x, y, z)
-                if giro180:
-                    vx, vy = -vx, -vy
-                return (vx + ox, vy + oy, vz + oz)
-            b0, b1, b2, b3 = V(p.x0, p.y0, 0), V(p.x1, p.y0, 0), V(p.x1, p.y1, 0), V(p.x0, p.y1, 0)
-            t0, t1, t2, t3 = V(p.x0, p.y0, 1), V(p.x1, p.y0, 1), V(p.x1, p.y1, 1), V(p.x0, p.y1, 1)
-            quads = [
-                (b0, b3, b2, b1),   # fundo  (normal -z)
-                (t0, t1, t2, t3),   # topo   (normal +z)
-                (b0, b1, t1, t0),   # y-
-                (b2, b3, t3, t2),   # y+
-                (b3, b0, t0, t3),   # x-
-                (b1, b2, t2, t1),   # x+
-            ]
-            if giro180:
-                quads = [tuple(reversed(q)) for q in quads]
-            for q in quads:
-                tris.append((q[0], q[1], q[2], p.tag))
-                tris.append((q[0], q[2], q[3], p.tag))
-        return tris
-
-    def volume_material(self):
-        """cm3 — soma dos prismas (construidos sem sobreposicao)."""
+        """cm3 pelo teorema da divergencia (malha fechada o suficiente)."""
         v = 0.0
-        for p in self.pecas:
-            v += p.volume() * self.sx((p.z0 + max(p.z1a, p.z1b)) / 2.0) \
-                            * self.sy((p.z0 + max(p.z1a, p.z1b)) / 2.0)
-        return v / 1000.0
+        for a, b, c, _ in self.tris:
+            v += (a[0] * (b[1] * c[2] - b[2] * c[1])
+                  - a[1] * (b[0] * c[2] - b[2] * c[0])
+                  + a[2] * (b[0] * c[1] - b[1] * c[0])) / 6.0
+        return abs(v) / 1000.0
+
+    def triangulos(self, offset=(0, 0, 0), giro180=False):
+        ox, oy, oz = offset
+        fora = []
+        for a, b, c, tag in self.tris:
+            if giro180:
+                a = (-a[0], -a[1], a[2]); b = (-b[0], -b[1], b[2]); c = (-c[0], -c[1], c[2])
+                a, b, c = a, c, b
+            fora.append(((a[0] + ox, a[1] + oy, a[2] + oz),
+                         (b[0] + ox, b[1] + oy, b[2] + oz),
+                         (c[0] + ox, c[1] + oy, c[2] + oz), tag))
+        return fora
 
 
-# ---------------------------------------------------------------------------
-# painel com furos: decomposicao exata em prismas
-# ---------------------------------------------------------------------------
-def painel(sol, esp_a, esp_b, u_de, u_ate, perfil, furos, tag="corpo", eixo="y"):
+def banda(malha, cont, i0, i1, o_ext, o_int, z_de, z_ate, tag,
+          tampa_ini=True, tampa_fim=True):
     """
-    Emite um painel plano de espessura [esp_a, esp_b] (coordenada normal),
-    varrendo u de u_de ate u_ate, com topo dado por 'perfil' (lista de (u, z)
-    interpolada linearmente) e descontando 'furos' = [(u0,u1,z0,z1), ...].
-
-    eixo='y'  -> painel no plano y-z (parede lateral); u = y, normal = x
-    eixo='x'  -> painel no plano x-z (parede frontal/traseira); u = x, normal = y
+    Casca continua entre as amostras i0..i1, entre as curvas deslocadas o_ext e
+    o_int, da altura z_de(i) ate z_ate(i) (funcoes do indice, para o topo variar).
+    Emite face externa, interna, topo, base e as tampas de extremidade.
     """
-    cortes = {u_de, u_ate}
-    for u, _ in perfil:
-        if u_de < u < u_ate:
-            cortes.add(u)
-    for f in furos:
-        for u in (f[0], f[1]):
-            if u_de < u < u_ate:
-                cortes.add(u)
-    cortes = sorted(cortes)
-
-    def ztopo(u):
-        if u <= perfil[0][0]:
-            return perfil[0][1]
-        for (ua, za), (ub, zb) in zip(perfil, perfil[1:]):
-            if ua <= u <= ub:
-                return za + (zb - za) * ((u - ua) / (ub - ua)) if ub > ua else zb
-        return perfil[-1][1]
-
-    for ua, ub in zip(cortes, cortes[1:]):
-        if ub - ua < 1e-6:
+    if i1 <= i0:
+        return
+    for i in range(i0, i1):
+        za0, za1 = z_de(i), z_ate(i)
+        zb0, zb1 = z_de(i + 1), z_ate(i + 1)
+        if za1 - za0 < 0.05 and zb1 - zb0 < 0.05:
             continue
-        um = (ua + ub) / 2.0
-        za, zb = ztopo(ua), ztopo(ub)
-        zmax = max(za, zb)
-        # intervalos solidos em z = [0, topo] - furos que cobrem 'um'
-        cortados = sorted([(f[2], f[3]) for f in furos if f[0] - 1e-6 <= um <= f[1] + 1e-6])
-        intervalos = []
-        z = 0.0
-        for h0, h1 in cortados:
-            h0, h1 = max(0.0, h0), min(zmax, h1)
-            if h1 <= z:
-                continue
-            if h0 > z:
-                intervalos.append((z, h0))
-            z = max(z, h1)
-        intervalos.append((z, None))            # ultimo pedaco vai ate o perfil
-        for z0, z1 in intervalos:
-            if z1 is None:
-                if zmax - z0 < 0.2:
-                    continue
-                ta = max(z0, za)
-                tb = max(z0, zb)
-                if eixo == "y":
-                    sol.add(esp_a, esp_b, ua, ub, z0, ta, tb, tag)
-                else:
-                    sol.add(ua, ub, esp_a, esp_b, z0, (ta + tb) / 2.0, None, tag)
-            else:
-                if z1 - z0 < 0.2:
-                    continue
-                if eixo == "y":
-                    sol.add(esp_a, esp_b, ua, ub, z0, z1, None, tag)
-                else:
-                    sol.add(ua, ub, esp_a, esp_b, z0, z1, None, tag)
-
-
-def grade_furos(u0, u1, z0, z1, n_col, n_lin, larg, alt, tag=None):
-    """Distribui n_col x n_lin furos (larg x alt) centrados na regiao dada."""
-    furos = []
-    if n_col <= 0 or n_lin <= 0:
-        return furos
-    passo_u = (u1 - u0) / n_col
-    passo_z = (z1 - z0) / n_lin
-    for i in range(n_col):
-        cu = u0 + passo_u * (i + 0.5)
-        for j in range(n_lin):
-            cz = z0 + passo_z * (j + 0.5)
-            furos.append((cu - larg / 2, cu + larg / 2, cz - alt / 2, cz + alt / 2))
-    return furos
+        ea0 = cont.pt(i, za0, o_ext); ea1 = cont.pt(i, za1, o_ext)
+        ia0 = cont.pt(i, za0, o_int); ia1 = cont.pt(i, za1, o_int)
+        eb0 = cont.pt(i + 1, zb0, o_ext); eb1 = cont.pt(i + 1, zb1, o_ext)
+        ib0 = cont.pt(i + 1, zb0, o_int); ib1 = cont.pt(i + 1, zb1, o_int)
+        A0 = (ea0[0], ea0[1], za0); A1 = (ea1[0], ea1[1], za1)
+        B0 = (eb0[0], eb0[1], zb0); B1 = (eb1[0], eb1[1], zb1)
+        a0 = (ia0[0], ia0[1], za0); a1 = (ia1[0], ia1[1], za1)
+        b0 = (ib0[0], ib0[1], zb0); b1 = (ib1[0], ib1[1], zb1)
+        malha.quad(A0, B0, B1, A1, tag)      # externa
+        malha.quad(a0, a1, b1, b0, tag)      # interna
+        malha.quad(A1, B1, b1, a1, tag)      # topo
+        malha.quad(A0, a0, b0, B0, tag)      # base
+        if i == i0 and tampa_ini:
+            malha.quad(A0, A1, a1, a0, tag)
+        if i == i1 - 1 and tampa_fim:
+            malha.quad(B0, b0, b1, B1, tag)

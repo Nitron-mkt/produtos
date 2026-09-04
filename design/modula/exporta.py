@@ -1,6 +1,7 @@
 """Gera STL, JSON (visualizador web) e as vistas renderizadas da familia MODULA."""
-import json, math, os, struct, sys
+import base64, json, math, os, sys
 import numpy as np
+import modelo
 from modelo import construir, ficha, TAN, RHO_PP
 import render as R
 
@@ -11,37 +12,39 @@ COR_CORPO = {"P": R.PALETA["laranja"], "M": R.PALETA["laranja"], "G": R.PALETA["
 
 
 def paleta(base, destaque=False):
-    c = dict.fromkeys(
-        ["corpo", "fundo", "nervura", "lateral", "traseira", "frontal",
-         "aro", "vinco", "poste", "canal", "rebordo"], base)
-    c["talisca"] = R.PALETA["destaque"] if destaque else base
-    c["assento"] = R.PALETA["critico"] if destaque else base
-    c["canal"] = tuple(int(v * 0.94) for v in base)
-    c["rebordo"] = tuple(min(255, int(v * 1.08)) for v in base)
+    c = dict.fromkeys(["faixa", "ripa", "aro", "fundo", "pino", "pe"], base)
+    c["pe"] = R.PALETA["destaque"] if destaque else base
+    c["pino"] = R.PALETA["critico"] if destaque else base
+    c["fundo"] = tuple(int(v * 0.95) for v in base)
+    c["aro"] = tuple(min(255, int(v * 1.07)) for v in base)
     return c
 
 
-def stl(tris, caminho, nome):
-    with open(caminho, "wb") as f:
-        f.write(struct.pack("<80sI", nome.encode()[:80].ljust(80, b" "), len(tris)))
-        for a, b, c, _ in tris:
-            n = np.cross(np.subtract(b, a), np.subtract(c, a))
-            ln = np.linalg.norm(n)
-            n = n / ln if ln else n
-            f.write(struct.pack("<12f H", *n, *a, *b, *c, 0))
+TAGS = ["faixa", "ripa", "aro", "fundo", "pino", "pe"]
 
 
-def caixas_json(sol, s):
+def malha_json(m, s):
+    """Triangulos quantizados em 0,25 mm -> int16 -> base64."""
+    esc = 4.0
+    vals = []
+    grupos = {t: [] for t in ("corpo", "pino", "pe")}
+    for a, b, c, tag in m.tris:
+        g = "pino" if tag == "pino" else ("pe" if tag == "pe" else "corpo")
+        grupos[g].append((a, b, c))
+    saida = {}
+    for g, tris in grupos.items():
+        buf = []
+        for a, b, c in tris:
+            for v in (a, b, c):
+                buf += [int(round(v[0] * esc)), int(round(v[2] * esc)),
+                        int(round(-v[1] * esc))]          # z sobe -> y do three
+        arr = np.array(buf, dtype="<i2")
+        saida[g] = base64.b64encode(arr.tobytes()).decode()
     return dict(
-        Xb=sol.Xb, Yb=sol.Yb, tx=sol.tx, ty=sol.ty,
-        X=s["X"], Y=s["Y"], H=s["H"], hf=s["hf"], e=s["e"],
+        X=s["X"], Y=s["Y"], H=s["H"], hf=s["hf"], e=s["e"], R=s["R"],
         passo=s["passo_ninho"], massa=round(s["massa_g"]),
-        util=round(s["litros_boca"], 1), total=round(s["litros_total"], 1),
-        pecas=[[round(p.x0, 2), round(p.x1, 2), round(p.y0, 2), round(p.y1, 2),
-                round(p.z0, 2), round(p.z1a, 2), round(p.z1b, 2),
-                ["corpo", "talisca", "assento", "canal", "rebordo"].index(p.tag)
-                if p.tag in ("corpo", "talisca", "assento", "canal", "rebordo") else 0]
-               for p in sol.pecas])
+        total=round(s["litros_total"], 1), boca=round(s["litros_boca"], 1),
+        aba=s["aba"], pe=s["sal_pe"], esc=esc, malha=saida)
 
 
 def main():
@@ -49,10 +52,12 @@ def main():
     for k in ("P", "M", "G"):
         sol, s = ficha(k)
         fichas[k] = (sol, s)
-        tris = sol.triangulos()
-        stl(tris, os.path.join(SAIDA, f"modula-{k}.stl"), f"MODULA {k}")
-        dados[k] = caixas_json(sol, s)
-        print(f"  STL {k}: {len(tris)} triangulos")
+        print(f"  {k}: {len(sol.tris)} triangulos, {s['massa_g']:.0f} g")
+    modelo.AMOSTRA = [4.4, 9]                       # malha leve para o navegador
+    for k in ("P", "M", "G"):
+        leve, sl = ficha(k)
+        dados[k] = malha_json(leve, sl)
+    modelo.AMOSTRA = [2.6, 14]
     with open(os.path.join(SAIDA, "modula.json"), "w") as f:
         json.dump(dados, f, separators=(",", ":"))
 
@@ -60,7 +65,7 @@ def main():
     grupos, x = [], 0.0
     for k in ("P", "M", "G"):
         sol, s = fichas[k]
-        x += s["X"] / 2 + 40
+        x += s["X"] / 2 + 46
         grupos.append((sol.triangulos(offset=(x, 0, 0)), paleta(COR_CORPO[k])))
         x += s["X"] / 2
     R.cena(grupos, 1500, 620, az=34, el=22).save(os.path.join(SAIDA, "01-familia.png"))
@@ -84,7 +89,7 @@ def main():
 
     # ---- 05 mecanismo (talisca + assento em destaque) --------------------
     g = [(sol.triangulos(), paleta(COR_CORPO["M"], destaque=True)),
-         (sol.triangulos(offset=(0, 0, s["H"] + 55)), paleta(COR_CORPO["M"], destaque=True))]
+         (sol.triangulos(offset=(0, 0, s["H"] + 60)), paleta(COR_CORPO["M"], destaque=True))]
     R.cena(g, 1200, 1000, az=52, el=16).save(os.path.join(SAIDA, "05-mecanismo.png"))
 
     # ---- 06 ninho x pilha lado a lado ------------------------------------
@@ -96,16 +101,12 @@ def main():
         g.append((sol.triangulos(offset=(320, 0, i * s["H"])), paleta(COR_CORPO["G"])))
     R.cena(g, 1400, 900, az=40, el=16).save(os.path.join(SAIDA, "06-ninho-x-pilha.png"))
 
-    # ---- 07 torre mista (andares) ----------------------------------------
-    g = []
+    # ---- 07 detalhe do pe e do pino ---------------------------------------
     solG, sG = fichas["G"]
-    solM, sM = fichas["M"]
-    solP, sP = fichas["P"]
-    g.append((solG.triangulos(), paleta(R.PALETA["chumbo"])))
-    g.append((solG.triangulos(offset=(0, 0, sG["H"])), paleta(R.PALETA["chumbo"])))
-    for i, ox in ((0, -sM["X"] / 2 - 4), (1, sM["X"] / 2 + 4)):
-        g.append((solM.triangulos(offset=(0, 0, 0)), paleta(R.PALETA["laranja"])))
-    R.cena(g[:2], 1000, 1000, az=40, el=16).save(os.path.join(SAIDA, "07-G-pilha.png"))
+    g = [(solG.triangulos(), paleta(R.PALETA["chumbo"], destaque=True)),
+         (solG.triangulos(offset=(0, 0, sG["H"] + 70)),
+          paleta(R.PALETA["chumbo"], destaque=True))]
+    R.cena(g, 1100, 1000, az=64, el=12).save(os.path.join(SAIDA, "07-G-encaixe.png"))
     print("  imagens em", SAIDA)
 
 
