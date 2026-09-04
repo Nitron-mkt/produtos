@@ -1,7 +1,10 @@
-eixo,governado_por,barra_mm,codprod,valor_1,valor_2,valor_3,valor_4,valor_5,referencia_imagem,erro
-largura,numero de vaos,474,15941,1010,1504,1998,2492,2986,1000 / 1320 / 1980,+1.0% / +14% / +0.9%
-altura,numero de niveis,346,15927,768,1106,1444,1782,2120,850 / 1050 / 1200 / 1400 / 2000,passo de 337.9 mm
-profundidade P,escolha da barra,346,15927,431,,,,,450,-4.2%
-profundidade M,escolha da barra,474,15941,559,,,,,,
-profundidade G,escolha da barra,717,15955,802,,,,,800,+0.3%
-profundidade 1000 NAO ALCANCAVEL,exigiria barra nova,915,,1000,,,,,1000,barra maxima do catalogo e 717
+eixo,tipo,referencia_nitron,barra,codprod,comprimento_barra_mm,valores_mm,observacao
+largura,FIXA,SAPATEIRA 851.004.N03,PSC-02,15953,415,457,passo de corrida 435.1 mm
+largura,FIXA,MULTIUSO G 855-857,PSC-03,15954,595,637,passo de corrida 615.1 mm
+largura,FIXA,ARARA 850.004.N03,PSC-04,15955,717,759,passo de corrida 737.1 mm
+comprimento,MODULAR,corrida de N vaos sapateira,PSC-02,15953,415,457/892/1327/1762/2197/2633,4 trizetas + 2(N-1) cruzetas por nivel
+comprimento,MODULAR,corrida de N vaos multiuso,PSC-03,15954,595,637/1252/1867/2482/3097/3713,idem
+comprimento,MODULAR,corrida de N vaos arara,PSC-04,15955,717,759/1496/2233/2970/3707/4445,idem
+altura,MODULAR,passo vertical unico,BAL-02-AC,15847,270,616/878/1140/1402/1664/1926,3 a 8 niveis; passo de 261.9 mm; acerta 6 dos 10 padroes de PDV
+profundidade,MODULAR,escolha entre 19 PIs,varias,,167 a 717,252 a 802,externa = barra + 85.26 mm
+profundidade,LIMITE,1000 mm nao alcancavel,barra nova ~915,,915,1000,unico item novo de compra da grade
