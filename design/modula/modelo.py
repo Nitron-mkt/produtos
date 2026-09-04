@@ -7,34 +7,37 @@ FORMA
   apoio e pega ao mesmo tempo. Fundo em grelha, recuado 6 mm, de modo que a
   peca se apoia na propria saia.
 
-MECANICA — PE + PINO
-  Aro: 4 PINOS ocos sobre a aba.
-  Base: 4 PES ocos, embutidos na faixa inferior; o vazio do pe e o soquete.
+MECANICA — PE POR FORA (rev.03)
+  Aro: continuo e fechado em toda a volta, sem um unico recorte. Sobre ele, em
+  4 posicoes, RESSALTOS de apoio.
+  Base: 4 PES que avancam para FORA, alem da saia do aro.
 
-  . alinhada 0 grau   -> o pe pousa na aba e o pino entra no soquete: PLUGA.
-                         passo = altura da peca.
-  . girada 180 graus  -> cada pe cai onde falta uma ripa (a JANELA, na posicao
-                         espelhada) e desce por dentro: NINHO.
+  . alinhada 0 grau   -> o pe pousa no aro e o ressalto entra no vazio do pe:
+                         PLUGA. passo = altura da peca.
+  . girada 180 graus  -> o pe cai nas posicoes espelhadas, onde nao ha
+                         ressalto, e desce POR FORA da peca de baixo: NINHO.
                          passo = espessura / tan(saida).
 
-  As ripas de cada lateral sao distribuidas simetricamente em torno de y=0, de
-  modo que a posicao espelhada de uma ripa e sempre outra ripa. Os pinos ficam
-  em duas dessas ripas; as duas ripas espelhadas correspondentes sao removidas
-  e viram as janelas. A janela e, literalmente, uma ripa que falta — o ritmo da
-  parede continua inteiro.
+  E o "por fora" que liberta o aro. Na rev.02 o pe descia por dentro e por isso
+  precisava de uma janela rasgada no aro — quatro buracos na borda superior,
+  que faziam a peca parecer solta. Agora nada atravessa o aro: a borda de cima
+  e uma peca inteira, arredondada, continua.
 
   Como o contorno cresce por OFFSET (e nao por escala), o trecho reto da
   lateral tem o mesmo comprimento em qualquer altura: o pe da peca de cima cai
-  exatamente sobre o pino da de baixo, sem correcao de escala.
+  exatamente sobre o ressalto da de baixo, sem correcao de escala.
 
 REGRA QUE GOVERNA TUDO
-  Saliencia externa so e permitida na faixa do topo — altura menor que o passo
-  do ninho — porque essa faixa nunca precisa entrar dentro de outra peca.
-  Abaixo dela a parede e lisa por fora e todo o vazado e coplanar. E por isso
-  que a peca nao tem friso horizontal: ele mataria o ninho.
+  A PAREDE e lisa por fora: todo o vazado e coplanar, nenhum relevo. E que a
+  parede da peca de cima desliza rente a da de baixo no ninho — um friso
+  horizontal de 2 mm ja trava a peca a meio caminho.
+
+  As excecoes sao as duas pontas: o ARO (que no ninho fica sempre acima do aro
+  da peca de baixo) e os PES (que passam por fora de tudo). Sao os dois unicos
+  lugares onde a peca pode ter volume.
 """
 import math
-from geometria import DEG, Contorno, Malha, banda
+from geometria import DEG, Contorno, Malha, banda, tubo_roundrect
 
 AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
 SAIDA_GR = 5.0
@@ -42,9 +45,9 @@ TAN = math.tan(SAIDA_GR * DEG)
 RHO_PP = 0.905
 
 TAMANHOS = {
-    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=2.0, R=22.0),
-    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.2, R=30.0),
-    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.5, R=40.0),
+    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=150.0, e=2.0, R=26.0),
+    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=200.0, e=2.2, R=36.0),
+    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=250.0, e=2.5, R=46.0),
 }
 
 
@@ -56,30 +59,39 @@ def parametros(k):
     s = dict(TAMANHOS[k])
     X, Y, H, e, R = s["X"], s["Y"], s["H"], s["e"], s["R"]
     s["conic"] = con = H * TAN
-    s["aba"] = aba = round(9.0 + 0.008 * X, 1)
-    s["saia"] = round(11.0 + 0.014 * H, 1)
-    s["Xt"], s["Yt"] = X - 2 * aba, Y - 2 * aba
+    s["folga_pe"] = fp = 3.5                      # o pe passa por fora da saia
+    s["aba"] = aba = round(10.0 + 0.008 * X, 1)
+    s["saia"] = round(12.0 + 0.014 * H, 1)
+    s["aro_ext"] = X / 2 - fp                     # face externa do aro
+    s["Xt"] = X - 2 * (fp + aba)                  # parede no topo
+    s["Yt"] = Y - 2 * (fp + aba)
     s["Xb"], s["Yb"] = s["Xt"] - 2 * con, s["Yt"] - 2 * con
-    s["Rb"] = max(6.0, R - aba - con)
+    s["Rt"] = R - fp - aba
+    s["Rb"] = max(7.0, s["Rt"] - con)
     s["hf"] = round(0.40 * H)
-    s["mergulho"] = round(0.26 * s["hf"])
-    s["hb"] = round(12.0 + 0.06 * H)
-    s["h_aro"] = round(9.0 + 0.035 * H)
+    s["mergulho"] = round(0.28 * s["hf"])
+    s["hb"] = round(14.0 + 0.05 * H)              # faixa cheia junto ao fundo
+    s["h_aro"] = round(8.0 + 0.030 * H)           # parede cheia sob o aro
     s["z_fundo"] = 6.0
     s["ef"] = e + 0.5
-    s["ripa"] = round(8.0 + 0.006 * X, 1)
-    s["vao"] = round(13.5 + 0.013 * X, 1)
+    s["ripa"] = round(7.0 + 0.005 * X, 1)
+    s["vao"] = round(14.0 + 0.012 * X, 1)
+    s["fileiras"] = 3 if H >= 230 else 2
     s["passo_ninho"] = round(e / TAN + 2.0, 1)
-    s["sal_pe"] = aba + con
+    s["sal_pe"] = round(fp + aba + con, 1)        # o quanto o pe avanca
     # metade do trecho reto da lateral (constante em qualquer altura)
-    s["b"] = (Y - 2 * aba) / 2 - (R - aba)
-    s["ax"] = (X - 2 * aba) / 2 - (R - aba)      # idem para frente/traseira
-    s["larg_pino"] = round(min(0.24 * s["b"], 18.0 + 0.02 * X), 1)
-    s["larg_pe"] = round(s["larg_pino"] + 2 * e + 4, 1)
-    s["h_pino"] = round(8.0 + 0.018 * H)
-    s["h_pe"] = round(s["h_pino"] + 7)
-    s["h_janela"] = 12.0
-    s["etiqueta"] = round(0.24 * X)               # painel cheio na frente
+    s["b"] = s["Yt"] / 2 - s["Rt"]
+    s["ax"] = s["Xt"] / 2 - s["Rt"]
+    s["larg_pe"] = round(24.0 + 0.025 * X, 1)
+    s["larg_ress"] = round(s["larg_pe"] - 14, 1)
+    s["h_ress"] = round(8.0 + 0.012 * H, 1)
+    s["h_pe"] = round(s["h_ress"] + e + 8, 1)
+    s["y_pe_f"] = round(0.85 * s["b"], 1)
+    s["y_pe_t"] = round(-0.42 * s["b"], 1)
+    s["etiqueta"] = round(0.24 * X)
+    folga = (s["y_pe_f"] + s["y_pe_t"]) - (s["larg_pe"] + s["larg_ress"]) / 2
+    assert folga > 0, f"{k}: pe girado bate no ressalto (folga {folga:.1f} mm)"
+    s["folga_giro"] = round(folga, 1)
     return s
 
 
@@ -100,65 +112,55 @@ def construir(k):
     n = cont.n
     passo_alvo = s["ripa"] + s["vao"]
 
-    # ---- perfil do aro ----------------------------------------------------
+    # ---- perfil do aro: continuo, com 4 cristas de apoio ------------------
+    hr, lr = s["h_ress"], s["larg_ress"]
+    rampa = 22.0
+    h_geral = H - hr                       # o aro corre 'hr' abaixo do topo
+
+    def crista(i):
+        """Elevacao suave do aro nas 4 posicoes de apoio."""
+        tr, _ = cont.amostras[i % n]
+        if tr not in ("lat_d", "lat_e"):
+            return 0.0
+        y = cont.y_de(i)
+        for yc in (s["y_pe_f"], s["y_pe_t"]):
+            d = abs(y - yc)
+            if d <= lr / 2:
+                return hr
+            if d <= lr / 2 + rampa:
+                return hr * (1 - suave((d - lr / 2) / rampa))
+        return 0.0
+
     def ztopo(i):
         tr, t = cont.amostras[i % n]
         if tr == "canto_fd":
-            return H - (H - hf) * suave(t)
+            return h_geral - (h_geral - hf) * suave(t)
         if tr == "canto_fe":
-            return hf + (H - hf) * suave(t)
+            return hf + (h_geral - hf) * suave(t)
         if tr == "frente":
             return hf - s["mergulho"] * 0.5 * (1 - math.cos(2 * math.pi * t))
-        return H
+        return h_geral + crista(i)
 
-    # ---- ritmo das ripas ---------------------------------------------------
-    pos_lat, passo_lat = ritmo(s["b"], passo_alvo, s["ripa"])
+    # ---- ritmo das ripas (uniforme, sem excecao) --------------------------
+    pos_lat, _ = ritmo(s["b"], passo_alvo, s["ripa"])
     pos_fre, _ = ritmo(s["ax"], passo_alvo, s["ripa"])
-
-    # as duas ripas que recebem pino, e as duas espelhadas que viram janela
-    y_pino_f = min(pos_lat, key=lambda p: abs(p - 0.87 * s["b"]))
-    y_pino_t = -min(pos_lat, key=lambda p: abs(p - 0.62 * s["b"]))
-    s["y_pino_f"], s["y_pino_t"] = y_pino_f, y_pino_t
-    s["y_janela_f"], s["y_janela_t"] = -y_pino_t, -y_pino_f
-    s["abertura"] = round(2 * passo_lat - s["ripa"], 1)
-    s["passo_lat"] = round(passo_lat, 1)
-
-    janelas_y = (s["y_janela_f"], s["y_janela_t"])
-    meia_jan = passo_lat - s["ripa"] / 2
 
     def classifica(i):
         tr, t = cont.amostras[i % n]
         if tr in ("lat_d", "lat_e"):
             y = cont.y_de(i)
-            for jy in janelas_y:
-                if abs(y - jy) <= meia_jan:
-                    return "janela"
-            for p in pos_lat:
-                if abs(abs(y) - p) <= s["ripa"] / 2:
-                    return "ripa"
-            return "vao"
-        if tr == "traseira":
+            return "ripa" if any(abs(abs(y) - p) <= s["ripa"] / 2 for p in pos_lat) else "vao"
+        if tr in ("frente", "traseira"):
             x = cont.ponto(i, 0.0)[0]
-            for p in pos_fre:
-                if abs(abs(x) - p) <= s["ripa"] / 2:
-                    return "ripa"
-            return "vao"
-        if tr == "frente":
-            x = cont.ponto(i, 0.0)[0]
-            if abs(x) <= s["etiqueta"] / 2:
-                return "ripa"                       # painel de etiqueta
-            for p in pos_fre:
-                if abs(abs(x) - p) <= s["ripa"] / 2:
-                    return "ripa"
-            return "vao"
-        return "ripa" if 0.34 <= t <= 0.66 else "vao"   # uma ripa por canto
+            if tr == "frente" and abs(x) <= s["etiqueta"] / 2:
+                return "ripa"                       # painel liso para etiqueta
+            return "ripa" if any(abs(abs(x) - p) <= s["ripa"] / 2 for p in pos_fre) else "vao"
+        return "ripa" if 0.32 <= t <= 0.68 else "vao"   # uma ripa por canto
 
     tipo = [classifica(i) for i in range(n)]
     eh_ripa = lambda i: tipo[i % n] == "ripa"
-    eh_janela = lambda i: tipo[i % n] == "janela"
 
-    # ---- arredondamento das pontas dos rasgos ------------------------------
-    # para cada aresta de vao, distancia (em mm de perimetro) ate a borda do vao
+    # ---- pontas arredondadas dos rasgos -----------------------------------
     dist_borda = [0.0] * n
     i = 0
     while i < n:
@@ -173,7 +175,7 @@ def construir(k):
             sm = (cont.s[q] + cont.s[q + 1]) / 2
             dist_borda[q] = min(sm - s0, s1 - sm)
         i = j
-    r_furo = min(9.0, s["vao"] / 2.2)
+    r_furo = min(9.0, s["vao"] / 2.1)
 
     def dz(i):
         i %= n
@@ -182,15 +184,23 @@ def construir(k):
         d = min(dist_borda[i], r_furo)
         return r_furo - math.sqrt(max(0.0, r_furo * r_furo - (r_furo - d) ** 2))
 
-    # ---- travessa coplanar a meia altura (so onde o rasgo e alto) ----------
-    w_trav = round(6.0 + 0.008 * X, 1)
+    # ---- travessas coplanares entre as fileiras ---------------------------
+    w_trav = round(6.0 + 0.006 * X, 1)
+    nfil = s["fileiras"]
+
     def z_aro_inf(i):
         return ztopo(i) - h_aro
-    def alto(i):
-        return (z_aro_inf(i) - hb) > 0.42 * H
-    def z_trav(i):
-        c = (hb + z_aro_inf(i)) / 2
-        return c - w_trav / 2, c + w_trav / 2
+
+    def travessas(i):
+        """Faixas horizontais de material dentro do rasgo, em (z0, z1).
+        Sempre devolve nfil-1 faixas; degeneradas onde o rasgo e baixo."""
+        alt = max(0.0, z_aro_inf(i) - hb)
+        fs = []
+        for q in range(1, nfil):
+            c = hb + alt * q / nfil
+            meia = w_trav / 2 if alt >= 0.30 * H else 0.0
+            fs.append((c - meia, c + meia))
+        return fs
 
     # ---- emissao de bandas continuas --------------------------------------
     def emitir(quer, o_ext, o_int, zde, zate, tag):
@@ -214,21 +224,30 @@ def construir(k):
             i = j
 
     z0 = lambda i: 0.0
-    emitir(lambda i: not eh_janela(i), 0.0, -e, z0, lambda i: hb + dz(i), "faixa")
-    emitir(eh_janela, 0.0, -e, z0, lambda i: s["h_janela"], "faixa")
+    emitir(lambda i: True, 0.0, -e, z0, lambda i: hb + dz(i), "faixa")
     emitir(eh_ripa, 0.0, -e, lambda i: hb, ztopo, "ripa")
-    emitir(lambda i: tipo[i % n] == "vao" and alto(i), 0.0, -e,
-           lambda i: z_trav(i)[0] - dz(i), lambda i: z_trav(i)[1] + dz(i), "ripa")
-    emitir(lambda i: not (eh_ripa(i) or eh_janela(i)),
-           0.0, -e, lambda i: z_aro_inf(i) - dz(i), ztopo, "aro")
-    sem_jan = lambda i: not eh_janela(i)
-    emitir(sem_jan, aba, 0.0, lambda i: ztopo(i) - e, ztopo, "aro")
-    emitir(sem_jan, aba, aba - e, lambda i: ztopo(i) - s["saia"],
-           lambda i: ztopo(i) - e, "aro")
+    for q in range(nfil - 1):
+        def faz(q=q):
+            emitir(lambda i: (not eh_ripa(i))
+                   and travessas(i)[q][1] > travessas(i)[q][0], 0.0, -e,
+                   lambda i: travessas(i)[q][0] - dz(i),
+                   lambda i: travessas(i)[q][1] + dz(i), "ripa")
+        faz()
+    emitir(lambda i: not eh_ripa(i), 0.0, -e,
+           lambda i: z_aro_inf(i) - dz(i), ztopo, "aro")
+
+    # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
+    A, S = aba, s["saia"]
+    todos = lambda i: True
+    emitir(todos, A - 2.0, -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(todos, A - 3.2, -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
+    emitir(todos, A - 4.6, -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
+    emitir(todos, A, A - e, lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(todos, A, A - 2.0, lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
 
     # ---- fundo em grelha ---------------------------------------------------
     zf, ef = s["z_fundo"], s["ef"]
-    w_mold = round(10.0 + 0.012 * X, 1)
+    w_mold = round(9.0 + 0.010 * X, 1)
     banda(m, cont, 0, n, -e, -e - w_mold, lambda i: zf, lambda i: zf + ef, "fundo")
     hx = s["Xb"] / 2 + zf * TAN - e - w_mold
     hy = s["Yb"] / 2 + zf * TAN - e - w_mold
@@ -238,8 +257,8 @@ def construir(k):
         d = abs(c) - (ha - rr)
         return hb_ if d <= 0 else (hb_ - rr) + math.sqrt(max(0.0, rr * rr - d * d))
 
-    barra = round(5.5 + 0.004 * X, 1)
-    passo_f = barra + 11.0 + 0.011 * X
+    barra = round(5.0 + 0.0035 * X, 1)
+    passo_f = barra + 10.0 + 0.010 * X
     nx = max(2, int(round(2 * hx / passo_f)))
     ny = max(2, int(round(2 * hy / passo_f)))
     for i in range(1, nx):
@@ -251,18 +270,20 @@ def construir(k):
         L = lim(c, hy, hx, r) - 0.8
         m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
 
-    # ---- pinos e pes -------------------------------------------------------
-    lp, hpin, hpe, lpe = s["larg_pino"], s["h_pino"], s["h_pe"], s["larg_pe"]
+    # ---- pes (na base) -----------------------------------------------------
+    lpe, hpe = s["larg_pe"], s["h_pe"]
+    largura_pe = X / 2 - (s["Xb"] / 2 - e) + 4.0        # cobre da parede ao envelope
     for lado in (1, -1):
-        for yc in (y_pino_f, y_pino_t):
-            xa, xb = sorted([lado * (X / 2 - 1.5), lado * (X / 2 - aba + 1.5)])
-            m.caixa_oca(xa, xb, yc - lp / 2, yc + lp / 2, H, H + hpin, e,
-                        "pino", tampa="topo")
-            xc, xd = sorted([lado * (s["Xb"] / 2 - e), lado * (X / 2)])
-            m.caixa_oca(xc, xd, yc - lpe / 2, yc + lpe / 2, 0.0, hpe, e,
-                        "pe", tampa="topo")
-            xp, xq = sorted([lado * (X / 2 - aba - 3.0 - e), lado * (X / 2 - aba - 3.0)])
-            m.bloco(xp, xq, yc - lpe / 2 + e, yc + lpe / 2 - e, 0.0, hpe, "pe")
+        for yc in (s["y_pe_f"], s["y_pe_t"]):
+            cxp = lado * (X / 2 - largura_pe / 2)
+            tubo_roundrect(m, cxp, yc, largura_pe, lpe, min(11.0, lpe / 3),
+                           0.0, hpe, e, "pe", n_arco=6, cone=1.6)
+
+    # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
+    lim_crista = h_geral + 1.5
+    for i, (a, b, c, tag) in enumerate(m.tris):
+        if tag != "pe" and (a[2] + b[2] + c[2]) / 3 > lim_crista:
+            m.tris[i] = (a, b, c, "crista")
 
     s["cont"], s["ztopo"] = cont, ztopo
     return m, s
@@ -299,7 +320,6 @@ if __name__ == "__main__":
         m, s = ficha(k)
         print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} R={s['R']:.0f} | "
               f"{s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | ninho "
-              f"{s['passo_ninho']:.0f} mm | ripa {s['ripa']}/{s['vao']} mm | "
-              f"pino y={s['y_pino_f']:.0f} e {s['y_pino_t']:.0f} | janela y="
-              f"{s['y_janela_f']:.0f} e {s['y_janela_t']:.0f} | abertura "
-              f"{s['abertura']:.0f} mm > pe {s['larg_pe']:.0f} mm | {s['n_triangulos']} tri")
+              f"{s['passo_ninho']:.0f} mm | ripa {s['ripa']}/{s['vao']} ({s['fileiras']} fil) | "
+              f"pe y={s['y_pe_f']:.0f} e {s['y_pe_t']:.0f}, avanca {s['sal_pe']:.0f} mm | "
+              f"folga do giro {s['folga_giro']:.0f} mm | {s['n_triangulos']} tri")

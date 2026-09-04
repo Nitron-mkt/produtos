@@ -124,6 +124,38 @@ class Malha:
         elif tampa == "fundo":
             self.bloco(x0, x1, y0, y1, z0, z0 + esp, tag)
 
+    def normais_suaves(self, crease=42.0):
+        """Normal por canto de face, mediando so entre faces quase coplanares.
+        Deixa o canto arredondado liso e a quina viva nitida."""
+        from collections import defaultdict
+        nf = []
+        for a, b, c, _ in self.tris:
+            u = (b[0]-a[0], b[1]-a[1], b[2]-a[2])
+            v = (c[0]-a[0], c[1]-a[1], c[2]-a[2])
+            n = (u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0])
+            L = math.sqrt(n[0]**2 + n[1]**2 + n[2]**2) or 1.0
+            nf.append((n[0]/L, n[1]/L, n[2]/L))
+        ch = lambda p: (round(p[0]*8), round(p[1]*8), round(p[2]*8))
+        viz = defaultdict(list)
+        for i, (a, b, c, _) in enumerate(self.tris):
+            for p in (a, b, c):
+                viz[ch(p)].append(i)
+        lim = math.cos(crease * DEG)
+        saida = []
+        for i, (a, b, c, _) in enumerate(self.tris):
+            base = nf[i]
+            cantos = []
+            for p in (a, b, c):
+                ax = ay = az = 0.0
+                for j in viz[ch(p)]:
+                    o = nf[j]
+                    if base[0]*o[0] + base[1]*o[1] + base[2]*o[2] >= lim:
+                        ax += o[0]; ay += o[1]; az += o[2]
+                L = math.sqrt(ax*ax + ay*ay + az*az)
+                cantos.append((ax/L, ay/L, az/L) if L > 1e-9 else base)
+            saida.append(cantos)
+        return saida
+
     def volume(self):
         """cm3 pelo teorema da divergencia (malha fechada o suficiente)."""
         v = 0.0
@@ -176,3 +208,43 @@ def banda(malha, cont, i0, i1, o_ext, o_int, z_de, z_ate, tag,
             malha.quad(A0, A1, a1, a0, tag)
         if i == i1 - 1 and tampa_fim:
             malha.quad(B0, b0, b1, B1, tag)
+
+
+def tubo_roundrect(malha, cx, cy, W, D, R, z0, z1, esp, tag, n_arco=6, cone=1.5):
+    """Pe: caixa oca de planta arredondada, fechada em cima e aberta embaixo.
+    O vazio de dentro e o encaixe. 'cone' = recuo por lado do topo (saida)."""
+    R = max(1.5, min(R, min(W, D) / 2 - 0.5))
+    pts, ax, ay = [], W / 2 - R, D / 2 - R
+    for (qx, qy, a0) in ((ax, ay, 0.0), (-ax, ay, 90.0), (-ax, -ay, 180.0), (ax, -ay, 270.0)):
+        for k in range(n_arco + 1):
+            a = (a0 + 90.0 * k / n_arco) * DEG
+            pts.append((qx + R * math.cos(a), qy + R * math.sin(a)))
+    n = len(pts)
+    esc1 = 1.0 - 2.0 * cone / max(W, D)
+
+    def V(i, z, dentro, topo):
+        x, y = pts[i % n]
+        k = esc1 if topo else 1.0
+        x, y = x * k, y * k
+        if dentro:
+            L = math.hypot(x, y) or 1.0
+            x, y = x - esp * x / L, y - esp * y / L
+        return (cx + x, cy + y, z)
+
+    zt = z1 - esp
+    for i in range(n):
+        A0, B0 = V(i, z0, 0, 0), V(i + 1, z0, 0, 0)
+        A1, B1 = V(i, z1, 0, 1), V(i + 1, z1, 0, 1)
+        a0, b0 = V(i, z0, 1, 0), V(i + 1, z0, 1, 0)
+        a1, b1 = V(i, zt, 1, 1), V(i + 1, zt, 1, 1)
+        malha.quad(A0, B0, B1, A1, tag)          # face externa
+        malha.quad(a0, a1, b1, b0, tag)          # face interna
+        malha.quad(A0, a0, b0, B0, tag)          # anel de baixo
+        malha.quad(a1, A1, B1, b1, tag)          # anel de topo (sob a tampa)
+    c1 = (cx, cy, z1)
+    ct = (cx, cy, zt)
+    for i in range(n):
+        A1, B1 = V(i, z1, 0, 1), V(i + 1, z1, 0, 1)
+        a1, b1 = V(i, zt, 1, 1), V(i + 1, zt, 1, 1)
+        malha.tri(c1, A1, B1, tag)               # topo
+        malha.tri(ct, b1, a1, tag)               # face de baixo da tampa

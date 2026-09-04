@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.02** — parede inteira vazada, cantos arredondados, encaixe por pé + pino.
+**rev.03** — borda superior contínua e fechada, cantos arredondados, parede inteira vazada.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam um dentro do outro no transporte** e **plugam um sobre
@@ -15,74 +15,76 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Canto | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Ganho transp. | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 300 × 200 × 150 | R 22 | 2,0 mm | 215 g | R$ 2,15 | 5,9 L | 150 mm | 25 mm | 3,3× | 184–245 tf |
-| **M** | 400 × 300 × 200 | R 30 | 2,2 mm | 414 g | R$ 4,13 | 17,2 L | 200 mm | 27 mm | 3,6× | 367–490 tf |
-| **G** | 600 × 400 × 250 | R 40 | 2,5 mm | 840 g | R$ 8,38 | 45,6 L | 250 mm | 31 mm | 3,7× | 734–979 tf |
+| **P** | 300 × 200 × 150 | R 26 | 2,0 mm | 223 g | R$ 2,23 | 5,4 L | 150 mm | 25 mm | 3,3× | 184–245 tf |
+| **M** | 400 × 300 × 200 | R 36 | 2,2 mm | 438 g | R$ 4,37 | 16,2 L | 200 mm | 27 mm | 3,6× | 367–490 tf |
+| **G** | 600 × 400 × 250 | R 46 | 2,5 mm | 891 g | R$ 8,89 | 43,7 L | 250 mm | 31 mm | 3,7× | 734–979 tf |
 
 Grade **1 : 2 : 4** — dois P dão exatamente um M, dois M dão exatamente um G.
 No palete 1200 × 800: 16 P, 8 M ou 4 G por camada, sem sobra.
-Seis M plugadas = 1.200 mm de altura; ninhadas = 335 mm.
+Seis M plugadas = 1.200 mm de altura; ninhadas = 336 mm.
 
 Resina a R$ 9,98/kg (80% virgem clarificado a R$ 10,96 + 20% moído a R$ 6,07).
 
-### rev.01 → rev.02
+### O caminho das revisões
 
-| | massa rev.01 | massa rev.02 | capacidade | ninho |
-|---|---|---|---|---|
-| P | 467 g | **215 g** (−54%) | 6,2 → 5,9 L | 31 → 25 mm |
-| M | 886 g | **414 g** (−53%) | 17,4 → 17,2 L | 33 → 27 mm |
-| G | 1.514 g | **840 g** (−44%) | 46,8 → 45,6 L | 39 → 31 mm |
+| | rev.01 | rev.02 | rev.03 |
+|---|---|---|---|
+| arquitetura | parede cheia, 8 canais grossos | parede vazada, pé por dentro | parede vazada, pé por fora |
+| massa M | 886 g | 414 g | 438 g |
+| capacidade M | 17,4 L | 17,2 L | 16,2 L |
+| buracos no aro | 0 | **4** | **0** |
+| exceções no ritmo da parede | 8 | 4 | **0** |
 
-Vazar a lateral inteira e trocar os oito canais grossos pelo par pé-pino tirou metade
-da resina sem tirar capacidade. O ninho ficou mais fundo porque a saída subiu de 4° para 5°.
+A rev.02 cortou metade da resina, mas pagou com quatro janelas rasgadas no aro — a peça
+ficava com a borda de cima solta. A rev.03 fecha a borda por ~5% de resina e ~6% de
+capacidade, e ainda mantém metade da resina da rev.01.
 
-## A mecânica — pé + pino
+## A mecânica — pé por fora, crista no aro
 
-As ripas de cada lateral são distribuídas **simetricamente em torno do meio**, então a
-posição espelhada de uma ripa é sempre outra ripa. Duas dessas ripas recebem um **pino**
-oco no aro; as duas espelhadas correspondentes são **removidas** — e é por elas que o
-**pé** desce. A janela do encaixe é uma ripa que falta, não um rasgo aberto.
+O aro corre `h_ress` abaixo do topo e **sobe em quatro pontos**, formando cristas com
+rampa suave dos dois lados. Na base, quatro pés avançam para fora, além da saia do aro.
 
 ```
-MODULA M:  pinos em y = +105 e -75      janelas em y = +75 e -105
-           abertura da janela 50 mm  >  largura do pé 34 mm
+MODULA M:  cristas em y = +97 e -48      descidas em y = +48 e -97
+           folga do giro 22 mm           o pé avança 34 mm da parede
 ```
 
-- **Alinhada (0°)** → o pé pousa na aba do aro (12 mm de apoio, contínua em toda a volta)
-  e o pino entra no soquete: **pluga**. Passo = altura da peça.
-- **Girada (180°)** → cada pé cai sobre uma janela e desce por dentro: **ninho**.
-  Passo = `e / tan(5°)`.
+- **Alinhada (0°)** → cada pé pousa numa crista e a abraça; a rampa centraliza sozinha:
+  **pluga**. Passo = altura da peça.
+- **Girada (180°)** → os pés caem nas posições espelhadas, onde o aro está na altura
+  normal, e **descem por fora da peça de baixo**: **ninho**. Passo = `e / tan(5°)`.
 
-O pino **não sustenta carga** — quem sustenta é a aba. O pino impede a pilha de escorregar
-e de destravar de lado.
+É o "por fora" que liberta a borda. Na rev.02 o pé descia por dentro e por isso precisava
+de uma janela rasgada no aro — quatro buracos que faziam a peça parecer solta. Agora nada
+atravessa o aro: a borda de cima é uma peça só, arredondada, contínua, e é também a pega.
 
 Como o contorno cresce por **offset** (e não por escala), o trecho reto da lateral tem o
-mesmo comprimento em qualquer altura: o pé da peça de cima cai exatamente sobre o pino da
-de baixo, sem correção.
+mesmo comprimento em qualquer altura: o pé da peça de cima cai exatamente sobre a crista
+da de baixo, sem correção.
 
 ### A regra que governa a peça inteira
 
-**Saliência para fora só é permitida na faixa do topo**, mais baixa que o passo do ninho,
-porque essa faixa nunca precisa entrar dentro de outra peça. Abaixo dela a parede é lisa
-por fora e todo o vazado é coplanar.
+A **parede é lisa por fora**: todo o vazado é coplanar, nenhum relevo. É que a parede da
+peça de cima desliza rente à de baixo no ninho — um friso horizontal de 2 mm já trava a
+peça a meio caminho. Esse é o erro que aparece na maioria das caixas que "quase" encaixam.
 
-É por isso que a MODULA **não tem friso horizontal e nenhuma nervura maciça**: os dois
-matariam o ninho. Esse é o erro que aparece na maioria das caixas que "quase" encaixam —
-a peça de cima trava a meio caminho num relevo que ninguém projetou para ser obstáculo.
+As duas exceções são as pontas: o **aro**, que no ninho fica sempre acima do aro da peça
+de baixo, e os **pés**, que passam por fora de tudo. São os dois únicos lugares onde a
+peça pode ter volume.
 
-Consequência boa: **nenhum recurso exige gaveta no molde**. Pé, pino, janela, rasgo de
-ventilação e aro saem todos na direção de abertura.
+Consequência: **nenhum recurso exige gaveta no molde**. Pé, crista, rasgo de ventilação,
+grelha do fundo e aro saem todos na direção de abertura.
 
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
-| `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, e o emissor de bandas da casca |
+| `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, normais suaves com crease e o pé de planta arredondada |
 | `modelo.py` | a peça — parâmetros dos 3 tamanhos e construção; `python3 modelo.py` imprime a ficha |
-| `render.py` | rasterizador próprio (painter + z-buffer + sombreamento plano) |
+| `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
 | `exporta.py` | gera o JSON do visualizador e as vistas (sem STL nesta revisão) |
 | `dossie.html` | o dossiê publicado |
-| `out/0*.png` | vistas: família, isométrica, ninho, pilha, encaixe |
+| `out/0*.png` | vistas: família nas três cores, isométrica, ninho, pilha, encaixe, torre branca |
 | `out/modula.json` | malha quantizada (int16 → base64) usada pelo visualizador |
 
 Mudar `TAMANHOS` em `modelo.py` e rodar `python3 exporta.py` refaz tudo. O ritmo das ripas,
@@ -102,14 +104,16 @@ o raio dos cantos, a altura da boca e o perfil do aro são todos parâmetros.
    tem de continuar sendo PP: o ciclo de moído vale ~R$ 2,63 M/ano e só funciona porque
    o refugo é mono-resina.
 3. **Cor entra por Coloratto.** Branco (farmácia) e chumbo (e-commerce), e só.
-4. **Ensaio de compressão e fluência** antes do aço: 4 pés por peça, ~12 mm de apoio cada;
+4. **Ensaio de compressão e fluência** antes do aço: 4 pés por peça apoiados nas cristas;
    5 andares a 15 kg = 750 N. PP deforma sob carga constante — é isso que faz torre de
    plástico "sentar" no estoque depois de meses. Com a parede vazada isso deixa de ser
    formalidade: é o ensaio que decide a espessura final.
 5. **Vão do fundo em grelha** (15 a 22 mm conforme o tamanho): indiferente para farmácia e
    e-commerce, decisivo para quarto infantil e cozinha. Alternativa sem mexer no molde: um
    tapete de fundo avulso, que também vira item de venda.
-6. **A portinhola** da referência grande é uma **quarta peça**, fora dos 3 moldes.
+6. **As três cores**: branco (farmácia e casa), chumbo (e-commerce), terracota (linha).
+   Nada além disso — cor divide demanda existente, produto novo cria demanda.
+7. **A portinhola** da referência grande é uma **quarta peça**, fora dos 3 moldes.
 
 ## Verificação de catálogo (lição nº 10 do CLAUDE.md)
 
@@ -126,8 +130,8 @@ encaixável no catálogo.** Os vizinhos:
 | Cesto de Roupas Empilhável 43,8 L | 552.004.* | R$ 108 k | **empilha e tem 43,8 L; o G tem 46,8 L** |
 
 O 552 é a pergunta que o curador vai fazer: já existe um empilhável de 43,8 L (1,19 kg,
-R$ 108 k/12 M com 114 clientes) e o G tem 45,6 L. A resposta tem de ser funcional — o 552
-abre por cima, não ninha e pesa 42% mais que o G — e tem de vir com número, não com
+R$ 108 k/12 M com 114 clientes) e o G tem 43,7 L. A resposta tem de ser funcional — o 552
+abre por cima, não ninha e pesa 34% mais que o G — e tem de vir com número, não com
 narrativa.
 
 ## Estado
