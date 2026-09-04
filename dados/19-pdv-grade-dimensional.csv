@@ -1,0 +1,7 @@
+eixo,governado_por,barra_mm,codprod,valor_1,valor_2,valor_3,valor_4,valor_5,referencia_imagem,erro
+largura,numero de vaos,474,15941,1010,1504,1998,2492,2986,1000 / 1320 / 1980,+1.0% / +14% / +0.9%
+altura,numero de niveis,346,15927,768,1106,1444,1782,2120,850 / 1050 / 1200 / 1400 / 2000,passo de 337.9 mm
+profundidade P,escolha da barra,346,15927,431,,,,,450,-4.2%
+profundidade M,escolha da barra,474,15941,559,,,,,,
+profundidade G,escolha da barra,717,15955,802,,,,,800,+0.3%
+profundidade 1000 NAO ALCANCAVEL,exigiria barra nova,915,,1000,,,,,1000,barra maxima do catalogo e 717

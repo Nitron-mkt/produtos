@@ -1,0 +1,702 @@
+<title>Sistema PDV Nitron Mob</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;900&family=Aleo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F2F5F5; --sheet:#FFFFFF; --ink:#16201F; --ink-2:#374443; --muted:#687675;
+  --rule:#D3DCDB; --rule-2:#E6ECEB;
+  --brand:#1EA7AC; --brand-soft:#E4F5F5; --brand-deep:#12706F;
+  --org:#00AFAA; --graf:#1A1A1A;
+  --wood:#E0C39A; --wood2:#C8A06B; --no-tz:#9AA5A7; --no-cz:#4A6E70;
+  --dim:#8C9A99; --dim-t:#5C6A69;
+  --bad:#B03024; --bad-soft:#FBE9E7; --ok:#1B6B57; --ok-soft:#E2F1EC;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#0F1414; --sheet:#18201F; --ink:#EDF3F2; --ink-2:#C9D4D3; --muted:#8B9897;
+  --rule:#2B3635; --rule-2:#212A29;
+  --brand:#2EC4C9; --brand-soft:#0E2E2F; --brand-deep:#5FDDE0;
+  --org:#2ECFC9; --graf:#E8EEED;
+  --wood:#8A7350; --wood2:#6E5B3E; --no-tz:#5E6A6B; --no-cz:#8FB6B7;
+  --dim:#5E6C6B; --dim-t:#93A1A0;
+  --bad:#F0857A; --bad-soft:#301B19; --ok:#68C4A6; --ok-soft:#13251F;
+} }
+:root[data-theme="dark"]{
+  --ground:#0F1414; --sheet:#18201F; --ink:#EDF3F2; --ink-2:#C9D4D3; --muted:#8B9897;
+  --rule:#2B3635; --rule-2:#212A29;
+  --brand:#2EC4C9; --brand-soft:#0E2E2F; --brand-deep:#5FDDE0;
+  --org:#2ECFC9; --graf:#E8EEED;
+  --wood:#8A7350; --wood2:#6E5B3E; --no-tz:#5E6A6B; --no-cz:#8FB6B7;
+  --dim:#5E6C6B; --dim-t:#93A1A0;
+  --bad:#F0857A; --bad-soft:#301B19; --ok:#68C4A6; --ok-soft:#13251F;
+}
+*{box-sizing:border-box}
+body{background:var(--ground); color:var(--ink); margin:0; font-size:16px; line-height:1.62;
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px; margin:0 auto; padding:0 24px 100px}
+h1,h2,h3{margin:0; text-wrap:balance}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif; letter-spacing:.012em; line-height:1}
+h3{font-family:Montserrat,sans-serif; font-weight:700; letter-spacing:-.01em}
+.lab{font-family:"Bebas Neue",sans-serif; font-size:15px; letter-spacing:.14em; color:var(--muted)}
+.sbn{font-family:'Bebas Neue',Montserrat,sans-serif; letter-spacing:.05em}
+.sal{font-family:Aleo,Georgia,serif}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+code{font-family:"IBM Plex Mono",monospace; font-size:.86em; background:var(--rule-2); padding:.1em .38em; border-radius:3px}
+a{color:var(--brand-deep)}
+a:focus-visible{outline:2px solid var(--brand); outline-offset:3px}
+
+header{padding:58px 0 34px; border-bottom:3px solid var(--brand)}
+.eyeb{display:flex; gap:20px; flex-wrap:wrap; margin-bottom:22px}
+h1{font-size:clamp(44px,7.5vw,88px)}
+.slog{font-family:Aleo,Georgia,serif; font-size:clamp(17px,2vw,21px); color:var(--brand-deep); margin-top:6px}
+.thesis{max-width:52ch; margin-top:22px; color:var(--ink-2); font-size:clamp(16px,1.6vw,18px)}
+.hg{display:grid; gap:34px}
+@media(min-width:900px){ .hg{grid-template-columns:1.05fr .95fr; gap:56px; align-items:end} }
+
+.bars{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.bar{background:var(--sheet); padding:15px 18px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:baseline}
+.bar b{font-family:"Bebas Neue",sans-serif; font-size:34px; color:var(--brand-deep); line-height:1}
+.bar span{font-size:13.5px; line-height:1.4}
+.bar span i{font-style:normal; display:block; color:var(--muted); font-size:12px}
+
+section{padding:54px 0; border-bottom:1px solid var(--rule)}
+.sh{display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:baseline; margin-bottom:10px}
+.snum{font-family:"Bebas Neue",sans-serif; font-size:19px; color:var(--brand); letter-spacing:.08em}
+h2{font-size:clamp(28px,3.6vw,42px)}
+.lede{max-width:68ch; color:var(--ink-2); margin:14px 0 0}
+.body{max-width:68ch} .body p{margin:16px 0}
+
+.tw{overflow-x:auto; margin-top:26px; border:1px solid var(--rule); background:var(--sheet)}
+table{border-collapse:collapse; width:100%; font-size:13.5px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--rule-2); vertical-align:top}
+thead th{font-family:"Bebas Neue",sans-serif; font-size:13px; letter-spacing:.1em; color:var(--muted);
+  border-bottom:1px solid var(--rule); white-space:nowrap; background:var(--sheet)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+tr.hl td{background:var(--brand-soft)}
+caption{caption-side:bottom; text-align:left; padding:11px 13px; font-size:12.5px; color:var(--muted); border-top:1px solid var(--rule-2)}
+.chip{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:2px}
+.chip.ok{background:var(--ok-soft); color:var(--ok)} .chip.bad{background:var(--bad-soft); color:var(--bad)}
+.chip.w{background:var(--brand-soft); color:var(--brand-deep)}
+
+.plate{margin:30px 0 0; border:1px solid var(--rule); background:var(--sheet); padding:22px 18px 0}
+.pin{overflow-x:auto}
+.plate svg{width:100%; height:auto; min-width:660px; display:block}
+figcaption{padding:14px 4px 18px; font-size:13px; color:var(--muted); border-top:1px solid var(--rule-2); margin-top:16px}
+
+.call{border-left:3px solid var(--brand); background:var(--brand-soft); padding:17px 20px; margin-top:28px; max-width:72ch}
+.call.stop{border-left-color:var(--bad); background:var(--bad-soft)}
+.call p{margin:0} .call p+p{margin-top:10px}
+.call .lab{display:block; margin-bottom:8px; color:var(--brand-deep)}
+.call.stop .lab{color:var(--bad)}
+
+.gx{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:28px}
+@media(min-width:760px){ .gx{grid-template-columns:repeat(2,1fr)} }
+.gel{background:var(--sheet); padding:20px; display:flex; flex-direction:column; gap:12px}
+.gel h3{font-size:16px}
+.gel .demo{background:var(--ground); border:1px solid var(--rule-2); padding:16px; display:flex;
+  align-items:center; justify-content:center; min-height:130px}
+.gel .spec{font-family:"IBM Plex Mono",monospace; font-size:11.5px; display:grid; gap:3px;
+  border-top:1px solid var(--rule-2); padding-top:10px; margin-top:auto}
+.gel .spec div{display:flex; justify-content:space-between; gap:12px}
+.gel .spec span:first-child{color:var(--muted)}
+.brandbox{background:var(--brand); color:#fff; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center}
+.bn{font-family:"Bebas Neue",sans-serif; letter-spacing:.06em; line-height:1}
+.bs{font-family:Aleo,serif; opacity:.94}
+.pill{background:var(--brand); color:#fff; border-radius:999px; padding:9px 26px;
+  font-family:"Bebas Neue",sans-serif; letter-spacing:.14em; font-size:22px}
+.swatches{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1px;
+  background:var(--rule); border:1px solid var(--rule); margin-top:26px}
+.sw{background:var(--sheet); padding:0}
+.sw .chipc{height:74px}
+.sw .t{padding:11px 13px; font-size:12px; line-height:1.45}
+.sw .t b{display:block; font-family:"IBM Plex Mono",monospace; font-size:13px}
+ol.steps{list-style:none; counter-reset:s; padding:0; margin:26px 0 0; display:grid; gap:1px;
+  background:var(--rule); border:1px solid var(--rule); max-width:78ch}
+ol.steps li{background:var(--sheet); padding:14px 18px; display:grid; grid-template-columns:auto 1fr;
+  gap:14px; align-items:baseline; counter-increment:s}
+ol.steps li::before{content:counter(s); font-family:"Bebas Neue",sans-serif; font-size:17px; color:var(--brand)}
+footer{padding:40px 0 0; color:var(--muted); font-size:13px; max-width:74ch}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyeb">
+    <span class="lab">NITRON · DESENVOLVIMENTO DE PRODUTOS</span>
+    <span class="lab">CADERNO DE ESPECIFICAÇÃO · PDV</span>
+    <span class="lab">03/09/2026</span>
+  </div>
+  <div class="hg">
+    <div>
+      <h1>Sistema PDV<br>Nitron Mob</h1>
+      <p class="slog">toda casa tem</p>
+      <p class="thesis">Sem ripas e sem porta-haste, o painel entra no lugar. Com isso <strong>o elo fraco do sistema sai do PDV</strong> — e o sistema inteiro, quatro famílias em três larguras cada, fecha com <strong>três comprimentos de barra</strong>. Todos os três já cadastrados, comprados e em estoque.</p>
+    </div>
+    <div class="bars">
+      <div class="bar"><b>346</b><span>PSA-02 · passo vertical de todas as alturas + profundidade P<i>CODPROD 15927 · em estoque</i></span></div>
+      <div class="bar"><b>474</b><span>PSA-04 · vão de largura de todas as larguras + profundidade M<i>CODPROD 15941 · em estoque</i></span></div>
+      <div class="bar"><b>717</b><span>PSC-04 · profundidade G<i>CODPROD 15955 · em estoque</i></span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="sh"><span class="snum">§1</span><h2>A grade</h2></div>
+  <p class="lede">Três eixos, cada um governado por uma contagem em cima de uma única barra. A largura é o número de vãos, a altura é o número de níveis, e a profundidade é a escolha de uma entre três barras. Nada mais varia.</p>
+  <div class="tw">
+    <table>
+      <caption>Largura = 2 × 61,61 + (N−1) × 101,30 + N × (474 − 81,2). Altura = n × 73,08 + (n−1) × 264,8 + 19,4 de pé. Profundidade = barra + 85,26. As referências vêm das imagens que você enviou.</caption>
+      <thead><tr><th>Eixo</th><th>Governado por</th><th>Valores</th><th>Referência da imagem</th><th>Erro</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><strong>Largura</strong></td><td>nº de vãos, barra 474</td><td class="n">2 vãos <strong>1.010</strong> · 3 vãos <strong>1.504</strong> · 4 vãos <strong>1.998</strong></td><td class="n">1.000 · 1.320 · 1.980</td><td class="n">+1,0% · +14% · +0,9%</td></tr>
+        <tr><td><strong>Altura</strong></td><td>nº de níveis, barra 346</td><td class="n">3n <strong>768</strong> · 4n <strong>1.106</strong> · 5n <strong>1.444</strong> · 6n <strong>1.782</strong> · 7n <strong>2.120</strong></td><td class="n">850 · 1.050 · 1.200 · 1.400 · 2.000</td><td class="n">passo de 337,9 mm</td></tr>
+        <tr><td><strong>Profundidade</strong></td><td>escolha da barra</td><td class="n">P <strong>431</strong> (346) · M <strong>559</strong> (474) · G <strong>802</strong> (717)</td><td class="n">450 · — · 800</td><td class="n">−4,2% · — · +0,3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">O PASSO ENTRE PRATELEIRAS É 337,9 MM</span>
+    <p>Uma só barra vertical (346 mm) resolve todas as alturas, e o passo de 337,9 mm cabe pote, balde e lixeira em pé. Trocar de altura é trocar a contagem de níveis, não a barra.</p>
+  </div>
+  <div class="call stop">
+    <span class="lab">A ÚNICA MEDIDA DA SUA REFERÊNCIA QUE A GRADE NÃO ALCANÇA</span>
+    <p><strong>Profundidade de 1.000 mm</strong> (as ilhas de 198 × 100). A barra mais longa do catálogo é a de 717 mm, que dá 802 mm de profundidade externa. Para 1.000 mm seriam necessários <strong>~915 mm de barra</strong> — item novo de compra na Braspine.</p>
+    <p>A largura de 1.320 mm também fica 14% fora: 3 vãos dão 1.504. Se os 1.320 forem obrigatórios, a barra de vão passa a ser a <code>PSC-02</code> de 415 mm, que dá <strong>1.327 mm</strong> em 3 vãos — erro de 0,5%. Mas aí o passo do vão cai para 435 mm e a escada de larguras vira 892 / 1.327 / 1.762.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="snum">§2</span><h2>O painel entra, o porta-haste sai</h2></div>
+  <div class="body">
+    <p>Na prateleira de varejo cada nível levava <strong>5 réguas e 10 porta-hastes</strong> — 2 clipes por régua. No PDV o painel substitui esse conjunto inteiro. A consequência é estrutural e é boa:</p>
+    <p><strong>O porta-haste era o elo fraco do sistema.</strong> Não por tensão — ele pega 2 a 4 kgf e trabalha a 0,6 MPa — mas por ser o único dos conectores que depende de <em>trava elástica ativa</em>. Trizeta, cruzeta e tampa são geometria passiva. O modo de falha dele era relaxamento do PP: régua frouxa, chocalho, aparência degradada em móvel que fica meses no chão de loja.</p>
+    <p><strong>Com painel, esse modo de falha desaparece do PDV.</strong> E saem 10 peças por nível: um checkout de 3 vãos deixa de levar 150 porta-hastes e 75 réguas.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <caption>O painel nominal de um vão é <strong>494 × profundidade</strong>. A chapa atual (<code>PAN-01</code>, 1.200 × 200 × 15 mm) só tem 200 mm de largura, então hoje o “painel” sai como 3 a 5 tiras de 200 mm justapostas.</caption>
+      <thead><tr><th>Profundidade</th><th>Painel do vão</th><th>Tiras de 200 mm</th><th>Chapas 1.200×200 por painel</th><th>Sobra</th></tr></thead>
+      <tbody>
+        <tr><td><strong>P</strong> · 431 mm</td><td class="n">494 × 431</td><td class="n">3</td><td class="n">1,50</td><td class="n">18%</td></tr>
+        <tr><td><strong>M</strong> · 559 mm</td><td class="n">494 × 559</td><td class="n">3</td><td class="n">1,50</td><td class="n">18%</td></tr>
+        <tr><td><strong>G</strong> · 802 mm</td><td class="n">494 × 802</td><td class="n">5</td><td class="n">2,50</td><td class="n">18%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call stop">
+    <span class="lab">DECISÃO DE COMPRA QUE O PROJETO EXIGE</span>
+    <p>Painel <strong>inteiriço</strong> — a superfície contínua das suas imagens — exige chapa de <strong>431, 559 ou 802 mm de largura</strong>. A chapa atual tem 200 mm. São três saídas, e é decisão sua:</p>
+    <p><strong>(a)</strong> tiras de 200 mm aparentes — funciona hoje, zero compra nova, mas continua parecendo ripa larga · <strong>(b)</strong> painel colado lateralmente a partir das tiras de 200 — parece inteiriço, custa colagem e prensa · <strong>(c)</strong> comprar chapa larga (pinus colado, MDF ou compensado) — parece inteiriço, é item novo de compra e sai do fornecimento atual da Braspine.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="snum">§3</span><h2>Os doze módulos</h2></div>
+  <p class="lede">Quatro famílias, três larguras cada. A contagem de trizeta é fixa em 4 por nível — só a de cruzeta cresce, a <strong>2 × (N−1)</strong> por nível. Custo estimado por escala de massa; o <code>CUSGER</code> apurado depende de reconciliar o custo da madeira.</p>
+
+  <h3 style="margin-top:36px;font-size:20px">Checkout · 5 níveis · profundidade P</h3>
+  <div class="tw"><table><thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th>
+<th>Barra 474</th><th>Barra prof.</th><th>Barra 346</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead><tbody><tr><td><strong>P</strong></td><td class="n">2</td>
+        <td class="n">1010 × 431 × 1444</td><td class="n">20</td>
+        <td class="n">10</td><td class="n">20</td><td class="n">15</td>
+        <td class="n">24</td><td class="n">10</td><td class="n">24,5 kg</td>
+        <td class="n">R$ 451,43</td><td class="n">R$ 902,85</td></tr>
+<tr><td><strong>M</strong></td><td class="n">3</td>
+        <td class="n">1504 × 431 × 1444</td><td class="n">20</td>
+        <td class="n">20</td><td class="n">30</td><td class="n">20</td>
+        <td class="n">32</td><td class="n">15</td><td class="n">36,1 kg</td>
+        <td class="n">R$ 665,79</td><td class="n">R$ 1.331,57</td></tr>
+<tr><td><strong>G</strong></td><td class="n">4</td>
+        <td class="n">1998 × 431 × 1444</td><td class="n">20</td>
+        <td class="n">30</td><td class="n">40</td><td class="n">25</td>
+        <td class="n">40</td><td class="n">20</td><td class="n">47,7 kg</td>
+        <td class="n">R$ 880,15</td><td class="n">R$ 1.760,30</td></tr></tbody></table></div>
+  <figure class="plate">
+  <div class="pin"><svg viewBox="-230 -280 2354 1974" role="img" aria-label="Elevação frontal cotada do módulo CHECKOUT: 1504 por 1444 milímetros de altura, 3 vãos e 5 níveis de prateleira">
+<rect x="0" y="-220" width="1504" height="180" fill="#1EA7AC"/>
+<text class="sbn" x="752" y="-121" text-anchor="middle" font-size="79" fill="#fff">NITRON</text>
+<text class="sal" x="752" y="-65" text-anchor="middle" font-size="34" fill="#fff">toda casa tem</text>
+<path d="M1528 -130 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="-130" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cabeceira 180 mm</text>
+<rect x="0" y="1374" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1402" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1036" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1064" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="698" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="726" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="360" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="388" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="388" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="388" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="22" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="50" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="50" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="50" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<path d="M1528 1422 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="1422" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">faixa de preço 40 mm</text>
+<rect x="0" y="36" width="62" height="1388" fill="var(--wood2)"/>
+<rect x="0" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="15" y="1425" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="454" y="36" width="101" height="1388" fill="var(--wood2)"/>
+<rect x="454" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="-0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="489" y="1425" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="949" y="36" width="101" height="1388" fill="var(--wood2)"/>
+<rect x="949" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="-0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="983" y="1425" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1442" y="36" width="62" height="1388" fill="var(--wood2)"/>
+<rect x="1442" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1457" y="1425" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M1528 1050 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="1050" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cruzeta · nó de meio de vão</text>
+<rect x="84" y="156" width="360" height="606" fill="#1EA7AC" rx="12"/>
+<text class="sbn" x="264" y="443" text-anchor="middle" font-size="80" fill="#fff">NITRON</text>
+<text class="sal" x="264" y="513" text-anchor="middle" font-size="38" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1554 H1504"/><path d="M0 1530 V1578"/><path d="M1504 1530 V1578"/></g><text class="sbn" x="752" y="1522" text-anchor="middle" font-size="58" fill="var(--dim-t)">1504 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1649 H556"/><path d="M62 1625 V1673"/><path d="M556 1625 V1673"/></g><text class="sbn" x="309" y="1617" text-anchor="middle" font-size="58" fill="var(--dim-t)">vão 494 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -220 V1444"/><path d="M-94 -220 H-46"/><path d="M-94 1444 H-46"/></g><text class="sbn" transform="translate(-100,612) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">1664 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1050 V1388"/><path d="M-200 1050 H-152"/><path d="M-200 1388 H-152"/></g><text class="sbn" transform="translate(-206,1219) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">passo 338</text>
+</svg></div>
+  <figcaption>Checkout M — 1.504 × 431 × 1.444 mm, 3 vãos, 5 níveis. Cabeceira de 180 mm (12% da altura). Placa lateral de marca ocupando dois passos. Faixa de preço de 40 mm na borda de cada vão.</figcaption>
+</figure>
+
+  <h3 style="margin-top:44px;font-size:20px">Ponta de gôndola · 7 níveis · profundidade P · topper casinha</h3>
+  <div class="tw"><table><thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th>
+<th>Barra 474</th><th>Barra prof.</th><th>Barra 346</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead><tbody><tr><td><strong>P</strong></td><td class="n">2</td>
+        <td class="n">1010 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">14</td><td class="n">28</td><td class="n">21</td>
+        <td class="n">36</td><td class="n">14</td><td class="n">34,5 kg</td>
+        <td class="n">R$ 634,93</td><td class="n">R$ 1.269,86</td></tr>
+<tr><td><strong>M</strong></td><td class="n">3</td>
+        <td class="n">1504 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">28</td><td class="n">42</td><td class="n">28</td>
+        <td class="n">48</td><td class="n">21</td><td class="n">50,7 kg</td>
+        <td class="n">R$ 936,01</td><td class="n">R$ 1.872,02</td></tr>
+<tr><td><strong>G</strong></td><td class="n">4</td>
+        <td class="n">1998 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">42</td><td class="n">56</td><td class="n">35</td>
+        <td class="n">60</td><td class="n">28</td><td class="n">67,0 kg</td>
+        <td class="n">R$ 1.237,09</td><td class="n">R$ 2.474,19</td></tr></tbody></table></div>
+  <figure class="plate">
+  <div class="pin"><svg viewBox="-230 -582 1860 2952" role="img" aria-label="Elevação frontal cotada do módulo PONTA DE GONDOLA: 1010 por 2120 milímetros de altura, 2 vãos e 7 níveis de prateleira">
+<path d="M0 -300 L505 -522 L1010 -300 Z" fill="#1EA7AC"/>
+<rect x="0" y="-300" width="1010" height="260" fill="#1EA7AC"/>
+<text class="sbn" x="505" y="-157" text-anchor="middle" font-size="114" fill="#fff">NITRON</text>
+<text class="sal" x="505" y="-76" text-anchor="middle" font-size="49" fill="#fff">toda casa tem</text>
+<path d="M1034 -170 H1106" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1122" y="-170" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cabeceira 260 mm</text>
+<path d="M1034 -411 H1106" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1122" y="-411" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">frontão 0,22 × L = 222 mm</text>
+<rect x="0" y="2050" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="2078" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="2078" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1712" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="1740" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1740" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1374" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1402" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1036" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1064" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="698" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="726" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="361" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="389" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="389" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="23" width="1010" height="28" fill="var(--wood)"/>
+<rect x="74" y="51" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="51" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<path d="M1034 2098 H1106" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1122" y="2098" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">faixa de preço 40 mm</text>
+<rect x="0" y="37" width="62" height="2064" fill="var(--wood2)"/>
+<rect x="0" y="2028" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1690" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="15" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="454" y="37" width="101" height="2064" fill="var(--wood2)"/>
+<rect x="454" y="2028" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1690" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="489" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="948" y="37" width="62" height="2064" fill="var(--wood2)"/>
+<rect x="948" y="2028" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="1690" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="948" y="0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="963" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M1034 1726 H1106" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1122" y="1726" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cruzeta · nó de meio de vão</text>
+<rect x="84" y="832" width="360" height="606" fill="#1EA7AC" rx="12"/>
+<text class="sbn" x="264" y="1119" text-anchor="middle" font-size="80" fill="#fff">NITRON</text>
+<text class="sal" x="264" y="1189" text-anchor="middle" font-size="38" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 2230 H1010"/><path d="M0 2206 V2254"/><path d="M1010 2206 V2254"/></g><text class="sbn" x="505" y="2198" text-anchor="middle" font-size="58" fill="var(--dim-t)">1010 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 2325 H556"/><path d="M62 2301 V2349"/><path d="M556 2301 V2349"/></g><text class="sbn" x="309" y="2293" text-anchor="middle" font-size="58" fill="var(--dim-t)">vão 494 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -522 V2120"/><path d="M-94 -522 H-46"/><path d="M-94 2120 H-46"/></g><text class="sbn" transform="translate(-100,799) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">2642 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1726 V2064"/><path d="M-200 1726 H-152"/><path d="M-200 2064 H-152"/></g><text class="sbn" transform="translate(-206,1895) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">passo 338</text>
+</svg></div>
+  <figcaption>Ponta de gôndola P — 1.010 × 431 × 2.120 mm, 2 vãos, 7 níveis. Topper casinha com frontão de 0,22 × largura da base, sobre cabeceira de 260 mm.</figcaption>
+</figure>
+
+  <h3 style="margin-top:44px;font-size:20px">Ilha · 4 níveis · profundidade G · dupla face</h3>
+  <div class="tw"><table><thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th>
+<th>Barra 474</th><th>Barra prof.</th><th>Barra 346</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead><tbody><tr><td><strong>P</strong></td><td class="n">2</td>
+        <td class="n">1010 × 802 × 1106</td><td class="n">16</td>
+        <td class="n">8</td><td class="n">16</td><td class="n">12</td>
+        <td class="n">18</td><td class="n">8</td><td class="n">32,8 kg</td>
+        <td class="n">R$ 611,59</td><td class="n">R$ 1.223,18</td></tr>
+<tr><td><strong>M</strong></td><td class="n">3</td>
+        <td class="n">1504 × 802 × 1106</td><td class="n">16</td>
+        <td class="n">16</td><td class="n">24</td><td class="n">16</td>
+        <td class="n">24</td><td class="n">12</td><td class="n">48,5 kg</td>
+        <td class="n">R$ 905,36</td><td class="n">R$ 1.810,71</td></tr>
+<tr><td><strong>G</strong></td><td class="n">4</td>
+        <td class="n">1998 × 802 × 1106</td><td class="n">16</td>
+        <td class="n">24</td><td class="n">32</td><td class="n">20</td>
+        <td class="n">30</td><td class="n">16</td><td class="n">64,1 kg</td>
+        <td class="n">R$ 1.199,12</td><td class="n">R$ 2.398,24</td></tr></tbody></table></div>
+  <figure class="plate">
+  <div class="pin"><svg viewBox="-230 -240 2354 1596" role="img" aria-label="Elevação frontal cotada do módulo ILHA: 1504 por 1106 milímetros de altura, 3 vãos e 4 níveis de prateleira">
+<rect x="0" y="-180" width="1504" height="140" fill="#1EA7AC"/>
+<text class="sbn" x="752" y="-103" text-anchor="middle" font-size="62" fill="#fff">NITRON</text>
+<text class="sal" x="752" y="-60" text-anchor="middle" font-size="27" fill="#fff">toda casa tem</text>
+<path d="M1528 -110 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="-110" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cabeceira 140 mm</text>
+<rect x="0" y="1036" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1064" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="698" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="726" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="360" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="388" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="388" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="388" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="22" width="1504" height="28" fill="var(--wood)"/>
+<rect x="74" y="50" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="50" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="50" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<path d="M1528 1084 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="1084" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">faixa de preço 40 mm</text>
+<rect x="0" y="36" width="62" height="1050" fill="var(--wood2)"/>
+<rect x="0" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="15" y="1087" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="454" y="36" width="101" height="1050" fill="var(--wood2)"/>
+<rect x="454" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="-0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="489" y="1087" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="949" y="36" width="101" height="1050" fill="var(--wood2)"/>
+<rect x="949" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="-0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="983" y="1087" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1442" y="36" width="62" height="1050" fill="var(--wood2)"/>
+<rect x="1442" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1442" y="-0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="1457" y="1087" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M1528 712 H1600" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="1616" y="712" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cruzeta · nó de meio de vão</text>
+<rect x="84" y="-182" width="360" height="606" fill="#1EA7AC" rx="12"/>
+<text class="sbn" x="264" y="105" text-anchor="middle" font-size="80" fill="#fff">NITRON</text>
+<text class="sal" x="264" y="175" text-anchor="middle" font-size="38" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 1216 H1504"/><path d="M0 1192 V1240"/><path d="M1504 1192 V1240"/></g><text class="sbn" x="752" y="1184" text-anchor="middle" font-size="58" fill="var(--dim-t)">1504 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 1311 H556"/><path d="M62 1287 V1335"/><path d="M556 1287 V1335"/></g><text class="sbn" x="309" y="1279" text-anchor="middle" font-size="58" fill="var(--dim-t)">vão 494 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -180 V1106"/><path d="M-94 -180 H-46"/><path d="M-94 1106 H-46"/></g><text class="sbn" transform="translate(-100,463) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">1286 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 712 V1050"/><path d="M-200 712 H-152"/><path d="M-200 1050 H-152"/></g><text class="sbn" transform="translate(-206,881) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">passo 338</text>
+</svg></div>
+  <figcaption>Ilha M — 1.504 × 802 × 1.106 mm, 3 vãos, 4 níveis. Profundidade de 802 mm vencida por uma única barra de 717 mm, sem linha de montante no meio — é isso que deixa a ilha aberta pelas duas faces.</figcaption>
+</figure>
+
+  <h3 style="margin-top:44px;font-size:20px">Paredão · 7 níveis · profundidade P · totalmente modular</h3>
+  <div class="tw"><table><thead><tr><th>Ver.</th><th>Vãos</th><th>L × P × A (mm)</th><th>Trizeta</th><th>Cruzeta</th>
+<th>Barra 474</th><th>Barra prof.</th><th>Barra 346</th><th>Painéis</th><th>Peso</th><th>Custo</th><th>2× custo</th></tr></thead><tbody><tr><td><strong>P</strong></td><td class="n">3</td>
+        <td class="n">1504 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">28</td><td class="n">42</td><td class="n">28</td>
+        <td class="n">48</td><td class="n">21</td><td class="n">50,7 kg</td>
+        <td class="n">R$ 936,01</td><td class="n">R$ 1.872,02</td></tr>
+<tr><td><strong>M</strong></td><td class="n">4</td>
+        <td class="n">1998 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">42</td><td class="n">56</td><td class="n">35</td>
+        <td class="n">60</td><td class="n">28</td><td class="n">67,0 kg</td>
+        <td class="n">R$ 1.237,09</td><td class="n">R$ 2.474,19</td></tr>
+<tr><td><strong>G</strong></td><td class="n">5</td>
+        <td class="n">2492 × 431 × 2120</td><td class="n">28</td>
+        <td class="n">56</td><td class="n">70</td><td class="n">42</td>
+        <td class="n">72</td><td class="n">35</td><td class="n">83,2 kg</td>
+        <td class="n">R$ 1.538,18</td><td class="n">R$ 3.076,36</td></tr></tbody></table></div>
+  <figure class="plate">
+  <div class="pin"><svg viewBox="-230 -360 3342 2730" role="img" aria-label="Elevação frontal cotada do módulo PAREDAO: 2492 por 2120 milímetros de altura, 5 vãos e 7 níveis de prateleira">
+<rect x="0" y="-300" width="2492" height="260" fill="#1EA7AC"/>
+<text class="sbn" x="1246" y="-157" text-anchor="middle" font-size="114" fill="#fff">NITRON</text>
+<text class="sal" x="1246" y="-76" text-anchor="middle" font-size="49" fill="#fff">toda casa tem</text>
+<path d="M2516 -170 H2588" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="2604" y="-170" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cabeceira 260 mm</text>
+<rect x="0" y="2050" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="2078" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="2078" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="2078" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="2078" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="2078" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1712" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="1740" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1740" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1740" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="1740" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="1740" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1374" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="1402" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="1402" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="1036" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="1064" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="1064" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="698" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="726" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="726" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="361" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="389" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="389" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="389" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="389" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="389" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="0" y="23" width="2492" height="28" fill="var(--wood)"/>
+<rect x="74" y="51" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="568" y="51" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1062" y="51" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="1556" y="51" width="450" height="40" fill="#1EA7AC" opacity=".92"/>
+<rect x="2050" y="51" width="430" height="40" fill="#1EA7AC" opacity=".92"/>
+<path d="M2516 2098 H2588" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="2604" y="2098" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">faixa de preço 40 mm</text>
+<rect x="72" y="-34" width="454" height="90" fill="#1EA7AC" rx="10"/>
+<rect x="566" y="-34" width="454" height="90" fill="#1EA7AC" rx="10"/>
+<rect x="1060" y="-34" width="454" height="90" fill="#1EA7AC" rx="10"/>
+<rect x="1554" y="-34" width="454" height="90" fill="#1EA7AC" rx="10"/>
+<rect x="2048" y="-34" width="434" height="90" fill="#1EA7AC" rx="10"/>
+<path d="M2516 11 H2588" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="2604" y="11" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">faixa de categoria 90 mm</text>
+<rect x="0" y="37" width="62" height="2064" fill="var(--wood2)"/>
+<rect x="0" y="2028" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1690" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="0" y="0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="15" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="454" y="37" width="101" height="2064" fill="var(--wood2)"/>
+<rect x="454" y="2028" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1690" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="454" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="489" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="949" y="37" width="101" height="2064" fill="var(--wood2)"/>
+<rect x="949" y="2028" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="1690" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="949" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="983" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1443" y="37" width="101" height="2064" fill="var(--wood2)"/>
+<rect x="1443" y="2028" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="1690" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1443" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1477" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="1937" y="37" width="101" height="2064" fill="var(--wood2)"/>
+<rect x="1937" y="2028" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="1690" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="1352" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="1014" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="676" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="338" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1937" y="0" width="101" height="73" fill="var(--no-cz)"/>
+<rect x="1971" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<rect x="2430" y="37" width="62" height="2064" fill="var(--wood2)"/>
+<rect x="2430" y="2028" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="1690" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="1352" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="1014" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="676" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="338" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2430" y="0" width="62" height="73" fill="var(--no-tz)"/>
+<rect x="2445" y="2101" width="32" height="19.4" fill="var(--wood2)"/>
+<path d="M2516 1726 H2588" stroke="var(--dim)" stroke-width="4" fill="none"/><text class="sbn" x="2604" y="1726" dominant-baseline="middle" font-size="52" fill="var(--dim-t)">cruzeta · nó de meio de vão</text>
+<rect x="84" y="832" width="360" height="606" fill="#1EA7AC" rx="12"/>
+<text class="sbn" x="264" y="1119" text-anchor="middle" font-size="80" fill="#fff">NITRON</text>
+<text class="sal" x="264" y="1189" text-anchor="middle" font-size="38" fill="#fff">toda casa tem</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 2230 H2492"/><path d="M0 2206 V2254"/><path d="M2492 2206 V2254"/></g><text class="sbn" x="1246" y="2198" text-anchor="middle" font-size="58" fill="var(--dim-t)">2492 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M62 2325 H556"/><path d="M62 2301 V2349"/><path d="M556 2301 V2349"/></g><text class="sbn" x="309" y="2293" text-anchor="middle" font-size="58" fill="var(--dim-t)">vão 494 mm</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-70 -300 V2120"/><path d="M-94 -300 H-46"/><path d="M-94 2120 H-46"/></g><text class="sbn" transform="translate(-100,910) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">2420 mm total</text>
+<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M-176 1726 V2064"/><path d="M-200 1726 H-152"/><path d="M-200 2064 H-152"/></g><text class="sbn" transform="translate(-206,1895) rotate(-90)" text-anchor="middle" font-size="52" fill="var(--dim-t)">passo 338</text>
+</svg></div>
+  <figcaption>Paredão G — 2.492 × 431 × 2.120 mm, 5 vãos, 7 níveis. Cada vão recebe sua faixa de categoria de 90 mm. A corrida não tem limite de vãos: a fórmula 4 trizetas + 2(N−1) cruzetas segue valendo.</figcaption>
+</figure>
+
+  <div class="call">
+    <span class="lab">A ILHA DUPLA FACE — POR QUE ELA FUNCIONA SEM NÓ DE 5 VIAS</span>
+    <p>Eu havia registrado que a ilha costa a costa exigiria um nó de 5 vias que não existe. <strong>Com a profundidade de 802 mm vencida por uma barra única, o problema desaparece:</strong> a ilha tem só duas linhas de montante, frente e fundo, e fica aberta pelas duas faces sem nenhum nó intermediário na profundidade.</p>
+    <p>O nó de 5 vias só voltaria a ser necessário para uma ilha com <strong>duas linhas de prateleira na profundidade</strong> — o caso de 1.000 mm ou mais, que já depende de barra nova de qualquer forma.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="snum">§4</span><h2>O sistema gráfico</h2></div>
+  <p class="lede">Seis elementos, cada um em três tamanhos amarrados às três larguras. As regras vêm do manual oficial da marca, não de estimativa: <strong>testeira com logo horizontal negativo a 55% da largura útil</strong>, <strong>cabeceira de display ≥ 12% da altura</strong>, <strong>faixa de prateleira com lettering isolado à esquerda e altura mínima de 30 mm</strong>, área de proteção de <strong>2× em grande formato</strong>.</p>
+
+  <div class="swatches">
+    <div class="sw"><div class="chipc" style="background:#1EA7AC"></div><div class="t"><b>#1EA7AC</b>Verde Nitron · primária<br>RGB 30 167 172</div></div>
+    <div class="sw"><div class="chipc" style="background:#00AFAA"></div><div class="t"><b>#00AFAA</b>Verde Organização · linha</div></div>
+    <div class="sw"><div class="chipc" style="background:#1A1A1A"></div><div class="t"><b>#1A1A1A</b>Grafite</div></div>
+    <div class="sw"><div class="chipc" style="background:#FFFFFF;border-bottom:1px solid var(--rule)"></div><div class="t"><b>#FFFFFF</b>Branco</div></div>
+  </div>
+  <p class="lede" style="margin-top:14px;font-size:14px">Proporção de uso do manual: <strong>Verde 60% · Neutros 24% · Grafite 11% · Acentos 5%</strong>.</p>
+
+  <div class="gx">
+    <div class="gel">
+      <div><h3>1 · Cabeceira</h3><div class="lab">TESTEIRA DO MÓDULO</div></div>
+      <div class="demo"><div class="brandbox" style="width:100%;height:86px;border-radius:2px">
+        <div class="bn" style="font-size:34px">NITRON</div><div class="bs" style="font-size:12px">toda casa tem</div></div></div>
+      <div class="spec">
+        <div><span>altura</span><span>12% da altura do módulo</span></div>
+        <div><span>1.444 / 1.106 / 2.120</span><span>180 / 140 / 260 mm</span></div>
+        <div><span>logo horizontal negativo</span><span>55% da largura útil</span></div>
+        <div><span>em 1.010 / 1.504 / 1.998</span><span>556 / 827 / 1.099 mm</span></div>
+      </div>
+    </div>
+    <div class="gel">
+      <div><h3>2 · Casinha</h3><div class="lab">TOPPER DE MARCA</div></div>
+      <div class="demo"><svg viewBox="0 0 260 132" style="width:210px;height:auto" role="img" aria-label="Topper casinha: retângulo com frontão triangular"><path d="M10 122 V52 L130 10 L250 52 V122 Z" fill="#1EA7AC"/><text x="130" y="86" text-anchor="middle" font-family="Bebas Neue" font-size="30" fill="#fff" letter-spacing="1.4">NITRON</text><text x="130" y="106" text-anchor="middle" font-family="Aleo" font-size="12" fill="#fff">toda casa tem</text></svg></div>
+      <div class="spec">
+        <div><span>base</span><span>= largura do módulo</span></div>
+        <div><span>frontão</span><span>0,22 × base</span></div>
+        <div><span>em 1.010 / 1.504 / 1.998</span><span>222 / 331 / 440 mm</span></div>
+        <div><span>corpo</span><span>= a cabeceira</span></div>
+      </div>
+    </div>
+    <div class="gel">
+      <div><h3>3 · Cápsula de ativação</h3><div class="lab">NOME DA CAMPANHA</div></div>
+      <div class="demo"><span class="pill">LEVE MAIS</span></div>
+      <div class="spec">
+        <div><span>altura</span><span>72 mm · raio 36 mm</span></div>
+        <div><span>larguras P / M / G</span><span>260 / 380 / 500 mm</span></div>
+        <div><span>tipografia</span><span>Bebas Neue Pro · tracking +14%</span></div>
+        <div><span>altura da caixa alta</span><span>40 mm</span></div>
+      </div>
+    </div>
+    <div class="gel">
+      <div><h3>4 · Placa lateral</h3><div class="lab">MARCA NA LATERAL DO MÓVEL</div></div>
+      <div class="demo"><div class="brandbox" style="width:96px;height:118px;border-radius:6px">
+        <div class="bn" style="font-size:20px">NITRON</div><div class="bs" style="font-size:9px">toda casa tem</div></div></div>
+      <div class="spec">
+        <div><span>largura</span><span>profundidade − 2 × 61,61</span></div>
+        <div><span>P / M / G</span><span>308 / 436 / 679 mm</span></div>
+        <div><span>altura</span><span>2 passos = 676 mm</span></div>
+        <div><span>logo</span><span>vertical com slogan · mín. 25 mm</span></div>
+      </div>
+    </div>
+    <div class="gel">
+      <div><h3>5 · Faixa de prateleira</h3><div class="lab">PREÇO E LETTERING</div></div>
+      <div class="demo"><div style="width:100%;height:34px;background:#1EA7AC;border-radius:2px;display:flex;align-items:center;padding:0 12px">
+        <span class="bn" style="color:#fff;font-size:17px">NITRON</span></div></div>
+      <div class="spec">
+        <div><span>altura</span><span>40 mm · mínimo do manual 30</span></div>
+        <div><span>largura</span><span>= passo do vão, 494 mm</span></div>
+        <div><span>lettering</span><span>isolado, à esquerda, recuo 12 mm</span></div>
+        <div><span>por nível</span><span>1 por vão</span></div>
+      </div>
+    </div>
+    <div class="gel">
+      <div><h3>6 · Faixa de categoria</h3><div class="lab">COZINHA · POTES · ORGANIZAÇÃO</div></div>
+      <div class="demo"><div style="width:100%;height:44px;background:#1EA7AC;border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <span class="bn" style="color:#fff;font-size:22px;letter-spacing:.16em">ORGANIZAÇÃO</span></div></div>
+      <div class="spec">
+        <div><span>altura</span><span>90 mm</span></div>
+        <div><span>largura</span><span>= passo do vão − 20 = 474 mm</span></div>
+        <div><span>tipografia</span><span>Bebas Neue Pro · tracking +14%</span></div>
+        <div><span>uso</span><span>1 por vão, no paredão</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="snum">§5</span><h2>Duas divergências entre as suas referências e o manual</h2></div>
+  <p class="lede">Você pediu para padronizar os elementos gráficos. As imagens de referência quebram o manual em dois pontos, e os dois são explícitos no documento oficial.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>Nas imagens de referência</th><th>No manual oficial</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><strong>A cor</strong></td><td>verde-petróleo escuro, próximo de <code>#1F5E5B</code></td><td><strong>Verde Nitron <code>#1EA7AC</code></strong> — bem mais claro e saturado. O manual proíbe “recolorir fora da paleta”.</td><td><span class="chip bad">fora da paleta</span></td></tr>
+        <tr><td><strong>O slogan</strong></td><td><code>TODA CASA TEM.</code> — caixa alta, com ponto final</td><td><strong><code>toda casa tem</code></strong> — sempre caixa baixa, sem ponto final, sem aspas nem itálico. Largura 75% do lettering, centralizado no eixo, respiro 0,55× a altura.</td><td><span class="chip bad">duas regras</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call stop">
+    <span class="lab">E UMA REGRA QUE VALE PARA TODO O SISTEMA</span>
+    <p>O manual diz <strong>“não redigitar a fonte”</strong>. O logo e o slogan têm de sair do <strong>arquivo vetorial oficial</strong> — nunca digitados. Os desenhos deste caderno usam Bebas Neue e Aleo como <em>placeholder de leiaute</em>, não como a marca: as fontes oficiais são <strong>Gotham</strong> (títulos e texto) e <strong>Bebas Neue Pro</strong> (PDV, etiquetas, números), e nenhuma das duas está disponível aqui.</p>
+    <p>Se o verde-petróleo escuro das referências for a intenção de projeto — e num móvel de madeira clara ele tem bom contraste —, isso precisa de <strong>aprovação de marca</strong> como cor de linha, do jeito que o Verde Organização <code>#00AFAA</code> já é. Não é uma escolha de PDV, é alteração de paleta.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="snum">§6</span><h2>O que falta</h2></div>
+  <ol class="steps">
+    <li><span><strong>Ferramentaria: onde está o molde da cruzeta?</strong> Foi o primeiro dos cinco cadastrados, em 17/07/2026, e os outros quatro já rodaram. Sem ele nenhum dos doze módulos existe — todos usam de 8 a 56 cruzetas.</span></li>
+    <li><span><strong>A decisão do painel</strong> — tiras de 200 aparentes, painel colado, ou chapa larga nova. É a única compra nova que o projeto exige.</span></li>
+    <li><span><strong>Aprovação de marca para o verde</strong> das referências, ou troca para o <code>#1EA7AC</code> oficial.</span></li>
+    <li><span><strong>Montar um nó de cruzeta e carregá-lo.</strong> Com o painel no lugar da régua a carga se distribui melhor que na régua, mas a cruzeta continua sendo o nó de meio de vão que carrega o dobro — e o corte de seção mostrou chapa de 2,75 mm no fundo do encaixe.</span></li>
+    <li><span><strong>A tampinha</strong> — o STL não chegou. São 6 a 14 tampas por módulo.</span></li>
+    <li><span><strong>Confirmar se 1.320 mm de largura e 1.000 mm de profundidade são obrigatórios.</strong> Se sim, muda a barra de vão e entra barra nova de profundidade. Se não, a grade fecha com as três barras que já estão em estoque.</span></li>
+  </ol>
+</section>
+
+<footer>
+  <p>Cotas de nó, encaixe e parede medidas nas malhas STL — as cinco fechadas, zero arestas não-manifold. Comprimentos de barra, códigos e saldo lidos no Sankhya. Identidade visual, tipografia e regras de PDV extraídas do manual oficial em <a href="https://marca.nitron.com.br/">marca.nitron.com.br</a>. As dimensões externas usam o modelo de encaixe de 40,60 mm em nó de 61,61 mm no eixo da corrida e 83,23 mm no eixo da profundidade; uma medição física do nó montado confirma esse número e é a pendência aberta desde o levantamento inicial. Custos são estimados por escala de massa, não apurados. Nada gravado em <code>pdp_lancamento</code>.</p>
+</footer>
+</div>

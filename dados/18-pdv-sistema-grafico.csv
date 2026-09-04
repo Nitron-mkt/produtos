@@ -1,0 +1,7 @@
+elemento,regra_do_manual,dimensao_P,dimensao_M,dimensao_G,tipografia,observacao
+Cabeceira,cabeceira de display >= 12% da altura; logo horizontal negativo a 55% da largura util,180 mm alt (mod 1444),140 mm alt (mod 1106),260 mm alt (mod 2120),logo vetorial oficial,largura = largura do modulo; logo 556 / 827 / 1099 mm
+Casinha topper,derivado da cabeceira,frontao 222 mm (base 1010),frontao 331 mm (base 1504),frontao 440 mm (base 1998),logo vetorial oficial,frontao = 0.22 x base; corpo = a cabeceira
+Capsula de ativacao,rotulo/categoria em Bebas Neue Pro tracking +14%,260 x 72 mm,380 x 72 mm,500 x 72 mm,Bebas Neue Pro,raio 36 mm; altura de caixa alta 40 mm
+Placa lateral de marca,logo vertical com slogan; reducao minima 25 mm,308 x 676 mm (prof P),436 x 676 mm (prof M),679 x 676 mm (prof G),logo vetorial oficial,largura = profundidade - 2 x 61.61; altura = 2 passos
+Faixa de prateleira,lettering isolado a esquerda; altura minima 30 mm,494 x 40 mm,494 x 40 mm,494 x 40 mm,lettering vetorial,recuo de 12 mm a esquerda; 1 por vao por nivel
+Faixa de categoria,rotulo/categoria em Bebas Neue Pro tracking +14%,474 x 90 mm,474 x 90 mm,474 x 90 mm,Bebas Neue Pro,1 por vao; uso no paredao
