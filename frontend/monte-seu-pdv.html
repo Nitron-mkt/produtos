@@ -1,0 +1,593 @@
+<title>Monte seu PDV Nitron</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Aleo:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --brand:#08a9b1; --brand-deep:#05777D; --brand-soft:#E2F4F5; --brand-ink:#043F43;
+  --ground:#F2F5F5; --sheet:#FFFFFF; --ink:#14201F; --ink-2:#3A4746; --muted:#697877;
+  --rule:#D2DBDA; --rule-2:#E6ECEB; --graf:#1A1A1A;
+  --wood:#E2C6A0; --wood2:#C9A16C; --no-tz:#9AA5A7; --no-cz:#3F6A6C;
+  --ok:#186B55; --ok-soft:#E1F0EB; --warn:#8A5A00; --warn-soft:#FBF0DC;
+  --bad:#A82C21; --bad-soft:#FAE8E6; --dim:#8A9897;
+  --sh:0 1px 2px rgba(20,32,31,.05), 0 10px 30px -20px rgba(20,32,31,.25);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --brand:#19C4CC; --brand-deep:#6FE0E6; --brand-soft:#0B2E30; --brand-ink:#B7EEF1;
+  --ground:#0E1414; --sheet:#171F1F; --ink:#ECF3F2; --ink-2:#C7D3D2; --muted:#8A9897;
+  --rule:#2A3534; --rule-2:#202928; --graf:#E8EEED;
+  --wood:#8B7451; --wood2:#6D5A3E; --no-tz:#5D6A6B; --no-cz:#8CB4B6;
+  --ok:#62C0A2; --ok-soft:#122420; --warn:#D9A64A; --warn-soft:#2B2113;
+  --bad:#EE857A; --bad-soft:#2E1A18; --dim:#5C6A69;
+  --sh:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -20px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  --brand:#19C4CC; --brand-deep:#6FE0E6; --brand-soft:#0B2E30; --brand-ink:#B7EEF1;
+  --ground:#0E1414; --sheet:#171F1F; --ink:#ECF3F2; --ink-2:#C7D3D2; --muted:#8A9897;
+  --rule:#2A3534; --rule-2:#202928; --graf:#E8EEED;
+  --wood:#8B7451; --wood2:#6D5A3E; --no-tz:#5D6A6B; --no-cz:#8CB4B6;
+  --ok:#62C0A2; --ok-soft:#122420; --warn:#D9A64A; --warn-soft:#2B2113;
+  --bad:#EE857A; --bad-soft:#2E1A18; --dim:#5C6A69;
+  --sh:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -20px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif;letter-spacing:.014em;line-height:1}
+h3{font-weight:700;letter-spacing:-.01em}
+.bn{font-family:"Bebas Neue",sans-serif;letter-spacing:.06em}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.lab{font-family:"Bebas Neue",sans-serif;font-size:13px;letter-spacing:.15em;color:var(--muted)}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);padding:.1em .36em;border-radius:3px}
+a{color:var(--brand-deep)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* ---------- topbar ---------- */
+.top{background:var(--brand);color:#fff}
+.topin{max-width:1280px;margin:0 auto;padding:16px 24px;display:flex;
+  align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.logo{display:flex;flex-direction:column;line-height:1}
+.logo .n{font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.05em}
+.logo .s{font-family:Aleo,Georgia,serif;font-size:11.5px;opacity:.95;margin-top:2px}
+.topin .who{font-size:13px;opacity:.95}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px 90px}
+.hero{padding:36px 0 26px;border-bottom:1px solid var(--rule)}
+h1{font-size:clamp(36px,5vw,58px)}
+.hero p{max-width:58ch;color:var(--ink-2);margin:14px 0 0}
+
+/* ---------- layout ---------- */
+.cols{display:grid;gap:28px;padding-top:28px}
+@media(min-width:1000px){.cols{grid-template-columns:1fr 470px;gap:36px;align-items:start}}
+
+.step{background:var(--sheet);border:1px solid var(--rule);margin-bottom:20px}
+.stephead{display:flex;align-items:baseline;gap:13px;padding:16px 20px;border-bottom:1px solid var(--rule-2)}
+.stephead .num{font-family:"Bebas Neue",sans-serif;font-size:15px;color:#fff;background:var(--brand);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;letter-spacing:0}
+.stephead h3{font-size:16.5px}
+.stephead .hint{font-size:12.5px;color:var(--muted);margin-left:auto;text-align:right}
+.stepbody{padding:18px 20px 20px}
+
+/* famílias */
+.fams{display:grid;gap:10px}
+@media(min-width:620px){.fams{grid-template-columns:repeat(2,1fr)}}
+.fam{border:1.5px solid var(--rule);background:var(--sheet);padding:14px;cursor:pointer;
+  display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;text-align:left;
+  font:inherit;color:inherit;transition:border-color .12s,background .12s}
+.fam:hover{border-color:var(--brand)}
+.fam[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--brand)}
+.fam .ic{width:64px;height:64px}
+.fam b{display:block;font-size:15px}
+.fam i{font-style:normal;font-size:12.5px;color:var(--muted);display:block;line-height:1.4}
+
+/* seletores */
+.seg{display:flex;flex-wrap:wrap;gap:7px}
+.seg button{font:inherit;font-size:13.5px;padding:8px 14px;border:1.5px solid var(--rule);
+  background:var(--sheet);color:var(--ink);cursor:pointer;font-family:"IBM Plex Mono",monospace}
+.seg button:hover{border-color:var(--brand)}
+.seg button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand);color:#fff}
+.wide{display:grid;gap:9px}
+.wopt{border:1.5px solid var(--rule);background:var(--sheet);padding:11px 14px;cursor:pointer;
+  font:inherit;color:inherit;text-align:left;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline}
+.wopt:hover{border-color:var(--brand)}
+.wopt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.wopt b{font-size:14.5px}
+.wopt i{font-style:normal;font-size:12px;color:var(--muted);display:block}
+.wopt .v{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;color:var(--brand-deep);white-space:nowrap}
+label.fl{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1.5px solid var(--rule);
+  background:var(--sheet);color:var(--ink);border-radius:0}
+textarea{min-height:74px;resize:vertical}
+.grid2{display:grid;gap:14px}
+@media(min-width:560px){.grid2{grid-template-columns:1fr 1fr}}
+
+/* ---------- painel de preview ---------- */
+.side{position:sticky;top:16px;display:grid;gap:18px}
+@media(max-width:999px){.side{position:static}}
+.prev{background:var(--sheet);border:1px solid var(--rule);box-shadow:var(--sh)}
+.prevhead{padding:14px 18px;border-bottom:1px solid var(--rule-2);display:flex;
+  justify-content:space-between;align-items:baseline;gap:12px}
+.prevhead .t{font-family:"Bebas Neue",sans-serif;font-size:19px}
+.prevhead .c{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+#draw{display:block;width:100%;height:auto;background:var(--ground)}
+.dims{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule-2)}
+.dims div{padding:11px 14px;border-right:1px solid var(--rule-2)}
+.dims div:last-child{border-right:0}
+.dims .k{font-size:10.5px;color:var(--muted);font-family:"Bebas Neue",sans-serif;letter-spacing:.12em}
+.dims .v{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600}
+.pl{border-top:1px solid var(--rule-2);padding:13px 18px;font-family:"IBM Plex Mono",monospace;
+  font-size:12px;display:grid;gap:4px}
+.pl div{display:flex;justify-content:space-between;gap:10px}
+.pl span:first-child{color:var(--muted)}
+
+/* rotas */
+.rotas{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.rota{background:var(--sheet);padding:15px 18px;cursor:pointer;font:inherit;color:inherit;
+  text-align:left;display:grid;gap:5px}
+.rota:hover{background:var(--brand-soft)}
+.rota[aria-pressed="true"]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.rota .rh{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.rota .rn{font-family:"Bebas Neue",sans-serif;font-size:17px}
+.rota .rv{font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;color:var(--brand-deep);white-space:nowrap}
+.rota .rd{font-size:12.5px;color:var(--muted);line-height:1.45}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  padding:2px 7px;border-radius:2px;letter-spacing:.04em}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.w{background:var(--warn-soft);color:var(--warn)}
+.pill.b{background:var(--bad-soft);color:var(--bad)}
+
+.note{border-left:3px solid var(--brand);background:var(--brand-soft);padding:14px 17px;font-size:13.5px}
+.note.w{border-left-color:var(--warn);background:var(--warn-soft)}
+.note .lab{display:block;margin-bottom:6px;color:var(--brand-ink)}
+.note.w .lab{color:var(--warn)}
+.note p{margin:0}.note p+p{margin-top:8px}
+
+.cta{width:100%;font:inherit;font-family:"Bebas Neue",sans-serif;font-size:22px;letter-spacing:.08em;
+  padding:15px;border:0;background:var(--brand);color:#fff;cursor:pointer}
+.cta:hover{background:var(--brand-deep)}
+.cta:disabled{background:var(--muted);cursor:not-allowed}
+#msg{margin-top:12px;font-size:13.5px}
+#msg.ok{color:var(--ok)} #msg.err{color:var(--bad)}
+
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule-2)}
+thead th{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.1em;color:var(--muted)}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet);margin-top:14px}
+footer{padding:34px 0 0;color:var(--muted);font-size:12.5px;max-width:76ch;border-top:1px solid var(--rule);margin-top:36px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="top"><div class="topin">
+  <div class="logo"><span class="n">NITRON</span><span class="s">toda casa tem</span></div>
+  <div class="who">Programa de PDV · linha Nitron&nbsp;Mob</div>
+</div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Monte seu PDV</h1>
+    <p>Escolha a família, o tamanho e a altura. O móvel é montado com as peças que a Nitron já produz — encaixe seco, sem parafuso na estrutura — e desmonta para transporte. No fim, escolha como quer levar: comprando, em coparticipação, por volume de compra ou em comodato.</p>
+  </div>
+
+  <div class="cols">
+    <div>
+      <!-- 1 família -->
+      <div class="step">
+        <div class="stephead"><span class="num">1</span><h3>A família</h3>
+          <span class="hint">o que muda: faces de acesso, fundo, gancheira e topper</span></div>
+        <div class="stepbody"><div class="fams" id="fams" role="group" aria-label="Família de móvel"></div></div>
+      </div>
+
+      <!-- 2 largura -->
+      <div class="step">
+        <div class="stephead"><span class="num">2</span><h3>A largura do vão</h3>
+          <span class="hint">fixa · vem das três referências da linha</span></div>
+        <div class="stepbody">
+          <div class="wide" id="largs" role="group" aria-label="Largura fixa do vão"></div>
+          <div class="note" style="margin-top:14px"><span class="lab">POR QUE FIXA</span>
+            <p>A largura é a única cota que não modula. Ela é a barra de comprimento das três referências da linha — sapateira, multiuso e arara — todas já cadastradas e compradas. Fixar a largura é o que faz um módulo encaixar no outro.</p></div>
+        </div>
+      </div>
+
+      <!-- 3 comprimento -->
+      <div class="step">
+        <div class="stephead"><span class="num">3</span><h3>O comprimento</h3>
+          <span class="hint">modular · quantos vãos na corrida</span></div>
+        <div class="stepbody">
+          <div class="seg" id="vaos" role="group" aria-label="Número de vãos"></div>
+          <p style="font-size:12.5px;color:var(--muted);margin:12px 0 0">Cada vão a mais entra com <strong>2 cruzetas por nível</strong>. A contagem de trizeta não muda: são sempre 4 por nível, nas quinas das duas pontas.</p>
+        </div>
+      </div>
+
+      <!-- 4 altura -->
+      <div class="step">
+        <div class="stephead"><span class="num">4</span><h3>A altura</h3>
+          <span class="hint">modular · passo de 262 mm por nível</span></div>
+        <div class="stepbody"><div class="wide" id="alts" role="group" aria-label="Altura por número de níveis"></div></div>
+      </div>
+
+      <!-- 5 profundidade -->
+      <div class="step">
+        <div class="stephead"><span class="num">5</span><h3>A profundidade</h3>
+          <span class="hint">modular · 19 opções de barra</span></div>
+        <div class="stepbody">
+          <label class="fl" for="prof">Barra de profundidade</label>
+          <select id="prof"></select>
+        </div>
+      </div>
+
+      <!-- 6 personalização -->
+      <div class="step">
+        <div class="stephead"><span class="num">6</span><h3>A sua marca no móvel</h3>
+          <span class="hint">os espaços gráficos já vêm no projeto</span></div>
+        <div class="stepbody">
+          <div class="grid2">
+            <div><label class="fl" for="ativ">Nome da ativação · vai na cápsula</label>
+              <input type="text" id="ativ" maxlength="18" value="LEVE MAIS" placeholder="LEVE MAIS"></div>
+            <div><label class="fl" for="cat">Categoria · vai na faixa do vão</label>
+              <input type="text" id="cat" maxlength="18" value="ORGANIZAÇÃO" placeholder="COZINHA"></div>
+          </div>
+          <div class="note" style="margin-top:16px"><span class="lab">O QUE JÁ VEM RESERVADO</span>
+            <p><strong>Cabeceira</strong> com o logo em negativo a 55% da largura útil · <strong>casinha</strong> no topo da ponta de gôndola · <strong>cápsula</strong> para o nome da ativação · <strong>placa lateral</strong> com marca e assinatura · <strong>faixa de preço</strong> de 40 mm em cada vão · <strong>faixa de categoria</strong> de 90 mm no paredão.</p>
+            <p>A arte sai do arquivo vetorial oficial da marca — o texto que você digita aqui entra na cápsula e na faixa, o logo e a assinatura não são redigitados.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 rotas -->
+      <div class="step">
+        <div class="stephead"><span class="num">7</span><h3>Como você quer levar</h3>
+          <span class="hint">quatro rotas · números atualizam com a configuração</span></div>
+        <div class="stepbody">
+          <div class="rotas" id="rotas" role="group" aria-label="Rota comercial"></div>
+          <div style="margin-top:16px">
+            <label class="fl" for="tk">Para converter a compra qualificadora em caixas, informe o seu preço médio de caixa</label>
+            <div style="display:flex;gap:10px;align-items:center">
+              <span class="mono" style="color:var(--muted)">R$</span>
+              <input type="number" id="tk" value="250" min="10" max="5000" step="10" style="max-width:130px">
+              <span id="caixas" class="mono" style="font-size:13px;color:var(--brand-deep)"></span>
+            </div>
+          </div>
+          <div class="note w" style="margin-top:16px"><span class="lab">A CONTA POR TRÁS DA BONIFICAÇÃO</span>
+            <p>A compra qualificadora é <strong>20 × o custo do móvel</strong>, arredondada para a faixa comercial acima. Com margem bruta de 50% na tabela, isso põe o móvel em <strong>10% da margem que a compra gera</strong> — o teto usual de investimento em material de PDV.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 pedido -->
+      <div class="step">
+        <div class="stephead"><span class="num">8</span><h3>Seus dados</h3>
+          <span class="hint">o time comercial responde com o orçamento fechado</span></div>
+        <div class="stepbody">
+          <div class="grid2">
+            <div><label class="fl" for="loja">Loja / rede *</label><input type="text" id="loja" placeholder="Nome da loja"></div>
+            <div><label class="fl" for="resp">Responsável *</label><input type="text" id="resp" placeholder="Quem estamos atendendo"></div>
+            <div><label class="fl" for="mail">E-mail *</label><input type="email" id="mail" placeholder="nome@loja.com.br"></div>
+            <div><label class="fl" for="cid">Cidade / UF</label><input type="text" id="cid" placeholder="Extrema / MG"></div>
+            <div><label class="fl" for="qtd">Quantos módulos</label><input type="number" id="qtd" value="1" min="1" max="60"></div>
+            <div><label class="fl" for="prazo">Quando precisa</label>
+              <select id="prazo"><option>Sem data definida</option><option>Em 30 dias</option>
+              <option>Em 60 dias</option><option>Em 90 dias</option><option>Próxima temporada</option></select></div>
+          </div>
+          <div style="margin-top:14px"><label class="fl" for="obs">Observações · planta da loja, corredor, restrição de altura</label>
+            <textarea id="obs" placeholder="Ex.: corredor de 1,10 m, pé-direito baixo no fundo da loja, quero duas ilhas emendadas."></textarea></div>
+          <button class="cta" id="send" style="margin-top:18px">ENVIAR SOLICITAÇÃO</button>
+          <div id="msg" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="step" id="fila" hidden>
+        <div class="stephead"><span class="num">·</span><h3>Solicitações recebidas</h3>
+          <span class="hint">visível para o time Nitron</span></div>
+        <div class="stepbody"><div class="tw"><table>
+          <thead><tr><th>Protocolo</th><th>Loja</th><th>Configuração</th><th>Rota</th><th>Qtd</th></tr></thead>
+          <tbody id="filab"></tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ---------- coluna direita ---------- -->
+    <aside class="side">
+      <div class="prev">
+        <div class="prevhead"><span class="t" id="pvt">CHECKOUT</span><span class="c" id="pvc">—</span></div>
+        <svg id="draw" viewBox="0 0 470 400" role="img" aria-label="Pré-visualização da elevação frontal do módulo configurado"></svg>
+        <div class="dims">
+          <div><div class="k">COMPRIMENTO</div><div class="v" id="dL">—</div></div>
+          <div><div class="k">PROFUNDIDADE</div><div class="v" id="dP">—</div></div>
+          <div><div class="k">ALTURA</div><div class="v" id="dA">—</div></div>
+        </div>
+        <div class="pl" id="pl"></div>
+      </div>
+      <div class="note"><span class="lab">MONTAGEM</span>
+        <p>Encaixe seco: a barra entra <strong>40,6 mm</strong> em cada nó e a estrutura fecha sem parafuso. Desmonta plana para transporte e remonta na loja. <strong>Carga declarada por prateleira: 20 kg</strong>, provisória até o ensaio de carga permanente.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <p>Cotas derivadas das peças de linha: nó de 73,08 mm de passo vertical, encaixe de 40,60 mm, barra de pinus de seção 15,3 × 26,6 mm. Comprimentos de barra, códigos e disponibilidade vêm do cadastro. Preços são <strong>estimados por escala de massa e não apurados</strong> — o orçamento fechado sai do time comercial. A carga de 20 kg por prateleira é provisória: depende do ensaio de carga permanente do nó. Identidade visual conforme o manual da marca; o logo e a assinatura saem do arquivo vetorial oficial.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var ENC=40.60, NOX=61.61, NOXC=101.30, NOY=83.23, NOZ=73.08, PEX=19.4;
+  var GMM=0.22628, RSKG=19.03, DENS=0.556/1000, PANT=15, PANL=1200, PANW=200;
+  var C_TZ=0.3874596, C_CZ=0.4951, C_T=0.00968649;
+  var M_TZ=44.31, M_CZ=56.62, M_T=1.10;
+  var BVERT=270;
+
+  var LARGS=[
+    {id:'SAPATEIRA', B:415, ref:'PSC-02', pa:'851.004.N03', nome:'Sapateira'},
+    {id:'MULTIUSO',  B:595, ref:'PSC-03', pa:'855–857',      nome:'Multiuso G'},
+    {id:'ARARA',     B:717, ref:'PSC-04', pa:'850.004.N03',  nome:'Arara'}
+  ];
+  var PROFS=[
+    ['BPS-01-AC',167],['BCO-01-AC',180],['BAL-01-AC',183],['BLA-01-AC',200],
+    ['BLA-02-AC',207],['BAL-02-AC',270],['BLA-03-AC',287],['PSC-01',315],
+    ['BPS-01',337],['PSA-02',346],['PSC-02',415],['PSA-03',424],['PST-01',437],
+    ['PSA-04',474],['PSA-05',513],['PSC-03',595],['PST-02',617],['PSA-01',654],['PSC-04',717]
+  ];
+  var PADRAO={4:'balcão · 900',5:'gôndola central · 1.200',6:'checkout com display · 1.400',
+              7:'ponta de gôndola · 1.600',8:'gôndola de parede · 2.000',3:'mesa baixa'};
+  var FAMS=[
+    {id:'CHECKOUT', nome:'Checkout', larg:'SAPATEIRA', prof:346, niv:6, vaos:3,
+     fundo:false, deck:true, peg:true, casa:false, caps:true, faces:4,
+     desc:'Fila do caixa. Gancheira para blister, cestos inclinados, bandeja no topo.'},
+    {id:'ILHA', nome:'Ilha', larg:'MULTIUSO', prof:717, niv:4, vaos:2,
+     fundo:false, deck:true, peg:false, casa:false, caps:true, faces:4,
+     desc:'Aberta pelas quatro faces, altura de balcão, top deck para exposição.'},
+    {id:'PONTA', nome:'Ponta de gôndola', larg:'SAPATEIRA', prof:346, niv:8, vaos:2,
+     fundo:true, deck:false, peg:false, casa:true, caps:true, faces:1,
+     desc:'Alta e rasa, fundo fechado, topper casinha. Encosta na ponta da corrida.'},
+    {id:'PAREDAO', nome:'Paredão', larg:'MULTIUSO', prof:287, niv:8, vaos:4,
+     fundo:true, deck:false, peg:false, casa:false, caps:false, faces:1,
+     desc:'Corrida sem limite de vãos, uma faixa de categoria por vão.'}
+  ];
+  var TIERS=[10000,15000,25000,40000,65000,100000,150000];
+  var ROTAS=[
+    {id:'COMPRA', nome:'Compra'},
+    {id:'COPART', nome:'Coparticipação 50/50'},
+    {id:'BONIF',  nome:'Bonificação por volume'},
+    {id:'COMODATO',nome:'Comodato'}
+  ];
+
+  var st={fam:'CHECKOUT', larg:'SAPATEIRA', vaos:3, niv:6, prof:346, rota:'BONIF'};
+  var DB=null;
+
+  function fam(){ for(var i=0;i<FAMS.length;i++) if(FAMS[i].id===st.fam) return FAMS[i]; }
+  function larg(){ for(var i=0;i<LARGS.length;i++) if(LARGS[i].id===st.larg) return LARGS[i]; }
+  function comprimento(B,N){ return 2*NOX + (N-1)*NOXC + N*(B-2*ENC); }
+  function profExt(B){ return B + 2*(NOY-ENC); }
+  function altura(n){ return n*NOZ + (n-1)*(BVERT-2*ENC) + PEX; }
+  function passoV(){ return (BVERT-2*ENC) + NOZ; }
+  function passoX(B){ return B + 20.1; }
+
+  function calc(){
+    var f=fam(), B=larg().B, N=st.vaos, n=st.niv, pb=st.prof, linhas=N+1;
+    var tz=4*n, cz=2*(N-1)*n, tp=2*linhas;
+    var bl=2*N*n + (f.peg?N:0), bp=linhas*n, bv=2*linhas*(n-1), pes=2*linhas;
+    var mad=(bl*B + bp*pb + bv*BVERT + pes*60)*GMM;
+    var pit=passoX(B), pl=pit, pp=profExt(pb);
+    var np=N*n + (f.fundo? N*(n-1):0);
+    var madp=np*pl*pp*PANT*DENS;
+    var tiras=Math.ceil(pp/PANW), porchapa=Math.max(1,Math.floor(PANL/pl));
+    var chapas=Math.ceil(np*tiras/porchapa);
+    var conn=tz*C_TZ + cz*C_CZ + tp*C_T;
+    var plast=tz*M_TZ + cz*M_CZ + tp*M_T;
+    var custo=conn + (mad+madp)/1000*RSKG;
+    return {L:Math.round(comprimento(B,N)), P:Math.round(pp), A:Math.round(altura(n)),
+      tz:tz, cz:cz, tp:tp, bl:bl, bp:bp, bv:bv, pes:pes, np:np, chapas:chapas,
+      kg:(mad+madp+plast)/1000, custo:custo, preco:2*custo, B:B, pit:pit, painel:Math.round(pl)+'×'+Math.round(pp)};
+  }
+  function tier(c){ var q=20*c; for(var i=0;i<TIERS.length;i++) if(TIERS[i]>=q) return TIERS[i]; return TIERS[TIERS.length-1]; }
+  function brl(v){ return 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function brl0(v){ return 'R$ ' + v.toLocaleString('pt-BR',{maximumFractionDigits:0}); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  /* ------- ícone da família ------- */
+  function icon(f){
+    var g='<svg class="ic" viewBox="0 0 64 64" aria-hidden="true">';
+    var n=Math.min(f.niv,6), top=f.casa?12:8, h=(56-top)/n;
+    if(f.fundo) g+='<rect x="10" y="'+top+'" width="44" height="'+(56-top)+'" fill="var(--wood)" opacity=".3"/>';
+    if(f.casa) g+='<path d="M8 12 L32 2 L56 12 Z" fill="var(--brand)"/>';
+    g+='<rect x="8" y="'+top+'" width="48" height="5" fill="var(--brand)"/>';
+    for(var i=0;i<n;i++){ var y=top+6+i*h+h*0.55;
+      g+='<rect x="8" y="'+y.toFixed(1)+'" width="48" height="2.6" fill="var(--wood2)"/>'; }
+    var cols=Math.min(f.vaos+1,4);
+    for(var c=0;c<cols;c++){ var x=8+c*(48/(cols-1||1))-(c===cols-1?3:0);
+      g+='<rect x="'+x.toFixed(1)+'" y="'+(top+6)+'" width="3" height="'+(50-top)+'" fill="var(--no-tz)"/>'; }
+    if(f.peg) g+='<rect x="12" y="'+(top+13)+'" width="40" height="2" fill="var(--no-cz)"/>';
+    if(f.deck) g+='<rect x="8" y="'+(top+6)+'" width="48" height="4" fill="var(--wood2)"/>';
+    return g+'</svg>';
+  }
+
+  /* ------- desenho grande ------- */
+  function draw(){
+    var f=fam(), r=calc(), B=r.B, N=st.vaos, n=st.niv;
+    var cab=Math.round(0.13*r.A/10)*10, fh=f.casa?Math.round(0.22*r.L):0;
+    var ml=30, mr=30, mt=30+cab+fh, mb=54;
+    var W=r.L+ml+mr, H=r.A+mt+mb;
+    var s='<g transform="translate('+ml+','+(mt)+')">';
+    var ty=-(cab+10);
+    if(f.casa) s+='<path d="M0 '+ty+' L'+(r.L/2)+' '+(ty-fh)+' L'+r.L+' '+ty+' Z" fill="var(--brand)"/>';
+    s+='<rect x="0" y="'+ty+'" width="'+r.L+'" height="'+cab+'" fill="var(--brand)"/>';
+    s+='<text x="'+(r.L/2)+'" y="'+(ty+cab*0.58)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="'+(cab*0.46).toFixed(0)+'" fill="#fff" letter-spacing="'+(cab*0.04).toFixed(0)+'">NITRON</text>';
+    s+='<text x="'+(r.L/2)+'" y="'+(ty+cab*0.88)+'" text-anchor="middle" font-family="Aleo,serif" font-size="'+(cab*0.19).toFixed(0)+'" fill="#fff">toda casa tem</text>';
+    var ys=[], pv=passoV();
+    for(var i=0;i<n;i++) ys.push(r.A-PEX-i*pv-NOZ/2);
+    if(f.fundo) s+='<rect x="'+NOX+'" y="'+ys[n-1].toFixed(0)+'" width="'+(r.L-2*NOX).toFixed(0)+'" height="'+(ys[0]-ys[n-1]).toFixed(0)+'" fill="var(--wood)" opacity=".3"/>';
+    var cat=document.getElementById('cat').value.trim();
+    if(f.id==='PAREDAO' && cat){
+      for(var q=0;q<N;q++){ var cx=NOX+q*r.pit+8, cw=Math.min(r.pit-30, r.L-cx-8);
+        s+='<rect x="'+cx.toFixed(0)+'" y="'+(ty-96)+'" width="'+cw.toFixed(0)+'" height="88" rx="10" fill="var(--brand)"/>';
+        s+='<text x="'+(cx+cw/2).toFixed(0)+'" y="'+(ty-38)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="52" fill="#fff" letter-spacing="5">'+esc(cat.toUpperCase().slice(0,14))+'</text>'; }
+    }
+    for(var k=0;k<n;k++){
+      var y=ys[k], isDeck=f.deck && k===n-1;
+      s+='<rect x="0" y="'+(y-(isDeck?20:14)).toFixed(0)+'" width="'+r.L+'" height="'+(isDeck?40:28)+'" fill="'+(isDeck?'var(--wood2)':'var(--wood)')+'"/>';
+      for(var j=0;j<N;j++){ var x0=NOX+j*r.pit+12, w=Math.min(r.pit-44, r.L-x0-12);
+        if(w>20) s+='<rect x="'+x0.toFixed(0)+'" y="'+(y+16).toFixed(0)+'" width="'+w.toFixed(0)+'" height="38" fill="var(--brand)" opacity=".9"/>'; }
+    }
+    if(f.peg && n>2){ var gy=(ys[n-2]+ys[n-3])/2;
+      s+='<rect x="'+NOX+'" y="'+(gy-12).toFixed(0)+'" width="'+(r.L-2*NOX).toFixed(0)+'" height="24" fill="var(--no-cz)"/>';
+      for(var hk=0;hk<Math.floor((r.L-2*NOX)/110);hk++){ var hx=NOX+55+hk*110;
+        s+='<path d="M'+hx.toFixed(0)+' '+(gy+12).toFixed(0)+' v44 a15 15 0 0 0 30 0" stroke="var(--no-cz)" stroke-width="7" fill="none"/>'; }
+    }
+    for(var i2=0;i2<=N;i2++){
+      var x = i2===0?0 : (i2===N? r.L-NOX : NOX+i2*r.pit-NOXC);
+      var w2 = (i2===0||i2===N)? NOX : NOXC;
+      s+='<rect x="'+x.toFixed(0)+'" y="'+ys[n-1].toFixed(0)+'" width="'+w2.toFixed(0)+'" height="'+(r.A-PEX-ys[n-1]).toFixed(0)+'" fill="var(--wood2)"/>';
+      for(var t=0;t<n;t++) s+='<rect x="'+x.toFixed(0)+'" y="'+(ys[t]-NOZ/2).toFixed(0)+'" width="'+w2.toFixed(0)+'" height="'+NOZ.toFixed(0)+'" fill="'+((i2>0&&i2<N)?'var(--no-cz)':'var(--no-tz)')+'"/>';
+      s+='<rect x="'+(x+w2/2-15).toFixed(0)+'" y="'+(r.A-PEX).toFixed(0)+'" width="30" height="'+PEX+'" fill="var(--wood2)"/>';
+    }
+    var ativ=document.getElementById('ativ').value.trim();
+    if(f.caps && ativ){ var cw2=Math.min(430, r.L*0.5), cx2=(r.L-cw2)/2, cyt=ys[n-1]-150;
+      s+='<rect x="'+cx2.toFixed(0)+'" y="'+cyt.toFixed(0)+'" width="'+cw2.toFixed(0)+'" height="70" rx="35" fill="var(--brand)"/>';
+      s+='<text x="'+(r.L/2)+'" y="'+(cyt+48).toFixed(0)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="44" fill="#fff" letter-spacing="3">'+esc(ativ.toUpperCase().slice(0,16))+'</text>'; }
+    var plw=Math.min(r.pit-70,330), plh=2*pv-80, py=ys[Math.min(2,n-1)];
+    if(plh>60 && plw>80){
+      s+='<rect x="'+(NOX+20)+'" y="'+(py-plh+56).toFixed(0)+'" width="'+plw.toFixed(0)+'" height="'+plh.toFixed(0)+'" rx="12" fill="var(--brand)"/>';
+      s+='<text x="'+(NOX+20+plw/2).toFixed(0)+'" y="'+(py-plh/2+42).toFixed(0)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="70" fill="#fff" letter-spacing="3">NITRON</text>';
+      s+='<text x="'+(NOX+20+plw/2).toFixed(0)+'" y="'+(py-plh/2+104).toFixed(0)+'" text-anchor="middle" font-family="Aleo,serif" font-size="32" fill="#fff">toda casa tem</text>';
+    }
+    s+='<g stroke="var(--dim)" stroke-width="4" fill="none"><path d="M0 '+(r.A+40)+' H'+r.L+'"/>'+
+       '<path d="M0 '+(r.A+22)+' V'+(r.A+58)+'"/><path d="M'+r.L+' '+(r.A+22)+' V'+(r.A+58)+'"/></g>';
+    s+='<text x="'+(r.L/2)+'" y="'+(r.A+28)+'" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="46" fill="var(--muted)">'+r.L+' mm</text>';
+    s+='</g>';
+    var d=document.getElementById('draw');
+    d.setAttribute('viewBox','0 0 '+W.toFixed(0)+' '+H.toFixed(0));
+    d.innerHTML=s;
+  }
+
+  /* ------- render ------- */
+  function render(){
+    var f=fam(), r=calc(), L=larg();
+    document.getElementById('fams').innerHTML=FAMS.map(function(x){
+      return '<button class="fam" type="button" data-f="'+x.id+'" aria-pressed="'+(x.id===st.fam)+'">'+
+        icon(x)+'<span><b>'+x.nome+'</b><i>'+x.desc+'</i></span></button>';}).join('');
+    document.getElementById('largs').innerHTML=LARGS.map(function(x){
+      return '<button class="wopt" type="button" data-l="'+x.id+'" aria-pressed="'+(x.id===st.larg)+'">'+
+        '<span><b>'+x.nome+'</b><i>barra '+x.ref+' · '+x.B+' mm · da PA '+x.pa+'</i></span>'+
+        '<span class="v">vão '+Math.round(comprimento(x.B,1))+' mm</span></button>';}).join('');
+    var vh='';
+    for(var N=1;N<=6;N++) vh+='<button type="button" data-v="'+N+'" aria-pressed="'+(N===st.vaos)+'">'+
+      N+' vão'+(N>1?'s':'')+' · '+Math.round(comprimento(L.B,N))+'</button>';
+    document.getElementById('vaos').innerHTML=vh;
+    document.getElementById('alts').innerHTML=[3,4,5,6,7,8].map(function(n){
+      return '<button class="wopt" type="button" data-n="'+n+'" aria-pressed="'+(n===st.niv)+'">'+
+        '<span><b>'+n+' níveis</b><i>'+(PADRAO[n]||'')+'</i></span>'+
+        '<span class="v">'+Math.round(altura(n))+' mm</span></button>';}).join('');
+    var ps=document.getElementById('prof');
+    if(!ps.options.length) ps.innerHTML=PROFS.map(function(p){
+      return '<option value="'+p[1]+'">'+Math.round(profExt(p[1]))+' mm externo — barra '+p[0]+' · '+p[1]+' mm</option>';}).join('');
+    ps.value=String(st.prof);
+
+    document.getElementById('pvt').textContent=f.nome.toUpperCase();
+    document.getElementById('pvc').textContent=L.nome+' · '+st.vaos+' vão'+(st.vaos>1?'s':'')+' · '+st.niv+' níveis';
+    document.getElementById('dL').textContent=r.L.toLocaleString('pt-BR');
+    document.getElementById('dP').textContent=r.P.toLocaleString('pt-BR');
+    document.getElementById('dA').textContent=r.A.toLocaleString('pt-BR');
+    var rows=[['Trizetas',r.tz],['Cruzetas',r.cz],['Tampas',r.tp],
+      ['Barra de largura · '+r.B+' mm',r.bl],['Barra de profundidade · '+st.prof+' mm',r.bp],
+      ['Barra vertical · 270 mm',r.bv],['Pés',r.pes],['Painéis · '+r.painel+' mm',r.np],
+      ['Peso',r.kg.toFixed(1)+' kg'],['Faces de acesso',f.faces]];
+    document.getElementById('pl').innerHTML=rows.map(function(x){
+      return '<div><span>'+x[0]+'</span><span>'+x[1]+'</span></div>';}).join('');
+
+    var q=tier(r.custo), tk=Math.max(10, +document.getElementById('tk').value||250);
+    document.getElementById('caixas').textContent='≈ '+Math.ceil(q/tk).toLocaleString('pt-BR')+' caixas na faixa de '+brl0(q);
+    var meia=TIERS.filter(function(t){return t>=q/2;})[0]||q;
+    var def={
+      COMPRA:{v:brl(r.preco), d:'Você compra o móvel. Preço em 2× o custo, o piso da tabela padrão. Nota fiscal de venda, o ativo é seu.', p:'<span class="pill ok">prova preço</span>'},
+      COPART:{v:brl(r.preco/2)+' + '+brl0(meia), d:'Você paga metade do móvel e compra metade da faixa qualificadora. É a rota com menos atrito e a que costuma converter mais.', p:'<span class="pill ok">prova preço</span>'},
+      BONIF:{v:brl0(q)+' em produto', d:'Comprou a faixa no período, o móvel vai sem custo. Sai como bonificação, então o móvel passa a ser seu.', p:'<span class="pill w">não prova preço</span>'},
+      COMODATO:{v:'sem custo', d:'O móvel continua sendo da Nitron, cedido por contrato de exposição: mix mínimo, ocupação combinada e prazo. Indicado para paredão e ponta de gôndola.', p:'<span class="pill w">ativo da Nitron</span>'}
+    };
+    document.getElementById('rotas').innerHTML=ROTAS.map(function(x){
+      var dd=def[x.id];
+      return '<button class="rota" type="button" data-r="'+x.id+'" aria-pressed="'+(x.id===st.rota)+'">'+
+        '<span class="rh"><span class="rn">'+x.nome+'</span><span class="rv">'+dd.v+'</span></span>'+
+        '<span class="rd">'+dd.d+' '+dd.p+'</span></button>';}).join('');
+    draw();
+  }
+
+  /* ------- eventos ------- */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-f],button[data-l],button[data-v],button[data-n],button[data-r]');
+    if(!b) return;
+    if(b.dataset.f){ st.fam=b.dataset.f; var f=fam();
+      st.larg=f.larg; st.prof=f.prof; st.niv=f.niv; st.vaos=f.vaos; }
+    else if(b.dataset.l) st.larg=b.dataset.l;
+    else if(b.dataset.v) st.vaos=+b.dataset.v;
+    else if(b.dataset.n) st.niv=+b.dataset.n;
+    else if(b.dataset.r) st.rota=b.dataset.r;
+    render();
+  });
+  document.getElementById('prof').addEventListener('change',function(e){ st.prof=+e.target.value; render(); });
+  ['ativ','cat'].forEach(function(id){ document.getElementById(id).addEventListener('input',draw); });
+  document.getElementById('tk').addEventListener('input',render);
+
+  /* ------- envio ------- */
+  function proto(){ var d=new Date();
+    return 'PDV-'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+
+      '-'+Math.random().toString(36).slice(2,6).toUpperCase(); }
+
+  document.getElementById('send').addEventListener('click',function(){
+    var msg=document.getElementById('msg'), btn=this;
+    var loja=document.getElementById('loja').value.trim();
+    var resp=document.getElementById('resp').value.trim();
+    var mail=document.getElementById('mail').value.trim();
+    if(!loja||!resp||!mail){ msg.className='err'; msg.textContent='Preencha loja, responsável e e-mail.'; return; }
+    var r=calc(), f=fam(), L=larg(), p=proto();
+    var ped={ protocolo:p, criado_em:new Date().toISOString(),
+      loja:loja, responsavel:resp, email:mail,
+      cidade:document.getElementById('cid').value.trim(),
+      quantidade:+document.getElementById('qtd').value||1,
+      prazo:document.getElementById('prazo').value,
+      observacoes:document.getElementById('obs').value.trim(),
+      familia:f.nome, largura_ref:L.nome, largura_barra:L.B, vaos:st.vaos,
+      niveis:st.niv, prof_barra:st.prof,
+      comprimento_mm:r.L, profundidade_mm:r.P, altura_mm:r.A, peso_kg:+r.kg.toFixed(1),
+      trizetas:r.tz, cruzetas:r.cz, paineis:r.np,
+      custo_estimado:+r.custo.toFixed(2), preco_2x:+r.preco.toFixed(2),
+      rota:st.rota, faixa_qualificadora:tier(r.custo),
+      ativacao:document.getElementById('ativ').value.trim(),
+      categoria:document.getElementById('cat').value.trim(), status:'novo' };
+    btn.disabled=true; msg.className=''; msg.textContent='Enviando…';
+    if(!DB){ btn.disabled=false; msg.className='err';
+      msg.textContent='Protocolo '+p+' montado, mas não foi possível registrar agora — o registro não está disponível nesta visualização. Salve a configuração ou tente de novo.'; return; }
+    DB.collection('pedidos').add(ped).then(function(){
+      msg.className='ok';
+      msg.textContent='Solicitação registrada. Protocolo '+p+'. O time comercial responde com o orçamento fechado.';
+      btn.disabled=false;
+    }).catch(function(err){
+      btn.disabled=false; msg.className='err';
+      var c=err&&err.code;
+      msg.textContent = c==='not_granted'||c==='capability_disabled'
+        ? 'Protocolo '+p+' montado, mas esta visualização não pode registrar solicitações.'
+        : c==='quota_exceeded' ? 'A fila de solicitações está cheia — avise o time Nitron.'
+        : c==='rate_limited'||c==='resource_exhausted' ? 'Muitos envios agora. Tente em alguns segundos.'
+        : 'Não foi possível registrar (' + (c||'erro') + '). Tente de novo.';
+    });
+  });
+
+  render();
+
+  claude.use('db').then(function(db){
+    if(!db) return;
+    DB=db;
+    db.collection('pedidos').orderBy('criado_em','desc').limit(25).onSnapshot(function(snap){
+      var docs=(snap.docs||[]).filter(function(d){return d.exists;}).map(function(d){return d.data()||{};});
+      if(!docs.length) return;
+      document.getElementById('fila').hidden=false;
+      document.getElementById('filab').innerHTML=docs.map(function(p){
+        return '<tr><td class="n">'+esc(p.protocolo)+'</td><td>'+esc(p.loja)+'</td>'+
+          '<td class="n">'+esc(p.familia)+' · '+esc(p.comprimento_mm)+'×'+esc(p.profundidade_mm)+'×'+esc(p.altura_mm)+'</td>'+
+          '<td>'+esc(p.rota)+'</td><td class="n">'+esc(p.quantidade)+'</td></tr>';}).join('');
+    }, function(){ /* assinatura indisponível: a página segue funcionando sem a fila */ });
+  });
+})();
+</script>
