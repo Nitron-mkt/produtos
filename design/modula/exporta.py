@@ -49,7 +49,7 @@ def malha_json(m, s):
         passo=s["passo_ninho"], massa=round(s["massa_g"]),
         total=round(s["litros_total"], 1), boca=round(s["litros_boca"], 1),
         aba=s["aba"], pe=round(s["sal_pe"], 1), ripa=s["ripa"], vao=s["vao"],
-        cesta=s["hc"], perna=s["perna"],
+        cesta=s["hc"], perna=s["perna"], pilha=s["passo_pilha"],
         esc=esc, malha=saida)
 
 
@@ -94,23 +94,23 @@ def main():
     R.cena(g, 1100, 950, az=44, el=17).save(os.path.join(SAIDA, "03-ninho.png"))
 
     # ---- 04 pilha ---------------------------------------------------------
-    g = [grupo("M", offset=(0, 0, i * s["H"])) for i in range(3)]
+    g = [grupo("M", offset=(0, 0, i * s["passo_pilha"])) for i in range(3)]
     R.cena(g, 900, 1180, az=44, el=13).save(os.path.join(SAIDA, "04-pilha.png"))
 
     # ---- 05 o encaixe em destaque ----------------------------------------
     g = [grupo("M", destaque=True),
-         grupo("M", offset=(0, 0, s["H"] + 70), destaque=True)]
+         grupo("M", offset=(0, 0, s["passo_pilha"] + 70), destaque=True)]
     R.cena(g, 1150, 1000, az=58, el=14).save(os.path.join(SAIDA, "05-encaixe.png"))
 
     # ---- 06 ninho x pilha -------------------------------------------------
     g = [grupo("M", offset=(-340, 0, i * s["passo_ninho"]), giro=bool(i % 2))
          for i in range(10)]
-    g += [grupo("M", offset=(340, 0, i * s["H"]), cor=COR_CORPO["G"]) for i in range(3)]
+    g += [grupo("M", offset=(340, 0, i * s["passo_pilha"]), cor=COR_CORPO["G"]) for i in range(3)]
     R.cena(g, 1450, 900, az=40, el=15).save(os.path.join(SAIDA, "06-ninho-x-pilha.png"))
 
     # ---- 07 a peca de casa: torre de tres P em branco ---------------------
     sP = fichas["P"][1]
-    g = [grupo("P", offset=(0, 0, i * sP["H"])) for i in range(3)]
+    g = [grupo("P", offset=(0, 0, i * sP["passo_pilha"])) for i in range(3)]
     R.cena(g, 900, 1100, az=48, el=13, fundo=(212, 207, 199)) \
         .save(os.path.join(SAIDA, "07-torre-casa.png"))
 

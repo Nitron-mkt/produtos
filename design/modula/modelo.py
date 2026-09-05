@@ -110,7 +110,7 @@ def parametros(k):
     s["mergulho"] = round(0.28 * s["hf"])
     s["hb"] = round(16.0 + 0.055 * H)              # faixa cheia junto ao fundo
     s["h_aro"] = round(8.0 + 0.030 * H)           # parede cheia sob o aro
-    s["z_fundo"] = 6.0
+    s["z_fundo"] = 2.0    # o fundo quase encosta no plano do rodape
     s["ef"] = e + 0.5
 
     s["sal_pe"] = round(fp + aba + con, 1)        # o quanto o pe avanca
@@ -130,7 +130,7 @@ def parametros(k):
     # ate o envelope. O pe e conico (7 graus por lado) e encontra o rodape numa
     # concordancia circular — e a concordancia que faz o pe nascer da peca em
     # vez de ficar pendurado nela.
-    s["recuo"] = 1.5
+    s["recuo"] = round(e + 3.2, 1)   # recuo do rodape = a folga do degrau
     s["h_rodape"] = hro = round(0.20 * s["perna"], 1)
     s["h_avental"] = round(0.16 * s["perna"], 1)   # frente e traseira sobem
     s["hh_pe"] = hh = round(s["perna"] - hro, 1)   # altura livre do pe
@@ -149,6 +149,31 @@ def parametros(k):
     # ---- o que a base ainda tem de respeitar ------------------------------
     # Com o pe dentro do vulto, ele nao colide com nada no ninho: desce junto
     # com a parede, no mesmo passo. So resta nao encostar no pe vizinho.
+    # ---- coluna interna: o que trava o empilhamento (rev.09) --------------
+    # Quatro colunas verticais por dentro da parede, do fundo ate o aro. O topo
+    # delas e o degrau onde o rodape da peca de cima pousa. A face interna e
+    # VERTICAL (raio constante), entao o macho sai com quatro nervuras retas e
+    # o bolsao atras da coluna afunila para baixo — nada de contra-saida.
+    s["y_col"] = (round(0.90 * s["b"], 1), round(-0.30 * s["b"], 1))
+    s["w_col"] = round(0.24 * s["b"], 1)
+    s["rampa_col"] = round(min(7.0, 0.075 * s["b"]), 1)
+    s["r_col"] = round(s["Xb"] / 2 - s["h_rodape"] * TAN - s["recuo"] - e, 2)
+    s["passo_pilha"] = round(s["hc"] + s["h_rodape"], 1)
+    vao_col = 0.60 * s["b"]     # otimo: p1/3 iguala os dois vaos
+    assert s["w_col"] + 2 * s["rampa_col"] + 6 < vao_col, \
+        f"{k}: coluna e janela se encostam ({vao_col:.0f} mm de vao)"
+    # no ninho a parede da peca de cima desce POR FORA da coluna: a folga e a
+    # distancia entre a face interna dessa parede e a face externa da coluna
+    f_par = (s["Xb"] / 2 - pn * TAN - e) - (s["r_col"] + e)
+    assert f_par > 1.5, f"{k}: a parede do ninho raspa na coluna ({f_par:.1f} mm)"
+    # no ninho o rodape da peca de cima passa raspando o fundo da de baixo
+    f_fun = pn - (s["z_fundo"] + s["ef"] + s["h_rodape"])
+    assert f_fun > 0.8, f"{k}: rodape bate no fundo no ninho ({f_fun:.1f} mm)"
+    # a grelha do fundo nao pode alcancar o degrau
+    f_gre = s["r_col"] - (s["Xb"] / 2 + s["z_fundo"] * TAN - e - round(9.0 + 0.010 * X, 1))
+    assert f_gre > 1.5, f"{k}: a grelha alcanca o degrau ({f_gre:.1f} mm)"
+    s["folga_degrau"] = round(min(f_par, f_gre), 1)
+
     s["u_max"] = um = round(meia_pe(s, hh), 1)
     assert 2 * um < 2 * min(s["b"], s["ax"]) - 10, f"{k}: pes de canto se encontram"
     assert s["saia"] < s["passo_ninho"] - 2, f"{k}: saia nao cabe no passo do ninho"
@@ -202,6 +227,42 @@ def construir(k):
         if tr == "frente":
             return hf - s["mergulho"] * 0.5 * (1 - math.cos(2 * math.pi * t))
         return h_geral + crista(i)
+
+    # ---- coluna interna e janela do rodape --------------------------------
+    yc_col = s["y_col"]
+    yc_jan = tuple(-y for y in yc_col)          # espelho: por onde o degrau passa
+    wc, rc = s["w_col"] / 2, s["rampa_col"]
+
+    def perfil(i, alvos):
+        """1 no centro do recurso, 0 fora dele, com rampa suave."""
+        tr, _ = cont.amostras[i % n]
+        if tr not in ("lat_d", "lat_e"):
+            return 0.0
+        y = cont.y_de(i % n)
+        f = 0.0
+        for yc in alvos:
+            d = abs(y - yc)
+            if d <= wc:
+                f = 1.0
+            elif d <= wc + rc:
+                f = max(f, 1 - suave((d - wc) / rc))
+        return f
+
+    fcol = [perfil(i, yc_col) for i in range(n)]
+    fjan = [perfil(i, yc_jan) for i in range(n)]
+    r_col = s["r_col"]
+
+    def o_col(z):
+        """Deslocamento que poe a face interna da coluna no raio r_col."""
+        return r_col - (s["Xb"] / 2 + z * TAN)
+
+    def OE(i, z):                                # face externa da casca
+        f = fcol[i % n]
+        return 0.0 if f <= 0 else f * (o_col(z) + e)
+
+    def OI(i, z):                                # face interna da casca
+        f = fcol[i % n]
+        return -e if f <= 0 else (1 - f) * (-e) + f * o_col(z)
 
     # ---- ritmo das ripas (uniforme, sem excecao) --------------------------
     pos_lat, _ = ritmo(s["b"], passo_alvo, s["ripa"])
@@ -286,16 +347,16 @@ def construir(k):
             i = j
 
     z0 = lambda i: 0.0
-    emitir(lambda i: True, 0.0, -e, z0, lambda i: hb + dz(i), "faixa")
-    emitir(eh_ripa, 0.0, -e, lambda i: hb, ztopo, "ripa")
+    emitir(lambda i: True, OE, OI, z0, lambda i: hb + dz(i), "faixa")
+    emitir(eh_ripa, OE, OI, lambda i: hb, ztopo, "ripa")
     for q in range(nfil - 1):
         def faz(q=q):
             emitir(lambda i: (not eh_ripa(i))
-                   and travessas(i)[q][1] > travessas(i)[q][0], 0.0, -e,
+                   and travessas(i)[q][1] > travessas(i)[q][0], OE, OI,
                    lambda i: travessas(i)[q][0] - dz(i),
                    lambda i: travessas(i)[q][1] + dz(i), "ripa")
         faz()
-    emitir(lambda i: not eh_ripa(i), 0.0, -e,
+    emitir(lambda i: not eh_ripa(i), OE, OI,
            lambda i: z_aro_inf(i) - dz(i), ztopo, "aro")
 
     # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
@@ -313,7 +374,8 @@ def construir(k):
     # ---- fundo em grelha ---------------------------------------------------
     zf, ef = s["z_fundo"], s["ef"]
     w_mold = round(9.0 + 0.010 * X, 1)
-    banda(m, cont, 0, n, -e, -e - w_mold, lambda i: zf, lambda i: zf + ef, "fundo")
+    emitir(lambda i: fjan[i % n] < 0.15, -e, -e - w_mold,
+           lambda i: zf, lambda i: zf + ef, "fundo")
     hx = s["Xb"] / 2 + zf * TAN - e - w_mold
     hy = s["Yb"] / 2 + zf * TAN - e - w_mold
     r = max(2.0, s["Rb"] + zf * TAN - e - w_mold)
@@ -356,8 +418,8 @@ def construir(k):
     def z_base(i):
         return -perna + altura_pe(s, u_pe(i))
 
-    banda(m, cont, 0, n, -rec, -rec - e, z_base, lambda i: 0.0, "saia",
-          tampa_ini=False, tampa_fim=False)
+    emitir(lambda i: fjan[i % n] < 0.15, -rec, -rec - e, z_base, lambda i: 0.0,
+           "saia")
     m.mover(perna)
 
     # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
@@ -401,6 +463,6 @@ if __name__ == "__main__":
         m, s = ficha(k)
         print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} (cesta {s['hc']:.0f}"
               f" + perna {s['perna']:.0f}) | {s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | "
-              f"ninho {s['passo_ninho']:.0f} mm | "
+              f"pilha {s['passo_pilha']:.0f} / ninho {s['passo_ninho']:.0f} mm | "
               f"cubagem 10p {10*s['H']/(s['H']+9*s['passo_ninho']):.1f}x | "
               f"folga do giro {s['folga_giro']:.0f} mm | {s['n_triangulos']} tri")

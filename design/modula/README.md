@@ -197,20 +197,53 @@ Tudo sai na direção de abertura: o pé afina para baixo, o rodapé é recuo, e
 aro voltou a ser **uniforme em toda a volta** (a crista saiu junto com o
 mecanismo antigo).
 
-### O que ficou em aberto: o travamento do empilhamento
+### rev.09 — o travamento: coluna interna e janela no rodapé
 
-Com o pé dentro do vulto, o encaixe do ninho está resolvido e é o melhor
-possível. Falta decidir **o que segura a peça de cima na altura cheia**, já que
-não pode ser o pé. Duas saídas, e nenhuma é de graça:
+A recomendação da rev.08 (caneluras na parede) **não fecha**, e vale registrar
+por quê. Uma canelura de profundidade constante acompanha a conicidade da
+parede, então desloca o degrau e o pé na mesma medida: a diferença entre eles
+continua sendo a conicidade inteira. E uma canelura que se aprofunda subindo tem
+menos saída que a parede, e é a canelura que passa a mandar no passo do ninho —
+com a profundidade necessária (~29 mm), o passo salta para 124 mm.
 
-| | Como trava | Aro | Cubagem | Custo |
-|---|---|---|---|---|
-| **1. Caneluras** | 8 sulcos verticais de altura inteira; o topo de 4 deles vira degrau, e o plinto da peça de cima pousa neles | fechado | 6,2× | +~80 g/peça e a parede ganha 8 caneluras de ~27 mm — vira um vulto "canelado", decisão estética forte |
-| **2. Passagem no aro** | volta o pé de fora, com 4 fendas de altura inteira na parede para ele descer | 4 recortes | 6,2× | o aro deixa de ser anel contínuo — exatamente o que foi reprovado na rev.02 |
+O que fecha é o contrário: **coluna de raio constante**.
 
-A opção 1 mantém as três coisas que o projeto já vendeu (aro fechado, cubagem de
-6× e empilhamento com passo cheio) e ainda dá um partido visual coerente com o
-pé de canto. É a recomendação.
+| | |
+|---|---|
+| **Coluna** | 4 colunas por dentro da parede, do fundo ao aro, nas posições `+0,90 b` e `−0,30 b` das duas laterais. A face interna é **vertical** — raio 149,8 mm no M, o mesmo raio da face interna do rodapé. Sai 4,8 mm da parede junto ao fundo e 31 mm junto ao aro. |
+| **Degrau** | o topo da coluna. O rodapé da peça de cima pousa nele com a espessura inteira apoiada. |
+| **Janela** | nas 4 posições espelhadas (`−0,90 b` e `+0,30 b`), o rodapé e a moldura do fundo **não existem**: é por ali que o degrau passa quando a peça está girada. |
+
+```
+alinhada  0°  -> rodapé encontra degrau            PILHA, passo 210 mm (M)
+girada  180°  -> janela encontra degrau, passa     NINHO, passo 17 mm
+```
+
+**Por que sai do molde.** A face interna da coluna é vertical, então o macho sai
+com quatro nervuras retas e o bolsão atrás da coluna **afunila para baixo** — é
+formado por essas mesmas nervuras, que se retiram para cima. Nenhuma contra-saída,
+nenhuma gaveta, nenhum postiço.
+
+**Por que não atrapalha o ninho.** No encaixe, as três cascas ficam encaixadas
+como bonecas russas: parede de baixo (158,3–156,3), parede de cima (156,0–154,0),
+coluna de baixo (151,8–149,8). A folga crítica é a última — 2,3 mm no M.
+
+**Por que o aro continua fechado.** O degrau está no aro, mas a peça que desce
+nunca chega ao aro da de baixo: no ninho ela para 17 mm acima, e na pilha ela
+pousa antes. A borda de cima segue anel contínuo, sem um recorte.
+
+**O que a pilha custa.** Passo de 210 mm numa peça de 250: as peças **entrelaçam
+40 mm**. Não se perde volume — perde-se altura de pilha, e ganha-se travamento
+lateral, que é o que faz torre de três não balançar.
+
+| M | valor |
+|---|---|
+| passo da pilha | 210 mm (peça de 250) |
+| passo do ninho | 17 mm — cubagem 6,2× em 10 peças, inalterada |
+| massa | 421 g (era 428 na rev.08: a janela devolve o que a coluna gasta) |
+| capacidade | 15,8 L |
+| folga do degrau | 2,3 mm |
+| recuo do rodapé | 5,2 mm — a linha de sombra, e a folga do degrau, são a mesma coisa |
 
 ## Arquivos
 
