@@ -158,27 +158,59 @@ que só acontece se o pé pendurar do aro, e aí ele não ninha em si mesmo.
 **Por isso toda caixa empilha-e-ninha do mercado tem recorte no aro.** Não é
 escolha estética: é consequência.
 
-### As três saídas
+### rev.08 — o resultado é mais forte do que parecia
 
-| | Aro | Cubagem (10 peças) | Empilha | Custo |
+Refazendo a conta para **qualquer** profundidade de encaixe (não só a do ninho),
+o pé de fora não passa em nenhuma:
+
+- o pé precisa ir do raio do corpo (152 mm no M) ao raio do envelope (198,5 mm);
+- portanto existe material dele em **todos** os raios entre 152 e 198,5;
+- a parede da peça de baixo tem raio entre 158,3 e 184,6 — sempre dentro dessa faixa;
+- o pé fica na faixa de altura `[Δ−50, Δ]`, que cruza a parede `[0, 200]` para
+  todo Δ entre −50 e 250 mm.
+
+Ou seja: **não existe Δ em que a peça de cima desça.** Não é o aro que atrapalha,
+é a parede inteira. Pé que sai do vulto da peça e ninho são incompatíveis, ponto.
+
+### O que isso liberta
+
+O pé deixou de ser o seletor do encaixe — e com isso **deixou de ter restrição de
+posição**. Não precisa mais evitar canto nem centro de face (que eram proibidos
+por serem simétricos no giro de 180°), não precisa mais de largura limitada pela
+folga do pé espelhado, não precisa alcançar o aro.
+
+Por isso a rev.08 põe o pé onde a peça sempre pediu: **nos quatro cantos**,
+simétrico, dentro do vulto. É o **pé de canto sobre plinto recuado** — a mesma
+gramática do móvel (perna cônica + base recuada) que a varredura apontou como o
+que separa "móvel" de "engradado".
+
+| | valor (M) |
+|---|---|
+| rodapé | recuado 1,5 mm da parede, 10 mm de altura — a linha de sombra |
+| vão livre sob a peça | 40 mm de arco contínuo, 50 mm no total até o piso |
+| pé no chão | 35 mm de corda, tronco de 7° por lado |
+| pé na raiz | 65 mm, com concordância circular de 11,4 mm no rodapé |
+| massa | 428 g (era 472 g na rev.06) |
+| ninho | 17 mm, cubagem 6,2× em 10 peças — inalterada |
+
+Tudo sai na direção de abertura: o pé afina para baixo, o rodapé é recuo, e o
+aro voltou a ser **uniforme em toda a volta** (a crista saiu junto com o
+mecanismo antigo).
+
+### O que ficou em aberto: o travamento do empilhamento
+
+Com o pé dentro do vulto, o encaixe do ninho está resolvido e é o melhor
+possível. Falta decidir **o que segura a peça de cima na altura cheia**, já que
+não pode ser o pé. Duas saídas, e nenhuma é de graça:
+
+| | Como trava | Aro | Cubagem | Custo |
 |---|---|---|---|---|
-| **A. Passagem no aro** | 4 aberturas | **6,2×** (403 mm) | passo cheio | 4 fendas de altura inteira; o aro deixa de ser anel contínuo |
-| **B. Canaleta interna** | **fechado** | **6,2×** (403 mm) | passo cheio | 8 canaletas verticais de ~24 mm na parede; base em plinto recuado |
-| **C. Ninho raso** | **fechado** | 2,4× (1.033 mm) | passo cheio | perde a cubagem, que é o argumento de e-commerce |
+| **1. Caneluras** | 8 sulcos verticais de altura inteira; o topo de 4 deles vira degrau, e o plinto da peça de cima pousa neles | fechado | 6,2× | +~80 g/peça e a parede ganha 8 caneluras de ~27 mm — vira um vulto "canelado", decisão estética forte |
+| **2. Passagem no aro** | volta o pé de fora, com 4 fendas de altura inteira na parede para ele descer | 4 recortes | 6,2× | o aro deixa de ser anel contínuo — exatamente o que foi reprovado na rev.02 |
 
-**B** é a única que mantém as três coisas que o projeto vendeu: aro fechado,
-cubagem de 6× e empilhamento com passo cheio. O preço é a canaleta: a parede
-ganha 8 sulcos verticais de ~24 mm (a profundidade é igual à conicidade total,
-`H·tan α`), e o encosto de empilhamento passa a ser o topo dessas canaletas, com
-o plinto da peça de cima pousando neles. Tudo sai na direção de abertura — nem o
-sulco nem o degrau exigem gaveta.
-
-### O que ficou pronto nesta revisão
-
-O desenho do pé em si (cônico de 7° por lado, com concordância circular no
-rodapé recuado de 1,5 mm) está implementado e roda — `meia_pe` / `altura_pe` em
-`modelo.py`. Ele é reaproveitável em qualquer das três saídas, porque o que muda
-entre elas é **onde o pé pousa**, não o formato dele.
+A opção 1 mantém as três coisas que o projeto já vendeu (aro fechado, cubagem de
+6× e empilhamento com passo cheio) e ainda dá um partido visual coerente com o
+pé de canto. É a recomendação.
 
 ## Arquivos
 

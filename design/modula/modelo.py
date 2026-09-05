@@ -131,36 +131,28 @@ def parametros(k):
     # concordancia circular — e a concordancia que faz o pe nascer da peca em
     # vez de ficar pendurado nela.
     s["recuo"] = 1.5
-    s["h_rodape"] = hro = round(0.30 * s["perna"], 1)
+    s["h_rodape"] = hro = round(0.20 * s["perna"], 1)
     s["h_avental"] = round(0.16 * s["perna"], 1)   # frente e traseira sobem
     s["hh_pe"] = hh = round(s["perna"] - hro, 1)   # altura livre do pe
-    s["hw_pe"] = hw = round(max(8.0, 0.105 * s["b"]), 1)    # meia-largura no chao
+    s["hw_pe"] = hw = round(0.155 * min(s["b"], s["ax"]), 1)  # meia-largura no chao
     s["k_pe"] = kk = math.tan(7.0 * DEG)           # conicidade do pe, por lado
-    s["rf_pe"] = round(max(6.0, 0.11 * s["b"]), 1)  # raio da concordancia
+    s["rf_pe"] = round(0.10 * min(s["b"], s["ax"]), 1)   # raio da concordancia
     s["hw_max"] = round(meia_pe(s, hh), 1)         # meia-largura na raiz
     s["rampa_pe"] = round(max(5.0, 0.06 * s["b"]), 1)
     s["larg_pe"] = round(2 * hw, 1)                # o pe no chao
-    # o pe chega ao envelope, 1,5 mm dentro da aresta
-    s["sal_pe"] = round(X / 2 - 1.5 - (s["Xb"] / 2 - s["perna"] * TAN) + s["recuo"], 1)
+    s["sal_pe"] = 0.0        # o pe NAO sai do vulto da peca (ver README, rev.08)
     s["sal_crista"] = round(fp - 1.5, 1)           # a crista avanca para receber o pe
     s["rampa_crista"] = round(min(18.0, 0.34 * dif), 1)
     s["larg_ress"] = round(2 * hw + 6.0, 1)
     s["etiqueta"] = round(0.24 * X)
 
-    # ---- as tres folgas que a base tem de respeitar ------------------------
-    pn = s["passo_ninho"]
-    # 1) o pe da peca girada passa entre os pes da de baixo
-    pior = min(dif - meia_pe(s, d) - max(meia_pe(s, d - pn), meia_pe(s, d + pn))
-               for d in [i * hh / 60 for i in range(61)])
-    assert pior > 2, f"{k}: pe girado bate no pe vizinho (folga {pior:.1f} mm)"
-    # 2) o pe da peca girada nao pode pousar na crista da de baixo
-    f_cr = dif - hw - s["larg_ress"] / 2 - s["rampa_crista"]
-    assert f_cr > 2, f"{k}: pe girado alcanca a crista (folga {f_cr:.1f} mm)"
-    # 3) descendo, o pe passa por fora do aro (que recuou fp)
-    f_aro = fp - 1.5 - e
-    assert f_aro > 1, f"{k}: o pe raspa no aro (folga {f_aro:.1f} mm)"
+    # ---- o que a base ainda tem de respeitar ------------------------------
+    # Com o pe dentro do vulto, ele nao colide com nada no ninho: desce junto
+    # com a parede, no mesmo passo. So resta nao encostar no pe vizinho.
+    s["u_max"] = um = round(meia_pe(s, hh), 1)
+    assert 2 * um < 2 * min(s["b"], s["ax"]) - 10, f"{k}: pes de canto se encontram"
     assert s["saia"] < s["passo_ninho"] - 2, f"{k}: saia nao cabe no passo do ninho"
-    s["folga_giro"] = round(min(pior, f_cr), 1)
+    s["folga_giro"] = round(2 * min(s["b"], s["ax"]) - 2 * um, 1)
     return s
 
 
@@ -193,19 +185,13 @@ def construir(k):
         if tr not in ("lat_d", "lat_e"):
             return 0.0
         y = cont.y_de(i)
-        for yc in (s["y_pe_f"], s["y_pe_t"]):
+        for yc in ():
             d = abs(y - yc)
             if d <= lr / 2:
                 return hr
             if d <= lr / 2 + rampa:
                 return hr * (1 - suave((d - lr / 2) / rampa))
         return 0.0
-
-    def oc(i):
-        """A crista tambem avanca para fora: e ali que o pe da peca de cima
-        pousa. No resto da volta o aro fica recuado, e por isso o pe da peca
-        girada passa raspando por fora sem encostar."""
-        return s["sal_crista"] * crista(i) / hr if hr > 0 else 0.0
 
     def ztopo(i):
         tr, t = cont.amostras[i % n]
@@ -315,13 +301,13 @@ def construir(k):
     # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
     A, S = aba, s["saia"]
     todos = lambda i: True
-    ext = lambda d: (lambda i, z: A - d + oc(i))
+    ext = lambda d: (lambda i, z: A - d)
     emitir(todos, ext(2.0), -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
     emitir(todos, ext(3.2), -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
     emitir(todos, ext(4.6), -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
-    emitir(todos, ext(0.0), lambda i, z: A - e + oc(i),
+    emitir(todos, ext(0.0), A - e,
            lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
-    emitir(todos, ext(0.0), lambda i, z: A - 2.0 + oc(i),
+    emitir(todos, ext(0.0), A - 2.0,
            lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
 
     # ---- fundo em grelha ---------------------------------------------------
@@ -349,45 +335,29 @@ def construir(k):
         L = lim(c, hy, hx, r) - 0.8
         m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
 
-    # ---- base: rodape recuado e quatro pes conicos ------------------------
-    # Nada aqui e apendice: o rodape e a propria parede que continua, recuada
-    # 1,5 mm para abrir a linha de sombra, e o pe e o rodape que engrossa e
-    # desce. Tudo com a conicidade da peca, entao a base ninha junto com o corpo.
-    perna, hro, hav = s["perna"], s["h_rodape"], s["h_avental"]
-    rec, hh, sal, hw = s["recuo"], s["hh_pe"], s["sal_pe"], s["hw_pe"]
-    y_pes = (s["y_pe_f"], s["y_pe_t"])
+    # ---- base: rodape recuado e quatro pes de canto -----------------------
+    # O pe deixou de ser o seletor do encaixe (README, rev.08) e por isso pode
+    # finalmente ficar onde a peca pede: nos quatro cantos. Cada pe e o proprio
+    # canto arredondado que continua para baixo, afinando 7 graus por lado, e
+    # encontra o rodape numa concordancia circular. O rodape corre recuado
+    # 1,5 mm: e a linha de sombra que separa a cesta da base.
+    perna, hro, rec = s["perna"], s["h_rodape"], s["recuo"]
+    P = cont.perimetro
+    cantos = []
+    for tr in ("canto_fd", "canto_fe", "canto_te", "canto_td"):
+        idx = [i for i in range(n) if cont.amostras[i][0] == tr]
+        cantos.append((cont.s[idx[0]] + cont.s[idx[-1] + 1]) / 2)
 
     def u_pe(i):
-        """Distancia ao centro do pe mais proximo; None fora das laterais."""
-        tr, _ = cont.amostras[i % n]
-        if tr not in ("lat_d", "lat_e"):
-            return None
-        y = cont.y_de(i % n)
-        return min(abs(y - yc) for yc in y_pes)
+        """Distancia, ao longo do contorno, ao centro do canto mais proximo."""
+        sm = (cont.s[i % n] + cont.s[(i % n) + 1]) / 2
+        return min(min(abs(sm - c), P - abs(sm - c)) for c in cantos)
 
     def z_base(i):
-        u = u_pe(i)
-        if u is not None:
-            return -perna + altura_pe(s, u)
-        tr, t = cont.amostras[i % n]
-        if tr in ("frente", "traseira"):
-            return -hav
-        f = t if tr in ("canto_fd", "canto_te") else 1 - t
-        return -(hro + (hav - hro) * suave(f))
+        return -perna + altura_pe(s, u_pe(i))
 
-    def off_pe(i, z):
-        u = u_pe(i)
-        if u is None or z >= -hro:
-            return 0.0
-        f = 1.0 if u <= hw else max(0.0, 1 - (u - hw) / s["rampa_pe"])
-        if f <= 0.0:
-            return 0.0
-        return sal * f * suave(min(1.0, (-z - hro) / hh))
-
-    banda(m, cont, 0, n,
-          lambda i, z: off_pe(i, z) - rec,
-          lambda i, z: off_pe(i, z) - rec - e,
-          z_base, lambda i: 0.0, "saia", tampa_ini=False, tampa_fim=False)
+    banda(m, cont, 0, n, -rec, -rec - e, z_base, lambda i: 0.0, "saia",
+          tampa_ini=False, tampa_fim=False)
     m.mover(perna)
 
     # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
