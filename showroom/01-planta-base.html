@@ -131,13 +131,13 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
 <header class="mast">
   <p class="kicker">Nitron-mob PDV · Levantamento do espaço</p>
   <h1>Planta do showroom</h1>
-  <p class="standfirst">Croqui de campo transcrito para planta cotada. Três cotas foram medidas em campo (7,53 · 6,50 · 6,60), o comprimento total é <em>derivado</em> da soma, e a largura fecha com 3&nbsp;cm de diferença entre frente e fundo — desvio normal de trena em vão de 7,5&nbsp;m.</p>
+  <p class="standfirst">Croqui de campo transcrito para planta cotada, agora com a <b>porta</b> e o <b>caixa</b> marcados na lateral norte. Os dois juntos comem os primeiros 5,80&nbsp;m daquela parede — e mudam qual é a parede de impacto do showroom.</p>
   <div class="meta">
     <span><b>Área útil</b> ≈ 100,1 m²</span>
     <span><b>Pé-direito</b> 3,40 m</span>
-    <span><b>Parede fechada</b> 34,19 m lineares</span>
-    <span><b>Fonte</b> croqui manual, trena</span>
-    <span><b>Status</b> aguardando 6 confirmações</span>
+    <span><b>Parede livre p/ módulo</b> 27,45 m</span>
+    <span><b>Acesso</b> lateral norte, na esquina da frente</span>
+    <span><b>Fonte</b> croqui manual + marcação sobre a planta</span>
   </div>
 </header>
 
@@ -146,13 +146,13 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
   <div class="tile"><span class="tl">Comprimento</span><span class="tv">13,35<small>m</small></span><span class="ts">6,50 + 0,245 + 6,60 · derivado</span></div>
   <div class="tile"><span class="tl">Largura</span><span class="tv">7,52<small>m</small></span><span class="ts">7,53 na frente · 7,50 no fundo</span></div>
   <div class="tile"><span class="tl">Pé-direito</span><span class="tv">3,40<small>m</small></span><span class="ts">medido 2,07 + 1,32 = 3,39</span></div>
-  <div class="tile"><span class="tl">Parede fechada</span><span class="tv">34,2<small>m</small></span><span class="ts">116,2 m² de face a 3,40 m</span></div>
+  <div class="tile"><span class="tl">Parede livre</span><span class="tv">27,4<small>m</small></span><span class="ts">34,2 brutos − porta, caixa e pilar</span></div>
   <div class="tile"><span class="tl">Volume</span><span class="tv">341<small>m³</small></span><span class="ts">define ar-condicionado e luz</span></div>
 </div>
 
 <section>
   <div class="shead"><span class="snum">01</span><h2>A planta cotada</h2></div>
-  <p class="lede">Desenhada em escala a partir do croqui. A malha fina é de 1&nbsp;m. O único acidente do espaço é o volume de 0,67 × 0,245&nbsp;m na lateral norte, a 6,50&nbsp;m da frente — pela posição e pela proporção, é pilar ou prumada, e é o que vai definir onde a modulação quebra.</p>
+  <p class="lede">Desenhada em escala a partir do croqui, com a porta e o caixa posicionados pela sua marcação. A malha fina é de 1&nbsp;m. A leitura que salta: <b>a lateral norte está comprometida do zero até 5,80&nbsp;m</b> — porta, folga, caixa — e logo depois vem o pilar a 6,50. Dos 13,35&nbsp;m daquela parede, sobra um único pano livre de 6,60&nbsp;m, do pilar ao fundo.</p>
   <figure>
     <div class="plan-scroll">
     <svg class="plan" viewBox="0 0 900 600" role="img" aria-label="Planta baixa do showroom: 13,35 m de comprimento por 7,52 m de largura, com pilar de 0,67 por 0,245 m na lateral norte a 6,50 m da frente.">
@@ -191,17 +191,43 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
       <!-- pilar hachurado -->
       <rect x="448" y="90" width="12.74" height="34.84" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.6"/>
 
+      <!-- PORTA: vao aberto na lateral norte, da esquina da frente ate 2,00 m -->
+      <rect x="110" y="86.5" width="104" height="7" fill="var(--surface)"/>
+      <line x1="110" y1="90" x2="214" y2="90" stroke="var(--accent)" stroke-width="5.4"/>
+      <line x1="110" y1="80" x2="110" y2="100" stroke="var(--accent)" stroke-width="1.2"/>
+      <line x1="214" y1="80" x2="214" y2="100" stroke="var(--accent)" stroke-width="1.2"/>
+
+      <!-- CAIXA: 2,40 a 5,80 m, profundidade presumida 0,60 -->
+      <rect x="234.8" y="90" width="176.8" height="31.2" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="1.5"/>
+      <text class="wlbl" x="323" y="110" text-anchor="middle" fill="var(--ink-2)">Caixa</text>
+
+      <!-- cadeia de ocupacao da lateral norte -->
+      <g>
+        <line class="ext" x1="110" y1="94" x2="110" y2="158"/>
+        <line class="ext" x1="214" y1="94" x2="214" y2="158"/>
+        <line class="ext" x1="234.8" y1="125" x2="234.8" y2="158"/>
+        <line class="ext" x1="411.6" y1="125" x2="411.6" y2="158"/>
+        <line class="ext" x1="448" y1="128" x2="448" y2="158"/>
+        <line class="ext" x1="460.74" y1="128" x2="460.74" y2="158"/>
+        <line class="ext" x1="803.94" y1="94" x2="803.94" y2="158"/>
+        <line class="dim" x1="110" y1="152" x2="214" y2="152" marker-start="url(#tick)" marker-end="url(#tick)"/>
+        <line class="dim" x1="234.8" y1="152" x2="411.6" y2="152" marker-start="url(#tick)" marker-end="url(#tick)"/>
+        <line class="dim" x1="460.74" y1="152" x2="803.94" y2="152" marker-start="url(#tick)" marker-end="url(#tick)"/>
+        <text class="dtxt sm" x="162" y="170" text-anchor="middle" fill="var(--accent)">PORTA 2,00</text>
+        <text class="dtxt sm" x="323" y="170" text-anchor="middle">CAIXA 3,40</text>
+        <text class="dtxt sm" x="632" y="170" text-anchor="middle">ÚNICO PANO LIVRE — 6,60</text>
+      </g>
+
       <!-- área central -->
       <rect x="330" y="248" width="254" height="52" fill="var(--surface)"/>
       <text class="area" x="457" y="272" text-anchor="middle">≈ 100 m²</text>
       <text class="area-sub" x="457" y="292" text-anchor="middle">ÁREA ÚTIL DE PISO · MALHA DE 1 m</text>
 
       <!-- rótulos de parede -->
-      <rect x="150" y="98" width="252" height="17" fill="var(--surface)"/>
-      <text class="wlbl" x="276" y="111" text-anchor="middle">Lateral norte · 13,35 m · com pilar</text>
+      <text class="wlbl" x="700" y="112" text-anchor="middle">Lateral norte · 13,35 m</text>
       <text class="wlbl" x="457" y="500" text-anchor="middle">Lateral sul · 13,35 m · face cega</text>
       <text class="wlbl" x="795" y="285" text-anchor="middle" transform="rotate(-90 795 285)">Fundo · 7,50 m</text>
-      <text class="wlbl acc" x="126" y="285" text-anchor="middle" transform="rotate(-90 126 285)">Frente 7,53 m · acesso a confirmar</text>
+      <text class="wlbl acc" x="126" y="285" text-anchor="middle" transform="rotate(-90 126 285)">Frente 7,53 m · vedação a definir</text>
 
       <!-- cota total superior -->
       <line class="ext" x1="110" y1="86" x2="110" y2="30"/>
@@ -234,12 +260,12 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
       <text class="dtxt" x="846" y="290" text-anchor="middle" transform="rotate(-90 846 290)">7,50</text>
 
       <!-- callout do pilar -->
-      <line class="ext" x1="454" y1="126" x2="520" y2="176"/>
-      <circle cx="454" cy="126" r="2.6" fill="var(--accent)"/>
-      <rect x="521" y="160" width="234" height="52" fill="var(--surface)"/>
-      <text class="callout" x="527" y="173">Pilar / volume construído</text>
-      <text class="callout" x="527" y="189" font-weight="700">0,67 m (avanço) × 0,245 m (face)</text>
-      <text class="callout" x="527" y="205" fill="var(--muted)">a 6,50 m da frente · 0,16 m² de piso</text>
+      <line class="ext" x1="461" y1="122" x2="600" y2="212"/>
+      <circle cx="461" cy="122" r="2.6" fill="var(--accent)"/>
+      <rect x="598" y="198" width="212" height="50" fill="var(--surface)"/>
+      <text class="callout" x="606" y="212" font-weight="700">Pilar · 0,67 × 0,245 m</text>
+      <text class="callout" x="606" y="228" fill="var(--muted)">a 6,50 m da frente</text>
+      <text class="callout" x="606" y="243" fill="var(--muted)">0,70 m de folga até o caixa</text>
 
       <!-- escala -->
       <g>
@@ -254,14 +280,18 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
         <text class="dtxt sm" x="370" y="566" text-anchor="middle">5 m</text>
       </g>
       <g>
-        <line class="open" x1="560" y1="544" x2="606" y2="544"/>
-        <text class="dtxt sm" x="614" y="548">face aberta / acesso presumido</text>
-        <rect x="560" y="562" width="34" height="11" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.2"/>
-        <text class="dtxt sm" x="614" y="571">alvenaria / pilar</text>
+        <line x1="470" y1="543" x2="510" y2="543" stroke="var(--accent)" stroke-width="5.4"/>
+        <text class="dtxt sm" x="518" y="547">porta (vão de 2,00 m)</text>
+        <rect x="470" y="560" width="40" height="11" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="1.3"/>
+        <text class="dtxt sm" x="518" y="570">caixa (existente)</text>
+        <line class="open" x1="672" y1="543" x2="712" y2="543"/>
+        <text class="dtxt sm" x="720" y="547">vedação a definir</text>
+        <rect x="672" y="560" width="40" height="11" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.2"/>
+        <text class="dtxt sm" x="720" y="570">alvenaria / pilar</text>
       </g>
     </svg>
     </div>
-    <figcaption><b>Orientação convencionada para este documento:</b> a lateral com o pilar é chamada de <b>norte</b>, o lado das cotas 7,53 é a <b>frente</b>. Não é orientação magnética — é só nomenclatura para não trocar as paredes na hora de modular. O norte real e a posição da porta entram na próxima rodada.</figcaption>
+    <figcaption><b>Porta e caixa vieram da sua marcação sobre esta planta</b>, medidos proporcionalmente contra a cota de 6,50 m: porta de ≈2,00 m encostada na esquina da frente, caixa de ≈3,40 m começando a 2,40 m. Entre porta e caixa sobram 0,40 m; entre o caixa e o pilar, 0,70 m — nenhum dos dois comporta módulo. A profundidade do caixa está desenhada em 0,60 m por convenção, não foi medida. <b>Orientação:</b> "norte" e "frente" são nomenclatura deste documento, não orientação magnética.</figcaption>
   </figure>
 </section>
 
@@ -280,6 +310,8 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
         <tr><td class="k">Pilar — face</td><td class="n">0,245 m</td><td class="d">Quanto ocupa da parede</td><td class="d">Anotado “24,5”</td><td><span class="chip warn">Confirmar</span></td></tr>
         <tr><td class="k">Pé-direito</td><td class="n">3,40 m</td><td class="d">Piso ao teto</td><td class="d">“3,40 altura”; a conta ao lado (2,07 + 1,32 = 3,39) parece ser a mesma medida tirada em duas etapas de trena</td><td><span class="chip warn">Confirmar</span></td></tr>
         <tr><td class="k">Comprimento total</td><td class="n">13,35 m</td><td class="d">Frente ao fundo</td><td class="d">6,50 + 0,245 + 6,60 — <b>não foi medido direto</b></td><td><span class="chip bad">Derivado</span></td></tr>
+        <tr><td class="k">Porta</td><td class="n">≈ 2,00 m</td><td class="d">Lateral norte, encostada na esquina da frente (0 a 2,00 m)</td><td class="d">Marcada por você sobre a planta; a proporção do traço deu 2,11 m, você disse “quase 2 metros”</td><td><span class="chip warn">Confirmar</span></td></tr>
+        <tr><td class="k">Caixa</td><td class="n">≈ 3,40 m</td><td class="d">Lateral norte, de 2,40 a 5,80 m da frente</td><td class="d">Marcada por você sobre a planta. Profundidade não informada</td><td><span class="chip warn">Confirmar</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -287,88 +319,102 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule-2);font-
 </section>
 
 <section>
-  <div class="shead"><span class="snum">03</span><h2>Parede disponível — o insumo da modulação</h2></div>
-  <p class="lede">O que o PDV Nitron-mob vai ocupar não é área de piso, é metro linear de parede e metro linear de ilha. Aqui está o estoque de parede, já descontado o pilar.</p>
+  <div class="shead"><span class="snum">03</span><h2>O que a porta muda</h2></div>
+  <p class="lede">Eu tinha presumido acesso pela frente, e estava errado. Com a porta na <b>lateral norte, colada na esquina da frente</b>, quem entra chega de través ao salão: a primeira parede no campo de visão não é o fundo, é a <b>lateral sul</b> — os 13,35 m de pano corrido, inteiros, do outro lado do corredor de entrada.</p>
+  <div class="tiles" style="margin-top:0">
+    <div class="tile"><span class="tl">Parede de impacto</span><span class="tv" style="font-size:1.18rem;letter-spacing:-.02em">Lateral sul</span><span class="ts">13,35 m corridos, de frente para quem entra. Antes eu apontava o fundo — a porta inverte isso</span></div>
+    <div class="tile"><span class="tl">Parede comprometida</span><span class="tv" style="font-size:1.18rem;letter-spacing:-.02em">Norte, 0 a 5,80</span><span class="ts">Porta, folga de 0,40, caixa. Todo o trecho até o pilar já tem dono</span></div>
+    <div class="tile"><span class="tl">Perda de estoque</span><span class="tv">6,74<small>m</small></span><span class="ts">20% da parede que eu tinha contado como disponível</span></div>
+    <div class="tile"><span class="tl">Fundo</span><span class="tv" style="font-size:1.18rem;letter-spacing:-.02em">Fim de percurso</span><span class="ts">Deixa de ser ponto de fuga e vira destino — bom lugar para o que exige parada</span></div>
+  </div>
+  <p class="note" style="margin-top:16px">Um detalhe de operação, não de layout: o cliente passa <b>pelo caixa ao entrar</b>, a 2,40 m da porta. Como entrada e saída são a mesma, isso funciona — mas vale saber se o caixa está preso ali por hidráulica, elétrica ou alvenaria, ou se é só onde ele sempre esteve. Se puder mudar de lugar, aqueles 3,40 m são a parede mais próxima da porta que o showroom tem.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><h2>Parede disponível — o insumo da modulação</h2></div>
+  <p class="lede">O que o PDV Nitron-mob vai ocupar não é área de piso, é metro linear de parede. Aqui está o estoque real, já descontados porta, caixa e pilar.</p>
   <div class="scroll">
     <table>
-      <thead><tr><th>Face</th><th>Extensão</th><th>Face a 3,40 m</th><th>Situação</th></tr></thead>
+      <thead><tr><th>Face</th><th>Bruto</th><th>Livre p/ módulo</th><th>Situação</th></tr></thead>
       <tbody>
         <tr>
-          <td class="k">Lateral norte<span class="bar"><i style="width:100%"></i></span></td>
-          <td class="n">13,35 m</td><td class="n">45,4 m²</td>
-          <td class="d">Quebrada pelo pilar a 6,50 m: dois panos de <b>6,50</b> e <b>6,60</b> m, mais 2 faces de 0,67 m no pilar</td>
-        </tr>
-        <tr>
           <td class="k">Lateral sul<span class="bar"><i style="width:100%"></i></span></td>
-          <td class="n">13,35 m</td><td class="n">45,4 m²</td>
-          <td class="d">Pano corrido, sem acidente registrado — <b>a melhor parede do espaço</b></td>
+          <td class="n">13,35 m</td><td class="n">13,35 m</td>
+          <td class="d">Pano corrido, sem acidente, e agora é a primeira parede que se vê ao entrar. <b>É a melhor parede do espaço, com folga</b></td>
         </tr>
         <tr>
           <td class="k">Fundo<span class="bar"><i style="width:56%"></i></span></td>
-          <td class="n">7,50 m</td><td class="n">25,5 m²</td>
-          <td class="d">Pano corrido. Ponto de fuga de quem entra pela frente</td>
+          <td class="n">7,50 m</td><td class="n">7,50 m</td>
+          <td class="d">Pano corrido. Final do percurso de quem entra</td>
         </tr>
         <tr>
-          <td class="k">Frente<span class="bar op"><i style="width:56%"></i></span></td>
-          <td class="n">7,53 m</td><td class="n">25,6 m²</td>
-          <td class="d">Presumida aberta (acesso/vitrine). Se for parede cheia, entram +7,53 m no estoque</td>
+          <td class="k">Lateral norte<span class="bar"><i style="width:49%"></i></span></td>
+          <td class="n">13,35 m</td><td class="n">6,60 m</td>
+          <td class="d">Um único pano, do pilar ao fundo. Antes dele: porta (2,00), folga (0,40), caixa (3,40), folga (0,70), pilar</td>
         </tr>
         <tr>
-          <td class="k">Total fechado</td>
-          <td class="n">34,19 m</td><td class="n">116,2 m²</td>
-          <td class="d">Confere com a soma do croqui (33,9 m) dentro de 0,3 m</td>
+          <td class="k">Frente<span class="bar op"><i style="width:0%"></i></span></td>
+          <td class="n">7,53 m</td><td class="n">a definir</td>
+          <td class="d">Com a porta identificada na lateral, esta face pode ser parede cheia, vitrine ou vão. Se for parede, entram <b>+7,53 m</b> no estoque</td>
+        </tr>
+        <tr>
+          <td class="k">Total</td>
+          <td class="n">41,73 m</td><td class="n">27,45 m</td>
+          <td class="d">93,3 m² de face a 3,40 m de altura</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <p class="note" style="margin-top:14px">Com prateleira de 0,60 m de profundidade nas duas laterais, sobram <b>6,32 m</b> de largura livre no miolo. Isso comporta uma ilha central de 1,20 m com dois corredores de <b>2,55 m</b> — folgado demais para varejo, o que significa que há espaço para uma segunda fileira de ilhas ou para áreas de demonstração, não só de exposição.</p>
+  <p class="note" style="margin-top:14px">As duas folgas — 0,40 m entre porta e caixa, 0,70 m entre caixa e pilar — somam 1,10 m que não recebe módulo padrão. São vagas de serviço: lixeira, embalagem, extintor, sacolas.</p>
+  <p class="note">Com prateleira de 0,60 m de profundidade nas duas laterais, sobram <b>6,32 m</b> de largura livre no miolo: comporta ilha central de 1,20 m com dois corredores de 2,55 m. É folga grande para varejo — cabe uma segunda fileira de ilhas ou área de demonstração, não só exposição.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">04</span><h2>Três passos possíveis de malha</h2></div>
-  <p class="lede">Antes de desenhar o módulo, vale ver em qual passo o espaço fecha redondo. O fundo de 7,50 m é o teste: ele é o pano que todo mundo vê ao entrar, e um módulo cortado ali aparece.</p>
+  <div class="shead"><span class="snum">05</span><h2>Três passos possíveis de malha</h2></div>
+  <p class="lede">Recontado sobre a parede livre. Nenhum passo fecha as três faces sem sobra — a lateral norte, cortada em 6,60 m pelo pilar, não é múltipla de nada bonito. O critério passa a ser <b>qual face você não aceita ver com módulo cortado</b>.</p>
   <div class="mods">
     <div class="mod">
       <div class="ml">Passo A</div><h3>1,00 m</h3>
       <ul>
-        <li><span>Fundo 7,50 m</span><span>7 + 0,50 sobra</span></li>
-        <li><span>Lateral 13,35 m</span><span>13 + 0,35 sobra</span></li>
-        <li><span>Trecho até o pilar</span><span>6 + 0,50 sobra</span></li>
-        <li><span>Total nas 3 faces</span><span>33 módulos</span></li>
+        <li><span>Lateral sul 13,35</span><span>13 + 0,35</span></li>
+        <li><span>Fundo 7,50</span><span>7 + 0,50</span></li>
+        <li><span>Norte livre 6,60</span><span>6 + 0,60</span></li>
+        <li><span>Total</span><span>26 módulos</span></li>
       </ul>
     </div>
     <div class="mod pick">
       <div class="ml">Passo B · fecha o fundo</div><h3>1,25 m</h3>
       <ul>
-        <li><span>Fundo 7,50 m</span><span>6 exatos</span></li>
-        <li><span>Lateral 13,35 m</span><span>10 + 0,85 sobra</span></li>
-        <li><span>Trecho até o pilar</span><span>5 + 0,25 sobra</span></li>
-        <li><span>Total nas 3 faces</span><span>26 módulos</span></li>
+        <li><span>Lateral sul 13,35</span><span>10 + 0,85</span></li>
+        <li><span>Fundo 7,50</span><span>6 exatos</span></li>
+        <li><span>Norte livre 6,60</span><span>5 + 0,35</span></li>
+        <li><span>Total</span><span>21 módulos</span></li>
       </ul>
     </div>
     <div class="mod">
       <div class="ml">Passo C</div><h3>1,50 m</h3>
       <ul>
-        <li><span>Fundo 7,50 m</span><span>5 exatos</span></li>
-        <li><span>Lateral 13,35 m</span><span>8 + 1,35 sobra</span></li>
-        <li><span>Trecho até o pilar</span><span>4 + 0,50 sobra</span></li>
-        <li><span>Total nas 3 faces</span><span>22 módulos</span></li>
+        <li><span>Lateral sul 13,35</span><span>8 + 1,35</span></li>
+        <li><span>Fundo 7,50</span><span>5 exatos</span></li>
+        <li><span>Norte livre 6,60</span><span>4 + 0,60</span></li>
+        <li><span>Total</span><span>17 módulos</span></li>
       </ul>
     </div>
   </div>
-  <p class="note" style="margin-top:14px">Os dois passos que fecham o fundo sem corte são <b>1,25 m</b> (6 módulos) e <b>1,50 m</b> (5 módulos). O 1,25 deixa 0,85 m de sobra em cada lateral — exatamente o tamanho de um pano de serviço: caixa, prumada, entrada de depósito ou o próprio pilar. Não é sobra, é vaga útil. Isso é uma leitura de geometria, não uma decisão: o passo definitivo depende da largura do módulo Nitron-mob, que ainda não me foi passada.</p>
+  <p class="note" style="margin-top:14px">O <b>1,25 m</b> continua sendo o passo mais limpo: fecha o fundo em 6 módulos exatos e deixa 0,85 m na lateral sul — sobra do tamanho de um pano de serviço, não de um buraco. O <b>1,50 m</b> fecha o fundo em 5 e é o único que dá módulo largo o bastante para peça grande de linha (caixa organizadora, lixeira 60 L) sem empilhar. Há ainda um passo esquisito que vale registrar: <b>1,10 m</b> fecha a lateral norte em 6 exatos e deixa só 0,15 m na sul — mas quebra o fundo em 6 + 0,90, que é justamente onde o corte aparece.</p>
+  <p class="note">Isso é leitura de geometria, não decisão. O passo definitivo sai da largura do módulo Nitron-mob, que ainda não me foi passada — estas três colunas só dizem o que o espaço aceita.</p>
 </section>
 
 <section>
-  <div class="shead"><span class="snum">05</span><h2>O que preciso saber antes de modular</h2></div>
-  <p class="lede">A planta está fechada como volume. O que falta não é medida de parede — é onde estão os furos e o que vai dentro.</p>
+  <div class="shead"><span class="snum">06</span><h2>O que ainda falta</h2></div>
+  <p class="lede">Porta e caixa resolveram a pergunta mais cara da lista anterior. Sobraram cinco.</p>
   <ol class="q">
-    <li><b>O comprimento total, na trena.</b> Uma medida só, frente ao fundo, encostando na parede. É a única cota estrutural derivada, e ela muda a contagem de módulos.</li>
-    <li><b>Aquele volume de 0,67 × 0,245 m é pilar, prumada ou nicho?</b> Se avança para dentro do salão, o módulo passa por trás dele ou se interrompe. Se é reentrância, vira nicho de destaque — que é o melhor ponto de um showroom.</li>
-    <li><b>Onde estão porta, janela e vitrine?</b> Assumi a face de 7,53 m como frente aberta porque foi a única deixada sem cota fechada no croqui. Se a entrada for pela lateral, a rota de quem entra inverte e o fundo deixa de ser o ponto de fuga.</li>
-    <li><b>Piso, teto e elétrica.</b> Pé-direito de 3,40 m dá para módulo de até 2,40 com respiro. Preciso saber: teto é laje, forro ou estrutura aparente? Existe forro rebaixado, viga ou duto que baixe os 3,40 em algum trecho? Onde estão os pontos de força e o quadro?</li>
-    <li><b>O que já está no showroom hoje.</b> Balcão, mesa de reunião, depósito, área de atendimento, banheiro — o que fica, o que sai, o que muda de lugar. Modular sem isso é desenhar um espaço vazio que não existe.</li>
-    <li><b>O módulo Nitron-mob.</b> Largura, profundidade, altura e como ele se prende (parede, piso, autoportante). O passo da malha sai daí; os três acima são só as opções que a geometria do espaço aceita.</li>
+    <li><b>O comprimento total, na trena.</b> Uma medida só, frente ao fundo. É a única cota estrutural derivada, e ela decide a contagem de módulos da parede mais importante — a lateral sul.</li>
+    <li><b>A frente de 7,53 m é parede, vitrine ou vão?</b> Com a porta na lateral, esta face ficou sem definição. Se for parede cheia, o estoque de módulo sobe de 27,45 para 34,98 m — é o maior ganho disponível, e sai de graça.</li>
+    <li><b>O caixa é móvel?</b> Se está preso por elétrica, hidráulica ou alvenaria, os 3,40 m dele são intocáveis. Se pode andar, aqueles são os 3,40 m mais valiosos do salão — a parede que o cliente encara ao entrar.</li>
+    <li><b>Para que lado a porta abre, e ela é folha única ou dupla?</b> Vão de 2,00 m com folha abrindo para dentro varre um raio de quase 1 m dentro do salão, e isso proíbe qualquer coisa nos primeiros 2 m — inclusive expositor baixo.</li>
+    <li><b>Teto e elétrica.</b> Laje, forro ou estrutura aparente? Existe rebaixo, viga ou duto que corte os 3,40 m em algum trecho? Onde estão os pontos de força e o quadro?</li>
+    <li><b>O módulo Nitron-mob.</b> Largura, profundidade, altura e como fixa (parede, piso, autoportante). É o que falta para sair da geometria e entrar na modulação de verdade.</li>
   </ol>
 </section>
 
