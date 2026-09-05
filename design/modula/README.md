@@ -125,6 +125,61 @@ peça pode ter volume.
 Consequência: **nenhum recurso exige gaveta no molde**. Pé, crista, rasgo de ventilação,
 grelha do fundo e aro saem todos na direção de abertura.
 
+## rev.07 — o pé, e o que ele revelou
+
+Refazendo o pé (varredura de referência: perna cônica, pé em bracket, base em
+plinto recuado), a conta de colisão do encaixe mostrou que **o mecanismo das
+rev.03–rev.06 não ninha**. Não é questão de acabamento: é geometria.
+
+### A prova
+
+O pé precisa terminar no envelope (raio 198,5 mm no M) para pousar na crista do
+aro. O corpo, na altura do pé, está no raio 152 mm. Então **existe material do pé
+percorrendo todos os raios entre 152 e 198,5 mm** — inclusive a faixa 184,6–195 mm,
+que é exatamente onde mora o aro.
+
+Ao encaixar girado, a peça de cima desce e essa faixa do pé passa pela altura do
+aro da peça de baixo. Amostrando o perfil do pé do M em 71 pontos, **19 caem
+dentro da faixa radial do aro**. A peça trava com as duas ainda a ~225–245 mm de
+distância — nunca chega perto do passo de 17 mm.
+
+### Por que isso é geral, e não um erro de ajuste
+
+Para empilhar com passo cheio, o pé tem de alcançar o aro (raio grande). Para
+ninhar, o pé tem de descer por fora. Entre o corpo (raio pequeno) e o pé (raio
+grande) existe obrigatoriamente material — e esse material varre a faixa do aro
+em alguma altura. Como o encaixe percorre todas as alturas, sempre existe um
+momento em que essa varredura coincide com o aro da peça de baixo.
+
+A única saída sem passagem no aro seria a ligação pé↔corpo ficar nos **17 mm
+finais do topo da peça** (a única faixa que nunca desce até o aro de baixo) — o
+que só acontece se o pé pendurar do aro, e aí ele não ninha em si mesmo.
+
+**Por isso toda caixa empilha-e-ninha do mercado tem recorte no aro.** Não é
+escolha estética: é consequência.
+
+### As três saídas
+
+| | Aro | Cubagem (10 peças) | Empilha | Custo |
+|---|---|---|---|---|
+| **A. Passagem no aro** | 4 aberturas | **6,2×** (403 mm) | passo cheio | 4 fendas de altura inteira; o aro deixa de ser anel contínuo |
+| **B. Canaleta interna** | **fechado** | **6,2×** (403 mm) | passo cheio | 8 canaletas verticais de ~24 mm na parede; base em plinto recuado |
+| **C. Ninho raso** | **fechado** | 2,4× (1.033 mm) | passo cheio | perde a cubagem, que é o argumento de e-commerce |
+
+**B** é a única que mantém as três coisas que o projeto vendeu: aro fechado,
+cubagem de 6× e empilhamento com passo cheio. O preço é a canaleta: a parede
+ganha 8 sulcos verticais de ~24 mm (a profundidade é igual à conicidade total,
+`H·tan α`), e o encosto de empilhamento passa a ser o topo dessas canaletas, com
+o plinto da peça de cima pousando neles. Tudo sai na direção de abertura — nem o
+sulco nem o degrau exigem gaveta.
+
+### O que ficou pronto nesta revisão
+
+O desenho do pé em si (cônico de 7° por lado, com concordância circular no
+rodapé recuado de 1,5 mm) está implementado e roda — `meia_pe` / `altura_pe` em
+`modelo.py`. Ele é reaproveitável em qualquer das três saídas, porque o que muda
+entre elas é **onde o pé pousa**, não o formato dele.
+
 ## Arquivos
 
 | Arquivo | O que é |

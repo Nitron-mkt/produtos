@@ -62,13 +62,42 @@ def suave(t):
     return t * t * (3 - 2 * t)
 
 
+def meia_pe(s, d):
+    """Meia-largura do pe a 'd' mm do chao: tronco de 7 graus por lado e
+    concordancia circular com o rodape. Fora do intervalo, zero."""
+    hh, hw, kk, rf = s["hh_pe"], s["hw_pe"], s["k_pe"], s["rf_pe"]
+    if d < 0.0 or d > hh:
+        return 0.0
+    q = math.hypot(1.0, kk)
+    uc = hw + kk * (hh - rf) + rf * q          # centro da concordancia
+    d1 = (hh - rf) + rf * kk / q               # onde o tronco vira arco
+    if d <= d1:
+        return hw + d * kk
+    return uc - math.sqrt(max(0.0, rf * rf - (d - (hh - rf)) ** 2))
+
+
+def altura_pe(s, u):
+    """Inversa de meia_pe: a que altura do chao o pe tem meia-largura u."""
+    hh, hw, kk, rf = s["hh_pe"], s["hw_pe"], s["k_pe"], s["rf_pe"]
+    if u <= hw:
+        return 0.0
+    q = math.hypot(1.0, kk)
+    uc = hw + kk * (hh - rf) + rf * q
+    d1 = (hh - rf) + rf * kk / q
+    if u <= hw + d1 * kk:
+        return (u - hw) / kk
+    if u >= uc:
+        return hh
+    return (hh - rf) + math.sqrt(max(0.0, rf * rf - (uc - u) ** 2))
+
+
 def parametros(k):
     s = dict(TAMANHOS[k])
     X, Y, e, R = s["X"], s["Y"], s["e"], s["R"]
     s["H_total"] = s["H"]
     s["hc"] = H = s["H"] - s["perna"]          # altura da cesta
     s["conic"] = con = H * TAN
-    s["folga_pe"] = fp = 3.0                      # o pe passa por fora da saia
+    s["folga_pe"] = fp = 5.0                      # o pe passa por fora do aro
     s["aba"] = aba = round(8.0 + 0.006 * X, 1)
     s["passo_ninho"] = pn = round(e / TAN + 2.0, 1)
     s["saia"] = round(pn - 4.0, 1)                # a saia tem de caber no passo
@@ -91,23 +120,47 @@ def parametros(k):
     s["larg_pe"] = 0.0                            # definido abaixo, a partir de b
     s["h_ress"] = round(7.0 + 0.010 * H, 1)
     s["h_pe"] = s["perna"]
-    s["cone_pe"] = 6.5                          # recuo do topo da perna, por lado
     s["y_pe_f"] = round(0.86 * s["b"], 1)
     s["y_pe_t"] = round(-0.40 * s["b"], 1)
-    dif = s["y_pe_f"] + s["y_pe_t"]               # |c| - |d|
-    s["larg_pe"] = round(dif - 8.0, 1)            # perna comprida, sobra 8 mm de folga
-    s["larg_ress"] = round(min(s["larg_pe"] - 14, 0.55 * dif), 1)
+    dif = s["y_pe_f"] + s["y_pe_t"]               # vao ate o pe espelhado
+
+    # ---- a base (rev.07): rodape recuado + 4 pes conicos ------------------
+    # O rodape e uma faixa continua, reta, recuada 1,5 mm da parede: e a linha
+    # de sombra que separa a cesta da base. Dele saem quatro pes que se abrem
+    # ate o envelope. O pe e conico (7 graus por lado) e encontra o rodape numa
+    # concordancia circular — e a concordancia que faz o pe nascer da peca em
+    # vez de ficar pendurado nela.
+    s["recuo"] = 1.5
+    s["h_rodape"] = hro = round(0.30 * s["perna"], 1)
+    s["h_avental"] = round(0.16 * s["perna"], 1)   # frente e traseira sobem
+    s["hh_pe"] = hh = round(s["perna"] - hro, 1)   # altura livre do pe
+    s["hw_pe"] = hw = round(max(8.0, 0.105 * s["b"]), 1)    # meia-largura no chao
+    s["k_pe"] = kk = math.tan(7.0 * DEG)           # conicidade do pe, por lado
+    s["rf_pe"] = round(max(6.0, 0.11 * s["b"]), 1)  # raio da concordancia
+    s["hw_max"] = round(meia_pe(s, hh), 1)         # meia-largura na raiz
+    s["rampa_pe"] = round(max(5.0, 0.06 * s["b"]), 1)
+    s["larg_pe"] = round(2 * hw, 1)                # o pe no chao
+    # o pe chega ao envelope, 1,5 mm dentro da aresta
+    s["sal_pe"] = round(X / 2 - 1.5 - (s["Xb"] / 2 - s["perna"] * TAN) + s["recuo"], 1)
+    s["sal_crista"] = round(fp - 1.5, 1)           # a crista avanca para receber o pe
+    s["rampa_crista"] = round(min(18.0, 0.34 * dif), 1)
+    s["larg_ress"] = round(2 * hw + 6.0, 1)
     s["etiqueta"] = round(0.24 * X)
-    f_ress = dif - (s["larg_pe"] + s["larg_ress"]) / 2
-    f_pe = dif - s["larg_pe"]
-    assert f_ress > 2, f"{k}: pe girado bate na crista (folga {f_ress:.1f} mm)"
-    assert f_pe > 2, f"{k}: pe girado bate no pe de baixo (folga {f_pe:.1f} mm)"
+
+    # ---- as tres folgas que a base tem de respeitar ------------------------
+    pn = s["passo_ninho"]
+    # 1) o pe da peca girada passa entre os pes da de baixo
+    pior = min(dif - meia_pe(s, d) - max(meia_pe(s, d - pn), meia_pe(s, d + pn))
+               for d in [i * hh / 60 for i in range(61)])
+    assert pior > 2, f"{k}: pe girado bate no pe vizinho (folga {pior:.1f} mm)"
+    # 2) o pe da peca girada nao pode pousar na crista da de baixo
+    f_cr = dif - hw - s["larg_ress"] / 2 - s["rampa_crista"]
+    assert f_cr > 2, f"{k}: pe girado alcanca a crista (folga {f_cr:.1f} mm)"
+    # 3) descendo, o pe passa por fora do aro (que recuou fp)
+    f_aro = fp - 1.5 - e
+    assert f_aro > 1, f"{k}: o pe raspa no aro (folga {f_aro:.1f} mm)"
     assert s["saia"] < s["passo_ninho"] - 2, f"{k}: saia nao cabe no passo do ninho"
-    # a perna da peca i+2 tem de envolver a da peca i, que esta a 2 passos
-    s["passo_perna"] = round(e / (s["cone_pe"] / s["perna"]), 1)
-    assert s["passo_perna"] < 2 * s["passo_ninho"] - 3, \
-        f"{k}: perna nao ninha ({s['passo_perna']:.0f} > {2*s['passo_ninho']:.0f} mm)"
-    s["folga_giro"] = round(min(f_ress, f_pe), 1)
+    s["folga_giro"] = round(min(pior, f_cr), 1)
     return s
 
 
@@ -131,7 +184,7 @@ def construir(k):
 
     # ---- perfil do aro: continuo, com 4 cristas de apoio ------------------
     hr, lr = s["h_ress"], s["larg_ress"]
-    rampa = 22.0
+    rampa = s["rampa_crista"]
     h_geral = H - hr                       # o aro corre 'hr' abaixo do topo
 
     def crista(i):
@@ -147,6 +200,12 @@ def construir(k):
             if d <= lr / 2 + rampa:
                 return hr * (1 - suave((d - lr / 2) / rampa))
         return 0.0
+
+    def oc(i):
+        """A crista tambem avanca para fora: e ali que o pe da peca de cima
+        pousa. No resto da volta o aro fica recuado, e por isso o pe da peca
+        girada passa raspando por fora sem encostar."""
+        return s["sal_crista"] * crista(i) / hr if hr > 0 else 0.0
 
     def ztopo(i):
         tr, t = cont.amostras[i % n]
@@ -256,11 +315,14 @@ def construir(k):
     # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
     A, S = aba, s["saia"]
     todos = lambda i: True
-    emitir(todos, A - 2.0, -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
-    emitir(todos, A - 3.2, -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
-    emitir(todos, A - 4.6, -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
-    emitir(todos, A, A - e, lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
-    emitir(todos, A, A - 2.0, lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
+    ext = lambda d: (lambda i, z: A - d + oc(i))
+    emitir(todos, ext(2.0), -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(todos, ext(3.2), -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
+    emitir(todos, ext(4.6), -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
+    emitir(todos, ext(0.0), lambda i, z: A - e + oc(i),
+           lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(todos, ext(0.0), lambda i, z: A - 2.0 + oc(i),
+           lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
 
     # ---- fundo em grelha ---------------------------------------------------
     zf, ef = s["z_fundo"], s["ef"]
@@ -287,65 +349,45 @@ def construir(k):
         L = lim(c, hy, hx, r) - 0.8
         m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
 
-    # ---- saia: a parede continua para baixo, com recortes em arco ---------
-    # Como ela tem a MESMA conicidade da parede, ninha junto com o corpo — e e
-    # isso que deixa o pe integrado em vez de pendurado.
-    perna = s["perna"]
-    h_arco = perna * 0.56
+    # ---- base: rodape recuado e quatro pes conicos ------------------------
+    # Nada aqui e apendice: o rodape e a propria parede que continua, recuada
+    # 1,5 mm para abrir a linha de sombra, e o pe e o rodape que engrossa e
+    # desce. Tudo com a conicidade da peca, entao a base ninha junto com o corpo.
+    perna, hro, hav = s["perna"], s["h_rodape"], s["h_avental"]
+    rec, hh, sal, hw = s["recuo"], s["hh_pe"], s["sal_pe"], s["hw_pe"]
     y_pes = (s["y_pe_f"], s["y_pe_t"])
-    meia_pe = s["larg_pe"] / 2
 
-    def sobre_perna(i):
-        """Trecho em que a saia desce reta ate o chao (o pe)."""
+    def u_pe(i):
+        """Distancia ao centro do pe mais proximo; None fora das laterais."""
         tr, _ = cont.amostras[i % n]
         if tr not in ("lat_d", "lat_e"):
-            return False
-        y = cont.y_de(i)
-        return any(abs(y - yc) <= meia_pe for yc in y_pes)
-
-    # poucos arcos, largos e circulares; entre eles sobra o pe da saia
-    alvo_ciclo = 92.0 + 0.11 * X
-    n_arcos = max(6, int(round(cont.perimetro / alvo_ciclo)))
-    ciclo = cont.perimetro / n_arcos
-    w_pe_saia = 0.30 * ciclo
-
-    def z_saia(i):
-        if sobre_perna(i):
-            return -perna
-        sm = (cont.s[i % n] + cont.s[(i % n) + 1]) / 2
-        t = sm % ciclo
-        if t < w_pe_saia / 2 or t > ciclo - w_pe_saia / 2:
-            return -perna
-        u = (t - w_pe_saia / 2) / (ciclo - w_pe_saia)      # 0..1 dentro do vao
-        return -perna + h_arco * math.sqrt(max(0.0, 1 - (2 * u - 1) ** 2))
-
-    # nas 4 posicoes de apoio a saia se abre para fora conforme desce, ate
-    # alcancar o envelope na base: e ali que ela pousa na crista da peca de baixo
-    sal = X / 2 - (s["Xb"] / 2 - perna * TAN) - 2.0
-    rampa_pe = s["larg_pe"] * 0.85
-
-    def fator_pe(i):
-        tr, _ = cont.amostras[i % n]
-        if tr not in ("lat_d", "lat_e"):
-            return 0.0
+            return None
         y = cont.y_de(i % n)
-        melhor = 0.0
-        for yc in y_pes:
-            d = abs(y - yc)
-            if d <= meia_pe:
-                melhor = 1.0
-            elif d <= meia_pe + rampa_pe:
-                melhor = max(melhor, 1 - suave((d - meia_pe) / rampa_pe))
-        return melhor
+        return min(abs(y - yc) for yc in y_pes)
+
+    def z_base(i):
+        u = u_pe(i)
+        if u is not None:
+            return -perna + altura_pe(s, u)
+        tr, t = cont.amostras[i % n]
+        if tr in ("frente", "traseira"):
+            return -hav
+        f = t if tr in ("canto_fd", "canto_te") else 1 - t
+        return -(hro + (hav - hro) * suave(f))
 
     def off_pe(i, z):
-        f = fator_pe(i)
-        return 0.0 if f <= 0 else sal * f * suave(min(1.0, max(0.0, -z / perna)))
+        u = u_pe(i)
+        if u is None or z >= -hro:
+            return 0.0
+        f = 1.0 if u <= hw else max(0.0, 1 - (u - hw) / s["rampa_pe"])
+        if f <= 0.0:
+            return 0.0
+        return sal * f * suave(min(1.0, (-z - hro) / hh))
 
     banda(m, cont, 0, n,
-          lambda i, z: off_pe(i, z),
-          lambda i, z: off_pe(i, z) - e,
-          z_saia, lambda i: 0.0, "saia", tampa_ini=False, tampa_fim=False)
+          lambda i, z: off_pe(i, z) - rec,
+          lambda i, z: off_pe(i, z) - rec - e,
+          z_base, lambda i: 0.0, "saia", tampa_ini=False, tampa_fim=False)
     m.mover(perna)
 
     # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
@@ -389,6 +431,6 @@ if __name__ == "__main__":
         m, s = ficha(k)
         print(f"{s['nome']:9s} {s['X']:.0f}x{s['Y']:.0f}x{s['H']:.0f} (cesta {s['hc']:.0f}"
               f" + perna {s['perna']:.0f}) | {s['massa_g']:5.0f} g | {s['litros_total']:5.1f} L | "
-              f"ninho {s['passo_ninho']:.0f} mm (perna {s['passo_perna']:.0f}) | "
+              f"ninho {s['passo_ninho']:.0f} mm | "
               f"cubagem 10p {10*s['H']/(s['H']+9*s['passo_ninho']):.1f}x | "
               f"folga do giro {s['folga_giro']:.0f} mm | {s['n_triangulos']} tri")
