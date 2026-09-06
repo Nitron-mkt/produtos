@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Layout de corredor para o showroom — Rev. 2 do piloto.
 
-Troca a fileira de ilhas soltas por duas GONDOLAS DUPLA FACE, que e o que cria
-corredor de verdade, e acrescenta a parede de entrada na face da frente.
+O miolo deixa de ser uma coisa so: a metade do fundo vira corredor (duas
+gondolas dupla face), a metade da frente fica aberta (clareira de ilhas a
+878 mm e um corredor de checkout baixo desembocando no caixa).
 Cotas de corredor, altura e end cap conferidas contra o padrao de mercado.
 
 Gera dados/30-showroom-corredor-layout.csv, dados/31-showroom-vs-mercado.csv
-e analise/render/showroom-3d.json (a cena para a ilustracao 3D).
+e dados/32-showroom-arranjos-miolo.csv.
 """
 import csv, json, importlib.util, pathlib
 
@@ -33,76 +34,88 @@ SALA = dict(C=13350, L=7520, H=3400,
             pilar=(6500,6745), pilar_prof=670)
 
 # ---- os modulos, com posicao ----
+# zoneamento no eixo do comprimento (soma exata de 13.350 mm):
+#   0-2400 descompressao · 2400-5000 clareira das ilhas + corredor de checkout
+#   5000-6150 travessa · 6150-6522 ponta · 6522-10850 corridas dupla face
+#   10850-11222 ponta · 11222-12850 travessa do fundo · 12850-13350 paredao do fundo
 # eixo: 'x' = corrida ao longo do comprimento, 'y' = corrida ao longo da largura
 M = []
-def add(nid,nome,zona,x,y,eixo,b,nota=''):
+def add(nid,nome,zona,x,y,eixo,b,faces=1,nota=''):
     L,P = b['L'], b['P']
     w,d = (L,P) if eixo=='x' else (P,L)
-    M.append(dict(id=nid,nome=nome,zona=zona,x=x,y=y,w=w,d=d,h=b['A'],eixo=eixo,
+    M.append(dict(id=nid,nome=nome,zona=zona,x=x,y=y,w=w,d=d,h=b['A'],eixo=eixo,faces=faces,
                   painel=f"{b['lpan']}x{b['cpan']}",ripa=b['cref'],vaos=b['N'],
                   prat=b['n'],pilha=b['pilha'],coroa=b['coroa'],
                   kg=round(b['kg'],1),custo=round(b['custo'],2),
                   tz=b['tz'],lp=b['lp'],cz=b['cz'],tp=b['tp'],ph=b['ph'],np=b['np'],
-                  fundo=bool(b['fundos']),deck=b'deck' in b'',nota=nota))
+                  fundo=bool(b['fundos']),nota=nota))
     return b
 
-b_sul   = bom(300,'PSC-04',18,[270]*7,fundo=True)
-b_nor   = bom(200,'PSC-01',18,[270]*7,fundo=True)
-b_fun   = bom(460,'PSC-03',11,[513,270,270,270,513],fundo=True)
-b_ent   = bom(200,'PSC-02',15,[270]*3,coroa=513)
-b_face  = bom(460,'PSC-04',11,[270]*5)              # uma face da gondola
-b_facef = bom(460,'PSC-04',11,[270]*5,fundo=True)   # so p/ contar o fundo compartilhado
-b_pta   = bom(300,'PSC-02', 2,[270]*5,coroa=513,fundo=True,casinha=True)
-b_chk   = bom(300,'PSC-02', 1,[270]*4,coroa=270,ganch=True)
-b_tor   = bom(200,'PSC-01', 1,[270]*4)
+b_sul  = bom(300,'PSC-04',18,[270]*7,fundo=True)
+b_nor  = bom(200,'PSC-01',18,[270]*7,fundo=True)
+b_fun  = bom(460,'PSC-03',11,[513,270,270,270,513],fundo=True)
+b_ent  = bom(200,'PSC-02',15,[270]*3,coroa=513)
+b_face = bom(460,'PSC-03', 7,[270]*5)               # uma face da gondola dupla
+b_facf = bom(460,'PSC-03', 7,[270]*5,fundo=True)    # so p/ contar o fundo compartilhado
+b_pta  = bom(300,'PSC-02', 2,[270]*5,coroa=513,fundo=True,casinha=True)
+b_ilha = bom(460,'PSC-03', 3,[270]*3,deck=True)
+b_lane = bom(300,'PSC-02', 4,[270]*3,coroa=270,ganch=True)
+b_gap  = bom(300,'PSC-02', 1,[270]*3,coroa=270,ganch=True)
+b_tor  = bom(200,'PSC-01', 1,[270]*4)
 
-add(1,'Paredão sul','Lateral sul · parede de impacto', 30, 7520-372,'x',b_sul)
+add(1,'Paredão sul','Lateral sul · parede de impacto', 30, 7148,'x',b_sul)
 add(2,'Paredão norte','Do pilar ao módulo do fundo', 6745, 0,'x',b_nor)
 add(3,'Paredão do fundo','Destino do percurso · pilha mista', 12850, 285,'y',b_fun)
-add(4,'Parede de entrada','Face da frente · baixa, com coroa', 0, 800,'y',b_ent,
+add(4,'Parede de entrada','Face da frente · baixa, com coroa', 0, 800,'y',b_ent,1,
     'altura de 1.383 mm para não fechar a visão do salão')
-for k,(y0,) in enumerate([(1906,),(4527,)]):
-    add(10+k,'Gôndola dupla face '+'AB'[k],'Miolo · corrida central', 2860, y0,'x',b_face,
+for k,y0 in enumerate([1906,4527]):
+    add(10+k,'Gôndola dupla face '+'AB'[k],'Miolo · corrida central', 6522, y0,'x',b_face,2,
         'duas faces costa a costa, painel de fundo compartilhado')
-for k,(x0,y0) in enumerate([(2488,1960),(10990,1960),(2488,4581),(10990,4581)]):
+for k,(x0,y0) in enumerate([(6150,1960),(10850,1960),(6150,4581),(10850,4581)]):
     add(20+k,'Ponta de gôndola '+str(k+1),'Cabeceira de corrida', x0, y0,'y',b_pta)
-add(30,'Checkout do caixa','Folga caixa–pilar', 5900, 0,'x',b_chk)
+for k,y0 in enumerate([3700,5500]):
+    add(40+k,'Ilha '+str(k+1),'Miolo · clareira, altura de balcão', 2700, y0,'x',b_ilha,2,
+        'quatro faces, top deck, 878 mm — vê-se o salão por cima')
+for k,x0 in enumerate([3150,4622]):
+    add(50+k,'Corredor de checkout · lado '+'AB'[k],'Fila do caixa', x0, 700,'y',b_lane,2,
+        'fila de 1.100 mm entre os dois; coroa com gancheira em porta-hastes')
+add(30,'Módulo caixa–pilar','Folga caixa–pilar', 5900, 0,'x',b_gap)
 add(31,'Torre de serviço','Folga porta–caixa', 2015, 0,'x',b_tor)
 
 # gondola dupla face = 2 faces + 1 jogo de fundo
-N_FUNDO = sum(b_facef['fundos'].values())
-AREA_FUNDO = N_FUNDO*754*247*15*0.556/1e6/1000     # kg
-CUSTO_FUNDO = N_FUNDO*754*247*15*(0.556/1000)/1000*19.03
+N_FUNDO = sum(b_facf['fundos'].values())
+KG_FUNDO = N_FUNDO*634*247*15*0.556/1e6/1000
+CUSTO_FUNDO = N_FUNDO*634*247*15*(0.556/1000)/1000*19.03
 
-tot = dict(custo=0,kg=0,frente=0,facings=0,area=0)
+tot = dict(custo=0,kg=0,frente=0,facings=0)
 agg = {}
 for mm in M:
-    q = 1
+    q = 2 if mm['nome'].startswith('Gôndola') else 1   # cada gondola = 2 faces montadas
     tot['custo'] += mm['custo']*q; tot['kg'] += mm['kg']*q
     L = mm['w'] if mm['eixo']=='x' else mm['d']
-    faces = 2 if mm['nome'].startswith('Gôndola') else 1
-    tot['frente'] += L*mm['prat']/1000*faces
-    tot['facings'] += (L//120)*mm['prat']*faces
+    tot['frente'] += L*mm['prat']/1000*mm['faces']
+    tot['facings'] += (L//120)*mm['prat']*mm['faces']
     for k in ('tz','lp','cz','tp','ph','np'): agg[k] = agg.get(k,0)+mm[k]*q
-# o fundo compartilhado das duas gondolas
-tot['custo'] += 2*CUSTO_FUNDO; tot['kg'] += 2*AREA_FUNDO
+tot['custo'] += 2*CUSTO_FUNDO; tot['kg'] += 2*KG_FUNDO
 agg['np'] += 2*N_FUNDO
 
-print(f"MÓDULOS: {len(M)}   TOTAL R$ {tot['custo']:,.2f} · {tot['kg']:,.1f} kg · "
-      f"{tot['frente']:.1f} m de frente · {tot['facings']:.0f} facings")
-print('peças:', ' · '.join(f'{k} {v}' for k,v in sorted(agg.items())))
-print(f"(gôndola dupla face: {N_FUNDO} painéis de fundo compartilhados por par, R$ {CUSTO_FUNDO:.2f} cada jogo)")
+print(f"ESTRUTURAS: {len(M)} posicoes ({len(M)+2} montagens)   "
+      f"TOTAL R$ {tot['custo']:,.2f} · {tot['kg']:,.1f} kg · "
+      f"{tot['frente']:.1f} m de frente · {tot['facings']:.0f} facings · "
+      f"{tot['frente']/(tot['custo']/1000):.2f} m/mil")
+print('pecas:', ' · '.join(f'{k} {v}' for k,v in sorted(agg.items())))
+print(f"(gondola dupla face: {N_FUNDO} paineis de fundo compartilhados por par)")
 
 with open(RAIZ/'dados'/'30-showroom-corredor-layout.csv','w',newline='',encoding='utf-8') as fh:
     w = csv.writer(fh)
     w.writerow(['id','modulo','zona','x_mm','y_mm','largura_mm','profundidade_mm','altura_mm',
-                'eixo','painel','ripa','vaos','prateleiras','coroa_mm','peso_kg','custo',
-                'trizetas','pecas_l','cruzetas','tampas','porta_hastes','paineis','nota'])
+                'eixo','faces_de_venda','painel','ripa','vaos','prateleiras','coroa_mm','peso_kg',
+                'custo','trizetas','pecas_l','cruzetas','tampas','porta_hastes','paineis','nota'])
     for mm in M:
         w.writerow([mm['id'],mm['nome'],mm['zona'],mm['x'],mm['y'],mm['w'],mm['d'],mm['h'],
-                    mm['eixo'],mm['painel'],mm['ripa'],mm['vaos'],mm['prat'],mm['coroa'],
-                    mm['kg'],mm['custo'],mm['tz'],mm['lp'],mm['cz'],mm['tp'],mm['ph'],
-                    mm['np'],mm['nota']])
+                    mm['eixo'],mm['faces'],mm['painel'],mm['ripa'],mm['vaos'],mm['prat'],
+                    mm['coroa'],mm['kg'],mm['custo'],mm['tz'],mm['lp'],mm['cz'],mm['tp'],
+                    mm['ph'],mm['np'],mm['nota']])
 print('30-showroom-corredor-layout.csv escrito')
 
 # ------------------------------------------------ 31 · contra o mercado
@@ -117,7 +130,9 @@ REF = [
  ('Altura de gôndola de parede','72 in',1829,1829,'8 prateleiras',1926,'+5,3%'),
  ('End cap, largura','36 in',914,914,'ponta 2 vãos PSC-02',892,'−2,4%'),
  ('End cap, altura','54–72 in',1372,1829,'ponta 6 prat + coroa 513',1907,'+4,3% sobre 72 in'),
- ('Zona de descompressão','5–15 ft',1524,4572,'da porta ao primeiro módulo',2488,'dentro'),
+ ('Corredor de checkout, largura da fila','36 in (mínimo acessível)',914,914,'entre os dois módulos baixos',1100,'+20% sobre o mínimo'),
+ ('Móvel de checkout, altura','48–54 in',1219,1372,'4 prateleiras + coroa 270',1140,'abaixo: o operador vê a fila'),
+ ('Zona de descompressão','5–15 ft',1524,4572,'da porta ao primeiro módulo',2400,'dentro'),
 ]
 with open(RAIZ/'dados'/'31-showroom-vs-mercado.csv','w',newline='',encoding='utf-8') as fh:
     w = csv.writer(fh)
@@ -125,16 +140,15 @@ with open(RAIZ/'dados'/'31-showroom-vs-mercado.csv','w',newline='',encoding='utf
     for nome,rot,a,b,eq,v,ver in REF: w.writerow([nome,rot,a,b,eq,v,ver])
 print('31-showroom-vs-mercado.csv escrito')
 
-# ------------------------------------------------ cena 3D
-cena = dict(sala=SALA,
-            corredores=[dict(nome='Corredor 1',y=285,w=1621),
-                        dict(nome='Corredor 2',y=2906,w=1621),
-                        dict(nome='Corredor 3',y=5527,w=1621)],
-            modulos=[{k:mm[k] for k in ('id','nome','zona','x','y','w','d','h','eixo',
-                                        'painel','ripa','vaos','prat','pilha','coroa',
-                                        'kg','custo','fundo','nota')} for mm in M],
-            totais=dict(custo=round(tot['custo'],2),kg=round(tot['kg'],1),
-                        frente=round(tot['frente'],1),facings=int(tot['facings'])))
-(RAIZ/'analise'/'render'/'showroom-3d.json').write_text(
-    json.dumps(cena,ensure_ascii=False,indent=1),encoding='utf-8')
-print('showroom-3d.json escrito')
+# ------------------------------------------------ 32 · os tres arranjos de miolo
+ARRANJOS = [
+ ('A · tres ilhas soltas',        249.7, 2043, 23465.71,  726),
+ ('B · corredor puro, 2 x 8,13 m',442.3, 3633, 45350.66, 1340),
+ ('C · misto (adotado)',          408.6, 3350, 38234.50, 1240),
+]
+with open(RAIZ/'dados'/'32-showroom-arranjos-miolo.csv','w',newline='',encoding='utf-8') as fh:
+    w = csv.writer(fh)
+    w.writerow(['arranjo','frente_linear_m','facings','material_brl','cruzetas','frente_por_mil_brl'])
+    for nome,fr,fa,cu,cz in ARRANJOS:
+        w.writerow([nome,fr,fa,cu,cz,round(fr/(cu/1000),2)])
+print('32-showroom-arranjos-miolo.csv escrito')
