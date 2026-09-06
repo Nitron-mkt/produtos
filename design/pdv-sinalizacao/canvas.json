@@ -1,0 +1,72 @@
+{
+ "artboards": [
+  {
+   "file": "Main.dc.html",
+   "x": 0,
+   "y": 0,
+   "w": 1429,
+   "h": 930,
+   "title": "Onde vai · parede de entrada"
+  },
+  {
+   "file": "Copy.dc.html",
+   "x": 1549,
+   "y": 0,
+   "w": 794,
+   "h": 1400,
+   "title": "Copy · o que está escrito na loja",
+   "print": "flow"
+  },
+  {
+   "file": "Testeira.dc.html",
+   "x": 0,
+   "y": 1090,
+   "w": 1508,
+   "h": 460,
+   "title": "Testeira · 754 × 200 mm"
+  },
+  {
+   "file": "Faixa.dc.html",
+   "x": 0,
+   "y": 1690,
+   "w": 1508,
+   "h": 446,
+   "title": "Faixa de prateleira · 754 × 40 mm"
+  },
+  {
+   "file": "Stopper.dc.html",
+   "x": 0,
+   "y": 2276,
+   "w": 884,
+   "h": 786,
+   "title": "Stopper · 100 × 150 mm · 2 faces"
+  },
+  {
+   "file": "Wobbler.dc.html",
+   "x": 1004,
+   "y": 2276,
+   "w": 1120,
+   "h": 320,
+   "title": "Wobbler · Ø 100 mm"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "verde",
+   "x": 0,
+   "y": -150,
+   "w": 520,
+   "text": "O verde: o manual (19/08/2026) diz #1EA7AC; a instrução foi #08a9b1. O canvas usa #08a9b1 e o ajuste \"verde\" troca em tudo de uma vez. Decidir antes da arte-final."
+  },
+  {
+   "id": "vetores",
+   "x": 560,
+   "y": -150,
+   "w": 520,
+   "text": "Nenhum logo foi redesenhado: símbolo, lettering e assinatura são os paths do kit oficial. O lockup horizontal é composto com as proporções do vertical (assinatura 75%, gap 7,96/40,78)."
+  }
+ ],
+ "launch": {
+  "view": "canvas"
+ }
+}

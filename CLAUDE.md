@@ -388,3 +388,98 @@ qualquer proposta. Com 0,7% de acerto na última safra, o viés padrão é **nã
 
 Toda proposta gravada em `pdp_lancamento` precisa de `evidencia` preenchida com o dado
 que a sustenta. Proposta sem evidência não entra.
+
+---
+
+## 8. PDV Nitron Mob e showroom — conclusões estabelecidas (06/09/2026)
+
+Projeto paralelo ao portfólio: móvel de PDV montado com as peças da linha Nitron Mob
+(trizeta, cruzeta, peça L, tampa, porta-haste) e ripas de pinus. Documentos em
+`analise/09` a `analise/15`; geradores em `analise/pdv-*.py`, `showroom-*.py`,
+`planograma*.py`; dados em `dados/30` a `dados/43`.
+
+### O modelo de cota (medido nas malhas STL — ainda NÃO conferido em peça física)
+- Encaixe `ENC = 40,60` · trizeta `61,61 × 83,23 × 73,08` · cruzeta `101,30` no eixo do
+  comprimento · peça L `21,92 × 83,23 × 73,08` (o 73,08 vertical igual à trizeta é o que a
+  faz nó de topo) · pé exposto `19,40` · a ripa consome `2 × 40,60 = 81,20`.
+- `COMPRIMENTO = 2×61,61 + (N−1)×101,30 + N×(ripa − 81,20)`
+- `PROFUNDIDADE = ripa_largura + 2×42,63` → 200→285,3 · 287→372,3 · 415→500,3
+- `ALTURA = 19,40 + n_nós×73,08 + Σ(ripa_i − 81,20)`; face da prateleira = topo do nó + 7,5.
+- Corroborado pela lista de painéis do usuário: ripas 315/415/595/717 dão 357/457/637/759
+  contra painéis 360/450/634/754 — quatro em quatro dentro de ±7 mm.
+- **As três fitas que validam ou derrubam tudo isso**: passo vertical de uma baia de 270
+  (esperado 261,88; hipótese rival 335,0), profundidade externa com painel de 200
+  (esperado 285,3), sobra da peça L por lado (esperado 21,62). Vinte minutos com trena.
+
+### ⚠️ Uma profundidade por módulo
+A ripa de largura fixa a distância entre os postes, e os postes são contínuos. **Não dá
+para "afinar" a gôndola por prateleira** (painel 460 embaixo, 200 em cima). Esse erro foi
+publicado na rev. 1 do planograma do catálogo e corrigido na rev. 2: as quatro paredes
+do showroom vão inteiras com painel de 460 (500,3 mm).
+
+### O catálogo oficial (CatalogoNitron.pdf, 112 páginas)
+- **633 referências** extraídas por coordenada de texto (`pypdf` + `visitor_text`); a ordem
+  de leitura embaralha cota e referência nas páginas em grade. **629 existem no `TGFPRO`,
+  todas ativas**; as 4 restantes são erro de leitura (`161.012.0031`, `268.006.MO3`,
+  `704.006.01`, `546.006.086`).
+- **Referências de 4 dígitos no primeiro campo são reais** (`2270.012.001`, `6120.006.P01`,
+  `3820.016.644` — 38 delas). São o padrão antigo; a versão de 3 dígitos não existe.
+  Não descartar por parecer artefato.
+- **R$ 74,68 M em 12 M = 90,0% da marca própria** (R$ 83,01 M em 1.599 SKUs que venderam).
+  Quem está no catálogo fatura R$ 118,7 mil/SKU/ano; quem está fora, R$ 8,6 mil — 14×.
+- 302 das 629 (48%) faturam < R$ 50 mil/ano e somam 8,3%. 25 passam de R$ 500 mil e somam 25%.
+- Nenhum SKU do catálogo vendeu na `CODTAB=84` — o catálogo é 100% marca própria.
+- 16 categorias do próprio catálogo, cada referência numa só. Agrupadas em 4 ambientes:
+  Cozinha (Potes, Cozinha, Jarras, Micro-ondas, Geladeira, POP, Teca, Decor) · Organização ·
+  Banho e Lavanderia (Banheiro, Lixeiras, Limpeza) · Frasqueiras e Infantil. **Frasqueiras
+  não é impulso**: o SKU nº 1 do catálogo é a Frasqueira Medicamentos 2,8 L (R$ 1,67 M,
+  1.162 clientes). Nitron-Mob (13 refs) não vai em prateleira — se expõe montado.
+
+### `TGFPRO` — o que aprendemos sobre cadastro
+- `LARGURA/ALTURA/ESPESSURA` em **centímetros**, e **`ESPESSURA` guarda o COMPRIMENTO**
+  (conferido em 368 pares contra a cota impressa: 299 batem dentro de 1 cm).
+- 9 SKUs com **serial de data do Excel** no campo de dimensão (45308–45515): `205.006.862`,
+  `205.006.P01`, `205.012.001/003`, `2290.006.862`, `284.012.002/003`, `293.006.002/003`.
+  O PDF conserta 7. Zerados: `3840.016.002`, `503.006.086`, `434.024.002`, `435.012.002`.
+- `PESOBRUTO/PESOLIQ` em **kg por peça** — unidade provada pela `TGFVOA` (`CODVOL='KG'`
+  bate com `PESOLIQ`). 626 de 629 preenchidos, mediana 0,152 kg. Erros: família `380–384`
+  Organizador Modular com 0,5515 kg em cinco litragens (peso de PACOTE no campo unitário);
+  `556.012.001/003` Pote Tampa Fixa 1 L com 8,6 g (deveria ser ~108 g); `817/818/819.012.001`
+  zerados; 43 SKUs em `CJ` ambíguos (ora peso do kit, ora da peça).
+- Nitron-Mob: a cota no ERP é da **embalagem plana**, não do móvel montado.
+- **5 pares de descrição idêntica em referências diferentes** (`228.012.003 × 2280.012.003`,
+  `120.006.001 × .012`, `126.006.001 × .619`, `010.010.003 × 184.010.003`,
+  `010.012.001 × 184.016.001`) — em cada par um lado fatura 6–10× o outro.
+
+### O showroom (13.350 × 7.520 mm, pilar em 6.500–6.745)
+- As quatro paredes somam 32,68 m de corrida → **24 prateleiras, 202,1 m** de frente.
+  O catálogo pede **97,4 m** a 1 facing. **Os 609 SKUs de prateleira cabem no perímetro,
+  zero sobra; 10 das 24 prateleiras ficam vazias.** 69,1% do faturamento na zona dos olhos.
+- Pilhas: sul e norte `270×6` (7 prat., duas nos olhos) · fundo e entrada `513·513·270·270`
+  (5 prat., baia de 490 mm embaixo para lixeira e cesto). Nada acima de 1.671 mm.
+- O miolo (gôndolas, pontas, ilhas, checkout — 130,3 m, R$ 9.731, 31% do móvel) **não é
+  preciso para expor o catálogo**. Não cortar: é a demonstração do PDV. Vira Nitron-Mob
+  montado, ambientação por estilo de vida (lição Casa Riachuelo) e facing dos 25 campeões.
+- Estrutura das quatro paredes: **1.438,6 kg, R$ 26.914, 716 cruzetas, 96 trizetas, 382
+  painéis**. Foram injetadas **4 cruzetas**. Onde está o molde é a pergunta aberta nº 1.
+
+### Tombamento e ancoragem
+- Razão altura/base das paredes **3,3 : 1** (1.664 × 500,3). Bastam **8,3 kgf por metro de
+  corrida** no topo para tombar; 2 m engajados = 16,7 kgf, o que um adulto apoiado faz.
+- **Produto não ancora nada**: o catálogo inteiro pesa 240 kg com prateleira cheia, contra
+  1.439 kg de estrutura (11–17% da massa). Produto puxado para a frente custa só 11,6%.
+- **Mecanismo: parafuso 5×50 + arruela larga + bucha S8 pela ripa de largura traseira do
+  último nível, sempre num nó.** 24 pontos (sul 10 · norte 4 · fundo 6 · entrada 4),
+  R$ 28,80 = 0,1% do móvel. É **passo de montagem**, não acessório (lição nº 7).
+- **Não passar por trizeta nem peça L**: PP em tração permanente flui. Não confiar no
+  painel de fundo até saber como ele se fixa ao quadro.
+- **Torre de serviço é o pior objeto da loja**: 357 × 1.390, razão 4,87 : 1, sem parede.
+  Baixar para 3 prateleiras (3,08 : 1) ou montar com painel 460 (2,28 : 1). Ilhas costa a
+  costa (0,88 : 1) não tombam.
+- Sem norma ABNT específica encontrada. Referências: ISO 7171:2019 (método), EN 16121:2023
+  (requisitos, dois níveis). Aplica-se o art. 12 do CDC — defeito de projeto, sem culpa.
+
+### Correções publicadas e assumidas
+- Doc 14 reportou R$ 86,0 M para 2.589 SKUs; o verificado é R$ 83,01 M em 1.599.
+- Doc 15 rev. 1 propôs gôndola que afina; não é montável (ver acima).
+- Layout corredor-puro foi publicado a R$ 36.583 somando 2 faces em vez de 4; correto R$ 45.351.
