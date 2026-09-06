@@ -1,0 +1,8 @@
+n,modulo,onde,painel,ripa_comprimento,vaos,pilha,coroa_mm,gancheira,comprimento_mm,profundidade_mm,altura_mm,prateleiras,peso_kg,custo_estimado,venda_direta_2x,qtd,trizetas,pecas_l,cruzetas,tampas,porta_hastes,paineis,frente_linear_m,facings
+1,Paredão sul,Lateral sul · parede de impacto,300x754,PSC-04,18,270·270·270·270·270·270·270,0,nao,13290,372,1926,8,557.6,10437.49,20874.98,1,32,0,272,38,0,144,106.3,880
+2,Paredão norte,Do pilar ao fundo,200x360,PSC-01,18,270·270·270·270·270·270·270,0,nao,6054,285,1926,8,240.9,4411.76,8823.51,1,32,0,272,38,0,144,48.4,400
+3,Paredão do fundo,Destino do percurso · pilha mista,460x634,PSC-03,11,513·270·270·270·513,0,nao,6788,500,1888,6,303.3,5691.53,11383.06,1,24,0,120,24,0,66,40.7,336
+4,Torre de serviço,Folga porta-caixa,200x360,PSC-01,1,270·270·270·270,0,nao,357,285,1140,5,6.1,106.74,213.47,1,20,0,0,4,0,5,1.8,10
+5,Checkout do caixa,Folga caixa-pilar · coroa + gancheira,300x450,PSC-02,1,270·270·270·270,270,sim,457,372,1402,5,9.8,176.17,352.34,1,20,4,0,4,2,5,2.3,15
+6,Ponta de gôndola,"Miolo, de frente para a porta · coroa 513",300x634,PSC-03,2,270·270·270·270·270,513,nao,1252,372,1907,6,41.6,771.94,1543.87,1,24,4,14,6,0,12,7.5,60
+7,Ilha central,"Miolo, fileira central · quatro faces",460x634,PSC-03,3,270·270·270,0,nao,1867,500,878,4,37.1,689.69,1379.38,3,16,0,16,8,0,12,22.4,180

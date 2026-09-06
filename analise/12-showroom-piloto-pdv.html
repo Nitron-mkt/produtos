@@ -1,0 +1,548 @@
+<title>Showroom como piloto</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&family=Aleo:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EFF3F3; --sheet:#FFFFFF; --raise:#F7FAFA;
+  --ink:#14201F; --ink-2:#3A4746; --muted:#6C7A79;
+  --rule:#D6DEDD; --rule-2:#E7EEED;
+  --brand:#08a9b1; --brand-deep:#056B71; --brand-soft:#E0F3F4; --brand-ink:#043F43;
+  --wood:#E2C7A2; --wood-2:#C29C68; --no:#46686A; --no-2:#94A2A3;
+  --ok:#1B6B57; --ok-soft:#DFEFE9;
+  --warn:#8A6410; --warn-soft:#F7EDD8;
+  --bad:#A32820; --bad-soft:#F7E3E1;
+  --dim:#8A9897;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0D1313; --sheet:#161E1E; --raise:#1C2626;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --wood:#8B7452; --wood-2:#6B5940; --no:#8FB7B9; --no-2:#4E5E5F;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D1313; --sheet:#161E1E; --raise:#1C2626;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --wood:#8B7452; --wood-2:#6B5940; --no:#8FB7B9; --no-2:#4E5E5F;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 96px}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif;font-weight:400;letter-spacing:.012em;
+  line-height:1.02;margin:0;text-wrap:balance}
+h3{font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:-.012em;margin:0;font-size:16px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);
+  padding:.1em .38em;border-radius:3px}
+p{margin:0 0 14px;max-width:74ch}
+strong{font-weight:700}
+a{color:var(--brand-deep)}
+:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
+
+/* ---------- cabeçalho ---------- */
+header.mast{padding:56px 0 22px;border-bottom:2px solid var(--ink)}
+.eyeb{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"Bebas Neue",sans-serif;
+  font-size:13px;letter-spacing:.15em;color:var(--muted);margin-bottom:16px}
+.eyeb span:first-child{color:var(--brand-deep)}
+h1{font-size:clamp(2.4rem,6vw,4.2rem)}
+.slog{font-family:Aleo,Georgia,serif;font-size:15px;color:var(--brand-deep);margin:6px 0 18px}
+.thesis{font-family:Aleo,Georgia,serif;font-size:1.1rem;line-height:1.62;color:var(--ink-2);max-width:66ch}
+.thesis b{font-family:Montserrat,sans-serif;font-weight:700;color:var(--ink)}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:28px}
+.tile{background:var(--sheet);padding:16px 17px 17px;display:flex;flex-direction:column;gap:4px}
+.tile .tl{font-family:"Bebas Neue",sans-serif;font-size:11.5px;letter-spacing:.14em;color:var(--muted)}
+.tile .tv{font-family:"IBM Plex Mono",monospace;font-size:1.6rem;font-weight:600;
+  letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .tv small{font-size:.86rem;font-weight:500;color:var(--ink-2);margin-left:2px}
+.tile .ts{font-size:11.5px;color:var(--muted);line-height:1.45}
+.tile.acc .tv{color:var(--brand-deep)}
+.tile.hot .tv{color:var(--bad)}
+
+/* ---------- seções ---------- */
+section{padding-top:52px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);
+  padding-bottom:10px;margin-bottom:22px}
+.shead .sn{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--brand-deep);flex:none;letter-spacing:.06em}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+.lede{font-family:Aleo,Georgia,serif;font-size:1.02rem;color:var(--ink-2);line-height:1.65;max-width:70ch}
+
+/* ---------- tabelas ---------- */
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:620px}
+thead th{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.11em;color:var(--muted);
+  text-align:left;padding:10px 11px;border-bottom:1.5px solid var(--rule);
+  background:var(--raise);white-space:nowrap}
+td{padding:11px;border-bottom:1px solid var(--rule-2);vertical-align:top;font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  white-space:nowrap;font-weight:500}
+td.k{font-weight:700;white-space:nowrap}
+td.d{color:var(--ink-2);font-size:12.5px;line-height:1.5}
+tr.tot td{background:var(--raise);font-weight:700;border-top:1.5px solid var(--rule)}
+caption{caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);
+  padding:11px;border-top:1px solid var(--rule-2);line-height:1.5}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  padding:2px 7px;border-radius:3px;white-space:nowrap;letter-spacing:.02em}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.w{background:var(--warn-soft);color:var(--warn)}
+.chip.b{background:var(--bad-soft);color:var(--bad)}
+.badge{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;
+  background:var(--brand);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  font-weight:600;flex:none;vertical-align:-4px}
+
+/* ---------- planta ---------- */
+figure{margin:0;border:1px solid var(--rule);background:var(--sheet);padding:16px 14px 0}
+.plan-scroll{overflow-x:auto}
+svg.plan{display:block;width:100%;min-width:700px;height:auto}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.55;
+  margin:12px -14px 0;padding:12px 16px;border-top:1px solid var(--rule-2);background:var(--raise)}
+.wall{fill:none;stroke:var(--ink);stroke-width:5;stroke-linejoin:miter}
+.grid line{stroke:var(--rule);stroke-width:.7}
+.dimline{stroke:var(--dim);stroke-width:1}
+.dtxt{fill:var(--ink-2);font-size:12px;font-weight:600;font-family:"IBM Plex Mono",monospace}
+.dtxt.sm{font-size:10.5px;fill:var(--muted)}
+.wlbl{fill:var(--muted);font-size:10px;letter-spacing:.14em;font-family:"Bebas Neue",sans-serif}
+
+/* ---------- caixas de destaque ---------- */
+.call{border-left:3px solid var(--brand);background:var(--brand-soft);padding:15px 18px;
+  margin:22px 0 0;border-radius:0 6px 6px 0}
+.call.w{border-left-color:var(--warn);background:var(--warn-soft)}
+.call.b{border-left-color:var(--bad);background:var(--bad-soft)}
+.call .lab{display:block;font-family:"Bebas Neue",sans-serif;font-size:12.5px;
+  letter-spacing:.13em;color:var(--brand-ink);margin-bottom:7px}
+.call.w .lab{color:var(--warn)} .call.b .lab{color:var(--bad)}
+.call p{margin:0;font-size:13.5px;max-width:78ch} .call p+p{margin-top:9px}
+
+/* ---------- fases ---------- */
+.fases{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.fase{background:var(--sheet);display:grid;grid-template-columns:52px 1fr;gap:0}
+.fase .fn{background:var(--raise);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;border-right:1px solid var(--rule-2);padding:14px 0}
+.fase .fn b{font-family:"Bebas Neue",sans-serif;font-size:26px;line-height:1;color:var(--brand-deep)}
+.fase .fn i{font-style:normal;font-family:"Bebas Neue",sans-serif;font-size:10px;
+  letter-spacing:.12em;color:var(--muted)}
+.fase .fb{padding:15px 18px}
+.fase h3{margin-bottom:4px}
+.fase .fm{display:flex;flex-wrap:wrap;gap:6px 14px;margin:9px 0 0;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2)}
+.fase .fm span{white-space:nowrap}
+.fase .fm b{color:var(--ink)}
+.fase p{font-size:13px;color:var(--ink-2);margin:8px 0 0;max-width:74ch}
+.fase.zero{background:var(--brand-soft)}
+.fase.zero .fn{background:var(--brand);border-right-color:var(--brand)}
+.fase.zero .fn b,.fase.zero .fn i{color:#fff}
+
+/* ---------- listas de medição e oportunidade ---------- */
+.grid2{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+@media(min-width:720px){ .grid2{grid-template-columns:1fr 1fr} }
+.cell{background:var(--sheet);padding:17px 19px}
+.cell .ct{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.12em;
+  color:var(--brand-deep);margin-bottom:6px}
+.cell h3{margin-bottom:6px}
+.cell p{font-size:13px;color:var(--ink-2);margin:0;max-width:60ch}
+.cell .cq{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink);
+  background:var(--raise);border:1px solid var(--rule-2);padding:8px 11px;
+  border-radius:5px;margin-top:11px;line-height:1.5}
+.cell .cq b{color:var(--brand-deep)}
+
+footer{margin-top:60px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:11.5px;color:var(--muted);line-height:1.6;max-width:82ch}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyeb"><span>NITRON · DESENVOLVIMENTO DE PRODUTOS</span><span>PILOTO DE PDV</span><span>04/09/2026</span></div>
+  <h1>Showroom<br>como piloto</h1>
+  <p class="slog">toda casa tem</p>
+  <p class="thesis">O showroom já está na malha do Nitron Mob, e ninguém desenhou isso. A lateral sul de 13,35 m recebe <b>18 vãos da ripa PSC-04 com 60 mm de folga</b>. A folga de 0,70 m entre o caixa e o pilar — que a planta tinha marcado como vaga de serviço — recebe <b>um checkout de 457 mm</b>. Três paredes caem na grade dentro de 46 a 85 mm. O piloto começa por aí: não é adaptar o móvel ao espaço, é reconhecer que o espaço já está cotado no passo do sistema.</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><span class="tl">PISO</span><span class="tv">100,1<small>m²</small></span><span class="ts">13,35 × 7,52 m · pé-direito 3,40</span></div>
+  <div class="tile acc"><span class="tl">FRENTE LINEAR</span><span class="tv">229,5<small>m</small></span><span class="ts">de exposição nos 7 módulos</span></div>
+  <div class="tile acc"><span class="tl">ÁREA DE PRATELEIRA</span><span class="tv">76,0<small>m²</small></span><span class="ts">em 100 m² de piso</span></div>
+  <div class="tile"><span class="tl">FACINGS</span><span class="tv">1.881</span><span class="ts">a 120 mm de frente por SKU</span></div>
+  <div class="tile"><span class="tl">MATERIAL</span><span class="tv">23,7<small>mil</small></span><span class="ts">R$ estimados · 1.271 kg</span></div>
+  <div class="tile hot"><span class="tl">CRUZETAS</span><span class="tv">726</span><span class="ts">o molde entregou 4</span></div>
+</div>
+
+<section>
+  <div class="shead"><span class="sn">§1</span><h2>O encaixe — onde o prédio e a grade se encontram</h2></div>
+  <p class="lede">A corrida do Nitron Mob cresce em passos de <code>ripa + 20,10 mm</code>: 335,1 · 435,1 · 615,1 · 737,1. As paredes do showroom foram medidas com trena e não sabem disso. Mesmo assim, três delas fecham dentro de 85 mm — e a folga entre o caixa e o pilar fecha dentro de 8.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Face</th><th>Livre</th><th>Melhor ripa</th><th>Vãos</th><th>Corrida</th><th>Folga</th><th>Erro</th><th>Leitura</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Lateral sul</td><td class="n">13.350</td><td class="n">PSC-04 · painel 754</td><td class="n">18</td><td class="n">13.290</td><td class="n">60</td><td class="n">0,45%</td><td class="d">A parede de impacto, e o melhor encaixe do prédio <span class="chip ok">usar</span></td></tr>
+        <tr><td class="k">Norte, do pilar ao fundo</td><td class="n">6.100</td><td class="n">PSC-01 · painel 360</td><td class="n">18</td><td class="n">6.054</td><td class="n">46</td><td class="n">0,75%</td><td class="d">Já descontado o módulo do fundo, que avança 500 mm <span class="chip ok">usar</span></td></tr>
+        <tr><td class="k">Fundo, entre os dois laterais</td><td class="n">6.873</td><td class="n">PSC-03 · painel 634</td><td class="n">11</td><td class="n">6.788</td><td class="n">85</td><td class="n">1,24%</td><td class="d">Encaixa entre as costas dos dois paredões laterais <span class="chip ok">usar</span></td></tr>
+        <tr><td class="k">Folga caixa–pilar</td><td class="n">700</td><td class="n">PSC-02 · painel 450</td><td class="n">1</td><td class="n">457</td><td class="n">243</td><td class="n">—</td><td class="d">Checkout de 1 vão, com coroa e gancheira <span class="chip ok">usar</span></td></tr>
+        <tr><td class="k">Folga porta–caixa</td><td class="n">400</td><td class="n">PSC-01 · painel 360</td><td class="n">1</td><td class="n">357</td><td class="n">43</td><td class="n">—</td><td class="d">Torre de serviço — depende do lado que a porta abre <span class="chip w">confirmar</span></td></tr>
+        <tr><td class="k">Frente, se virar parede</td><td class="n">7.530</td><td class="n">PSC-02 · painel 450</td><td class="n">17</td><td class="n">7.419</td><td class="n">111</td><td class="n">1,47%</td><td class="d">+7,4 m de frente que hoje não estão no estoque <span class="chip w">a definir</span></td></tr>
+      </tbody>
+      <caption>Corrida = 2 × 61,61 + (N−1) × 101,30 + N × (ripa − 81,20). Cotas de parede do levantamento de campo; a de 13,35 m é derivada da soma, não medida direto — ver §7.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">O ACHADO QUE VALE MAIS QUE O AJUSTE</span>
+    <p>A folga de <strong>0,70 m entre o caixa e o pilar</strong> tinha sido classificada na planta como vaga de serviço — lixeira, sacola, extintor. Ela recebe um <strong>checkout de 1 vão (457 mm)</strong>, que é a família que existe justamente para ficar ao lado do caixa, com gancheira para blister e cartela. A folga de 0,40 m recebe a torre de 357 mm.</p>
+    <p>Nenhum dos dois usa cruzeta: <strong>1 vão não tem nó de meio</strong>. São os dois únicos módulos do projeto que podem ser montados com peça que já existe hoje.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§2</span><h2>A planta com os módulos deitados</h2></div>
+  <p class="lede">Mesma escala e mesma origem do levantamento: malha de 1 m, 52 px por metro. Os módulos estão desenhados na profundidade real — 285, 372 e 500 mm — e não na convenção de 600 que a planta usava.</p>
+  <figure>
+    <div class="plan-scroll">
+    <svg class="plan" viewBox="0 0 900 616" role="img" aria-label="Planta do showroom com os sete módulos de PDV posicionados: paredão de 13.290 mm na lateral sul, paredão de 6.054 mm na lateral norte, paredão de 6.788 mm no fundo, torre e checkout nas folgas do caixa, ponta de gôndola e três ilhas no miolo.">
+      <defs>
+        <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="var(--no-2)" stroke-width="2.6"/>
+        </pattern>
+        <marker id="tk" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+          <line x1="2.5" y1="7.5" x2="7.5" y2="2.5" stroke="var(--dim)" stroke-width="1.4"/>
+        </marker>
+      </defs>
+
+      <rect x="110" y="90" width="693.94" height="391.56" fill="var(--raise)"/>
+      <g class="grid">
+        <line x1="162" y1="90" x2="162" y2="481.56"/><line x1="214" y1="90" x2="214" y2="481.56"/>
+        <line x1="266" y1="90" x2="266" y2="481.56"/><line x1="318" y1="90" x2="318" y2="481.56"/>
+        <line x1="370" y1="90" x2="370" y2="481.56"/><line x1="422" y1="90" x2="422" y2="481.56"/>
+        <line x1="474" y1="90" x2="474" y2="481.56"/><line x1="526" y1="90" x2="526" y2="481.56"/>
+        <line x1="578" y1="90" x2="578" y2="481.56"/><line x1="630" y1="90" x2="630" y2="481.56"/>
+        <line x1="682" y1="90" x2="682" y2="481.56"/><line x1="734" y1="90" x2="734" y2="481.56"/>
+        <line x1="786" y1="90" x2="786" y2="481.56"/>
+        <line x1="110" y1="142" x2="803.94" y2="142"/><line x1="110" y1="194" x2="803.94" y2="194"/>
+        <line x1="110" y1="246" x2="803.94" y2="246"/><line x1="110" y1="298" x2="803.94" y2="298"/>
+        <line x1="110" y1="350" x2="803.94" y2="350"/><line x1="110" y1="402" x2="803.94" y2="402"/>
+        <line x1="110" y1="454" x2="803.94" y2="454"/>
+      </g>
+
+      <!-- MÓDULO 1 · paredão sul, 13.290 × 372 -->
+      <rect x="111.56" y="462.22" width="691.08" height="19.34" fill="var(--wood)"/>
+      <rect x="111.56" y="462.22" width="691.08" height="3.4" fill="var(--brand)"/>
+      <!-- MÓDULO 2 · paredão norte, 6.054 × 285 -->
+      <rect x="461.94" y="90" width="314.81" height="14.82" fill="var(--wood)"/>
+      <rect x="461.94" y="101.42" width="314.81" height="3.4" fill="var(--brand)"/>
+      <!-- MÓDULO 3 · paredão do fundo, 6.788 × 500 -->
+      <rect x="777.94" y="107.03" width="26" height="352.98" fill="var(--wood)"/>
+      <rect x="777.94" y="107.03" width="3.4" height="352.98" fill="var(--brand)"/>
+      <!-- MÓDULO 4 · torre de serviço, 357 × 285 -->
+      <rect x="215.9" y="90" width="18.56" height="14.82" fill="var(--wood-2)"/>
+      <!-- MÓDULO 5 · checkout, 457 × 372 -->
+      <rect x="417.92" y="90" width="23.76" height="19.34" fill="var(--wood-2)"/>
+      <rect x="417.92" y="105.94" width="23.76" height="3.4" fill="var(--brand)"/>
+      <!-- MÓDULO 6 · ponta de gôndola, 1.252 × 372, virada para a porta -->
+      <rect x="172" y="250.97" width="19.34" height="65.1" fill="var(--wood)"/>
+      <rect x="172" y="250.97" width="3.4" height="65.1" fill="var(--brand)"/>
+      <!-- MÓDULO 7 · três ilhas, 1.867 × 500 -->
+      <rect x="250" y="270.52" width="97.08" height="26" fill="var(--wood)"/>
+      <rect x="250" y="270.52" width="97.08" height="3.4" fill="var(--brand)"/>
+      <rect x="250" y="293.12" width="97.08" height="3.4" fill="var(--brand)"/>
+      <rect x="409.48" y="270.52" width="97.08" height="26" fill="var(--wood)"/>
+      <rect x="409.48" y="270.52" width="97.08" height="3.4" fill="var(--brand)"/>
+      <rect x="409.48" y="293.12" width="97.08" height="3.4" fill="var(--brand)"/>
+      <rect x="568.96" y="270.52" width="97.08" height="26" fill="var(--wood)"/>
+      <rect x="568.96" y="270.52" width="97.08" height="3.4" fill="var(--brand)"/>
+      <rect x="568.96" y="293.12" width="97.08" height="3.4" fill="var(--brand)"/>
+
+      <!-- caixa existente -->
+      <rect x="234.8" y="90" width="176.8" height="31.2" fill="var(--rule-2)" stroke="var(--ink-2)" stroke-width="1.4"/>
+      <text class="wlbl" x="323" y="109" text-anchor="middle" fill="var(--ink-2)">CAIXA · EXISTENTE</text>
+
+      <!-- paredes e pilar -->
+      <path class="wall" d="M110,90 L448,90 L448,124.84 L460.74,124.84 L460.74,90 L803.94,90 L803.94,481.56 L110,481.56"/>
+      <line x1="110" y1="90" x2="110" y2="481.56" stroke="var(--warn)" stroke-width="3.4" stroke-dasharray="11 7" fill="none"/>
+      <text class="wlbl" x="126" y="285" text-anchor="middle" fill="var(--warn)" transform="rotate(-90 126 285)">FRENTE 7,53 · VEDAÇÃO A DEFINIR</text>
+      <rect x="448" y="90" width="12.74" height="34.84" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.5"/>
+      <!-- porta -->
+      <rect x="110" y="86.5" width="104" height="7" fill="var(--ground)"/>
+      <line x1="110" y1="90" x2="214" y2="90" stroke="var(--brand)" stroke-width="5.4"/>
+      <text class="dtxt sm" x="162" y="80" text-anchor="middle" fill="var(--brand-deep)">PORTA 2,00</text>
+
+      <!-- crachás numerados -->
+      <g font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">
+        <circle cx="457" cy="471.9" r="10.4" fill="var(--brand)"/><text x="457" y="475.8" fill="#fff">1</text>
+        <circle cx="619.3" cy="97.4" r="10.4" fill="var(--brand)"/><text x="619.3" y="101.3" fill="#fff">2</text>
+        <circle cx="790.9" cy="283.5" r="10.4" fill="var(--brand)"/><text x="790.9" y="287.4" fill="#fff">3</text>
+        <circle cx="225.2" cy="132" r="10.4" fill="var(--brand)"/><text x="225.2" y="135.9" fill="#fff">4</text>
+        <line class="dimline" x1="225.2" y1="121.6" x2="225.2" y2="105"/>
+        <circle cx="429.8" cy="140" r="10.4" fill="var(--brand)"/><text x="429.8" y="143.9" fill="#fff">5</text>
+        <line class="dimline" x1="429.8" y1="129.6" x2="429.8" y2="110"/>
+        <circle cx="181.7" cy="336" r="10.4" fill="var(--brand)"/><text x="181.7" y="339.9" fill="#fff">6</text>
+        <line class="dimline" x1="181.7" y1="325.6" x2="181.7" y2="316.5"/>
+        <circle cx="298.5" cy="283.5" r="10.4" fill="var(--brand)"/><text x="298.5" y="287.4" fill="#fff">7</text>
+        <circle cx="457.9" cy="283.5" r="10.4" fill="var(--brand)"/><text x="457.9" y="287.4" fill="#fff">7</text>
+        <circle cx="617.4" cy="283.5" r="10.4" fill="var(--brand)"/><text x="617.4" y="287.4" fill="#fff">7</text>
+      </g>
+
+      <!-- cotas dos corredores -->
+      <g>
+        <line class="dimline" x1="700" y1="104.82" x2="700" y2="270.52" marker-start="url(#tk)" marker-end="url(#tk)"/>
+        <rect x="676" y="177" width="48" height="18" fill="var(--raise)"/>
+        <text class="dtxt sm" x="700" y="190" text-anchor="middle">3.190</text>
+        <line class="dimline" x1="700" y1="296.52" x2="700" y2="462.22" marker-start="url(#tk)" marker-end="url(#tk)"/>
+        <rect x="676" y="370" width="48" height="18" fill="var(--raise)"/>
+        <text class="dtxt sm" x="700" y="383" text-anchor="middle">3.190</text>
+      </g>
+
+      <!-- cotas das corridas -->
+      <g>
+        <line class="dimline" x1="111.56" y1="502" x2="802.64" y2="502" marker-start="url(#tk)" marker-end="url(#tk)"/>
+        <rect x="410" y="492" width="96" height="20" fill="var(--sheet)"/>
+        <text class="dtxt" x="458" y="507" text-anchor="middle">13.290 mm</text>
+        <line class="dimline" x1="461.94" y1="62" x2="776.75" y2="62" marker-start="url(#tk)" marker-end="url(#tk)"/>
+        <rect x="577" y="52" width="86" height="20" fill="var(--ground)"/>
+        <text class="dtxt" x="620" y="67" text-anchor="middle">6.054 mm</text>
+        <line class="dimline" x1="836" y1="107.03" x2="836" y2="460.01" marker-start="url(#tk)" marker-end="url(#tk)"/>
+        <rect x="812" y="273" width="48" height="20" fill="var(--ground)"/>
+        <text class="dtxt" x="836" y="288" text-anchor="middle" transform="rotate(-90 836 288)">6.788</text>
+      </g>
+
+      <!-- rótulos -->
+      <text class="wlbl" x="457" y="455" text-anchor="middle">LATERAL SUL · PAREDE DE IMPACTO · PROF. 372</text>
+      <text class="wlbl" x="620" y="120" text-anchor="middle">LATERAL NORTE · PROF. 285</text>
+      <text class="wlbl" x="762" y="283.5" text-anchor="middle" transform="rotate(-90 762 283.5)">FUNDO · PROF. 500</text>
+      <text class="wlbl" x="458" y="255" text-anchor="middle">FILEIRA CENTRAL · TRÊS ILHAS DE 1.867 × 500</text>
+
+      <!-- legenda -->
+      <g>
+        <rect x="110" y="540" width="26" height="12" fill="var(--wood)"/>
+        <rect x="110" y="540" width="26" height="2.6" fill="var(--brand)"/>
+        <text class="dtxt sm" x="144" y="550">módulo · verde = face exposta</text>
+        <rect x="392" y="540" width="26" height="12" fill="var(--rule-2)" stroke="var(--ink-2)" stroke-width="1.2"/>
+        <text class="dtxt sm" x="426" y="550">caixa existente</text>
+        <rect x="566" y="540" width="26" height="12" fill="url(#hatch)" stroke="var(--ink)" stroke-width="1.2"/>
+        <text class="dtxt sm" x="600" y="550">pilar 0,67 × 0,245</text>
+        <line x1="740" y1="546" x2="772" y2="546" stroke="var(--warn)" stroke-width="3.4" stroke-dasharray="11 7"/>
+        <text class="dtxt sm" x="780" y="550">vedação a definir</text>
+        <rect x="110" y="566" width="26" height="7" fill="var(--ink)"/>
+        <rect x="136" y="566" width="26" height="7" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="162" y="566" width="26" height="7" fill="var(--ink)"/>
+        <rect x="188" y="566" width="26" height="7" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1"/>
+        <text class="dtxt sm" x="222" y="574">0 &nbsp; 1 &nbsp; 2 m &nbsp; · &nbsp; malha de 1 m</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption><b>O corredor sobra:</b> com 372 mm na sul e 285 mm na norte, o miolo fica com 6.863 mm de largura livre. As ilhas de 500 deixam <b>3.190 mm de circulação de cada lado</b> — três vezes e meia os 900 mm usuais de loja. Há espaço para uma segunda fileira, ou para área de demonstração e foto. A ponta de gôndola <b>6</b> está posicionada de frente para quem entra pela porta, que fica na esquina da lateral norte com a frente.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§3</span><h2>Os sete módulos</h2></div>
+  <p class="lede">Três profundidades diferentes, uma em cada parede — 285 na norte, 372 na sul, 500 no fundo. Não é variedade decorativa: é o único jeito de ver lado a lado, com produto real, o que o cadastro diz que cabe em cada uma.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>#</th><th>Módulo</th><th>Onde</th><th>Painel</th><th>Vãos</th><th>Pilha de baias</th><th>L × P × A</th><th>Peso</th><th>Custo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td class="k">Paredão sul</td><td class="d">Lateral sul, parede de impacto</td><td class="n">300 × 754</td><td class="n">18</td><td class="n">270 × 7</td><td class="n">13.290 × 372 × 1.926</td><td class="n">557,6 kg</td><td class="n">R$ 10.437</td></tr>
+        <tr><td class="n">2</td><td class="k">Paredão norte</td><td class="d">Do pilar ao fundo</td><td class="n">200 × 360</td><td class="n">18</td><td class="n">270 × 7</td><td class="n">6.054 × 285 × 1.926</td><td class="n">240,9 kg</td><td class="n">R$ 4.412</td></tr>
+        <tr><td class="n">3</td><td class="k">Paredão do fundo</td><td class="d">Destino do percurso</td><td class="n">460 × 634</td><td class="n">11</td><td class="n">513·270·270·270·513</td><td class="n">6.788 × 500 × 1.888</td><td class="n">303,3 kg</td><td class="n">R$ 5.692</td></tr>
+        <tr><td class="n">4</td><td class="k">Torre de serviço</td><td class="d">Folga porta–caixa</td><td class="n">200 × 360</td><td class="n">1</td><td class="n">270 × 4</td><td class="n">357 × 285 × 1.140</td><td class="n">6,1 kg</td><td class="n">R$ 107</td></tr>
+        <tr><td class="n">5</td><td class="k">Checkout do caixa</td><td class="d">Folga caixa–pilar · coroa + gancheira</td><td class="n">300 × 450</td><td class="n">1</td><td class="n">270 × 4</td><td class="n">457 × 372 × 1.402</td><td class="n">9,8 kg</td><td class="n">R$ 176</td></tr>
+        <tr><td class="n">6</td><td class="k">Ponta de gôndola</td><td class="d">Miolo, de frente para a porta · coroa 513</td><td class="n">300 × 634</td><td class="n">2</td><td class="n">270 × 5</td><td class="n">1.252 × 372 × 1.907</td><td class="n">41,6 kg</td><td class="n">R$ 772</td></tr>
+        <tr><td class="n">7</td><td class="k">Ilha central × 3</td><td class="d">Fileira central, quatro faces, top deck</td><td class="n">460 × 634</td><td class="n">3</td><td class="n">270 × 3</td><td class="n">1.867 × 500 × 878</td><td class="n">37,1 kg</td><td class="n">R$ 690</td></tr>
+        <tr class="tot"><td></td><td class="k">Instalação completa</td><td class="d">9 estruturas</td><td class="n">3 larguras · 4 comprimentos</td><td class="n">57</td><td class="n">—</td><td class="n">229,5 m de frente</td><td class="n">1.271 kg</td><td class="n">R$ 23.665</td></tr>
+      </tbody>
+      <caption>Custo de material estimado por escala de massa, não apurado. Consolidado de peças: 200 trizetas · <b>726 cruzetas</b> · 8 peças L · 138 tampas · 2 porta-hastes · 831 ripas de comprimento · 462 de largura · 796 verticais · 138 pés · 412 painéis de prateleira · 317 painéis de fundo em corte dedicado.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">DAS TRÊS PAREDES, SÓ O FUNDO ACEITA COROA</span>
+    <p>A coroa em peça L acrescenta <strong>43,24 mm ao comprimento</strong>, porque o L tem 83,23 mm nesse eixo contra 61,61 da trizeta. Na sul, isso derruba a folga de 60 para <strong>17 mm</strong>; na norte, de 46 para <strong>3 mm</strong> — abaixo da tolerância de trena nos dois casos. No fundo a folga cai de 85 para 42 mm, e cabe.</p>
+    <p>Convém que seja assim: o fundo é o destino do percurso, e é exatamente onde a comunicação alta trabalha. Com coroa de 513, ele chega a <strong>2.393 mm</strong> e ainda sobram <strong>1.007 mm</strong> de pé-direito.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§4</span><h2>Cinco fases, e a primeira sai esta semana</h2></div>
+  <p class="lede">A ordem não é orçamentária, é de aprendizado: cada fase responde a uma pergunta que hoje trava o projeto, e a fase 0 responde a quase todas por R$ 283 — sem depender do molde da cruzeta, que ainda não entregou.</p>
+  <div class="fases">
+    <div class="fase zero">
+      <div class="fn"><b>0</b><i>FASE</i></div>
+      <div class="fb">
+        <h3>O corpo de prova — torre e checkout</h3>
+        <div class="fm"><span><b>R$ 283</b></span><span><b>0</b> cruzetas</span><span><b>10</b> painéis</span><span><b>15,9</b> kg</span><span>2 estruturas de 1 vão</span></div>
+        <p>Módulo de 1 vão não tem nó de meio, então <strong>não usa cruzeta</strong>: monta hoje, com peça que já existe. Responde as três fitas dimensionais, a carga real, o tempo de montagem e o primeiro painel de 300 mm — que a chapa atual não entrega. É o piloto do piloto.</p>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fn"><b>1</b><i>FASE</i></div>
+      <div class="fb">
+        <h3>As duas peças-herói — ponta e primeira ilha</h3>
+        <div class="fm"><span><b>R$ 1.462</b></span><span><b>30</b> cruzetas</span><span><b>24</b> painéis</span><span><b>78,8</b> kg</span></div>
+        <p>Primeira vez que a cruzeta e a coroa de 513 vão ao piso. A ponta fica de frente para a porta: quem entra encontra o móvel montado antes de ver qualquer parede. Já dá para fotografar e já dá para vender.</p>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fn"><b>2</b><i>FASE</i></div>
+      <div class="fb">
+        <h3>Primeiro trecho da lateral sul — 6 vãos</h3>
+        <div class="fm"><span><b>R$ 3.500</b></span><span><b>80</b> cruzetas</span><span><b>48</b> painéis</span><span><b>187,1</b> kg</span><span>4.445 mm</span></div>
+        <p>Um terço da parede de impacto. É onde se descobre se montar 8 prateleiras × 6 vãos é trabalho de duas pessoas em uma manhã ou de quatro em dois dias — número que ninguém tem.</p>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fn"><b>3</b><i>FASE</i></div>
+      <div class="fb">
+        <h3>Fecha a lateral sul — mais 12 vãos</h3>
+        <div class="fm"><span><b>R$ 6.969</b></span><span><b>176</b> cruzetas</span><span><b>96</b> painéis</span><span><b>372,4</b> kg</span><span>13.290 mm</span></div>
+        <p>O paredão é o único móvel do sistema que <strong>cresce sem descartar o que já foi comprado</strong>: emendar dois trechos é trocar a coluna de ponta por uma de cruzeta. Fazer em duas etapas custa <strong>R$ 31 a mais</strong> que comprar os 18 vãos de uma vez — 0,3%, o preço de ter a parede em pé mais cedo.</p>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fn"><b>4</b><i>FASE</i></div>
+      <div class="fb">
+        <h3>Norte, fundo e as duas ilhas restantes</h3>
+        <div class="fm"><span><b>R$ 11.483</b></span><span><b>424</b> cruzetas</span><span><b>222</b> painéis</span><span><b>625,7</b> kg</span></div>
+        <p>Só aqui as <strong>três profundidades ficam lado a lado</strong> — 285, 372 e 500 — e o teste de cobertura da curva pode acontecer com produto real. É também a fase que exige o molde da cruzeta resolvido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§5</span><h2>O que o showroom mede</h2></div>
+  <p class="lede">Validar não é montar e olhar. Cada item abaixo é um número que hoje está aberto no projeto e que só se fecha com o móvel de pé. Os quatro primeiros saem da fase 0.</p>
+  <div class="grid2">
+    <div class="cell">
+      <div class="ct">FASE 0 · FITA</div>
+      <h3>O passo vertical</h3>
+      <p>O encaixe da trizeta abre para baixo e o topo é fechado, então ela sai em par espelhado. Não sabemos se o par empilha um nó por nível ou dois — e isso muda <em>todas</em> as alturas do projeto.</p>
+      <div class="cq">Duas prateleiras com a ripa <b>BAL-02-AC 270</b>, de apoio a apoio.<br>261,9 mm → um nó. 335,0 mm → par espelhado. <b>Não tem meio.</b></div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 0 · FITA</div>
+      <h3>A profundidade externa</h3>
+      <p>A cota externa depende da extensão do nó no eixo da profundidade, medida na malha em 83,23 mm. Se a peça real divergir, todas as profundidades mudam junto.</p>
+      <div class="cq">Um nó com a ripa <b>BLA-01-AC 200</b> montada, face externa a face externa.<br>Deve dar <b>285,3 mm</b>.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 0 · FITA</div>
+      <h3>A sobra da coroa</h3>
+      <p>O bounding box da peça L não diz em que plano ela é montada. Assumimos o plano da frente, o que faz a coroa passar da estrutura — e é o que decide a largura da cabeceira.</p>
+      <div class="cq">Coroa do checkout montada, face externa a face externa.<br>Deve passar <b>21,62 mm por lado</b> — 457 mm de corpo, <b>500 mm de coroa</b>.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 0 · ENSAIO</div>
+      <h3>A carga por prateleira</h3>
+      <p>Os 20 kg são provisórios. A chapa 1 da trizeta está em z 40,0 mm, exatamente onde o encaixe de 40,60 termina: a ripa apoia numa chapa de 2,9 mm, dando 8,5 a 18,4 MPa de compressão.</p>
+      <div class="cq">Carregar uma prateleira em degraus de 5 kg até 40, com <b>deflexão medida no meio do vão</b> e leitura após 72 h — o creep do PP é o que preocupa, não a ruptura.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 0 A 2 · CRONÔMETRO</div>
+      <h3>O tempo de montagem</h3>
+      <p>Nunca foi medido, e é ele que decide se o PDV vai montado, em kit, ou com equipe. Também decide o custo de instalação, que hoje não está em nenhuma conta.</p>
+      <div class="cq">Minutos por vão e por prateleira, com o número de pessoas. Anotar <b>o que precisou de martelo de borracha</b> — encaixe seco que exige força é encaixe fora de tolerância.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 4 · CONTAGEM</div>
+      <h3>A cobertura da curva, no físico</h3>
+      <p>O cadastro diz que a prateleira de 200 atende 56,8% do faturamento de lado e 18,1% de frente; a de 300, 90,5% e 67%; a de 460, 99,9% e 96,1%. Isso saiu de <code>TGFPRO</code>, não de gôndola.</p>
+      <div class="cq">Com as três profundidades lado a lado, pegar os <b>40 SKUs de maior giro</b> e contar em quais prateleiras cada um entra de lado e de frente. Confirma ou derruba o número.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">FASE 4 · CAIXA</div>
+      <h3>Sell-out por prateleira</h3>
+      <p>Este é o experimento que ninguém rodou. O showroom tem caixa, então vende — e vender é a única prova que o projeto não tem. Com três profundidades e duas alturas de baia no mesmo salão, dá para isolar a variável.</p>
+      <div class="cq">Mesma categoria, girando entre <b>285 / 372 / 500</b> a cada 4 semanas, com o faturamento por SKU lido no Sankhya.<br>É dinheiro real medindo uma hipótese de layout.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">CONTÍNUO · FORNECIMENTO</div>
+      <h3>O painel</h3>
+      <p>A instalação pede 729 painéis e ~124 m² de chapa. A <code>PAN-01</code> tem 200 mm de largura, e só <strong>8,6% dessa área</strong> sai dela direto. O resto é emenda, chapa larga ou corte dedicado.</p>
+      <div class="cq">A fase 0 já pede um painel de <b>300 × 450</b>. Fazer os três caminhos — <b>tira aparente, colagem e chapa larga comprada</b> — e comparar custo, aspecto e prazo antes da fase 2.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§6</span><h2>O que o showroom vira, além de um teste</h2></div>
+  <p class="lede">Um piloto que só valida é caro. Este pode se pagar de cinco maneiras, e a primeira delas é a que destrava o veredito do portfólio.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Oportunidade</th><th>O que exige</th><th>Por que vale</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k">A primeira venda direta de PDV</td>
+          <td class="d">Um lojista dentro do showroom e a tabela na mão. Os módulos pequenos saem por <strong>R$ 107 a R$ 772</strong>.</td>
+          <td class="d">O curador de portfólio condicionou a linha a <strong>3 clientes distintos a ≥ 2 × <code>CUSGER</code></strong>, sem <code>CODTIPOPER</code> 3211 nem 3220. Com a bonificação de fora dessa conta, a venda direta é a <em>única</em> rota que serve — e o showroom é o único lugar onde alguém vê o móvel montado e carregado antes de comprar.</td>
+        </tr>
+        <tr>
+          <td class="k">O catálogo, sem render</td>
+          <td class="d">Uma sessão de foto por fase. O miolo tem 3,19 m de corredor de cada lado — sobra distância focal.</td>
+          <td class="d">Sete módulos montados são o catálogo de PDV inteiro. Render de móvel modular nunca convence quem vende no varejo; foto de gôndola carregada, sim.</td>
+        </tr>
+        <tr>
+          <td class="k">A sala de configuração</td>
+          <td class="d">O portal <em>Monte seu PDV</em> aberto num tablet, ao lado do móvel real.</td>
+          <td class="d">O representante configura junto com o lojista e ele confere no físico o que acabou de escolher — profundidade, passo, coroa. Elimina a pior parte da venda de PDV, que é o cliente imaginar errado.</td>
+        </tr>
+        <tr>
+          <td class="k">QR por módulo</td>
+          <td class="d">Uma placa no montante de cada estrutura, com o link do portal já pré-configurado naquele módulo.</td>
+          <td class="d">Custa quase nada e transforma cada peça do showroom numa porta de entrada rastreável. Também mede qual família desperta interesse sem ninguém perguntar.</td>
+        </tr>
+        <tr>
+          <td class="k">O manual de montagem</td>
+          <td class="d">Filmar a fase 0 e a fase 2 inteiras.</td>
+          <td class="d">O manual sai da montagem real, não do desenho. E o cronômetro da fase 2 é o que define se o PDV é entregue montado, em kit ou com equipe — decisão de custo que hoje não está em nenhuma planilha.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§7</span><h2>O que trava</h2></div>
+  <p class="lede">Dois bloqueios de fábrica e cinco perguntas de obra. Nenhum deles impede a fase 0.</p>
+  <div class="call b">
+    <span class="lab">BLOQUEIO 1 · A CRUZETA</span>
+    <p>A instalação completa pede <strong>726 cruzetas</strong>. A ferramentaria cadastrou a primeira de cinco em 17/07/2026 e temos notícia de <strong>quatro peças injetadas</strong>. Sem molde entregue, as fases 1 a 4 não saem do papel — e a fase 4 sozinha pede 424.</p>
+    <p>A fase 0 é imune: <strong>módulo de 1 vão não tem nó de meio</strong>, então torre e checkout usam só trizeta, tampa, pé e porta-haste, que já existem. Comece por ela enquanto a ferramentaria anda.</p>
+  </div>
+  <div class="call w">
+    <span class="lab">BLOQUEIO 2 · O PAINEL</span>
+    <p>São <strong>729 painéis e ≈ 124 m² de chapa</strong>. A <code>PAN-01</code> tem 200 mm de largura: só as 149 tábuas de 200 mm saem dela direto — <strong>8,6% da área</strong>. As de 300 e 460 exigem emenda ou chapa larga, e os <strong>317 painéis de fundo são corte dedicado</strong>, fora da grade de 7.</p>
+    <p>O fundo fechado é o item que mais dói: cada baia pede um corte de <code>comprimento × altura livre</code> — 754 × 247, 634 × 247, 634 × 490 — e nenhum está na lista. <strong>Vale considerar o piloto sem fundo fechado</strong> nas fases 2 e 3, e decidir depois de ver a parede de pé.</p>
+  </div>
+  <div class="scroll" style="margin-top:24px">
+    <table>
+      <thead><tr><th>Pergunta de obra</th><th>Por que decide</th><th>Impacto se mudar</th></tr></thead>
+      <tbody>
+        <tr><td class="k">O comprimento total, na trena</td><td class="d">13,35 m é soma de dois trechos mais a face do pilar, nunca medido direto</td><td class="d">É a cota que define os 18 vãos da sul. Se der 13,10, cabem 17 e a folga vira 547 mm <span class="chip b">crítico</span></td></tr>
+        <tr><td class="k">Para que lado a porta abre</td><td class="d">Folha de 2,00 m abrindo para dentro varre quase 1 m de raio</td><td class="d">Mata a torre de serviço <strong>4</strong>, que fica a 20 cm da folha <span class="chip w">confirmar</span></td></tr>
+        <tr><td class="k">A frente de 7,53 m é parede?</td><td class="d">Com a porta na lateral, essa face ficou sem definição</td><td class="d">Se for parede cheia, entram <strong>+7,4 m</strong> de frente (17 vãos PSC-02) de graça <span class="chip ok">ganho</span></td></tr>
+        <tr><td class="k">O caixa é móvel?</td><td class="d">Preso por elétrica, hidráulica ou alvenaria, os 3,40 m dele são intocáveis</td><td class="d">Se andar, libera a parede mais próxima da porta — 3,40 m em ponto nobre <span class="chip w">confirmar</span></td></tr>
+        <tr><td class="k">O piso aguenta 1,3 t?</td><td class="d">A instalação completa põe 1.271 kg no salão, concentrados nas paredes</td><td class="d">Laje resolve; contrapiso sobre solo também, mas convém saber antes da fase 3 <span class="chip w">confirmar</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <b>Showroom como piloto</b> · 04/09/2026 · projeto Nitron-mob PDV.<br>
+  Cotas do prédio do levantamento de campo (croqui manual transcrito); a de 13,35 m é derivada da soma, não medida direto. Cotas do móvel pelo modelo de encaixe de 40,60 mm em nó de 61,61 mm no eixo do comprimento, 83,23 na profundidade e 73,08 no vertical, com a peça L em 83,23 × 73,08 — todas medidas nas malhas STL das peças de linha. Corrida = 2 × 61,61 + (N−1) × 101,30 + N × (ripa − 81,20). Cobertura da curva de <code>TGFPRO.LARGURA/ALTURA/ESPESSURA</code>, preenchidas em 2.742 dos 3.079 PAs ativos, cruzadas com 1.273 SKUs e R$ 83,8 M de faturamento de marca própria em 12 meses até 24/08/2026, tabelas 84 e 3 fora. <b>Custos de material estimados por escala de massa, não apurados</b>, e sem instalação, frete, iluminação ou comunicação visual. A carga de 20 kg por prateleira é provisória. O passo vertical e a orientação da peça L dependem das fitas do §5. Nada gravado em <code>pdp_lancamento</code>.
+</footer>
+
+</div>

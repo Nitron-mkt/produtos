@@ -1,0 +1,25 @@
+parede,livre_mm,ripa_comprimento,painel_mm,ripa_mm,vaos,corrida_mm,folga_mm,folga_pct,aceita_coroa
+Lateral sul,13350,PSC-01,360,315,39,13090.8,259.2,1.94,sim
+Lateral sul,13350,PSC-02,450,415,30,13074.9,275.1,2.06,sim
+Lateral sul,13350,PSC-03,634,595,21,12939.0,411.0,3.08,sim
+Lateral sul,13350,PSC-04,754,717,18,13289.7,60.3,0.45,sim
+"Norte, do pilar ao fundo",6100,PSC-01,360,315,18,6053.7,46.3,0.76,sim
+"Norte, do pilar ao fundo",6100,PSC-02,450,415,13,5678.2,421.8,6.91,sim
+"Norte, do pilar ao fundo",6100,PSC-03,634,595,9,5557.8,542.2,8.89,sim
+"Norte, do pilar ao fundo",6100,PSC-04,754,717,8,5918.7,181.3,2.97,sim
+"Fundo, entre os dois laterais",6873,PSC-01,360,315,20,6723.9,149.1,2.17,sim
+"Fundo, entre os dois laterais",6873,PSC-02,450,415,15,6548.4,324.6,4.72,sim
+"Fundo, entre os dois laterais",6873,PSC-03,634,595,11,6788.0,85.0,1.24,sim
+"Fundo, entre os dois laterais",6873,PSC-04,754,717,9,6655.8,217.2,3.16,sim
+Folga caixa-pilar,700,PSC-01,360,315,2,692.1,7.9,1.13,nao
+Folga caixa-pilar,700,PSC-02,450,415,1,457.0,243.0,34.71,sim
+Folga caixa-pilar,700,PSC-03,634,595,1,637.0,63.0,9.0,sim
+Folga caixa-pilar,700,PSC-04,754,717,0,,,,vaga de servico na planta
+Folga porta-caixa,400,PSC-01,360,315,1,357.0,43.0,10.75,nao
+Folga porta-caixa,400,PSC-02,450,415,0,,,,vaga de servico na planta
+Folga porta-caixa,400,PSC-03,634,595,0,,,,vaga de servico na planta
+Folga porta-caixa,400,PSC-04,754,717,0,,,,vaga de servico na planta
+"Frente, se virar parede",7530,PSC-01,360,315,22,7394.1,135.9,1.8,sim
+"Frente, se virar parede",7530,PSC-02,450,415,17,7418.6,111.4,1.48,sim
+"Frente, se virar parede",7530,PSC-03,634,595,12,7403.1,126.9,1.68,sim
+"Frente, se virar parede",7530,PSC-04,754,717,10,7392.9,137.1,1.82,sim
