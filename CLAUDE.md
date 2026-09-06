@@ -101,23 +101,47 @@ Esse erro já produziu uma recomendação publicada e errada.
 
 | Campo | Preenchido |
 |---|---|
-| `AD_TONELAGEMMIN` / `AD_TONELAGEMMAX` | 10 de 4.252 |
-| `AD_QTDCAVIDADE` | 52 de 4.252 |
+| `AD_TONELAGEMMIN` / `AD_TONELAGEMMAX` | 10 de 4.252 **no grupo PA** — mas **530 de 880 (60%) no grupo PI** |
+| `AD_QTDCAVIDADE` | 52 de 4.252 **no grupo PA** — mas **688 de 880 (78%) no grupo PI** |
 | `AD_CODCORPROD` | **0** — cor tem que sair da descrição |
 | `AD_FICHATECNICA` (tabela) | 4 linhas |
 | `TPRCPR` (roteiro) | 0 linhas |
 
 ### Capacidade de máquina
 
-- Parque: `VW_MAQUINA_CAPACIDADE` — `QTDCAPACIDADEPAD` é a tonelagem. 56 injetoras na
-  Nitron-Fábrica, 10 na Tanamu.
+- Parque: `VW_MAQUINA_CAPACIDADE`. 56 injetoras na Nitron-Fábrica, 10 na Tanamu.
+- 🔴 **[CORRIGIDO 06/09/2026] `QTDCAPACIDADEPAD` NÃO é a tonelagem — a coluna mistura duas
+  escalas.** Nas **injetoras 1 a 37** o valor é **10× a tonelagem real** (injetora 1: campo 2000,
+  máquina 200 tf). Nas **38 a 59** está em tf (razão 1). Exceções que não seguem nenhuma das duas:
+  injetora 12 (7,5×), 15 (31,7×), 33 (0,53×), 44 e 45 (2,15×).
+  **Use `CAPDESCR`**, que bate com `AD_TONELAGEMMIN/MAX` do PI e com o apontamento real.
+  Sanidade: a maior injetora da casa é a **34, com 600 tf**. Não existe injetora de 2.000 tf
+  numa fábrica de utilidades — uma tampa de 26×18 cm pede ~165 tf.
 - Apontamento real: `AD_APONTACICLO` (CODPROD, CODWCP, DHPRODUCAO, DHTERMINOPRODUCAO, COR).
 - **99,7% dos apontamentos são em Produto Intermediário (PI), não PA.** A injetora produz
-  peça PI e a montagem vira PA. Não achamos a estrutura PA→PI numa view direta — se
-  encontrar, documente aqui.
-- Ocupação medida (12 M): **≤260 t = 56,9% com 7 de 15 máquinas paradas** ·
-  261–1.100 t = 76,4% com **5 de 6 paradas** · 1.101–2.000 t = 73,5%, **zero livre** ·
-  >2.000 t = 72,7%, **zero livre**.
+  peça PI e a montagem vira PA.
+- ✅ **[RESOLVIDO 06/09/2026] A estrutura PA→PI é a tabela `TPRLPI`** — `CODPRODPA` → `CODPRODPI`
+  por processo produtivo, com `DHALTER` corrente. **1.315.278 linhas, 2.144 PAs, 631 PIs.**
+  Verificado. Registros anteriores diziam que ela não existia; existe e está viva.
+  **Consequência prática: o dado de engenharia (tonelagem, cavidade, ciclo) deve ser lido no PI,
+  chegando lá pelo `TPRLPI` a partir do PA — nunca direto no PA, onde está vazio.**
+- ✅ **Tempo de ciclo existe e é ao vivo:** `VW_MAQUINA_CAPACIDADE.AD_CICLOATUAL`, em segundos,
+  com `AD_DHCICLO` do dia. 44 injetoras monitoradas. Não use `AD_APONTACICLO.QTDPRODUZIDA`
+  dividido por horas para estimar ciclo — dá 3 a 21 peças/hora, uma ordem de grandeza abaixo do
+  possível; o campo não é contagem de peça.
+- 🔴 **A tabela de ocupação por faixa abaixo está INVÁLIDA** — foi construída sobre
+  `QTDCAPACIDADEPAD` lido como escala única. Com as duas escalas misturadas, as faixas
+  "1.101–2.000 t" e ">2.000 t" são na verdade máquinas de 110–200 tf. **A mesma invalidação
+  atinge a tabela `pdp_capacidade` no Supabase.** Refazer por `CAPDESCR` antes de usar para
+  decidir lançamento. Registro do número antigo, só para rastreabilidade:
+  ~~≤260 t = 56,9% com 7 de 15 paradas · 261–1.100 t = 76,4% · 1.101–2.000 t = 73,5% ·
+  >2.000 t = 72,7%~~
+- Ocupação recalculada nas 15 máquinas que rodam as 5 tampas com trava (150–200 tf reais):
+  **~58% de média, faixa de 40% a 70%.** É folga real, mas em máquinas pequenas — não é a
+  "folga de 12 injetoras zeradas" que a tabela antiga sugeria.
+- Ao medir horas por `DHTERMINOPRODUCAO − DHPRODUCAO`, **filtre `DHTERMINO > DHPRODUCAO`**: as
+  injetoras 5 e 6 têm apontamentos com término anterior ao início, que produzem −81.346 h e
+  −45.774 h no bruto e invalidam qualquer soma.
 - Ressalva: horas = `DHTERMINOPRODUCAO − DHPRODUCAO`, pode incluir tempo morto, então
   a ocupação real tende a ser **menor**.
 
@@ -236,6 +260,29 @@ independentes. Por termo: kit potes herméticos 86% · porta mantimento 87,5% ·
 **"Hermético" é table stakes, não diferencial.** Seis em cada dez concorrentes já dizem isso.
 Qualquer business case que dependa de o claim sustentar prêmio de preço nasce sem base.
 **Sanremo**, em plástico com válvula, escreve *"válvula micro ondas"* — evita o claim.
+
+### 🔴 O passivo do claim já existe na gôndola — não é hipotético
+
+**A Nitron já imprime "POTE HERMÉTICO" hoje**, e não há ensaio documentado no ERP que sustente:
+
+| CODPROD | Etiqueta ativa | Ref | Última compra |
+|---|---|---|---|
+| 1068 | `ETIQUETA BOPP POTE HERMETICO - 156` | Alto 2,2 L | **01/04/2026** |
+| 1069 | `ETIQUETA BOPP POTE HERMETICO - 155` | Alto 850 ml | **01/04/2026** |
+| 1070 | `ETIQUETA BOPP POTE HERMETICO - 154` | Alto 460 ml | **01/04/2026** |
+| 1535 | `ETIQUETA BOPP POTE HERMETICO - 151` | Alto 4,3 L | **01/04/2026** |
+| 1561 | `CINTA DO PORTA MACARRAO HERMETICO REF:181` | — | — |
+
+E o cadastro de PI já usa o termo: `799 TAMPA POTE HERM. C/ TRAVAS 4,3 LITROS`, além de uma
+família inteira `804/806`, `807/810`, `812/815` nomeada "POTE HERMETICO".
+
+`AD_FICHATECNICA` tem **4 linhas na base inteira** e nenhum ensaio ligado a esses produtos.
+O art. 36 do CDC exige que os dados que sustentam a alegação estejam **em poder do fornecedor**.
+
+**Consequência de método: qualquer projeto de vedação começa medindo o produto ATUAL, sem
+gaxeta.** Se o pote que já está na prateleira passar no ensaio, o claim impresso ganha lastro e
+o projeto de gaxeta perde a justificativa. Se não passar, o problema é urgente e independe de
+qualquer lançamento. Custa uma balança e cinco dias.
 Material não cria hermeticidade; geometria de vedação + força de fechamento criam.
 
 **O claim é abundante e a entrega é rara** — e essa distância é o achado, não a saturação em si.

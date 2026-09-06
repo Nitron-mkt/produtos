@@ -89,6 +89,139 @@ Parecer do `curador-portfolio` pendente; nada gravado em `pdp_lancamento`.
 
 ---
 
+## 🔴 REVISÃO 3 — o claim já está impresso, e a pergunta do projeto muda
+
+O engenheiro de molde encontrou no ERP algo que reordena tudo. **A Nitron já vende esses potes
+como herméticos.** Cinco itens de embalagem ativos, quatro deles comprados em **01/04/2026** —
+produção corrente, cinco meses atrás:
+
+| CODPROD | Etiqueta | Ref | Família |
+|---|---|---|---|
+| 1068 | `ETIQUETA BOPP POTE HERMETICO - 156` | Alto 2,2 L | **RET-C — prioridade 1** |
+| 1069 | `ETIQUETA BOPP POTE HERMETICO - 155` | Alto 850 ml | RET-B |
+| 1070 | `ETIQUETA BOPP POTE HERMETICO - 154` | Alto 460 ml | RET-A |
+| 1535 | `ETIQUETA BOPP POTE HERMETICO - 151` | Alto 4,3 L | **RET-D — prioridade 2** |
+| 1561 | `CINTA DO PORTA MACARRAO HERMETICO REF:181` | — | — |
+
+Verifiquei por consulta própria. E o cadastro de PI usa o termo há anos: `799 TAMPA POTE **HERM.**
+C/ TRAVAS 4,3 LITROS`, além da família `804/806`, `807/810`, `812/815`, toda nomeada
+"POTE HERMETICO". **Duas das quatro etiquetas cobrem exatamente as duas tampas prioritárias
+deste projeto.**
+
+`AD_FICHATECNICA` tem **4 linhas na base inteira**, nenhuma ligada a esses produtos. Não há ensaio.
+
+### O que isso muda
+
+O projeto foi concebido como **"transformar os potes em herméticos"**. O ERP diz que a empresa
+**já afirma que eles são**. Então a pergunta real nunca foi a que estávamos respondendo:
+
+> **Não é "como tornar hermético?". É "o que já está na prateleira sustenta o que está escrito nele?"**
+
+Três desfechos, e nenhum deles é o projeto original:
+
+1. **O produto atual passa no ensaio.** O claim impresso ganha lastro documental, o passivo do
+   art. 36 fecha, e **a gaxeta perde a última justificativa que tinha** — porque o benefício que
+   ela venderia já está entregue.
+2. **O produto atual não passa.** Então existe um problema de conformidade **hoje, com etiqueta
+   comprada em abril**, que independe totalmente de lançar qualquer coisa. Vira prioridade sobre
+   o projeto, não dentro dele.
+3. **Passa no ensaio de vazamento e falha no de vapor.** O caminho é trocar a palavra na arte
+   para **"não vaza"** — custo de uma revisão de arte, não de cinco moldes.
+
+**Em nenhum dos três a gaxeta é a ação seguinte.** E o ensaio que separa os três custa uma balança
+de 0,01 g, uma estufa e cinco dias, **usando produto que já está no estoque**.
+
+### A ação nº 1 do projeto passa a ser esta
+
+**Rodar os ensaios 1 e 2 (§6.5) no produto ATUAL, sem gaxeta, nas famílias RET-C e RET-D.**
+Custo de material: zero. Prazo: 5 dias úteis, 7 de calendário. É a única coisa neste documento
+que deveria começar esta semana.
+
+---
+
+## Revisão 3 — o que o engenheiro achou de fabril
+
+Quatro correções ao CLAUDE.md, todas verificadas por consulta própria e já aplicadas:
+
+| Registro antigo | Verificado |
+|---|---|
+| "Não achamos a estrutura PA→PI" | **É `TPRLPI`** — 1.315.278 linhas, 2.144 PAs, 631 PIs, viva |
+| "`AD_TONELAGEMMIN`: 10 de 4.252" | Verdade no **PA**; no **PI são 530 de 880 (60%)**, e cavidade 688 de 880 |
+| "`QTDCAPACIDADEPAD` é a tonelagem" | **Mistura duas escalas.** Injetoras 1–37 estão em **10× tf**; 38+ em tf. Usar `CAPDESCR` |
+| "Não há tempo de ciclo" | **`AD_CICLOATUAL` está ao vivo** em `VW_MAQUINA_CAPACIDADE`, com data de ontem |
+
+**A tabela de ocupação por faixa do CLAUDE.md e a `pdp_capacidade` no Supabase estão inválidas** —
+construídas sobre a coluna de escala misturada. As faixas ">2.000 t" são máquinas de 200 tf.
+Isso é transversal ao projeto de portfólio inteiro, não só a esta análise.
+
+### As tampas, agora identificadas pelo BOM
+
+A premissa de tampa compartilhada (§1) **está confirmada pelo BOM**, não por inferência: o PI 816
+aparece na estrutura tanto do Raso 1,1 L quanto do Alto 2,2 L.
+
+| Tampa | PI | Injetoras (tf real) | Ocupação 12 M |
+|---|---|---|---|
+| RET-C | **816** | 1, 2, 3, 5, 19 — todas 200 tf | 52,6% – 67,7% |
+| RET-D | **799** | 1, 6 (200) · 7–10 (160) · 42, 43 (150) | 39,8% – 70,3% |
+| QUA-3770 | **575** | 6 (200) · 7, 9, 11, 12, 36 (160) · 42, 43 (150) | 39,8% – 65,1% |
+| RED-2270 | **540** | 7–11 (160) · 42 (150) | 39,8% – 64,9% |
+| UF-215 | **924** | **sem apontamento desde 19/11/2020** | — |
+
+**A Tampa C exige 200 tf e roda em máquinas de exatamente 200 tf — margem de fechamento zero.**
+Não aumenta com o canal (área projetada não muda), mas não há para onde correr se aumentasse.
+
+### Três coisas que encarecem o canal mais do que a revisão 1 supôs
+
+1. **O canal não se usina, solda-se.** Um rebaixo na peça é uma **saliência no aço**. Nos moldes
+   existentes isso é solda TIG/laser em aço temperado + reusinagem + repolimento, ou postiço
+   trocável. A estimativa de R$ 5–12 k por molde da §3.3 é o piso, não o centro.
+2. **Risco de rechupe na face visível.** O canal cria transição de espessura, e transição de
+   espessura marca a face oposta — que é o topo da tampa. **66% do faturamento dessas famílias é
+   transparente**, onde rechupe se vê de longe.
+3. **Cinco moldes na fila da ferramentaria.** Pela lição nº 4 do CLAUDE.md, a ferramentaria é o
+   gargalo real. A pergunta antes de qualquer conta: *quantas semanas de bancada, e o que sai da
+   fila para isso entrar?*
+
+### O moído: o risco é óptico, não mecânico — e menor do que se pensava
+
+| | Verificado |
+|---|---|
+| Refugo de injeção da tampa | **Continua mono-PP** — a fita entra na montagem. Confirmado |
+| TPE a 1–4% em PP | **Mecanicamente tolerável.** SEBS é blenda PP+óleo, compatível — ao contrário de Tritan/PET |
+| **Mas no PP clarificado** | **Névoa e géis visíveis.** O óleo interfere na nucleação do clarificante |
+| Teor real | 0,8–1,7% se descarta o conjunto; **1,8–4,5% se descarta só a tampa** (o normal) |
+
+E a natureza do "ativo de R$ 2,63 M" é diferente da registrada: **476 t/ano de moído são
+compradas de fora** contra **~24 t geradas internamente**. É sobretudo política de compra de MP
+barata, não circuito fechado de refugo. Contaminar não destrói R$ 2,6 M — mas a fábrica também
+**vende 180 t/ano de moído**, e essa saída um refugo contaminado desvaloriza.
+
+**Mitigação se o projeto andasse:** rodar gaxeta só nos SKUs **pretos** (R$ 480 k, 8 SKUs).
+Refugo já vai para a corrente preta, contaminação invisível. O custo é abrir mão de 66% do valor —
+e o transparente é justamente quem compra "ver o conteúdo".
+
+### E uma boa notícia para o achado 176/210
+
+A hipótese de **creep** registrada no CLAUDE.md para explicar a queda de `176` e `210` foi
+levantada supondo **PE**. Estas tampas são **PP** — 98,4% da resina da casa é PP e todos os moídos
+são PP. PP homopolímero tem módulo ~3× o do PE e flui muito menos sob carga constante.
+**A hipótese de creep enfraquece; a hipótese "duro de abrir" da revisão 2 fica sendo a mais
+econômica.** O Ensaio 5 (30 dias sob trava a 40 °C) decide entre as duas.
+
+### Um dado que o business case não tinha
+
+**CODPROD 997 tem um único movimento em seis anos:** 100 kg em remessa para beneficiamento à
+Tanamu, 12/11/2020, saldo líquido zero, `CUSGER = 0`, `DTATUAL` 01/01/1900, sem ficha técnica,
+sem fornecedor. **É o único elastômero da casa** — não há nada em SEBS, ELASTOM ou GUARNIÇÃO, e
+"gaxeta" no ERP da Nitron significa retentor de cilindro hidráulico.
+
+**Não existe âncora interna de custo para a fita.** Os R$ 45–70/kg da §4.1 são estimativa de
+mercado, não dado da casa. E comprar a fita significa abrir uma classe de material do zero:
+fornecedor, homologação, **carta de conformidade ANVISA para contato com alimento**, entrada de
+almoxarifado, controle de lote.
+
+---
+
 ## 1. O universo — 18 tampas, não 80 SKUs
 
 A primeira coisa que o dado mostra é que o problema é bem menor do que parece. A linha com trava
@@ -471,6 +604,6 @@ Homologar segunda fonte desde o piloto e manter a ferramenta de perfil como ativ
 
 ---
 
-*Revisão 2 — 06/09/2026. Radar de concorrência concluído (600 avaliações em
-`pdp_ml_review`, run 264292); engenheiro de molde em apuração. Nada gravado em `pdp_lancamento` até o parecer do
+*Revisão 3 — 06/09/2026. Radar de concorrência concluído (600 avaliações em
+`pdp_ml_review`, run 264292); engenheiro de molde concluído. Nada gravado em `pdp_lancamento` até o parecer do
 curador-portfolio.*
