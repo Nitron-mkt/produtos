@@ -469,6 +469,24 @@ tamanhos, três arranjos (peça, pilha, ninho), três cores — e a ficha comple
 lado. A malha do navegador usa `AMOSTRA = [5.8, 7]`, mais grossa que a de
 produção; as cotas da ficha vêm da malha fina.
 
+### rev.16 — saídas para celular
+
+O visualizador em página não abre em qualquer aparelho. `celular.py` gera três
+formatos que abrem:
+
+| arquivo | o que é | onde abre |
+|---|---|---|
+| `modula-{P,M,G}.glb` | glTF binário, **Y para cima e em metros** | Android abre direto; iPhone precisa de app; qualquer visualizador 3D |
+| `modula-M-giro.gif` | 30 quadros, volta completa | galeria de qualquer celular |
+| `modula-{P,M,G}-vistas.png` | prancha de 6 vistas com a cota no topo | galeria de qualquer celular |
+
+O GLB sai da malha média (`AMOSTRA = [4.6, 9]`, 16 a 32 mil triângulos) — leve o
+bastante para girar no telefone. As pranchas usam `[3.4, 10]`, e a cota impressa
+no cabeçalho vem da **malha de produção**, não da malha do desenho: massa medida
+em malha grossa erra para mais.
+
+`python3 celular.py` refaz os três.
+
 ## Arquivos
 
 | Arquivo | O que é |
