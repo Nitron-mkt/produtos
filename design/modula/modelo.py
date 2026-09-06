@@ -51,7 +51,7 @@ RHO_PP = 0.905
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=185.0, perna=50.0, e=1.8, R=26.0,
-              barra=9.0, vao_fundo=6.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+              barra=9.0, vao_fundo=6.0, graf_esc=0.120, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
     "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=245.0, perna=50.0, e=2.0, R=36.0,
               barra=7.5, vao_fundo=11.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
     "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=370.0, perna=50.0, e=2.3, R=46.0,
@@ -98,7 +98,10 @@ def parametros(k):
     s["H_total"] = s["H"]
     s["hc"] = H = s["H"] - s["perna"]          # altura da cesta
     s["conic"] = con = H * TAN
-    s["folga_pe"] = fp = 5.0                      # o pe passa por fora do aro
+    # O aro e a face mais externa da peca: X, Y e H sao as cotas REAIS do
+    # produto, nao um envelope. O recuo de 5 mm que existia aqui era folga para
+    # o pe passar por fora do aro — mecanismo que saiu na rev.08.
+    s["folga_pe"] = fp = 0.0
     s["aba"] = aba = round(8.0 + 0.006 * X, 1)
     s["passo_ninho"] = pn = round(e / TAN + 2.0, 1)
     s["saia"] = round(pn - 4.0, 1)                # a saia tem de caber no passo
@@ -119,7 +122,9 @@ def parametros(k):
     s["b"] = s["Yt"] / 2 - s["Rt"]
     s["ax"] = s["Xt"] / 2 - s["Rt"]
     s["larg_pe"] = 0.0                            # definido abaixo, a partir de b
-    s["h_ress"] = round(7.0 + 0.010 * H, 1)
+    # A crista de apoio saiu na rev.09 (quem trava a pilha e a coluna interna).
+    # Com ela, sai a reserva de altura que encurtava a peca.
+    s["h_ress"] = 0.0
     s["h_pe"] = s["perna"]
     s["y_pe_f"] = round(0.86 * s["b"], 1)
     s["y_pe_t"] = round(-0.40 * s["b"], 1)
@@ -142,9 +147,6 @@ def parametros(k):
     s["rampa_pe"] = round(max(5.0, 0.06 * s["b"]), 1)
     s["larg_pe"] = round(2 * hw, 1)                # o pe no chao
     s["sal_pe"] = 0.0        # o pe NAO sai do vulto da peca (ver README, rev.08)
-    s["sal_crista"] = round(fp - 1.5, 1)           # a crista avanca para receber o pe
-    s["rampa_crista"] = round(min(18.0, 0.34 * dif), 1)
-    s["larg_ress"] = round(2 * hw + 6.0, 1)
     s["etiqueta"] = round(0.24 * X)
     # ---- grafismo (rev.10): o grao da marca, deitado ----------------------
     s["graf_L"] = round(s["graf_esc"] * X, 1)   # ponta a ponta do elemento
@@ -205,24 +207,8 @@ def construir(k):
     m = Malha()
     n = cont.n
 
-    # ---- perfil do aro: continuo, com 4 cristas de apoio ------------------
-    hr, lr = s["h_ress"], s["larg_ress"]
-    rampa = s["rampa_crista"]
-    h_geral = H - hr                       # o aro corre 'hr' abaixo do topo
-
-    def crista(i):
-        """Elevacao suave do aro nas 4 posicoes de apoio."""
-        tr, _ = cont.amostras[i % n]
-        if tr not in ("lat_d", "lat_e"):
-            return 0.0
-        y = cont.y_de(i)
-        for yc in ():
-            d = abs(y - yc)
-            if d <= lr / 2:
-                return hr
-            if d <= lr / 2 + rampa:
-                return hr * (1 - suave((d - lr / 2) / rampa))
-        return 0.0
+    # ---- perfil do aro: continuo em toda a volta --------------------------
+    h_geral = H                            # o aro chega na cota nominal
 
     def ztopo(i):
         tr, t = cont.amostras[i % n]
@@ -232,7 +218,7 @@ def construir(k):
             return hf + (h_geral - hf) * suave(t)
         if tr == "frente":
             return hf - s["mergulho"] * 0.5 * (1 - math.cos(2 * math.pi * t))
-        return h_geral + crista(i)
+        return h_geral
 
     # ---- coluna interna e janela do rodape --------------------------------
     yc_col = s["y_col"]
@@ -379,12 +365,6 @@ def construir(k):
     emitir(lambda i: fjan[i % n] < 0.15, -rec, -rec - e, z_base, lambda i: 0.0,
            "saia")
     m.mover(perna)
-
-    # ---- etiqueta a crista (para poder destaca-la no render e no visualizador)
-    lim_crista = h_geral + s["perna"] + 1.5
-    for i, (a, b, c, tag) in enumerate(m.tris):
-        if tag != "pe" and (a[2] + b[2] + c[2]) / 3 > lim_crista:
-            m.tris[i] = (a, b, c, "crista")
 
     s["cont"], s["ztopo"] = cont, ztopo
     return m, s

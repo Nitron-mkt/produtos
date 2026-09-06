@@ -120,4 +120,62 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "stl" in sys.argv:
+        stl()
+    else:
+        main()
+        stl()
+
+
+def escreve_stl(malha, caminho, nome="MODULA"):
+    """STL binario, em milimetros, 1:1. Normal por face, orientada para fora."""
+    import struct
+    tris = [t for t in malha.tris]
+    with open(caminho, "wb") as f:
+        cab = f"{nome} - Nitron - mm".encode()[:79].ljust(80, b" ")
+        f.write(cab)
+        f.write(struct.pack("<I", len(tris)))
+        for a, b, c, _ in tris:
+            ux, uy, uz = b[0]-a[0], b[1]-a[1], b[2]-a[2]
+            vx, vy, vz = c[0]-a[0], c[1]-a[1], c[2]-a[2]
+            nx, ny, nz = uy*vz-uz*vy, uz*vx-ux*vz, ux*vy-uy*vx
+            n = math.sqrt(nx*nx+ny*ny+nz*nz) or 1.0
+            f.write(struct.pack("<12fH", nx/n, ny/n, nz/n,
+                                a[0], a[1], a[2], b[0], b[1], b[2],
+                                c[0], c[1], c[2], 0))
+    return len(tris)
+
+
+def confere(malha):
+    """(arestas totais, arestas abertas, caixa) — diagnostico do solido."""
+    import collections
+    q = lambda p: (round(p[0], 3), round(p[1], 3), round(p[2], 3))
+    cnt = collections.Counter()
+    xs = []; ys = []; zs = []
+    for a, b, c, _ in malha.tris:
+        A, B, C = q(a), q(b), q(c)
+        for p in (A, B, C):
+            xs.append(p[0]); ys.append(p[1]); zs.append(p[2])
+        if A == B or B == C or A == C:
+            continue
+        for e in ((A, B), (B, C), (C, A)):
+            cnt[tuple(sorted(e))] += 1
+    abertas = sum(1 for v in cnt.values() if v % 2)
+    caixa = (max(xs)-min(xs), max(ys)-min(ys), max(zs)-min(zs))
+    return len(cnt), abertas, caixa
+
+
+def stl():
+    import time
+    print("STL (malha de producao, AMOSTRA =", modelo.AMOSTRA, ")")
+    for k in ("P", "M", "G"):
+        t0 = time.time()
+        sol, s = ficha(k)
+        n = escreve_stl(sol, os.path.join(SAIDA, f"modula-{k}.stl"), s["nome"])
+        tot, ab, cx = confere(sol)
+        tam = os.path.getsize(os.path.join(SAIDA, f"modula-{k}.stl")) / 1e6
+        print(f"  {s['nome']}: {n:6d} tri  {tam:5.1f} MB  caixa "
+              f"{cx[0]:.1f} x {cx[1]:.1f} x {cx[2]:.1f} mm  "
+              f"arestas abertas {ab}/{tot} ({ab/tot:.2%})  "
+              f"{s['massa_g']:.0f} g  {s['litros_total']:.1f} L  [{time.time()-t0:.0f}s]")

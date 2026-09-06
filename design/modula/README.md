@@ -410,6 +410,65 @@ empilhadas em vez de ninhadas.
 
 Torre de três: P 47,5 cm · M 65,5 cm · G 103 cm.
 
+### rev.15 — o 3D: STL e visualizador
+
+#### Duas cotas que estavam erradas na peça
+
+Gerando o STL, a caixa envolvente não bateu com a ficha: o P saiu
+287,4 × 177,9 × **176,7** em vez de 300 × 200 × 185. Eram dois resíduos de
+mecanismos que já tinham saído do projeto:
+
+| | era | por quê | virou |
+|---|---|---|---|
+| `folga_pe` | 5,0 mm | folga para o pé passar **por fora** do aro — mecanismo aposentado na rev.08 | **0** |
+| `h_ress` | 7 + 0,010·H | reserva de altura para a crista de apoio — aposentada na rev.09, quando a coluna interna passou a travar a pilha | **0** |
+
+O `folga_pe` recuava o aro 5 mm de cada lado (a peça nascia 10 mm mais estreita
+que a ficha) e o `h_ress` cortava 8,3 mm da altura — e, como o aro descia numa
+parede cônica, ainda tirava 1,3 mm de cada lado. Zerados os dois, **X, Y e H
+passam a ser as cotas reais da peça**, não um envelope.
+
+A cesta ganhou 10 mm em cada direção: P foi de 4,9 para **5,4 L**, M de 15,4
+para **16,5 L**, G de 52,1 para **54,7 L**.
+
+#### A caixa envolvente medida no STL
+
+| | X | Y | H |
+|---|---|---|---|
+| P | 299,6 | 189,0 | 185,0 |
+| M | 399,6 | 284,2 | 245,0 |
+| G | 599,6 | 374,8 | 370,0 |
+
+Os 0,4 mm que faltam em X são o ponto mais externo do aro estar 1,6 mm abaixo do
+topo, numa parede com 7,5° de saída. **O Y é menor de propósito**: a frente é o
+rebaixo de pega, e como ela fica mais baixa numa parede cônica, recua 11 mm
+(P), 16 mm (M) e 25 mm (G). A peça continua dentro do seu módulo de palete — ela
+só não encosta na aresta da frente.
+
+#### Os arquivos
+
+`python3 exporta.py stl` grava em `out/`:
+
+| | triângulos | arquivo | arestas abertas |
+|---|---|---|---|
+| `modula-P.stl` | 28.276 | 1,4 MB | 1,70% |
+| `modula-M.stl` | 39.020 | 2,0 MB | 1,67% |
+| `modula-G.stl` | 55.896 | 2,8 MB | 1,29% |
+
+STL binário, **1:1 em milímetros**, normal por face orientada para fora.
+
+⚠️ **Não é um sólido estanque.** As bandas da casca se sobrepõem nas emendas e
+1,3 a 1,7% das arestas ficam ímpares. Serve para conferir forma, medir e
+imprimir com reparo automático — **não** para usinar direto. A ferramentaria
+reconstrói o sólido a partir das cotas, como faria de qualquer jeito.
+
+#### O visualizador
+
+`gera_visor.py` (no scratchpad) monta uma página com a malha embutida — três
+tamanhos, três arranjos (peça, pilha, ninho), três cores — e a ficha completa ao
+lado. A malha do navegador usa `AMOSTRA = [5.8, 7]`, mais grossa que a de
+produção; as cotas da ficha vêm da malha fina.
+
 ## Arquivos
 
 | Arquivo | O que é |
