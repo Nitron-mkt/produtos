@@ -153,31 +153,36 @@ class Trama:
         return vaz, alma
 
 
-def monta(L, perimetro, zlo, zhi, k_lado, k_eixo, giro=0.0):
-    """Rede da marca, girada por 'giro', fechando a volta em passo inteiro.
+def largura_faixa(cmds=CURTO):
+    """Largura perpendicular da faixa (as duas retas longas sao paralelas)."""
+    p = contorno(cmds, n=2)
+    # o trecho longo vai do fim da 1a curva ate a ponta oposta
+    a, b = p[3], p[4]
+    d = math.hypot(b[0]-a[0], b[1]-a[1])
+    ux, uy = (b[0]-a[0])/d, (b[1]-a[1])/d
+    c = p[7]                                   # ponto da outra reta longa
+    return abs((c[0]-a[0])*(-uy) + (c[1]-a[1])*ux)
 
-    Fechar a volta exige um vetor da rede puramente horizontal cujo comprimento
-    divida o perimetro. Ele e obtido como h = t1 + m*t2 com m inteiro (o m que
-    quase zera a componente vertical), e depois t1 e ajustado para que h fique
-    exatamente horizontal e caiba um numero inteiro de vezes na volta.
+
+def monta(L, perimetro, zlo, zhi, k_u, k_z, giro=0.0, desloc=0.0):
+    """Grade ALINHADA: colunas e fileiras, como o vazado antigo, so que o furo
+    e o elemento da marca e ele entra na diagonal.
+
+    Os elementos de colunas e fileiras vizinhas ficam lado a lado; os da
+    diagonal ficam ponta com ponta, na direcao do proprio elemento — e isso que
+    forma as linhas diagonais tracejadas e mantem a composicao linear.
     """
     el = Elemento(L, CURTO, giro)
-    c, sn = math.cos(math.radians(giro)), math.sin(math.radians(giro))
-    rot = lambda v: (v[0]*c - v[1]*sn, v[0]*sn + v[1]*c)
-    s = el.esc
-    t1 = [q * s * k_lado for q in rot(LADO)]
-    t2 = [q * s * k_eixo for q in rot(EIXO)]
-    m = 0 if abs(t2[1]) < 1e-9 else round(-t1[1] / t2[1])
-    t1[1] = -m * t2[1]                       # h = t1 + m*t2 fica horizontal
-    hx = t1[0] + m * t2[0]
-    n1 = max(3, int(round(perimetro / abs(hx))))
-    hx = math.copysign(perimetro / n1, hx)
-    t1[0] = hx - m * t2[0]
-    tr = Trama(el, tuple(t1), tuple(t2), 0.0, (zlo + zhi) / 2)
+    nu = max(4, int(round(perimetro / (k_u * L))))
+    pu = perimetro / nu
+    nz = max(2, int(round((zhi - zlo) / (k_z * L))))
+    pz = (zhi - zlo) / nz
+    tr = Trama(el, (pu, 0.0), (desloc * pu, pz), 0.0, zlo + pz / 2)
     vaz, alma = tr.medidas()
-    info = dict(L=round(L, 1), esc=round(s, 4), passos_na_volta=n1, m=m,
-                t1=(round(t1[0], 2), round(t1[1], 2)),
-                t2=(round(t2[0], 2), round(t2[1], 2)),
+    info = dict(L=round(L, 1), esc=round(el.esc, 4), colunas=nu, fileiras=nz,
+                pu=round(pu, 1), pz=round(pz, 1), desloc=desloc,
+                largura=round(largura_faixa() * el.esc, 1),
+                eixo=round(ANG_EIXO + giro, 1),
                 area_el=round(el.area, 1), celula=round(tr.area_celula, 1),
                 vazado=vaz, alma=alma)
     return tr, info

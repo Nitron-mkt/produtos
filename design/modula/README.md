@@ -292,25 +292,44 @@ também paga a alma entre os furos.
 `grafismo/conferencia-grafismo.png` põe o grafismo oficial ao lado da
 reconstrução com esses parâmetros.
 
-#### Deitado na peça
+#### Na peça: composição linear, furo diagonal (rev.13)
 
-⚠️ **O guia da marca diz que o grafismo "usa a mesma inclinação do logo e nunca
-é rotacionado".** O eixo do elemento no logo está a **−72°** — quase vertical.
-Deixá-lo assim devolve o vazado vertical que motivou toda esta revisão. A peça
-está com `graf_giro = 90°`, que põe o eixo a **+18°** e deixa as aberturas
-horizontais, como pedido — **mas isso contraria a regra do guia**. Trocar
-`graf_giro` para `0` em `TAMANHOS` volta à inclinação da marca.
+O vazado antigo era **linear** — colunas e fileiras alinhadas, ritmo regular. A
+rev.12 trocou isso por uma rede oblíqua tirada da marca, e o resultado ficou
+espalhado, sem a disciplina do modelo antigo. A rev.13 volta à **grade
+alinhada** e põe o elemento da marca dentro dela, na diagonal.
+
+```
+t1 = (pu ;  0)      colunas, como no vazado antigo
+t2 = ( 0 ; pz)      fileiras
+eixo do elemento    -55 graus
+```
+
+Colunas e fileiras vizinhas ficam lado a lado; os elementos da **diagonal**
+ficam ponta com ponta, na direção do próprio elemento. É isso que forma as
+linhas diagonais tracejadas e mantém a composição linear —
+`grafismo/padrao-na-parede.png`.
+
+**Por que −55° e não −45°.** Varrendo eixo × tamanho × passo, a −45° a alma cai
+para 4,4 mm no mesmo vazado em que a −55° dá 6,9 mm: quanto mais o eixo do furo
+se aproxima da diagonal da célula, mais os vizinhos da diagonal se aproximam
+ponta a ponta. E −55° fica mais perto dos −72° do logo, então é também o menor
+desvio da regra do guia.
 
 | | P | M | G |
 |---|---|---|---|
-| elemento (ponta a ponta) | 34,5 mm | 52,0 mm | 69,0 mm |
-| passo lateral / no eixo | 0,50 / 1,33 | 0,50 / 1,20 | 0,50 / 1,20 |
-| vazado | 36% | 45% | 45% |
-| **alma mínima** | **6,0 mm** | **6,4 mm** | **8,2 mm** |
-| massa | 231 g | 435 g | 881 g |
+| furo (compr. × largura) | 30 × 10,1 mm | 40 × 13,5 mm | 60 × 20,2 mm |
+| grade (colunas × fileiras) | 29 × 5 | 32 × 6 | 32 × 5 |
+| passo | 24,3 × 21,1 | 32,2 × 25,0 | 48,5 × 38,9 |
+| vazado | 40,9% | 46,3% | 44,4% |
+| **alma mínima** | **7,0 mm** | **6,9 mm** | **11,5 mm** |
+| massa | 211 g | 433 g | 1.012 g |
 
-O P segue o mais fechado da família de propósito: é a peça que vai à vista em
-casa e a que guarda coisa pequena.
+⚠️ **O guia da marca diz que o grafismo "usa a mesma inclinação do logo e nunca
+é rotacionado".** O eixo do elemento no logo está a −72°, quase vertical — que é
+o vazado que esta revisão veio substituir. A peça está a −55°, um giro de 17°.
+`graf_eixo_gr` em `TAMANHOS` é o número que controla isso: `-72.05` devolve a
+inclinação exata da marca.
 
 **Como a casca é emitida.** `perfurada()` em `geometria.py`: para cada tira do
 contorno, acha os trechos sólidos no meio da tira e refina as bordas por
