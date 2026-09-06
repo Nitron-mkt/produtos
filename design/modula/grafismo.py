@@ -109,13 +109,21 @@ class Elemento:
         p = self.p; m = len(p)
         return [p[int(k * m / n) % m] for k in range(n)]
 
+    def extensao_z(self):
+        """Altura que o elemento ocupa, ja girado. E ela que decide onde a
+        primeira e a ultima fileira podem ficar sem serem cortadas ao meio."""
+        return max(q[1] for q in self.p) - min(q[1] for q in self.p)
+
 
 class Trama:
     """O grafismo: o elemento repetido nos dois passos da marca."""
 
-    def __init__(self, el, t1, t2, u0=0.0, z0=0.0):
+    def __init__(self, el, t1, t2, u0=0.0, z0=0.0, jmin=None, jmax=None):
         self.el, self.t1, self.t2 = el, t1, t2
         self.u0, self.z0 = u0, z0
+        # limite de fileiras: fora dele nao nasce elemento. E o que impede o
+        # grafismo de ser cortado ao meio pelas faixas cheias do topo e do pe.
+        self.jmin, self.jmax = jmin, jmax
         det = t1[0]*t2[1] - t1[1]*t2[0]
         self.inv = ((t2[1]/det, -t2[0]/det), (-t1[1]/det, t1[0]/det))
         self.area_celula = abs(det)
@@ -131,6 +139,8 @@ class Trama:
         for di in range(-r, r+1):
             for dj in range(-r, r+1):
                 i, j = i0+di, j0+dj
+                if self.jmin is not None and j < self.jmin: continue
+                if self.jmax is not None and j > self.jmax: continue
                 yield (self.u0 + i*self.t1[0] + j*self.t2[0],
                        self.z0 + i*self.t1[1] + j*self.t2[1])
 
@@ -141,7 +151,13 @@ class Trama:
         return False
 
     def medidas(self):
-        """(fracao vazada, menor alma entre dois furos vizinhos)."""
+        """(fracao vazada, menor alma entre dois furos vizinhos).
+
+        Mede o miolo da trama: os limites de fileira sao suspensos aqui, senao
+        a fileira de baixo nao teria vizinha e a alma sairia otimista.
+        """
+        lim = (self.jmin, self.jmax)
+        self.jmin = self.jmax = None
         vaz = self.el.area / self.area_celula
         alma = 1e9
         for bx, by in self.el.borda():
@@ -150,6 +166,7 @@ class Trama:
                 if abs(cu - self.u0) < 1e-9 and abs(cz - self.z0) < 1e-9:
                     continue
                 alma = min(alma, self.el.dist(u - cu, z - cz))
+        self.jmin, self.jmax = lim
         return vaz, alma
 
 
@@ -175,13 +192,19 @@ def monta(L, perimetro, zlo, zhi, k_u, k_z, giro=0.0, desloc=0.0):
     el = Elemento(L, CURTO, giro)
     nu = max(4, int(round(perimetro / (k_u * L))))
     pu = perimetro / nu
-    nz = max(2, int(round((zhi - zlo) / (k_z * L))))
-    pz = (zhi - zlo) / nz
-    tr = Trama(el, (pu, 0.0), (desloc * pu, pz), 0.0, zlo + pz / 2)
+    # As fileiras andam entre os CENTROS extremos, recuados meia altura de
+    # elemento das duas faixas cheias: assim nenhuma fileira sai cortada.
+    Ez = el.extensao_z()
+    util = max(1.0, (zhi - zlo) - Ez)
+    nz = max(1, int(round(util / (k_z * L))))
+    pz = util / nz
+    tr = Trama(el, (pu, 0.0), (desloc * pu, pz), 0.0, zlo + Ez / 2,
+               jmin=0, jmax=nz)
     vaz, alma = tr.medidas()
-    info = dict(L=round(L, 1), esc=round(el.esc, 4), colunas=nu, fileiras=nz,
+    info = dict(L=round(L, 1), esc=round(el.esc, 4), colunas=nu, fileiras=nz + 1,
                 pu=round(pu, 1), pz=round(pz, 1), desloc=desloc,
                 largura=round(largura_faixa() * el.esc, 1),
+                alt_elem=round(Ez, 1),
                 eixo=round(ANG_EIXO + giro, 1),
                 area_el=round(el.area, 1), celula=round(tr.area_celula, 1),
                 vazado=vaz, alma=alma)

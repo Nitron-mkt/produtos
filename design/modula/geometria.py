@@ -122,6 +122,18 @@ class Malha:
         self.hexa([(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0)],
                   [(x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)], tag)
 
+    def viga(self, p0, p1, larg, z0, z1, tag):
+        """Barra reta de largura 'larg' entre dois pontos em planta, em
+        qualquer direcao — e o que permite a grelha do fundo ser diagonal."""
+        dx, dy = p1[0] - p0[0], p1[1] - p0[1]
+        d = math.hypot(dx, dy)
+        if d < 1e-6:
+            return
+        nx, ny = -dy / d * larg / 2, dx / d * larg / 2
+        a = [(p0[0] - nx, p0[1] - ny), (p1[0] - nx, p1[1] - ny),
+             (p1[0] + nx, p1[1] + ny), (p0[0] + nx, p0[1] + ny)]
+        self.hexa([(x, y, z0) for x, y in a], [(x, y, z1) for x, y in a], tag)
+
     def caixa_oca(self, x0, x1, y0, y1, z0, z1, esp, tag, tampa="topo"):
         """Bloco com as 4 paredes e uma tampa — o vazio vira encaixe."""
         self.bloco(x0, x1, y0, y0 + esp, z0, z1, tag)

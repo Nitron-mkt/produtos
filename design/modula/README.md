@@ -487,6 +487,80 @@ em malha grossa erra para mais.
 
 `python3 celular.py` refaz os três.
 
+### rev.17 — varredura no M, replicada nos três
+
+Trabalho feito no M e propagado por parâmetro. Cinco achados; o quarto é um
+defeito de encaixe, não de acabamento.
+
+#### 1. O pé apoiava numa aresta de 2 mm
+
+A casca do pé descia aberta: o contato com o piso era o fio da parede, 35 mm de
+corda × 2 mm. **2,8 cm² nos quatro pés.** Fio de faca no piso, e pouca área para
+a pilha.
+
+Agora o pé fecha numa **sola** — laje na boca do pé, recuada 0,6 mm da face
+externa (o recuo mata o fio) e avançando para dentro:
+
+| | corda do pé | sola | **apoio** |
+|---|---|---|---|
+| P | 38 mm | 6,6 mm | 10,0 cm² |
+| M | 66 mm | 8,8 mm | **23,1 cm²** |
+| G | 92 mm | 13,2 mm | 48,8 cm² |
+
+No M são **8,2× mais área**. A sola morre em rampa nas duas pontas, não em
+degrau.
+
+#### 2. A janela do rodapé estava mordendo o pé
+
+As colunas ficavam em `0,90 b` e `0,30 b`. A janela que deixa o degrau passar
+tem meia-largura de `w_col/2 + rampa`, e nessa posição ela começava a **10,8 mm**
+do centro do canto — dentro dos 17,7 mm do pé. A janela comia a borda da área de
+apoio.
+
+As colunas recuaram para **`0,72 b` e `0,24 b`**. Os três vãos do giro continuam
+iguais (a regra `p1/3`), e a janela sai de perto do canto. Além disso a largura
+do pé deixou de ser fração fixa: agora é **medida a partir da janela**, com 4 mm
+de folga, e tem `assert`.
+
+#### 3. O grafismo saía cortado ao meio nas duas bordas
+
+O elemento tem 36 mm de altura (deitado a −55°) e o passo entre fileiras é 29,5
+mm: as fileiras se entrelaçam, e as das pontas eram fatiadas pelas faixas cheias
+do topo e do pé.
+
+Agora as fileiras andam entre os **centros extremos**, recuados meia altura de
+elemento de cada faixa (`Trama.jmin/jmax`). **Nenhum elemento sai cortado.**
+
+#### 4. A coluna cegava um pedaço largo da lateral
+
+Painel cego de `w_col + 2·rampa` = 27,4 + 14 = **41,4 mm**. Estreitou para
+19,4 + 11 = **30,4 mm** (−27%), sem perder o degrau: o apoio da pilha continua
+sendo a espessura da casca, e 4 × 19,4 × 2 mm bastam para a carga de três caixas.
+
+#### 5. A grelha do fundo era ortogonal
+
+Toda a peça fala diagonal e o fundo falava xadrez. A grelha passou a correr a
+**45°**, nas duas mãos (`Malha.viga`, barra reta em qualquer direção). Mesma
+linguagem do vazado, e a água escorre para o canto em vez de empoçar na trama.
+
+**O que não mexi.** A janela do rodapé continua aparecendo como quatro entalhes
+na base — é o mecanismo, não tem como fechar. O perfil de três degraus do aro e a
+faixa cheia sob o rebaixo da frente ficaram como estavam.
+
+**Sobre a cota em Y.** A ficha diz 40 × 30 cm e a caixa medida no STL dá
+399,6 × 284,2 mm. Não falta peça: 300 mm é a planta **no aro**, e a frente é
+rebaixada 117 mm para a mão entrar. Com os 7,5° de saída do ninho, 117 mm de
+queda recuam a boca da frente em 15,4 mm. O fundo do palete continua sendo
+400 × 300.
+
+| M | antes | depois |
+|---|---|---|
+| apoio no piso | 2,8 cm² | **23,1 cm²** |
+| painel cego da lateral | 41,4 mm | 30,4 mm |
+| grafismo cortado | sim | não |
+| massa | 471 g | 465 g |
+| litros | 16,5 | 16,5 |
+
 ## Arquivos
 
 | Arquivo | O que é |

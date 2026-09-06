@@ -137,37 +137,55 @@ def parametros(k):
     # concordancia circular — e a concordancia que faz o pe nascer da peca em
     # vez de ficar pendurado nela.
     s["recuo"] = round(e + 3.2, 1)   # recuo do rodape = a folga do degrau
-    s["h_rodape"] = hro = round(0.20 * s["perna"], 1)
+    # Quem limita o rodape e o NINHO, nao a perna: no encaixe girado o rodape
+    # da peca de cima passa raspando o fundo da de baixo.
+    s["h_rodape"] = hro = round(
+        min(0.22 * s["perna"], pn - s["z_fundo"] - s["ef"] - 1.5), 1)
     s["h_avental"] = round(0.16 * s["perna"], 1)   # frente e traseira sobem
     s["hh_pe"] = hh = round(s["perna"] - hro, 1)   # altura livre do pe
-    s["hw_pe"] = hw = round(0.155 * min(s["b"], s["ax"]), 1)  # meia-largura no chao
     s["k_pe"] = kk = math.tan(7.0 * DEG)           # conicidade do pe, por lado
-    s["rf_pe"] = round(0.10 * min(s["b"], s["ax"]), 1)   # raio da concordancia
-    s["hw_max"] = round(meia_pe(s, hh), 1)         # meia-largura na raiz
-    s["rampa_pe"] = round(max(5.0, 0.06 * s["b"]), 1)
-    s["larg_pe"] = round(2 * hw, 1)                # o pe no chao
     s["sal_pe"] = 0.0        # o pe NAO sai do vulto da peca (ver README, rev.08)
     s["etiqueta"] = round(0.24 * X)
     # ---- grafismo (rev.10): o grao da marca, deitado ----------------------
     s["graf_L"] = round(s["graf_esc"] * X, 1)   # ponta a ponta do elemento
     s["graf_giro"] = round(s["graf_eixo_gr"] - G.ANG_EIXO, 2)
 
-    # ---- o que a base ainda tem de respeitar ------------------------------
-    # Com o pe dentro do vulto, ele nao colide com nada no ninho: desce junto
-    # com a parede, no mesmo passo. So resta nao encostar no pe vizinho.
     # ---- coluna interna: o que trava o empilhamento (rev.09) --------------
     # Quatro colunas verticais por dentro da parede, do fundo ate o aro. O topo
     # delas e o degrau onde o rodape da peca de cima pousa. A face interna e
     # VERTICAL (raio constante), entao o macho sai com quatro nervuras retas e
     # o bolsao atras da coluna afunila para baixo — nada de contra-saida.
-    s["y_col"] = (round(0.90 * s["b"], 1), round(-0.30 * s["b"], 1))
-    s["w_col"] = round(0.24 * s["b"], 1)
-    s["rampa_col"] = round(min(7.0, 0.075 * s["b"]), 1)
+    #
+    # rev.17: as colunas recuaram de 0,90b/0,30b para 0,72b/0,24b. As posicoes
+    # antigas jogavam a JANELA do rodape em cima do pe de canto — ela comia a
+    # borda da area de apoio. Com 0,72b/0,24b os tres vaos do giro continuam
+    # iguais (a regra p1/3) e a janela sai de perto do canto.
+    s["y_col"] = (round(0.72 * s["b"], 1), round(-0.24 * s["b"], 1))
+    s["w_col"] = round(0.17 * s["b"], 1)           # painel cego mais estreito
+    s["rampa_col"] = round(min(5.5, 0.055 * s["b"]), 1)
     s["r_col"] = round(s["Xb"] / 2 - s["h_rodape"] * TAN - s["recuo"] - e, 2)
     s["passo_pilha"] = round(s["hc"] + s["h_rodape"], 1)
-    vao_col = 0.60 * s["b"]     # otimo: p1/3 iguala os dois vaos
+    vao_col = 0.48 * s["b"]     # otimo: p1/3 iguala os tres vaos
     assert s["w_col"] + 2 * s["rampa_col"] + 6 < vao_col, \
         f"{k}: coluna e janela se encostam ({vao_col:.0f} mm de vao)"
+
+    # ---- o pe de canto, agora dimensionado pela janela --------------------
+    # O apoio no chao vai do centro do canto ate onde a janela do rodape comeca,
+    # menos 4 mm. Antes era uma fracao fixa e a janela mordia o pe.
+    s["arco_canto"] = ac = math.pi * s["Rb"] / 4   # centro do canto -> reta
+    dist_jan = 0.28 * s["b"] + ac - (s["w_col"] / 2 + s["rampa_col"])
+    s["hw_pe"] = hw = round(min(0.30 * min(s["b"], s["ax"]), dist_jan - 4.0), 1)
+    s["rf_pe"] = round(0.062 * min(s["b"], s["ax"]), 1)  # menor que o rodape
+    s["hw_max"] = round(meia_pe(s, hh), 1)         # meia-largura na raiz
+    s["rampa_pe"] = round(max(5.0, 0.06 * s["b"]), 1)
+    s["larg_pe"] = round(2 * hw, 1)                # o pe no chao
+    # sola: fecha o pe embaixo. Antes o apoio era a aresta de 'e' mm da casca.
+    s["w_sola"] = round(max(6.0, 0.022 * X), 1)
+    s["rec_sola"] = 0.6                            # sola recuada: mata o fio
+    s["apoio_cm2"] = round(4 * 2 * hw * s["w_sola"] / 100.0, 1)
+    assert hw > 0.15 * min(s["b"], s["ax"]), \
+        f"{k}: pe estreito demais ({2*hw:.0f} mm de apoio)"
+    assert s["rf_pe"] < hro, f"{k}: concordancia maior que o rodape"
     # no ninho a parede da peca de cima desce POR FORA da coluna: a folga e a
     # distancia entre a face interna dessa parede e a face externa da coluna
     f_par = (s["Xb"] / 2 - pn * TAN - e) - (s["r_col"] + e)
@@ -328,18 +346,45 @@ def construir(k):
         d = abs(c) - (ha - rr)
         return hb_ if d <= 0 else (hb_ - rr) + math.sqrt(max(0.0, rr * rr - d * d))
 
+    # A grelha corre a 45 graus, nao ortogonal: e a mesma direcao do vazado da
+    # parede, e a agua escorre para o canto em vez de empocar na trama.
     barra = s["barra"]
-    passo_f = barra + s["vao_fundo"]
-    nx = max(2, int(round(2 * hx / passo_f)))
-    ny = max(2, int(round(2 * hy / passo_f)))
-    for i in range(1, nx):
-        c = -hx + 2 * hx * i / nx
-        L = lim(c, hx, hy, r) - 0.8
-        m.bloco(c - barra / 2, c + barra / 2, -L, L, zf, zf + ef, "fundo")
-    for j in range(1, ny):
-        c = -hy + 2 * hy * j / ny
-        L = lim(c, hy, hx, r) - 0.8
-        m.bloco(-L, L, c - barra / 2, c + barra / 2, zf, zf + ef, "fundo")
+    passo_f = barra + s["vao_fundo"]     # medido perpendicular a barra
+
+    def dentro_fundo(x, y):
+        """Planta util do fundo, com o canto arredondado."""
+        if abs(x) > hx or abs(y) > hy:
+            return False
+        dx, dy = abs(x) - (hx - r), abs(y) - (hy - r)
+        return dx <= 0 or dy <= 0 or dx * dx + dy * dy <= r * r
+
+    def corta(cx, cy, ux, uy):
+        """Extremos da reta (cx,cy)+t(ux,uy) dentro da planta do fundo."""
+        t0, t1, passo = None, None, 0.8
+        t = -(hx + hy)
+        while t <= hx + hy:
+            if dentro_fundo(cx + t * ux, cy + t * uy):
+                if t0 is None:
+                    t0 = t
+                t1 = t
+            t += passo
+        return (t0, t1) if t0 is not None and t1 - t0 > barra else None
+
+    q = math.sqrt(0.5)
+    for sinal in (+1, -1):
+        ux, uy = q, sinal * q
+        # varre as diagonais pelo eixo perpendicular
+        alcance = hx + hy
+        nd = int(alcance / passo_f)
+        for i in range(-nd, nd + 1):
+            d = i * passo_f
+            cx, cy = -uy * d, ux * d
+            tt = corta(cx, cy, ux, uy)
+            if not tt:
+                continue
+            t0, t1 = tt[0] + 0.4, tt[1] - 0.4
+            m.viga((cx + t0 * ux, cy + t0 * uy), (cx + t1 * ux, cy + t1 * uy),
+                   barra, zf, zf + ef, "fundo")
 
     # ---- base: rodape recuado e quatro pes de canto -----------------------
     # O pe deixou de ser o seletor do encaixe (README, rev.08) e por isso pode
@@ -364,6 +409,22 @@ def construir(k):
 
     emitir(lambda i: fjan[i % n] < 0.15, -rec, -rec - e, z_base, lambda i: 0.0,
            "saia")
+
+    # ---- sola: fecha o pe embaixo -----------------------------------------
+    # A casca sozinha apoiava numa aresta de 'e' mm — fio de faca no piso e
+    # pouca area para a pilha. A sola e uma laje na boca do pe, recuada 0,6 mm
+    # da face externa (o recuo tira o fio) e avancando 'w_sola' para dentro.
+    hw, ws, rs, ts = s["hw_pe"], s["w_sola"], s["rec_sola"], s["ef"]
+    tap = min(9.0, ws + 2.0)          # a sola morre em rampa, nao em degrau
+
+    def o_sola(i, z):
+        u = u_pe(i)
+        f = 1.0 if u <= hw - tap else max(0.0, (hw - u) / tap)
+        return -rec - rs - ws * suave(f)
+
+    emitir(lambda i: u_pe(i) <= hw and fjan[i % n] < 0.15,
+           -rec - rs, o_sola,
+           lambda i: -perna, lambda i: -perna + ts, "saia")
     m.mover(perna)
 
     s["cont"], s["ztopo"] = cont, ztopo

@@ -68,7 +68,8 @@ def giro(k, quadros=30, lado=560, nome="out/modula-M-giro.gif"):
     return os.path.getsize(nome)
 
 # ---------------- prancha de vistas ----------------
-def prancha(k, nome="out/modula-M-vistas.png"):
+def prancha(k, nome=None):
+    nome = nome or f"{SAIDA}/modula-{k}-vistas.png"
     sol, s = ficha(k)
     ns = sol.normais_suaves(42)
     g = lambda: (sol.triangulos(), paleta(COR_CORPO[k]), ns)
@@ -89,7 +90,14 @@ def prancha(k, nome="out/modula-M-vistas.png"):
         return ImageFont.load_default()
     f_tit, f_rot = fonte(40), fonte(22)
     topo = 116
-    FIC = json.load(open('/tmp/ficha.json'))[k]
+    # A cota vem SEMPRE da malha de producao, nunca de arquivo a parte: a
+    # prancha ja saiu uma vez com a massa da revisao anterior no cabecalho.
+    amostra = modelo.AMOSTRA
+    modelo.AMOSTRA = [2.6, 14]
+    _, fp = ficha(k)
+    modelo.AMOSTRA = amostra
+    FIC = dict(X=fp["X"], Y=fp["Y"], H=fp["H"],
+               L=fp["litros_total"], g=fp["massa_g"])
     folha = Image.new("RGB", (W*3, H*2 + topo + 40), fundo)
     d = ImageDraw.Draw(folha)
     d.text((26, 20), f"MODULA {k}", fill=(19, 30, 41), font=f_tit)

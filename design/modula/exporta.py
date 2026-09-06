@@ -119,15 +119,6 @@ def main():
     print("  imagens em", SAIDA)
 
 
-if __name__ == "__main__":
-    import sys
-    if "stl" in sys.argv:
-        stl()
-    else:
-        main()
-        stl()
-
-
 def escreve_stl(malha, caminho, nome="MODULA"):
     """STL binario, em milimetros, 1:1. Normal por face, orientada para fora."""
     import struct
@@ -179,3 +170,14 @@ def stl():
               f"{cx[0]:.1f} x {cx[1]:.1f} x {cx[2]:.1f} mm  "
               f"arestas abertas {ab}/{tot} ({ab/tot:.2%})  "
               f"{s['massa_g']:.0f} g  {s['litros_total']:.1f} L  [{time.time()-t0:.0f}s]")
+
+
+if __name__ == "__main__":
+    import sys
+    if "stl" in sys.argv:
+        stl()
+    elif "png" in sys.argv:
+        main()
+    else:
+        main()
+        stl()
