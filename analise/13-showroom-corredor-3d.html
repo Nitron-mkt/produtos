@@ -1,0 +1,649 @@
+<title>Showroom em corredor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&family=Aleo:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EFF3F3; --sheet:#FFFFFF; --raise:#F7FAFA;
+  --ink:#14201F; --ink-2:#3A4746; --muted:#6C7A79;
+  --rule:#D6DEDD; --rule-2:#E7EEED;
+  --brand:#08a9b1; --brand-deep:#056B71; --brand-soft:#E0F3F4; --brand-ink:#043F43;
+  --ok:#1B6B57; --ok-soft:#DFEFE9;
+  --warn:#8A6410; --warn-soft:#F7EDD8;
+  --bad:#A32820; --bad-soft:#F7E3E1;
+  --scene:#E4EAEA; --fog:#E4EAEA;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0D1313; --sheet:#161E1E; --raise:#1C2626;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --scene:#101818; --fog:#101818;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D1313; --sheet:#161E1E; --raise:#1C2626;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --scene:#101818; --fog:#101818;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif;font-weight:400;letter-spacing:.012em;
+  line-height:1.02;margin:0;text-wrap:balance}
+h3{font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:-.012em;margin:0;font-size:15.5px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);
+  padding:.1em .38em;border-radius:3px}
+p{margin:0 0 14px;max-width:74ch}
+a{color:var(--brand-deep)}
+:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
+
+header.mast{padding:52px 0 20px;border-bottom:2px solid var(--ink)}
+.eyeb{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"Bebas Neue",sans-serif;
+  font-size:13px;letter-spacing:.15em;color:var(--muted);margin-bottom:14px}
+.eyeb span:first-child{color:var(--brand-deep)}
+h1{font-size:clamp(2.3rem,5.6vw,3.9rem)}
+.slog{font-family:Aleo,Georgia,serif;font-size:15px;color:var(--brand-deep);margin:6px 0 16px}
+.thesis{font-family:Aleo,Georgia,serif;font-size:1.08rem;line-height:1.62;color:var(--ink-2);max-width:68ch}
+.thesis b{font-family:Montserrat,sans-serif;font-weight:700;color:var(--ink)}
+
+/* ---------- visualizador 3D ---------- */
+.viewer{margin-top:26px;border:1px solid var(--rule);background:var(--sheet)}
+.vbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:11px 13px;
+  border-bottom:1px solid var(--rule-2);background:var(--raise)}
+.vbar .vt{font-family:"Bebas Neue",sans-serif;font-size:12.5px;letter-spacing:.13em;
+  color:var(--muted);margin-right:6px}
+.vbar button{font:inherit;font-family:"IBM Plex Mono",monospace;font-size:12px;
+  padding:6px 12px;border:1.5px solid var(--rule);border-radius:6px;background:var(--sheet);
+  color:var(--ink);cursor:pointer;transition:border-color .12s,background .12s}
+.vbar button:hover{border-color:var(--brand)}
+.vbar button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand);color:#fff}
+.vbar .sep{flex:1}
+.stage{position:relative;background:var(--scene);aspect-ratio:16/10;min-height:340px}
+.stage canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;left:12px;bottom:12px;background:var(--sheet);border:1px solid var(--rule);
+  border-radius:7px;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  color:var(--ink-2);line-height:1.6;max-width:min(320px,60%);pointer-events:none}
+.hud b{color:var(--brand-deep)}
+.hint{position:absolute;right:12px;bottom:12px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;color:var(--muted);background:var(--sheet);border:1px solid var(--rule);
+  border-radius:7px;padding:7px 11px;pointer-events:none}
+.fallback{padding:26px;font-size:13.5px;color:var(--ink-2)}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.55;
+  padding:12px 15px;border-top:1px solid var(--rule-2);background:var(--raise)}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(154px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px}
+.tile{background:var(--sheet);padding:15px 16px 16px;display:flex;flex-direction:column;gap:4px}
+.tile .tl{font-family:"Bebas Neue",sans-serif;font-size:11.5px;letter-spacing:.14em;color:var(--muted)}
+.tile .tv{font-family:"IBM Plex Mono",monospace;font-size:1.55rem;font-weight:600;
+  letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .tv small{font-size:.84rem;font-weight:500;color:var(--ink-2);margin-left:2px}
+.tile .ts{font-size:11.5px;color:var(--muted);line-height:1.45}
+.tile.acc .tv{color:var(--brand-deep)}
+.tile.hot .tv{color:var(--bad)}
+
+section{padding-top:50px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);
+  padding-bottom:10px;margin-bottom:20px}
+.shead .sn{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--brand-deep);flex:none}
+h2{font-size:clamp(1.45rem,3vw,1.95rem)}
+.lede{font-family:Aleo,Georgia,serif;font-size:1.02rem;color:var(--ink-2);line-height:1.65;max-width:70ch}
+
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+thead th{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.11em;color:var(--muted);
+  text-align:left;padding:10px 11px;border-bottom:1.5px solid var(--rule);
+  background:var(--raise);white-space:nowrap}
+td{padding:11px;border-bottom:1px solid var(--rule-2);vertical-align:top;font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  white-space:nowrap;font-weight:500}
+td.k{font-weight:700;white-space:nowrap}
+td.d{color:var(--ink-2);font-size:12.5px;line-height:1.5}
+tr.tot td{background:var(--raise);font-weight:700;border-top:1.5px solid var(--rule)}
+caption{caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);
+  padding:11px;border-top:1px solid var(--rule-2);line-height:1.5}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  padding:2px 7px;border-radius:3px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.w{background:var(--warn-soft);color:var(--warn)}
+.chip.b{background:var(--bad-soft);color:var(--bad)}
+
+.call{border-left:3px solid var(--brand);background:var(--brand-soft);padding:15px 18px;
+  margin:22px 0 0;border-radius:0 6px 6px 0}
+.call.w{border-left-color:var(--warn);background:var(--warn-soft)}
+.call.b{border-left-color:var(--bad);background:var(--bad-soft)}
+.call .lab{display:block;font-family:"Bebas Neue",sans-serif;font-size:12.5px;
+  letter-spacing:.13em;color:var(--brand-ink);margin-bottom:7px}
+.call.w .lab{color:var(--warn)} .call.b .lab{color:var(--bad)}
+.call p{margin:0;font-size:13.5px;max-width:78ch} .call p+p{margin-top:9px}
+
+.grid2{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:22px}
+@media(min-width:760px){ .grid2{grid-template-columns:1fr 1fr} }
+.cell{background:var(--sheet);padding:17px 19px}
+.cell .ct{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.12em;
+  color:var(--brand-deep);margin-bottom:6px}
+.cell p{font-size:13px;color:var(--ink-2);margin:6px 0 0;max-width:58ch}
+.cell .cq{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink);
+  background:var(--raise);border:1px solid var(--rule-2);padding:8px 11px;
+  border-radius:5px;margin-top:11px;line-height:1.5}
+.cell .cq b{color:var(--brand-deep)}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:11.5px;color:var(--muted);line-height:1.6;max-width:84ch}
+footer a{color:var(--brand-deep)}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyeb"><span>NITRON · DESENVOLVIMENTO DE PRODUTOS</span><span>PILOTO DE PDV · REV. 2</span><span>04/09/2026</span></div>
+  <h1>Showroom<br>em corredor</h1>
+  <p class="slog">toda casa tem</p>
+  <p class="thesis">Ilha solta expõe por fora. <b>Gôndola dupla face expõe pelos dois lados e cria corredor</b> — e corredor é o que faz uma loja parecer loja. Duas corridas costa a costa no miolo, com o painel de fundo compartilhado, levam a frente linear de <b>229,5 para 442,3 m</b> no mesmo piso de 100 m². Somando a parede de entrada, o showroom passa a ter <b>três corredores de 1.621 mm</b>, quatro pontas de gôndola e uma face de boas-vindas.</p>
+</header>
+
+<div class="viewer">
+  <div class="vbar">
+    <span class="vt">CÂMERA</span>
+    <button type="button" data-cam="porta" aria-pressed="true">Da porta</button>
+    <button type="button" data-cam="corredor" aria-pressed="false">No corredor</button>
+    <button type="button" data-cam="iso" aria-pressed="false">Isométrica</button>
+    <button type="button" data-cam="planta" aria-pressed="false">Planta</button>
+    <span class="sep"></span>
+    <button type="button" id="tProd" aria-pressed="true">Produto</button>
+    <button type="button" id="tParede" aria-pressed="true">Paredes</button>
+  </div>
+  <div class="stage" id="stage">
+    <div class="fallback" id="fb">Carregando a cena…</div>
+    <div class="hud" id="hud" hidden></div>
+    <div class="hint" id="hint" hidden>arraste para girar · role para aproximar · shift+arraste para deslocar</div>
+  </div>
+  <figcaption><b>Modelo em escala real, gerado a partir das cotas do sistema</b> — nó de 73,08 mm no vertical, encaixe de 40,60, ripa de pinus de seção 15,3 × 26,6, painéis de 15 mm. Prédio conforme o levantamento de campo: 13,35 × 7,52 m, pé-direito 3,40 m, pilar de 0,67 × 0,245 a 6,50 m da frente, porta de 2,00 m na esquina da lateral norte. Produto representado por volumes de referência, não pelo cadastro real.</figcaption>
+</div>
+
+<div class="tiles">
+  <div class="tile acc"><span class="tl">FRENTE LINEAR</span><span class="tv">442,3<small>m</small></span><span class="ts">era 229,5 com ilhas soltas</span></div>
+  <div class="tile"><span class="tl">CORREDORES</span><span class="tv">3 <small>× 1.621</small></span><span class="ts">acima dos 1.067–1.219 usuais</span></div>
+  <div class="tile"><span class="tl">FACINGS</span><span class="tv">3.633</span><span class="ts">a 120 mm de frente por SKU</span></div>
+  <div class="tile"><span class="tl">MATERIAL</span><span class="tv">36,6<small>mil</small></span><span class="ts">R$ estimados · 1.793 kg</span></div>
+  <div class="tile acc"><span class="tl">FRENTE POR REAL</span><span class="tv">12,1<small>m/mil</small></span><span class="ts">era 9,7 com ilhas · +25%</span></div>
+  <div class="tile hot"><span class="tl">CRUZETAS</span><span class="tv">1.100</span><span class="ts">o molde entregou 4</span></div>
+</div>
+
+<section>
+  <div class="shead"><span class="sn">§1</span><h2>Ilha solta não faz corredor — dupla face faz</h2></div>
+  <p class="lede">A ilha do Nitron Mob é aberta pelas quatro faces, mas com 500 mm de profundidade total ela dá <strong>250 mm por face</strong>. O padrão de gôndola dupla face do varejo é de <strong>813 a 1.219 mm de profundidade combinada</strong>. A conta fecha de um jeito só: duas corridas costa a costa.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Fileira de ilhas soltas</th><th>Duas gôndolas dupla face</th><th>Diferença</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Estruturas no miolo</td><td class="n">3 ilhas de 1.867</td><td class="n">2 corridas de 8.130</td><td class="d">a corrida contínua substitui o módulo solto</td></tr>
+        <tr><td class="k">Profundidade</td><td class="n">500 (250 por face)</td><td class="n">1.000 (500 por face)</td><td class="d">entra na faixa de mercado de 813–1.219</td></tr>
+        <tr><td class="k">Faces de venda</td><td class="n">4 curtas</td><td class="n">2 longas de 8,13 m</td><td class="d">face longa é o que forma corredor</td></tr>
+        <tr><td class="k">Corredores</td><td class="n">2 de 3.190</td><td class="n">3 de 1.621</td><td class="d">deixa de ser salão e vira loja</td></tr>
+        <tr><td class="k">Frente linear total</td><td class="n">229,5 m</td><td class="n">442,3 m</td><td class="d"><strong>+93%</strong> no mesmo piso</td></tr>
+        <tr><td class="k">Facings</td><td class="n">1.881</td><td class="n">3.633</td><td class="d">+93%</td></tr>
+        <tr><td class="k">Material</td><td class="n">R$ 23.665</td><td class="n">R$ 36.583</td><td class="d">+55%</td></tr>
+        <tr class="tot"><td class="k">Frente por mil reais</td><td class="n">9,7 m</td><td class="n">12,1 m</td><td class="d"><strong>+25% de eficiência</strong></td></tr>
+      </tbody>
+      <caption>Frente linear = comprimento da corrida × prateleiras × faces de venda. Custo de material estimado por escala de massa, não apurado.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">A DUPLA FACE COMPARTILHA O PAINEL DE FUNDO</span>
+    <p>Duas corridas costa a costa não precisam de dois fundos: o painel do meio serve às duas faces. São <strong>55 painéis por par</strong> em vez de 110, e é a primeira configuração do sistema em que <strong>um componente atende duas faces de venda</strong>. Também é o que sustenta a corrida no meio do salão sem parede atrás.</p>
+    <p>O passo continua o mesmo — <code>ripa + 20,10 mm</code> —, então a corrida cresce ou encolhe vão a vão, e uma gôndola de 11 vãos vira uma de 14 sem trocar nada do que já foi comprado.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§2</span><h2>As medidas contra o padrão de loja</h2></div>
+  <p class="lede">Fui atrás das cotas que o varejo usa — largura de corredor, profundidade de prateleira, altura de gôndola, tamanho de ponta — e cruzei com o que o Nitron Mob entrega. O sistema não foi projetado para essas medidas e mesmo assim cai dentro em <strong>oito de onze</strong>.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Medida de mercado</th><th>Referência</th><th>Equivalente Nitron Mob</th><th>Valor</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Corredor mais comum</td><td class="n">1.067–1.219</td><td class="d">corredor central do showroom</td><td class="n">1.621</td><td><span class="chip ok">acima, com folga</span></td></tr>
+        <tr><td class="k">Corredor de supermercado, 2 carrinhos</td><td class="n">2.400–3.000</td><td class="d">corredor central do showroom</td><td class="n">1.621</td><td><span class="chip w">abaixo — showroom não usa carrinho</span></td></tr>
+        <tr><td class="k">Seção de gôndola, métrica</td><td class="n">600–1.000</td><td class="d">1 vão PSC-03 · 2 vãos PSC-02</td><td class="n">637 · 892</td><td><span class="chip ok">dentro</span></td></tr>
+        <tr><td class="k">Prateleira superior</td><td class="n">200–400</td><td class="d">profundidade rasa e média</td><td class="n">285 · 372</td><td><span class="chip ok">dentro</span></td></tr>
+        <tr><td class="k">Prateleira base</td><td class="n">300–500</td><td class="d">profundidade média e funda</td><td class="n">372 · 500</td><td><span class="chip ok">no topo da faixa</span></td></tr>
+        <tr><td class="k">Gôndola dupla face, profundidade</td><td class="n">813–1.219</td><td class="d">duas corridas de 500 costa a costa</td><td class="n">1.000</td><td><span class="chip ok">no meio da faixa</span></td></tr>
+        <tr><td class="k">Altura de gôndola central</td><td class="n">1.372 <small>(54″)</small></td><td class="d">6 prateleiras, ripa 270</td><td class="n">1.402</td><td><span class="chip ok">+2,2%</span></td></tr>
+        <tr><td class="k">Altura de gôndola de parede</td><td class="n">1.829 <small>(72″)</small></td><td class="d">8 prateleiras, ripa 270</td><td class="n">1.926</td><td><span class="chip ok">+5,3%</span></td></tr>
+        <tr><td class="k">Ponta de gôndola, largura</td><td class="n">914 <small>(36″)</small></td><td class="d">2 vãos PSC-02</td><td class="n">892</td><td><span class="chip ok">−2,4%</span></td></tr>
+        <tr><td class="k">Ponta de gôndola, altura</td><td class="n">1.372–1.829</td><td class="d">6 prateleiras + coroa 513</td><td class="n">1.907</td><td><span class="chip ok">+4,3% sobre 72″</span></td></tr>
+        <tr><td class="k">Zona de descompressão</td><td class="n">1.524–4.572 <small>(5–15 ft)</small></td><td class="d">da porta ao primeiro módulo</td><td class="n">2.488</td><td><span class="chip ok">dentro</span></td></tr>
+      </tbody>
+      <caption>Faixas de mercado compiladas de guias de gôndola e de layout de loja — ver as fontes no rodapé. Cotas Nitron pelo modelo de encaixe de 40,60 mm.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">O QUE ISSO SIGNIFICA PARA A VENDA, NÃO SÓ PARA O SHOWROOM</span>
+    <p>Se as cotas do sistema já são as cotas que o varejo usa, o Nitron Mob deixa de ser "um móvel bonito de madeira" e passa a ser <strong>substituto direto de gôndola de aço</strong> — que é um mercado com preço de referência, comprador definido e ciclo de reposição. A ponta de gôndola de 892 × 1.907 mm concorre com a ponta de 36″ × 72″ que a loja já compra.</p>
+    <p>A única cota que fica fora por decisão é a largura de corredor de supermercado: <strong>1.621 mm não passa dois carrinhos</strong>. Para showroom, loja de bairro e utilidades domésticas está certo; para atacarejo, a corrida teria de perder uma gôndola.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§3</span><h2>A entrada, e por que ela é baixa</h2></div>
+  <p class="lede">A porta fica na esquina da lateral norte com a frente. Quem entra tem os primeiros metros para se orientar — a literatura de varejo chama isso de zona de descompressão e é unânime: <strong>produto colocado ali é ignorado</strong>. A regra é manter aberto, claro e sem obstrução.</p>
+  <div class="grid2">
+    <div class="cell">
+      <div class="ct">A DECISÃO</div>
+      <h3>Parede de entrada baixa, com coroa</h3>
+      <p>A face da frente vira parede — mas <strong>não</strong> um paredão de 1.926 mm, que fecharia a visão do salão logo na chegada. Quatro prateleiras e uma coroa de 513 dão <strong>1.383 mm</strong>: altura de peito, linha do olhar livre por cima, e a cabeceira da coroa carregando a marca acima da linha da cabeça.</p>
+      <div class="cq"><b>200 × 450</b> · PSC-02 · 15 vãos<br><b>6.548 × 285 × 1.383 mm</b> · R$ 1.638<br>começa 800 mm depois da esquina, para não disputar com a porta</div>
+    </div>
+    <div class="cell">
+      <div class="ct">O PORQUÊ</div>
+      <h3>É a parede da saída, não a da entrada</h3>
+      <p>Entrando pela lateral, essa face é vista de perfil. Ela só aparece de frente <strong>quando o cliente se vira para sair</strong> — e é aí que ela trabalha, com o caixa a poucos passos. Rasa (285 mm) por dois motivos: preserva a passagem na descompressão e é a profundidade certa para o que se compra por impulso na saída.</p>
+      <div class="cq">Zona de descompressão medida: <b>2.488 mm</b> da porta ao primeiro módulo do miolo — dentro da faixa de 1.524 a 4.572 mm.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">O FLUXO</div>
+      <h3>Vira à direita, anda até o fundo</h3>
+      <p>O comportamento documentado é entrar, virar à direita e percorrer no sentido anti-horário. Entrando por essa porta, virar à direita aponta <strong>para o fundo do salão</strong> — exatamente para onde os três corredores levam, e o paredão do fundo (500 mm, o mais fundo do conjunto) fecha o percurso como destino.</p>
+      <div class="cq">Percurso natural: porta → corredor 1 → fundo → corredor 3 → parede de entrada → caixa.</div>
+    </div>
+    <div class="cell">
+      <div class="ct">AS QUATRO PONTAS</div>
+      <h3>O ponto mais caro da loja, quatro vezes</h3>
+      <p>Cada corrida ganha uma ponta em cada cabeceira: <strong>892 × 372 × 1.907 mm</strong>, com casinha no topo. São quatro pontos de ativação que ficam de frente para quem cruza o salão, e é a posição que o varejo vende mais caro.</p>
+      <div class="cq">Ponta a <b>892 mm</b> contra o padrão de <b>914</b> (36″) — e recuada 54 mm de cada lado da gôndola de 1.000, como manda o desenho de end cap.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§4</span><h2>Os doze módulos</h2></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>#</th><th>Módulo</th><th>Painel</th><th>Ripa</th><th>Vãos</th><th>Prat.</th><th>Coroa</th><th>L × P × A</th><th>Peso</th><th>Custo</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td class="k">Paredão sul</td><td class="n">300 × 754</td><td class="n">PSC-04</td><td class="n">18</td><td class="n">8</td><td class="n">—</td><td class="n">13.290 × 372 × 1.926</td><td class="n">557,6 kg</td><td class="n">R$ 10.437</td></tr>
+        <tr><td class="n">2</td><td class="k">Paredão norte</td><td class="n">200 × 360</td><td class="n">PSC-01</td><td class="n">18</td><td class="n">8</td><td class="n">—</td><td class="n">6.054 × 285 × 1.926</td><td class="n">240,9 kg</td><td class="n">R$ 4.412</td></tr>
+        <tr><td class="n">3</td><td class="k">Paredão do fundo</td><td class="n">460 × 634</td><td class="n">PSC-03</td><td class="n">11</td><td class="n">6</td><td class="n">—</td><td class="n">6.788 × 500 × 1.888</td><td class="n">303,3 kg</td><td class="n">R$ 5.692</td></tr>
+        <tr><td class="n">4</td><td class="k">Parede de entrada</td><td class="n">200 × 450</td><td class="n">PSC-02</td><td class="n">15</td><td class="n">4</td><td class="n">513</td><td class="n">6.548 × 285 × 1.383</td><td class="n">91,5 kg</td><td class="n">R$ 1.638</td></tr>
+        <tr><td class="n">10<br>11</td><td class="k">Gôndola dupla face<br>A e B</td><td class="n">460 × 754</td><td class="n">PSC-04</td><td class="n">11</td><td class="n">6</td><td class="n">—</td><td class="n">8.130 × 1.000 × 1.402</td><td class="n">2 × 480,8 kg</td><td class="n">2 × R$ 10.394</td></tr>
+        <tr><td class="n">20–23</td><td class="k">Ponta de gôndola × 4</td><td class="n">300 × 450</td><td class="n">PSC-02</td><td class="n">2</td><td class="n">6</td><td class="n">513</td><td class="n">892 × 372 × 1.907</td><td class="n">4 × 32,0 kg</td><td class="n">4 × R$ 592</td></tr>
+        <tr><td class="n">30</td><td class="k">Checkout do caixa</td><td class="n">300 × 450</td><td class="n">PSC-02</td><td class="n">1</td><td class="n">5</td><td class="n">270</td><td class="n">457 × 372 × 1.402</td><td class="n">9,8 kg</td><td class="n">R$ 176</td></tr>
+        <tr><td class="n">31</td><td class="k">Torre de serviço</td><td class="n">200 × 360</td><td class="n">PSC-01</td><td class="n">1</td><td class="n">5</td><td class="n">—</td><td class="n">357 × 285 × 1.140</td><td class="n">6,1 kg</td><td class="n">R$ 107</td></tr>
+        <tr class="tot"><td></td><td class="k">Instalação completa</td><td class="n">4 painéis</td><td class="n">3 ripas</td><td class="n">81</td><td class="n">—</td><td class="n">5</td><td class="n">442,3 m de frente</td><td class="n">1.793 kg</td><td class="n">R$ 36.583</td></tr>
+      </tbody>
+      <caption>Consolidado: 288 trizetas · <b>1.100 cruzetas</b> · 24 peças L · 212 tampas · 2 porta-hastes · 714 painéis. O par de gôndolas divide 55 painéis de fundo em vez de usar 110.</caption>
+    </table>
+  </div>
+  <div class="call b">
+    <span class="lab">A CONTA DA CRUZETA PIOROU, E ISSO É INFORMAÇÃO</span>
+    <p>Passar de ilhas soltas para corridas contínuas subiu a cruzeta de <strong>726 para 1.100</strong>. É o preço de ter corredor: a cruzeta é o nó que atravessa o vão, e corrida longa é feita de cruzeta. Com <strong>quatro peças injetadas</strong> até agora, esse é o item que decide o cronograma inteiro do piloto — mais do que o painel, mais do que o orçamento.</p>
+    <p>A fase 0 continua imune, porque módulo de 1 vão não tem nó de meio: <strong>o checkout e a torre montam com peça que já existe</strong>, por R$ 283.</p>
+  </div>
+</section>
+
+<footer>
+  <b>Showroom em corredor</b> · 04/09/2026 · projeto Nitron-mob PDV · Rev. 2 do piloto.<br>
+  Cotas do prédio do levantamento de campo; a de 13,35 m é derivada da soma, não medida direto. Cotas do móvel pelo modelo de encaixe de 40,60 mm em nó de 61,61 mm no eixo do comprimento, 83,23 na profundidade e 73,08 no vertical, com a peça L em 83,23 × 73,08. Corrida = 2 × 61,61 + (N−1) × 101,30 + N × (ripa − 81,20). <b>Custos de material estimados por escala de massa, não apurados</b>, sem instalação, frete, iluminação ou comunicação visual. A carga de 20 kg por prateleira é provisória. O passo vertical e a orientação da peça L dependem das fitas de campo. O modelo 3D é ilustração dimensional, não projeto executivo.<br><br>
+  Referências de dimensão de loja: <a href="https://rackleaders.com/gondola-shelving-dimensions-guide/">Gondola Shelving Dimensions Guide</a> · <a href="https://wzrack.com/how-to-choose-the-right-height-depth-aisle-width/">The Complete Guide to Supermarket Shelving Dimensions</a> · <a href="https://wzrack.com/grocery-store-aisle-dimensions-how-wide-should-your-aisles-be/">Grocery Store Aisle Width and Shelving Depth</a> · <a href="https://goodokshop.com/resources/blog/gondola-shelving-dimensions/">Gondola Shelving Dimensions &amp; Standard Sizes</a> · <a href="https://wzrack.com/end-cap-display-dimensions-maximizing-checkout-aisle-impact/">End Cap Display Dimensions</a> · <a href="https://pivotal-retail.com/what-is-the-decompression-zone-in-retail-and-why-does-it-matter/">What is the decompression zone in retail</a> · <a href="https://www.shopify.com/blog/the-ultimate-guide-to-retail-store-layouts">The Ultimate Guide to Retail Store Layouts</a> · <a href="https://www.sergiomannino.com/insights/why-customers-turn-right-in-stores-retail-traffic-flow-psychology-explained">Why Customers Turn Right in Stores</a>
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var fb=document.getElementById('fb');
+  if(!window.THREE){ fb.textContent='A biblioteca 3D não carregou. As medidas e as tabelas abaixo continuam válidas.'; return; }
+
+  /* ---------- cotas do sistema (mm) ---------- */
+  var NOZ=73.08, ENC=40.60, CONSOME=2*ENC, PEX=19.4, PANT=15, POSTE=62;
+  var SALA={C:13350,L:7520,H:3400};
+  var PORTA=[0,2000], CAIXA=[2400,5800], CXP=600, PILAR=[6500,6745], PILP=670;
+
+  var MOD=[
+   {id:1,nome:'Paredão sul',x:30,y:7148,w:13290,d:372,vaos:18,pilha:[270,270,270,270,270,270,270],coroa:0,eixo:'x',fundo:1,face:-1},
+   {id:2,nome:'Paredão norte',x:6745,y:0,w:6054,d:285,vaos:18,pilha:[270,270,270,270,270,270,270],coroa:0,eixo:'x',fundo:1,face:1},
+   {id:3,nome:'Paredão do fundo',x:12850,y:285,w:500,d:6788,vaos:11,pilha:[513,270,270,270,513],coroa:0,eixo:'y',fundo:1,face:-1},
+   {id:4,nome:'Parede de entrada',x:0,y:800,w:285,d:6548,vaos:15,pilha:[270,270,270],coroa:513,eixo:'y',fundo:0,face:1},
+   {id:10,nome:'Gôndola dupla face A',x:2860,y:1906,w:8130,d:500,vaos:11,pilha:[270,270,270,270,270],coroa:0,eixo:'x',fundo:0,face:0,dupla:1},
+   {id:11,nome:'Gôndola dupla face B',x:2860,y:4527,w:8130,d:500,vaos:11,pilha:[270,270,270,270,270],coroa:0,eixo:'x',fundo:0,face:0,dupla:1},
+   {id:20,nome:'Ponta 1',x:2488,y:1960,w:372,d:892,vaos:2,pilha:[270,270,270,270,270],coroa:513,eixo:'y',fundo:1,face:-1,casinha:1},
+   {id:21,nome:'Ponta 2',x:10990,y:1960,w:372,d:892,vaos:2,pilha:[270,270,270,270,270],coroa:513,eixo:'y',fundo:1,face:1,casinha:1},
+   {id:22,nome:'Ponta 3',x:2488,y:4581,w:372,d:892,vaos:2,pilha:[270,270,270,270,270],coroa:513,eixo:'y',fundo:1,face:-1,casinha:1},
+   {id:23,nome:'Ponta 4',x:10990,y:4581,w:372,d:892,vaos:2,pilha:[270,270,270,270,270],coroa:513,eixo:'y',fundo:1,face:1,casinha:1},
+   {id:30,nome:'Checkout',x:5900,y:0,w:457,d:372,vaos:1,pilha:[270,270,270,270],coroa:270,eixo:'x',fundo:0,face:1},
+   {id:31,nome:'Torre',x:2015,y:0,w:357,d:285,vaos:1,pilha:[270,270,270,270],coroa:0,eixo:'x',fundo:0,face:1}
+  ];
+
+  function niveis(pilha,coroa){
+    var r=pilha.slice(); if(coroa) r.push(coroa);
+    var z=PEX,out=[];
+    for(var i=0;i<=r.length;i++){
+      out.push({z:z+NOZ/2, coroa:(coroa&&i===r.length)});
+      if(i<r.length) z=z+NOZ+(r[i]-CONSOME);
+    }
+    return out;
+  }
+  function alturaTotal(m){ var n=niveis(m.pilha,m.coroa); return n[n.length-1].z+NOZ/2; }
+
+  /* ---------- cena ---------- */
+  var stage=document.getElementById('stage');
+  var css=getComputedStyle(document.documentElement);
+  var COR={
+    piso:0xB4BAB8, parede:0xDCE1DF, madeira:0xC6AC86, poste:0xD3BE9E,
+    no:0x44676A, marca:0x08a9b1, painel:0xD8C6A4, caixa:0xA9AFB1, pilar:0xC3C8C8
+  };
+  var escuro = (css.getPropertyValue('--scene')||'').trim().indexOf('#10')===0;
+  if(escuro){ COR.piso=0x232B2A; COR.parede=0x2E3838; COR.madeira=0x8B7452;
+    COR.poste=0x9C8460; COR.no=0x7FA9AB; COR.painel=0x6E5B40; COR.caixa=0x424A4B; COR.pilar=0x384040; }
+  var CORFUNDO = escuro?0x101818:0xE4EAEA;
+
+  var scene=new THREE.Scene();
+  scene.background=new THREE.Color(CORFUNDO);
+  scene.fog=new THREE.Fog(CORFUNDO, 22, 48);
+  var camera=new THREE.PerspectiveCamera(46,16/10,0.1,200);
+  var renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  stage.appendChild(renderer.domElement);
+  fb.remove();
+  document.getElementById('hud').hidden=false;
+  document.getElementById('hint').hidden=false;
+
+  scene.add(new THREE.HemisphereLight(escuro?0x8899AA:0xF2F6F5, escuro?0x223033:0xA8B2B0, escuro?0.80:0.72));
+  var dl=new THREE.DirectionalLight(0xFFFFFF, escuro?0.48:0.55); dl.position.set(8,14,6); scene.add(dl);
+  var dl2=new THREE.DirectionalLight(0xFFFFFF, 0.20); dl2.position.set(-9,7,-5); scene.add(dl2);
+
+  var M=function(c){ return new THREE.MeshLambertMaterial({color:c}); };
+  var matMad=M(COR.madeira), matPos=M(COR.poste), matNo=M(COR.no),
+      matMarca=M(COR.marca), matPan=M(COR.painel);
+  var box=new THREE.BoxGeometry(1,1,1);
+  function cubo(mat,w,h,d,x,y,z,g){
+    var mh=new THREE.Mesh(box,mat);
+    mh.scale.set(w/1000,h/1000,d/1000);
+    mh.position.set(x/1000,y/1000,z/1000);
+    (g||scene).add(mh); return mh;
+  }
+
+  /* piso e paredes — planos que somem quando a câmera passa para trás deles */
+  var gPiso=new THREE.Group(), gParede=new THREE.Group();
+  scene.add(gPiso); scene.add(gParede);
+  cubo(M(COR.piso), SALA.C+600, 60, SALA.L+600, SALA.C/2, -30, SALA.L/2, gPiso);
+  (function(){
+    var pts=[], C=SALA.C/1000, L=SALA.L/1000;
+    for(var i=0;i<=Math.floor(C);i++) pts.push(i,0,0, i,0,L);
+    for(var j=0;j<=Math.floor(L);j++) pts.push(0,0,j, C,0,j);
+    var g=new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pts,3));
+    var lm=new THREE.LineBasicMaterial({color:escuro?0x33403F:0x9EA8A6});
+    var ls=new THREE.LineSegments(g,lm); ls.position.y=0.004; gPiso.add(ls);
+  })();
+
+  var matPar=new THREE.MeshLambertMaterial({color:COR.parede, side:THREE.DoubleSide});
+  var plano=new THREE.PlaneGeometry(1,1);
+  var paredes=[];
+  function parede(w,h,x,y,z,rotY,teste){
+    var mh=new THREE.Mesh(plano, matPar);
+    mh.scale.set(w/1000,h/1000,1);
+    mh.position.set(x/1000,y/1000,z/1000);
+    mh.rotation.y=rotY; gParede.add(mh);
+    paredes.push({mesh:mh,teste:teste}); return mh;
+  }
+  parede(SALA.C, SALA.H, SALA.C/2, SALA.H/2, SALA.L, 0, function(c){ return c.z<=SALA.L/1000; });
+  parede(SALA.L, SALA.H, SALA.C, SALA.H/2, SALA.L/2, Math.PI/2, function(c){ return c.x<=SALA.C/1000; });
+  /* norte: dois panos, deixando o vão da porta */
+  parede(SALA.C-PORTA[1], SALA.H, PORTA[1]+(SALA.C-PORTA[1])/2, SALA.H/2, 0, 0, function(c){ return c.z>=0; });
+  parede(PORTA[1], 520, PORTA[1]/2, SALA.H-260, 0, 0, function(c){ return c.z>=0; });
+
+  cubo(M(COR.pilar), PILAR[1]-PILAR[0], SALA.H, PILP, (PILAR[0]+PILAR[1])/2, SALA.H/2, PILP/2, gParede);
+  cubo(M(COR.caixa), CAIXA[1]-CAIXA[0], 950, CXP, (CAIXA[0]+CAIXA[1])/2, 475, CXP/2, gParede);
+
+  /* ---------- produto ---------- */
+  var PRODC=[0xF2F2F0,0x2E2E2E,0x5A5F63,0x08a9b1,0xE2761F,0xE8E4DC];
+  var seed=7;
+  function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+  var prodPos=[];
+  function produtos(px,pz,along,across,runLen,depth, nvs, faceDir){
+    for(var i=0;i<nvs.length;i++){
+      if(nvs[i].coroa) continue;
+      var alt=(i+1<nvs.length)? (nvs[i+1].z-nvs[i].z) : 300;
+      var hMax=Math.min(alt-90, 380); if(hMax<70) continue;
+      var s=190;
+      while(s<runLen-190){
+        if(rnd()>0.28){
+          var w=130+rnd()*130, h=Math.max(110,90+rnd()*(hMax-90)), d2=Math.min(depth*0.6,110+rnd()*150);
+          var off = faceDir===0 ? (rnd()<0.5?-1:1) : faceDir;
+          var cx=px+along[0]*(s+w/2)+across[0]*(depth/2+off*(depth/2-d2/2-18));
+          var cz=pz+along[1]*(s+w/2)+across[1]*(depth/2+off*(depth/2-d2/2-18));
+          prodPos.push([cx,nvs[i].z+NOZ/2+PANT+h/2,cz,
+                        along[0]?w:d2, h, along[0]?d2:w,
+                        (rnd()*PRODC.length)|0]);
+        }
+        s+=230+rnd()*140;
+      }
+    }
+  }
+
+  /* ---------- módulos ---------- */
+  var gProd=new THREE.Group(); scene.add(gProd);
+  var nosPos=[];
+  function montar(m, yShift){
+    var eixoX = m.eixo==='x';
+    var px=m.x, pz=(m.y+(yShift||0));
+    var along = eixoX?[1,0]:[0,1];
+    var across= eixoX?[0,1]:[1,0];
+    var runLen= eixoX?m.w:m.d;
+    var depth = eixoX?m.d:m.w;
+    var nvs=niveis(m.pilha,m.coroa);
+    var g=new THREE.Group(); scene.add(g);
+
+    /* postes */
+    var nCol=m.vaos+1, step=(runLen-POSTE)/m.vaos;
+    for(var c=0;c<nCol;c++){
+      var s=c*step+POSTE/2;
+      for(var f=0;f<2;f++){
+        var t=(f===0? POSTE/2 : depth-POSTE/2);
+        var X=px+along[0]*s+across[0]*t, Z=pz+along[1]*s+across[1]*t;
+        cubo(matPos, eixoX?POSTE:POSTE, nvs[nvs.length-1].z+NOZ/2, POSTE, X,(nvs[nvs.length-1].z+NOZ/2)/2, Z, g);
+        for(var k=0;k<nvs.length;k++) nosPos.push([X,nvs[k].z,Z]);
+      }
+    }
+    /* prateleiras */
+    for(var k2=0;k2<nvs.length;k2++){
+      if(nvs[k2].coroa) continue;
+      var cx=px+along[0]*runLen/2+across[0]*depth/2;
+      var cz=pz+along[1]*runLen/2+across[1]*depth/2;
+      cubo(matMad, eixoX?runLen:depth, PANT, eixoX?depth:runLen, cx, nvs[k2].z+NOZ/2+PANT/2, cz, g);
+    }
+    /* fundo */
+    if(m.fundo){
+      var t2 = m.face>0 ? depth-30 : 30;
+      var cxf=px+along[0]*runLen/2+across[0]*t2, czf=pz+along[1]*runLen/2+across[1]*t2;
+      var hf=nvs[nvs.length-1].z-nvs[0].z;
+      cubo(matPan, eixoX?runLen:PANT, hf, eixoX?PANT:runLen, cxf, nvs[0].z+hf/2+NOZ/2, czf, g);
+    }
+    /* coroa: ripa atravessada + cabeceira */
+    if(m.coroa){
+      var top=nvs[nvs.length-1];
+      var cxc=px+along[0]*runLen/2+across[0]*depth/2, czc=pz+along[1]*runLen/2+across[1]*depth/2;
+      cubo(matMad, eixoX?runLen:60, 40, eixoX?60:runLen, cxc, top.z, czc, g);
+      var hc=Math.round(0.13*(top.z+NOZ/2));
+      var tb = m.face>0 ? depth-40 : 40;
+      var cxb=px+along[0]*runLen/2+across[0]*tb, czb=pz+along[1]*runLen/2+across[1]*tb;
+      cubo(matMarca, eixoX?runLen+44:26, hc, eixoX?26:runLen+44, cxb, top.z+NOZ/2+hc/2, czb, g);
+      if(m.casinha){
+        var hh=Math.round(0.30*runLen);
+        cubo(matMarca, eixoX?runLen*0.5:26, hh, eixoX?26:runLen*0.5,
+             cxb, top.z+NOZ/2+hc+hh/2, czb, g);
+      }
+    }
+    /* faixa de preço na face de exposição */
+    for(var k3=0;k3<nvs.length;k3++){
+      if(nvs[k3].coroa) continue;
+      var dirs = m.face===0 ? [-1,1] : [m.face];
+      for(var q=0;q<dirs.length;q++){
+        var tt = dirs[q]>0 ? depth-14 : 14;
+        var cxp=px+along[0]*runLen/2+across[0]*tt, czp=pz+along[1]*runLen/2+across[1]*tt;
+        cubo(matMarca, eixoX?runLen:22, 42, eixoX?22:runLen, cxp, nvs[k3].z+NOZ/2-30, czp, g);
+      }
+    }
+    produtos(px,pz,along,across,runLen,depth,nvs, m.face);
+    return g;
+  }
+
+  var grupos=[];
+  for(var i=0;i<MOD.length;i++){
+    var m=MOD[i];
+    grupos.push(montar(m,0));
+    if(m.dupla){
+      var m2={}; for(var kk in m) m2[kk]=m[kk];
+      m2.face=1; m.face=-1;
+      grupos.push(montar(m2, m.eixo==='x'? m.d : 0));
+      /* painel de fundo compartilhado, entre as duas corridas */
+      var nvs2=niveis(m.pilha,m.coroa), h2=nvs2[nvs2.length-1].z-nvs2[0].z;
+      cubo(matPan, m.w, h2, PANT, m.x+m.w/2, nvs2[0].z+h2/2+NOZ/2, m.y+m.d);
+    }
+  }
+
+  /* nós e produtos como InstancedMesh */
+  function instanciar(lista, geo, mat, escala){
+    var im=new THREE.InstancedMesh(geo, mat, lista.length), d=new THREE.Object3D();
+    for(var i=0;i<lista.length;i++){
+      var p=lista[i];
+      d.position.set(p[0]/1000,p[1]/1000,p[2]/1000);
+      if(escala) d.scale.set(escala[0]/1000,escala[1]/1000,escala[2]/1000);
+      else d.scale.set(p[3]/1000,p[4]/1000,p[5]/1000);
+      d.updateMatrix(); im.setMatrixAt(i,d.matrix);
+    }
+    return im;
+  }
+  scene.add(instanciar(nosPos, box, matNo, [72,NOZ,72]));
+  /* uma InstancedMesh por cor — instanceColor não é confiável em toda versão */
+  for(var ci=0; ci<PRODC.length; ci++){
+    var lista=prodPos.filter(function(p){ return p[6]===ci; });
+    if(!lista.length) continue;
+    var im2=new THREE.InstancedMesh(box, M(PRODC[ci]), lista.length), dm=new THREE.Object3D();
+    for(var j=0;j<lista.length;j++){
+      var p2=lista[j];
+      dm.position.set(p2[0]/1000,p2[1]/1000,p2[2]/1000);
+      dm.scale.set(p2[3]/1000,p2[4]/1000,p2[5]/1000);
+      dm.updateMatrix(); im2.setMatrixAt(j,dm.matrix);
+    }
+    gProd.add(im2);
+  }
+
+  /* ---------- câmera e órbita ---------- */
+  var alvo=new THREE.Vector3(SALA.C/2000, 1.0, SALA.L/2000);
+  var esf={r:16,th:0.95,ph:1.15};
+  var PRESET={
+    porta:   {r:8.21, th:-1.985, ph:1.516, alvo:[8.50,1.20,3.90]},
+    corredor:{r:6.40, th:-1.571, ph:1.530, alvo:[9.00,1.35,3.72]},
+    iso:     {r:16.8, th:-2.356, ph:0.820, alvo:[6.68,1.00,3.76]},
+    planta:  {r:11.5, th:-0.001, ph:0.120, alvo:[6.68,0.00,3.76]}
+  };
+  var destino=null;
+  function irPara(p){
+    destino={r:p.r,th:p.th,ph:p.ph,ax:p.alvo[0],ay:p.alvo[1],az:p.alvo[2]};
+  }
+  irPara(PRESET.porta);
+  esf.r=PRESET.porta.r; esf.th=PRESET.porta.th; esf.ph=PRESET.porta.ph;
+  alvo.set(PRESET.porta.alvo[0],PRESET.porta.alvo[1],PRESET.porta.alvo[2]);
+
+  function posicionar(){
+    var sp=Math.sin(esf.ph), cp=Math.cos(esf.ph);
+    camera.position.set(
+      alvo.x+esf.r*sp*Math.sin(esf.th),
+      alvo.y+esf.r*cp,
+      alvo.z+esf.r*sp*Math.cos(esf.th));
+    camera.lookAt(alvo);
+  }
+
+  var arrastando=false, px0=0, py0=0, shift=false;
+  var cv=renderer.domElement;
+  cv.style.touchAction='none';
+  cv.addEventListener('pointerdown',function(e){ arrastando=true; px0=e.clientX; py0=e.clientY;
+    shift=e.shiftKey||e.button===2; cv.setPointerCapture(e.pointerId); destino=null; });
+  cv.addEventListener('pointerup',function(e){ arrastando=false; });
+  cv.addEventListener('pointermove',function(e){
+    if(!arrastando) return;
+    var dx=e.clientX-px0, dy=e.clientY-py0; px0=e.clientX; py0=e.clientY;
+    if(shift){
+      var k=esf.r*0.0016;
+      alvo.x -= (dx*Math.cos(esf.th)-dy*Math.sin(esf.th))*k;
+      alvo.z += (dx*Math.sin(esf.th)+dy*Math.cos(esf.th))*k;
+    } else {
+      esf.th -= dx*0.006;
+      esf.ph = Math.max(0.05, Math.min(1.52, esf.ph - dy*0.005));
+    }
+  });
+  cv.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+  cv.addEventListener('wheel',function(e){
+    e.preventDefault(); destino=null;
+    esf.r = Math.max(2.2, Math.min(38, esf.r*(1+Math.sign(e.deltaY)*0.11)));
+  },{passive:false});
+
+  var bts=document.querySelectorAll('[data-cam]');
+  Array.prototype.forEach.call(bts,function(b){
+    b.addEventListener('click',function(){
+      Array.prototype.forEach.call(bts,function(o){ o.setAttribute('aria-pressed', String(o===b)); });
+      irPara(PRESET[b.dataset.cam]);
+      hudTexto(b.dataset.cam);
+    });
+  });
+  document.getElementById('tProd').addEventListener('click',function(){
+    var on=this.getAttribute('aria-pressed')!=='true';
+    this.setAttribute('aria-pressed',String(on)); gProd.visible=on;
+  });
+  document.getElementById('tParede').addEventListener('click',function(){
+    var on=this.getAttribute('aria-pressed')!=='true';
+    this.setAttribute('aria-pressed',String(on)); gParede.visible=on;
+  });
+
+  var hud=document.getElementById('hud');
+  var TXT={
+    porta:'<b>Da porta</b> · quem entra vê a lateral sul inteira, 13,29 m de paredão, e os três corredores correndo para o fundo.',
+    corredor:'<b>No corredor 2</b> · 1.621 mm entre as duas gôndolas de 1.402 mm. Acima da linha das gôndolas, o salão continua visível.',
+    iso:'<b>Isométrica</b> · 12 módulos, 442,3 m de frente linear, 3.633 facings em 100,1 m² de piso.',
+    planta:'<b>Planta</b> · três corredores de 1.621 mm, quatro pontas de gôndola e a zona de descompressão de 2.488 mm na entrada.'
+  };
+  function hudTexto(k){ hud.innerHTML=TXT[k]||TXT.iso; }
+  hudTexto('porta');
+
+  function redim(){
+    var w=stage.clientWidth, h=stage.clientHeight;
+    renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize',redim); redim();
+
+  function laco(){
+    requestAnimationFrame(laco);
+    if(destino){
+      var f=0.09, fim=true;
+      esf.r += (destino.r-esf.r)*f; esf.th += (destino.th-esf.th)*f; esf.ph += (destino.ph-esf.ph)*f;
+      alvo.x += (destino.ax-alvo.x)*f; alvo.y += (destino.ay-alvo.y)*f; alvo.z += (destino.az-alvo.z)*f;
+      if(Math.abs(destino.r-esf.r)<0.01 && Math.abs(destino.th-esf.th)<0.002) destino=null;
+    }
+    posicionar();
+    if(gParede.visible){
+      for(var w=0;w<paredes.length;w++) paredes[w].mesh.visible=paredes[w].teste(camera.position);
+    }
+    renderer.render(scene,camera);
+  }
+  laco();
+})();
+</script>

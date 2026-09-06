@@ -1,0 +1,13 @@
+id,modulo,zona,x_mm,y_mm,largura_mm,profundidade_mm,altura_mm,eixo,painel,ripa,vaos,prateleiras,coroa_mm,peso_kg,custo,trizetas,pecas_l,cruzetas,tampas,porta_hastes,paineis,nota
+1,Paredão sul,Lateral sul · parede de impacto,30,7148,13290,372,1926,x,300x754,PSC-04,18,8,0,557.6,10437.49,32,0,272,38,0,144,
+2,Paredão norte,Do pilar ao módulo do fundo,6745,0,6054,285,1926,x,200x360,PSC-01,18,8,0,240.9,4411.76,32,0,272,38,0,144,
+3,Paredão do fundo,Destino do percurso · pilha mista,12850,285,500,6788,1888,y,460x634,PSC-03,11,6,0,303.3,5691.53,24,0,120,24,0,66,
+4,Parede de entrada,"Face da frente · baixa, com coroa",0,800,285,6548,1383,y,200x450,PSC-02,15,4,513,80.8,1447.8,16,4,140,32,0,60,altura de 1.383 mm para não fechar a visão do salão
+10,Gôndola dupla face A,Miolo · corrida central,2860,1906,8130,500,1402,x,460x754,PSC-04,11,6,0,234.6,4383.98,24,0,120,24,0,66,"duas faces costa a costa, painel de fundo compartilhado"
+11,Gôndola dupla face B,Miolo · corrida central,2860,4527,8130,500,1402,x,460x754,PSC-04,11,6,0,234.6,4383.98,24,0,120,24,0,66,"duas faces costa a costa, painel de fundo compartilhado"
+20,Ponta de gôndola 1,Cabeceira de corrida,2488,1960,372,892,1907,y,300x450,PSC-02,2,6,513,31.2,572.97,24,4,14,6,0,12,
+21,Ponta de gôndola 2,Cabeceira de corrida,10990,1960,372,892,1907,y,300x450,PSC-02,2,6,513,31.2,572.97,24,4,14,6,0,12,
+22,Ponta de gôndola 3,Cabeceira de corrida,2488,4581,372,892,1907,y,300x450,PSC-02,2,6,513,31.2,572.97,24,4,14,6,0,12,
+23,Ponta de gôndola 4,Cabeceira de corrida,10990,4581,372,892,1907,y,300x450,PSC-02,2,6,513,31.2,572.97,24,4,14,6,0,12,
+30,Checkout do caixa,Folga caixa–pilar,5900,0,457,372,1402,x,300x450,PSC-02,1,5,270,9.8,176.17,20,4,0,4,2,5,
+31,Torre de serviço,Folga porta–caixa,2015,0,357,285,1140,x,200x360,PSC-01,1,5,0,6.1,106.74,20,0,0,4,0,5,
