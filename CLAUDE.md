@@ -259,6 +259,22 @@ independentes. Por termo: kit potes herméticos 86% · porta mantimento 87,5% ·
 
 **"Hermético" é table stakes, não diferencial.** Seis em cada dez concorrentes já dizem isso.
 Qualquer business case que dependa de o claim sustentar prêmio de preço nasce sem base.
+
+### 🔬 [06/09/2026 — ensaio da fábrica] Os potes atuais NÃO vedam
+
+A fábrica ensaiou os potes da categoria: **não dão herméticos.** Isso é medição interna, não
+inferência de mercado, e resolve a maior incerteza técnica do projeto do aro de vedação:
+
+- **O aro tem função real.** O argumento de que "a trava já resolve" (levantado a partir das
+  avaliações do Plasútil, que tem trava e zero reclamação de vedação) **não sobrevive à medição**.
+  O que aquelas avaliações mostram é que o mercado *tolera* o que a Nitron mede como falha —
+  são coisas diferentes, e só a segunda é fato de engenharia.
+- **Nenhum claim de vedação pode ser usado hoje**, em nenhuma peça de comunicação, até que exista
+  aro e ensaio aprovado. Não há claim impresso hoje (confirmado pela fábrica), então não há
+  passivo — mas também não há margem para criar um.
+- O projeto do aro passa de "upgrade opcional sem prêmio provado" para **correção de uma lacuna
+  funcional medida**. O business case continua sem prêmio de preço demonstrado, mas a pergunta
+  "para que serve?" está respondida.
 **Sanremo**, em plástico com válvula, escreve *"válvula micro ondas"* — evita o claim.
 
 ### Sobre as etiquetas "POTE HERMETICO" no ERP — resolvido pela fábrica
