@@ -1,0 +1,456 @@
+<title>Planograma do Catálogo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&family=Aleo:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EFF3F3; --sheet:#FCFCFB; --raise:#F5F8F8;
+  --ink:#14201F; --ink-2:#3A4746; --muted:#6C7A79;
+  --rule:#D6DEDD; --rule-2:#E7EEED;
+  --brand:#08a9b1; --brand-deep:#056B71; --brand-soft:#E0F3F4; --brand-ink:#043F43;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F; --a-fra:#C4552F;
+  --z-chao:#E9EDEC; --z-maos:#DFE7E6; --z-olhos:#CFE6E7; --z-topo:#E9EDEC;
+  --ok:#1B6B57; --ok-soft:#DFEFE9;
+  --warn:#8A6410; --warn-soft:#F7EDD8;
+  --bad:#A32820; --bad-soft:#F7E3E1;
+  --dim:#8A9897;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0D1313; --sheet:#1A1A19; --raise:#212A29;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F; --a-fra:#C4552F;
+  --z-chao:#1D2726; --z-maos:#222E2D; --z-olhos:#123033; --z-topo:#1D2726;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D1313; --sheet:#1A1A19; --raise:#212A29;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F; --a-fra:#C4552F;
+  --z-chao:#1D2726; --z-maos:#222E2D; --z-olhos:#123033; --z-topo:#1D2726;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif;font-weight:400;letter-spacing:.012em;
+  line-height:1.02;margin:0;text-wrap:balance}
+h3{font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:-.012em;margin:0;font-size:15.5px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);
+  padding:.1em .38em;border-radius:3px}
+p{margin:0 0 14px;max-width:74ch}
+a{color:var(--brand-deep)}
+:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
+
+header.mast{padding:52px 0 20px;border-bottom:2px solid var(--ink)}
+.eyeb{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"Bebas Neue",sans-serif;
+  font-size:13px;letter-spacing:.15em;color:var(--muted);margin-bottom:14px}
+.eyeb span:first-child{color:var(--brand-deep)}
+h1{font-size:clamp(2.3rem,5.6vw,3.9rem)}
+.slog{font-family:Aleo,Georgia,serif;font-size:15px;color:var(--brand-deep);margin:6px 0 16px}
+.thesis{font-family:Aleo,Georgia,serif;font-size:1.08rem;line-height:1.62;color:var(--ink-2);max-width:68ch}
+.thesis b{font-family:Montserrat,sans-serif;font-weight:700;color:var(--ink)}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px}
+.tile{background:var(--sheet);padding:15px 16px 16px;display:flex;flex-direction:column;gap:4px}
+.tile .tl{font-family:"Bebas Neue",sans-serif;font-size:11.5px;letter-spacing:.14em;color:var(--muted)}
+.tile .tv{font-family:"IBM Plex Mono",monospace;font-size:1.55rem;font-weight:600;
+  letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .tv small{font-size:.84rem;font-weight:500;color:var(--ink-2);margin-left:2px}
+.tile .ts{font-size:11.5px;color:var(--muted);line-height:1.45}
+.tile.acc .tv{color:var(--brand-deep)}
+.tile.hot .tv{color:var(--bad)}
+
+section{padding-top:50px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);
+  padding-bottom:10px;margin-bottom:20px}
+.shead .sn{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--brand-deep);flex:none}
+h2{font-size:clamp(1.45rem,3vw,1.95rem)}
+.lede{font-family:Aleo,Georgia,serif;font-size:1.02rem;color:var(--ink-2);line-height:1.65;max-width:70ch}
+
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+thead th{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.11em;color:var(--muted);
+  text-align:left;padding:10px 11px;border-bottom:1.5px solid var(--rule);
+  background:var(--raise);white-space:nowrap}
+td{padding:11px;border-bottom:1px solid var(--rule-2);vertical-align:top;font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  white-space:nowrap;font-weight:500}
+td.k{font-weight:700;white-space:nowrap}
+td.d{color:var(--ink-2);font-size:12.5px;line-height:1.5}
+tr.tot td{background:var(--raise);font-weight:700;border-top:1.5px solid var(--rule)}
+caption{caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);
+  padding:11px;border-top:1px solid var(--rule-2);line-height:1.5}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  padding:2px 7px;border-radius:3px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.w{background:var(--warn-soft);color:var(--warn)}
+.chip.b{background:var(--bad-soft);color:var(--bad)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:7px}
+
+.call{border-left:3px solid var(--brand);background:var(--brand-soft);padding:15px 18px;
+  margin:22px 0 0;border-radius:0 6px 6px 0}
+.call.w{border-left-color:var(--warn);background:var(--warn-soft)}
+.call.b{border-left-color:var(--bad);background:var(--bad-soft)}
+.call .lab{display:block;font-family:"Bebas Neue",sans-serif;font-size:12.5px;
+  letter-spacing:.13em;color:var(--brand-ink);margin-bottom:7px}
+.call.w .lab{color:var(--warn)} .call.b .lab{color:var(--bad)}
+.call p{margin:0;font-size:13.5px;max-width:78ch} .call p+p{margin-top:9px}
+
+/* planograma */
+figure{margin:26px 0 0;border:1px solid var(--rule);background:var(--sheet);padding:16px 14px 0}
+.pscroll{overflow-x:auto}
+svg.plano{display:block;width:100%;min-width:1120px;height:auto}
+svg.plano .mb{fill:var(--raise);stroke:var(--rule);stroke-width:.8}
+svg.plano .rg{stroke:var(--rule);stroke-width:.7;stroke-dasharray:3 4}
+svg.plano .zl{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.13em;fill:var(--ink-2)}
+svg.plano .zm{font-family:"IBM Plex Mono",monospace;font-size:8.5px;fill:var(--muted)}
+svg.plano .ml{font-family:"Bebas Neue",sans-serif;font-size:9.5px;letter-spacing:.07em;fill:var(--ink-2)}
+svg.plano .mm{font-family:"IBM Plex Mono",monospace;font-size:8.5px;fill:var(--muted)}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.55;
+  margin:12px -14px 0;padding:12px 16px;border-top:1px solid var(--rule-2);background:var(--raise)}
+.legenda{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:12.5px;color:var(--ink-2)}
+.legenda span{white-space:nowrap}
+.legenda b{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink)}
+
+/* barra de metros */
+.mbar{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.mrow{background:var(--sheet);display:grid;grid-template-columns:190px 1fr;gap:0;align-items:center}
+@media(max-width:640px){ .mrow{grid-template-columns:1fr} }
+.mrow .mk{padding:12px 14px;font-size:13px;font-weight:700;display:flex;align-items:center}
+.mrow .mv{padding:12px 16px 12px 0;display:flex;align-items:center;gap:2px;min-width:0}
+.mrow .seg{height:20px;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:6px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:#fff;
+  font-weight:600;overflow:hidden;white-space:nowrap}
+.mrow .mt{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+  margin-left:10px;white-space:nowrap;font-weight:600}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:11.5px;color:var(--muted);line-height:1.6;max-width:84ch}
+footer a{color:var(--brand-deep)}
+svg.plano .mn{fill:var(--sheet);stroke:var(--rule);stroke-width:1}
+svg.plano .mnl{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;fill:var(--ink-2)}
+.mlegenda{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:2px 22px;
+  grid-template-columns:repeat(auto-fit,minmax(216px,1fr));counter-reset:none}
+.mlegenda li{display:flex;align-items:baseline;gap:7px;padding:3px 0;
+  border-bottom:1px solid var(--rule);font-size:12.5px;line-height:1.35}
+.mlegenda b{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-2);
+  min-width:15px;text-align:right;font-weight:600}
+.mlegenda .mnome{color:var(--ink);flex:1}
+.mlegenda .mmet{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);
+  white-space:nowrap}
+
+svg.plano .pn{font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;fill:var(--ink-2)}
+svg.plano .pv{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:var(--dim);font-style:italic}
+svg.plano .ph{font-family:"IBM Plex Mono",monospace;font-size:9px;fill:var(--muted)}
+svg.plano .pe{stroke:var(--rule);stroke-width:1}
+svg.plano .pb{stroke:var(--ink-2);stroke-width:1.6}
+svg.plano .zl{font-size:12px}
+svg.plano .ml{font-size:12px;letter-spacing:.1em}
+svg.plano .mm{font-size:10px}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <div class="eyeb"><span>NITRON · DESENVOLVIMENTO DE PRODUTOS</span><span>PLANOGRAMA DO CATÁLOGO</span><span>06/09/2026</span></div>
+  <h1>Planograma<br>do catálogo</h1>
+  <p class="slog">toda casa tem</p>
+  <p class="thesis">O catálogo oficial imprime <b>633 referências</b> em 112 páginas. Delas, <b>629 existem e estão ativas</b> no ERP e carregam <b>R$ 74,68 M</b> — <b>90% de toda a curva de marca própria</b>. Postas de lado numa prateleira, pedem <b>97,4 m</b> de frente linear. As quatro paredes do showroom entregam <b>202,1 m</b>. <b>O catálogo inteiro cabe no perímetro, e o miolo da loja sobra.</b></p>
+
+  <div class="tiles">
+    <div class="tile"><span class="tl">REFERÊNCIAS NO PDF</span><span class="tv">633</span><span class="ts">112 páginas · 16 categorias</span></div>
+    <div class="tile acc"><span class="tl">CONFIRMADAS NO ERP</span><span class="tv">629</span><span class="ts">99,4% · todas ativas</span></div>
+    <div class="tile"><span class="tl">FATURAMENTO 12 M</span><span class="tv">74,68<small>M</small></span><span class="ts">90,0% da marca própria</span></div>
+    <div class="tile"><span class="tl">FRENTE NECESSÁRIA</span><span class="tv">97,4<small>m</small></span><span class="ts">609 SKUs a 1 facing</span></div>
+    <div class="tile acc"><span class="tl">AS QUATRO PAREDES</span><span class="tv">202,1<small>m</small></span><span class="ts">sobra de 2,1× · 24 prateleiras</span></div>
+    <div class="tile"><span class="tl">O MIOLO SOBRA</span><span class="tv">130,3<small>m</small></span><span class="ts">52 prateleiras · R$ 9,7 mil de móvel</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><span class="sn">§1</span><h2>O catálogo, lido do PDF</h2></div>
+  <p class="lede">Não parti do catálogo ativo do ERP. Parti do arquivo que o cliente recebe — <code>CatalogoNitron.pdf</code> — e li as referências por <strong>coordenada de texto</strong>, não por ordem de leitura, porque numa página com doze produtos a ordem de leitura embaralha cota e referência.</p>
+
+  <div class="scroll"><table>
+    <thead><tr><th>O que saiu do PDF</th><th>Quanto</th><th>Como se comportou</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Referências impressas</td><td class="n">633</td><td class="d">no formato <code>REF • EMB • COR</code>. Todas caem numa das 16 categorias do próprio catálogo — nenhuma órfã, o que valida o mapa de páginas.</td></tr>
+      <tr><td class="k">Existem no <code>TGFPRO</code></td><td class="n">629</td><td class="d">99,4%. <strong>Todas com <code>ATIVO='S'</code></strong> e todas no grupo de produto acabado. <code>REFERENCIA</code> é única no cadastro — nenhuma casou com dois CODPROD.</td></tr>
+      <tr><td class="k">Artefato de leitura</td><td class="n">4</td><td class="d"><code>161.012.0031</code> (dígito extra) · <code>268.006.MO3</code> (letra O no lugar do zero) · <code>704.006.01</code> (falta um zero) · <code>546.006.086</code> (campo do meio lido errado). A variante correta existe nas quatro. <span class="chip ok">corrigidas</span></td></tr>
+      <tr><td class="k">Cotas impressas</td><td class="n">378</td><td class="d">COM/LAR/ALT na página. Serviram de auditoria do cadastro e de conserto onde o ERP está sujo.</td></tr>
+      <tr><td class="k">Nomes recuperados</td><td class="n">574</td><td class="d">o título de produto, reconhecido por corpo de fonte e pela tradução logo abaixo. Onde o título caiu numa linha de continuação, a descrição do ERP prevalece.</td></tr>
+    </tbody>
+    <caption>Extração por coordenada com <code>pypdf</code> e <code>visitor_text</code>: cada referência é casada com o bloco de cota mais próximo em Y, com peso pequeno em X — o que resolve as páginas em grade, onde a cota fica ao lado e não embaixo.</caption>
+  </table></div>
+
+  <div class="call w">
+    <span class="lab">EU SUSPEITEI DE 38 REFERÊNCIAS E ESTAVA ERRADO</span>
+    <p>Trinta e oito referências saíram com <strong>quatro dígitos no primeiro campo</strong> — <code>2270.012.001</code>, <code>6120.006.P01</code>, <code>3820.016.644</code>. Parecia dígito colado pela extração, e eu marquei todas como suspeitas.</p>
+    <p>Elas são reais. <code>2270.012.001</code> é o CODPROD 4032, <em>Pote Redondo com Travas 2,3 L</em>; a versão de três dígitos <code>227.012.001</code> não existe no cadastro. São referências do <strong>padrão antigo</strong>, que a descrição ainda carrega entre parênteses — <code>(022/7)</code>, <code>(038/2)</code>. Se eu tivesse descartado por parecer, teria tirado 38 SKUs do planograma.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§2</span><h2>90% do dinheiro em 39% dos SKUs que vendem</h2></div>
+  <p class="lede">Essa é a razão pela qual planogramar só o catálogo não é encolher a loja. É a operação inteira, sem a cauda.</p>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Recorte</th><th>SKUs</th><th>Faturamento 12 M</th><th>O que é</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Marca própria que vendeu</td><td class="n">1.599</td><td class="n">R$ 83,01 M</td><td class="d">tudo que emitiu nota no período, empresas 1, 2 e 14, fora as tabelas 84 e 3</td></tr>
+      <tr><td class="k"><span class="sw" style="background:var(--brand)"></span>No catálogo oficial</td><td class="n">629</td><td class="n">R$ 74,68 M</td><td class="d"><strong>39,3% dos SKUs · 90,0% do dinheiro</strong></td></tr>
+      <tr><td class="k">Fora do catálogo</td><td class="n">970</td><td class="n">R$ 8,33 M</td><td class="d">R$ 8,6 mil por SKU/ano, contra R$ 118,7 mil de quem está no catálogo — <strong>14×</strong></td></tr>
+    </tbody>
+    <caption>Janela de 12 meses até 24/08/2026. O catálogo é 100% marca própria: nenhum dos 629 vendeu na <code>CODTAB=84</code> (Avon/Natura) — não há contaminação OEM nesse recorte.</caption>
+  </table></div>
+
+  <div class="call">
+    <span class="lab">MAS O CATÁLOGO TAMBÉM CARREGA CAUDA</span>
+    <p><strong>302 das 629 referências — 48% — faturam menos de R$ 50 mil por ano</strong> e somam R$ 6,23 M, 8,3% do total. Do outro lado, <strong>25 SKUs passam de R$ 500 mil</strong> e somam R$ 18,74 M, um quarto de tudo. Três não venderam nada em 12 meses.</p>
+    <p>Isso não muda o planograma — a cauda ocupa 44% da frente e é barata de expor. Muda a <em>conversa</em>: o showroom é o lugar onde dá para medir, prateleira por prateleira, quais dessas 302 merecem continuar sendo impressas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§3</span><h2>As quatro paredes bastam</h2></div>
+  <p class="lede">O showroom tem 32,68 m de corrida de parede. Com a pilha abaixo, isso dá 24 prateleiras e 202,1 m de frente contra 97,4 m de demanda. Todo o miolo — gôndolas, pontas, ilhas, corredor de checkout — não é preciso para <em>expor</em> o catálogo.</p>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Parede</th><th>Corrida</th><th>Pilha de baias</th><th>Prat.</th><th>Oferta</th><th>Recebe</th><th>Demanda</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Paredão sul</td><td class="n">13.290</td><td class="n">270 × 6</td><td class="n">7</td><td class="n">93,0 m</td><td class="d"><span class="sw" style="background:var(--a-coz)"></span>Cozinha · 359 SKUs</td><td class="n">55,5 m <span class="chip ok">1,7×</span></td></tr>
+      <tr><td class="k">Paredão norte</td><td class="n">6.054</td><td class="n">270 × 6</td><td class="n">7</td><td class="n">42,4 m</td><td class="d"><span class="sw" style="background:var(--a-org)"></span>Organização · 130 SKUs</td><td class="n">22,5 m <span class="chip ok">1,9×</span></td></tr>
+      <tr><td class="k">Paredão do fundo</td><td class="n">6.788</td><td class="n">513·513·270·270</td><td class="n">5</td><td class="n">33,9 m</td><td class="d"><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia · 86 SKUs</td><td class="n">14,4 m <span class="chip ok">2,4×</span></td></tr>
+      <tr><td class="k">Parede de entrada</td><td class="n">6.548</td><td class="n">513·513·270·270</td><td class="n">5</td><td class="n">32,7 m</td><td class="d"><span class="sw" style="background:var(--a-fra)"></span>Frasqueiras e infantil · 34 SKUs</td><td class="n">5,0 m <span class="chip w">6,5×</span></td></tr>
+      <tr class="tot"><td class="k">Perímetro</td><td class="n">32.680</td><td class="d">—</td><td class="n">24</td><td class="n">202,1 m</td><td class="d">609 SKUs de prateleira</td><td class="n">97,4 m <span class="chip ok">2,1×</span></td></tr>
+    </tbody>
+    <caption>Corrida em milímetros. A pilha de 270 põe <strong>duas</strong> prateleiras na zona dos olhos; a de 513 põe só uma, mas abre o vão de 490 mm que lixeira, cesto e balde exigem — e 42 dos 51 SKUs que passam de 247 mm de altura são de banho e lavanderia.</caption>
+  </table></div>
+
+  <div class="call">
+    <span class="lab">A GÔNDOLA PRECISA AFINAR — SEM ISSO, 47 BLOCOS FICAM SEM LUGAR</span>
+    <p>Rodei a alocação primeiro com profundidade fixa por parede. O paredão norte, raso de 285 mm, <strong>recusou 47 blocos de Organização</strong> — a linha tem 7,2 m que exigem 372 e 4,4 m que exigem 500.</p>
+    <p>A correção é a norma que o varejo já usa: <strong>base funda, topo raso</strong>. Prateleira até 800 mm com painel de 460 (500 mm de profundidade), de 800 a 1.400 com painel de 300 (372 mm), acima de 1.400 com painel de 200 (285 mm). Com isso <strong>os 609 SKUs entram, zero sobra</strong> — e a mesma parede fica mais barata, porque só o terço de baixo leva o painel largo.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§4</span><h2>O planograma</h2></div>
+  <p class="lede">Elevação das quatro paredes. Cada barra é uma prateleira na altura real da sua face; a parte cheia é a frente ocupada, a clara é a folga, e o tracejado é prateleira que o catálogo não precisa. À esquerda de cada barra, quantos SKUs pousam ali; à direita, a altura da face.</p>
+  <figure>
+    <div class="pscroll">
+<svg class="plano" viewBox="0 0 1480 332" role="img" aria-label="Elevacao das quatro paredes do showroom: cada barra e uma prateleira na altura real, a parte cheia e a frente ocupada pelo catalogo.">
+<rect x="96" y="22.0" width="1368" height="14.8" fill="var(--z-topo)"/>
+<text x="86" y="28.4" text-anchor="end" class="zl">TOPO</text>
+<text x="86" y="40.4" text-anchor="end" class="zm">1700+</text>
+<rect x="96" y="36.8" width="1368" height="44.4" fill="var(--z-olhos)"/>
+<text x="86" y="58.0" text-anchor="end" class="zl">OLHOS</text>
+<text x="86" y="70.0" text-anchor="end" class="zm">1400–1700</text>
+<rect x="96" y="81.2" width="1368" height="88.8" fill="var(--z-maos)"/>
+<text x="86" y="124.6" text-anchor="end" class="zl">MÃOS</text>
+<text x="86" y="136.6" text-anchor="end" class="zm">800–1400</text>
+<rect x="96" y="170.0" width="1368" height="118.4" fill="var(--z-chao)"/>
+<text x="86" y="228.2" text-anchor="end" class="zl">CHÃO</text>
+<text x="86" y="240.2" text-anchor="end" class="zm">0–800</text>
+<line x1="96.0" y1="22.0" x2="96.0" y2="288.4" class="pe"/>
+<line x1="603.5" y1="22.0" x2="603.5" y2="288.4" class="pe"/>
+<line x1="96.0" y1="288.4" x2="603.5" y2="288.4" class="pb"/>
+<rect x="96.0" y="270.2" width="507.5" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="100.0" y="265.7" class="pv">vazia</text>
+<text x="600.5" y="265.7" text-anchor="end" class="ph">100 mm</text>
+<rect x="96.0" y="231.4" width="507.5" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="100.0" y="226.9" class="pv">vazia</text>
+<text x="600.5" y="226.9" text-anchor="end" class="ph">362 mm</text>
+<rect x="96.0" y="192.6" width="507.5" height="6.8" rx="2" fill="var(--a-coz)" opacity=".2"/>
+<rect x="96.0" y="192.6" width="358.4" height="6.8" rx="2" fill="var(--a-coz)"/>
+<text x="100.0" y="188.1" class="pn">40</text>
+<text x="600.5" y="188.1" text-anchor="end" class="ph">624 mm</text>
+<rect x="96.0" y="153.9" width="507.5" height="6.8" rx="2" fill="var(--a-coz)" opacity=".2"/>
+<rect x="96.0" y="153.9" width="241.5" height="6.8" rx="2" fill="var(--a-coz)"/>
+<text x="100.0" y="149.4" class="pn">45</text>
+<text x="600.5" y="149.4" text-anchor="end" class="ph">886 mm</text>
+<rect x="96.0" y="115.1" width="507.5" height="6.8" rx="2" fill="var(--a-coz)" opacity=".2"/>
+<rect x="96.0" y="115.1" width="506.0" height="6.8" rx="2" fill="var(--a-coz)"/>
+<text x="100.0" y="110.6" class="pn">79</text>
+<text x="600.5" y="110.6" text-anchor="end" class="ph">1148 mm</text>
+<rect x="96.0" y="76.5" width="507.5" height="6.8" rx="2" fill="var(--a-coz)" opacity=".2"/>
+<rect x="96.0" y="76.5" width="506.3" height="6.8" rx="2" fill="var(--a-coz)"/>
+<text x="100.0" y="72.0" class="pn">97</text>
+<text x="600.5" y="72.0" text-anchor="end" class="ph">1409 mm</text>
+<rect x="96.0" y="37.7" width="507.5" height="6.8" rx="2" fill="var(--a-coz)" opacity=".2"/>
+<rect x="96.0" y="37.7" width="507.2" height="6.8" rx="2" fill="var(--a-coz)"/>
+<text x="100.0" y="33.2" class="pn">98</text>
+<text x="600.5" y="33.2" text-anchor="end" class="ph">1671 mm</text>
+<text x="349.8" y="307.4" text-anchor="middle" class="ml">PAREDÃO SUL</text>
+<text x="349.8" y="321.4" text-anchor="middle" class="mm"><tspan fill="var(--a-coz)">■</tspan> Cozinha · 55,5 m ocupados de 93,0</text>
+<line x1="643.5" y1="22.0" x2="643.5" y2="288.4" class="pe"/>
+<line x1="874.7" y1="22.0" x2="874.7" y2="288.4" class="pe"/>
+<line x1="643.5" y1="288.4" x2="874.7" y2="288.4" class="pb"/>
+<rect x="643.5" y="270.2" width="231.2" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="647.5" y="265.7" class="pv">vazia</text>
+<text x="871.7" y="265.7" text-anchor="end" class="ph">100 mm</text>
+<rect x="643.5" y="231.4" width="231.2" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="647.5" y="226.9" class="pv">vazia</text>
+<text x="871.7" y="226.9" text-anchor="end" class="ph">362 mm</text>
+<rect x="643.5" y="192.6" width="231.2" height="6.8" rx="2" fill="var(--a-org)" opacity=".2"/>
+<rect x="643.5" y="192.6" width="169.0" height="6.8" rx="2" fill="var(--a-org)"/>
+<text x="647.5" y="188.1" class="pn">21</text>
+<text x="871.7" y="188.1" text-anchor="end" class="ph">624 mm</text>
+<rect x="643.5" y="153.9" width="231.2" height="6.8" rx="2" fill="var(--a-org)" opacity=".2"/>
+<rect x="643.5" y="153.9" width="42.7" height="6.8" rx="2" fill="var(--a-org)"/>
+<text x="647.5" y="149.4" class="pn">7</text>
+<text x="871.7" y="149.4" text-anchor="end" class="ph">886 mm</text>
+<rect x="643.5" y="115.1" width="231.2" height="6.8" rx="2" fill="var(--a-org)" opacity=".2"/>
+<rect x="643.5" y="115.1" width="230.4" height="6.8" rx="2" fill="var(--a-org)"/>
+<text x="647.5" y="110.6" class="pn">27</text>
+<text x="871.7" y="110.6" text-anchor="end" class="ph">1148 mm</text>
+<rect x="643.5" y="76.5" width="231.2" height="6.8" rx="2" fill="var(--a-org)" opacity=".2"/>
+<rect x="643.5" y="76.5" width="188.6" height="6.8" rx="2" fill="var(--a-org)"/>
+<text x="647.5" y="72.0" class="pn">32</text>
+<text x="871.7" y="72.0" text-anchor="end" class="ph">1409 mm</text>
+<rect x="643.5" y="37.7" width="231.2" height="6.8" rx="2" fill="var(--a-org)" opacity=".2"/>
+<rect x="643.5" y="37.7" width="228.7" height="6.8" rx="2" fill="var(--a-org)"/>
+<text x="647.5" y="33.2" class="pn">43</text>
+<text x="871.7" y="33.2" text-anchor="end" class="ph">1671 mm</text>
+<text x="759.1" y="307.4" text-anchor="middle" class="ml">PAREDÃO NORTE</text>
+<text x="759.1" y="321.4" text-anchor="middle" class="mm"><tspan fill="var(--a-org)">■</tspan> Organização · 22,5 m ocupados de 42,4</text>
+<line x1="914.7" y1="22.0" x2="914.7" y2="288.4" class="pe"/>
+<line x1="1173.9" y1="22.0" x2="1173.9" y2="288.4" class="pe"/>
+<line x1="914.7" y1="288.4" x2="1173.9" y2="288.4" class="pb"/>
+<rect x="914.7" y="270.2" width="259.2" height="6.8" rx="2" fill="var(--a-ban)" opacity=".2"/>
+<rect x="914.7" y="270.2" width="116.4" height="6.8" rx="2" fill="var(--a-ban)"/>
+<text x="918.7" y="265.7" class="pn">14</text>
+<text x="1170.9" y="265.7" text-anchor="end" class="ph">100 mm</text>
+<rect x="914.7" y="195.5" width="259.2" height="6.8" rx="2" fill="var(--a-ban)" opacity=".2"/>
+<rect x="914.7" y="195.5" width="248.2" height="6.8" rx="2" fill="var(--a-ban)"/>
+<text x="918.7" y="191.0" class="pn">34</text>
+<text x="1170.9" y="191.0" text-anchor="end" class="ph">605 mm</text>
+<rect x="914.7" y="120.7" width="259.2" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="918.7" y="116.2" class="pv">vazia</text>
+<text x="1170.9" y="116.2" text-anchor="end" class="ph">1110 mm</text>
+<rect x="914.7" y="81.9" width="259.2" height="6.8" rx="2" fill="var(--a-ban)" opacity=".2"/>
+<rect x="914.7" y="81.9" width="43.3" height="6.8" rx="2" fill="var(--a-ban)"/>
+<text x="918.7" y="77.4" class="pn">6</text>
+<text x="1170.9" y="77.4" text-anchor="end" class="ph">1372 mm</text>
+<rect x="914.7" y="43.3" width="259.2" height="6.8" rx="2" fill="var(--a-ban)" opacity=".2"/>
+<rect x="914.7" y="43.3" width="143.2" height="6.8" rx="2" fill="var(--a-ban)"/>
+<text x="918.7" y="38.8" class="pn">32</text>
+<text x="1170.9" y="38.8" text-anchor="end" class="ph">1633 mm</text>
+<text x="1044.3" y="307.4" text-anchor="middle" class="ml">PAREDÃO DO FUNDO</text>
+<text x="1044.3" y="321.4" text-anchor="middle" class="mm"><tspan fill="var(--a-ban)">■</tspan> Banho e lavanderia · 14,4 m ocupados de 33,9</text>
+<line x1="1213.9" y1="22.0" x2="1213.9" y2="288.4" class="pe"/>
+<line x1="1464.0" y1="22.0" x2="1464.0" y2="288.4" class="pe"/>
+<line x1="1213.9" y1="288.4" x2="1464.0" y2="288.4" class="pb"/>
+<rect x="1213.9" y="270.2" width="250.1" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="1217.9" y="265.7" class="pv">vazia</text>
+<text x="1461.0" y="265.7" text-anchor="end" class="ph">100 mm</text>
+<rect x="1213.9" y="195.5" width="250.1" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="1217.9" y="191.0" class="pv">vazia</text>
+<text x="1461.0" y="191.0" text-anchor="end" class="ph">605 mm</text>
+<rect x="1213.9" y="120.7" width="250.1" height="6.8" rx="2" fill="none" stroke="var(--dim)" stroke-width="1" stroke-dasharray="4 4" opacity=".55"/>
+<text x="1217.9" y="116.2" class="pv">vazia</text>
+<text x="1461.0" y="116.2" text-anchor="end" class="ph">1110 mm</text>
+<rect x="1213.9" y="81.9" width="250.1" height="6.8" rx="2" fill="var(--a-fra)" opacity=".2"/>
+<rect x="1213.9" y="81.9" width="38.6" height="6.8" rx="2" fill="var(--a-fra)"/>
+<text x="1217.9" y="77.4" class="pn">5</text>
+<text x="1461.0" y="77.4" text-anchor="end" class="ph">1372 mm</text>
+<rect x="1213.9" y="43.3" width="250.1" height="6.8" rx="2" fill="var(--a-fra)" opacity=".2"/>
+<rect x="1213.9" y="43.3" width="152.4" height="6.8" rx="2" fill="var(--a-fra)"/>
+<text x="1217.9" y="38.8" class="pn">29</text>
+<text x="1461.0" y="38.8" text-anchor="end" class="ph">1633 mm</text>
+<text x="1339.0" y="307.4" text-anchor="middle" class="ml">PAREDE DE ENTRADA</text>
+<text x="1339.0" y="321.4" text-anchor="middle" class="mm"><tspan fill="var(--a-fra)">■</tspan> Frasqueiras e infantil · 5,0 m ocupados de 32,7</text>
+</svg>
+    </div>
+    <div class="legenda">
+      <span><span class="sw" style="background:var(--a-coz)"></span>Cozinha <b>55,5 m</b></span>
+      <span><span class="sw" style="background:var(--a-org)"></span>Organização <b>22,5 m</b></span>
+      <span><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia <b>14,4 m</b></span>
+      <span><span class="sw" style="background:var(--a-fra)"></span>Frasqueiras e infantil <b>5,0 m</b></span>
+    </div>
+    <figcaption><b>Como ler:</b> a largura da coluna é proporcional à corrida da parede — o paredão sul tem 13,29 m e por isso é o dobro dos outros. <b>Oito das 24 prateleiras ficam tracejadas:</b> o catálogo não as usa. As duas mais baixas do paredão sul e do norte são as que sobram inteiras, e é lá que entram os facings extras dos campeões e a reposição visível.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§5</span><h2>Quem fica na zona dos olhos</h2></div>
+  <p class="lede">São 45,5 m dos 202,1 — 23% da prateleira. Com o catálogo, essa faixa deixa de ser o recurso disputado que era quando o alvo eram 2.589 SKUs: ela sozinha segura mais da metade do dinheiro.</p>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Zona</th><th>Altura</th><th>SKUs</th><th>Faturamento</th><th>%</th><th>Quem fica</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Olhos</td><td class="n">1.400–1.700</td><td class="n">331</td><td class="n">R$ 38,05 M</td><td class="n">51,9%</td><td class="d">tudo que é raso e gira: pote, organizador, saboneteira, frasqueira. <strong>É a faixa que vende 35 a 50% mais</strong></td></tr>
+      <tr><td class="k">Mãos</td><td class="n">800–1.400</td><td class="n">169</td><td class="n">R$ 17,16 M</td><td class="n">23,4%</td><td class="d">o que exige 372 mm de profundidade — caixa organizadora, suporte de botijão, jarra</td></tr>
+      <tr><td class="k">Chão</td><td class="n">até 800</td><td class="n">109</td><td class="n">R$ 18,11 M</td><td class="n">24,7%</td><td class="d">os volumosos de 500 mm e os 51 que passam de 247 mm de altura: lixeira, cesto, balde, pá</td></tr>
+      <tr><td class="k">Topo</td><td class="n">acima de 1.700</td><td class="n">0</td><td class="n">—</td><td class="n">0%</td><td class="d">nenhuma prateleira acima de 1.671 mm. <strong>Tudo no showroom é alcançável sem escada</strong></td></tr>
+    </tbody>
+    <caption>Alturas de face pelo passo real do sistema: 19,40 de pé + 73,08 de nó por nível + (ripa − 81,20) por baia. As faces caem em 100 · 362 · 624 · 886 · 1.148 · 1.409 · 1.671 mm na pilha de 270, e em 100 · 605 · 1.110 · 1.372 · 1.633 na pilha mista.</caption>
+  </table></div>
+
+  <div class="call b">
+    <span class="lab">O QUE PAGA MAIS ESTÁ NO CHÃO, E ISSO É INEVITÁVEL</span>
+    <p>Das dez maiores referências do catálogo, <strong>quatro ficam no chão</strong>: Lixeira Rattan com Pedal nas duas cores (R$ 1,02 M e R$ 904 mil), Pá de Lixo com Cabo (R$ 874 mil) e Lixeira Vime (R$ 770 mil). Somam R$ 3,57 M na pior faixa da loja.</p>
+    <p>Não é erro de alocação — é geometria. Esses produtos exigem 500 mm de profundidade e passam de 247 mm de altura, e a prateleira que atende os dois só existe embaixo. <strong>A saída não é subi-los, é iluminá-los:</strong> a baia de 513 no chão do paredão do fundo é a única do showroom com vão de 490 mm, e é a vitrine natural da categoria mais densa da casa.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§6</span><h2>O que o miolo vira</h2></div>
+  <p class="lede">Sobram 130,3 m de prateleira em 52 prateleiras — as duas gôndolas duplas, as quatro pontas, as duas ilhas e o corredor de checkout. São R$ 9.731,64 de móvel, 31% do custo do PDV, que o catálogo não precisa para caber.</p>
+
+  <div class="scroll"><table>
+      <thead><tr><th>Uso</th><th>Por quê</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Nitron-Mob montado</td><td class="d">as 13 referências da linha de móvel não vão em prateleira — <strong>elas são a prateleira</strong>. Sapateira, arara e as nove Prateleiras Multiuso ficam de pé no percurso, montadas, que é a única forma de vender móvel montável.</td></tr>
+        <tr><td class="k">Ambientação por estilo de vida</td><td class="d">a lição da Casa Riachuelo, que ocupa 282 m² dentro de uma loja de 2.290 m² e <strong>não agrupa por categoria industrial</strong>: mistura têxtil, louça e objeto no mesmo bloco, por estilo. As ilhas viram cozinha montada e lavanderia montada.</td></tr>
+        <tr><td class="k">Facings dos 25 campeões</td><td class="d">os SKUs acima de R$ 500 mil somam R$ 18,74 M, um quarto do catálogo, e ocupam pouca frente. Bloco duplo ou triplo nas pontas de gôndola é o uso que o varejo já valida.</td></tr>
+        <tr><td class="k">Reposição à vista</td><td class="d">as oito prateleiras vazias do perímetro, as duas mais baixas do paredão sul e do norte, são estoque visível — que é o que um revendedor quer ver: giro, não vitrine.</td></tr>
+      </tbody>
+    </table></div>
+
+  <div class="call">
+      <span class="lab">A ALTERNATIVA — E POR QUE EU NÃO RECOMENDO</span>
+      <p>Dá para não construir o miolo e economizar os R$ 9.731,64. Mas <strong>o miolo é o produto</strong>: o showroom existe para validar o PDV Nitron-Mob, e um revendedor precisa ver o corredor, a ponta e a ilha funcionando para comprar o sistema.</p>
+      <p>O que o número diz não é «corte o móvel». É: <strong>pare de tratar o miolo como prateleira de catálogo</strong>. Ele é a demonstração, e demonstração com folga vende melhor que gôndola cheia.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§7</span><h2>O que corrigir antes de montar</h2></div>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Ação</th><th>Onde</th><th>Por que trava</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Limpar 9 cotas com data</td><td class="d"><code>205.006.862</code> · <code>205.006.P01</code> · <code>205.012.001</code> · <code>205.012.003</code> · <code>2290.006.862</code> · <code>284.012.002</code> · <code>284.012.003</code> · <code>293.006.002</code> · <code>293.006.003</code></td><td class="d">têm serial de Excel (45308 a 45515) no campo de dimensão. <strong>O catálogo conserta sete delas</strong> — a cota impressa é a boa. <span class="chip w">o PDF tem a resposta</span></td></tr>
+      <tr><td class="k">Cotar 5 SKUs</td><td class="d">Kit Potes Acoplados 5 Peças (2 cores) · Kit Mantimentos 3 Peças · Kit Donuts · Hamburgueira</td><td class="d">zerados no ERP e sem cota impressa. São os únicos cinco do catálogo que entram no planograma por estimativa. <span class="chip b">paquímetro</span></td></tr>
+      <tr><td class="k">Resolver 5 pares homônimos</td><td class="d"><code>228.012.003</code> × <code>2280.012.003</code> · <code>120.006.001</code> × <code>120.006.012</code> · <code>126.006.001</code> × <code>126.006.619</code> · <code>010.010.003</code> × <code>184.010.003</code> · <code>010.012.001</code> × <code>184.016.001</code></td><td class="d">descrição idêntica em referências diferentes, e em cada par um lado fatura 6 a 10× o outro. É a armadilha do <code>233</code> ao contrário. <span class="chip b">decisão de cadastro</span></td></tr>
+      <tr><td class="k">Decidir 2 fora de gôndola</td><td class="d">Nitronbox 50 L (<code>200.004.001</code>) e Nitronbox 27 L (<code>199.006.001</code>)</td><td class="d">57,5 × 39,5 cm não cabe nem na prateleira de 500. Piso demarcado ou empilhamento próprio. <span class="chip w">decisão</span></td></tr>
+      <tr><td class="k">Medir os 13 do Nitron-Mob</td><td class="d">a cota no ERP é da <strong>embalagem plana</strong>, não do móvel montado</td><td class="d">a Sapateira Pequena está cadastrada 21 × 1,2 × 39,5 cm e o catálogo imprime 48 × 25 × 38. Para planejar o chão do showroom vale a montada. <span class="chip w">decisão</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call w">
+    <span class="lab">UMA CORREÇÃO NO DOCUMENTO ANTERIOR</span>
+    <p>O planograma de 100% do catálogo ativo, publicado hoje mais cedo, reporta <strong>R$ 86,0 M</strong> de faturamento para os 2.589 SKUs de gôndola. O número verificado para a mesma janela, com o recorte oficial, é <strong>R$ 83,01 M em 1.599 SKUs</strong> — os R$ 86,0 M vieram de somar tabelas por linha que não fecham com a consulta direta. A conclusão daquele documento não muda; o denominador, sim.</p>
+  </div>
+</section>
+
+<footer style="margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);font-size:11.5px;color:var(--muted);line-height:1.6;max-width:88ch">
+  <p><b>Planograma do catálogo</b> · 06/09/2026 · projeto Nitron-Mob PDV.<br>
+  Universo: as 633 referências de <code>CatalogoNitron.pdf</code>, extraídas por coordenada de texto, das quais 629 confirmadas em <code>TGFPRO</code>. Cotas de <code>LARGURA/ALTURA/ESPESSURA</code> em centímetros — <code>ESPESSURA</code> guarda o comprimento, conferido em 368 pares contra a cota impressa, 299 batem dentro de 1 cm. Faturamento de 12 meses até 24/08/2026, empresas 1, 2 e 14, <code>STATUSNOTA='L'</code>, <code>TIPMOV</code> V e D, operações de transferência e as tabelas 84 e 3 fora. Frente linear com o produto virado de lado, sem folga entre peças. Alturas de prateleira pelo passo real do Nitron Mob. <b>É planograma de espaço por ambiente, não de posição por SKU</b> — a alocação peça a peça sai de <code>dados/42</code>.</p>
+</footer>
+</div>
