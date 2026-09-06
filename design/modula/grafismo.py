@@ -1,180 +1,183 @@
-"""O grafismo da Nitron como furo de parede — medido, nao estimado.
+"""O grafismo da Nitron — reproduzido do vetor oficial da marca.
 
-MEDIDO NO PNG DA MARCA (grafismo/logo-nitron.png)
--------------------------------------------------
-Elemento ("grao"), no referencial ponta-a-ponta:
+FONTE
+-----
+`marca.nitron.com.br` -> nitron-logos.zip -> `nitron-mark.svg`. O simbolo tem
+tres elementos: um longo e dois curtos, todos a mesma faixa dobrada.
 
-  comprimento L = 85,6 px, largura W = 39,8 px  ->  L/W = 2,15
-  preenchimento da caixa = 0,578
-  eixo maior a 75,8 graus da horizontal
-  perfil de meia-largura     hw(t) = (W/2) * (1 - (2t-1)^2)^1,3
-  linha de centro em S       vc(t) = -0,152 * (W/2) * sin(2*pi*t)
+Cada elemento e um contorno de seis trechos: reta curta na ponta, curva de
+concordancia (o "cotovelo"), reta longa, reta curta na outra ponta, outra curva,
+reta longa de volta. As duas retas longas sao PARALELAS — e uma faixa de largura
+constante com um dobra de 21 graus no meio. Nao e lente, nao e losango: e a
+JUNCAO, que e a ideia do grafismo.
 
-O grao NAO e uma lente simetrica: ele tem simetria de PONTO (gira 180 graus em
-torno do centro e cai em si mesmo), nao simetria de espelho. E o S da linha de
-centro que da o ar de trama ao logo — e foi exatamente o que a rev.10 perdeu ao
-tratar o grao como lente.
+Conferencia: o elemento curto do PNG oficial do grafismo (75x40 px) casa com o
+vetor curto na escala 1,533 com **IoU 0,970**; o de 127x75 px casa com o vetor
+longo na escala 1,564 com **IoU 0,977**. Mesma escala, mesmos dois elementos —
+o grafismo e o simbolo repetido, e nada mais.
 
-Rede, medida a partir dos 28 centros do logo (linhas em y = -91,5 e y = -201
-dao o periodo horizontal; a linha intermediaria em y = -148,7 da o desvio):
+REDE
+----
+Tirada da propria marca, que ja mostra a juncao:
 
-  a1 = ( 57,2 ;   0,0)   ->  periodo horizontal, 0,668 L
-  a2 = (-12,6 ; -57,2)   ->  descendo uma fileira, anda 12,6 px para a ESQUERDA
+  lado  = ponta do 3o elemento - ponta do 2o = (-40,80 ; -25,47), |v| = 48,10
+  eixo  = ponta a ponta do elemento          = ( 15,42 ; -47,61), |v| = 50,04
 
-  area da celula = 3.272 px2 contra 1.966 px2 do grao  ->  60% de cobertura
-
-O sinal de a2 e o detalhe que decide tudo: com ele invertido, a2 fica paralela
-ao eixo do grao (-76 graus) e os graos se emendam ponta com ponta virando
-fitas continuas. Com o sinal certo, a2 cruza o eixo a 27 graus e nasce a trama.
-A reconstrucao foi conferida contra a marca pixel a pixel.
-
-DEITADO NA PECA
----------------
-Tudo gira +90 graus, que e o que troca o vazado vertical pelo horizontal sem
-perder a marca:
-
-  eixo do grao      +14,2 graus (quase horizontal, subindo para a direita)
-  periodo na volta  0,668 L
-  periodo na altura 0,668 L
-  descida por coluna 0,147 L
-
-A rede entra com a MESMA forma do logo, so afastada por um fator de escala ate
-o vazado cair de 60% para o alvo da peca — o desenho e o mesmo, o que muda e o
-espacamento, que na peca tem de deixar alma entre os furos.
+`lado` e o passo de uma faixa para a vizinha; `eixo` repete a faixa ao longo de
+si mesma. Com `eixo` puro as faixas se emendam ponta com ponta e viram fitas
+continuas — na marca elas tem folga, e e essa folga que separa um elemento do
+outro. Por isso os dois passos entram multiplicados por um fator, que na peca
+tambem paga a alma entre os furos.
 """
 import math
 
-# --- constantes medidas ---------------------------------------------------
-RAZAO = 2.15          # L / W
-EXPO = 1.3            # expoente do perfil de meia-largura
-ESSE = 0.152          # amplitude do S, em meias-larguras
-ANG = 14.2            # eixo do grao, deitado
-PU = 0.668            # periodo na volta, em comprimentos de grao
-DZ = -0.147           # descida por coluna
-PZ = 0.668            # periodo na altura
-COBERTURA_LOGO = 0.601
+# --- contorno oficial: seis trechos, coordenadas do SVG (y para baixo) -------
+CURTO = [("M", 153.5625, 134.925781), ("L", 149.414062, 147.871094),
+         ("C", 148.097656, 151.964844, 148.882812, 156.441406, 151.507812, 159.847656),
+         ("L", 168.984375, 182.53125), ("L", 173.136719, 169.589844),
+         ("C", 174.449219, 165.492188, 173.667969, 161.015625, 171.042969, 157.609375)]
+LONGO = [("M", 163.0, 105.492188), ("L", 159.097656, 117.660156),
+         ("C", 157.160156, 123.714844, 158.3125, 130.339844, 162.183594, 135.382812),
+         ("L", 200.667969, 185.503906), ("L", 204.570312, 173.335938),
+         ("C", 206.511719, 167.28125, 205.359375, 160.652344, 201.484375, 155.613281)]
+
+LADO = (-40.804688, -25.472656)      # ja em y para cima
+EIXO = (15.421875, -47.605469)
+ANG_EIXO = math.degrees(math.atan2(EIXO[1], EIXO[0]))     # -72,05 graus
 
 
-class Grao:
-    """O traco do logo. Origem no centro, x ao longo do eixo."""
+def contorno(cmds, n=14):
+    """Achata o path em poligono, y para cima, centrado na origem."""
+    p, cur = [], None
+    for c in cmds:
+        if c[0] in "ML":
+            cur = (c[1], -c[2]); p.append(cur)
+        else:
+            p1, p2, p3 = (c[1], -c[2]), (c[3], -c[4]), (c[5], -c[6])
+            p0 = cur
+            for k in range(1, n + 1):
+                u = k / n; w = 1 - u
+                p.append((w**3*p0[0] + 3*w*w*u*p1[0] + 3*w*u*u*p2[0] + u**3*p3[0],
+                          w**3*p0[1] + 3*w*w*u*p1[1] + 3*w*u*u*p2[1] + u**3*p3[1]))
+            cur = p3
+    cx = sum(q[0] for q in p) / len(p); cy = sum(q[1] for q in p) / len(p)
+    return [(q[0] - cx, q[1] - cy) for q in p]
 
-    def __init__(self, L, W, rt):
-        self.L, self.hw, self.rt = L, W / 2, rt
-        # onde a meia-largura vale rt: dali para a ponta e calota
-        lo, hi = 0.0, 0.5
-        for _ in range(40):
-            t = (lo + hi) / 2
-            if self._hw(t) < rt:
-                lo = t
-            else:
-                hi = t
-        self.tc = hi
-        self.xc = (self.tc - 0.5) * L          # x da calota (negativo)
-        self.yc = self._vc(self.tc)
 
-    def _hw(self, t):
-        s = 2 * t - 1
-        return self.hw * (max(0.0, 1 - s * s)) ** EXPO
+def _area(p):
+    return abs(sum(p[i][0]*p[i-1][1] - p[i-1][0]*p[i][1] for i in range(len(p)))) / 2
 
-    def _vc(self, t):
-        return -ESSE * self.hw * math.sin(2 * math.pi * t)
+
+def _dist_seg(px, py, ax, ay, bx, by):
+    dx, dy = bx - ax, by - ay
+    t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, ((px-ax)*dx + (py-ay)*dy) / (dx*dx + dy*dy)))
+    return math.hypot(px - (ax + t*dx), py - (ay + t*dy))
+
+
+class Elemento:
+    """A faixa dobrada da marca, escalada e girada."""
+
+    def __init__(self, L, cmds=CURTO, giro=0.0):
+        p = contorno(cmds)
+        base = math.hypot(EIXO[0], EIXO[1])          # ponta a ponta do curto
+        s = L / base
+        c, sn = math.cos(math.radians(giro)), math.sin(math.radians(giro))
+        self.p = [(s*(x*c - y*sn), s*(x*sn + y*c)) for x, y in p]
+        self.r = max(math.hypot(x, y) for x, y in self.p)
+        self.area = _area(self.p)
+        self.esc = s
 
     def dentro(self, x, y):
-        t = x / self.L + 0.5
-        if self.tc <= t <= 1 - self.tc:
-            return abs(y - self._vc(t)) <= self._hw(t)
-        # calotas das duas pontas (simetria de ponto)
-        if x < 0:
-            return math.hypot(x - self.xc, y - self.yc) <= self.rt
-        return math.hypot(x + self.xc, y + self.yc) <= self.rt
+        if x*x + y*y > self.r * self.r:
+            return False
+        p = self.p; n = len(p); d = False
+        j = n - 1
+        for i in range(n):
+            if (p[i][1] > y) != (p[j][1] > y) and \
+               x < (p[j][0]-p[i][0]) * (y-p[i][1]) / (p[j][1]-p[i][1]) + p[i][0]:
+                d = not d
+            j = i
+        return d
 
-    def dist_ext(self, x, y):
-        """Aproximacao da distancia ate o grao (>=0 fora). Usada so na alma."""
-        t = min(max(x / self.L + 0.5, 0.0), 1.0)
-        if self.tc <= t <= 1 - self.tc:
-            return abs(y - self._vc(t)) - self._hw(t)
-        if x < 0:
-            return math.hypot(x - self.xc, y - self.yc) - self.rt
-        return math.hypot(x + self.xc, y + self.yc) - self.rt
+    def dist(self, x, y):
+        p = self.p
+        d = min(_dist_seg(x, y, p[i-1][0], p[i-1][1], p[i][0], p[i][1])
+                for i in range(len(p)))
+        return -d if self.dentro(x, y) else d
+
+    def borda(self, n=260):
+        p = self.p; m = len(p)
+        return [p[int(k * m / n) % m] for k in range(n)]
 
 
-class Malha:
-    """Rede oblíqua do logo, deitada e periodica na volta.
+class Trama:
+    """O grafismo: o elemento repetido nos dois passos da marca."""
 
-    Centros em (i*pu, z0 + j*pz + i*dz). Fechar a volta so exige que a subida
-    acumulada em nu colunas seja um numero inteiro de pz — por isso dz e
-    arredondado para pz*k/nu.
-    """
+    def __init__(self, el, t1, t2, u0=0.0, z0=0.0):
+        self.el, self.t1, self.t2 = el, t1, t2
+        self.u0, self.z0 = u0, z0
+        det = t1[0]*t2[1] - t1[1]*t2[0]
+        self.inv = ((t2[1]/det, -t2[0]/det), (-t1[1]/det, t1[0]/det))
+        self.area_celula = abs(det)
 
-    def __init__(self, grao, pu, pz, dz, z0, ang=ANG):
-        self.g, self.pu, self.pz, self.dz, self.z0 = grao, pu, pz, dz, z0
-        self.co = math.cos(math.radians(ang))
-        self.si = math.sin(math.radians(ang))
+    def _ij(self, u, z):
+        du, dz = u - self.u0, z - self.z0
+        return (self.inv[0][0]*du + self.inv[0][1]*dz,
+                self.inv[1][0]*du + self.inv[1][1]*dz)
 
-    def vizinhos(self, u, z):
-        ci = u / self.pu
-        for di in (-2, -1, 0, 1, 2):
-            i = math.floor(ci + 0.5) + di
-            uc = i * self.pu
-            zb = self.z0 + i * self.dz
-            j = math.floor((z - zb) / self.pz + 0.5)
-            for dj in (-1, 0, 1):
-                yield uc, zb + (j + dj) * self.pz
-
-    def _local(self, u, z, uc, zc):
-        du, dv = u - uc, z - zc
-        return du * self.co + dv * self.si, -du * self.si + dv * self.co
+    def vizinhos(self, u, z, r=1):
+        fi, fj = self._ij(u, z)
+        i0, j0 = math.floor(fi + 0.5), math.floor(fj + 0.5)
+        for di in range(-r, r+1):
+            for dj in range(-r, r+1):
+                i, j = i0+di, j0+dj
+                yield (self.u0 + i*self.t1[0] + j*self.t2[0],
+                       self.z0 + i*self.t1[1] + j*self.t2[1])
 
     def dentro(self, u, z):
-        for uc, zc in self.vizinhos(u, z):
-            if self.g.dentro(*self._local(u, z, uc, zc)):
+        for cu, cz in self.vizinhos(u, z):
+            if self.el.dentro(u - cu, z - cz):
                 return True
         return False
 
-    # -- verificacao -------------------------------------------------------
-    def medidas(self, n=140, nb=240):
+    def medidas(self):
         """(fracao vazada, menor alma entre dois furos vizinhos)."""
-        dentro = 0
-        for i in range(n):
-            u = (i + 0.5) * self.pu / n
-            for j in range(n):
-                z = self.z0 + (j + 0.5) * self.pz / n
-                if self.dentro(u, z):
-                    dentro += 1
-        vazado = dentro / (n * n)
+        vaz = self.el.area / self.area_celula
         alma = 1e9
-        g = self.g
-        for k in range(nb):
-            th = 2 * math.pi * k / nb
-            dx, dy = math.cos(th), math.sin(th)
-            lo, hi = 0.0, g.L
-            for _ in range(28):
-                mid = (lo + hi) / 2
-                if g.dentro(mid * dx, mid * dy):
-                    lo = mid
-                else:
-                    hi = mid
-            x, y = lo * dx, lo * dy
-            u = x * self.co - y * self.si
-            z = self.z0 + x * self.si + y * self.co
-            for uc, zc in self.vizinhos(u, z):
-                if abs(uc) < 1e-9 and abs(zc - self.z0) < 1e-9:
+        for bx, by in self.el.borda():
+            u, z = self.u0 + bx, self.z0 + by
+            for cu, cz in self.vizinhos(u, z, r=2):
+                if abs(cu - self.u0) < 1e-9 and abs(cz - self.z0) < 1e-9:
                     continue
-                alma = min(alma, g.dist_ext(*self._local(u, z, uc, zc)))
-        return vazado, alma
+                alma = min(alma, self.el.dist(u - cu, z - cz))
+        return vaz, alma
 
 
-def monta(L, perimetro, zlo, zhi, rt, folga=1.253):
-    """Instancia a rede da marca com um afastamento 'folga' sobre a do logo."""
-    W = L / RAZAO
-    # a altura manda: nz inteiro para nao sobrar meia fileira na borda.
-    nz = max(2, int(round((zhi - zlo) / (PZ * L * folga))))
-    pz = (zhi - zlo) / nz
-    # a volta acompanha, mantendo a celula na proporcao do logo (pu/pz = PU/PZ)
-    nu = max(6, int(round(perimetro / (pz * PU / PZ))))
-    pu = perimetro / nu
-    k = int(round(nu * DZ / PZ))
-    dz = pz * k / nu
-    m = Malha(Grao(L, W, rt), pu, pz, dz, zlo + pz / 2)
-    return m, dict(nu=nu, nz=nz, pu=round(pu, 1), pz=round(pz, 1),
-                   dz=round(dz, 2), k=k, L=L, W=round(W, 1))
+def monta(L, perimetro, zlo, zhi, k_lado, k_eixo, giro=0.0):
+    """Rede da marca, girada por 'giro', fechando a volta em passo inteiro.
+
+    Fechar a volta exige um vetor da rede puramente horizontal cujo comprimento
+    divida o perimetro. Ele e obtido como h = t1 + m*t2 com m inteiro (o m que
+    quase zera a componente vertical), e depois t1 e ajustado para que h fique
+    exatamente horizontal e caiba um numero inteiro de vezes na volta.
+    """
+    el = Elemento(L, CURTO, giro)
+    c, sn = math.cos(math.radians(giro)), math.sin(math.radians(giro))
+    rot = lambda v: (v[0]*c - v[1]*sn, v[0]*sn + v[1]*c)
+    s = el.esc
+    t1 = [q * s * k_lado for q in rot(LADO)]
+    t2 = [q * s * k_eixo for q in rot(EIXO)]
+    m = 0 if abs(t2[1]) < 1e-9 else round(-t1[1] / t2[1])
+    t1[1] = -m * t2[1]                       # h = t1 + m*t2 fica horizontal
+    hx = t1[0] + m * t2[0]
+    n1 = max(3, int(round(perimetro / abs(hx))))
+    hx = math.copysign(perimetro / n1, hx)
+    t1[0] = hx - m * t2[0]
+    tr = Trama(el, tuple(t1), tuple(t2), 0.0, (zlo + zhi) / 2)
+    vaz, alma = tr.medidas()
+    info = dict(L=round(L, 1), esc=round(s, 4), passos_na_volta=n1, m=m,
+                t1=(round(t1[0], 2), round(t1[1], 2)),
+                t2=(round(t2[0], 2), round(t2[1], 2)),
+                area_el=round(el.area, 1), celula=round(tr.area_celula, 1),
+                vazado=vaz, alma=alma)
+    return tr, info

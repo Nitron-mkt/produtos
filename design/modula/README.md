@@ -245,72 +245,72 @@ lateral, que é o que faz torre de três não balançar.
 | folga do degrau | 2,3 mm |
 | recuo do rodapé | 5,2 mm — a linha de sombra, e a folga do degrau, são a mesma coisa |
 
-### rev.10 / rev.11 — o vazado vira o grafismo da marca
+### rev.10 a rev.12 — o vazado vira o grafismo da marca
 
-**A rev.10 errou o desenho.** Tratei o traço do logo como uma lente simétrica e
-a rede como malha alternada. Nenhum dos dois é verdade. A rev.11 mediu.
+As rev.10 e rev.11 tentaram deduzir o desenho medindo o PNG do logo. As duas
+erraram, e a segunda errou com confiança. A rev.12 foi buscar o **vetor
+oficial**.
 
-#### O grão
+#### A fonte
 
-Extraído do PNG da marca, no referencial ponta-a-ponta:
+`marca.nitron.com.br` → `nitron-logos.zip` → **`nitron-mark.svg`** (cópia em
+`grafismo/nitron-mark.svg`). O símbolo tem três elementos — um longo e dois
+curtos — e todos são a **mesma faixa dobrada**.
 
-| | |
-|---|---|
-| comprimento × largura | 85,6 × 39,8 px → **L/W = 2,15** (não 4,07) |
-| preenchimento da caixa | 0,578 |
-| eixo maior | 75,8° da horizontal |
-| meia-largura | `hw(t) = (W/2)·(1 − (2t−1)²)^1,3` |
-| linha de centro | `vc(t) = −0,152·(W/2)·sin(2πt)` |
+Cada elemento é um contorno de seis trechos: reta curta na ponta, curva de
+concordância (o **cotovelo**), reta longa, reta curta na outra ponta, outra
+curva, reta longa de volta. As duas retas longas são **paralelas** — é uma faixa
+de largura constante com uma dobra no meio. Não é lente (rev.10), não é grão com
+linha de centro em S (rev.11): é a **junção**, que é a ideia do grafismo.
 
-O grão tem **simetria de ponto**, não de espelho: gira 180° em torno do centro e
-cai em si mesmo. É esse S da linha de centro que dá o ar de trama à marca — e era
-exatamente o que a lente simétrica da rev.10 tinha jogado fora.
+#### A conferência
+
+| elemento do PNG oficial | vetor | escala | **IoU** |
+|---|---|---|---|
+| 75 × 40 px | curto | 1,533 | **0,970** |
+| 127 × 75 px | longo | 1,564 | **0,977** |
+
+Mesma escala, mesmos dois elementos: **o grafismo é o símbolo repetido, e nada
+mais.** Foi isso que fechou a questão — antes disso eu estava ajustando uma
+forma inventada até parecer.
 
 #### A rede
 
-Medida a partir dos 28 centros do logo. As fileiras em `y = −91,5` e `y = −201`
-dão o período horizontal; a fileira intermediária em `y = −148,7` dá o desvio:
+Tirada da própria marca, que já mostra a junção:
 
 ```
-a1 = ( 57,2 ;   0,0)    período horizontal, 0,668 L
-a2 = (−12,6 ; −57,2)    descendo uma fileira, anda 12,6 px para a ESQUERDA
+lado = ponta do 3º elemento − ponta do 2º = (−40,80 ; −25,47)   |v| = 48,10
+eixo = ponta a ponta do elemento          = ( 15,42 ; −47,61)   |v| = 50,04
 ```
 
-Célula de 3.272 px² contra 1.966 px² do grão → **60% de cobertura**.
+`lado` é o passo de uma faixa para a vizinha; `eixo` repete a faixa ao longo de
+si mesma. Com `eixo` puro as faixas se emendam ponta com ponta e viram fitas
+contínuas — na marca elas têm folga, e é essa folga que separa um elemento do
+outro. Por isso os dois passos entram multiplicados por um fator, que na peça
+também paga a alma entre os furos.
 
-**O sinal de `a2` decide tudo.** Com ele invertido — que foi o meu primeiro
-palpite — `a2` fica paralela ao eixo do grão (−76°), os grãos se emendam ponta
-com ponta e viram fitas onduladas contínuas. Com o sinal certo, `a2` cruza o
-eixo a 27° e nasce a trama. A reconstrução foi conferida contra a marca, lado a
-lado, antes de ir para a peça.
+`grafismo/conferencia-grafismo.png` põe o grafismo oficial ao lado da
+reconstrução com esses parâmetros.
 
 #### Deitado na peça
 
-Tudo gira +90°, que é o que troca o vazado vertical pelo horizontal sem perder a
-marca: eixo do grão a **+14,2°**, período de 0,668 L na volta e na altura, e
-descida de 0,147 L por coluna. A célula fica quadrada, como no logo.
-
-A rede entra com a **mesma forma** do logo, só afastada por um fator de escala
-até o vazado cair de 60% para o alvo da peça — o desenho é o mesmo, o que muda é
-o espaçamento, que na peça tem de deixar alma entre os furos.
+⚠️ **O guia da marca diz que o grafismo "usa a mesma inclinação do logo e nunca
+é rotacionado".** O eixo do elemento no logo está a **−72°** — quase vertical.
+Deixá-lo assim devolve o vazado vertical que motivou toda esta revisão. A peça
+está com `graf_giro = 90°`, que põe o eixo a **+18°** e deixa as aberturas
+horizontais, como pedido — **mas isso contraria a regra do guia**. Trocar
+`graf_giro` para `0` em `TAMANHOS` volta à inclinação da marca.
 
 | | P | M | G |
 |---|---|---|---|
-| grão | 32 × 14,7 mm | 46 × 21,4 mm | 60 × 27,9 mm |
-| malha (volta × altura) | 27 × 4 | 27 × 4 | 32 × 4 |
-| passo | 26,1 × 26,4 | 38,2 × 37,5 | 48,5 × 48,6 |
-| descida por coluna | −5,86 | −8,33 | −10,64 |
-| vazado | 41,5% | 42,5% | 43,8% |
-| **alma mínima** | **7,4 mm** | **10,7 mm** | **13,0 mm** |
-| massa | 221 g | 440 g | 847 g |
+| elemento (ponta a ponta) | 34,5 mm | 52,0 mm | 69,0 mm |
+| passo lateral / no eixo | 0,50 / 1,33 | 0,50 / 1,20 | 0,50 / 1,20 |
+| vazado | 36% | 45% | 45% |
+| **alma mínima** | **6,0 mm** | **6,4 mm** | **8,2 mm** |
+| massa | 231 g | 435 g | 881 g |
 
-A célula sai quadrada nos três (`pu/pz` entre 0,99 e 1,00) porque a altura manda:
-`nz` inteiro para não sobrar meia fileira na borda, e a volta acompanha na
-proporção do logo.
-
-**Ponta arredondada.** As pontas do grão são cúspides — derivada zero, ângulo
-zero. Na peça isso é concentrador de tensão, e no molde é gume de aço fino. As
-duas pontas viram calota de raio 1,8 a 3,0 mm conforme o tamanho.
+O P segue o mais fechado da família de propósito: é a peça que vai à vista em
+casa e a que guarda coisa pequena.
 
 **Como a casca é emitida.** `perfurada()` em `geometria.py`: para cada tira do
 contorno, acha os trechos sólidos no meio da tira e refina as bordas por
@@ -321,11 +321,8 @@ devolvia um intervalo atravessando o furo do meio.
 
 **O que não mudou.** O vazado continua **coplanar** — nenhum relevo por fora,
 senão o ninho trava a meio caminho. Coluna e painel de etiqueta ficam cheios: a
-coluna é poste de carga da pilha, não pode ser furada.
-
-`grafismo.py` depende de nada além de `math`. A extração das constantes a partir
-do PNG usou `numpy`, `Pillow` e `scipy`, mas isso é trabalho de uma vez só — as
-constantes estão no topo do arquivo.
+coluna é poste de carga da pilha, não pode ser furada. `grafismo.py` não depende
+de nada além de `math`.
 
 ## Arquivos
 
