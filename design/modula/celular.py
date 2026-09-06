@@ -102,7 +102,7 @@ def prancha(k, nome=None):
     d = ImageDraw.Draw(folha)
     d.text((26, 20), f"MODULA {k}", fill=(19, 30, 41), font=f_tit)
     d.text((26 + d.textlength(f"MODULA {k}", font=f_tit) + 26, 30),
-           f"{FIC['X']/10:.0f} x {FIC['Y']/10:.0f} x {FIC['H']/10:.1f} cm    "
+           f"{FIC['X']/10:.1f} x {FIC['Y']/10:.1f} x {FIC['H']/10:.1f} cm    "
            f"{FIC['L']:.1f} L    {FIC['g']:.0f} g".replace(".", ","),
            fill=(94, 107, 112), font=f_rot)
     d.line([(0, topo-40), (W*3, topo-40)], fill=(19, 30, 41), width=3)

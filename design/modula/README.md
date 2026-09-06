@@ -1,27 +1,28 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.06** — o pé achatado vira uma **saia de 50 mm** recortada em arcos: ninha junto com o corpo e abre 5 cm entre os andares.
+**rev.18** — o pé vira **copo aberto para cima**: o ninho de 17 mm passa a ser real (e provado em toda build), a base ganha saída de molde, o assento da pilha vira canal com guia, e o fundo ganha nervuras altas.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
 no uso**, formando andares. Dez peças ninhadas ocupam menos altura que três plugadas.
 
-> Sem STL nesta revisão, por decisão de projeto: a forma ainda está em ajuste.
+> STL, GLB (celular), pranchas de vistas e giro em `out/`. A malha serve para forma, medida e impressão 3D; não é estanque para usinagem.
 
 Dossiê interativo (visualizador 3D, mecânica, ficha, riscos):
 https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 ## Os três tamanhos
 
-| | Externo (mm) | Cesta + saia | Parede | Massa PP | Resina/peça | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 300 × 200 × 200 | 150 + 50 | 1,8 mm | 271 g | R$ 2,71 | 5,4 L | 200 mm | 16 mm | 5,9× | 184–245 tf |
-| **M** | 400 × 300 × 250 | 200 + 50 | 2,0 mm | 472 g | R$ 4,71 | 15,9 L | 250 mm | 17 mm | 6,2× | 367–490 tf |
-| **G** | 600 × 400 × 300 | 250 + 50 | 2,3 mm | 912 g | R$ 9,10 | 42,7 L | 300 mm | 20 mm | 6,3× | 734–979 tf |
+| | Externo (mm) | Cesta + perna | Parede | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
+|---|---|---|---|---|---|---|---|---|---|
+| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 262 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
+| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 499 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
+| **G** | 596 × 396 × 370 | 320 + 50 | 2,5 mm | 1.195 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
 
-Grade **1 : 2 : 4** — dois P dão exatamente um M, dois M dão exatamente um G.
-No palete 1200 × 800: 16 P, 8 M ou 4 G por camada, sem sobra.
-Dez M plugadas = 2.500 mm de altura; ninhadas = 403 mm.
+Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — com **4 mm de folga
+por módulo** (rev.18): 400 × 300 exatos não cabem doze vezes em 1000 × 1200. A altura segue
+φ (rev.14). O passo de ninho é conferido em toda build contra a malha real (rev.18), e o
+passo de pilha inclui os 3 mm que o rodapé afunda no canal.
 
 ## Contra as peças de referência
 
@@ -561,14 +562,153 @@ queda recuam a boca da frente em 15,4 mm. O fundo do palete continua sendo
 | massa | 471 g | 465 g |
 | litros | 16,5 | 16,5 |
 
+### rev.18 — segunda varredura: o ninho era impossível, e a base não saía do molde
+
+A varredura da rev.17 mediu na malha. Esta mediu **o encaixe** — girando a peça 180°,
+subindo o passo e testando vértice a vértice contra a peça de baixo. Dois erros graves
+que nenhum render mostrava, seis melhorias.
+
+#### 1. O ninho de 17 mm não existia
+
+O passo do ninho vinha da parede (espessura ÷ tan 7,5° = 17,2 mm). Mas a perna tem 50 mm,
+e o pé de canto era uma casca fechada por fora e aberta para o vão. Girada e descida 17,2 mm,
+a peça de cima **atravessava o fundo da de baixo**:
+
+| ninho girado, M (rev.17) | |
+|---|---|
+| vértices do pé abaixo do topo do fundo da peça de baixo | 3.302 de 11.016 |
+| até onde o pé descia | 17,2 mm do chão da peça de baixo (o fundo estava em 52–54,5) |
+| passo real, com o pé pousando no fundo | **54,5 mm** |
+| cubagem real de 10 peças | **3,3×, não 6,1×** |
+
+O rodapé (11 mm) tinha `assert` para passar raspando o fundo. O pé, 39 mm mais fundo,
+nunca foi conferido — da rev.05 à rev.17.
+
+#### 2. O vão sob o fundo tinha contra-saída de 6,6 mm
+
+A perna continuava a conicidade da parede para baixo. O vão interno ficava **mais estreito
+no chão (150,1 mm de meia-largura) do que junto ao fundo (156,7)**: o postiço da cavidade
+que o forma teria de ser mais largo na ponta do que na raiz. Sem gaveta ou macho colapsível,
+a base não desmoldava — com ou sem ninho.
+
+#### A solução dos dois: pé em copo
+
+É a solução clássica de caixa stack-nest, e ela resolve os dois erros de uma vez. O pé
+passa a ser um **copo aberto para cima**, formado pelo macho através de um recorte no canto
+do fundo:
+
+- a **face externa** do copo é a própria casca recuada da base, e sai pela cavidade (afina
+  para baixo);
+- as **paredes internas** são duas, ortogonais aos lados, inclinadas **7,5° para o canto
+  conforme descem**: saem pelo macho (o bolsão alarga para cima) e, do lado do vão, formam
+  um postiço que **alarga para baixo** — a contra-saída do item 2 desaparece;
+- a **sola** da rev.17 vira o fundo do copo.
+
+E, como todas as faces do copo têm os mesmos 7,5° da parede, **o copo de cima entra no copo
+de baixo com a mesma folga que a parede tem** (`passo × tan − e` = 0,26 mm). O ninho de
+17 mm voltou a existir — e desta vez está provado: `confere_ninho()` roda dentro de
+`ficha()`, gira a peça, sobe o passo e exige que todo vértice da base que fique abaixo do
+fundo da peça de baixo esteja dentro de um copo. **A build quebra se violar.**
+
+| ninho girado, M (rev.18) | |
+|---|---|
+| vértices da base abaixo do topo do fundo da peça de baixo | 2.778 |
+| fora de um copo | **0** |
+
+O teste pegou o próprio redesenho na primeira build: eu tinha feito a parede interna do
+copo 1 mm mais grossa que a parede (para a moldura sempre encontrar material), e ela
+colidia — porque **essa parede só cabe se for ≤ passo × tan − 0,26 = e**. É a única peça
+da caixa que não pode engrossar. O reforço foi para um colar de 1,5 mm restrito à laje do
+fundo, que nunca entra no bolsão de baixo.
+
+O custo é visível: **quatro bolsões de 39 mm nos cantos do fundo da cesta** — 40 × 40 mm
+no M, 27 × 27 no P. Toda caixa stack-nest do mercado tem isso. No P de quarto infantil é
+onde peça pequena vai se acumular; se incomodar, o copo do P pode ser mais raso (custa
+passo de ninho).
+
+O pé ficou como o rodapé pede: **67 mm de corda no chão, 77 no rodapé** (M), porque a
+parede interna inclinada faz a corda crescer `tan 7,5°` por mm subindo. Apoio no piso:
+47,9 cm² nos quatro copos (era 23,1 na rev.17, 2,8 na rev.16).
+
+#### 3. O assento da pilha tinha 2 mm, ao lado de uma vala de 30
+
+O rodapé (2 mm) pousava no topo da coluna (2 mm) com alinhamento exato e **tolerância
+zero**: 2 mm de deslocamento e ele caía para dentro da coluna ou para dentro do bolsão
+aberto atrás dela. Contração de PP em 400 mm varia mais que isso entre ciclos.
+
+Agora o topo da coluna é um **canal**: uma **ponte** fecha o bolsão atrás da coluna até
+1,5 mm da parede de cima (que passa por ali no ninho — por isso a ponte não alcança a aba),
+o lábio da coluna sobe 3 mm por dentro e uma **guia chanfrada** fecha por fora. O rodapé
+assenta 3 mm abaixo do aro, com **3 mm de folga para dentro e 1 mm para fora**, e o chanfro
+de 45° o conduz. A face interna da coluna ganhou **0,5° de saída** (195 mm sem saída era
+arrasto certo no macho).
+
+| M | rev.17 | rev.18 |
+|---|---|---|
+| largura do degrau | 2,0 mm | **29,9 mm** (ponte) |
+| canal onde o rodapé assenta | — | 5,7 mm, com guia chanfrada |
+| tolerância lateral da pilha | ±0 | −3 / +1 mm |
+
+#### 4. O fundo era uma treliça de 2,5 mm sem altura
+
+Barra de 7,5 × 2,5 mm vencendo 285 mm de vão. A mesma massa em **nervura de 2,0 × 10,4 mm**
+(`Malha.viga` com afunilamento de 1° por face, raiz larga, ponta fina) dá **~14× a rigidez**
+por nervura — e o vão de 50 mm embaixo estava vazio à toa. O passo abriu junto (vão de 18 mm
+no M, 22 no G; **9 mm no P**, que guarda coisa pequena). No ninho a ponta da nervura para
+5 mm acima do fundo da peça de baixo — é mais um `assert`.
+
+#### 5. A base estava solta do corpo
+
+Achado no meio do caminho: o fundo começava 2 mm acima do plano do rodapé e a casca da base
+terminava nele. **Nenhuma face ligava as duas.** Agora o fundo assenta no plano do rodapé e a
+casca da base sobe até o topo da moldura.
+
+#### 6. Cota externa igual ao módulo do palete
+
+400 × 300 exatos dão zero folga para 12 peças em 1000 × 1200. Caixa modular real é 396–398
+× 296–298. **X e Y baixaram 4 mm nos três.** A largura do furo no P subiu junto de 12,1 para
+**13,1 mm**, saindo da faixa de aprisionamento de dedo infantil (7–12 mm, EN 71-8). A parede
+do G foi de 2,3 para **2,5 mm**: relação fluxo/espessura de 231 para 213 numa parede vazada
+em 46%.
+
+#### 7. A tira dobrada no vazado
+
+Ao mudar X de 400 para 396 a parede do M pulou de 177 para 322 g com o mesmo vazado. Era
+`perfurada()`: quando a coluna vizinha era sólida onde o meio da tira tinha furo (o furo
+entra em diagonal), o trecho sólido daquela coluna atravessava o furo vizinho e **duas tiras
+se sobrepunham**. Dependia do alinhamento entre amostra e trama — por isso nunca apareceu
+igual duas vezes. Cada trecho agora é clipado à meia-distância dos trechos vizinhos.
+Conferência independente (integral do sólido × largura × espessura): **razão 0,98**.
+
+#### O que a rev.18 custou e o que devolveu
+
+| M | rev.17 | rev.18 |
+|---|---|---|
+| ninho | 17,2 mm (falso) | **17,2 mm (provado)** |
+| vão sob o fundo | contra-saída 6,6 mm | saída positiva |
+| apoio no piso | 23,1 cm² | 47,9 cm² |
+| degrau da pilha | 2,0 mm | 29,9 mm, com canal e guia |
+| rigidez do fundo | 1× | ~14× por nervura |
+| massa | 465 g | 499 g |
+| litros | 16,5 | 16,2 |
+| externo | 400 × 300 | 396 × 296 |
+
+Os 34 g são ~25 g de nervura e ~10 g de copo, guia e ponte. Massa comprada com função.
+
+**O que continua aberto.** O STL segue não estanque (1,3–1,7% de arestas ímpares, das
+emendas de banda). A guia do aro, a ponte e a face interna da coluna ainda não têm raio de
+concordância — é trabalho de CAD, não de conceito. E o `engenheiro-molde` precisa validar
+a parede do G (2,5 mm, fluxo 213:1) antes de fechar cota.
+
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
-| `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, normais suaves com crease e o pé de planta arredondada |
-| `modelo.py` | a peça — parâmetros dos 3 tamanhos e construção; `python3 modelo.py` imprime a ficha |
+| `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
+| `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`; `python3 modelo.py` imprime a ficha e quebra se o ninho colidir |
 | `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
-| `exporta.py` | gera o JSON do visualizador e as vistas (sem STL nesta revisão) |
+| `exporta.py` | gera o JSON do visualizador, as vistas e o STL (`python3 exporta.py stl` só o STL, `png` só as vistas) |
+| `celular.py` | GLB (abre no celular), prancha de 6 vistas por tamanho e giro em GIF |
 | `dossie.html` | o dossiê publicado |
 | `out/0*.png` | vistas: família nas três cores, isométrica, ninho, pilha, encaixe, torre branca |
 | `out/modula.json` | malha quantizada (int16 → base64) usada pelo visualizador |
@@ -578,8 +718,8 @@ o raio dos cantos, a altura da boca e o perfil do aro são todos parâmetros.
 
 ## O que a fábrica precisa decidir
 
-1. **Câmara quente no G.** Área projetada de 2.400 cm²: a 300 bar de pressão de cavidade
-   dá 734 tf, a 400 bar dá 979 tf. O parque (`VW_MAQUINA_CAPACIDADE`) tem 38 injetoras
+1. **Câmara quente no G.** Área projetada de 2.360 cm²: a 300 bar de pressão de cavidade
+   dá 722 tf, a 400 bar dá 963 tf. O parque (`VW_MAQUINA_CAPACIDADE`) tem 38 injetoras
    até 260 t, **uma** de 398 t, **seis** de 600–800 t, uma de 1.100 t e 43 acima de
    1.200 t — e a faixa acima de 1.100 t é justamente a que o histórico mede com zero
    máquina livre. O G só é confortável com 3–4 pontos de injeção; com um ponto e canal
@@ -590,13 +730,14 @@ o raio dos cantos, a altura da boca e o perfil do aro são todos parâmetros.
    tem de continuar sendo PP: o ciclo de moído vale ~R$ 2,63 M/ano e só funciona porque
    o refugo é mono-resina.
 3. **Cor entra por Coloratto.** Branco (farmácia) e chumbo (e-commerce), e só.
-4. **Ensaio de compressão e fluência** antes do aço: 4 pés por peça apoiados nas cristas;
+4. **Ensaio de compressão e fluência** antes do aço: o rodapé apoiado no canal das 4 colunas;
    5 andares a 15 kg = 750 N. PP deforma sob carga constante — é isso que faz torre de
    plástico "sentar" no estoque depois de meses. Com a parede vazada isso deixa de ser
    formalidade: é o ensaio que decide a espessura final.
-5. **Vão do fundo em grelha** (15 a 22 mm conforme o tamanho): indiferente para farmácia e
-   e-commerce, decisivo para quarto infantil e cozinha. Alternativa sem mexer no molde: um
-   tapete de fundo avulso, que também vira item de venda.
+5. **Vão do fundo em grelha** (9 mm no P, 18 no M, 22 no G) e os **quatro bolsões de canto**
+   (o copo do pé, aberto para dentro da cesta): indiferentes para farmácia e e-commerce,
+   decisivos para quarto infantil e cozinha. Alternativa sem mexer no molde: um tapete de
+   fundo avulso, que também vira item de venda.
 6. **As três cores**: branco (farmácia e casa), chumbo (e-commerce), terracota (linha).
    Nada além disso — cor divide demanda existente, produto novo cria demanda.
 7. **A portinhola** da referência grande é uma **quarta peça**, fora dos 3 moldes.

@@ -122,17 +122,34 @@ class Malha:
         self.hexa([(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0)],
                   [(x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)], tag)
 
-    def viga(self, p0, p1, larg, z0, z1, tag):
-        """Barra reta de largura 'larg' entre dois pontos em planta, em
-        qualquer direcao — e o que permite a grelha do fundo ser diagonal."""
+    def viga(self, p0, p1, larg, z0, z1, tag, larg0=None):
+        """Barra reta entre dois pontos em planta, em qualquer direcao — e o
+        que permite a grelha do fundo ser diagonal. 'larg' e a largura no topo
+        (z1); 'larg0', se dada, e a largura na base (z0): nervura afunilada,
+        raiz larga e ponta fina, que e a saida dela no postico."""
         dx, dy = p1[0] - p0[0], p1[1] - p0[1]
         d = math.hypot(dx, dy)
         if d < 1e-6:
             return
-        nx, ny = -dy / d * larg / 2, dx / d * larg / 2
-        a = [(p0[0] - nx, p0[1] - ny), (p1[0] - nx, p1[1] - ny),
-             (p1[0] + nx, p1[1] + ny), (p0[0] + nx, p0[1] + ny)]
-        self.hexa([(x, y, z0) for x, y in a], [(x, y, z1) for x, y in a], tag)
+        def lados(w):
+            nx, ny = -dy / d * w / 2, dx / d * w / 2
+            return [(p0[0] - nx, p0[1] - ny), (p1[0] - nx, p1[1] - ny),
+                    (p1[0] + nx, p1[1] + ny), (p0[0] + nx, p0[1] + ny)]
+        a, b = lados(larg), lados(larg if larg0 is None else larg0)
+        self.hexa([(x, y, z0) for x, y in b], [(x, y, z1) for x, y in a], tag)
+
+    def prisma(self, pts, z0, z1, tag):
+        """Prisma reto sobre um poligono CONVEXO em planta (pontos no sentido
+        anti-horario visto de cima): e o fundo do copo de canto."""
+        n = len(pts)
+        if n < 3:
+            return
+        cx = sum(p[0] for p in pts) / n; cy = sum(p[1] for p in pts) / n
+        for i in range(n):
+            a, b = pts[i], pts[(i + 1) % n]
+            self.tri((cx, cy, z0), (b[0], b[1], z0), (a[0], a[1], z0), tag)   # base (para baixo)
+            self.tri((cx, cy, z1), (a[0], a[1], z1), (b[0], b[1], z1), tag)   # topo
+            self.quad((a[0], a[1], z0), (b[0], b[1], z0), (b[0], b[1], z1), (a[0], a[1], z1), tag)
 
     def caixa_oca(self, x0, x1, y0, y1, z0, z1, esp, tag, tampa="topo"):
         """Bloco com as 4 paredes e uma tampa — o vazio vira encaixe."""
@@ -346,7 +363,7 @@ def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
         k = max(2, int(round((z1 - z0) / passo)))
         h = (z1 - z0) / k
         marca = [fm(z0 + h * (j + 0.5)) for j in range(k)]
-        j = 0
+        trechos, j = [], 0
         while j < k:
             if not marca[j]:
                 j += 1
@@ -354,9 +371,21 @@ def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
             a = j
             while j < k and marca[j]:
                 j += 1
-            zc = z0 + h * (a + j) / 2.0
-            ia = _intervalo(fa, zc, z0, z1) or (zc, zc)
-            ib = _intervalo(fb, zc, z0, z1) or (zc, zc)
+            trechos.append((z0 + h * a, z0 + h * j))
+        for t, (ta, tb) in enumerate(trechos):
+            zc = 0.5 * (ta + tb)
+            # A coluna vizinha pode ser solida onde o meio tem furo (o furo
+            # entra em diagonal). Sem clipar, o trecho da coluna atravessava o
+            # furo vizinho e duas tiras se sobrepunham — a massa dobrava
+            # conforme o alinhamento entre amostra e trama (322 g vs 177 g).
+            c_lo = z0 if t == 0 else 0.5 * (trechos[t - 1][1] + ta)
+            c_hi = z1 if t == len(trechos) - 1 else 0.5 * (tb + trechos[t + 1][0])
+            def clip(iv):
+                if iv is None:
+                    return (zc, zc)
+                return (max(iv[0], c_lo), min(iv[1], c_hi))
+            ia = clip(_intervalo(fa, zc, z0, z1))
+            ib = clip(_intervalo(fb, zc, z0, z1))
             banda(malha, cont, i, i + 1, o_ext, o_int,
                   lambda q, p=(ia[0], ib[0]): p[0] if q == i else p[1],
                   lambda q, p=(ia[1], ib[1]): p[0] if q == i else p[1],
