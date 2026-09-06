@@ -261,29 +261,21 @@ independentes. Por termo: kit potes herméticos 86% · porta mantimento 87,5% ·
 Qualquer business case que dependa de o claim sustentar prêmio de preço nasce sem base.
 **Sanremo**, em plástico com válvula, escreve *"válvula micro ondas"* — evita o claim.
 
-### 🔴 O passivo do claim já existe na gôndola — não é hipotético
+### Sobre as etiquetas "POTE HERMETICO" no ERP — resolvido pela fábrica
 
-**A Nitron já imprime "POTE HERMÉTICO" hoje**, e não há ensaio documentado no ERP que sustente:
+O ERP tem cinco itens de embalagem ativos com "HERMETICO" na descrição (CODPROD 1068, 1069,
+1070, 1535, 1561), com compra registrada em **01/04/2026**, e uma família de PIs nomeada
+"POTE HERMETICO" (`799`, `804/806`, `807/810`, `812/815`).
 
-| CODPROD | Etiqueta ativa | Ref | Última compra |
-|---|---|---|---|
-| 1068 | `ETIQUETA BOPP POTE HERMETICO - 156` | Alto 2,2 L | **01/04/2026** |
-| 1069 | `ETIQUETA BOPP POTE HERMETICO - 155` | Alto 850 ml | **01/04/2026** |
-| 1070 | `ETIQUETA BOPP POTE HERMETICO - 154` | Alto 460 ml | **01/04/2026** |
-| 1535 | `ETIQUETA BOPP POTE HERMETICO - 151` | Alto 4,3 L | **01/04/2026** |
-| 1561 | `CINTA DO PORTA MACARRAO HERMETICO REF:181` | — | — |
+🔴 **[CORRIGIDO 06/09/2026 — informação da fábrica] Nenhum pote da categoria sai com etiqueta
+"hermético", e nenhum é vendido como hermético.** O cadastro no ERP não reflete o que vai na
+gôndola: são itens legados, ou destinados a outro produto, ou nomenclatura interna antiga que
+sobreviveu no cadastro de PI.
 
-E o cadastro de PI já usa o termo: `799 TAMPA POTE HERM. C/ TRAVAS 4,3 LITROS`, além de uma
-família inteira `804/806`, `807/810`, `812/815` nomeada "POTE HERMETICO".
-
-`AD_FICHATECNICA` tem **4 linhas na base inteira** e nenhum ensaio ligado a esses produtos.
-O art. 36 do CDC exige que os dados que sustentam a alegação estejam **em poder do fornecedor**.
-
-**Consequência de método: qualquer projeto de vedação começa medindo o produto ATUAL, sem
-gaxeta.** Se o pote que já está na prateleira passar no ensaio, o claim impresso ganha lastro e
-o projeto de gaxeta perde a justificativa. Se não passar, o problema é urgente e independe de
-qualquer lançamento. Custa uma balança e cinco dias.
-Material não cria hermeticidade; geometria de vedação + força de fechamento criam.
+**Não há passivo de art. 36 nesta linha.** A lição que fica é de método: **descrição de item no
+ERP não é evidência do que está impresso na embalagem.** Para saber o que o rótulo diz, olhe o
+rótulo — ou pergunte a quem o compra. Um levantamento inteiro foi construído sobre essa inferência
+antes de ser corrigido pela fábrica.
 
 **O claim é abundante e a entrega é rara** — e essa distância é o achado, não a saturação em si.
 Em 600 avaliações coletadas (`pdp_ml_review`, 5 anúncios × 120, amostra por relevância — superamostra

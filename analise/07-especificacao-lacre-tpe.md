@@ -1,18 +1,18 @@
 # Especificação do lacre de vedação em TPE — Linha Pote com Travas
 
-> ## ⛔ STATUS: NÃO APROVADO PARA EXECUÇÃO
+> ## ✅ STATUS: APROVADO PARA EXECUÇÃO — 06/09/2026
 >
-> O `curador-portfolio` vetou o projeto em 06/09/2026 (parecer em
-> `06-gaxeta-tpe-potes-hermeticos.md`, revisão 4). **Nada aqui autoriza gastar dinheiro.**
-> Estão explicitamente vetados: rework de molde, compra de ferramenta de perfil, cotação formal
-> com extrusores e abertura de cadastro de fornecedor.
+> O `curador-portfolio` vetou o projeto por análise (parecer em
+> `06-gaxeta-tpe-potes-hermeticos.md`, revisão 4) e **a diretoria decidiu prosseguir**. O veto
+> fica registrado; a decisão prevalece.
 >
-> **Por que este documento existe assim mesmo:** escrever a especificação custa zero, e ela é
-> exatamente o que precisa estar pronto se o ensaio de bancada devolver o resultado que reabre o
-> caso (§8). Sem ela, reabrir significa recomeçar do zero três meses depois.
+> Este documento é a **especificação do produto**. O plano de execução — ferramental, montagem,
+> mão de obra, cadastro no ERP, cronograma e investimento — está em
+> `08-operacionalizacao-aro-tpe.md`.
 >
-> **E uma coisa que ele NÃO é:** este documento não é pré-requisito do ensaio. O ensaio mede o
-> produto atual, sem lacre nenhum. Ver §7.
+> ⚠️ **Duas cotas continuam travadas até a bancada:** a altura do lábio e a força de abertura
+> resultante (§7). Não encomende ferramenta de perfil antes de medir — é uma semana e R$ 200,
+> e é o que separa um perfil que funciona de um que não fecha a trava.
 
 ---
 
@@ -183,15 +183,16 @@ Ambas as medições estão na aba **Travas** de `ensaios/protocolo-ensaio-estanq
 
 ---
 
-## 8. O que reabriria o caso
+## 8. Portas de decisão do projeto
 
-O veto cai se um destes dois for **medido**, não estimado:
+O projeto está aprovado, mas tem duas portas onde **parar ainda é a decisão certa**, e ambas
+custam pouco para atravessar. Estão detalhadas em `08-operacionalizacao-aro-tpe.md` §12:
 
-1. **Teste de preço real:** mesma SKU, dois preços, mesmo canal, 8 semanas, na base de 1.121
-   clientes do `233.012.001`, mostrando disposição a pagar ≥ +6%. Análise de anúncio de
-   concorrente já foi feita e deu delta zero a negativo — não conta.
-2. **Ou:** a medição de §7 mostrando que a força de abrir **não sobe**, **combinada** com falha do
-   produto atual no ensaio de vedação. Nesse cenário o lacre deixa de ser upgrade opcional e vira
-   correção de conformidade — outro business case, com outro ônus da prova.
+1. **Porta 1 — bancada (semana 2, R$ 200).** Se a força de abrir subir acima de 1,5× com o perfil
+   de 1,5 mm, o produto anda para o modo de falha do concorrente que veda bem (32,3% das negativas
+   sobre abrir duro). Aí a rota muda: alterar a trava, ou reduzir a altura do lábio, ou parar.
+2. **Porta 2 — piloto de uma tampa (semana 16).** Antes de tocar nos outros quatro moldes.
 
-Enquanto nenhum dos dois existir, este documento fica na gaveta.
+Fora dessas portas, executar. Um teste de preço real na base de 1.121 clientes do `233.012.001`
+— mesma SKU, dois preços, 8 semanas — continua sendo a forma mais barata de saber se o aro paga
+o próprio custo, e pode rodar **em paralelo** ao desenvolvimento, sem atrasá-lo.

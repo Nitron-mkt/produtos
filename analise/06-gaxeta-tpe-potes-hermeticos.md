@@ -157,63 +157,49 @@ ali: `pdp_lancamento` é a lista do que lançar, e diluí-la é o problema que p
 
 ---
 
-## 🔴 REVISÃO 3 — o claim já está impresso, e a pergunta do projeto muda
+## ✅ REVISÃO 5 — a fábrica corrigiu: não há claim impresso, e o projeto foi aprovado
 
-O engenheiro de molde encontrou no ERP algo que reordena tudo. **A Nitron já vende esses potes
-como herméticos.** Cinco itens de embalagem ativos, quatro deles comprados em **01/04/2026** —
-produção corrente, cinco meses atrás:
+### A correção
 
-| CODPROD | Etiqueta | Ref | Família |
-|---|---|---|---|
-| 1068 | `ETIQUETA BOPP POTE HERMETICO - 156` | Alto 2,2 L | **RET-C — prioridade 1** |
-| 1069 | `ETIQUETA BOPP POTE HERMETICO - 155` | Alto 850 ml | RET-B |
-| 1070 | `ETIQUETA BOPP POTE HERMETICO - 154` | Alto 460 ml | RET-A |
-| 1535 | `ETIQUETA BOPP POTE HERMETICO - 151` | Alto 4,3 L | **RET-D — prioridade 2** |
-| 1561 | `CINTA DO PORTA MACARRAO HERMETICO REF:181` | — | — |
+A revisão 3 afirmou, a partir do ERP, que a Nitron já imprimia "POTE HERMÉTICO" em quatro
+etiquetas BOPP ativas, e construiu sobre isso um passivo de art. 36 do CDC.
 
-Verifiquei por consulta própria. E o cadastro de PI usa o termo há anos: `799 TAMPA POTE **HERM.**
-C/ TRAVAS 4,3 LITROS`, além da família `804/806`, `807/810`, `812/815`, toda nomeada
-"POTE HERMETICO". **Duas das quatro etiquetas cobrem exatamente as duas tampas prioritárias
-deste projeto.**
+🔴 **Isso estava errado. A fábrica confirmou em 06/09/2026: nenhum pote desta categoria sai com
+etiqueta "hermético", e nenhum é vendido como hermético.** Os itens 1068/1069/1070/1535 estão
+cadastrados e com compra lançada em 01/04/2026, mas não vão nestes produtos — são legado, ou
+destinam-se a outro item, ou é nomenclatura interna antiga que sobreviveu no cadastro de PI
+(como o `799 TAMPA POTE HERM. C/ TRAVAS`).
 
-`AD_FICHATECNICA` tem **4 linhas na base inteira**, nenhuma ligada a esses produtos. Não há ensaio.
+**Lição de método, registrada no CLAUDE.md:** descrição de item no ERP não é evidência do que
+está impresso na embalagem. Para saber o que o rótulo diz, olhe o rótulo.
 
 ### O que isso muda
 
-O projeto foi concebido como **"transformar os potes em herméticos"**. O ERP diz que a empresa
-**já afirma que eles são**. Então a pergunta real nunca foi a que estávamos respondendo:
-
-> **Não é "como tornar hermético?". É "o que já está na prateleira sustenta o que está escrito nele?"**
-
-Três desfechos, e nenhum deles é o projeto original:
-
-1. **O produto atual passa no ensaio.** O claim impresso ganha lastro documental, o passivo do
-   art. 36 fecha, e **a gaxeta perde a última justificativa que tinha** — porque o benefício que
-   ela venderia já está entregue.
-2. **O produto atual não passa.** Então existe um problema de conformidade **hoje, com etiqueta
-   comprada em abril**, que independe totalmente de lançar qualquer coisa. Vira prioridade sobre
-   o projeto, não dentro dele.
-3. **Passa no ensaio de vazamento e falha no de vapor.** O caminho é trocar a palavra na arte
-   para **"não vaza"** — custo de uma revisão de arte, não de cinco moldes.
-
-**Em nenhum dos três a gaxeta é a ação seguinte.** E o ensaio que separa os três custa uma balança
-de 0,01 g, uma estufa e cinco dias, **usando produto que já está no estoque**.
-
-### 📋 Entregáveis prontos para execução
-
-| Arquivo | O que é | Status |
+| | Antes (revisão 3) | Agora |
 |---|---|---|
-| `ensaios/protocolo-ensaio-estanqueidade.xlsx` | Planilha de bancada, 7 abas, com veredito automático e controle negativo obrigatório | **pronto para rodar** |
-| `analise/07-especificacao-lacre-tpe.md` | Especificação do perfil TPE, cotas, canal, junta, 17 comprimentos de corte | **de gaveta — vetado para execução** |
+| Passivo de art. 36 | urgente, R$ 822 k expostos | **não existe** |
+| Ação nº 1 | ensaiar o produto atual por conformidade | **não é mais obrigatória por conformidade** |
+| Natureza do projeto | validar claim já impresso | **decisão de produto pura** |
 
-A aba **Travas** da planilha é a que mede a tesoura abrir/vedar, e é a única que precisa dos
-R$ 200 de perfil de esquadria. Todas as outras usam produto de estoque.
+Sem claim impresso, não há nada a defender juridicamente e nada a retirar da arte. O aro de TPE
+volta a ser o que era na revisão 1: uma decisão de investimento, a ser tomada por quem tem a
+alçada.
 
-### A ação nº 1 do projeto passa a ser esta
+### A decisão
 
-**Rodar os ensaios 1 e 2 (§6.5) no produto ATUAL, sem gaxeta, nas famílias RET-C e RET-D.**
-Custo de material: zero. Prazo: 5 dias úteis, 7 de calendário. É a única coisa neste documento
-que deveria começar esta semana.
+**O `curador-portfolio` manteve o veto técnico** (revisão 4), e as razões dele continuam
+válidas e registradas: não há prêmio de preço medido, a evidência de reviews sugere que a trava
+resolve mais que a gaxeta, e há o risco da tesoura abrir/vedar.
+
+**A diretoria decidiu prosseguir assim mesmo, em 06/09/2026.** O veto de um agente de análise não
+se sobrepõe a uma decisão de quem responde pelo portfólio — ele fica registrado como a análise
+que era, e a decisão fica registrada por cima dela. É assim que deve funcionar.
+
+**O plano de execução está em `analise/08-operacionalizacao-aro-tpe.md`.**
+
+O ensaio de bancada (`ensaios/protocolo-ensaio-estanqueidade.xlsx`) continua sendo a primeira
+porta do projeto — não mais por conformidade, mas porque é ele que fecha a cota da altura do
+lábio e mede a força de abertura antes de qualquer compromisso de ferramenta.
 
 ---
 
@@ -684,6 +670,6 @@ Homologar segunda fonte desde o piloto e manter a ferramenta de perfil como ativ
 
 ---
 
-*Revisão 4 — 06/09/2026. **Projeto VETADO pelo curador-portfolio.** Radar de concorrência concluído (600 avaliações em
+*Revisão 5 — 06/09/2026. Veto do curador registrado; **decisão da diretoria de prosseguir**. Execução em `08-operacionalizacao-aro-tpe.md`. Radar de concorrência concluído (600 avaliações em
 `pdp_ml_review`, run 264292); engenheiro de molde e curador concluídos. Nada gravado em `pdp_lancamento` até o parecer do
 curador-portfolio.*
