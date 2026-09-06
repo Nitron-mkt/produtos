@@ -1,0 +1,523 @@
+<title>Planograma do Showroom</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&family=Aleo:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EFF3F3; --sheet:#FCFCFB; --raise:#F5F8F8;
+  --ink:#14201F; --ink-2:#3A4746; --muted:#6C7A79;
+  --rule:#D6DEDD; --rule-2:#E7EEED;
+  --brand:#08a9b1; --brand-deep:#056B71; --brand-soft:#E0F3F4; --brand-ink:#043F43;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F;
+  --z-chao:#E9EDEC; --z-maos:#DFE7E6; --z-olhos:#CFE6E7; --z-topo:#E9EDEC;
+  --ok:#1B6B57; --ok-soft:#DFEFE9;
+  --warn:#8A6410; --warn-soft:#F7EDD8;
+  --bad:#A32820; --bad-soft:#F7E3E1;
+  --dim:#8A9897;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0D1313; --sheet:#1A1A19; --raise:#212A29;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F;
+  --z-chao:#1D2726; --z-maos:#222E2D; --z-olhos:#123033; --z-topo:#1D2726;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D1313; --sheet:#1A1A19; --raise:#212A29;
+  --ink:#ECF3F2; --ink-2:#C6D3D2; --muted:#8B9998;
+  --rule:#293433; --rule-2:#1F2A29;
+  --brand:#1BC6CE; --brand-deep:#7BE6EC; --brand-soft:#0A2E31; --brand-ink:#B7EFF2;
+  --a-coz:#08a9b1; --a-org:#B8862F; --a-ban:#3D6EA8; --a-imp:#C4552F;
+  --z-chao:#1D2726; --z-maos:#222E2D; --z-olhos:#123033; --z-topo:#1D2726;
+  --ok:#63C1A3; --ok-soft:#112421;
+  --warn:#D9A64C; --warn-soft:#2B2214;
+  --bad:#EE857A; --bad-soft:#2E1B19;
+  --dim:#5D6B6A;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Montserrat,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+h1,h2{font-family:"Bebas Neue",Montserrat,sans-serif;font-weight:400;letter-spacing:.012em;
+  line-height:1.02;margin:0;text-wrap:balance}
+h3{font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:-.012em;margin:0;font-size:15.5px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);
+  padding:.1em .38em;border-radius:3px}
+p{margin:0 0 14px;max-width:74ch}
+a{color:var(--brand-deep)}
+:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
+
+header.mast{padding:52px 0 20px;border-bottom:2px solid var(--ink)}
+.eyeb{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"Bebas Neue",sans-serif;
+  font-size:13px;letter-spacing:.15em;color:var(--muted);margin-bottom:14px}
+.eyeb span:first-child{color:var(--brand-deep)}
+h1{font-size:clamp(2.3rem,5.6vw,3.9rem)}
+.slog{font-family:Aleo,Georgia,serif;font-size:15px;color:var(--brand-deep);margin:6px 0 16px}
+.thesis{font-family:Aleo,Georgia,serif;font-size:1.08rem;line-height:1.62;color:var(--ink-2);max-width:68ch}
+.thesis b{font-family:Montserrat,sans-serif;font-weight:700;color:var(--ink)}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px}
+.tile{background:var(--sheet);padding:15px 16px 16px;display:flex;flex-direction:column;gap:4px}
+.tile .tl{font-family:"Bebas Neue",sans-serif;font-size:11.5px;letter-spacing:.14em;color:var(--muted)}
+.tile .tv{font-family:"IBM Plex Mono",monospace;font-size:1.55rem;font-weight:600;
+  letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .tv small{font-size:.84rem;font-weight:500;color:var(--ink-2);margin-left:2px}
+.tile .ts{font-size:11.5px;color:var(--muted);line-height:1.45}
+.tile.acc .tv{color:var(--brand-deep)}
+.tile.hot .tv{color:var(--bad)}
+
+section{padding-top:50px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);
+  padding-bottom:10px;margin-bottom:20px}
+.shead .sn{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--brand-deep);flex:none}
+h2{font-size:clamp(1.45rem,3vw,1.95rem)}
+.lede{font-family:Aleo,Georgia,serif;font-size:1.02rem;color:var(--ink-2);line-height:1.65;max-width:70ch}
+
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+thead th{font-family:"Bebas Neue",sans-serif;font-size:12px;letter-spacing:.11em;color:var(--muted);
+  text-align:left;padding:10px 11px;border-bottom:1.5px solid var(--rule);
+  background:var(--raise);white-space:nowrap}
+td{padding:11px;border-bottom:1px solid var(--rule-2);vertical-align:top;font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  white-space:nowrap;font-weight:500}
+td.k{font-weight:700;white-space:nowrap}
+td.d{color:var(--ink-2);font-size:12.5px;line-height:1.5}
+tr.tot td{background:var(--raise);font-weight:700;border-top:1.5px solid var(--rule)}
+caption{caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);
+  padding:11px;border-top:1px solid var(--rule-2);line-height:1.5}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  padding:2px 7px;border-radius:3px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.w{background:var(--warn-soft);color:var(--warn)}
+.chip.b{background:var(--bad-soft);color:var(--bad)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:7px}
+
+.call{border-left:3px solid var(--brand);background:var(--brand-soft);padding:15px 18px;
+  margin:22px 0 0;border-radius:0 6px 6px 0}
+.call.w{border-left-color:var(--warn);background:var(--warn-soft)}
+.call.b{border-left-color:var(--bad);background:var(--bad-soft)}
+.call .lab{display:block;font-family:"Bebas Neue",sans-serif;font-size:12.5px;
+  letter-spacing:.13em;color:var(--brand-ink);margin-bottom:7px}
+.call.w .lab{color:var(--warn)} .call.b .lab{color:var(--bad)}
+.call p{margin:0;font-size:13.5px;max-width:78ch} .call p+p{margin-top:9px}
+
+/* planograma */
+figure{margin:26px 0 0;border:1px solid var(--rule);background:var(--sheet);padding:16px 14px 0}
+.pscroll{overflow-x:auto}
+svg.plano{display:block;width:100%;min-width:1120px;height:auto}
+svg.plano .mb{fill:var(--raise);stroke:var(--rule);stroke-width:.8}
+svg.plano .rg{stroke:var(--rule);stroke-width:.7;stroke-dasharray:3 4}
+svg.plano .zl{font-family:"Bebas Neue",sans-serif;font-size:11px;letter-spacing:.13em;fill:var(--ink-2)}
+svg.plano .zm{font-family:"IBM Plex Mono",monospace;font-size:8.5px;fill:var(--muted)}
+svg.plano .ml{font-family:"Bebas Neue",sans-serif;font-size:9.5px;letter-spacing:.07em;fill:var(--ink-2)}
+svg.plano .mm{font-family:"IBM Plex Mono",monospace;font-size:8.5px;fill:var(--muted)}
+figcaption{font-size:11.5px;color:var(--muted);line-height:1.55;
+  margin:12px -14px 0;padding:12px 16px;border-top:1px solid var(--rule-2);background:var(--raise)}
+.legenda{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:12.5px;color:var(--ink-2)}
+.legenda span{white-space:nowrap}
+.legenda b{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink)}
+
+/* barra de metros */
+.mbar{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.mrow{background:var(--sheet);display:grid;grid-template-columns:190px 1fr;gap:0;align-items:center}
+@media(max-width:640px){ .mrow{grid-template-columns:1fr} }
+.mrow .mk{padding:12px 14px;font-size:13px;font-weight:700;display:flex;align-items:center}
+.mrow .mv{padding:12px 16px 12px 0;display:flex;align-items:center;gap:2px;min-width:0}
+.mrow .seg{height:20px;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:6px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:#fff;
+  font-weight:600;overflow:hidden;white-space:nowrap}
+.mrow .mt{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+  margin-left:10px;white-space:nowrap;font-weight:600}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:11.5px;color:var(--muted);line-height:1.6;max-width:84ch}
+footer a{color:var(--brand-deep)}
+svg.plano .mn{fill:var(--sheet);stroke:var(--rule);stroke-width:1}
+svg.plano .mnl{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;fill:var(--ink-2)}
+.mlegenda{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:2px 22px;
+  grid-template-columns:repeat(auto-fit,minmax(216px,1fr));counter-reset:none}
+.mlegenda li{display:flex;align-items:baseline;gap:7px;padding:3px 0;
+  border-bottom:1px solid var(--rule);font-size:12.5px;line-height:1.35}
+.mlegenda b{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-2);
+  min-width:15px;text-align:right;font-weight:600}
+.mlegenda .mnome{color:var(--ink);flex:1}
+.mlegenda .mmet{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);
+  white-space:nowrap}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyeb"><span>NITRON · DESENVOLVIMENTO DE PRODUTOS</span><span>PLANOGRAMA DO SHOWROOM</span><span>06/09/2026</span></div>
+  <h1>Planograma<br>do showroom</h1>
+  <p class="slog">toda casa tem</p>
+  <p class="thesis">O catálogo ativo tem <b>3.079 SKUs</b>. Medidos um a um contra as prateleiras do showroom, <b>2.589 cabem em gôndola</b> e pedem <b>415,6 m</b> de frente linear. O showroom entrega <b>415,4 m</b> — depois de uma única mudança de móvel. <b>O déficit é de 0,2 m.</b> O que impede os 100% hoje não é espaço: são <b>338 SKUs sem cota no cadastro</b>.</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><span class="tl">CATÁLOGO ATIVO</span><span class="tv">3.079<small>SKUs</small></span><span class="ts">grupo de produto acabado</span></div>
+  <div class="tile acc"><span class="tl">VAI PARA GÔNDOLA</span><span class="tv">2.589</span><span class="ts">84,1% do catálogo ativo</span></div>
+  <div class="tile"><span class="tl">FRENTE NECESSÁRIA</span><span class="tv">415,6<small>m</small></span><span class="ts">produto virado de lado</span></div>
+  <div class="tile acc"><span class="tl">FRENTE DISPONÍVEL</span><span class="tv">415,4<small>m</small></span><span class="ts">déficit de 0,2 m · 0,05%</span></div>
+  <div class="tile"><span class="tl">ZONA DOS OLHOS</span><span class="tv">66,4<small>m</small></span><span class="ts">16,0% da prateleira · vende 35–50% mais</span></div>
+  <div class="tile hot"><span class="tl">SEM COTA</span><span class="tv">338</span><span class="ts">SKUs que não dá para planogramar</span></div>
+</div>
+
+<section>
+  <div class="shead"><span class="sn">§1</span><h2>O catálogo, medido peça por peça</h2></div>
+  <p class="lede">Antes de alocar, classifiquei os 3.079 SKUs ativos pela aptidão de gôndola, usando <code>TGFPRO.LARGURA</code>, <code>ALTURA</code> e <code>ESPESSURA</code>. Nem tudo que a Nitron vende vai numa prateleira — e uma parte nem se sabe, porque não foi medida.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Classe</th><th>SKUs</th><th>%</th><th>Frente de lado</th><th>O que é</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><span class="sw" style="background:var(--a-coz)"></span>5 · vai para gôndola</td><td class="n">2.589</td><td class="n">84,1%</td><td class="n">415,6 m</td><td class="d">o catálogo planogramável — é o que este documento aloca</td></tr>
+        <tr><td class="k">1 · sem cota no cadastro</td><td class="n">338</td><td class="n">11,0%</td><td class="n">—</td><td class="d">não dá para planogramar o que não foi medido. Na média dos outros, somariam <strong>≈ 54 m</strong> <span class="chip b">bloqueia os 100%</span></td></tr>
+        <tr><td class="k">3 · material de construção</td><td class="n">111</td><td class="n">3,6%</td><td class="n">70,4 m</td><td class="d">countertop de teca 10 ft, forro de teto, meia-cana — 3,05 m de comprimento. Não é produto de gôndola <span class="chip w">expositor próprio</span></td></tr>
+        <tr><td class="k">4 · grande demais</td><td class="n">26</td><td class="n">0,8%</td><td class="n">19,5 m</td><td class="d">menor dimensão de planta acima de 440 mm: não cabe nem na prateleira de 460 <span class="chip w">piso ou cavalete</span></td></tr>
+        <tr><td class="k">2 · cota suja</td><td class="n">15</td><td class="n">0,5%</td><td class="n">—</td><td class="d">serial de data digitado no campo de dimensão — 45308, 45448, 45515 <span class="chip b">corrigir no cadastro</span></td></tr>
+      </tbody>
+      <caption>Frente de lado = menor dimensão de planta do produto, que é a orientação que ocupa menos prateleira. Recorte: <code>CODGRUPOPROD</code> entre 1000000 e 1009999, <code>ATIVO='S'</code>.</caption>
+    </table>
+  </div>
+  <div class="call b">
+    <span class="lab">O QUE REALMENTE IMPEDE OS 100%</span>
+    <p>Não é metro linear — é cadastro. <strong>338 SKUs ativos não têm largura, altura ou espessura</strong>, e outros <strong>15 têm uma data no campo de dimensão</strong> (o mesmo defeito do <code>CODPROD</code> 3579 que já tinha aparecido). Enquanto isso não for corrigido, o planograma cobre 84,1% do catálogo e o resto entra por estimativa.</p>
+    <p>É trabalho de paquímetro e digitação, não de projeto. Feito isso, a demanda sobe para <strong>≈ 470 m</strong> e aí sim o showroom fica curto — em cerca de <strong>55 m</strong>, o equivalente a uma terceira gôndola dupla face.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§2</span><h2>A referência: agrupar por ambiente, não por linha de fábrica</h2></div>
+  <p class="lede">A Casa Riachuelo ocupa <strong>282 m²</strong> com entrada principal própria dentro da loja conceito de 2.290 m², e não organiza o mix por categoria industrial. Ela separa por <strong>estilo de vida</strong> — neo eco, neo traditional, neo romantic, neo artist, modern — e mistura têxtil, louça e objeto de decoração no mesmo bloco.</p>
+  <p>É a lição que muda o planograma da Nitron. O cadastro pensa em <strong>Linha Potes</strong>, <strong>Linha Organização</strong>, <strong>Linha Cozinha</strong> — categorias de fábrica, herdadas do molde. O cliente pensa em <strong>cozinha</strong>, <strong>banheiro</strong>, <strong>lavanderia</strong>, <strong>casa</strong>. Um pote de mantimento e uma jarra estão em linhas diferentes no ERP e na mesma bancada na casa de quem compra.</p>
+  <p>Então o planograma abaixo reagrupa as 23 linhas em <strong>quatro ambientes</strong>. Nenhuma linha é quebrada — cada uma vai inteira para um ambiente — o que mantém o rastro até o cadastro e permite medir o resultado por linha depois.</p>
+  <div class="call">
+    <span class="lab">AS TRÊS REGRAS DE ALTURA, E ONDE O PASSO DE 261,88 MM CAI</span>
+    <p>O varejo divide a gôndola em quatro faixas: <strong>chão até 800 mm</strong> (pesado, volumoso, giro previsível), <strong>mãos de 800 a 1.400</strong> (giro alto, o que se pega no automático), <strong>olhos de 1.400 a 1.700</strong> (a faixa nobre — produto de margem alta e marca própria vende <strong>35 a 50% mais</strong> ali) e <strong>topo acima de 1.700</strong> (conceito, premium, estoque).</p>
+    <p>O passo do Nitron Mob com a ripa de 270 põe as prateleiras em <strong>100 · 362 · 624 · 886 · 1.148 · 1.409 · 1.671 · 1.933 mm</strong>. Num paredão de 8 prateleiras isso dá <strong>duas na zona dos olhos</strong> e uma no topo — e a gôndola central de 6 prateleiras termina exatamente em <strong>1.409</strong>, a primeira linha da faixa nobre. O passo não foi desenhado para isso, mas cai certo.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§3</span><h2>Os quatro ambientes</h2></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Ambiente</th><th>Linhas</th><th>SKUs</th><th>Frente</th><th>Faturamento 12 M</th><th>Por metro</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><span class="sw" style="background:var(--a-coz)"></span>Cozinha</td><td class="d">Potes · Cozinha · Jarras · Micro-ondas · Decor-Chef · Geladeira · Teca Tábuas · Teca Cozinha · Decor-Confeitaria · POP · Teca Petisqueira</td><td class="n">1.295</td><td class="n">189,2 m</td><td class="n">R$ 36,2 M</td><td class="n">R$ 191 mil</td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-org)"></span>Organização</td><td class="d">Organização · Teca Organização · Decor Util</td><td class="n">814</td><td class="n">152,8 m</td><td class="n">R$ 23,7 M</td><td class="n">R$ 155 mil</td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia</td><td class="d">Lixeiras · Banheiro · Limpeza · ECO</td><td class="n">257</td><td class="n">42,5 m</td><td class="n">R$ 18,2 M</td><td class="n"><strong>R$ 429 mil</strong></td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-imp)"></span>Impulso</td><td class="d">Frasqueiras · Infantil · Coloratto · Realce · Nitron Mob</td><td class="n">224</td><td class="n">31,1 m</td><td class="n">R$ 7,8 M</td><td class="n">R$ 252 mil</td></tr>
+        <tr class="tot"><td class="k">Total</td><td class="d">23 linhas, nenhuma quebrada</td><td class="n">2.589</td><td class="n">415,6 m</td><td class="n">R$ 86,0 M</td><td class="n">R$ 207 mil</td></tr>
+      </tbody>
+      <caption>Faturamento de 12 meses até 24/08/2026, recorte de marca própria (tabelas 84 e 3 fora). Frente linear com o produto virado de lado.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">BANHO E LAVANDERIA É O METRO MAIS DENSO DA CASA</span>
+    <p><strong>R$ 429 mil por metro linear — 2,2 vezes a cozinha.</strong> São só 257 SKUs e 42,5 m, mas carregam R$ 18,2 M. É lixeira, balde, cesto e porta-escova: produto de compra planejada, que o cliente procura mesmo sem estar na frente dele.</p>
+    <p>Por isso vai no fundo — e não é sobra de espaço, é a aplicação da regra: a parede de destino recebe a categoria que o cliente atravessa a loja para buscar. A zona nobre fica com a <strong>cozinha</strong>, que é onde estão o maior pool absoluto e os lançamentos, e é onde a exposição muda a decisão.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§4</span><h2>O planograma</h2></div>
+  <p class="lede">Elevação dos 18 módulos na ordem do percurso — da entrada ao fundo. Cada barra é uma prateleira, na altura real da sua face; a largura da coluna é proporcional à corrida do módulo, então <strong>a área colorida é o metro linear</strong>. As faixas de fundo são as quatro zonas de altura do varejo.</p>
+  <figure>
+    <div class="pscroll">
+<svg class="plano" viewBox="0 0 1480 293" role="img" aria-label="Planograma: elevação dos 18 módulos do showroom com as prateleiras coloridas por ambiente e as quatro zonas de altura do varejo.">
+<rect x="78" y="26.0" width="1388" height="37.8" fill="var(--z-topo)"/>
+<text x="72" y="44.9" text-anchor="end" dominant-baseline="middle" class="zl">TOPO</text>
+<text x="72" y="57.9" text-anchor="end" dominant-baseline="middle" class="zm">1700–</text>
+<rect x="78" y="63.8" width="1388" height="32.4" fill="var(--z-olhos)"/>
+<text x="72" y="80.0" text-anchor="end" dominant-baseline="middle" class="zl">OLHOS</text>
+<text x="72" y="93.0" text-anchor="end" dominant-baseline="middle" class="zm">1400–1700</text>
+<rect x="78" y="96.2" width="1388" height="64.8" fill="var(--z-maos)"/>
+<text x="72" y="128.6" text-anchor="end" dominant-baseline="middle" class="zl">MÃOS</text>
+<text x="72" y="141.6" text-anchor="end" dominant-baseline="middle" class="zm">800–1400</text>
+<rect x="78" y="161.0" width="1388" height="86.4" fill="var(--z-chao)"/>
+<text x="72" y="204.2" text-anchor="end" dominant-baseline="middle" class="zl">CHÃO</text>
+<text x="72" y="217.2" text-anchor="end" dominant-baseline="middle" class="zm">0–800</text>
+<line x1="78" y1="247.4" x2="1472" y2="247.4" class="rg"/>
+<line x1="78" y1="193.4" x2="1472" y2="193.4" class="rg"/>
+<line x1="78" y1="139.4" x2="1472" y2="139.4" class="rg"/>
+<line x1="78" y1="85.4" x2="1472" y2="85.4" class="rg"/>
+<line x1="78" y1="31.4" x2="1472" y2="31.4" class="rg"/>
+<rect x="84.0" y="26.0" width="134.2" height="221.4" class="mb"/>
+<rect x="84.0" y="232.6" width="134.2" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="84.0" y="204.3" width="134.2" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="84.0" y="176.0" width="134.2" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="84.0" y="147.7" width="134.2" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="151.1" cy="262" r="7.6" class="mn"/>
+<text x="151.1" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">1</text>
+<rect x="225.2" y="26.0" width="36.1" height="221.4" class="mb"/>
+<rect x="225.2" y="232.6" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="225.2" y="204.3" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="225.2" y="176.0" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="225.2" y="147.7" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<circle cx="243.3" cy="262" r="7.6" class="mn"/>
+<text x="243.3" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">2</text>
+<rect x="268.4" y="26.0" width="36.1" height="221.4" class="mb"/>
+<rect x="268.4" y="232.6" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="268.4" y="204.3" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="268.4" y="176.0" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="268.4" y="147.7" width="36.1" height="5" rx="1.5" fill="var(--a-imp)"/>
+<circle cx="286.4" cy="262" r="7.6" class="mn"/>
+<text x="286.4" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">3</text>
+<rect x="311.5" y="26.0" width="9.4" height="221.4" class="mb"/>
+<rect x="311.5" y="232.6" width="9.4" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="311.5" y="204.3" width="9.4" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="311.5" y="176.0" width="9.4" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="311.5" y="147.7" width="9.4" height="5" rx="1.5" fill="var(--a-imp)"/>
+<circle cx="316.2" cy="262" r="7.6" class="mn"/>
+<text x="316.2" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">4</text>
+<rect x="327.8" y="26.0" width="7.3" height="221.4" class="mb"/>
+<rect x="327.8" y="232.6" width="7.3" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="327.8" y="204.3" width="7.3" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="327.8" y="176.0" width="7.3" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="327.8" y="147.7" width="7.3" height="5" rx="1.5" fill="var(--a-imp)"/>
+<rect x="327.8" y="119.4" width="7.3" height="5" rx="1.5" fill="var(--a-imp)"/>
+<circle cx="331.5" cy="262" r="7.6" class="mn"/>
+<text x="331.5" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">5</text>
+<rect x="342.2" y="26.0" width="38.3" height="221.4" class="mb"/>
+<rect x="342.2" y="232.6" width="38.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="342.2" y="204.3" width="38.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="342.2" y="176.0" width="38.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="342.2" y="147.7" width="38.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="361.3" cy="262" r="7.6" class="mn"/>
+<text x="361.3" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">6</text>
+<rect x="387.4" y="26.0" width="38.3" height="221.4" class="mb"/>
+<rect x="387.4" y="232.6" width="38.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="387.4" y="204.3" width="38.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="387.4" y="176.0" width="38.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="387.4" y="147.7" width="38.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="406.6" cy="262" r="7.6" class="mn"/>
+<text x="406.6" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">7</text>
+<rect x="432.7" y="26.0" width="18.3" height="221.4" class="mb"/>
+<rect x="432.7" y="232.6" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="432.7" y="204.3" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="432.7" y="176.0" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="432.7" y="147.7" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="432.7" y="119.4" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="432.7" y="91.2" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="441.9" cy="262" r="7.6" class="mn"/>
+<text x="441.9" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">8</text>
+<rect x="458.0" y="26.0" width="88.7" height="221.4" class="mb"/>
+<rect x="458.0" y="232.6" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="458.0" y="204.3" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="458.0" y="176.0" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="458.0" y="147.7" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="458.0" y="119.4" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="458.0" y="91.2" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="502.4" cy="262" r="7.6" class="mn"/>
+<text x="502.4" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">9</text>
+<rect x="553.7" y="26.0" width="88.7" height="221.4" class="mb"/>
+<rect x="553.7" y="232.6" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="553.7" y="204.3" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="553.7" y="176.0" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="553.7" y="147.7" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="553.7" y="119.4" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="553.7" y="91.2" width="88.7" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="598.1" cy="262" r="7.6" class="mn"/>
+<text x="598.1" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">10</text>
+<rect x="649.4" y="26.0" width="18.3" height="221.4" class="mb"/>
+<rect x="649.4" y="232.6" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="649.4" y="204.3" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="649.4" y="176.0" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="649.4" y="147.7" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="649.4" y="119.4" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="649.4" y="91.2" width="18.3" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="658.6" cy="262" r="7.6" class="mn"/>
+<text x="658.6" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">11</text>
+<rect x="674.7" y="26.0" width="18.3" height="221.4" class="mb"/>
+<rect x="674.7" y="232.6" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="674.7" y="204.3" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="674.7" y="176.0" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="674.7" y="147.7" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="674.7" y="119.4" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="674.7" y="91.2" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="683.9" cy="262" r="7.6" class="mn"/>
+<text x="683.9" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">12</text>
+<rect x="700.0" y="26.0" width="88.7" height="221.4" class="mb"/>
+<rect x="700.0" y="232.6" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="700.0" y="204.3" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="700.0" y="176.0" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="700.0" y="147.7" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="700.0" y="119.4" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="700.0" y="91.2" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="744.4" cy="262" r="7.6" class="mn"/>
+<text x="744.4" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">13</text>
+<rect x="795.7" y="26.0" width="88.7" height="221.4" class="mb"/>
+<rect x="795.7" y="232.6" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="795.7" y="204.3" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="795.7" y="176.0" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="795.7" y="147.7" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="795.7" y="119.4" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="795.7" y="91.2" width="88.7" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="840.1" cy="262" r="7.6" class="mn"/>
+<text x="840.1" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">14</text>
+<rect x="891.5" y="26.0" width="18.3" height="221.4" class="mb"/>
+<rect x="891.5" y="232.6" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="891.5" y="204.3" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="891.5" y="176.0" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="891.5" y="147.7" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="891.5" y="119.4" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="891.5" y="91.2" width="18.3" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="900.6" cy="262" r="7.6" class="mn"/>
+<text x="900.6" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">15</text>
+<rect x="916.8" y="26.0" width="124.1" height="221.4" class="mb"/>
+<rect x="916.8" y="232.6" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="204.3" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="176.0" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="147.7" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="119.4" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="91.2" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="62.9" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<rect x="916.8" y="34.6" width="124.1" height="5" rx="1.5" fill="var(--a-org)"/>
+<circle cx="978.8" cy="262" r="7.6" class="mn"/>
+<text x="978.8" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">16</text>
+<rect x="1047.9" y="26.0" width="272.4" height="221.4" class="mb"/>
+<rect x="1047.9" y="232.6" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="204.3" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="176.0" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="147.7" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="119.4" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="91.2" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="62.9" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<rect x="1047.9" y="34.6" width="272.4" height="5" rx="1.5" fill="var(--a-coz)"/>
+<circle cx="1184.1" cy="262" r="7.6" class="mn"/>
+<text x="1184.1" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">17</text>
+<rect x="1327.3" y="26.0" width="139.2" height="221.4" class="mb"/>
+<rect x="1327.3" y="232.6" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="178.1" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="149.8" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="121.5" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="93.3" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="65.0" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<rect x="1327.3" y="36.7" width="139.2" height="5" rx="1.5" fill="var(--a-ban)"/>
+<circle cx="1396.9" cy="262" r="7.6" class="mn"/>
+<text x="1396.9" y="262" text-anchor="middle" dominant-baseline="central" class="mnl">18</text>
+<text x="84" y="288" class="mm">altura da face da prateleira em mm · largura da coluna proporcional à corrida do módulo · barra colorida = 1 prateleira</text>
+</svg>
+
+    </div>
+    <ol class="mlegenda">
+      <li><b>1</b> <span class="mnome">Parede de entrada</span><span class="mmet">26,2 m · 285</span></li>
+      <li><b>2</b> <span class="mnome">Checkout A</span><span class="mmet">14,1 m · 372×2</span></li>
+      <li><b>3</b> <span class="mnome">Checkout B</span><span class="mmet">14,1 m · 372×2</span></li>
+      <li><b>4</b> <span class="mnome">Módulo caixa–pilar</span><span class="mmet">1,8 m · 372</span></li>
+      <li><b>5</b> <span class="mnome">Torre de serviço</span><span class="mmet">1,8 m · 285</span></li>
+      <li><b>6</b> <span class="mnome">Ilha 1</span><span class="mmet">14,9 m · 500×2</span></li>
+      <li><b>7</b> <span class="mnome">Ilha 2</span><span class="mmet">14,9 m · 500×2</span></li>
+      <li><b>8</b> <span class="mnome">Ponta 1</span><span class="mmet">5,3 m · 372</span></li>
+      <li><b>9</b> <span class="mnome">Gôndola A · corredor 1</span><span class="mmet">26,0 m · 500</span></li>
+      <li><b>10</b> <span class="mnome">Gôndola A · corredor 2</span><span class="mmet">26,0 m · 500</span></li>
+      <li><b>11</b> <span class="mnome">Ponta 2</span><span class="mmet">5,3 m · 372</span></li>
+      <li><b>12</b> <span class="mnome">Ponta 3</span><span class="mmet">5,3 m · 372</span></li>
+      <li><b>13</b> <span class="mnome">Gôndola B · corredor 2</span><span class="mmet">26,0 m · 500</span></li>
+      <li><b>14</b> <span class="mnome">Gôndola B · corredor 3</span><span class="mmet">26,0 m · 500</span></li>
+      <li><b>15</b> <span class="mnome">Ponta 4</span><span class="mmet">5,3 m · 372</span></li>
+      <li><b>16</b> <span class="mnome">Paredão norte</span><span class="mmet">48,4 m · 285</span></li>
+      <li><b>17</b> <span class="mnome">Paredão sul</span><span class="mmet">106,3 m · 372</span></li>
+      <li><b>18</b> <span class="mnome">Paredão do fundo</span><span class="mmet">47,5 m · 500</span></li>
+    </ol>
+    <div class="legenda">
+      <span><span class="sw" style="background:var(--a-coz)"></span>Cozinha <b>189,2 m</b></span>
+      <span><span class="sw" style="background:var(--a-org)"></span>Organização <b>152,8 m</b></span>
+      <span><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia <b>47,5 m</b></span>
+      <span><span class="sw" style="background:var(--a-imp)"></span>Impulso <b>31,8 m</b></span>
+    </div>
+    <figcaption><b>Como ler:</b> a coluna do paredão sul é a mais larga porque tem 13,29 m de corrida; a torre de serviço é a mais estreita, com 0,36 m. Módulos de duas faces — ilhas e corredor de checkout — contam a corrida uma vez no desenho e duas vezes no metro linear, o que está anotado embaixo de cada coluna (<code>×2</code>). A profundidade em milímetros vem logo depois dos metros.</figcaption>
+  </figure>
+  <div class="mbar">
+    <div class="mrow"><div class="mk"><span class="sw" style="background:var(--a-coz)"></span>Cozinha</div>
+      <div class="mv"><i class="seg" style="background:var(--a-coz);width:41.3%">82,4 chão</i><i class="seg" style="background:var(--a-coz);opacity:.72;width:25.7%">51,2 mãos</i><i class="seg" style="background:var(--a-coz);opacity:.5;width:18.6%">37,0 olhos</i><i class="seg" style="background:var(--a-coz);opacity:.3;width:6.7%"></i><span class="mt">183,9 m</span></div></div>
+    <div class="mrow"><div class="mk"><span class="sw" style="background:var(--a-org)"></span>Organização</div>
+      <div class="mv"><i class="seg" style="background:var(--a-org);width:40.3%">80,3 chão</i><i class="seg" style="background:var(--a-org);opacity:.72;width:21.7%">43,3 mãos</i><i class="seg" style="background:var(--a-org);opacity:.5;width:11.3%">22,5 olhos</i><i class="seg" style="background:var(--a-org);opacity:.3;width:3.0%"></i><span class="mt">152,2 m</span></div></div>
+    <div class="mrow"><div class="mk"><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia</div>
+      <div class="mv"><i class="seg" style="background:var(--a-ban);width:6.8%">13,6</i><i class="seg" style="background:var(--a-ban);opacity:.72;width:10.2%">20,4</i><i class="seg" style="background:var(--a-ban);opacity:.5;width:3.4%">6,8</i><i class="seg" style="background:var(--a-ban);opacity:.3;width:3.4%"></i><span class="mt">47,5 m</span></div></div>
+    <div class="mrow"><div class="mk"><span class="sw" style="background:var(--a-imp)"></span>Impulso</div>
+      <div class="mv"><i class="seg" style="background:var(--a-imp);width:11.8%">23,6</i><i class="seg" style="background:var(--a-imp);opacity:.72;width:4.1%">8,2</i><span class="mt">31,8 m</span></div></div>
+  </div>
+  <p class="lede" style="margin-top:14px;font-size:12.5px;font-family:Montserrat,sans-serif;color:var(--muted)">Metros por ambiente e por zona de altura, na mesma escala. Da esquerda para a direita: chão, mãos, olhos, topo — a opacidade acompanha a subida.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§5</span><h2>A conta fecha por 0,2 m — e por causa de uma prateleira</h2></div>
+  <p class="lede">Com o showroom como estava, faltavam <strong>7,0 m</strong>. A correção não foi comprar mais móvel: foi mudar a pilha de baias do paredão do fundo.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Ambiente</th><th>Demanda</th><th>Oferta</th><th>Saldo</th><th>Onde fica</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><span class="sw" style="background:var(--a-coz)"></span>Cozinha</td><td class="n">189,2 m</td><td class="n">183,9 m</td><td class="n"><span class="chip w">falta 5,3</span></td><td class="d">paredão sul · gôndola A (2 faces) · pontas 1 e 2 · ilha 1</td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-org)"></span>Organização</td><td class="n">152,8 m</td><td class="n">152,2 m</td><td class="n"><span class="chip w">falta 0,6</span></td><td class="d">gôndola B (2 faces) · paredão norte · parede de entrada · ilha 2 · pontas 3 e 4</td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-ban)"></span>Banho e lavanderia</td><td class="n">42,5 m</td><td class="n">47,5 m</td><td class="n"><span class="chip ok">sobra 5,0</span></td><td class="d">paredão do fundo</td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--a-imp)"></span>Impulso</td><td class="n">31,1 m</td><td class="n">31,8 m</td><td class="n"><span class="chip ok">sobra 0,7</span></td><td class="d">corredor de checkout (2 faces × 2) · módulo caixa–pilar · torre</td></tr>
+        <tr class="tot"><td class="k">Total</td><td class="n">415,6 m</td><td class="n">415,4 m</td><td class="n">−0,2 m</td><td class="d">a sobra do fundo absorve a falta da cozinha</td></tr>
+      </tbody>
+      <caption>Produto raso pode ir em prateleira funda, então a restrição que vale é o total, não a profundidade. Demanda por profundidade: 181,0 m exigem no máximo 285 mm · 188,4 m exigem 372 · 46,2 m exigem 500.</caption>
+    </table>
+  </div>
+  <div class="call">
+    <span class="lab">A MUDANÇA: O PAREDÃO DO FUNDO PASSA DE 6 PARA 7 PRATELEIRAS</span>
+    <p>A pilha era <code>513 · 270 · 270 · 270 · 513</code> — duas baias altas, uma embaixo e uma em cima. As prateleiras caíam em 100, 605, 867, 1.129, 1.390 e 1.895 mm: <strong>nenhuma na zona dos olhos</strong>, porque a baia alta do topo empurrava a última prateleira para 1.895.</p>
+    <p>A nova pilha é <code>513 · 270 · 270 · 270 · 270 · 270</code>: a baia de 513 fica só embaixo, onde a lixeira de 60 L precisa dela, e as prateleiras passam a cair em 100, 605, 867, 1.129, 1.390, <strong>1.652</strong> e 1.914. Ganha-se <strong>uma prateleira (+6,8 m)</strong>, <strong>uma prateleira na zona dos olhos</strong> e o módulo sobe de 1.888 para <strong>1.914 mm</strong>. É a mesma quantidade de ripa vertical, redistribuída.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§6</span><h2>Quem fica na zona dos olhos</h2></div>
+  <p class="lede">São <strong>66,4 m</strong> de 415,4 — <strong>16% da prateleira</strong>. É o recurso escasso do showroom, e a regra do varejo é clara: a faixa nobre vai para o que se quer <em>empurrar</em>, não para o que já vende sozinho.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Zona</th><th>Altura</th><th>Metros</th><th>% da prateleira</th><th>Regra</th><th>O que vai</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Topo</td><td class="n">acima de 1.700</td><td class="n">26,1 m</td><td class="n">6,3%</td><td class="d">conceito, premium, estoque de reposição</td><td class="d">kit e caixa fechada de cozinha e organização; alcance só com escada</td></tr>
+        <tr><td class="k"><strong>Olhos</strong></td><td class="n"><strong>1.400–1.700</strong></td><td class="n"><strong>66,4 m</strong></td><td class="n">16,0%</td><td class="d"><strong>margem alta, marca própria, lançamento — vende 35 a 50% mais</strong></td><td class="d">37,0 m cozinha · 22,5 m organização · 6,8 m banho. É aqui que entram os oito vetores de crescimento</td></tr>
+        <tr><td class="k">Mãos</td><td class="n">800–1.400</td><td class="n">123,0 m</td><td class="n">29,6%</td><td class="d">giro alto, o que se pega no automático</td><td class="d">pote, frasqueira, organizador — e a gancheira do checkout, a 1.030 mm</td></tr>
+        <tr><td class="k">Chão</td><td class="n">até 800</td><td class="n">199,9 m</td><td class="n">48,1%</td><td class="d">pesado, volumoso, giro previsível</td><td class="d">lixeira, cesto, caixa organizadora grande, teca. É a maior faixa e a mais barata</td></tr>
+      </tbody>
+      <caption>Alturas da face da prateleira, calculadas pelo passo real do sistema: 19,40 de pé + 73,08 de nó por nível + (ripa − 81,20) por baia.</caption>
+    </table>
+  </div>
+  <div class="call w">
+    <span class="lab">DUAS TENSÕES QUE O PLANOGRAMA DEIXA À VISTA</span>
+    <p><strong>Impulso tem zero metro na zona dos olhos.</strong> É de propósito: o corredor de checkout tem 4 prateleiras e termina em 886 mm, e quem está parado na fila olha para a <em>mão</em>, não para cima. A faixa nobre da fila é a gancheira da coroa, a 1.030 mm. Mas vale registrar o número — se o teste mostrar que a fila rende, o móvel do checkout pode ganhar uma quinta prateleira e chegar a 1.148.</p>
+    <p><strong>Banho e lavanderia tem 6,8 m de zona nobre para R$ 18,2 M.</strong> É o menor pedaço da faixa nobre para o metro mais denso da casa. Defensável pela regra de destino — mas é a primeira coisa a testar quando o sell-out por prateleira começar a rodar.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="sn">§7</span><h2>O que fazer antes de montar</h2></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Ação</th><th>Onde</th><th>Por que trava</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Cotar 338 SKUs</td><td class="d">Paquímetro e <code>TGFPRO.LARGURA/ALTURA/ESPESSURA</code></td><td class="d">É o que separa 84,1% de 100%. Sem isso o planograma é uma estimativa para 11% do catálogo <span class="chip b">bloqueante</span></td></tr>
+        <tr><td class="k">Limpar 15 cotas sujas</td><td class="d">Os registros com serial de data (45308, 45448, 45515…)</td><td class="d">Contaminam qualquer conta de espaço e já apareceram em três consultas diferentes <span class="chip b">bloqueante</span></td></tr>
+        <tr><td class="k">Refazer a pilha do fundo</td><td class="d">Paredão do fundo: <code>513·270·270·270·270·270</code></td><td class="d">É o que fecha os 7,0 m e põe uma prateleira na zona dos olhos. Mesma ripa, redistribuída <span class="chip ok">sem custo</span></td></tr>
+        <tr><td class="k">Decidir os 137 fora de gôndola</td><td class="d">111 de construção + 26 grandes demais</td><td class="d">Countertop de 3,05 m e cesto acima de 440 mm não vão em prateleira. Precisam de cavalete, piso demarcado ou ficam fora do showroom <span class="chip w">decisão</span></td></tr>
+        <tr><td class="k">Aceitar 5,3 m de cozinha no fundo</td><td class="d">Prateleira que sobra do paredão do fundo</td><td class="d">Quebra a pureza do bloco de ambiente. A alternativa é cortar 5,3 m de SKU de cozinha do showroom <span class="chip w">decisão</span></td></tr>
+        <tr><td class="k">Planejar a terceira gôndola</td><td class="d">Miolo, se o corredor 2 puder estreitar</td><td class="d">Quando os 338 forem cotados a demanda vai para ≈ 470 m e faltarão ≈ 55 m — uma gôndola dupla face de 7 vãos entrega 52 <span class="chip w">depois da cotagem</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <b>Planograma do showroom</b> · 06/09/2026 · projeto Nitron-mob PDV.<br>
+  Dimensões de produto de <code>TGFPRO.LARGURA/ALTURA/ESPESSURA</code> em centímetros, recorte <code>CODGRUPOPROD</code> 1000000–1009999 com <code>ATIVO='S'</code>; 3.079 SKUs ativos, dos quais 2.741 com cota utilizável. Faturamento de 12 meses até 24/08/2026, empresas 1, 2 e 14, <code>STATUSNOTA='L'</code>, <code>TIPMOV</code> V e D, operações de transferência e as tabelas 84 e 3 fora. Frente linear calculada com o produto virado de lado (menor dimensão de planta), sem folga entre peças — <strong>uma folga de 10 mm por SKU acrescenta 25,9 m à demanda</strong> e derruba o fechamento. Alturas de prateleira pelo passo real do Nitron Mob. <strong>Este é um planograma de espaço por ambiente, não de posição por SKU</strong>: a alocação peça a peça sai do CSV, depois da cotagem dos 338.<br><br>
+  Referências: <a href="https://elle.com.br/moda/riachuelo-inaugura-loja-conceito-e-nova-identidade-visual">Riachuelo inaugura loja conceito e nova identidade visual</a> · <a href="https://br.fashionnetwork.com/news/Riachuelo-inaugura-loja-conceito-interativa-e-digital-em-sao-paulo,1143054.html">Riachuelo inaugura loja conceito interativa e digital</a> · <a href="https://consumidormoderno.com.br/riachuelo-loja-conceito/">Riachuelo estreia loja conceito</a> · <a href="https://www.meioemensagem.com.br/marketing/o-novo-conceito-de-experiencia-da-riachuelo">O novo conceito de experiência da Riachuelo</a> · <a href="https://blog.dsmarketing.com.br/planograma/">Planograma de gôndola: o que é, como montar</a> · <a href="https://blog.dsmarketing.com.br/layout-de-supermercado/">Layout de supermercado: 7 zonas</a> · <a href="https://www.sagrupo.com/layout-de-supermercado-o-guia/">O Guia Definitivo das 7 Zonas</a> · <a href="https://club.involves.com/o-que-e-planograma/">Planograma: o que é e qual sua importância</a>
+</footer>
+
+</div>
