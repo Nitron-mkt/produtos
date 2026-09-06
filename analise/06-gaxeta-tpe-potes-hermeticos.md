@@ -199,6 +199,16 @@ Três desfechos, e nenhum deles é o projeto original:
 **Em nenhum dos três a gaxeta é a ação seguinte.** E o ensaio que separa os três custa uma balança
 de 0,01 g, uma estufa e cinco dias, **usando produto que já está no estoque**.
 
+### 📋 Entregáveis prontos para execução
+
+| Arquivo | O que é | Status |
+|---|---|---|
+| `ensaios/protocolo-ensaio-estanqueidade.xlsx` | Planilha de bancada, 7 abas, com veredito automático e controle negativo obrigatório | **pronto para rodar** |
+| `analise/07-especificacao-lacre-tpe.md` | Especificação do perfil TPE, cotas, canal, junta, 17 comprimentos de corte | **de gaveta — vetado para execução** |
+
+A aba **Travas** da planilha é a que mede a tesoura abrir/vedar, e é a única que precisa dos
+R$ 200 de perfil de esquadria. Todas as outras usam produto de estoque.
+
 ### A ação nº 1 do projeto passa a ser esta
 
 **Rodar os ensaios 1 e 2 (§6.5) no produto ATUAL, sem gaxeta, nas famílias RET-C e RET-D.**
