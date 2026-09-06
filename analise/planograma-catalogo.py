@@ -58,12 +58,16 @@ AMBIENTE = {
 # e o corredor de checkout -- nao e preciso para EXPOR o catalogo, e por isso
 # entra aqui como piso de demonstracao, nao como prateleira de catalogo.
 #
-# Profundidade: a gondola AFINA com a altura (norma de varejo: base 300-500 mm,
-# superior 200-400). Sem isso a parede norte, rasa, rejeita 47 blocos.
+# Profundidade: UMA por modulo. ext_prof = ripa_largura + 2*(83,23 - 40,60) --
+# a ripa de largura fixa a distancia entre os postes, e os postes sao continuos.
+# A primeira versao deste script "afinava" a gondola por prateleira (500 embaixo,
+# 372 no meio, 285 em cima); isso nao e montavel. Com 285 fixo a parede norte
+# rejeita 47 blocos de Organizacao; com 500 fixo nas quatro paredes entram os
+# 609 SKUs -- e e tambem a base mais larga contra tombamento (razao 3,3:1).
+PROF_PAREDE = 500          # painel 460 · ripa de largura PSC-02 415 · externo 500,3
+
 def profundidade(h):
-    if h <= 800:  return 500      # painel 460 · lixeira, cesto, caixa grande
-    if h <= 1400: return 372      # painel 300 · pote, organizador
-    return 285                    # painel 200 · produto de mao
+    return PROF_PAREDE
 
 PAREDES = [
  # id, nome, corrida_mm, faces, pilha, ambiente

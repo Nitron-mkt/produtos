@@ -2,24 +2,24 @@ modulo_id,modulo,prateleira,altura_face_mm,zona,profundidade_mm,faces,metros_lin
 1,Paredao sul,1,100,chao,500,1,13.29,COZINHA
 1,Paredao sul,2,362,chao,500,1,13.29,COZINHA
 1,Paredao sul,3,624,chao,500,1,13.29,COZINHA
-1,Paredao sul,4,886,maos,372,1,13.29,COZINHA
-1,Paredao sul,5,1148,maos,372,1,13.29,COZINHA
-1,Paredao sul,6,1409,olhos,285,1,13.29,COZINHA
-1,Paredao sul,7,1671,olhos,285,1,13.29,COZINHA
+1,Paredao sul,4,886,maos,500,1,13.29,COZINHA
+1,Paredao sul,5,1148,maos,500,1,13.29,COZINHA
+1,Paredao sul,6,1409,olhos,500,1,13.29,COZINHA
+1,Paredao sul,7,1671,olhos,500,1,13.29,COZINHA
 2,Paredao norte,1,100,chao,500,1,6.05,ORGANIZACAO
 2,Paredao norte,2,362,chao,500,1,6.05,ORGANIZACAO
 2,Paredao norte,3,624,chao,500,1,6.05,ORGANIZACAO
-2,Paredao norte,4,886,maos,372,1,6.05,ORGANIZACAO
-2,Paredao norte,5,1148,maos,372,1,6.05,ORGANIZACAO
-2,Paredao norte,6,1409,olhos,285,1,6.05,ORGANIZACAO
-2,Paredao norte,7,1671,olhos,285,1,6.05,ORGANIZACAO
+2,Paredao norte,4,886,maos,500,1,6.05,ORGANIZACAO
+2,Paredao norte,5,1148,maos,500,1,6.05,ORGANIZACAO
+2,Paredao norte,6,1409,olhos,500,1,6.05,ORGANIZACAO
+2,Paredao norte,7,1671,olhos,500,1,6.05,ORGANIZACAO
 3,Paredao do fundo,1,100,chao,500,1,6.79,BANHO E LAVANDERIA
 3,Paredao do fundo,2,605,chao,500,1,6.79,BANHO E LAVANDERIA
-3,Paredao do fundo,3,1110,maos,372,1,6.79,BANHO E LAVANDERIA
-3,Paredao do fundo,4,1372,maos,372,1,6.79,BANHO E LAVANDERIA
-3,Paredao do fundo,5,1633,olhos,285,1,6.79,BANHO E LAVANDERIA
+3,Paredao do fundo,3,1110,maos,500,1,6.79,BANHO E LAVANDERIA
+3,Paredao do fundo,4,1372,maos,500,1,6.79,BANHO E LAVANDERIA
+3,Paredao do fundo,5,1633,olhos,500,1,6.79,BANHO E LAVANDERIA
 4,Parede de entrada,1,100,chao,500,1,6.55,FRASQUEIRAS E INFANTIL
 4,Parede de entrada,2,605,chao,500,1,6.55,FRASQUEIRAS E INFANTIL
-4,Parede de entrada,3,1110,maos,372,1,6.55,FRASQUEIRAS E INFANTIL
-4,Parede de entrada,4,1372,maos,372,1,6.55,FRASQUEIRAS E INFANTIL
-4,Parede de entrada,5,1633,olhos,285,1,6.55,FRASQUEIRAS E INFANTIL
+4,Parede de entrada,3,1110,maos,500,1,6.55,FRASQUEIRAS E INFANTIL
+4,Parede de entrada,4,1372,maos,500,1,6.55,FRASQUEIRAS E INFANTIL
+4,Parede de entrada,5,1633,olhos,500,1,6.55,FRASQUEIRAS E INFANTIL
