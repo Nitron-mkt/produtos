@@ -245,6 +245,48 @@ lateral, que é o que faz torre de três não balançar.
 | folga do degrau | 2,3 mm |
 | recuo do rodapé | 5,2 mm — a linha de sombra, e a folga do degrau, são a mesma coisa |
 
+### rev.10 — o vazado vira o grafismo da marca
+
+O logo foi medido no PNG da marca, não estimado a olho. O traço é uma **lente
+de duas arestas curvas**: razão comprimento/largura **2,22** no traço curto e
+**4,07** no longo, preenchimento **0,60** da caixa (retângulo seria 1,00, elipse
+0,785), eixo maior a **63° da horizontal**, com uma curvatura de centro de ±9%
+da largura (sutil; não reproduzida).
+
+O furo é esse traço **girado 90°** — o mesmo grão, deitado. É isso que troca o
+vazado vertical pelo horizontal sem perder a marca: o ângulo passa a 22° e a
+malha alternada refaz a trama do logo.
+
+| | P | M | G |
+|---|---|---|---|
+| grão | 38 × 9,2 mm | 56 × 13,8 mm | 72 × 17,7 mm |
+| ponta (raio) | 2,2 mm | 2,2 mm | 2,2 mm |
+| malha | 25 × 5 | 25 × 5 | 29 × 5 |
+| passo (volta × altura) | 28,2 × 21,1 | 41,2 × 30,0 | 53,6 × 38,9 |
+| vazado | 38,9% | 42,1% | 41,3% |
+| **alma mínima** | **5,4 mm** | **7,5 mm** | **10,0 mm** |
+| massa | 226 g | 440 g | 883 g |
+
+O P continua o mais fechado da família de propósito: é a peça que vai à vista em
+casa e a que guarda coisa pequena — furo de 9,2 mm de largura contra 17,7 do G.
+
+**A geometria do furo.** Interseção de dois discos (é isso que dá a aresta curva
+do logo) com as pontas arredondadas por um *max suave* de raio 2,2 mm — ponta
+viva seria concentrador de tensão na peça e gume de aço fino no molde.
+
+**Como a casca é emitida.** `perfurada()` em `geometria.py`: para cada tira do
+contorno, acha os trechos sólidos no meio da tira e refina as bordas por
+bisseção **nas duas colunas**. É isso que faz a borda do furo sair curva em vez
+de escadinha, sem precisar de malha fina.
+
+**O que não mudou.** O vazado continua **coplanar** — nenhum relevo por fora,
+senão o ninho trava a meio caminho. Coluna e painel de etiqueta ficam cheios: a
+coluna é poste de carga da pilha, não pode ser furada.
+
+**Alma mínima** é a menor distância entre dois furos vizinhos, medida por
+amostragem do contorno do grão contra os oito vizinhos, e é verificada por
+`assert` nos três tamanhos (mínimo 4 mm).
+
 ## Arquivos
 
 | Arquivo | O que é |

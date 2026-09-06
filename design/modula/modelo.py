@@ -37,7 +37,8 @@ REGRA QUE GOVERNA TUDO
   lugares onde a peca pode ter volume.
 """
 import math
-from geometria import DEG, Contorno, Malha, banda, tubo_roundrect
+from geometria import DEG, Contorno, Malha, banda, perfurada
+from grafismo import Grafismo, RAZAO, PU, PZ
 
 AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
 SAIDA_GR = 7.5
@@ -50,11 +51,11 @@ RHO_PP = 0.905
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=200.0, perna=50.0, e=1.8, R=26.0,
-              ripa=15.0, vao=6.0, fileiras=4, trav=10.0, barra=9.0, vao_fundo=6.0),
+              barra=9.0, vao_fundo=6.0, graf_esc=0.125),
     "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=250.0, perna=50.0, e=2.0, R=36.0,
-              ripa=12.0, vao=10.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=11.0),
+              barra=7.5, vao_fundo=11.0, graf_esc=0.140),
     "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=300.0, perna=50.0, e=2.3, R=46.0,
-              ripa=12.0, vao=16.0, fileiras=3, trav=9.0, barra=7.5, vao_fundo=17.0),
+              barra=7.5, vao_fundo=17.0, graf_esc=0.120),
 }
 
 
@@ -145,6 +146,10 @@ def parametros(k):
     s["rampa_crista"] = round(min(18.0, 0.34 * dif), 1)
     s["larg_ress"] = round(2 * hw + 6.0, 1)
     s["etiqueta"] = round(0.24 * X)
+    # ---- grafismo (rev.10): o grao da marca, deitado ----------------------
+    s["graf_L"] = round(s["graf_esc"] * X, 1)
+    s["graf_W"] = round(s["graf_L"] / RAZAO, 1)
+    s["graf_rt"] = round(min(2.2, s["graf_W"] / 4), 1)
 
     # ---- o que a base ainda tem de respeitar ------------------------------
     # Com o pe dentro do vulto, ele nao colide com nada no ninho: desce junto
@@ -181,11 +186,19 @@ def parametros(k):
     return s
 
 
-def ritmo(meia, passo_alvo, larg):
-    """Posicoes simetricas em torno de zero dentro de [-meia, meia]."""
-    nj = max(1, int(round(meia / passo_alvo)))
-    p = meia / nj
-    return [(j + 0.5) * p for j in range(nj)], p
+def grafismo(s, cont, zlo, zhi):
+    """Instancia a malha de graos: periodos inteiros na volta e na altura."""
+    L, W = s["graf_L"], s["graf_W"]
+    nu = max(6, int(round(cont.perimetro / (PU * L))))
+    nz = max(2, int(round((zhi - zlo) / (PZ * L))))
+    pu, pz = cont.perimetro / nu, (zhi - zlo) / nz
+    g = Grafismo(L / 2, W / 2, s["graf_rt"], pu, pz, zlo + pz / 2)
+    s["graf_nu"], s["graf_nz"] = nu, nz
+    s["graf_pu"], s["graf_pz"] = round(pu, 1), round(pz, 1)
+    s["graf_vazado"], s["graf_alma"] = g.medidas()
+    assert s["graf_alma"] > 4.0, \
+        f"alma do grafismo fina demais ({s['graf_alma']:.1f} mm)"
+    return g
 
 
 def construir(k):
@@ -197,7 +210,6 @@ def construir(k):
                     passo=AMOSTRA[0], n_arco=int(AMOSTRA[1]))
     m = Malha()
     n = cont.n
-    passo_alvo = s["ripa"] + s["vao"]
 
     # ---- perfil do aro: continuo, com 4 cristas de apoio ------------------
     hr, lr = s["h_ress"], s["larg_ress"]
@@ -264,68 +276,27 @@ def construir(k):
         f = fcol[i % n]
         return -e if f <= 0 else (1 - f) * (-e) + f * o_col(z)
 
-    # ---- ritmo das ripas (uniforme, sem excecao) --------------------------
-    pos_lat, _ = ritmo(s["b"], passo_alvo, s["ripa"])
-    pos_fre, _ = ritmo(s["ax"], passo_alvo, s["ripa"])
+    # ---- o vazado: o grao da marca, deitado (rev.10) ----------------------
+    # A parede deixou de ser ripa vertical. O furo agora e o traco do logo —
+    # lente de duas arestas curvas, razao 2,22, pontas arredondadas — girado
+    # 90 graus, em malha alternada. Continua tudo COPLANAR: nenhum relevo por
+    # fora, senao o ninho trava a meio caminho.
+    z_g0 = hb
+    z_g1 = h_geral - h_aro          # a altura util da lateral manda no ritmo
+    gra = grafismo(s, cont, z_g0, z_g1)
 
-    def classifica(i):
-        tr, t = cont.amostras[i % n]
-        if tr in ("lat_d", "lat_e"):
-            y = cont.y_de(i)
-            return "ripa" if any(abs(abs(y) - p) <= s["ripa"] / 2 for p in pos_lat) else "vao"
-        if tr in ("frente", "traseira"):
-            x = cont.ponto(i, 0.0)[0]
-            if tr == "frente" and abs(x) <= s["etiqueta"] / 2:
-                return "ripa"                       # painel liso para etiqueta
-            return "ripa" if any(abs(abs(x) - p) <= s["ripa"] / 2 for p in pos_fre) else "vao"
-        return "ripa" if 0.32 <= t <= 0.68 else "vao"   # uma ripa por canto
+    def furo(sarc, z):
+        return gra.dentro(sarc % cont.perimetro, z)
 
-    tipo = [classifica(i) for i in range(n)]
-    eh_ripa = lambda i: tipo[i % n] == "ripa"
+    def cheio(i):
+        """Sem furo na coluna (e poste de carga) e no painel da etiqueta."""
+        if fcol[i % n] > 0.10:
+            return True
+        tr, _ = cont.amostras[i % n]
+        if tr == "frente":
+            return abs(cont.ponto(i % n, 0.0)[0]) <= s["etiqueta"] / 2
+        return False
 
-    # ---- pontas arredondadas dos rasgos -----------------------------------
-    dist_borda = [0.0] * n
-    i = 0
-    while i < n:
-        if tipo[i] != "vao":
-            i += 1
-            continue
-        j = i
-        while j < n and tipo[j % n] == "vao":
-            j += 1
-        s0, s1 = cont.s[i], cont.s[j]
-        for q in range(i, j):
-            sm = (cont.s[q] + cont.s[q + 1]) / 2
-            dist_borda[q] = min(sm - s0, s1 - sm)
-        i = j
-    r_furo = min(9.0, s["vao"] / 2.1)
-
-    def dz(i):
-        i %= n
-        if tipo[i] != "vao":
-            return 0.0
-        d = min(dist_borda[i], r_furo)
-        return r_furo - math.sqrt(max(0.0, r_furo * r_furo - (r_furo - d) ** 2))
-
-    # ---- travessas coplanares entre as fileiras ---------------------------
-    w_trav = s["trav"]
-    nfil = s["fileiras"]
-
-    def z_aro_inf(i):
-        return ztopo(i) - h_aro
-
-    def travessas(i):
-        """Faixas horizontais de material dentro do rasgo, em (z0, z1).
-        Sempre devolve nfil-1 faixas; degeneradas onde o rasgo e baixo."""
-        alt = max(0.0, z_aro_inf(i) - hb)
-        fs = []
-        for q in range(1, nfil):
-            c = hb + alt * q / nfil
-            meia = w_trav / 2 if alt >= 0.30 * H else 0.0
-            fs.append((c - meia, c + meia))
-        return fs
-
-    # ---- emissao de bandas continuas --------------------------------------
     def emitir(quer, o_ext, o_int, zde, zate, tag):
         marcas = [quer(i) for i in range(n)]
         if all(marcas):
@@ -346,18 +317,11 @@ def construir(k):
             banda(m, cont, ini + i, ini + j, o_ext, o_int, zde, zate, tag)
             i = j
 
-    z0 = lambda i: 0.0
-    emitir(lambda i: True, OE, OI, z0, lambda i: hb + dz(i), "faixa")
-    emitir(eh_ripa, OE, OI, lambda i: hb, ztopo, "ripa")
-    for q in range(nfil - 1):
-        def faz(q=q):
-            emitir(lambda i: (not eh_ripa(i))
-                   and travessas(i)[q][1] > travessas(i)[q][0], OE, OI,
-                   lambda i: travessas(i)[q][0] - dz(i),
-                   lambda i: travessas(i)[q][1] + dz(i), "ripa")
-        faz()
-    emitir(lambda i: not eh_ripa(i), OE, OI,
-           lambda i: z_aro_inf(i) - dz(i), ztopo, "aro")
+    # faixa cheia junto ao fundo, casca vazada no meio, faixa cheia sob o aro
+    emitir(lambda i: True, OE, OI, lambda i: 0.0, lambda i: hb, "faixa")
+    perfurada(m, cont, OE, OI, lambda i: hb,
+              lambda i: ztopo(i) - h_aro, furo, "ripa", cheio=cheio)
+    emitir(lambda i: True, OE, OI, lambda i: ztopo(i) - h_aro, ztopo, "aro")
 
     # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
     A, S = aba, s["saia"]

@@ -48,7 +48,9 @@ def malha_json(m, s):
         X=s["X"], Y=s["Y"], H=s["H"], hf=s["hf"], e=s["e"], R=s["R"],
         passo=s["passo_ninho"], massa=round(s["massa_g"]),
         total=round(s["litros_total"], 1), boca=round(s["litros_boca"], 1),
-        aba=s["aba"], pe=round(s["sal_pe"], 1), ripa=s["ripa"], vao=s["vao"],
+        aba=s["aba"], pe=round(s["sal_pe"], 1),
+        grao=[s["graf_L"], s["graf_W"]], vazado=round(s["graf_vazado"], 3),
+        alma=round(s["graf_alma"], 1),
         cesta=s["hc"], perna=s["perna"], pilha=s["passo_pilha"],
         esc=esc, malha=saida)
 

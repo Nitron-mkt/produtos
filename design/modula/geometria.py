@@ -265,3 +265,87 @@ def tubo_roundrect(malha, cx, cy, W, D, R, z0, z1, esp, tag, n_arco=6, cone=1.5)
         a1, b1 = V(i, zt, 1, 1), V(i + 1, zt, 1, 1)
         malha.tri(c1, A1, B1, tag)               # topo
         malha.tri(ct, b1, a1, tag)               # face de baixo da tampa
+
+
+def _cruza(f, za, zb):
+    """f(za) verdadeiro, f(zb) falso: devolve a fronteira entre os dois."""
+    for _ in range(16):
+        zm = 0.5 * (za + zb)
+        if f(zm):
+            za = zm
+        else:
+            zb = zm
+    return 0.5 * (za + zb)
+
+
+def _intervalo(f, zc, z0, z1, passo=0.4):
+    """Trecho solido que CONTEM zc, limitado a [z0, z1].
+
+    Caminha para fora a partir de zc em vez de saltar ate os limites: saltando,
+    uma coluna com dois furos devolveria um intervalo que atravessa o furo do
+    meio, e as tiras se sobrepunham.
+    """
+    if not f(zc):
+        return None
+    z, lo = zc, z0
+    while z > z0:
+        zn = max(z0, z - passo)
+        if not f(zn):
+            lo = _cruza(f, z, zn)
+            break
+        z = zn
+    z, hi = zc, z1
+    while z < z1:
+        zn = min(z1, z + passo)
+        if not f(zn):
+            hi = _cruza(f, z, zn)
+            break
+        z = zn
+    return lo, hi
+
+
+def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
+              cheio=None, passo=0.8):
+    """Casca vazada por um grafismo de forma qualquer.
+
+    'furo(s, z)' devolve True dentro do furo; s e o comprimento de arco medido
+    em z=0, o que faz o desenho fechar a volta sem emenda (e esticar junto com
+    a conicidade, ~20% do fundo ao topo). 'cheio(i)' mantem a tira inteira.
+
+    Para cada tira entre as amostras i e i+1, os trechos solidos sao achados no
+    meio da tira e as bordas sao refinadas por bissecao nas DUAS colunas — e
+    isso que faz a borda do furo sair curva em vez de escadinha.
+    """
+    n = cont.n
+    for i in range(n):
+        z0 = max(z_de(i), z_de(i + 1))
+        z1 = min(z_ate(i), z_ate(i + 1))
+        if z1 - z0 < 0.4:
+            continue
+        if cheio is not None and cheio(i):
+            banda(malha, cont, i, i + 1, o_ext, o_int, z_de, z_ate, tag,
+                  tampa_ini=False, tampa_fim=False)
+            continue
+        sa, sb = cont.s[i], cont.s[i + 1]
+        sm = 0.5 * (sa + sb)
+        fm = lambda z: not furo(sm, z)
+        fa = lambda z: not furo(sa, z)
+        fb = lambda z: not furo(sb, z)
+        k = max(2, int(round((z1 - z0) / passo)))
+        h = (z1 - z0) / k
+        marca = [fm(z0 + h * (j + 0.5)) for j in range(k)]
+        j = 0
+        while j < k:
+            if not marca[j]:
+                j += 1
+                continue
+            a = j
+            while j < k and marca[j]:
+                j += 1
+            zc = z0 + h * (a + j) / 2.0
+            ia = _intervalo(fa, zc, z0, z1) or (zc, zc)
+            ib = _intervalo(fb, zc, z0, z1) or (zc, zc)
+            banda(malha, cont, i, i + 1, o_ext, o_int,
+                  lambda q, p=(ia[0], ib[0]): p[0] if q == i else p[1],
+                  lambda q, p=(ia[1], ib[1]): p[0] if q == i else p[1],
+                  tag, tampa_ini=False, tampa_fim=False)
