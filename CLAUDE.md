@@ -27,7 +27,7 @@ CODGRUPOPROD BETWEEN 1000000 AND 1009999` → **4.252**. Se algum falhar, conser
 conexão antes de seguir — não responda de memória.
 
 ### ⚠️ Segurança — leia antes de qualquer front-end
-Esse projeto Supabase tem **89 tabelas com RLS desligado**, incluindo dado de cliente
+Esse projeto Supabase tem **110 tabelas com RLS desligado** (o advisor reportava 89 em 24/08/2026; recontado em 06/09/2026), incluindo dado de cliente
 (`contato_enriquecido` 21 k linhas, `ghl_cliente` 10 k, `parc_matriz` 3,7 k,
 `cobranca_cliente`). A chave anon dá leitura **e escrita** nelas.
 
@@ -226,10 +226,48 @@ prioridade máxima) · Limpeza 4 · Lixeiras 4 · Banheiro 3 · Geladeira 2 · E
 ### Sobre claim "hermético"
 Não há norma ABNT específica para utilidades; é claim publicitário sob o CDC, e o art. 36
 obriga o fornecedor a manter os dados técnicos que sustentam a alegação.
-Dos 267 anúncios coletados, **só 8 dizem "hermético" (3%)** e **apenas 1 desses tem válvula**.
-Os que dizem "hermético + válvula" são de **vidro** com guarnição de silicone.
+**[CORRIGIDO 06/09/2026]** A versão anterior desta seção dizia *"só 8 dizem hermético (3%)"*.
+**Era um bug de acento, não um fato de mercado:** a contagem usou `ILIKE '%hermetico%'`, sem acento.
+Com `~* 'herm[ée]tic'`, o número é **164 de 267 (61,4%)**. Verificado duas vezes, em consultas
+independentes. Por termo: kit potes herméticos 86% · porta mantimento 87,5% · pote mantimento
+79,6% · pote hermético plástico 66% · pote com válvula 53,1% · pote mantimento rosca 15,7%.
+(Os 734 anúncios restantes dos 1.001 da tabela são de organização e não entram no denominador.)
+
+**"Hermético" é table stakes, não diferencial.** Seis em cada dez concorrentes já dizem isso.
+Qualquer business case que dependa de o claim sustentar prêmio de preço nasce sem base.
 **Sanremo**, em plástico com válvula, escreve *"válvula micro ondas"* — evita o claim.
 Material não cria hermeticidade; geometria de vedação + força de fechamento criam.
+
+**O claim é abundante e a entrega é rara** — e essa distância é o achado, não a saturação em si.
+Em 600 avaliações coletadas (`pdp_ml_review`, 5 anúncios × 120, amostra por relevância — superamostra
+quem escreveu, **não leia como taxa sobre todos os compradores**):
+
+| Anúncio | Trava | Gaxeta | "não veda" (% das negativas) |
+|---|---|---|---|
+| Amobox Kit 12 | não | não | 27,1% (16/59) |
+| **Electrolux Kit 12** | não | **silicone** | **25,6% (10/39)** |
+| Amobox Kit 10 | sim | não | 10,0% (2/20) |
+| **Plasútil Kit 12 travas** | **sim** | não | **0% (0/29)** |
+| **Plasútil porta-frios travas** | **sim** | não | **0% (0/31)** |
+
+Duas leituras que mudam decisão de produto:
+
+1. **Gaxeta não é o que resolve; trava é.** A Electrolux tem vedação de silicone e reclama-se dela
+   quase tanto quanto do produto sem nada. Os dois produtos com trava e sem gaxeta têm zero
+   reclamação de vedação. O modo de falha relatado é **força de fechamento que afrouxa**
+   ("as tampas afrouxaram", "só vedou no primeiro dia"), não ausência de vedante.
+2. **Vedar bem cria a reclamação oposta.** No Plasútil porta-frios, que veda, **32,3% das negativas
+   (10/31) são sobre dificuldade de abrir** — "precisa fazer muita força", "travas laterais
+   quebraram". **Existe uma tesoura: a força que veda é a mesma que trava o produto na mão do
+   consumidor.** Qualquer projeto que aumente compressão sobre trava existente anda para esse lado.
+
+Sinal na direção do que já está aberto: as refs `176.024.001` e `210.024.001` (trava+válvula) são
+as **únicas duas quedas** (−57% e −39%) numa plataforma que cresce +49,9%. A hipótese
+"**trava + vedação extra = duro de abrir**" agora tem suporte externo independente, e é mais
+econômica que as duas que estavam abertas (conflito funcional da válvula, creep do PE).
+
+Gaxeta soltar, mofar ou rasgar **não é problema que o mercado brasileiro relate**: nas 600
+avaliações, 4 menções de material fraco, **zero de mofo, zero de rasgo**.
 
 ---
 

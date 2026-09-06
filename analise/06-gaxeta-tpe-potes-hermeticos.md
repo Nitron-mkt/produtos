@@ -9,9 +9,83 @@ intercompany, **sem CODTAB 84 (Avon) e sem CODTAB 3 (exportação)**
 > **Ideia original (Marketing):** bobina de fita TPE extrudada, seção constante ~1 mm, cortada no
 > comprimento e aplicada em todas as tampas da linha com trava — para não fazer um molde por tampa.
 >
-> **Veredito deste documento:** a ideia central está certa e é a rota mais barata que existe para
-> esse objetivo. Três coisas dentro dela precisam mudar antes de virar projeto — a **seção do
-> perfil**, a **rota de suprimento** e a **ordem dos testes**. Estão nas seções 3, 5 e 6.
+> **Veredito da revisão 1:** a ideia central está certa e é a rota mais barata que existe para
+> esse objetivo. Três coisas dentro dela precisam mudar — a **seção do perfil**, a **rota de
+> suprimento** e a **ordem dos testes**. Seções 3, 5 e 6.
+
+---
+
+## ⚠️ REVISÃO 2 — o dado de mercado derruba a premissa comercial
+
+A revisão 1 assumiu que "hermético" é um claim raro que sustenta prêmio de preço, apoiada na
+afirmação do CLAUDE.md de que **só 3% dos anúncios diziam "hermético"**.
+
+**Essa afirmação estava errada, e o erro era de acento.** A contagem original usou
+`ILIKE '%hermetico%'`, sem acento, e achou 7. Com `~* 'herm[ée]tic'`, são **164 de 267 — 61,4%**.
+Verificado duas vezes em consultas independentes; CLAUDE.md corrigido no mesmo commit.
+
+Isso não é um detalhe. **A premissa comercial inteira do projeto era essa.** Quatro cortes
+independentes, todos na mesma direção:
+
+| Corte | n | Resultado |
+|---|---|---|
+| "Hermético" no mercado | 267 potes | **61,4% já dizem** — table stakes, não diferencial |
+| R$/litro com claim vs sem, única faixa com contraste | 5 | **−3,5%** |
+| R$/pote, 22 kits plásticos, com gaxeta vs sem | 22 | **−0,8%** |
+| **Mesma marca (Vie idéale): kit com silicone vs kit com trava** | 1 par | **−17%** — a versão com gaxeta é a mais barata |
+
+**Não há evidência de que a gaxeta sustente preço. Há evidência fraca de que ela o reduza.**
+
+E o dado de uso é pior que o de preço. Em 600 avaliações coletadas (`pdp_ml_review`):
+
+| Anúncio | Trava | Gaxeta | "não veda" (% das negativas) |
+|---|---|---|---|
+| Amobox Kit 12 | não | não | 27,1% |
+| **Electrolux Kit 12** | não | **silicone** | **25,6%** |
+| **Plasútil Kit 12 travas** | **sim** | não | **0%** |
+| **Plasútil porta-frios travas** | **sim** | não | **0%** |
+
+**A gaxeta não é o que resolve — a trava é.** A Electrolux tem vedação de silicone e reclama-se
+dela quase tanto quanto do produto que não tem nada; os dois produtos com trava e sem gaxeta têm
+zero reclamação de vedação. **A Nitron já tem a peça que resolve o problema percebido.**
+
+### A tesoura — e por que ela reorganiza o projeto
+
+O Plasútil porta-frios veda ("ele veda muito") e paga um preço por isso: **32,3% das suas
+negativas são sobre dificuldade de abrir** — "precisa fazer muita força", "travas laterais
+quebraram".
+
+Isso conecta com a conta de engenharia da §3.2 por outro caminho e chega ao mesmo lugar:
+
+> **A força que veda é a mesma força que trava o produto na mão do consumidor.**
+> Adicionar gaxeta a uma trava existente move o produto para o quadrante do Plasútil —
+> vedação melhor, abertura pior, trava sob tensão maior — sem molde redesenhado para a nova força.
+
+E fecha um achado que estava aberto no CLAUDE.md sem explicação: as refs `176.024.001` e
+`210.024.001` (**trava + válvula**) são as **únicas duas quedas** (−57% e −39%) numa plataforma que
+cresce +49,9%. A hipótese **"trava + vedação extra = duro de abrir"** agora tem suporte externo
+independente, e é mais econômica que as duas que estavam registradas (conflito funcional da
+válvula, creep do PE). **A Nitron pode já ter rodado este experimento duas vezes e perdido as duas.**
+
+### O que sobrevive
+
+1. **O teste de bancada de §6.1 — e agora ele vale mais, não menos.** A pergunta mudou: não é só
+   "a trava fecha?", é **"quanto sobe a força de abrir?"**. Mesmo protocolo, mesmos R$ 200,
+   uma medição a mais. É a única coisa que decide isto empiricamente em vez de por analogia.
+2. **Os achados de custo da §9**, que independem da gaxeta e provavelmente valem mais que ela.
+3. **A rota técnica**, se algum dia houver razão para vedar: perfil de lábio fino, fita comprada
+   em bobina, rework de molde. Isso continua correto e barato — o que falta é motivo.
+
+### O que não sobrevive
+
+- O business case de "+6% de preço paga a gaxeta". **Não há base de mercado para o +6%.**
+  Sem prêmio, a gaxeta é custo puro: R$ 69,3 k/ano nas 4 tampas prioritárias, **−4 pontos de MB**.
+- O claim "hermético" como diferencial de gôndola. Seis em cada dez concorrentes já o usam.
+
+**Recomendação desta revisão: não aprovar o projeto como upgrade de linha.** Rodar o teste de
+R$ 200 para medir a tesoura abrir/vedar — o resultado interessa de qualquer forma, porque explica
+176/210 e informa qualquer mexida futura em trava. Decidir depois, com o número na mão.
+Parecer do `curador-portfolio` pendente; nada gravado em `pdp_lancamento`.
 
 ---
 
@@ -165,9 +239,12 @@ Mão de obra assume aplicação com jiga: 15–25 s/peça manual, 6–8 s semi-a
 | R$ 0,20 | 43,7% | **46,9%** | 48,8% | 51,0% |
 | R$ 0,35 | 40,6% | 44,0% | 46,0% | 48,4% |
 
-**+6% de preço devolve a margem ao patamar de hoje.** Acima disso, é margem incremental. Esse é
-um degrau baixo para um atributo funcional — mas quem confirma se o mercado paga é o radar de
-concorrência, não este documento.
+**+6% de preço devolve a margem ao patamar de hoje.** Acima disso, seria margem incremental.
+
+> ⚠️ **Revisão 2: o radar de concorrência respondeu e a resposta é não.** Não há evidência de
+> prêmio de preço para gaxeta ou para o claim (delta −3,5%, −0,8% e −17% em três cortes).
+> **Sem o degrau, a coluna que vale é a de +0%: a MB cai de 47,7% para 43,7%.** As linhas
+> abaixo ficam como registro do que seria necessário, não como projeção.
 
 ### 4.3 Investimento e payback
 
@@ -262,9 +339,13 @@ que é outro custo).
 2. Colar na face de vedação um perfil comercial de EPDM/TPE de esquadria (1,5 mm), fita dupla-face
    fina, junta em cunha num lado reto.
 3. Tentar fechar. **Medir:** fecha? com que força (dinamômetro de gancho)? a trava deforma?
-4. Encher com água colorida até 80%, inverter 24 h sobre papel-toalha branco. Fotografar.
-5. Repetir com 2,0 mm e com 1,0 mm para achar a altura máxima que a trava aceita.
-6. **Medir o curso livre da trava** com paquímetro, tampa fechada sem gaxeta — é o número que
+4. **Medir a força de ABRIR, com e sem gaxeta** — acrescentado na revisão 2, e hoje é a medição
+   mais importante do protocolo. É a tesoura: 32,3% das negativas do concorrente que veda bem são
+   sobre abertura dura. Se a força de abrir subir muito, o projeto está reprovado por uso, não
+   por custo — e isso provavelmente explica a queda de 176 e 210.
+5. Encher com água colorida até 80%, inverter 24 h sobre papel-toalha branco. Fotografar.
+6. Repetir com 2,0 mm e com 1,0 mm para achar a altura máxima que a trava aceita.
+7. **Medir o curso livre da trava** com paquímetro, tampa fechada sem gaxeta — é o número que
    define a altura do lábio no desenho do perfil.
 
 **Registrar junto:** quantas travas tem cada tampa e onde ficam. É a variável que mais pesa no
@@ -335,8 +416,13 @@ a menor das prioritárias. Contar as travas de cada tampa é item de §6.1.
 Anel cortado tem emenda, e é lá que vaza. Tratar como item de projeto: solda térmica em jiga, corte
 em cunha, junta posicionada no meio de um lado reto (nunca no canto).
 
-### 7.4 O mercado não paga os +6% 🟡
-Degrau baixo, mas não é zero. **Quem responde é o radar de concorrência** — em apuração.
+### 7.4 O mercado não paga os +6% 🔴 **confirmado — não paga**
+Não é mais risco, é resultado. Três cortes independentes dão delta de −3,5%, −0,8% e −17%.
+Sem prêmio, a gaxeta é custo puro e a MB cai 4 pontos. **Ver revisão 2.**
+
+### 7.4b A gaxeta piora a abertura 🔴 **novo — hoje é o maior risco de uso**
+32,3% das negativas do concorrente que veda bem são sobre abrir duro e trava quebrando. A gaxeta
+aumenta a compressão sobre travas que não foram redesenhadas. **Medição acrescentada em §6.1.**
 
 ### 7.5 A gaxeta solta em campo 🟡
 Vira devolução e reclamação. **Mitigação: encaixe mecânico por interferência, nunca adesivo**,
@@ -385,6 +471,6 @@ Homologar segunda fonte desde o piloto e manter a ferramenta de perfil como ativ
 
 ---
 
-*Revisão 1 — 06/09/2026. Radar de concorrência e engenheiro de molde em apuração; suas
-conclusões entram na revisão 2. Nada gravado em `pdp_lancamento` até o parecer do
+*Revisão 2 — 06/09/2026. Radar de concorrência concluído (600 avaliações em
+`pdp_ml_review`, run 264292); engenheiro de molde em apuração. Nada gravado em `pdp_lancamento` até o parecer do
 curador-portfolio.*
