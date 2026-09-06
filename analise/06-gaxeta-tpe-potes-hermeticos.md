@@ -89,6 +89,74 @@ Parecer do `curador-portfolio` pendente; nada gravado em `pdp_lancamento`.
 
 ---
 
+## ⛔ REVISÃO 4 — PARECER DO CURADOR: **VETADO**
+
+O `curador-portfolio` exerceu veto em 06/09/2026. Travou em três testes:
+
+| Teste | Resultado |
+|---|---|
+| **4 — payback** | **Não existe.** Prêmio medido = 0%; custo de gaxeta = −R$ 69,3 k/ano. Denominador negativo |
+| **5 — custo total** | Canal se solda (não usina); classe de material inexistente na casa; carta ANVISA; 2ª fonte; jiga; 5 moldes na fila da ferramentaria |
+| **6 — evidência** | Não é ausência de evidência, é **evidência contrária**. Gaxeta piora abertura em vez de melhorar vedação |
+
+### O que exatamente está vetado
+
+- Rework de qualquer molde para abrir canal · compra de ferramenta de perfil, matriz, calibrador
+  ou jiga · abertura de cadastro de fita TPE, cotação formal, homologação de fornecedor ·
+  qualquer versão que crie SKU "linha hermética" ao lado da atual.
+
+### O que **não** está vetado
+
+- **O teste de bancada de §6.1 (R$ 200)** — reclassificado: deixa de ser fase 1 de um lançamento e
+  vira **medição da tesoura abrir/vedar**, como despesa de laboratório. Vale porque explica
+  176/210 e informa qualquer mexida futura em trava.
+- **Os ensaios 1 e 2 no produto atual** (§ revisão 3), **ampliados para as 4 refs etiquetadas**.
+- Os achados de custo da §9.
+
+### O que reabriria o caso
+
+Um dos dois, **medido**, não estimado:
+1. Teste de preço real — mesma SKU, dois preços, mesmo canal, 8 semanas, na própria base de
+   1.121 clientes. Não análise de anúncio de concorrente.
+2. Ou §6.1 mostrando que a força de abrir **não sobe** com gaxeta, **combinada** com falha do
+   produto atual no ensaio de vedação. Aí a gaxeta deixa de ser upgrade e vira correção de
+   conformidade — outro business case, outro ônus da prova.
+
+### A rota "só preto" é a pior versão, não a mais segura
+
+O curador desmontou a redução de escopo que eu havia sugerido, com três argumentos que eu não vi:
+
+1. **Não são 8 SKUs, é um produto.** `215.012.003` sozinho é R$ 285.918 dos R$ 480 k (~60%).
+   Os demais têm 83 a 109 clientes — cauda, não canal.
+2. **E esse SKU roda na única tampa cega.** UF-215 usa o PI **924, sem apontamento desde
+   19/11/2020**. Não se faz rework de molde às cegas.
+3. **Preto é o pior lugar para pôr custo variável novo** — já carrega sobrecusto de ~1,9×.
+
+### Ampliação do ensaio que eu havia proposto estreito demais
+
+Eu propus ensaiar só RET-C e RET-D (as prioritárias por litragem). **O curador está certo em
+ampliar para as 4 refs etiquetadas** — 154, 155, 156, 151. As etiquetas de 154 (460 ml) e 155
+(850 ml) estão fora da janela de litragem e por isso saíram do projeto da gaxeta, **mas o passivo
+do claim não liga para janela de litragem**. `155.012.001` tem **971 clientes** e `154.012.001`
+tem **836** — são as duas maiores exposições em número de clientes, e meu recorte as excluía.
+Exposição total das 4 refs: **R$ 822.629** em 12 M.
+
+### Dono do passivo: Qualidade/Regulatório, não Desenvolvimento de Produto
+
+Se o passivo das etiquetas ficar dentro deste projeto, **morre junto com o veto da gaxeta** — que
+é o pior desfecho possível. Sequência recomendada: ensaiar agora (5 dias, ~R$ 0) → só se falhar,
+trocar para "não vaza" **na próxima tiragem normal** de etiqueta → **nunca** recolher BOPP
+comprado por precaução, antes de saber se há problema.
+
+### Nada gravado em `pdp_lancamento`
+
+Proposta com margem incremental negativa não entra na lista, nem como prioridade baixa — é assim
+que proposta morta volta seis meses depois sem o parecer anexo. Ação de Qualidade também não vai
+ali: `pdp_lancamento` é a lista do que lançar, e diluí-la é o problema que produziu 278 SKUs e
+2 acertos.
+
+---
+
 ## 🔴 REVISÃO 3 — o claim já está impresso, e a pergunta do projeto muda
 
 O engenheiro de molde encontrou no ERP algo que reordena tudo. **A Nitron já vende esses potes
@@ -392,7 +460,9 @@ Mão de obra assume aplicação com jiga: 15–25 s/peça manual, 6–8 s semi-a
 Com +10% de preço nas 4 tampas: receita incremental **R$ 201.500/ano**, custo de gaxeta
 **R$ 69.300/ano** (346.572 peças × R$ 0,20), margem incremental **R$ 132.200/ano**.
 
-**Payback: 4 a 11 meses.**
+~~**Payback: 4 a 11 meses.**~~ 🔴 **RISCADO NA REVISÃO 4.** Este número dependia de um +10% de
+preço que a revisão 2 demoliu. Sem prêmio, **o denominador é negativo**: o projeto gasta
+R$ 48–120 k para destruir R$ 69,3 k/ano de margem. **Não há payback a calcular.**
 
 ### 4.4 O que este projeto não faz — e é o melhor argumento a favor dele
 
@@ -604,6 +674,6 @@ Homologar segunda fonte desde o piloto e manter a ferramenta de perfil como ativ
 
 ---
 
-*Revisão 3 — 06/09/2026. Radar de concorrência concluído (600 avaliações em
-`pdp_ml_review`, run 264292); engenheiro de molde concluído. Nada gravado em `pdp_lancamento` até o parecer do
+*Revisão 4 — 06/09/2026. **Projeto VETADO pelo curador-portfolio.** Radar de concorrência concluído (600 avaliações em
+`pdp_ml_review`, run 264292); engenheiro de molde e curador concluídos. Nada gravado em `pdp_lancamento` até o parecer do
 curador-portfolio.*

@@ -428,8 +428,33 @@ case de lançamento contabiliza.
 
 - **Branco em Organização cai 17,0%** — R$ 5,95 M → R$ 4,94 M, ~R$ 1 M/ano. Causa não
   investigada: preço, ruptura, cliente grande ou migração para preto?
+- 🔴 **O PRETO CUSTA 1,88× O TRANSPARENTE — R$ 221.720/ano. [06/09/2026, verificado]**
+  Testados **todos os 50 pares** `.012.001` (transparente) / `.012.003` (preto) com custo em 2026
+  e venda nos últimos 12 M:
+
+  | | |
+  |---|---|
+  | Pares medidos | **50** |
+  | Preto ≥30% mais caro | **33** |
+  | Preto mais caro (qualquer margem) | 35 |
+  | **Custo exatamente idêntico** | **15** |
+  | Razão média onde o preto é mais caro | **1,88×** |
+  | **Sobrecusto anual** | **R$ 221.720** — 42,6% do faturamento desses pretos |
+
+  ⚠️ **Não é rateio por volume — a hipótese foi testada e reprovada.** O gradiente por volume
+  relativo do preto **não é monotônico**: <5% = 1,89× · 5–20% = **1,91×** · 20–60% = 1,68× ·
+  >60% = 1,97× (n=1). O que aparece no lugar é **dois regimes de custeio**: 15 pares têm custo
+  **idêntico** entre as cores (`235`, `236`, `238`, `239`, `319`, `320`, `321`, `351`, `352`,
+  `381`, `382`, `383`, `384`, `501`, `502`) e 35 pares têm o preto quase 2× — e nos de custo
+  idêntico o preto costuma **vender mais** que o transparente (`501`: 27.069 contra 7.758).
+  **Parece inconsistência de cadastro/custeio, não rateio.** Pergunta para a Controladoria:
+  por que dois regimes? O masterbatch preto justifica 1,88× ou o custo de alguns SKUs pretos
+  nunca foi revisado?
+
+  **Vale mais que a maioria dos lançamentos e não precisa de molde nenhum.**
+
 - **Café 2 L (`363.012.003`)** custa R$ 3,69 contra R$ 2,55 dos irmãos de mesma litragem —
-  MB 25,9% contra 48–50%. **R$ 56.577/ano** de margem.
+  MB 25,9% contra 48–50%. **R$ 56.577/ano** de margem. (Caso particular do achado acima.)
 - **`176` e `210`** (válvula+trava) caem 56% e 49% — as duas **únicas** quedas numa
   plataforma que cresce 49,9%. Decide o Chrono e a rota barata do quadrado+válvula.
 - **Kit modular `353.006.001`** caiu 83% (R$ 2,59 M → R$ 436 k) com os clientes
