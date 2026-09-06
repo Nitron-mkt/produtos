@@ -38,7 +38,7 @@ REGRA QUE GOVERNA TUDO
 """
 import math
 from geometria import DEG, Contorno, Malha, banda, perfurada
-from grafismo import Grafismo, RAZAO, PU, PZ
+import grafismo as G
 
 AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
 SAIDA_GR = 7.5
@@ -51,11 +51,11 @@ RHO_PP = 0.905
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=200.0, perna=50.0, e=1.8, R=26.0,
-              barra=9.0, vao_fundo=6.0, graf_esc=0.125),
+              barra=9.0, vao_fundo=6.0, graf_esc=0.105, graf_folga=1.15),
     "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=250.0, perna=50.0, e=2.0, R=36.0,
-              barra=7.5, vao_fundo=11.0, graf_esc=0.140),
+              barra=7.5, vao_fundo=11.0, graf_esc=0.115, graf_folga=1.15),
     "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=300.0, perna=50.0, e=2.3, R=46.0,
-              barra=7.5, vao_fundo=17.0, graf_esc=0.120),
+              barra=7.5, vao_fundo=17.0, graf_esc=0.100, graf_folga=1.15),
 }
 
 
@@ -148,8 +148,8 @@ def parametros(k):
     s["etiqueta"] = round(0.24 * X)
     # ---- grafismo (rev.10): o grao da marca, deitado ----------------------
     s["graf_L"] = round(s["graf_esc"] * X, 1)
-    s["graf_W"] = round(s["graf_L"] / RAZAO, 1)
-    s["graf_rt"] = round(min(2.2, s["graf_W"] / 4), 1)
+    s["graf_W"] = round(s["graf_L"] / G.RAZAO, 1)
+    s["graf_rt"] = round(max(1.8, min(3.0, s["graf_W"] / 7)), 1)
 
     # ---- o que a base ainda tem de respeitar ------------------------------
     # Com o pe dentro do vulto, ele nao colide com nada no ninho: desce junto
@@ -187,18 +187,14 @@ def parametros(k):
 
 
 def grafismo(s, cont, zlo, zhi):
-    """Instancia a malha de graos: periodos inteiros na volta e na altura."""
-    L, W = s["graf_L"], s["graf_W"]
-    nu = max(6, int(round(cont.perimetro / (PU * L))))
-    nz = max(2, int(round((zhi - zlo) / (PZ * L))))
-    pu, pz = cont.perimetro / nu, (zhi - zlo) / nz
-    g = Grafismo(L / 2, W / 2, s["graf_rt"], pu, pz, zlo + pz / 2)
-    s["graf_nu"], s["graf_nz"] = nu, nz
-    s["graf_pu"], s["graf_pz"] = round(pu, 1), round(pz, 1)
-    s["graf_vazado"], s["graf_alma"] = g.medidas()
+    """Instancia a rede da marca: periodo inteiro na volta e na altura."""
+    m, info = G.monta(s["graf_L"], cont.perimetro, zlo, zhi,
+                      s["graf_rt"], s["graf_folga"])
+    s.update({"graf_" + q: v for q, v in info.items() if q not in ("L",)})
+    s["graf_vazado"], s["graf_alma"] = m.medidas()
     assert s["graf_alma"] > 4.0, \
         f"alma do grafismo fina demais ({s['graf_alma']:.1f} mm)"
-    return g
+    return m
 
 
 def construir(k):

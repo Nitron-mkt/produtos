@@ -245,47 +245,87 @@ lateral, que é o que faz torre de três não balançar.
 | folga do degrau | 2,3 mm |
 | recuo do rodapé | 5,2 mm — a linha de sombra, e a folga do degrau, são a mesma coisa |
 
-### rev.10 — o vazado vira o grafismo da marca
+### rev.10 / rev.11 — o vazado vira o grafismo da marca
 
-O logo foi medido no PNG da marca, não estimado a olho. O traço é uma **lente
-de duas arestas curvas**: razão comprimento/largura **2,22** no traço curto e
-**4,07** no longo, preenchimento **0,60** da caixa (retângulo seria 1,00, elipse
-0,785), eixo maior a **63° da horizontal**, com uma curvatura de centro de ±9%
-da largura (sutil; não reproduzida).
+**A rev.10 errou o desenho.** Tratei o traço do logo como uma lente simétrica e
+a rede como malha alternada. Nenhum dos dois é verdade. A rev.11 mediu.
 
-O furo é esse traço **girado 90°** — o mesmo grão, deitado. É isso que troca o
-vazado vertical pelo horizontal sem perder a marca: o ângulo passa a 22° e a
-malha alternada refaz a trama do logo.
+#### O grão
+
+Extraído do PNG da marca, no referencial ponta-a-ponta:
+
+| | |
+|---|---|
+| comprimento × largura | 85,6 × 39,8 px → **L/W = 2,15** (não 4,07) |
+| preenchimento da caixa | 0,578 |
+| eixo maior | 75,8° da horizontal |
+| meia-largura | `hw(t) = (W/2)·(1 − (2t−1)²)^1,3` |
+| linha de centro | `vc(t) = −0,152·(W/2)·sin(2πt)` |
+
+O grão tem **simetria de ponto**, não de espelho: gira 180° em torno do centro e
+cai em si mesmo. É esse S da linha de centro que dá o ar de trama à marca — e era
+exatamente o que a lente simétrica da rev.10 tinha jogado fora.
+
+#### A rede
+
+Medida a partir dos 28 centros do logo. As fileiras em `y = −91,5` e `y = −201`
+dão o período horizontal; a fileira intermediária em `y = −148,7` dá o desvio:
+
+```
+a1 = ( 57,2 ;   0,0)    período horizontal, 0,668 L
+a2 = (−12,6 ; −57,2)    descendo uma fileira, anda 12,6 px para a ESQUERDA
+```
+
+Célula de 3.272 px² contra 1.966 px² do grão → **60% de cobertura**.
+
+**O sinal de `a2` decide tudo.** Com ele invertido — que foi o meu primeiro
+palpite — `a2` fica paralela ao eixo do grão (−76°), os grãos se emendam ponta
+com ponta e viram fitas onduladas contínuas. Com o sinal certo, `a2` cruza o
+eixo a 27° e nasce a trama. A reconstrução foi conferida contra a marca, lado a
+lado, antes de ir para a peça.
+
+#### Deitado na peça
+
+Tudo gira +90°, que é o que troca o vazado vertical pelo horizontal sem perder a
+marca: eixo do grão a **+14,2°**, período de 0,668 L na volta e na altura, e
+descida de 0,147 L por coluna. A célula fica quadrada, como no logo.
+
+A rede entra com a **mesma forma** do logo, só afastada por um fator de escala
+até o vazado cair de 60% para o alvo da peça — o desenho é o mesmo, o que muda é
+o espaçamento, que na peça tem de deixar alma entre os furos.
 
 | | P | M | G |
 |---|---|---|---|
-| grão | 38 × 9,2 mm | 56 × 13,8 mm | 72 × 17,7 mm |
-| ponta (raio) | 2,2 mm | 2,2 mm | 2,2 mm |
-| malha | 25 × 5 | 25 × 5 | 29 × 5 |
-| passo (volta × altura) | 28,2 × 21,1 | 41,2 × 30,0 | 53,6 × 38,9 |
-| vazado | 38,9% | 42,1% | 41,3% |
-| **alma mínima** | **5,4 mm** | **7,5 mm** | **10,0 mm** |
-| massa | 226 g | 440 g | 883 g |
+| grão | 32 × 14,7 mm | 46 × 21,4 mm | 60 × 27,9 mm |
+| malha (volta × altura) | 27 × 4 | 27 × 4 | 32 × 4 |
+| passo | 26,1 × 26,4 | 38,2 × 37,5 | 48,5 × 48,6 |
+| descida por coluna | −5,86 | −8,33 | −10,64 |
+| vazado | 41,5% | 42,5% | 43,8% |
+| **alma mínima** | **7,4 mm** | **10,7 mm** | **13,0 mm** |
+| massa | 221 g | 440 g | 847 g |
 
-O P continua o mais fechado da família de propósito: é a peça que vai à vista em
-casa e a que guarda coisa pequena — furo de 9,2 mm de largura contra 17,7 do G.
+A célula sai quadrada nos três (`pu/pz` entre 0,99 e 1,00) porque a altura manda:
+`nz` inteiro para não sobrar meia fileira na borda, e a volta acompanha na
+proporção do logo.
 
-**A geometria do furo.** Interseção de dois discos (é isso que dá a aresta curva
-do logo) com as pontas arredondadas por um *max suave* de raio 2,2 mm — ponta
-viva seria concentrador de tensão na peça e gume de aço fino no molde.
+**Ponta arredondada.** As pontas do grão são cúspides — derivada zero, ângulo
+zero. Na peça isso é concentrador de tensão, e no molde é gume de aço fino. As
+duas pontas viram calota de raio 1,8 a 3,0 mm conforme o tamanho.
 
 **Como a casca é emitida.** `perfurada()` em `geometria.py`: para cada tira do
 contorno, acha os trechos sólidos no meio da tira e refina as bordas por
 bisseção **nas duas colunas**. É isso que faz a borda do furo sair curva em vez
-de escadinha, sem precisar de malha fina.
+de escadinha, sem precisar de malha fina. O intervalo caminha para fora a partir
+do centro em vez de saltar até os limites — saltando, uma coluna com dois furos
+devolvia um intervalo atravessando o furo do meio.
 
 **O que não mudou.** O vazado continua **coplanar** — nenhum relevo por fora,
 senão o ninho trava a meio caminho. Coluna e painel de etiqueta ficam cheios: a
 coluna é poste de carga da pilha, não pode ser furada.
 
-**Alma mínima** é a menor distância entre dois furos vizinhos, medida por
-amostragem do contorno do grão contra os oito vizinhos, e é verificada por
-`assert` nos três tamanhos (mínimo 4 mm).
+`grafismo.py` depende de nada além de `math`. A extração das constantes a partir
+do PNG usou `numpy`, `Pillow` e `scipy`, mas isso é trabalho de uma vez só — as
+constantes estão no topo do arquivo.
 
 ## Arquivos
 
