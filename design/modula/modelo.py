@@ -50,12 +50,12 @@ RHO_PP = 0.905
 # guarda coisa pequena. O G e o mais aberto: e caixa de estoque.
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
-    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=200.0, perna=50.0, e=1.8, R=26.0,
-              barra=9.0, vao_fundo=6.0, graf_esc=0.100, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
-    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=250.0, perna=50.0, e=2.0, R=36.0,
-              barra=7.5, vao_fundo=11.0, graf_esc=0.100, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
-    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=300.0, perna=50.0, e=2.3, R=46.0,
-              barra=7.5, vao_fundo=17.0, graf_esc=0.100, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+    "P": dict(nome="MODULA P", X=300.0, Y=200.0, H=185.0, perna=50.0, e=1.8, R=26.0,
+              barra=9.0, vao_fundo=6.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+    "M": dict(nome="MODULA M", X=400.0, Y=300.0, H=245.0, perna=50.0, e=2.0, R=36.0,
+              barra=7.5, vao_fundo=11.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+    "G": dict(nome="MODULA G", X=600.0, Y=400.0, H=370.0, perna=50.0, e=2.3, R=46.0,
+              barra=7.5, vao_fundo=17.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
 }
 
 

@@ -343,6 +343,73 @@ senão o ninho trava a meio caminho. Coluna e painel de etiqueta ficam cheios: a
 coluna é poste de carga da pilha, não pode ser furada. `grafismo.py` não depende
 de nada além de `math`.
 
+### rev.14 — a modulação dos três tamanhos (proporção áurea)
+
+#### A restrição que decide tudo: o palete
+
+Medi cada pegada candidata contra os dois paletes que a Nitron usa:
+
+| pegada | PBR-1 (1000 × 1200) | europeu (800 × 1200) |
+|---|---|---|
+| **300 × 200** | 20 pç · **100%** | 16 pç · **100%** |
+| **400 × 300** | 10 pç · **100%** | 8 pç · **100%** |
+| **600 × 400** | 5 pç · **100%** | 4 pç · **100%** |
+| 500 × 300 (3:5, o mais áureo) | 8 pç · 100% | 6 pç · 94% |
+| 500 × 400 | 6 pç · 100% | 4 pç · 83% |
+| 450 × 300 | 8 pç · 90% | 6 pç · 84% |
+
+As três pegadas atuais são **as únicas que fecham os dois paletes a 100%** — e
+não por acaso: elas são a série modular do palete, cada uma metade da área da
+anterior. A pegada áurea mais próxima (500 × 300 = 1,667) perde 6% de cada
+palete europeu, para sempre, em todo frete.
+
+**Então a razão áurea não pode entrar na planta.** Ela entra na altura.
+
+#### Onde φ cabe de graça
+
+Altura não muda a pegada nem a área projetada — logo não muda nem o palete nem a
+tonelagem da injetora. É o único eixo livre. A proposta põe φ na **face frontal**,
+que é justamente a proporção que se vê na gôndola e em casa:
+
+| | cm (X × Y × H) | face X:H | litros | massa |
+|---|---|---|---|---|
+| **P** | 30 × 20 × 18,5 | **1,622** | **4,9 L** | 237 g |
+| **M** | 40 × 30 × 24,5 | **1,633** | **15,4 L** | 491 g |
+| **G** | 60 × 40 × 37,0 | **1,622** | **52,1 L** | 1.116 g |
+
+φ = 1,6180 — as três faces ficam dentro de 1% dele.
+
+O G cai em **600 × 400 × 370**, que é altura de caixa-padrão de mercado; o M em
+400 × 300 × 245, entre os padrões de 220 e 270.
+
+#### O que φ **não** consegue ser ao mesmo tempo
+
+As razões de volume saem **3,18×** e **3,38×**, não φ² = 2,618. Não é ajuste
+malfeito, é aritmética: a pegada **dobra de área** a cada degrau (é o palete que
+manda), o que já põe 2,00 na conta; a altura cresce junto com X para manter a
+face áurea, e a conicidade ainda adiciona volume no topo.
+
+Para os volumes andarem em φ² seria preciso **30 × 20 × 22,2 / 40 × 30 × 24,5 /
+60 × 40 × 28,5** (5,9 / 15,4 / 40,4 L) — e aí as faces viram 1,35 / 1,63 / 2,10,
+o P fica quase tão alto quanto o M e o G fica achatado. A família perde a
+hierarquia visual para ganhar uma razão que ninguém enxerga. Não recomendo.
+
+**Dá para ter φ na face ou no volume, não nos dois** — porque a planta está presa
+ao palete.
+
+#### O que a altura nova compra
+
+| | col. em 1,9 m | pç/palete (ninhadas) | litros/palete | vs. empilhado |
+|---|---|---|---|---|
+| P | 110 | 2.200 | 10.673 L | 8,5× |
+| M | 97 | 970 | 14.962 L | 10,8× |
+| G | 79 | 395 | 20.596 L | **15,8×** |
+
+Um palete de MODULA G leva **20,6 m³ de capacidade** — contra 25 peças se fossem
+empilhadas em vez de ninhadas.
+
+Torre de três: P 47,5 cm · M 65,5 cm · G 103 cm.
+
 ## Arquivos
 
 | Arquivo | O que é |
