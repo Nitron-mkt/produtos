@@ -1,0 +1,634 @@
+referencia,pagina,categoria_catalogo,nome_catalogo,com_cm,lar_cm,alt_cm,litragem
+002.036.002,80,COZINHA,Tábua Popular,31.8,20.7,0.4,
+003.006.002,14,ORGANIZACAO,,21,18,17.3,
+003.006.003,14,ORGANIZACAO,,21,18,17.3,
+003.006.012,14,ORGANIZACAO,,21,18,17.3,
+004.006.002,14,ORGANIZACAO,,21,18,22.5,
+004.006.003,14,ORGANIZACAO,,21,18,22.5,
+004.006.012,14,ORGANIZACAO,,21,18,22.5,
+006.030.998,67,INFANTIL,Copo Baby com Tampa - Sortido,,,,250ml
+006.030.999,67,INFANTIL,Copo Baby com Tampa - Sortido,,,,250ml
+008.012.002,103,LIMPEZA,Porta Sabão em Pó com Dosador,20.7,10.5,25,
+008.012.003,103,LIMPEZA,Porta Sabão em Pó,12.9,7.9,15.5,
+010.001.003,12,ORGANIZACAO,,50,50,72.5,
+010.010.003,12,ORGANIZACAO,10 Peças - Preto,39.5,7,20,
+010.012.001,12,ORGANIZACAO,Transparente,39.5,2.1,20,
+011.036.001,15,ORGANIZACAO,Organiza Tudo com Divisórias Móveis,13.5,,,
+012.012.016,103,LIMPEZA,Porta Sabão em Pó,12.9,7.9,15.5,
+013.050.003,19,ORGANIZACAO,Suporte Para Botijão,,,,
+013.050.004,19,ORGANIZACAO,Suporte Para Botijão,,,,
+015.012.002,78,COZINHA,,,,,
+015.012.003,78,COZINHA,Ralador Pratic com Pote,10.4,12.5,19.2,420ml
+016.012.002,75,COZINHA,Talheres Max,24,11.5,13.5,
+016.012.003,75,COZINHA,Talheres Max,24,11.5,13.5,
+016.012.086,75,COZINHA,Talheres Max,24,11.5,13.5,
+017.024.999,105,LIMPEZA,Pá de Lixo Inova,32.2,22.5,10.2,
+018.030.002,80,COZINHA,Tábua Multiuso,20.5,35.6,0.4,
+019.024.001,15,ORGANIZACAO,Maleta Organiza Tudo c/Divis. Móveis,20.5,11.8,,
+020.024.001,86,MICRO-ONDAS,Micro-ondas com Tampa,,,,1.9L
+023.030.002,78,COZINHA,Ralador com 4 Faces,10.4,12.5,19.2,420ml
+024.012.002,104,LIMPEZA,Cestinho para Prendedor ﬂoral,26.8,14.4,13.5,
+024.012.003,104,LIMPEZA,Cestinho para Prendedor ﬂoral,26.8,14.4,13.5,
+027.012.001,54,POTES,Porta Pão Armazena e Conserva,34.5,14,13.5,"2,7L"
+028.012.002,83,COZINHA,Escorredor de Arroz Tradicional,28,22,16,
+028.012.003,83,COZINHA,Escorredor de Arroz Tradicional,28,22,16,
+030.012.001,59,POTES,Pote Monterey com 3 Divisórias,21.2,21.2,5.5,"1,1L"
+030.012.003,59,POTES,Pote Monterey com 3 Divisórias,21.2,21.2,5.5,"1,1L"
+032.012.002,90,JARRAS,Jarra com Tampa,,,,2L
+032.012.547,90,JARRAS,Jarra com Tampa,,,,2L
+033.012.002,90,JARRAS,Jarra com Espremedor,,,,2L
+033.012.547,90,JARRAS,Jarra com Espremedor,,,,2L
+034.012.001,59,POTES,Pote Mônaco com 3 Divisórias,24.5,19,5,1L
+034.012.003,59,POTES,Pote Mônaco com 3 Divisórias,24.5,19,5,1L
+039.012.002,82,COZINHA,com Cabo,38.5,23,9,
+039.012.003,82,COZINHA,com Cabo,38.5,23,9,
+041.012.002,7,ORGANIZACAO,com 3 Divisórias,16,11,17.8,
+041.012.003,7,ORGANIZACAO,com 3 Divisórias,16,11,17.8,
+041.012.086,7,ORGANIZACAO,com 3 Divisórias,16,11,17.8,
+043.012.002,29,FRASQUEIRAS,"Frasqueira Medicamentos 1,4L",19.1,15.7,10,"1,4L"
+043.012.009,29,FRASQUEIRAS,"Frasqueira Medicamentos 1,4L",19.1,15.7,10,"1,4L"
+044.012.005,79,COZINHA,Porta Leite de Saquinho,16,12,15,
+045.012.001,86,MICRO-ONDAS,Micro-ondas com Tampa,,,,1.9L
+046.012.002,78,COZINHA,Porta Óleo Itália,12,8.8,16.2,
+046.012.003,78,COZINHA,Porta Óleo Itália,12,8.8,16.2,
+047.012.002,18,ORGANIZACAO,Cesto Organizador Vime,,,,7L
+047.012.003,18,ORGANIZACAO,Cesto Organizador Vime,,,,7L
+050.012.001,59,POTES,Pote Premier com 4 Divisórias,,,,"1,1L"
+050.012.003,59,POTES,Pote Premier com 4 Divisórias,,,,"1,1L"
+051.012.002,75,COZINHA,3 em 1,28,10.2,6.5,
+051.012.003,75,COZINHA,3 em 1,28,10.2,6.5,
+051.012.086,75,COZINHA,3 em 1,28,10.2,6.5,
+052.006.002,97,LIXEIRAS,Lixeira Rattan com Pedal,,,,6L
+052.006.003,97,LIXEIRAS,Lixeira Rattan com Pedal,,,,6L
+052.006.086,97,LIXEIRAS,Lixeira Rattan com Pedal,,,,6L
+053.004.002,13,ORGANIZACAO,4 Andares,39.5,30,70.5,
+053.004.003,13,ORGANIZACAO,4 Andares,39.5,30,70.5,
+054.004.001,103,LIMPEZA,Cesto de Roupas,47.5,34,50,47L
+054.004.003,103,LIMPEZA,Cesto de Roupas,,,,
+055.012.002,83,COZINHA,Escorredor Multiuso,26,21.5,19,
+055.012.003,83,COZINHA,Escorredor Multiuso,26,21.5,19,
+056.012.002,82,COZINHA,Escorredor Luxo com Cabo,38.5,25,11.5,
+056.012.003,82,COZINHA,Escorredor Luxo com Cabo,38.5,25,11.5,
+059.012.002,74,COZINHA,Escorredor de Pratos,42.2,30.5,9.5,
+059.012.003,74,COZINHA,Escorredor de Pratos,42.2,30.5,9.5,
+059.012.086,74,COZINHA,Escorredor de Pratos,42.2,30.5,9.5,
+060.012.002,76,COZINHA,Porta Talher Paris com 4 Divisórias e Tampa,32.5,21.5,5,
+060.012.003,76,COZINHA,Porta Talher Paris com 4 Divisórias e Tampa,32.5,21.5,5,
+062.012.002,5,ORGANIZACAO,Rattan com Tampa,25.5,20,10.7,4L
+062.012.003,5,ORGANIZACAO,Rattan com Tampa,25.5,20,10.7,4L
+062.012.086,5,ORGANIZACAO,Rattan com Tampa,25.5,20,10.7,4L
+064.012.002,91,JARRAS,Jarra com Tubo para Gelo,,,,2L
+064.012.547,91,JARRAS,Jarra com Tubo para Gelo,,,,2L
+065.012.002,5,ORGANIZACAO,Rattan com Tampa,20.5,15.4,9,2L
+065.012.003,5,ORGANIZACAO,Rattan com Tampa,20.5,15.4,9,2L
+065.012.086,5,ORGANIZACAO,Rattan com Tampa,20.5,15.4,9,2L
+067.012.002,81,COZINHA,Saleiro,16,11,12,
+067.012.003,81,COZINHA,Saleiro Premier com Alça,15.5,11,13.2,
+068.012.002,5,ORGANIZACAO,Rattan com Tampa,32.3,22.5,14.8,8L
+068.012.003,5,ORGANIZACAO,Rattan com Tampa,32.3,22.5,14.8,8L
+068.012.086,5,ORGANIZACAO,Rattan com Tampa,32.3,22.5,14.8,8L
+069.006.002,5,ORGANIZACAO,Rattan com Tampa,38.5,28,19,16L
+069.006.003,5,ORGANIZACAO,Rattan com Tampa,38.5,28,19,16L
+069.006.086,5,ORGANIZACAO,Rattan com Tampa,38.5,28,19,16L
+070.006.002,82,COZINHA,Escorredor Luxo,34.8,27.8,14.5,
+070.006.003,82,COZINHA,Escorredor Luxo,34.8,27.8,14.5,
+075.024.001,54,POTES,Sanduicheira Pratic,13.9,12.5,7,600ml
+076.024.001,108,BANHEIRO,Saboneteira com Tampa,10.8,7.8,4.2,
+076.024.066,108,BANHEIRO,Saboneteira com Tampa,10.8,7.8,4.2,
+077.012.002,82,COZINHA,Escorredor Ideal,26.7,24,10,
+077.012.003,82,COZINHA,Escorredor Ideal,26.7,24,10,
+078.036.001,91,JARRAS,Firenze,,,,2L
+079.012.002,109,BANHEIRO,Prateleira Madri,17,9.2,39.6,
+079.012.003,109,BANHEIRO,Prateleira Madri,17,9.2,39.6,
+081.012.002,78,COZINHA,Porta Papel Toalha,19.5,14.8,26.3,
+081.012.003,78,COZINHA,Porta Papel Toalha,19.5,14.8,26.3,
+088.012.002,90,JARRAS,Jarra com Tampa,,,,1.6L
+088.012.547,90,JARRAS,Jarra com Tampa,,,,2L
+090.012.002,81,COZINHA,Saleiro Rubi,17,11,12,350ml
+090.012.003,81,COZINHA,Açucareiro Doçura,12.5,9,9.4,350ml
+091.012.002,101,LIXEIRAS,Lixeira Verona,,,,4L
+091.012.003,101,LIXEIRAS,Lixeira Verona,,,,4L
+092.012.002,108,BANHEIRO,Parede com Ventosa,13.6,9.5,7.5,
+092.012.003,108,BANHEIRO,Parede com Ventosa,13.6,9.5,7.5,
+093.012.002,18,ORGANIZACAO,Cestinho Versátil,,,,"4,2L"
+093.012.003,18,ORGANIZACAO,Cestinho Versátil,,,,"4,2L"
+094.012.002,81,COZINHA,Açucareiro Doçura,12.5,9,9.4,350ml
+094.012.003,81,COZINHA,Açucareiro Doçura,12.5,9,9.4,350ml
+095.012.002,109,BANHEIRO,Banheiro Premium,21.5,14.3,38.6,
+095.012.003,109,BANHEIRO,Banheiro Premium,21.5,14.3,38.6,
+096.012.002,71,COZINHA,Escorredor de Pratos Rattan,33.7,22.2,9.8,
+096.012.003,71,COZINHA,Escorredor de Pratos Rattan,33.7,22.2,9.8,
+096.012.086,71,COZINHA,Escorredor de Pratos Rattan,33.7,22.2,9.8,
+097.012.001,17,ORGANIZACAO,,41,29.3,13.6,10L
+098.012.999,105,LIMPEZA,Balde Limpex,31.2,28.3,24.3,8L
+100.006.002,100,LIXEIRAS,Lixeira com Pedal,,,,7L
+100.006.003,100,LIXEIRAS,Lixeira com Pedal,,,,7L
+103.024.003,57,POTES,Com Bandeja,,,,
+105.024.003,58,POTES,com Bandeja e Válvula,,,,800ml
+106.012.001,15,ORGANIZACAO,Maleta Organiza Tudo c/Divis. Móveis,30,19.5,,
+109.012.001,17,ORGANIZACAO,,37,22.8,13,6L
+110.006.001,17,ORGANIZACAO,,41,29.3,25.6,20L
+111.012.002,90,JARRAS,Espremedor Portátil Fit,,,,510ml
+111.012.549,90,JARRAS,Espremedor Portátil Fit,,,,510ml
+112.012.002,91,JARRAS,Jarra Medidora Top Mix,,,,500ml
+112.012.547,91,JARRAS,Jarra Medidora Top Mix,,,,500ml
+113.012.002,104,LIMPEZA,Tanquinho Porta Sabão em Barra,13.2,12.9,12.2,
+113.012.003,104,LIMPEZA,Tanquinho Porta Sabão em Barra,13.2,12.9,12.2,
+114.012.002,90,JARRAS,Jarrinhs com Espremedor,,,,500ml
+114.012.547,90,JARRAS,Espremedor Portátil Fit,,,,510ml
+116.012.002,75,COZINHA,com Telinha,23,10.5,6.5,
+116.012.003,75,COZINHA,com Telinha,23,10.5,6.5,
+116.012.086,75,COZINHA,com Telinha,23,10.5,6.5,
+117.012.002,80,COZINHA,Tábua Extra Grande,39,24.5,0.5,
+120.006.001,31,FRASQUEIRAS,Frasqueira com Bandeja,24.2,16.3,12.8,"2,8L"
+120.006.012,31,FRASQUEIRAS,Frasqueira com Bandeja,24.2,16.3,12.8,"2,8L"
+121.012.002,83,COZINHA,Escorredor de Arroz Caribe,25.4,16.5,14.7,
+121.012.003,83,COZINHA,Escorredor de Arroz Caribe,25.4,16.5,14.7,
+122.012.002,108,BANHEIRO,Parede com Ventosa,13.6,9.5,7.5,
+122.012.003,108,BANHEIRO,Saboneteira com Tampa,10.8,7.8,4.2,
+122.012.066,108,BANHEIRO,Saboneteira com Telinha,10.8,7.8,4.2,
+123.012.027,19,ORGANIZACAO,"Caixa de Ferramentas Nitronfort 2,2L",29,14,9.8,"2,2L"
+123.012.028,19,ORGANIZACAO,"Caixa de Ferramentas Nitronfort 2,2L",29,14,9.8,"2,2L"
+123.012.045,19,ORGANIZACAO,"Caixa de Ferramentas Nitronfort 2,2L",29,14,9.8,"2,2L"
+124.012.003,57,POTES,Com Bandeja e Talheres,,,,
+125.012.001,17,ORGANIZACAO,,29,17.8,14.5,"4,3L"
+126.006.001,31,FRASQUEIRAS,Frasqueira com Bandeja,28,19.8,18.8,"6,2L"
+126.006.619,31,FRASQUEIRAS,Frasqueira com Bandeja,28,19.8,18.8,"6,2L"
+128.012.002,104,LIMPEZA,Cestinho para Prendedor,24,18.8,11,
+128.012.003,104,LIMPEZA,Cestinho para Prendedor ﬂoral,26.8,14.4,13.5,
+129.012.002,76,COZINHA,Porta Talher Stillo com 4 Divisórias,30,21.5,4.2,
+129.012.003,76,COZINHA,Porta Talher Stillo com 4 Divisórias,30,21.5,4.2,
+130.012.002,101,LIXEIRAS,Lixeira Retrátil,,,,4L
+130.012.003,101,LIXEIRAS,Lixeira Retrátil,,,,4L
+131.012.002,29,FRASQUEIRAS,"Frasqueira Medicamentos 2,2L",29,14,9.8,"2,2L"
+131.012.009,29,FRASQUEIRAS,"Frasqueira Medicamentos 2,2L",29,14,9.8,"2,2L"
+132.036.683,67,INFANTIL,Prato Unitário,,,,
+133.012.002,71,COZINHA,Porta Detergente Rattan com Base,19.7,10.5,7,
+133.012.003,71,COZINHA,Porta Detergente Rattan com Base,19.7,10.5,7,
+133.012.086,71,COZINHA,Porta Detergente Rattan com Base,19.7,10.5,7,
+134.012.002,97,LIXEIRAS,Lixeira Basculante Rattan,,,,6L
+134.012.003,97,LIXEIRAS,Lixeira Basculante Rattan,,,,6L
+134.012.086,97,LIXEIRAS,Lixeira Basculante Rattan,,,,6L
+135.024.001,86,MICRO-ONDAS,Tampa para Micro-ondas,,,,1.9L
+136.024.001,86,MICRO-ONDAS,Travessa Micro-ondas c/Tampa,,,,"1,5L"
+137.012.002,29,FRASQUEIRAS,"Frasqueira Medicamentos 2,8L",24.2,16.3,12.8,"2,8L"
+137.012.009,29,FRASQUEIRAS,"Frasqueira Medicamentos 2,8L",24.2,16.3,12.8,"2,8L"
+138.012.001,15,ORGANIZACAO,Organiza Tudo com Divisórias Móveis,26.2,17.5,,
+139.012.001,59,POTES,Pote com 3 Divisórias,12.9,7.9,15.7,"1,1L"
+139.012.003,59,POTES,Pote com 3 Divisórias,12.9,7.9,15.7,"1,1L"
+140.012.001,13,ORGANIZACAO,Estojo Multiuso,21,6.8,3.5,
+140.012.066,13,ORGANIZACAO,Estojo Multiuso,21,6.8,3.5,
+142.006.002,30,FRASQUEIRAS,"Medicamentos 6,2L",28,19.8,18.8,"6,2L"
+142.006.009,30,FRASQUEIRAS,"Medicamentos 6,2L",28,19.8,18.8,"6,2L"
+144.006.002,76,COZINHA,Porta Talher com 6 Divisórias e Tampa,34,29,5,
+144.006.003,76,COZINHA,Porta Talher com 6 Divisórias e Tampa,34,29,5,
+146.024.001,86,MICRO-ONDAS,Forma de Ovos e Omeleteira Micro-ondas,18,15,6,
+147.012.604,30,FRASQUEIRAS,Frasqueira Mini,15,12.5,9.5,1L
+147.012.607,30,FRASQUEIRAS,Frasqueira Cristal com Divisórias,20.2,11.5,11,"1,5L"
+148.004.002,101,LIXEIRAS,Lixeira Basculante,,,,14L
+148.004.003,101,LIXEIRAS,Lixeira Basculante,,,,14L
+149.024.001,85,MICRO-ONDAS,Micro-ondas,,,,"2,6L"
+150.004.002,100,LIXEIRAS,Lixeira com Pedal,,,,16L
+150.004.003,100,LIXEIRAS,Lixeira com Pedal,,,,16L
+151.012.001,43,POTES,Pote Alto com Travas,,,,"4,3L"
+151.012.003,43,POTES,Pote Alto com Travas,,,,"4,3L"
+152.006.002,53,POTES,Kit Mantimentos  5 Peças,,,,3L
+152.006.003,53,POTES,Kit Mantimentos  5 Peças,,,,3L
+153.012.002,89,JARRAS,Jarra com Tampa Flip Top,,,,2L
+153.012.546,89,JARRAS,Jarra com Tampa Flip Top,,,,2L
+154.006.861,63,POTES,,,,,
+154.012.001,43,POTES,Pote Alto com Travas,,,,460ml
+154.012.003,43,POTES,Pote Alto com Travas,,,,460ml
+155.006.861,63,POTES,com 2 Peças,17,11,18,850ml
+155.012.001,43,POTES,Pote Alto com Travas,,,,850ml
+155.012.003,43,POTES,Pote Alto com Travas,,,,850ml
+156.012.001,43,POTES,Pote Alto com Travas,,,,"2,2L"
+156.012.003,43,POTES,Pote Alto com Travas,,,,"2,2L"
+157.024.009,43,POTES,Pote Alto com Travas,,,,850ml
+158.024.029,43,POTES,Pote Alto com Travas,,,,850ml
+161.012.002,18,ORGANIZACAO,Porta Tudo,,,,1L
+161.012.0031,18,ORGANIZACAO,,,,,
+162.012.002,18,ORGANIZACAO,Cesto com Alça,,,,"8,5L"
+162.012.003,18,ORGANIZACAO,Cesto com Alça,,,,"8,5L"
+163.004.002,100,LIXEIRAS,Lixeira Vime,,,,12L
+163.004.003,100,LIXEIRAS,Lixeira Vime,,,,12L
+163.004.086,100,LIXEIRAS,Lixeira Vime,,,,12L
+164.006.001,15,ORGANIZACAO,Maleta Organiza Tudo c/Divis. Móveis,36,,,
+165.006.002,74,COZINHA,Escorredor de Pratos,49,35.5,11.1,
+165.006.003,74,COZINHA,Escorredor de Pratos,49,35.5,11.1,
+165.006.086,74,COZINHA,Escorredor de Pratos,49,35.5,11.1,
+166.024.001,54,POTES,Porta Biscoitos e Torradas,23.1,9.1,8.9,650ml
+167.010.003,12,ORGANIZACAO,10 Peças - Preto,39,7,19.5,
+167.012.001,12,ORGANIZACAO,3 Peças - Transparente,39,2.1,19.5,
+169.012.002,79,COZINHA,Boleira Barcelona com Alça,,,,
+169.012.003,79,COZINHA,Boleira Barcelona com Alça,,,,
+170.006.027,19,ORGANIZACAO,Caixa de Ferramentas Nitronfort 16L,40.3,22.3,18.3,16L
+170.006.028,19,ORGANIZACAO,Caixa de Ferramentas Nitronfort 16L,40.3,22.3,18.3,16L
+170.006.045,19,ORGANIZACAO,Caixa de Ferramentas Nitronfort 16L,40.3,22.3,18.3,16L
+172.012.998,105,LIMPEZA,Pá de Lixo com Cabo,24.6,18,66.6,
+172.012.999,105,LIMPEZA,Pá de Lixo com Cabo,24.6,18,66.6,
+173.012.002,101,LIXEIRAS,Lixeira Fênix,,,,"4,2L"
+173.012.003,101,LIXEIRAS,Lixeira Fênix,,,,"4,2L"
+176.024.001,56,POTES,Marmita Due c/ Div Móvel,,,,600ml
+177.012.002,18,ORGANIZACAO,Cestinho com Alça,,,,5L
+177.012.003,18,ORGANIZACAO,Cestinho com Alça,,,,5L
+178.024.001,85,MICRO-ONDAS,Caçarola Micro-ondas,,,,850ml
+179.024.001,77,COZINHA,Porta Frios com Pinça,26.2,17.5,5.3,"1,1L"
+182.012.002,89,JARRAS,Jarra com Tampa Flip Top,,,,4L
+182.012.546,89,JARRAS,Jarra com Tampa Flip Top,,,,4L
+184.010.003,12,ORGANIZACAO,10 Peças - Preto,28.1,7,15.2,
+184.016.001,12,ORGANIZACAO,Transparente,28.1,2.1,15.2,
+185.012.002,105,LIMPEZA,Porta Vassouras com 9 posições,34,5,5,
+185.012.003,105,LIMPEZA,Porta Vassouras com 9 posições,34,5,5,
+186.006.002,30,FRASQUEIRAS,Mega Luxo,37,25,22,12L
+186.006.009,30,FRASQUEIRAS,Mega Luxo,37,25,22,12L
+187.006.001,15,ORGANIZACAO,Organiza Tudo com Divisórias Móveis,36,,,
+188.012.002,74,COZINHA,Super Prático,36,26.5,10.5,
+188.012.003,74,COZINHA,Super Prático,36,26.5,10.5,
+188.012.086,74,COZINHA,Super Prático,36,26.5,10.5,
+190.012.001,43,POTES,Pote Alto com Travas,,,,
+190.012.003,43,POTES,Pote Alto com Travas,,,,
+191.012.001,59,POTES,Pote com 2 Divisórias,,,,720ml
+191.012.003,59,POTES,Pote com 2 Divisórias,,,,720ml
+193.024.001,108,BANHEIRO,Saboneteira com Telinha,10.8,7.8,4.2,
+193.024.066,108,BANHEIRO,Saboneteira com Telinha,10.8,7.8,4.2,
+194.012.009,85,MICRO-ONDAS,Micro-ondas com Cesto,,,,"2,6L"
+195.006.012,30,FRASQUEIRAS,Frasqueira Cristal com Divisórias,20.2,11.5,11,"1,5L"
+195.006.609,30,FRASQUEIRAS,Frasqueira Cristal com Divisórias,20.2,11.5,11,"1,5L"
+196.006.001,54,POTES,Pote Premium,39,26,12,"7,9L"
+197.024.010,56,POTES,Pote com Travas e 2 Div.,,,,600ml
+198.012.001,13,ORGANIZACAO,Estojo Super Prático,20,6.4,4,
+198.012.066,13,ORGANIZACAO,Estojo Super Prático,20,6.4,4,
+199.006.001,16,ORGANIZACAO,,57.5,39.5,17,27L
+200.004.001,16,ORGANIZACAO,,57.5,39.5,31.5,50L
+202.006.001,31,FRASQUEIRAS,Frasqueira Oval com Bandeja,27,17.7,18,"4,4L"
+202.006.002,29,FRASQUEIRAS,"Oval com Bandeja 4,4L",27,17.7,18,"4,4L"
+202.006.009,29,FRASQUEIRAS,"Oval com Bandeja 4,4L",27,17.7,18,"4,4L"
+202.006.012,31,FRASQUEIRAS,Frasqueira Oval com Bandeja,27,17.7,18,"4,4L"
+203.006.003,52,POTES,Pote Ultraforte com Travas,30,20,10.5,4L
+205.006.861,63,POTES,com 2 Peças,11.8,9.5,11.4,450ml
+205.006.862,62,POTES,com 3 Peças,11.8,9.5,17.1,450ml
+205.006.P01,65,POP,Kit POP - 6 Potes Fits,15.6,7.8,20.7,450ml
+205.012.001,53,POTES,Pote Retangular Fit,11.9,9.5,5.6,450ml
+205.012.003,53,POTES,Pote Retangular Fit,11.9,9.5,5.6,450ml
+207.012.002,91,JARRAS,Jarra Medidora Top Mix,,,,850ml
+207.012.547,91,JARRAS,Jarra Medidora Top Mix,,,,850ml
+207.024.001,91,JARRAS,Jarra Medidora Top Mix,,,,850ml
+209.012.003,58,POTES,Marmita c/ Porta Talheres,,,,715ml
+211.012.002,109,BANHEIRO,banheiro Smart,26.7,17,30,
+211.012.003,109,BANHEIRO,banheiro Smart,26.7,17,30,
+212.012.003,56,POTES,Pote com Travas e 2 Div.,,,,600ml
+214.006.002,7,ORGANIZACAO,com 6 Divisórias,19.3,16,17.8,
+214.006.003,7,ORGANIZACAO,com 6 Divisórias,19.3,16,17.8,
+214.006.086,7,ORGANIZACAO,com 6 Divisórias,19.3,16,17.8,
+215.012.003,52,POTES,Pote Ultraforte com Travas,25,16.5,8.7,"2,1L"
+216.012.003,52,POTES,Pote Ultraforte com Travas,30,20,10.5,4L
+217.012.003,52,POTES,Pote Ultraforte com Travas,35,24,12.8,"6,9L"
+219.006.563,31,FRASQUEIRAS,Frasqueira Rattan,32.7,23,21,"9,4L"
+221.012.002,81,COZINHA,Saleiro Premier com Alça,15.5,11,13.2,
+221.012.003,81,COZINHA,Saleiro Premier com Alça,15.5,11,13.2,
+222.012.002,89,JARRAS,Jarra com Tampa Flip Top,,,,1.4L
+222.012.546,89,JARRAS,Jarra com Tampa Flip Top,,,,1.4L
+2231.024.009,77,COZINHA,Porta Frios com Tela,24.5,18,5,"1,4L"
+2232.012.009,77,COZINHA,com 3 Peças,24.5,18,9,"2,8L"
+224.012.002,74,COZINHA,Porta Talher Escorre e Guarda,18.5,9.5,24,
+224.012.003,74,COZINHA,Porta Talher Escorre e Guarda,18.5,9.5,24,
+224.012.086,74,COZINHA,Porta Talher Escorre e Guarda,18.5,9.5,24,
+227.036.998,67,INFANTIL,Copo Infantil com Alça - Sortido,,,,
+227.036.999,67,INFANTIL,Copo Infantil com Alça - Sortido,,,,
+2270.012.001,45,POTES,Pote Redondo com Travas,22.5,20.5,10,"2,3L"
+2270.012.003,45,POTES,Pote Redondo com Travas,22.5,20.5,10,"2,3L"
+228.012.003,58,POTES,Pote c/ Travas Laterais,,,,"1,1L"
+2280.012.001,45,POTES,Pote Redondo com Travas,17.5,16.5,8,"1,1L"
+2280.012.003,45,POTES,Pote Redondo com Travas,17.5,16.5,8,"1,1L"
+229.012.001,86,MICRO-ONDAS,Cook Freezer com Cesto,,,,3L
+2290.006.862,62,POTES,Coloratto com 3 Peças,13.5,12.5,18,450ml
+2290.012.001,45,POTES,Pote Redondo com Travas,13.5,12.5,6,450ml
+2290.012.003,45,POTES,Pote Redondo com Travas,13.5,12.5,6,450ml
+231.006.861,63,POTES,,,,,
+231.006.862,62,POTES,,,,,
+231.006.P01,64,POP,Kit POP - 6 Potes com Travas,18.4,10,31,270ml
+231.012.001,42,POTES,Pote Raso com Travas,14,10,4,270ml
+231.012.003,42,POTES,Pote Raso com Travas,14,10,4,270ml
+232.006.861,63,POTES,,,,,
+232.006.862,62,POTES,,,,,
+232.012.001,42,POTES,Pote Raso com Travas,17,11,5,500ml
+232.012.003,42,POTES,Pote Raso com Travas,17,11,5,500ml
+233.012.001,42,POTES,Pote Raso com Travas,22,14,7,"1,1L"
+233.012.003,42,POTES,Pote Raso com Travas,22,14,7,"1,1L"
+234.012.001,42,POTES,Pote Raso com Travas,26,18,8,"2,3L"
+234.012.003,42,POTES,Pote Raso com Travas,26,18,8,"2,3L"
+235.012.001,46,POTES,com Rosca,,,,
+235.012.002,46,POTES,com Rosca,,,,
+235.012.003,46,POTES,com Rosca,,,,
+235.012.671,46,POTES,com Rosca,,,,500ml
+236.012.001,47,POTES,,,,,
+236.012.002,47,POTES,,,,,
+236.012.003,47,POTES,,,,,
+236.012.667,47,POTES,,,,,
+236.012.668,47,POTES,,,,,
+236.012.669,47,POTES,,,,,
+236.012.670,47,POTES,,,,,
+236.012.671,47,POTES,,,,,
+236.012.672,47,POTES,,,,,
+237.006.002,49,POTES,Pote Acoplado com Copo Medidor,,,,150ml
+237.006.003,49,POTES,Pote Acoplado com Copo Medidor,,,,150ml
+238.012.001,48,POTES,,,,,
+238.012.002,48,POTES,,,,,
+238.012.003,48,POTES,,,,,
+239.012.001,48,POTES,,,,,3L
+239.012.002,48,POTES,,,,,
+239.012.003,48,POTES,,,,,
+240.024.001,86,MICRO-ONDAS,Cook Freezer Micro-ondas,,,,3L
+241.006.P01,65,POP,Kit POP - 6 Potes com Válvula,,,,460ml
+241.024.001,55,POTES,Pote Raso com Válvula,19.8,11.7,4,460ml
+242.024.001,55,POTES,Pote Raso com Válvula,25,15,5,950ml
+243.024.001,55,POTES,ao micro-ondas,30.5,18.5,5.9,"1,9L"
+244.012.001,55,POTES,ao micro-ondas,36,21,7.2,"3,2L"
+246.024.001,55,POTES,Pote Alto com Válvula,20,12,7,868ml
+248.012.009,46,POTES,,,,,
+249.012.020,46,POTES,com Rosca,,,,
+250.024.009,85,MICRO-ONDAS,com Cesto,,,,"1,5L"
+2500.012.001,61,POTES,Pote Alto Retangular,20,12,6.5,868ml
+2500.012.003,61,POTES,Pote Alto Retangular,20,12,6.5,868ml
+251.012.001,85,MICRO-ONDAS,Caçarola Mini Micro-ondas,,,,850ml
+254.006.001,7,ORGANIZACAO,Modular Rattan,32.8,26.5,14.5,"8,2L"
+254.006.002,7,ORGANIZACAO,Modular Rattan,32.8,26.5,14.5,"8,2L"
+254.006.003,7,ORGANIZACAO,Modular Rattan,32.8,26.5,14.5,"8,2L"
+2540.012.001,61,POTES,Kit Potes Altos com 3 pçs,36,21,10.1,"4,6L"
+2540.012.003,61,POTES,Kit Potes Altos com 3 pçs,36,21,10.1,"4,6L"
+255.036.016,91,JARRAS,Firenze com Tampa,,,,2L
+256.006.M02,38,TECA,Caixa Juta Alongada com Tampa Teca,21,10.2,9.4,"1,5L"
+256.006.M03,38,TECA,Caixa Juta Alongada com Tampa Teca,21,10.2,9.4,"1,5L"
+256.024.002,8,ORGANIZACAO,Cesto Alongado Juta,20.6,9.9,8.7,"1,5L"
+256.024.003,8,ORGANIZACAO,Cesto Alongado Juta,20.6,9.9,8.7,"1,5L"
+256.024.086,8,ORGANIZACAO,Cesto Alongado Juta,20.6,9.9,8.7,"1,5L"
+257.006.M02,38,TECA,Caixa Juta Alongada com Tampa Teca,28.4,13.3,12.5,
+257.006.M03,38,TECA,Caixa Juta Alongada com Tampa Teca,28.4,13.3,12.5,"3,7L"
+257.012.002,8,ORGANIZACAO,Cesto Alongado Juta,27.5,13.2,11.6,"3,7L"
+257.012.003,8,ORGANIZACAO,Cesto Alongado Juta,27.5,13.2,11.6,"3,7L"
+257.012.086,8,ORGANIZACAO,Cesto Alongado Juta,27.5,13.2,11.6,"3,7L"
+2570.012.001,61,POTES,Pote Alto Retangular,36,21,10,"4,6L"
+2570.012.003,61,POTES,Pote Alto Retangular,36,21,10,"4,6L"
+258.004.M02,38,TECA,Caixa Juta Alongada com Tampa Teca,34.5,16.5,15,"7,4L"
+258.004.M03,38,TECA,Caixa Juta Alongada com Tampa Teca,34.5,16.5,15,"7,4L"
+258.006.002,8,ORGANIZACAO,Cesto Alongado Juta,34.5,16.5,14.5,"7,4L"
+258.006.003,8,ORGANIZACAO,Cesto Alongado Juta,34.5,16.5,14.5,"7,4L"
+258.006.086,8,ORGANIZACAO,Cesto Alongado Juta,34.5,16.5,14.5,"7,4L"
+2580.012.001,61,POTES,Pote Alto Retangular,31,19,8.5,"2,9L"
+2580.012.003,61,POTES,Pote Alto Retangular,31,19,8.5,"2,9L"
+259.012.002,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,25.5,20,8.3,"3,2L"
+259.012.003,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,25.5,20,8.3,"3,2L"
+259.012.086,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,25.5,20,8.3,"3,2L"
+2590.012.001,61,POTES,Pote Alto Retangular,25,15,7,"1,5L"
+2590.012.003,61,POTES,Pote Alto Retangular,25,15,7,"1,5L"
+260.012.002,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,32.4,22.5,8.3,"4,5L"
+260.012.003,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,32.4,22.5,8.3,"4,5L"
+260.012.086,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,32.4,22.5,8.3,"4,5L"
+261.006.002,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,38.5,28,8.3,7L
+261.006.003,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,38.5,28,8.3,7L
+261.006.086,6,ORGANIZACAO,Caixa Organizadora Baixa Rattan com Tampa,38.5,28,8.3,7L
+268.006.M02,39,TECA,Caixa Juta Europa com Tampa Teca,27,20.4,15.5,"5,3L"
+268.006.MO3,39,TECA,Caixa Juta Europa com Tampa Teca,,,,
+268.012.002,9,ORGANIZACAO,Cesto Europa Juta,,,,"5,3L"
+268.012.003,9,ORGANIZACAO,Cesto Europa Juta,,,,"5,3L"
+269.004.M02,39,TECA,Caixa Juta Europa com Tampa Teca,34,24,19.2,"10,8L"
+269.004.M03,39,TECA,Caixa Juta Europa com Tampa Teca,,,,
+269.012.002,9,ORGANIZACAO,Cesto Europa Juta,,,,"10,8L"
+269.012.003,9,ORGANIZACAO,Cesto Europa Juta,,,,"10,8L"
+270.002.M02,39,TECA,Caixa Juta Europa com Tampa Teca,41,28,22.7,"18,7L"
+270.002.M03,39,TECA,Caixa Juta Europa com Tampa Teca,,,,
+270.006.002,9,ORGANIZACAO,Cesto Europa Juta,,,,"18,7L"
+270.006.003,9,ORGANIZACAO,Cesto Europa Juta,,,,"18,7L"
+277.012.002,9,ORGANIZACAO,Cesto Juta com Alças,,,,"5,6L"
+277.012.003,9,ORGANIZACAO,Cesto Juta com Alças,,,,"5,6L"
+279.012.024,46,POTES,com Rosca,,,,500ml
+281.036.999,49,POTES,Pote Acoplado com Copo Medidor,,,,150ml
+283.004.002,98,LIXEIRAS,Lixeira Juta com Pedal,,,,12L
+283.004.003,98,LIXEIRAS,Lixeira Juta com Pedal,,,,12L
+283.004.086,98,LIXEIRAS,Lixeira Juta com Pedal,,,,12L
+284.012.002,104,LIMPEZA,Cesto Transporta Tudo,31.3,26.3,18.2,
+284.012.003,104,LIMPEZA,Cesto Transporta Tudo,31.3,26.3,18.2,
+293.006.002,49,POTES,Kit Potes Acoplados com 5 Peças,,,,3L
+293.006.003,49,POTES,Kit Potes Acoplados com 5 Peças,,,,3L
+300.012.001,60,POTES,Pote Raso Retangular Raso,20,12,4,460ml
+300.012.003,60,POTES,Pote Raso Retangular Raso,20,12,4,460ml
+301.012.001,60,POTES,Pote Raso Retangular Raso,25,15,5,950ml
+301.012.003,60,POTES,Pote Raso Retangular Raso,25,15,5,950ml
+302.012.001,60,POTES,Pote Raso Retangular Raso,31,19,6,"1,9L"
+302.012.003,60,POTES,Pote Raso Retangular Raso,31,19,6,"1,9L"
+303.012.001,60,POTES,Pote Raso Retangular Raso,36,21,7,"3,2L"
+303.012.003,60,POTES,Pote Raso Retangular Raso,36,21,7,"3,2L"
+305.006.520,79,COZINHA,,,,,
+306.006.520,79,COZINHA,,,,,
+307.006.520,79,COZINHA,,,,,
+308.006.520,13,ORGANIZACAO,Estojo Super Prático,24.7,20.5,5.9,
+311.012.001,57,POTES,Marmita e Pote 2 em 1,,,,
+311.012.002,57,POTES,Marmita e Pote 2 em 1,,,,
+311.012.515,57,POTES,Marmita e Pote 2 em 1,,,,
+311.012.517,57,POTES,Marmita e Pote 2 em 1,,,,
+313.006.560,14,ORGANIZACAO,,20.3,18.5,15.5,
+313.006.561,14,ORGANIZACAO,,20.3,18.5,15.5,
+313.006.562,14,ORGANIZACAO,,20.3,18.5,15.5,
+314.006.560,14,ORGANIZACAO,,20.3,18.5,15.5,
+314.006.561,14,ORGANIZACAO,,20.3,18.5,15.5,
+314.006.562,14,ORGANIZACAO,,20.3,18.5,15.5,
+317.006.P01,64,POP,Kit POP com 5 Marmitas Fits,,,,500ml
+317.012.001,56,POTES,Marmita Fit,18.4,10,6.2,500ml
+317.012.003,56,POTES,Marmita Fit,18.4,10,6.2,500ml
+319.006.P01,65,POP,Kit POP - 6 Potes Quadrados,24,11,17.4,250ml
+319.012.001,51,POTES,,,,,
+319.012.003,51,POTES,,,,,
+320.012.001,51,POTES,,,,,
+320.012.003,51,POTES,,,,,
+321.012.001,51,POTES,,,,,
+321.012.003,51,POTES,,,,,
+322.006.001,51,POTES,,,,,
+322.006.003,51,POTES,,,,,
+323.006.001,51,POTES,,,,,
+323.006.003,51,POTES,,,,,
+348.012.576,77,COZINHA,Porta Presunto Com Tela,20.5,12,4,460ml
+349.012.575,77,COZINHA,Porta Queijo com Tela,20.5,12,4,460ml
+350.012.577,77,COZINHA,Porta Frios com Tela,20.5,12,4,460ml
+351.012.001,50,POTES,Kit Potes Modulares com 3 Peças,,,,250ml
+351.012.003,50,POTES,Kit Potes Modulares com 3 Peças,,,,250ml
+352.012.001,50,POTES,Kit Potes Modulares com 3 Peças,,,,250ml
+353.006.001,50,POTES,Kit Potes Modulares com 6 Peças,,,,
+353.006.003,50,POTES,Kit Potes Modulares com 6 Peças,,,,
+359.012.003,48,POTES,,,,,
+360.012.003,48,POTES,,,,,
+361.012.003,48,POTES,,,,,
+362.012.003,48,POTES,,,,,
+363.012.003,48,POTES,,,,,
+369.006.001,77,COZINHA,com 3 Peças,20,12,12,460ml
+3760.012.001,44,POTES,Pote Quadrado com Travas,25,24,11,"3,7L"
+3760.012.003,44,POTES,Pote Quadrado com Travas,25,24,11,"3,7L"
+3770.012.001,44,POTES,Pote Quadrado com Travas,20,19,9,"1,8L"
+3770.012.003,44,POTES,Pote Quadrado com Travas,20,19,9,"1,8L"
+3780.012.001,44,POTES,Pote Quadrado com Travas,16,14,7,860ml
+3780.012.003,44,POTES,Pote Quadrado com Travas,16,14,7,860ml
+3790.006.862,62,POTES,,,,,
+3790.006.P01,65,POP,Kit POP - 6 Potes Quadrados,,,,360ml
+3790.012.001,44,POTES,Pote Quadrado com Travas,12,11,5.8,360ml
+3790.012.003,44,POTES,Pote Quadrado com Travas,12,11,5.8,360ml
+380.024.001,11,ORGANIZACAO,Organizador de Gavetas Modular,7.3,7,4.3,150ml
+380.024.002,11,ORGANIZACAO,Organizador de Gavetas Modular,7.3,7,4.3,150ml
+380.024.003,11,ORGANIZACAO,Organizador de Gavetas Modular,7.3,7,4.3,150ml
+381.012.001,11,ORGANIZACAO,Organizador de Gavetas Modular,30,7.2,5.3,850ml
+381.012.002,11,ORGANIZACAO,Organizador de Gavetas Modular,30,7.2,5.3,850ml
+381.012.003,11,ORGANIZACAO,Organizador de Gavetas Modular,30,7.2,5.3,850ml
+382.012.001,11,ORGANIZACAO,Organizador de Gavetas Modular,14.7,14.7,5.3,900ml
+382.012.002,11,ORGANIZACAO,Organizador de Gavetas Modular,14.7,14.7,5.3,900ml
+382.012.003,11,ORGANIZACAO,Organizador de Gavetas Modular,14.7,14.7,5.3,900ml
+3820.016.644,53,POTES,Kit Pote Café e Açúcar,,,,"2,9L"
+383.012.001,11,ORGANIZACAO,Organizador de Gavetas Modular,22.5,15,5.3,"1,450L"
+383.012.002,11,ORGANIZACAO,Organizador de Gavetas Modular,22.5,15,5.3,"1,450L"
+383.012.003,11,ORGANIZACAO,Organizador de Gavetas Modular,22.5,15,5.3,"1,450L"
+384.012.001,11,ORGANIZACAO,Organizador de Gavetas Modular,15,6.8,5.3,400ml
+384.012.002,11,ORGANIZACAO,Organizador de Gavetas Modular,15,6.8,5.3,400ml
+384.012.003,11,ORGANIZACAO,Organizador de Gavetas Modular,15,6.8,5.3,400ml
+3840.016.002,53,POTES,Kit Mantimentos  3 Peças,,,,"2,9L"
+3840.016.003,53,POTES,Kit Pote Café e Açúcar,,,,"2,9L"
+385.006.M00,33,TECA,Tábua de Corte Teca M,,,,
+387.006.M00,33,TECA,Tábua de Corte Teca G,,,,
+390.012.M00,34,TECA,Tábua com Cabo Teca  P,,,,
+391.006.M00,34,TECA,Tábua com Cabo Teca M,,,,
+392.006.M00,34,TECA,Tábua com Cabo Teca G,,,,
+396.006.002,99,LIXEIRAS,Lixeira Flat com Pedal,,,,7L
+396.006.003,99,LIXEIRAS,Lixeira Flat com Pedal,,,,7L
+396.006.086,99,LIXEIRAS,Lixeira Flat com Pedal,,,,7L
+397.004.002,99,LIXEIRAS,Lixeira Flat com Pedal,,,,14L
+397.004.003,99,LIXEIRAS,Lixeira Flat com Pedal,,,,14L
+397.004.086,99,LIXEIRAS,Lixeira Flat com Pedal,,,,14L
+398.004.002,99,LIXEIRAS,Lixeira Flat com Clique,,,,12L
+398.004.003,99,LIXEIRAS,Lixeira Flat com Clique,,,,12L
+398.004.086,99,LIXEIRAS,Lixeira Flat com Clique,,,,12L
+399.012.007,67,INFANTIL,Porta Leite em Pó,,,,280ml
+399.012.008,67,INFANTIL,Porta Leite em Pó,,,,280ml
+400.024.002,94,DECOR,Abridor de Tampas Apertadas,,,,
+4010.012.003,81,COZINHA,Açucareiro com Tampa,12.9,7.9,15.7,836ml
+403.024.002,95,DECOR,Kit Biscoito Fácil,,,,
+4030.012.003,81,COZINHA,Porta Farofa com Tampa,12.9,7.9,15.7,836ml
+4040.012.003,81,COZINHA,Saleiro com Tampa,12.9,7.9,15.7,836ml
+408.012.002,94,DECOR,Kit Churros Fácil,,,,
+419.024.002,93,DECOR,Cortador de Batatas,,,,
+421.024.002,93,DECOR,Cortador e Ralador de Legumes,,,,
+422.024.002,95,DECOR,Kit Decorador de Bolo com 7 Peças,,,,
+423.024.002,95,DECOR,Cj. Bico Russo Confeiteiro com 5 Peças,,,,
+427.024.002,83,COZINHA,Escorredor Quadrado,25.5,24.2,11,
+427.024.003,83,COZINHA,Escorredor Quadrado,25.5,24.2,11,
+429.024.002,83,COZINHA,Escorredor Meia Lua,36.6,12,1.1,
+429.024.003,83,COZINHA,Escorredor Meia Lua,36.6,12,1.1,
+434.024.002,94,DECOR,Kit Donuts,,,,
+435.012.002,93,DECOR,Hamburgueira,,,,
+438.006.M00,33,TECA,Tábua de Corte Teca Extra G,,,,
+443.006.M00,33,TECA,Tábua de Corte Teca G com Alça de Metal,,,,
+444.012.001,14,ORGANIZACAO,Para Gavetas,27,17.5,3,
+445.012.001,14,ORGANIZACAO,Cosméticos e Bijou,21,13,8,
+446.012.001,14,ORGANIZACAO,Pincéis e Acessórios,13,9.5,10.5,
+449.006.002,98,LIXEIRAS,Lixeira Juta com Pedal,,,,6L
+449.006.003,98,LIXEIRAS,Lixeira Juta com Pedal,,,,6L
+449.006.086,98,LIXEIRAS,Lixeira Juta com Pedal,,,,6L
+450.012.002,98,LIXEIRAS,Lixeira Juta com Clique,,,,"4,5L"
+450.012.003,98,LIXEIRAS,Lixeira Juta com Clique,,,,"4,5L"
+450.012.086,98,LIXEIRAS,Lixeira Juta com Clique,,,,"4,5L"
+453.012.002,97,LIXEIRAS,Lixeira Rattan com Clique,,,,"4,5L"
+453.012.003,97,LIXEIRAS,Lixeira Rattan com Clique,,,,"4,5L"
+453.012.086,97,LIXEIRAS,Lixeira Rattan com Clique,,,,"4,5L"
+458.024.002,79,COZINHA,Porta Leite de Saquinho,17.5,6.5,16.1,
+458.024.003,79,COZINHA,Porta Leite de Saquinho,16,12,15,
+501.012.001,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25,11.5,10.8,"2,35L"
+501.012.002,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25,11.5,10.8,"2,35L"
+501.012.003,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25,11.5,10.8,"2,35L"
+501.012.086,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25,11.5,10.8,"2,35L"
+502.012.001,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25.2,17.5,10.7,"3,75L"
+502.012.002,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25.2,17.5,10.7,"3,75L"
+502.012.003,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25.2,17.5,10.7,"3,75L"
+502.012.086,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,25.2,17.5,10.7,"3,75L"
+503.006.001,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,35.3,26.1,13.9,"10,3L"
+503.006.002,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,35.3,26.1,13.9,"10,3L"
+503.006.003,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,35.3,26.1,13.9,"10,3L"
+503.006.086,10,ORGANIZACAO,Caixa Organizadora Flat com Tampa,35.3,26.1,13.9,"10,3L"
+507.004.M03,34,TECA,Teca com Gaveta,,,,
+545.012.002,73,COZINHA,Porta Detergente e Esponja Flat,20.5,8.7,6,
+545.012.003,73,COZINHA,Porta Detergente e Esponja Flat,20.5,8.7,6,
+545.012.086,73,COZINHA,Porta Detergente e Esponja Flat,20.5,8.7,6,
+546.006.086,107,BANHEIRO,Porta Escovas Flat,8,8,20.8,
+546.012.002,107,BANHEIRO,Porta Escovas Flat,8,8,20.8,
+546.012.003,107,BANHEIRO,Porta Escovas Flat,8,8,20.8,
+547.012.002,107,BANHEIRO,Porta Algodão e Cotonete Flat,8,8,13.5,
+547.012.003,107,BANHEIRO,Porta Algodão e Cotonete Flat,8,8,13.5,
+547.012.086,107,BANHEIRO,Porta Algodão e Cotonete Flat,8,8,13.5,
+548.024.002,107,BANHEIRO,Saboneteira com Tela Flat,10.6,7.6,2.3,
+548.024.003,107,BANHEIRO,Saboneteira com Tela Flat,10.6,7.6,2.3,
+548.024.086,107,BANHEIRO,Saboneteira com Tela Flat,10.6,7.6,2.3,
+549.024.998,69,REALCE,Sortido 4 Estampas,,,,
+549.024.999,69,REALCE,Sortido 4 Estampas,,,,600ML
+550.036.998,69,REALCE,Sortido 6 Estampas,10.9,8.5,10,
+550.036.999,69,REALCE,Sortido 6 Estampas,10.9,8.5,10,350ML
+552.002.M02,39,TECA,Cesto de Roupa Empilhável com Teca,35,34.5,49.5,"43,8L"
+552.002.M03,39,TECA,Cesto de Roupa Empilhável com Teca,35,34.5,49.5,"43,8L"
+552.004.002,103,LIMPEZA,Cesto de Roupas Empilhável,35,34.5,49.5,"43,8L"
+552.004.003,103,LIMPEZA,Cesto de Roupas Empilhável,,,,
+553.012.002,73,COZINHA,Porta Sabonete Líquido Flat,7.9,7.9,16,500ml
+553.012.003,73,COZINHA,Porta Sabonete Líquido Flat,7.9,7.9,16,500ml
+553.012.086,73,COZINHA,Porta Sabonete Líquido Flat,7.9,7.9,16,500ml
+554.006.P01,65,POP,Kit POP - 6 Potes Tampas Fixa,30,13,23.1,330ml
+554.012.001,41,POTES,Pote com Tampa Fixa,12.3,8,6,330ml
+554.012.003,41,POTES,Pote com Tampa Fixa,12.3,8,6,330ml
+555.006.P01,65,POP,Kit POP - 6 Potes Tampas Fixa,19.8,11.7,24,600ml
+555.012.001,41,POTES,Pote com Tampa Fixa,15,10.5,6.5,600ml
+555.012.003,41,POTES,Pote com Tampa Fixa,15,10.5,6.5,600ml
+556.012.001,41,POTES,Pote com Tampa Fixa,17.5,13,7.7,1L
+556.012.003,41,POTES,Pote com Tampa Fixa,17.5,13,7.7,1L
+562.004.M00,35,TECA,Tábua de Pizza com Cabo Teca,,,,
+563.004.M00,35,TECA,Tábua Brotinho com Cabo Teca,,,,
+6120.006.P01,64,POP,Kit POP - 6 Potes Retangulares,14,10,24,500ml
+6120.050.001,54,POTES,Pote Raso com Travas,16.6,11.2,7.8,500ml
+6130.030.001,54,POTES,Pote Raso Retangular com 3 Peças,16.6,11.2,11.7,500ml
+625.002.M00,35,TECA,Teca Grande Gourmet,,,,
+680.004.M00,36,TECA,Boleira Teca Com Acrílico,,,,
+681.004.M00,36,TECA,Queijeira Teca com Acrílico,,,,
+682.004.M00,37,TECA,Base Teca com 3 Molheiras,,,,
+683.004.M00,37,TECA,Base Teca com 2 Molheiras,,,,
+684.004.M00,36,TECA,com Cabo E 2 Molheiras,,,,
+685.004.M00,37,TECA,Tábua de Servir Teca com 1 Molheira,,,,
+686.004.M00,37,TECA,Tábua de Servir Teca Com 3 Molheiras,,,,
+689.004.M00,36,TECA,com Cabo e 1 Molheira,,,,
+695.002.M00,35,TECA,Teca Quadrada Gourmet,,,,
+700.006.001,27,GELADEIRA,Organizador de Geladeira Rattan,38.2,27.5,8.2,7L
+701.006.001,27,GELADEIRA,Organizador de Geladeira Rattan,31.9,22,8.2,7L
+702.006.001,27,GELADEIRA,Organizador de Geladeira Rattan,25,19.5,8.2,7L
+703.006.001,27,GELADEIRA,Organizador de Geladeira Rattan,25,19.5,10.4,4L
+704.006.01,27,GELADEIRA,Organizador de Geladeira Rattan,20.3,15.4,9.2,2L
+705.006.001,27,GELADEIRA,Organziador de Geladeira Juta,27.7,13.2,11.8,"3,7L"
+706.006.001,27,GELADEIRA,Organziador de Geladeira Juta,20.8,10,8.7,"1,5L"
+712.012.001,27,GELADEIRA,Organizador de Geladeira Flat,25,11.5,10.8,"2,35L"
+713.012.001,27,GELADEIRA,Organizador de Geladeira Flat,25.2,17.5,10.8,"3,75L"
+817.012.001,55,POTES,Pote Alto com Válvula,25,15,7,"1,5L"
+818.012.001,55,POTES,ao micro-ondas,31,19,9,"2,9L"
+819.012.001,55,POTES,ao micro-ondas,36,21,9,"4,6L"
+820.006.002,72,COZINHA,Escorredor de Pratos Flat,41.5,26.8,12,
+820.006.003,72,COZINHA,Escorredor de Pratos Flat,41.5,26.8,12,
+820.006.086,72,COZINHA,Escorredor de Pratos Flat,41.5,26.8,12,
+821.004.001,41,POTES,Pote com Tampa Fixa,17.5,13,7.7,1L
+821.004.003,41,POTES,Pote com Tampa Fixa,17.5,13,7.7,1L
+822.006.002,72,COZINHA,Escorredor de Talheres Flat,15.3,10,10,
+822.006.003,72,COZINHA,Escorredor de Talheres Flat,15.3,10,10,
+822.006.086,72,COZINHA,Escorredor de Talheres Flat,15.3,10,10,
+850.004.N03,21,NITRON-MOB,Arara de Roupas Nitron-Mob,,,,
+851.004.N03,24,NITRON-MOB,Sapateira Pequena,,,,
+852.004.N03,24,NITRON-MOB,Sapateira Grande,,,,
+853.004.N03,21,NITRON-MOB,Kit Suporte Decorativo,,,,
+855.004.N03,24,NITRON-MOB,Prateleira Multiuso G 2P,,,,
+856.004.N03,25,NITRON-MOB,Prateleira Multiuso G 3P,,,,
+857.004.N03,25,NITRON-MOB,Prateleira Multiuso G 4P,,,,
+858.004.N03,23,NITRON-MOB,Prateleira Multiuso M 2P,,,,
+859.004.N03,23,NITRON-MOB,Prateleira Multiuso M 3P,,,,
+860.004.N03,23,NITRON-MOB,Prateleira Multiuso M 4P,,,,
+861.004.N03,22,NITRON-MOB,Prateleira Multiuso P 2P,,,,
+862.004.N03,22,NITRON-MOB,Prateleira Multiuso P 3P,,,,
+863.004.N03,22,NITRON-MOB,Prateleira Multiuso P 4P,,,,
+920.004.002,73,COZINHA,Kit Detergente Flat com 2 Peças,20.4,8.6,16.3,
+920.004.003,73,COZINHA,Kit Detergente Flat com 2 Peças,20.4,8.6,16.3,
+920.004.086,73,COZINHA,Kit Detergente Flat com 2 Peças,20.4,8.6,16.3,
