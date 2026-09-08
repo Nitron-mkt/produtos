@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.18** — o pé vira **copo aberto para cima**: o ninho de 17 mm passa a ser real (e provado em toda build), a base ganha saída de molde, o assento da pilha vira canal com guia, e o fundo ganha nervuras altas.
+**rev.19** — a parede recebe o **pattern oficial da marca**, lido do arquivo `.ai` e reproduzido pixel a pixel; a escala sai da alma mínima de molde (4 mm).
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
@@ -15,9 +15,9 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|
-| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 262 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
-| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 499 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
-| **G** | 596 × 396 × 370 | 320 + 50 | 2,5 mm | 1.195 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
+| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 250 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
+| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 476 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
+| **G** | 596 × 396 × 370 | 320 + 50 | 2,5 mm | 1.108 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
 
 Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — com **4 mm de folga
 por módulo** (rev.18): 400 × 300 exatos não cabem doze vezes em 1000 × 1200. A altura segue
@@ -42,9 +42,9 @@ se mantém, mas nenhum dos três fecha palete.
 
 ### Vazado por tamanho
 
-O P é o mais fechado de propósito — é a peça que vai à vista em casa e a que guarda coisa
-pequena; o G é o mais aberto, porque é caixa de estoque. `TAMANHOS` em `modelo.py` carrega
-`ripa` (material), `vao` (furo), `fileiras`, `barra` e `vao_fundo` para cada um.
+A parede dos três leva o mesmo pattern (rev.19); o que muda é a **alma mínima** entre furos,
+`graf_alma` em `TAMANHOS`: 4,2 mm no P, 4,0 no M, 4,5 no G — e é ela que fixa a escala do
+grafismo. O fundo, sim, fecha mais no P (vão de 9 mm) e abre no G (22 mm).
 
 ## A saia, no lugar do pezinho
 
@@ -699,6 +699,63 @@ Os 34 g são ~25 g de nervura e ~10 g de copo, guia e ponte. Massa comprada com 
 emendas de banda). A guia do aro, a ponte e a face interna da coluna ainda não têm raio de
 concordância — é trabalho de CAD, não de conceito. E o `engenheiro-molde` precisa validar
 a parede do G (2,5 mm, fluxo 213:1) antes de fechar cota.
+
+### rev.19 — o pattern oficial na parede
+
+O arquivo `grafismo/pattern-nitron.ai` veio da marca com o grafismo pronto. Por dentro é um
+PDF, e o grafismo está lá como **tiling pattern**: uma célula de **230 × 280 pt** com 19
+caminhos, que se reduzem a **quatro formas** e a uma rede retangular **centrada** — o motivo
+de 5 elementos se repete em (115, 140) e (230, 0) pt.
+
+| forma | o que é | altura | por motivo |
+|---|---|---|---|
+| A | elemento curto, faixa de 38,9 pt | 99,7 pt | 2 |
+| B | elemento longo | 184,9 pt | 1 |
+| C | elemento médio | 110,0 pt | 1 |
+| D | C girado 180° | 110,1 pt | 1 |
+
+Vazado de **58,2 %**, alma mínima de **12,18 pt** (entre dois B vizinhos). Não é o elemento
+único em grade alinhada que eu tinha montado nas rev.10–13: são três comprimentos, em correntes
+diagonais a 65°, quase encostados.
+
+#### Reprodução exata, conferida
+
+Os caminhos e as posições foram lidos do próprio stream do PDF (`grafismo.TILE_FORMAS`,
+`TILE_MOTIVO`). A classe `Padrao` reconstrói o ladrilho por rede; a conferência rasterizou o
+ladrilho original e a reconstrução na mesma janela e comparou pixel a pixel: **0 pixels
+diferentes em 515.200**. Antes disso a conferência pegou um erro meu: eu tinha trocado C e D
+no motivo, e o B saía em corrente contínua.
+
+#### A escala sai do molde
+
+O que limita a densidade não é o desenho, é a alma entre furos. Fixei o mínimo por tamanho e
+a escala veio dele: `s = alma / 12,18 pt`, depois ajustada para o período em u (230 pt × s)
+dividir o perímetro — o pattern fecha a volta sem emenda.
+
+| | alma | escala | A (curto) | B (longo) | furo | período u | fileiras | massa |
+|---|---|---|---|---|---|---|---|---|
+| P | 4,3 mm | 0,355 mm/pt | 35,4 mm | 65,7 mm | 13,8 mm | 81,7 mm | 2 | 250 g |
+| M | 4,0 mm | 0,327 mm/pt | 32,6 mm | 60,4 mm | 12,7 mm | 75,1 mm | 3 | 476 g |
+| G | 4,4 mm | 0,361 mm/pt | 36,0 mm | 66,8 mm | 14,0 mm | 83,1 mm | 5 | 1.108 g |
+
+Elemento que ficaria com menos de **45 %** da área entre a faixa cheia do pé e a do aro não
+nasce — o resto é cortado pelas faixas, como o retângulo do arquivo corta o pattern nas
+bordas. Colunas do encaixe, painel da etiqueta e as duas faixas cheias continuam inteiros.
+
+#### O que o pattern forçou no emissor
+
+1. **Amostragem de 1,3 mm** no contorno (era 2,6). As arestas a 65° saíam em escadinha; o
+   `AMOSTRA` de produção dobrou, e a malha do M foi de 40 mil para 78 mil triângulos. O
+   navegador e o GLB também subiram (2,6 e 2,0 mm): o pattern não sobrevive a malha grossa.
+2. **Alma oblíqua e fina.** Entre duas amostras a alma se desloca em z mais do que a própria
+   altura; na coluna vizinha o centro do trecho do meio já caía no furo, `_intervalo`
+   devolvia nada e dois furos viravam um só. Agora ele procura o trecho sólido **mais
+   próximo** (até 9 mm) antes de desistir.
+
+**Sobre o P.** Furo de 13,8 mm de largura — acima da faixa de aprisionamento de dedo
+(7–12 mm), mas perto. Se a alma do P baixar para 4,0 o furo cai para 12,8; não baixe.
+
+**Massa.** O pattern é mais vazado (58 % contra 43 %): P −12 g, M −23 g, G −87 g.
 
 ## Arquivos
 

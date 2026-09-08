@@ -13,7 +13,7 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
 
 
 def main(k="M"):
-    modelo.AMOSTRA = [2.6, 14]
+    modelo.AMOSTRA = [1.3, 20]
     sol, s = ficha(k)
     ns = sol.normais_suaves(42)
     cor = paleta(COR_CORPO[k])
@@ -34,6 +34,9 @@ def main(k="M"):
     def salva(nome, grupos, W, Hh, az, el, sombra=False):
         R.cena(grupos, W, Hh, az=az, el=el, sombra=sombra).save(os.path.join(OUT, f"det-{nome}.png"))
 
+    # a parede de perto: o pattern da marca nos furos
+    lat = [tt for tt in peca() if all(p[0] > Xb2 - 60 and -70 < p[1] < 110 for p in tt[:3])]
+    salva("parede", [(lat, cor, None)], 1400, 1000, 0, 0)
     # isometrica e por baixo
     salva("iso", [(peca(), cor, ns)], 1800, 1300, 42, 23, True)
     salva("baixo", [(peca(), cor, ns)], 1600, 1150, 35, -28)

@@ -61,11 +61,11 @@ def main():
         sol, s = ficha(k)
         fichas[k] = (sol, s)
         print(f"  {k}: {len(sol.tris)} triangulos, {s['massa_g']:.0f} g")
-    modelo.AMOSTRA = [5.8, 7]                       # malha leve para o navegador
+    modelo.AMOSTRA = [2.6, 14]                      # navegador: o pattern precisa de 2,6 mm
     for k in ("P", "M", "G"):
         leve, sl = ficha(k)
         dados[k] = malha_json(leve, sl)
-    modelo.AMOSTRA = [2.6, 14]
+    modelo.AMOSTRA = [1.3, 20]
     with open(os.path.join(SAIDA, "modula.json"), "w") as f:
         json.dump(dados, f, separators=(",", ":"))
 

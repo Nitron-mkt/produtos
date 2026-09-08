@@ -1,9 +1,9 @@
 """
-MODULA rev.18 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.19 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
-  grafismo da marca. Aro em perfil L (aba + saia) que e viga, apoio e pega ao
+  PATTERN oficial da marca (grafismo/pattern-nitron.ai), reproduzido exato. Aro em perfil L (aba + saia) que e viga, apoio e pega ao
   mesmo tempo. Fundo em grelha diagonal de nervuras altas, sobre um vao de
   50 mm (a perna), fechado por um rodape recuado e quatro pes de canto.
 
@@ -33,7 +33,9 @@ import math
 from geometria import DEG, Contorno, Malha, banda, perfurada
 import grafismo as G
 
-AMOSTRA = [2.6, 14]      # passo de amostragem do contorno / pontos por canto
+AMOSTRA = [1.3, 20]      # passo de amostragem do contorno / pontos por canto
+                         # (rev.19: 1,3 mm — o pattern tem arestas a 65 graus,
+                         # e com 2,6 mm a borda do furo saia em escadinha)
 SAIDA_GR = 7.5
 TAN = math.tan(SAIDA_GR * DEG)
 T05 = math.tan(0.5 * DEG)         # saida minima de face "vertical"
@@ -48,11 +50,11 @@ RHO_PP = 0.905
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=296.0, Y=196.0, H=185.0, perna=50.0, e=1.8, R=26.0,
-              barra=1.8, vao_fundo=9.0, graf_esc=0.135, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+              barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False),
     "M": dict(nome="MODULA M", X=396.0, Y=296.0, H=245.0, perna=50.0, e=2.0, R=36.0,
-              barra=2.0, vao_fundo=18.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+              barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False),
     "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=370.0, perna=50.0, e=2.5, R=46.0,
-              barra=2.5, vao_fundo=22.0, graf_esc=0.110, graf_ku=0.80, graf_kz=0.65, graf_eixo_gr=-55.0),
+              barra=2.5, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False),
 }
 
 CANTOS = {"canto_fd": (1, 1), "canto_fe": (-1, 1), "canto_te": (-1, -1), "canto_td": (1, -1)}
@@ -88,8 +90,6 @@ def parametros(k):
     s["b"] = s["Yt"] / 2 - s["Rt"]                # meio trecho reto da lateral (no topo)
     s["ax"] = s["Xt"] / 2 - s["Rt"]
     s["etiqueta"] = round(0.24 * X)
-    s["graf_L"] = round(s["graf_esc"] * X, 1)
-    s["graf_giro"] = round(s["graf_eixo_gr"] - G.ANG_EIXO, 2)
 
     # ---- base: rodape recuado, copos de canto, vao com saida ---------------
     s["recuo"] = rec = round(e + 3.2, 1)          # recuo do rodape (linha de sombra)
@@ -210,13 +210,14 @@ def em_copo(s, x, y, z, folga=0.0):
 
 
 def grafismo(s, cont, zlo, zhi):
-    """A trama da marca: o elemento oficial nos dois passos do simbolo."""
-    tr, info = G.monta(s["graf_L"], cont.perimetro, zlo, zhi,
-                       s["graf_ku"], s["graf_kz"], s["graf_giro"])
-    s.update({"graf_" + q: v for q, v in info.items() if q != "L"})
-    assert s["graf_alma"] > 4.0, \
+    """O pattern oficial da marca (grafismo/pattern-nitron.ai), na escala em
+    que a alma minima entre furos vale 'graf_alma' — o limite de moldagem."""
+    pad, info = G.monta_padrao(cont.perimetro, zlo, zhi, s["graf_alma"], s["graf_espelho"])
+    s.update({"graf_" + q: v for q, v in info.items()})
+    s["graf_L"] = s["graf_alt_elem"]
+    assert s["graf_alma"] > 3.9, \
         f"alma do grafismo fina demais ({s['graf_alma']:.1f} mm)"
-    return tr
+    return pad
 
 
 def construir(k):
@@ -281,7 +282,10 @@ def construir(k):
         f = fcol[i % n]
         return -e if f <= 0 else (1 - f) * (-e) + f * o_col(z)
 
-    # ---- o vazado: o grao da marca, deitado (rev.10) ----------------------
+    # ---- o vazado: o pattern oficial da marca (rev.19) ---------------------
+    # Ladrilho do arquivo grafismo/pattern-nitron.ai, reproduzido pixel a pixel
+    # (grafismo.Padrao), na escala em que a alma minima vale graf_alma. Continua
+    # tudo COPLANAR: nenhum relevo por fora, senao o ninho trava a meio caminho.
     z_g0 = hb
     z_g1 = h_geral - h_aro
     gra = grafismo(s, cont, z_g0, z_g1)

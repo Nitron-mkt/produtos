@@ -209,3 +209,165 @@ def monta(L, perimetro, zlo, zhi, k_u, k_z, giro=0.0, desloc=0.0):
                 area_el=round(el.area, 1), celula=round(tr.area_celula, 1),
                 vazado=vaz, alma=alma)
     return tr, info
+
+
+# =============================================================================
+# O PATTERN OFICIAL (rev.19) — ladrilho do arquivo da marca
+# =============================================================================
+# `grafismo/pattern-nitron.ai` traz o grafismo como PDF tiling pattern:
+# celula de 230 x 280 pt com 10 elementos, em quatro formas. A celula e uma
+# rede retangular CENTRADA: o motivo de 5 elementos se repete em
+# (115, 140) e (230, 0). Coordenadas em pt, y para cima, como no arquivo.
+#
+#   A  elemento curto  (99,7 pt de altura, faixa de 38,9 pt)   x2 por motivo
+#   B  elemento longo  (184,9 pt)                               x1
+#   C  elemento medio  (110 pt)  e  D = C girado 180 graus      x1 + x1
+#
+# Vazado 58,2 %, alma minima 12,18 pt (entre dois B). A escala da peca sai
+# da alma: s = alma_minima_mm / 12,18.
+TILE_FORMAS = {
+    "A": [("M", 0, 0), ("L", 9.442, 29.336),
+          ("C", 12.584, 39.099, 10.704, 49.784, 4.418, 57.889),
+          ("L", -27.99, 99.736), ("L", -37.374, 70.161),
+          ("C", -40.463, 60.428, -38.57, 49.8, -32.313, 41.731)],
+    "B": [("M", 0, 0), ("L", -89.855, 116.26), ("L", -98.994, 87.865),
+          ("C", -103.42, 74.114, -100.786, 59.066, -91.952, 47.636),
+          ("L", -2.098, -68.627), ("L", 7.042, -40.229),
+          ("C", 11.468, -26.478, 8.834, -11.43, 0, 0)],
+    "C": [("M", 0, 0), ("L", 9.442, 29.336),
+          ("C", 12.584, 39.099, 10.704, 49.784, 4.418, 57.889),
+          ("L", -36.054, 110.066), ("L", -45.439, 80.491),
+          ("C", -48.527, 70.758, -46.635, 60.13, -40.377, 52.061)],
+    "D": [("M", 0, 0), ("L", -9.443, -29.338),
+          ("C", -12.585, -39.101, -10.705, -49.786, -4.419, -57.89),
+          ("L", 36.035, -110.047), ("L", 45.422, -80.457),
+          ("C", 48.51, -70.724, 46.616, -60.096, 40.358, -52.028)],
+}
+TILE_MOTIVO = [("A", 4.081, 55.007), ("A", 23.852, 125.257), ("B", 161.008, 116.204),
+               ("D", 164.24, 24.383), ("C", 180.761, 115.467)]
+TILE_A1 = (115.0, 140.0)
+TILE_A2 = (230.0, 0.0)
+TILE_ALMA_PT = 12.18
+TILE_VAZADO = 0.582
+TILE_LARG_A_PT = 38.9          # faixa do elemento curto (entre as retas longas)
+
+
+def _poli(cmds, n=10):
+    """Achata o path em poligono, no proprio referencial (y para cima)."""
+    p, cur = [], None
+    for c in cmds:
+        if c[0] in "ML":
+            cur = (c[1], c[2]); p.append(cur)
+        else:
+            p1, p2, p3 = (c[1], c[2]), (c[3], c[4]), (c[5], c[6])
+            p0 = cur
+            for k in range(1, n + 1):
+                u = k / n; w = 1 - u
+                p.append((w**3*p0[0] + 3*w*w*u*p1[0] + 3*w*u*u*p2[0] + u**3*p3[0],
+                          w**3*p0[1] + 3*w*w*u*p1[1] + 3*w*u*u*p2[1] + u**3*p3[1]))
+            cur = p3
+    return p
+
+
+def _dentro_poli(p, x, y):
+    n = len(p); d = False; j = n - 1
+    for i in range(n):
+        if (p[i][1] > y) != (p[j][1] > y) and \
+           x < (p[j][0]-p[i][0]) * (y-p[i][1]) / (p[j][1]-p[i][1]) + p[i][0]:
+            d = not d
+        j = i
+    return d
+
+
+def _area_faixa_z(p, zlo, zhi):
+    """Fracao da area do poligono que fica entre zlo e zhi (clip horizontal)."""
+    def clip(poly, lim, acima):
+        out = []
+        for i in range(len(poly)):
+            a, b = poly[i - 1], poly[i]
+            ia = (a[1] >= lim) if acima else (a[1] <= lim)
+            ib = (b[1] >= lim) if acima else (b[1] <= lim)
+            if ia and ib:
+                out.append(b)
+            elif ia != ib:
+                t = (lim - a[1]) / (b[1] - a[1])
+                q = (a[0] + t * (b[0] - a[0]), lim)
+                out.append(q)
+                if ib:
+                    out.append(b)
+        return out
+    tot = _area(p)
+    c = clip(clip(p, zlo, True), zhi, False)
+    return (_area(c) / tot) if len(c) >= 3 and tot > 0 else 0.0
+
+
+class Padrao:
+    """O ladrilho da marca em (u, z), na escala 's' (mm por pt).
+
+    u0 e z0 posicionam a origem da celula. 'espelho' inverte u (a inclinacao
+    dos elementos troca de lado). 'minimo' e a fracao da area de um elemento
+    que tem de caber entre zlo e zhi para ele existir — evita o caco cortado
+    pelas faixas cheias do topo e do pe.
+    """
+
+    def __init__(self, s, u0, z0, zlo, zhi, espelho=False, minimo=0.35):
+        self.s, self.u0, self.z0 = s, u0, z0
+        self.esp = -1.0 if espelho else 1.0
+        self.a1 = (TILE_A1[0] * s, TILE_A1[1] * s)
+        self.a2 = (TILE_A2[0] * s, 0.0)
+        det = self.a1[0]*self.a2[1] - self.a1[1]*self.a2[0]
+        self.inv = ((self.a2[1]/det, -self.a2[0]/det), (-self.a1[1]/det, self.a1[0]/det))
+        self.elem = []                        # (poligono em mm, bbox, tx, ty)
+        for nome, tx, ty in TILE_MOTIVO:
+            p = [(x * s, y * s) for x, y in _poli(TILE_FORMAS[nome])]
+            xs = [q[0] for q in p]; ys = [q[1] for q in p]
+            self.elem.append((p, (min(xs), max(xs), min(ys), max(ys)), tx * s, ty * s))
+        # quais fileiras (indice i da rede ao longo de a1) existem
+        self.zlo, self.zhi, self.minimo = zlo, zhi, minimo
+        self.keep = {}
+        imin = int(math.floor((zlo - z0 - 300 * s) / self.a1[1])) - 1
+        imax = int(math.ceil((zhi - z0 + 300 * s) / self.a1[1])) + 1
+        for i in range(imin, imax + 1):
+            for k, (p, bb, tx, ty) in enumerate(self.elem):
+                oz = z0 + i * self.a1[1] + ty
+                fr = _area_faixa_z([(x, y + oz) for x, y in p], zlo, zhi)
+                self.keep[(i, k)] = fr >= minimo
+        self.fileiras = sum(1 for (i, k), v in self.keep.items() if v and k == 0)
+
+    def dentro(self, u, z):
+        u = self.esp * u
+        du, dz = u - self.u0, z - self.z0
+        fi = self.inv[0][0]*du + self.inv[0][1]*dz
+        fj = self.inv[1][0]*du + self.inv[1][1]*dz
+        i0, j0 = math.floor(fi), math.floor(fj)
+        for i in (i0 - 1, i0, i0 + 1):
+            for j in (j0 - 1, j0, j0 + 1):
+                ou = self.u0 + i*self.a1[0] + j*self.a2[0]
+                oz = self.z0 + i*self.a1[1]
+                for k, (p, bb, tx, ty) in enumerate(self.elem):
+                    if not self.keep.get((i, k), False):
+                        continue
+                    x, y = u - ou - tx, z - oz - ty
+                    if x < bb[0] or x > bb[1] or y < bb[2] or y > bb[3]:
+                        continue
+                    if _dentro_poli(p, x, y):
+                        return True
+        return False
+
+
+def monta_padrao(perimetro, zlo, zhi, alma_min, espelho=False, minimo=0.45):
+    """Escolhe a escala pela alma minima e fecha a volta: o periodo em u
+    (230 pt x s) tem de dividir o perimetro."""
+    s0 = alma_min / TILE_ALMA_PT
+    n = max(1, int(round(perimetro / (TILE_A2[0] * s0))))
+    s = perimetro / (TILE_A2[0] * n)
+    # centra o padrao na faixa util: a celula fica com o meio em (zlo+zhi)/2
+    z0 = 0.5 * (zlo + zhi) - 0.5 * TILE_A1[1] * s
+    pad = Padrao(s, 0.0, z0, zlo, zhi, espelho, minimo)
+    info = dict(esc=round(s, 4), alma=round(TILE_ALMA_PT * s, 2), vazado=TILE_VAZADO,
+                largura=round(TILE_LARG_A_PT * s, 1), colunas=n,
+                fileiras=pad.fileiras, pu=round(TILE_A2[0] * s, 1), pz=round(TILE_A1[1] * s, 1),
+                alt_elem=round(99.7 * s, 1), alt_longo=round(184.9 * s, 1),
+                eixo=round(math.degrees(math.atan2(116.26, -89.855)), 1),
+                area_el=0, celula=round(abs(TILE_A1[1] * TILE_A2[0]) * s * s, 1))
+    return pad, info

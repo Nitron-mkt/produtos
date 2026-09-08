@@ -93,7 +93,7 @@ def prancha(k, nome=None):
     # A cota vem SEMPRE da malha de producao, nunca de arquivo a parte: a
     # prancha ja saiu uma vez com a massa da revisao anterior no cabecalho.
     amostra = modelo.AMOSTRA
-    modelo.AMOSTRA = [2.6, 14]
+    modelo.AMOSTRA = [1.3, 20]
     _, fp = ficha(k)
     modelo.AMOSTRA = amostra
     FIC = dict(X=fp["X"], Y=fp["Y"], H=fp["H"],
@@ -115,13 +115,13 @@ def prancha(k, nome=None):
     return os.path.getsize(nome)
 
 if __name__ == "__main__":
-    modelo.AMOSTRA = [4.6, 9]           # malha media: leve para celular
+    modelo.AMOSTRA = [2.0, 14]          # celular: o pattern nao sobrevive a malha grossa
     for k in ("P", "M", "G"):
         sol, s = ficha(k)
         n, tam = glb(sol, f"{SAIDA}/modula-{k}.glb", s["nome"],
                      tuple(c/255 for c in COR_CORPO[k]))
         print(f"  GLB {k}: {n} tri, {tam/1e6:.2f} MB")
-    modelo.AMOSTRA = [3.4, 10]
+    modelo.AMOSTRA = [1.8, 16]
     print(f"  prancha: {prancha('M')/1e6:.2f} MB")
-    modelo.AMOSTRA = [4.6, 9]
+    modelo.AMOSTRA = [2.6, 14]
     print(f"  giro: {giro('M')/1e6:.2f} MB")

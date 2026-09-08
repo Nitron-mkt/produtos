@@ -307,15 +307,29 @@ def _cruza(f, za, zb):
     return 0.5 * (za + zb)
 
 
-def _intervalo(f, zc, z0, z1, passo=0.4):
-    """Trecho solido que CONTEM zc, limitado a [z0, z1].
+def _intervalo(f, zc, z0, z1, passo=0.4, alcance=9.0):
+    """Trecho solido que contem zc — ou o mais PROXIMO de zc, ate 'alcance' —
+    limitado a [z0, z1].
 
     Caminha para fora a partir de zc em vez de saltar ate os limites: saltando,
     uma coluna com dois furos devolveria um intervalo que atravessa o furo do
     meio, e as tiras se sobrepunham.
+
+    A busca pelo trecho mais proximo (rev.19) e o que segura a alma OBLIQUA e
+    fina: entre duas amostras a alma se desloca em z mais do que a propria
+    altura, e na coluna vizinha o centro do trecho do meio ja cai no furo. Sem
+    isso a alma sumia e dois furos vizinhos viravam um so.
     """
     if not f(zc):
-        return None
+        d = passo
+        while d <= alcance:
+            if zc + d <= z1 and f(zc + d):
+                zc = zc + d; break
+            if zc - d >= z0 and f(zc - d):
+                zc = zc - d; break
+            d += passo
+        else:
+            return None
     z, lo = zc, z0
     while z > z0:
         zn = max(z0, z - passo)

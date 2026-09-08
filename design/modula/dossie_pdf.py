@@ -38,7 +38,7 @@ def fmt(v, casas=1):
 class Dossie:
     def __init__(self, caminho):
         self.c = canvas.Canvas(caminho, pagesize=(W, H))
-        self.c.setTitle("MODULA rev.18 — dossiê 3D")
+        self.c.setTitle("MODULA rev.19 — dossiê 3D")
         self.c.setAuthor("Nitron — Desenvolvimento de Produtos")
         self.pag = 0
 
@@ -50,7 +50,7 @@ class Dossie:
         c.setFillColorRGB(*TINTA); c.setFont("DVB", 15)
         c.drawString(M, H - M - 20, titulo)
         c.setFillColorRGB(*CINZA); c.setFont("DV", 8.5)
-        c.drawRightString(W - M, H - M - 20, "MODULA · rev.18 · Nitron")
+        c.drawRightString(W - M, H - M - 20, "MODULA · rev.19 · Nitron")
         c.drawRightString(W - M, M - 14, str(self.pag))
         c.drawString(M, M - 14, "Estudo de geometria e mecânica — não é desenho de molde. Malha para forma, medida e impressão 3D.")
 
@@ -131,10 +131,10 @@ class Dossie:
 
 
 def main():
-    modelo.AMOSTRA = [2.6, 14]
+    modelo.AMOSTRA = [1.3, 20]           # a mesma malha do STL: a cota tem de bater
     F = {k: ficha(k)[1] for k in "PMG"}
     hoje = datetime.date.today().strftime("%d/%m/%Y")
-    saida = os.path.join(OUT, "modula-rev18.pdf")
+    saida = os.path.join(OUT, "modula-rev19.pdf")
     d = Dossie(saida)
     c = d.c
 
@@ -146,10 +146,10 @@ def main():
     c.drawString(M, H - 178, "Família de organizadores modulares")
     c.drawString(M, H - 198, "de frente aberta — 3 moldes: P, M, G")
     c.setFillColorRGB(*TERRA); c.setFont("DVB", 12)
-    c.drawString(M, H - 240, "rev.18 — modelo 3D paramétrico")
+    c.drawString(M, H - 240, "rev.19 — modelo 3D paramétrico")
     y = d.texto(M, H - 268, [
         "Encaixa quase colado no transporte (ninho de 17 mm no M), pluga um sobre o outro no uso (pilha com canal e guia), "
-        "pé em copo aberto para cima, fundo em nervuras diagonais e parede vazada com o grafismo da marca.",
+        "pé em copo aberto para cima, fundo em nervuras diagonais e parede vazada com o pattern oficial da marca.",
     ], tam=10.5, larg=W * 0.40 - M)
     y = d.tabela(M, y - 14, ["", "Externo (mm)", "Capacidade", "Massa"],
                  [[k, f"{fmt(F[k]['X'],0)} × {fmt(F[k]['Y'],0)} × {fmt(F[k]['H'],0)}",
@@ -228,6 +228,25 @@ def main():
     d.imagem(os.path.join(OUT, "det-canal.png"), M + gw + 20, y0, gw, gh, "Topo da coluna: ponte, canal de 5,7 mm, guia e a fenda da parede de cima")
     d.nova()
 
+    # ---------------- o grafismo ----------------
+    d.rodape("O grafismo — o pattern oficial da marca, furo a furo")
+    d.imagem(os.path.join(AQUI, "grafismo", "pattern-tile.png"), M, H - M - 300, (W - 2 * M) * 0.38, 250,
+             "O ladrilho do arquivo da marca: célula de 230 × 280 pt")
+    d.imagem(os.path.join(OUT, "det-parede.png"), M + (W - 2 * M) * 0.40, H - M - 300, (W - 2 * M) * 0.60, 250,
+             "A lateral do M: o mesmo ladrilho, alma de 4,0 mm entre furos")
+    s = F["M"]
+    d.texto(M, H - M - 335, [
+        "**Reprodução exata.** O arquivo .ai traz o grafismo como PDF tiling pattern. Os quatro caminhos (A curto, B longo, C médio e D = C girado 180°) "
+        "e as posições do motivo foram lidos do próprio arquivo, e a reconstrução foi conferida pixel a pixel contra o ladrilho original: 0 pixels de diferença.",
+        f"**Escala pela alma.** O que limita a densidade é o molde: a alma mínima entre dois furos vizinhos vale 12,18 pt no ladrilho, e a peça pede 4 mm. "
+        f"Isso fixa a escala em {fmt(s['graf_esc'],3)} mm/pt no M: elemento curto de {fmt(s['graf_alt_elem'])} mm, longo de {fmt(s['graf_alt_longo'])} mm, "
+        f"furo de {fmt(s['graf_largura'])} mm de largura, período de {fmt(s['graf_pu'])} mm ao longo da parede — ajustado para fechar a volta sem emenda. "
+        f"Vazado {s['graf_vazado']*100:.0f} %.",
+        "**Onde não há furo.** As quatro colunas do encaixe, o painel da etiqueta na frente, a faixa cheia junto ao fundo e a faixa sob o aro continuam inteiros. "
+        "Elemento que ficaria com menos de 45 % da área entre as faixas não nasce — evita o caco.",
+    ], larg=W - 2 * M)
+    d.nova()
+
     # ---------------- base e secao ----------------
     d.rodape("A base e a seção (M)")
     d.imagem(os.path.join(OUT, "det-baixo.png"), M, M + 40, gw + 40, H - 2 * M - 90, "Por baixo: quatro copos com sola fechada, rodapé recuado, nervuras a 45° e o vão com saída positiva")
@@ -301,7 +320,7 @@ def main():
         "**Aberto no modelo**",
         "• A malha não é estanque (1,5–2,0 % de arestas ímpares, das emendas de banda): serve para forma, medida e impressão 3D, não para usinar.",
         "• Guia, ponte e face interna da coluna sem raio de concordância — trabalho de CAD.",
-        "• Grafismo a −55°; o manual da marca pede a inclinação original do logo (−72°). Parâmetro `graf_eixo_gr`.",
+        "• Furo do P com 13,8 mm de largura: acima da faixa de aprisionamento de dedo (7–12 mm), mas perto dela.",
         "• O `engenheiro-molde` ainda não validou a parede do G.",
         "",
         "**Verificado nesta revisão**",
