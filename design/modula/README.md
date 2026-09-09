@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.23** — o **P abre pelo lado curto** (frente de 192 mm, 289 de profundidade), como os cestos de referência; acopladores nos lados longos, fileira com passo 192; macho reduzido a 4,0 mm para caber no módulo de 200.
+
 **rev.22** — **acoplador lateral no P**: macho em T e fêmea em ranhura na saia do aro, espelhados nas duas laterais; dois P se ligam lado a lado com passo = X exato.
 
 **rev.21** — o encaixe cruzado decidido: **dois P penduram pela aba no aro de um M, dois M no de um G** (caminho C). Cotas viraram cadeia de pendura (289 × 192 / 390 × 295 / 596 × 396), abas 12,9 / 12,4 / 11,6, altura = X / φ. Conferido por `pendura()` em toda build.
@@ -17,7 +19,7 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 289 × 192 × 179 | 129 + 50 | 1,8 mm | 12,9 | 280 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
+| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 289 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
 | **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 475 g | 15,1 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
 | **G** | 596 × 396 × 368 | 318 + 50 | 2,3 mm | 11,6 | 1.041 g | 53,6 L | 326 mm | 19,5 mm | 6,8× | 722–963 tf |
 
@@ -887,6 +889,20 @@ não mudam; na pendura o T fica em cima da aba do M (entre 141,5 e 147,5 mm do c
 
 Massa do P: 280 → 281 g. `acoplador=True` só no P por enquanto; M e G recebem o mesmo
 quando o P estiver aprovado.
+
+### rev.23 — o P abre pelo lado curto
+
+Correção de orientação: no P a **frente é o lado de 192 mm** e a profundidade é 289 — como
+os cestos laranja da referência, e não como M e G, que abrem pelo lado longo. Consequências:
+
+- **Acopladores nos lados longos** (289): uma fileira de P tem **passo 192**, todos de frente.
+  O macho encolheu para caber no módulo: haste 2,2 + cabeça 1,8 = **4,0 mm** de saliência,
+  192 + 8,0 = 200,0 = o módulo do palete. Bolsão da fêmea com 2,6 mm de fundo.
+- **Colunas e copos** passam para os lados longos; b sobe de 70 para 118,5 mm e sobra espaço.
+- **Pendura no M sem girar**: dois P de 192 lado a lado nos 390 do M (folga 3 por lado), a
+  profundidade de 289 nos 295 (folga 3). `pendura()` agora testa as duas orientações e fica
+  com a que cabe; para o M no G continua girado 90°. Folgas iguais às da rev.21.
+- Massa do P 281 → 289 g (a frente rebaixada agora é o lado curto: sobra mais parede).
 
 ## Arquivos
 

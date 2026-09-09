@@ -128,9 +128,10 @@ def main():
         sp, sg = fichas[kp][1], fichas[kg][1]
         pd = sp["pendura"]
         z = sg["H"] + pd["sobe"] - sp["H"]          # base do pequeno
-        dx = sp["Y"] / 2                             # dois lado a lado, encostados no centro
-        return [grupo(kg, offset=(cx, 0, 0)),
-                girado(kp, cx - dx, 0, z), girado(kp, cx + dx, 0, z)]
+        dx = pd["largura_dois"] / 4                  # dois lado a lado, encostados no centro
+        if pd["girado"]:
+            return [grupo(kg, offset=(cx, 0, 0)), girado(kp, cx - dx, 0, z), girado(kp, cx + dx, 0, z)]
+        return [grupo(kg, offset=(cx, 0, 0)), grupo(kp, offset=(cx - dx, 0, z)), grupo(kp, offset=(cx + dx, 0, z))]
     g = pendurados("P", "M", cx=-330) + pendurados("M", "G", cx=330)
     R.cena(g, 1600, 900, az=36, el=22).save(os.path.join(SAIDA, "08-pendura.png"))
     R.cena(pendurados("P", "M"), 1200, 950, az=90, el=4).save(os.path.join(SAIDA, "09-pendura-lateral.png"))

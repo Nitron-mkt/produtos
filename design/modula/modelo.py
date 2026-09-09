@@ -1,5 +1,5 @@
 """
-MODULA rev.22 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.23 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -62,7 +62,9 @@ PHI = (1 + 5 ** 0.5) / 2
 FOLGA_PENDURA = 3.0
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
-    "P": dict(nome="MODULA P", X=289.0, Y=192.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
+    # rev.23: o P abre pelo lado CURTO (frente de 192), como os cestos de
+    # referencia; os acopladores ficam nos lados longos e a fileira tem passo 192.
+    "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
               acoplador=True),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=36.0, aba=12.4,
@@ -151,15 +153,15 @@ def parametros(k):
     # entra em outra peca (no ninho ela fica um passo acima da saia de baixo).
     # Em cada lateral, um macho e uma femea em posicoes espelhadas: o macho
     # direito de A entra na femea esquerda de B, e vice-versa. Passo = X exato.
-    s["ac_stem"] = 2.6                # haste: atravessa a saia da vizinha (e) e sobra 0,8
-    s["ac_cabeca"] = 2.8              # espessura da cabeca do T (2,6 + 2,8 = 5,4 -> 289 + 10,8 <= 300)
+    s["ac_stem"] = 2.2                # haste: atravessa a saia da vizinha (e) e sobra 0,4
+    s["ac_cabeca"] = 1.8              # cabeca do T (2,2 + 1,8 = 4,0 -> 192 + 8,0 <= 200, o modulo)
     s["ac_w_stem"], s["ac_w_cabeca"] = 4.5, 10.0
     s["ac_folga"] = 0.3               # por lado, na ranhura e no bolsao
     s["ac_prof_bolsao"] = s["ac_stem"] - e + s["ac_cabeca"] + 0.4     # cabeca dentro, com folga
     s["ac_y"] = (round(0.29 * s["b"], 1), round(-0.71 * s["b"], 1))   # (macho dir., femea dir.) no aro
     s["ac_saliencia"] = s["ac_stem"] + s["ac_cabeca"]
     if s.get("acoplador"):
-        assert X + 2 * s["ac_saliencia"] <= {289.0: 300, 390.0: 400, 596.0: 600}.get(X, X + 20), \
+        assert X + 2 * s["ac_saliencia"] <= {192.0: 200, 289.0: 300, 390.0: 400, 596.0: 600}.get(X, X + 20), \
             f"{k}: macho estoura o modulo do palete"
         assert s["ac_prof_bolsao"] + 1.8 < aba - e - 0.5, f"{k}: bolsao da femea nao cabe na aba"
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
@@ -652,40 +654,42 @@ def confere_ninho(m, s, k=1):
 
 
 def pendura(kp, kg):
-    """Dois 'kp' girados 90 graus, lado a lado, pendurados pela aba no aro de um
-    'kg'. Devolve as folgas e o apoio; a build quebra se nao couber."""
+    """Dois 'kp' lado a lado, pendurados pela aba no aro de um 'kg'. O pequeno
+    entra girado 90 graus ou nao — o que couber. Devolve as folgas e o apoio;
+    a build quebra se nao couber."""
     p, g = parametros(kp), parametros(kg)
-    # o pequeno girado: seu Y corre no X do grande (dois lado a lado), seu X no Y
-    sx = (g["X"] - 2 * p["Y"]) / 2              # folga por lado, em x (dois pequenos)
-    sy = (g["Y"] - p["X"]) / 2                  # folga por lado, em y
-    assert sx >= 0 and sy >= 0, f"{kp} nao cabe no aro do {kg} ({sx:.1f}, {sy:.1f})"
-    # face externa da parede do pequeno no aro, medida do centro do grande
-    par_px = g["X"] / 2 - sx - p["aba"]
-    par_py = g["Y"] / 2 - sy - p["aba"]
-    # face interna da parede do grande no aro
-    int_gx = g["X"] / 2 - g["aba"] - g["e"]
-    int_gy = g["Y"] / 2 - g["aba"] - g["e"]
-    f_par_x = int_gx - par_px                   # parede do pequeno x parede do grande
-    f_par_y = int_gy - par_py
-    # nas laterais do grande ha a PONTE da coluna: a parede do pequeno passa na
-    # fenda entre a ponte e a parede (a mesma fenda da parede de cima no ninho)
-    ponte_x = g["Xb"] / 2 + g["hc"] * TAN + g["ponte_out_rel"]
-    f_ponte = (par_px - p["e"]) - ponte_x
-    # apoio: a saia do pequeno pousa na chapa da aba do grande
-    apoio_x = (g["X"] / 2 - sx) - (g["X"] / 2 - g["aba"])
-    apoio_y = (g["Y"] / 2 - sy) - (g["Y"] / 2 - g["aba"])
-    # cotas verticais: a saia do pequeno pousa em ztopo - 1,6 do grande
-    sobe = p["saia"] - 1.6                      # quanto o aro do pequeno fica acima
-    z_base_p = g["H"] + sobe - p["H"]           # base do pequeno acima da base do grande
-    f_fundo = z_base_p - (g["perna"] + g["z_fundo"] + g["ef"])
-    r = dict(sx=sx, sy=sy, f_par_x=round(f_par_x, 2), f_par_y=round(f_par_y, 2),
-             f_ponte=round(f_ponte, 2), apoio_x=round(apoio_x, 1), apoio_y=round(apoio_y, 1),
-             sobe=round(sobe, 1), f_fundo=round(f_fundo, 1),
-             largura_dois=2 * p["Y"], vao_grande=g["X"])
+    melhor = None
+    for girado in (False, True):
+        lx, ly = (p["Y"], p["X"]) if girado else (p["X"], p["Y"])   # cotas do pequeno nos eixos do grande
+        sx = (g["X"] - 2 * lx) / 2              # folga por lado, em x (dois pequenos)
+        sy = (g["Y"] - ly) / 2                  # folga por lado, em y
+        if sx < 0 or sy < 0:
+            continue
+        par_px = g["X"] / 2 - sx - p["aba"]     # face externa da parede do pequeno no aro
+        par_py = g["Y"] / 2 - sy - p["aba"]
+        int_gx = g["X"] / 2 - g["aba"] - g["e"]  # face interna da parede do grande no aro
+        int_gy = g["Y"] / 2 - g["aba"] - g["e"]
+        f_par_x, f_par_y = int_gx - par_px, int_gy - par_py
+        # nas laterais do grande ha a PONTE da coluna: a parede do pequeno passa na
+        # fenda entre a ponte e a parede (a mesma fenda da parede de cima no ninho)
+        ponte_x = g["Xb"] / 2 + g["hc"] * TAN + g["ponte_out_rel"]
+        f_ponte = (par_px - p["e"]) - ponte_x
+        apoio_x = (g["X"] / 2 - sx) - (g["X"] / 2 - g["aba"])
+        apoio_y = (g["Y"] / 2 - sy) - (g["Y"] / 2 - g["aba"])
+        sobe = p["saia"] - 1.6                  # a saia do pequeno pousa em ztopo - 1,6 do grande
+        z_base_p = g["H"] + sobe - p["H"]
+        f_fundo = z_base_p - (g["perna"] + g["z_fundo"] + g["ef"])
+        r = dict(girado=girado, sx=sx, sy=sy, f_par_x=round(f_par_x, 2), f_par_y=round(f_par_y, 2),
+                 f_ponte=round(f_ponte, 2), apoio_x=round(apoio_x, 1), apoio_y=round(apoio_y, 1),
+                 sobe=round(sobe, 1), f_fundo=round(f_fundo, 1), largura_dois=2 * lx, vao_grande=g["X"])
+        if melhor is None or min(r["f_par_x"], r["f_par_y"], r["f_ponte"]) > min(melhor["f_par_x"], melhor["f_par_y"], melhor["f_ponte"]):
+            melhor = r
+    assert melhor is not None, f"{kp} nao cabe no aro do {kg} em nenhuma orientacao"
+    r = melhor
     for nome in ("f_par_x", "f_par_y", "f_ponte"):
         assert r[nome] >= 1.2, f"{kp} em {kg}: {nome} = {r[nome]} mm (parede raspa)"
     assert r["f_fundo"] > 5, f"{kp} em {kg}: a base do pequeno encosta no fundo ({r['f_fundo']} mm)"
-    assert min(apoio_x, apoio_y) >= 6, f"{kp} em {kg}: apoio de {min(apoio_x, apoio_y)} mm e pouco"
+    assert min(r["apoio_x"], r["apoio_y"]) >= 6, f"{kp} em {kg}: apoio de {min(r['apoio_x'], r['apoio_y'])} mm e pouco"
     return r
 
 
