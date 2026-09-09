@@ -38,7 +38,7 @@ def fmt(v, casas=1):
 class Dossie:
     def __init__(self, caminho):
         self.c = canvas.Canvas(caminho, pagesize=(W, H))
-        self.c.setTitle("MODULA rev.19 — dossiê 3D")
+        self.c.setTitle("MODULA rev.21 — dossiê 3D")
         self.c.setAuthor("Nitron — Desenvolvimento de Produtos")
         self.pag = 0
 
@@ -50,7 +50,7 @@ class Dossie:
         c.setFillColorRGB(*TINTA); c.setFont("DVB", 15)
         c.drawString(M, H - M - 20, titulo)
         c.setFillColorRGB(*CINZA); c.setFont("DV", 8.5)
-        c.drawRightString(W - M, H - M - 20, "MODULA · rev.19 · Nitron")
+        c.drawRightString(W - M, H - M - 20, "MODULA · rev.21 · Nitron")
         c.drawRightString(W - M, M - 14, str(self.pag))
         c.drawString(M, M - 14, "Estudo de geometria e mecânica — não é desenho de molde. Malha para forma, medida e impressão 3D.")
 
@@ -134,7 +134,7 @@ def main():
     modelo.AMOSTRA = [1.3, 20]           # a mesma malha do STL: a cota tem de bater
     F = {k: ficha(k)[1] for k in "PMG"}
     hoje = datetime.date.today().strftime("%d/%m/%Y")
-    saida = os.path.join(OUT, "modula-rev19.pdf")
+    saida = os.path.join(OUT, "modula-rev21.pdf")
     d = Dossie(saida)
     c = d.c
 
@@ -146,10 +146,11 @@ def main():
     c.drawString(M, H - 178, "Família de organizadores modulares")
     c.drawString(M, H - 198, "de frente aberta — 3 moldes: P, M, G")
     c.setFillColorRGB(*TERRA); c.setFont("DVB", 12)
-    c.drawString(M, H - 240, "rev.19 — modelo 3D paramétrico")
+    c.drawString(M, H - 240, "rev.21 — modelo 3D paramétrico")
     y = d.texto(M, H - 268, [
         "Encaixa quase colado no transporte (ninho de 17 mm no M), pluga um sobre o outro no uso (pilha com canal e guia), "
-        "pé em copo aberto para cima, fundo em nervuras diagonais e parede vazada com o pattern oficial da marca.",
+        "pé em copo aberto para cima, fundo chapado no P e vazado no M e no G, parede com o pattern oficial da marca. "
+        "Dois P penduram pela aba no aro de um M; dois M no de um G.",
     ], tam=10.5, larg=W * 0.40 - M)
     y = d.tabela(M, y - 14, ["", "Externo (mm)", "Capacidade", "Massa"],
                  [[k, f"{fmt(F[k]['X'],0)} × {fmt(F[k]['Y'],0)} × {fmt(F[k]['H'],0)}",
@@ -226,6 +227,28 @@ def main():
     d.imagem(os.path.join(OUT, "det-pilha-assento.png"), M + gw + 20, y1, gw, gh, "Pilha, corte pela coluna: o rodapé de cima no canal, entre lábio e guia")
     d.imagem(os.path.join(OUT, "det-canto.png"), M, y0, gw, gh, "O canto cortado: o copo visto de dentro, bolsão de 40 × 40 mm")
     d.imagem(os.path.join(OUT, "det-canal.png"), M + gw + 20, y0, gw, gh, "Topo da coluna: ponte, canal de 5,7 mm, guia e a fenda da parede de cima")
+    d.nova()
+
+    # ---------------- a pendura ----------------
+    d.rodape("O encaixe cruzado — dois P num M, dois M num G, pendurados pela aba")
+    d.imagem(os.path.join(OUT, "08-pendura.png"), M, H - M - 320, (W - 2 * M) * 0.62, 275,
+             "Dois P girados 90° no aro de um M (esq.) e dois M no aro de um G (dir.)")
+    d.imagem(os.path.join(OUT, "09-pendura-lateral.png"), M + (W - 2 * M) * 0.64, H - M - 320, (W - 2 * M) * 0.36, 275,
+             "De lado: o aro do P fica 10 mm acima do aro do M; a base, 20 mm acima do fundo")
+    pp, pm = F["P"]["pendura"], F["M"]["pendura"]
+    cols = ["", "dois no vão", "folga parede x / y", "folga na fenda da ponte", "apoio na aba", "aro acima", "base sobre o fundo"]
+    d.tabela(M, H - M - 352, cols, [
+        ["P em M", f"{fmt(pp['largura_dois'],0)} em {fmt(pp['vao_grande'],0)}", f"{fmt(pp['f_par_x'])} / {fmt(pp['f_par_y'])} mm", f"{fmt(pp['f_ponte'])} mm", f"{fmt(pp['apoio_x'])} mm", f"{fmt(pp['sobe'])} mm", f"{fmt(pp['f_fundo'])} mm"],
+        ["M em G", f"{fmt(pm['largura_dois'],0)} em {fmt(pm['vao_grande'],0)}", f"{fmt(pm['f_par_x'])} / {fmt(pm['f_par_y'])} mm", f"{fmt(pm['f_ponte'])} mm", f"{fmt(pm['apoio_x'])} mm", f"{fmt(pm['sobe'])} mm", f"{fmt(pm['f_fundo'])} mm"],
+    ], [60, 90, 120, 130, 90, 80, 110], tam=8.8, alt=14)
+    d.texto(M, H - M - 405, [
+        "**A cadeia de pendura.** A parede do pequeno tem de passar por dentro da aba do grande com folga. Por isso cada cota do pequeno é o módulo do grande "
+        "menos 6 mm (289 × 192 / 390 × 295 / 596 × 396), e a aba cresce para dentro da família: 11,6 no G, 12,4 no M, 12,9 no P. A altura é X ÷ φ. "
+        "Tudo abaixo do módulo de palete: dois P dão um M, dois M dão um G, 16 / 8 / 4 por camada em 1200 × 800.",
+        "**Por que pendurado, e não em cima.** Os 7,5° que fazem o ninho de 17 mm deixam a base do P com 231 × 131 mm — cai 52 mm para dentro da parede do M. "
+        "Apoiar por baixo exigiria estrutura interna simétrica, que a regra do giro de 180° proíbe, ou travessas que não saem do molde sem lâmina. "
+        "Pendurar pela aba não muda nenhum mecanismo e sai reto do molde. A função `pendura()` confere as folgas em toda build.",
+    ], larg=W - 2 * M)
     d.nova()
 
     # ---------------- o grafismo ----------------
@@ -320,7 +343,8 @@ def main():
         "**Aberto no modelo**",
         "• A malha não é estanque (1,5–2,0 % de arestas ímpares, das emendas de banda): serve para forma, medida e impressão 3D, não para usinar.",
         "• Guia, ponte e face interna da coluna sem raio de concordância — trabalho de CAD.",
-        "• Furo do P com 13,8 mm de largura: acima da faixa de aprisionamento de dedo (7–12 mm), mas perto dela.",
+        "• Furo do P com 14,8 mm de largura: fora da faixa de aprisionamento de dedo (7–12 mm).",
+        "• O P encolheu para 4,5 L e o M para 15,1 L pela cadeia de pendura; a aba maior come 2,5 mm de boca por lado no P.",
         "• O `engenheiro-molde` ainda não validou a parede do G.",
         "",
         "**Verificado nesta revisão**",

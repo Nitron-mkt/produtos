@@ -116,6 +116,25 @@ def main():
     R.cena(g, 900, 1100, az=48, el=13, fundo=(212, 207, 199)) \
         .save(os.path.join(SAIDA, "07-torre-casa.png"))
 
+    # ---- 08 a pendura: dois P girados no aro de um M; dois M no de um G ----
+    def girado(k, cx, cy, cz, destaque=False):
+        """Peca girada 90 graus em planta (X do pequeno corre no Y do grande)."""
+        sol, sp = fichas[k]
+        tris = [((-a[1] + cx, a[0] + cy, a[2] + cz), (-b[1] + cx, b[0] + cy, b[2] + cz),
+                 (-c[1] + cx, c[0] + cy, c[2] + cz), t) for a, b, c, t in sol.tris]
+        return (tris, paleta(COR_CORPO[k], destaque), None)
+
+    def pendurados(kp, kg, cx=0.0):
+        sp, sg = fichas[kp][1], fichas[kg][1]
+        pd = sp["pendura"]
+        z = sg["H"] + pd["sobe"] - sp["H"]          # base do pequeno
+        dx = sp["Y"] / 2                             # dois lado a lado, encostados no centro
+        return [grupo(kg, offset=(cx, 0, 0)),
+                girado(kp, cx - dx, 0, z), girado(kp, cx + dx, 0, z)]
+    g = pendurados("P", "M", cx=-330) + pendurados("M", "G", cx=330)
+    R.cena(g, 1600, 900, az=36, el=22).save(os.path.join(SAIDA, "08-pendura.png"))
+    R.cena(pendurados("P", "M"), 1200, 950, az=90, el=4).save(os.path.join(SAIDA, "09-pendura-lateral.png"))
+
     print("  imagens em", SAIDA)
 
 
