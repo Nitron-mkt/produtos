@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.19** — a parede recebe o **pattern oficial da marca**, lido do arquivo `.ai` e reproduzido pixel a pixel; a escala sai da alma mínima de molde (4 mm).
+**rev.20** — fundo **chapado no P**, parede do G de volta a 2,3 mm, coluna com 4,5° de saída (o ninho profundo colidia na peça 3) e base **sem janelas**. O encaixe cruzado 2P→M / 2M→G está medido na seção rev.20 e depende de uma decisão de conceito.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
@@ -15,9 +15,9 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|
-| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 250 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
-| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 476 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
-| **G** | 596 × 396 × 370 | 320 + 50 | 2,5 mm | 1.108 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
+| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 298 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
+| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 484 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
+| **G** | 596 × 396 × 370 | 320 + 50 | 2,3 mm | 1.040 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
 
 Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — com **4 mm de folga
 por módulo** (rev.18): 400 × 300 exatos não cabem doze vezes em 1000 × 1200. A altura segue
@@ -756,6 +756,61 @@ bordas. Colunas do encaixe, painel da etiqueta e as duas faixas cheias continuam
 (7–12 mm), mas perto. Se a alma do P baixar para 4,0 o furo cai para 12,8; não baixe.
 
 **Massa.** O pattern é mais vazado (58 % contra 43 %): P −12 g, M −23 g, G −87 g.
+
+### rev.20 — fundo chapado no P, parede fina, e o que a conta do encaixe cruzado revelou
+
+Pedido: duas P encaixam em cima de uma M, duas M em cima de uma G; parede fina; fundo do P
+chapado, M e G vazados. Três coisas saíram direto; a quarta é decisão de conceito.
+
+#### O que mudou
+
+- **Fundo do P chapado** (`fundo_chapado`): laje inteira entre a moldura e os copos, com as
+  nervuras diagonais por baixo. Só ficam abertas as **quatro sombras das colunas** na borda
+  (~22 × 19 mm): é por ali que a coluna da peça de baixo sobe no ninho. P: 250 → **298 g**.
+- **Parede do G de volta a 2,3 mm** (era 2,5). G: 1.108 → **1.040 g**. Parede fina é a
+  regra da família: 1,8 / 2,0 / 2,3.
+- **Coluna com 4,5° de saída na face interna** (era 0,5°). Achado no caminho: no ninho
+  profundo a **peça 3** (mesma orientação da 1, dois passos acima) tem a coluna no mesmo
+  raio da peça 1 — com 0,5° elas se deslocavam 0,3 mm e as duas cascas de 2 mm **colidiam**.
+  O teste de ninho só olhava a peça 2. Com 4,5° o deslocamento é 2 × passo × tan = 2,7 mm
+  (M) e sobra 0,7 mm. `confere_ninho` agora roda para k = 1 e k = 2, e há `assert`
+  analítico (`f_col3`). Custo: a coluna sai mais da parede — 25 mm no fundo e 36 no aro (M).
+- **Base sem janelas.** Com a coluna mais para dentro, o rodapé e a moldura do fundo passam
+  por **fora** dela no ninho (`f_gre` = 7,0 mm no M): os quatro entalhes na base, que
+  existiam desde a rev.09, **saíram**. Só a nervura é recortada na sombra da coluna.
+
+#### O encaixe cruzado — a conta
+
+A grade do palete já dá o módulo: dois P girados (2 × 196 = 392) cabem numa M (396); dois M
+(2 × 296 = 592) numa G (596). O problema é **onde a peça pequena apoia**. Por causa dos 7,5°
+que fazem o ninho de 17 mm, a base é muito menor que o aro:
+
+| | aro | base (rodapé) | abertura do M no aro |
+|---|---|---|---|
+| P | 296 × 196 | **231 × 131** | 371 × 271 |
+
+Dois P lado a lado em cima de uma M têm a base a **52 mm da parede** em x e **20 mm** em y:
+cai dentro. Apoiar exige estrutura interna na M, e a regra do seletor de 180° (o que faz o
+ninho) proíbe qualquer apoio simétrico ao centro — e dois P lado a lado pedem exatamente um
+apoio simétrico. Só resta apoiar em **travessas entre as colunas** (as colunas são o único
+lugar assimétrico permitido), e travessa dentro da cesta **não sai do molde** sem uma lâmina
+de aço de ~120 mm passando pelo fundo. Divisória que sobe do fundo sai do molde, mas
+atravessa o fundo da peça 3 no ninho profundo (só pode ter ~30 mm).
+
+Três caminhos, com produto diferente em cada um:
+
+| | como apoia | ninho | o que muda |
+|---|---|---|---|
+| **A. Euro-modular** | parede quase reta, base ≈ aro, pequeno apoia no aro do grande | **perde** (cubagem 1×) | joga fora colunas, copos, canal — todo o mecanismo das rev.07–18 |
+| **B. Travessas** | duas travessas entre as colunas, 45 mm abaixo do aro | mantém | lâmina de aço de 120 mm no molde: o ferramenteiro vai recusar ou cobrar; o P afunda 45 mm |
+| **C. Pendurado no aro** | o P (girado) **pendura pela aba** no aro do M: 8,4 mm de apoio em x, 9,8 em y, em três lados | mantém | **não muda nada** — já cabe: dois P em 392 de 396, dois M em 592 de 596; o P fica 11 mm acima do fundo do M |
+
+O C é o que a geometria dá de graça, e é um produto real (bandeja dentro de bandeja). Mas
+não é "em cima" — é "dentro, pendurado". A escolha é de conceito, não de cálculo.
+
+**Sobre φ.** Ele já está na altura (X : H = 1,618) e é dela que sai a torre; a planta é do
+palete (1 : 2 : 4). Não forcei φ na conta do apoio porque quem manda ali é a geometria do
+ninho.
 
 ## Arquivos
 

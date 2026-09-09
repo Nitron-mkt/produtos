@@ -1,5 +1,5 @@
 """
-MODULA rev.19 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.20 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -40,21 +40,26 @@ SAIDA_GR = 7.5
 TAN = math.tan(SAIDA_GR * DEG)
 T05 = math.tan(0.5 * DEG)         # saida minima de face "vertical"
 T1 = math.tan(1.0 * DEG)          # saida de nervura e de face de postico
+# rev.20: a face interna da coluna precisa de saida GRANDE. No ninho profundo a
+# peca 3 (mesma orientacao da 1, dois passos acima) tem a coluna no mesmo raio
+# da peca 1: com 0,5 grau elas se deslocavam 0,3 mm e as duas cascas de 2 mm
+# colidiam. Com 4,5 graus deslocam 2*passo*tan = 2,7 mm (M): passam com folga.
+T_COL = math.tan(4.5 * DEG)
 RHO_PP = 0.905
 
 # X, Y = cota EXTERNA no aro. Modulo de palete menos 4 mm (396 x 296 cabe 12x
 # em 1000 x 1200 com folga; 400 x 300 exatos nao cabem).
 # barra = largura da nervura do fundo (= espessura da parede); vao_fundo = furo.
-# O P e o mais fechado de proposito: e a peca que vai a vista em casa e a que
-# guarda coisa pequena. O G e o mais aberto: e caixa de estoque.
+# O P e a peca de coisa pequena: fundo CHAPADO (rev.20). M e G tem fundo em
+# grelha, para pesar menos. Parede: 1,8 / 2,0 / 2,3 mm — fina de proposito.
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=296.0, Y=196.0, H=185.0, perna=50.0, e=1.8, R=26.0,
-              barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False),
+              barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True),
     "M": dict(nome="MODULA M", X=396.0, Y=296.0, H=245.0, perna=50.0, e=2.0, R=36.0,
-              barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False),
-    "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=370.0, perna=50.0, e=2.5, R=46.0,
-              barra=2.5, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False),
+              barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False),
+    "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=370.0, perna=50.0, e=2.3, R=46.0,
+              barra=2.3, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False, fundo_chapado=False),
 }
 
 CANTOS = {"canto_fd": (1, 1), "canto_fe": (-1, 1), "canto_te": (-1, -1), "canto_td": (1, -1)}
@@ -129,7 +134,7 @@ def parametros(k):
     s["tol_pilha_out"] = tout = 1.0                # folga para fora, ate a guia
     s["prof_canal"] = 3.0
     s["r_col_top"] = s["Xb"] / 2 + ro_in_b - tin          # labio da coluna, no aro
-    s["r_col_b"] = round(s["r_col_top"] - H * T05, 2)     # face interna, no fundo
+    s["r_col_b"] = round(s["r_col_top"] - H * T_COL, 2)   # face interna, no fundo
     s["r_col"] = s["r_col_b"]
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
     s["larg_canal"] = round(s["canal_out_abs"] - s["r_col_top"], 1)
@@ -141,8 +146,10 @@ def parametros(k):
     s["passo_pilha"] = round(H + hro - s["prof_canal"], 1)
 
     def r_col(z):
-        return s["r_col_b"] + z * T05
+        return s["r_col_b"] + z * T_COL
     s["fn_r_col"] = r_col
+    s["saliencia_col_fundo"] = round(s["Xb"] / 2 - s["r_col_b"], 1)
+    s["saliencia_col_aro"] = round(s["Xb"] / 2 + H * TAN - s["r_col_top"], 1)
 
     # ---- o copo de canto, dimensionado pela janela -------------------------
     # meia-corda do pe no chao, medida no contorno a partir do centro do canto.
@@ -182,10 +189,16 @@ def parametros(k):
     # (4) fundo do copo de cima x sola do copo de baixo
     s["f_copo"] = f_copo = round(pn - s["ef"], 2)
     assert f_copo > 0.8, f"{k}: copo bate na sola no ninho ({f_copo:.1f} mm)"
-    # (5) moldura/nervura de cima x coluna de baixo (na janela)
+    # (5) a moldura do fundo (w_mold) tem de passar por FORA da coluna de baixo
+    #     no ninho: assim o rodape e a moldura ficam continuos, sem janela. So a
+    #     nervura, que vai ate a moldura, e recortada na sombra da coluna.
     hx_led = s["Xb"] / 2 + s["z_fundo"] * TAN - e - s["w_mold"]
-    s["f_gre"] = f_gre = round(r_col(pn) - hx_led, 2)
-    assert f_gre > 1.5, f"{k}: a grelha alcanca a coluna no ninho ({f_gre:.1f} mm)"
+    s["f_gre"] = f_gre = round(hx_led - (r_col(pn) + e), 2)
+    assert f_gre > 1.5, f"{k}: a moldura do fundo alcanca a coluna no ninho ({f_gre:.1f} mm)"
+    s["r_lim_nerv"] = round(r_col(pn) - 1.5, 2)          # onde a nervura para, na sombra
+    # (5b) ninho profundo: coluna da peca 1 x coluna da peca 3
+    s["f_col3"] = f_col3 = round(2 * pn * T_COL - e, 2)
+    assert f_col3 > 0.3, f"{k}: colunas das pecas 1 e 3 colidem no ninho ({f_col3:.1f} mm)"
     # (6) a copo de cima entra no de baixo com a folga do passo (por construcao)
     s["f_copo_par"] = round(pn * TAN - ec + (ec - e), 2)   # = pn*TAN - e
     s["folga_degrau"] = round(min(f_par, f_gre), 1)
@@ -395,7 +408,9 @@ def construir(k):
             return -rec - e                      # face do bolsao: saida do macho
         return -rec - e + (-z) * (TAN + T1)      # face do vao: saida do postico
 
-    livre = lambda i: fjan[i % n] < 0.15
+    # rev.20: rodape e moldura CONTINUOS em toda a volta. A coluna de baixo passa
+    # por dentro deles no ninho (f_gre); so a nervura e recortada na sombra dela.
+    livre = lambda i: True
     emitir(livre, o_ext_base, o_int_base, lambda i: z_base[i % n], lambda i: zt, "saia")
 
     # ---- moldura do fundo: inteira fora do copo, so a tira sobre ele -------
@@ -476,11 +491,22 @@ def construir(k):
     # de molde). Nunca alem da face do bolsao.
     xw_v, yw_v = x_w(zt) - ec - 0.5, y_w(zt) - ec - 0.5
 
+    r_lim = s["r_lim_nerv"]
+    meia_jan = wc + rc + 1.0
+
+    def na_sombra(x, y):
+        """Sombra da coluna de baixo no ninho (posicoes espelhadas): ali a
+        nervura para antes da moldura."""
+        return abs(x) > r_lim and any(abs(y - yj) < meia_jan for yj in yc_jan)
+
     def dentro_fundo(x, y):
-        """Planta util do fundo: canto arredondado, menos os quatro copos."""
+        """Planta util do fundo: canto arredondado, menos os quatro copos e
+        menos a sombra das colunas."""
         if abs(x) > hx or abs(y) > hy:
             return False
         if abs(x) > xw_v and abs(y) > yw_v:
+            return False
+        if na_sombra(x, y):
             return False
         dx, dy = abs(x) - (hx - r), abs(y) - (hy - r)
         return dx <= 0 or dy <= 0 or dx * dx + dy * dy <= r * r
@@ -500,6 +526,26 @@ def construir(k):
             trechos.append((t0, t - passo))
         return [(a, b) for a, b in trechos if b - a > 2 * larg]
 
+    if s.get("fundo_chapado"):
+        # Laje inteira entre a moldura e os copos, em retangulos convexos que
+        # nao se sobrepoem (a massa e por divergencia). As quatro sombras das
+        # colunas ficam abertas: e por ali que a coluna de baixo sobe no ninho.
+        lajes = [(-xw_v, xw_v, -hy - 1.0, hy + 1.0)]
+        for sx in (+1, -1):
+            x0, x1 = sorted((sx * xw_v, sx * r_lim))
+            lajes.append((x0, x1, -yw_v, yw_v))
+            # entre r_lim e a moldura, so fora das sombras
+            cortes = sorted([(yj - meia_jan, yj + meia_jan) for yj in yc_jan])
+            ya = -yw_v
+            for c0, c1 in cortes + [(yw_v, yw_v)]:
+                if c0 > ya + 1.0:
+                    x0, x1 = sorted((sx * r_lim, sx * (hx + 1.0)))
+                    lajes.append((x0, x1, ya, min(c0, yw_v)))
+                ya = max(ya, c1)
+        for x0, x1, y0, y1 in lajes:
+            if x1 - x0 > 0.5 and y1 - y0 > 0.5:
+                m.prisma([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], zf, zt, "fundo")
+
     q = math.sqrt(0.5)
     for sinal in (+1, -1):
         ux, uy = q, sinal * q
@@ -517,26 +563,28 @@ def construir(k):
     return m, s
 
 
-def confere_ninho(m, s):
-    """Gira a peca 180 graus, sobe 'passo_ninho' e confere se algum vertice da
-    base/fundo dela fica abaixo do topo do fundo da peca de baixo SEM estar
-    dentro de um copo. E o teste que faltou da rev.05 a rev.17."""
+def confere_ninho(m, s, k=1):
+    """Poe a peca k passos acima (girada 180 graus se k for impar) e confere se
+    algum vertice da base/fundo dela fica abaixo do topo do fundo da peca de
+    baixo SEM estar dentro de um copo. E o teste que faltou da rev.05 a rev.17;
+    a rev.20 passou a rodar tambem para k=2 (mesma orientacao)."""
     pn, perna = s["passo_ninho"], s["perna"]
     zt = s["z_fundo"] + s["ef"]
-    viol, total, folga = 0, 0, 1e9
+    viol, total = 0, 0
+    giro = (k % 2 == 1)
     for a, b, c, tag in m.tris:
         if tag not in ("saia", "pe", "fundo"):
             continue
         for p in (a, b, c):
-            zA = p[2] + pn                         # cota na peca de baixo (pos-mover)
+            zA = p[2] + k * pn
             if zA >= perna + zt - 0.01:
                 continue
             total += 1
-            x, y = -p[0], -p[1]
+            x, y = (-p[0], -p[1]) if giro else (p[0], p[1])
             if not em_copo(s, x, y, zA - perna, folga=0.05):
                 viol += 1
                 if viol <= 5:
-                    print(f"    ninho: {tag} ({p[0]:.1f}, {p[1]:.1f}, {p[2]:.1f}) -> z_baixo {zA - perna:.1f}")
+                    print(f"    ninho k={k}: {tag} ({p[0]:.1f}, {p[1]:.1f}, {p[2]:.1f}) -> z_baixo {zA - perna:.1f}")
     return viol, total
 
 
@@ -563,9 +611,11 @@ def ficha(k):
     s["ton_min"] = ap / 1e4 * 300 * 10.2
     s["ton_max"] = ap / 1e4 * 400 * 10.2
     s["n_triangulos"] = len(m.tris)
-    viol, total = confere_ninho(m, s)
-    s["ninho_viol"], s["ninho_pts"] = viol, total
+    viol, total = confere_ninho(m, s, 1)
+    viol2, total2 = confere_ninho(m, s, 2)
+    s["ninho_viol"], s["ninho_pts"] = viol + viol2, total + total2
     assert viol == 0, f"{k}: {viol} vertices da base atravessam a peca de baixo no ninho"
+    assert viol2 == 0, f"{k}: {viol2} vertices da base atravessam a peca DOIS passos abaixo"
     return m, s
 
 
