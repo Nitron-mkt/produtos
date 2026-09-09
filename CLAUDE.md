@@ -265,6 +265,11 @@ Qualquer business case que dependa de o claim sustentar prêmio de preço nasce 
 A fábrica ensaiou os potes da categoria: **não dão herméticos.** Isso é medição interna, não
 inferência de mercado, e resolve a maior incerteza técnica do projeto do aro de vedação:
 
+- **Vaza em TODO O PERÍMETRO**, não em ponto localizado (fábrica, 09/09/2026). Os potes são PP
+  rígido contra PP rígido, sem nenhum elemento de vedação — com tolerância de injeção, isso não
+  sela nunca. **Consequência de projeto: a folga tampa/corpo é maior que a suposta, e a
+  interferência do vedante precisa ser de 0,6–0,8 mm, não 0,5.** Não é problema de arqueamento
+  entre travas.
 - **O aro tem função real.** O argumento de que "a trava já resolve" (levantado a partir das
   avaliações do Plasútil, que tem trava e zero reclamação de vedação) **não sobrevive à medição**.
   O que aquelas avaliações mostram é que o mercado *tolera* o que a Nitron mede como falha —
