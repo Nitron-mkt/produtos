@@ -1,5 +1,5 @@
 """
-MODULA rev.20 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.21 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -52,15 +52,24 @@ RHO_PP = 0.905
 # barra = largura da nervura do fundo (= espessura da parede); vao_fundo = furo.
 # O P e a peca de coisa pequena: fundo CHAPADO (rev.20). M e G tem fundo em
 # grelha, para pesar menos. Parede: 1,8 / 2,0 / 2,3 mm — fina de proposito.
+PHI = (1 + 5 ** 0.5) / 2
+# rev.21 — a CADEIA DE PENDURA. Dois P girados penduram pela aba no aro do M,
+# dois M no do G. Para a parede do pequeno passar por dentro da aba do grande
+# com folga, cada cota do pequeno e o modulo do grande menos 2*s (s = 3 mm por
+# lado), e a aba do pequeno cresce e_grande + folga - s em relacao a do grande:
+#   Yg = 396 -> Xm = 390 ;  Xg = 596 -> Ym = 295 ;  Ym -> Xp = 289 ;  Xm -> Yp = 192
+#   aba: G 11,6 -> M 12,4 -> P 12,9        H = X / phi (a altura e onde phi mora)
+FOLGA_PENDURA = 3.0
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
-    "P": dict(nome="MODULA P", X=296.0, Y=196.0, H=185.0, perna=50.0, e=1.8, R=26.0,
+    "P": dict(nome="MODULA P", X=289.0, Y=192.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True),
-    "M": dict(nome="MODULA M", X=396.0, Y=296.0, H=245.0, perna=50.0, e=2.0, R=36.0,
+    "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=36.0, aba=12.4,
               barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False),
-    "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=370.0, perna=50.0, e=2.3, R=46.0,
+    "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=368.0, perna=50.0, e=2.3, R=46.0, aba=11.6,
               barra=2.3, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False, fundo_chapado=False),
 }
+PENDURA = {"P": "M", "M": "G"}           # quem pendura em quem
 
 CANTOS = {"canto_fd": (1, 1), "canto_fe": (-1, 1), "canto_te": (-1, -1), "canto_td": (1, -1)}
 
@@ -75,7 +84,7 @@ def parametros(k):
     s["H_total"] = s["H"]
     s["hc"] = H = s["H"] - s["perna"]          # altura da cesta
     s["conic"] = con = H * TAN
-    s["aba"] = aba = round(8.0 + 0.006 * X, 1)
+    aba = s["aba"]
     s["passo_ninho"] = pn = round(e / TAN + 2.0, 1)
     s["saia"] = round(pn - 4.0, 1)                # a saia tem de caber no passo
     s["aro_ext"] = X / 2                          # face externa do aro
@@ -140,7 +149,9 @@ def parametros(k):
     s["larg_canal"] = round(s["canal_out_abs"] - s["r_col_top"], 1)
     # a ponte fecha o bolsao atras da coluna ate 1,5 mm da parede de cima no
     # ninho: e o que faz o degrau ter 25 mm em vez de 2.
-    s["ponte_out_rel"] = round(-pn * TAN - e - 1.5, 2)    # offset ao contorno, cte em z
+    # rev.21: margem 2,5 (era 1,5) — pela fenda entre a ponte e a parede passa
+    # a parede da peca de cima no ninho E a parede do pequeno pendurado.
+    s["ponte_out_rel"] = round(-pn * TAN - e - 2.5, 2)    # offset ao contorno, cte em z
     s["larg_ponte"] = round((s["Xb"] / 2 + H * TAN + s["ponte_out_rel"]) - s["r_col_top"], 1)
     assert s["larg_ponte"] > s["larg_canal"] + 4.0, f"{k}: nao sobra guia na ponte"
     s["passo_pilha"] = round(H + hro - s["prof_canal"], 1)
@@ -588,6 +599,44 @@ def confere_ninho(m, s, k=1):
     return viol, total
 
 
+def pendura(kp, kg):
+    """Dois 'kp' girados 90 graus, lado a lado, pendurados pela aba no aro de um
+    'kg'. Devolve as folgas e o apoio; a build quebra se nao couber."""
+    p, g = parametros(kp), parametros(kg)
+    # o pequeno girado: seu Y corre no X do grande (dois lado a lado), seu X no Y
+    sx = (g["X"] - 2 * p["Y"]) / 2              # folga por lado, em x (dois pequenos)
+    sy = (g["Y"] - p["X"]) / 2                  # folga por lado, em y
+    assert sx >= 0 and sy >= 0, f"{kp} nao cabe no aro do {kg} ({sx:.1f}, {sy:.1f})"
+    # face externa da parede do pequeno no aro, medida do centro do grande
+    par_px = g["X"] / 2 - sx - p["aba"]
+    par_py = g["Y"] / 2 - sy - p["aba"]
+    # face interna da parede do grande no aro
+    int_gx = g["X"] / 2 - g["aba"] - g["e"]
+    int_gy = g["Y"] / 2 - g["aba"] - g["e"]
+    f_par_x = int_gx - par_px                   # parede do pequeno x parede do grande
+    f_par_y = int_gy - par_py
+    # nas laterais do grande ha a PONTE da coluna: a parede do pequeno passa na
+    # fenda entre a ponte e a parede (a mesma fenda da parede de cima no ninho)
+    ponte_x = g["Xb"] / 2 + g["hc"] * TAN + g["ponte_out_rel"]
+    f_ponte = (par_px - p["e"]) - ponte_x
+    # apoio: a saia do pequeno pousa na chapa da aba do grande
+    apoio_x = (g["X"] / 2 - sx) - (g["X"] / 2 - g["aba"])
+    apoio_y = (g["Y"] / 2 - sy) - (g["Y"] / 2 - g["aba"])
+    # cotas verticais: a saia do pequeno pousa em ztopo - 1,6 do grande
+    sobe = p["saia"] - 1.6                      # quanto o aro do pequeno fica acima
+    z_base_p = g["H"] + sobe - p["H"]           # base do pequeno acima da base do grande
+    f_fundo = z_base_p - (g["perna"] + g["z_fundo"] + g["ef"])
+    r = dict(sx=sx, sy=sy, f_par_x=round(f_par_x, 2), f_par_y=round(f_par_y, 2),
+             f_ponte=round(f_ponte, 2), apoio_x=round(apoio_x, 1), apoio_y=round(apoio_y, 1),
+             sobe=round(sobe, 1), f_fundo=round(f_fundo, 1),
+             largura_dois=2 * p["Y"], vao_grande=g["X"])
+    for nome in ("f_par_x", "f_par_y", "f_ponte"):
+        assert r[nome] >= 1.2, f"{kp} em {kg}: {nome} = {r[nome]} mm (parede raspa)"
+    assert r["f_fundo"] > 5, f"{kp} em {kg}: a base do pequeno encosta no fundo ({r['f_fundo']} mm)"
+    assert min(apoio_x, apoio_y) >= 6, f"{kp} em {kg}: apoio de {min(apoio_x, apoio_y)} mm e pouco"
+    return r
+
+
 def area_interna(s, z):
     W = s["Xb"] + 2 * z * TAN - 2 * s["e"]
     D = s["Yb"] + 2 * z * TAN - 2 * s["e"]
@@ -611,6 +660,8 @@ def ficha(k):
     s["ton_min"] = ap / 1e4 * 300 * 10.2
     s["ton_max"] = ap / 1e4 * 400 * 10.2
     s["n_triangulos"] = len(m.tris)
+    if k in PENDURA:
+        s["pendura"] = pendura(k, PENDURA[k])
     viol, total = confere_ninho(m, s, 1)
     viol2, total2 = confere_ninho(m, s, 2)
     s["ninho_viol"], s["ninho_pts"] = viol + viol2, total + total2

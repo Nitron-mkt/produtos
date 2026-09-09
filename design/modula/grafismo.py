@@ -359,7 +359,9 @@ def monta_padrao(perimetro, zlo, zhi, alma_min, espelho=False, minimo=0.45):
     """Escolhe a escala pela alma minima e fecha a volta: o periodo em u
     (230 pt x s) tem de dividir o perimetro."""
     s0 = alma_min / TILE_ALMA_PT
-    n = max(1, int(round(perimetro / (TILE_A2[0] * s0))))
+    # floor, nao round: a escala so pode CRESCER a partir da alma minima, senao
+    # o ajuste que fecha a volta devolve alma abaixo do limite de molde.
+    n = max(1, int(math.floor(perimetro / (TILE_A2[0] * s0))))
     s = perimetro / (TILE_A2[0] * n)
     # centra o padrao na faixa util: a celula fica com o meio em (zlo+zhi)/2
     z0 = 0.5 * (zlo + zhi) - 0.5 * TILE_A1[1] * s

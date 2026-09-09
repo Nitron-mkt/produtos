@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.20** — fundo **chapado no P**, parede do G de volta a 2,3 mm, coluna com 4,5° de saída (o ninho profundo colidia na peça 3) e base **sem janelas**. O encaixe cruzado 2P→M / 2M→G está medido na seção rev.20 e depende de uma decisão de conceito.
+**rev.21** — o encaixe cruzado decidido: **dois P penduram pela aba no aro de um M, dois M no de um G** (caminho C). Cotas viraram cadeia de pendura (289 × 192 / 390 × 295 / 596 × 396), abas 12,9 / 12,4 / 11,6, altura = X / φ. Conferido por `pendura()` em toda build.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
 frente aberta que **encaixam quase colado no transporte** e **plugam um sobre o outro
@@ -13,16 +13,17 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 ## Os três tamanhos
 
-| | Externo (mm) | Cesta + perna | Parede | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
-|---|---|---|---|---|---|---|---|---|---|
-| **P** | 296 × 196 × 185 | 135 + 50 | 1,8 mm | 298 g | 5,2 L | 143 mm | 15,7 mm | 5,7× | 178–237 tf |
-| **M** | 396 × 296 × 245 | 195 + 50 | 2,0 mm | 484 g | 16,2 L | 203 mm | 17,2 mm | 6,1× | 359–478 tf |
-| **G** | 596 × 396 × 370 | 320 + 50 | 2,3 mm | 1.040 g | 53,8 L | 328 mm | 21,0 mm | 6,6× | 722–963 tf |
+| | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **P** | 289 × 192 × 179 | 129 + 50 | 1,8 mm | 12,9 | 280 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
+| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 475 g | 15,1 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
+| **G** | 596 × 396 × 368 | 318 + 50 | 2,3 mm | 11,6 | 1.041 g | 53,6 L | 326 mm | 19,5 mm | 6,8× | 722–963 tf |
 
-Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — com **4 mm de folga
-por módulo** (rev.18): 400 × 300 exatos não cabem doze vezes em 1000 × 1200. A altura segue
-φ (rev.14). O passo de ninho é conferido em toda build contra a malha real (rev.18), e o
-passo de pilha inclui os 3 mm que o rodapé afunda no canal.
+Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — e a partir da rev.21 as cotas
+formam a **cadeia de pendura**: cada cota do pequeno é o módulo do grande menos 6 mm, para a
+parede do pequeno passar por dentro da aba do grande com 1,5 mm de folga. A altura segue
+φ (H = X / 1,618). O passo de ninho é conferido em toda build contra a malha real, para a peça
+2 e para a peça 3; o passo de pilha inclui os 3 mm que o rodapé afunda no canal.
 
 ## Contra as peças de referência
 
@@ -811,6 +812,50 @@ não é "em cima" — é "dentro, pendurado". A escolha é de conceito, não de 
 **Sobre φ.** Ele já está na altura (X : H = 1,618) e é dela que sai a torre; a planta é do
 palete (1 : 2 : 4). Não forcei φ na conta do apoio porque quem manda ali é a geometria do
 ninho.
+
+### rev.21 — o encaixe cruzado: pendurado pela aba
+
+Decisão tomada: caminho **C**. Dois P girados 90° penduram pela aba no aro de um M; dois M
+no de um G. Mantém o ninho de 17 mm, não mexe no mecanismo da pilha, e é o único dos três
+caminhos que sai do molde sem lâmina.
+
+#### A cadeia de pendura
+
+Para o pequeno pendurar, a **parede** dele (no aro) tem de passar por dentro da **aba** do
+grande, com folga. Isso fixa duas coisas de cada vez:
+
+1. **A cota externa** do pequeno é o módulo do grande menos `2 s`, com `s = 3 mm` por lado:
+   `Yg 396 → Xm 390`, `Xg 596 → Ym 295`, `Ym 295 → Xp 289`, `Xm 390 → Yp 192`. Todos abaixo
+   do módulo de palete (300 × 200 / 400 × 300 / 600 × 400), então o palete não muda.
+2. **A aba cresce para dentro** da família: `aba_pequeno = aba_grande + e_grande + folga − s`
+   → G 11,6 → M 12,4 → P 12,9. É a aba maior no menor que paga a folga.
+
+A altura é `X / φ`: 179 / 241 / 368. É onde φ mora na família, e é o que dá a torre.
+
+#### O que `pendura()` confere (e quebra a build se falhar)
+
+| | P em M | M em G |
+|---|---|---|
+| dois lado a lado no vão do grande | 384 em 390 | 590 em 596 |
+| folga parede-parede, x / y | 1,5 / 1,5 mm | 1,5 / 1,5 mm |
+| folga na fenda da ponte (lateral do grande) | 1,46 mm | 1,57 mm |
+| apoio da saia na chapa da aba | 9,4 mm | 8,6 mm |
+| aro do pequeno acima do aro do grande | 10,1 mm | 11,6 mm |
+| base do pequeno acima do fundo do grande | 19,6 mm | 85,8 mm |
+
+A fenda entre a ponte da coluna e a parede (por onde a parede da peça de cima passa no
+ninho) é a mesma por onde passa a parede do pequeno pendurado: a margem da ponte subiu de
+1,5 para 2,5 mm por isso.
+
+**O que se perdeu.** O P encolheu 7 × 4 mm e 6 de altura (5,2 → 4,5 L); o M 6 × 1 e 4 de
+altura (16,2 → 15,1 L). A aba maior come 2,5 mm de boca por lado no P. Fundo do P chapado,
+M e G vazados, paredes 1,8 / 2,0 / 2,3 — como pedido.
+
+**Grafismo.** A escala passou a ser arredondada para baixo no número de períodos, para a alma
+nunca ficar abaixo do mínimo quando o padrão fecha a volta (o M tinha saído com 3,9 mm).
+
+**Saídas em `out/` não foram regeneradas nesta revisão** — a pedido. `python3 exporta.py &&
+python3 celular.py && python3 detalhes.py && python3 dossie_pdf.py` refaz tudo.
 
 ## Arquivos
 
