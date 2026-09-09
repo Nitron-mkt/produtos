@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.22** — **acoplador lateral no P**: macho em T e fêmea em ranhura na saia do aro, espelhados nas duas laterais; dois P se ligam lado a lado com passo = X exato.
+
 **rev.21** — o encaixe cruzado decidido: **dois P penduram pela aba no aro de um M, dois M no de um G** (caminho C). Cotas viraram cadeia de pendura (289 × 192 / 390 × 295 / 596 × 396), abas 12,9 / 12,4 / 11,6, altura = X / φ. Conferido por `pendura()` em toda build.
 
 Estudo 3D paramétrico de **3 moldes** (P, M, G) para uma linha de organizadores de
@@ -856,6 +858,35 @@ nunca ficar abaixo do mínimo quando o padrão fecha a volta (o M tinha saído c
 
 **Saídas em `out/` não foram regeneradas nesta revisão** — a pedido. `python3 exporta.py &&
 python3 celular.py && python3 detalhes.py && python3 dossie_pdf.py` refaz tudo.
+
+### rev.22 — acoplador lateral: dois P lado a lado
+
+Pedido: as peças se acoplam uma ao lado da outra, com macho e fêmea nas laterais (exemplo:
+a caixa preta com rasgos em T no aro). Por partes — primeiro o P.
+
+**Onde pode haver relevo.** A parede é lisa por fora por causa do ninho. O único lugar da
+peça onde um macho pode sair para fora é a **saia do aro**: no ninho ela fica um passo acima
+da saia da peça de baixo e nunca entra em ninguém. No P a saia tem 11,7 mm — é essa a altura
+útil do encaixe.
+
+**O encaixe.** Macho em **T** saindo da saia (haste 2,6 × 4,5 mm, cabeça 2,8 × 10 mm, 5,4 mm
+de saliência); fêmea em **ranhura** através da saia (5,1 mm), aberta embaixo e fechada em cima
+pelo lintel, com o bolsão da cabeça dentro do oco da aba (10,8 mm de largura, 4,0 de fundo,
+duas bochechas e parede de fundo de 1,8). A peça B desce sobre a A: a ranhura de B engole o
+T de A. Passo entre as duas = X exato (289): as saias se tocam, a haste atravessa a saia da
+vizinha e a cabeça fica no bolsão dela.
+
+**Espelhado para qualquer P casar com qualquer P.** Lateral direita: macho em y = +0,29 b,
+fêmea em −0,71 b. Lateral esquerda: o contrário. O macho direito de A entra na fêmea esquerda
+de B e a fêmea direita de A recebe o macho esquerdo de B. As posições evitam as colunas do
+encaixe e o rebaixo da frente.
+
+**Limites conferidos por `assert`.** Saliência de 5,4 mm × 2 lados: 289 + 10,8 ≤ 300, ainda
+dentro do módulo de palete. O bolsão (4,0 + 1,8) cabe no oco da aba de 12,9. Ninho e pilha
+não mudam; na pendura o T fica em cima da aba do M (entre 141,5 e 147,5 mm do centro dele).
+
+Massa do P: 280 → 281 g. `acoplador=True` só no P por enquanto; M e G recebem o mesmo
+quando o P estiver aprovado.
 
 ## Arquivos
 

@@ -1,5 +1,5 @@
 """
-MODULA rev.21 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.22 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -63,7 +63,8 @@ FOLGA_PENDURA = 3.0
 TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     "P": dict(nome="MODULA P", X=289.0, Y=192.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
-              barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True),
+              barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
+              acoplador=True),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=36.0, aba=12.4,
               barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False),
     "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=368.0, perna=50.0, e=2.3, R=46.0, aba=11.6,
@@ -145,6 +146,22 @@ def parametros(k):
     s["r_col_top"] = s["Xb"] / 2 + ro_in_b - tin          # labio da coluna, no aro
     s["r_col_b"] = round(s["r_col_top"] - H * T_COL, 2)   # face interna, no fundo
     s["r_col"] = s["r_col_b"]
+    # ---- acoplador lateral (rev.22): macho em T e femea em ranhura, na SAIA ---
+    # E o unico lugar da peca onde pode haver relevo por fora: a saia nunca
+    # entra em outra peca (no ninho ela fica um passo acima da saia de baixo).
+    # Em cada lateral, um macho e uma femea em posicoes espelhadas: o macho
+    # direito de A entra na femea esquerda de B, e vice-versa. Passo = X exato.
+    s["ac_stem"] = 2.6                # haste: atravessa a saia da vizinha (e) e sobra 0,8
+    s["ac_cabeca"] = 2.8              # espessura da cabeca do T (2,6 + 2,8 = 5,4 -> 289 + 10,8 <= 300)
+    s["ac_w_stem"], s["ac_w_cabeca"] = 4.5, 10.0
+    s["ac_folga"] = 0.3               # por lado, na ranhura e no bolsao
+    s["ac_prof_bolsao"] = s["ac_stem"] - e + s["ac_cabeca"] + 0.4     # cabeca dentro, com folga
+    s["ac_y"] = (round(0.29 * s["b"], 1), round(-0.71 * s["b"], 1))   # (macho dir., femea dir.) no aro
+    s["ac_saliencia"] = s["ac_stem"] + s["ac_cabeca"]
+    if s.get("acoplador"):
+        assert X + 2 * s["ac_saliencia"] <= {289.0: 300, 390.0: 400, 596.0: 600}.get(X, X + 20), \
+            f"{k}: macho estoura o modulo do palete"
+        assert s["ac_prof_bolsao"] + 1.8 < aba - e - 0.5, f"{k}: bolsao da femea nao cabe na aba"
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
     s["larg_canal"] = round(s["canal_out_abs"] - s["r_col_top"], 1)
     # a ponte fecha o bolsao atras da coluna ate 1,5 mm da parede de cima no
@@ -359,10 +376,45 @@ def construir(k):
     emitir(todos, ext(2.0), -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
     emitir(todos, ext(3.2), -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
     emitir(todos, ext(4.6), -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
-    emitir(todos, ext(0.0), A - e,
+    # ---- acoplador lateral (rev.22) ----------------------------------------
+    y_rim = [cont.ponto(i % n, H)[1] for i in range(n)]
+    lado = [cont.amostras[i % n][0] for i in range(n)]
+    ym, yf = s["ac_y"]
+
+    def perto(i, alvo, meia):
+        """A amostra i esta a menos de 'meia' do alvo, na lateral certa?
+        alvo = ('macho'|'femea'); lat_d tem macho em ym e femea em yf, lat_e
+        o contrario — assim A(direita) casa com B(esquerda)."""
+        if not s.get("acoplador") or lado[i % n] not in ("lat_d", "lat_e"):
+            return False
+        yc = {("lat_d", "macho"): ym, ("lat_d", "femea"): yf,
+              ("lat_e", "macho"): yf, ("lat_e", "femea"): ym}[(lado[i % n], alvo)]
+        return abs(y_rim[i % n] - yc) < meia
+    fg = s["ac_folga"]; ws, wc = s["ac_w_stem"], s["ac_w_cabeca"]
+    ranhura = lambda i: perto(i, "femea", ws / 2 + fg)                    # furo na saia
+    bolsao = lambda i: perto(i, "femea", wc / 2 + fg)                     # onde a cabeca entra
+    bochecha = lambda i: perto(i, "femea", wc / 2 + fg + e) and not bolsao(i)
+    prof = s["ac_prof_bolsao"]
+    # a saia: inteira fora da ranhura; na ranhura fica so o lintel de cima (0,8 mm)
+    emitir(lambda i: not ranhura(i), ext(0.0), A - e,
            lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(ranhura, ext(0.0), A - e,
+           lambda i: ztopo(i) - 2.4, lambda i: ztopo(i) - 1.6, "aro")
     emitir(todos, ext(0.0), A - 2.0,
            lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
+    if s.get("acoplador"):
+        # femea: parede de fundo do bolsao e duas bochechas, dentro do oco da aba
+        emitir(bolsao, lambda i, z: A - e - prof, lambda i, z: A - e - prof - e,
+               lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
+        emitir(bochecha, lambda i, z: A - e + 0.3, lambda i, z: A - e - prof - e,
+               lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
+        # macho: haste e cabeca do T, para fora da saia
+        zm0 = lambda i: ztopo(i) - S + 0.6
+        zm1 = lambda i: ztopo(i) - 1.6
+        emitir(lambda i: perto(i, "macho", ws / 2), lambda i, z: A + s["ac_stem"], lambda i, z: A - 0.3,
+               zm0, zm1, "aro")
+        emitir(lambda i: perto(i, "macho", wc / 2), lambda i, z: A + s["ac_saliencia"],
+               lambda i, z: A + s["ac_stem"] - 0.3, zm0, zm1, "aro")
 
     # ---- ponte, canal e guia no topo da coluna (rev.18) --------------------
     # O bolsao atras da coluna era aberto em cima: o rodape pousava numa
