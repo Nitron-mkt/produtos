@@ -1,3 +1,4 @@
+CEN=127.5   # centro da mesa da Kobra 3 (255x255)
 import trimesh, numpy as np
 D='/home/user/produtos/chrono/stl/'
 def prep(fn, flip, dx=0.0, dy=0.0):
@@ -5,7 +6,7 @@ def prep(fn, flip, dx=0.0, dy=0.0):
     ang=-np.pi/2 if flip else np.pi/2         # eixo da peca (Y do STL) -> Z
     m.apply_transform(trimesh.transformations.rotation_matrix(ang,[1,0,0]))
     c=(m.bounds[0]+m.bounds[1])/2
-    m.apply_translation([-c[0]+dx+110, -c[1]+dy+110, -m.bounds[0][2]])  # centro da mesa 110,110; apoia em z=0
+    m.apply_translation([-c[0]+dx+CEN, -c[1]+dy+CEN, -m.bounds[0][2]])  # centro da mesa 110,110; apoia em z=0
     return m
 P=prep('Chrono_01_Pino_Travinha.stl', True)    # invertido: face de topo na mesa
 A=prep('Chrono_02_Anel_Dia.stl',      False)   # plano, numeros para cima
