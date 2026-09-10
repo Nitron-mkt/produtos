@@ -1,5 +1,5 @@
 """
-MODULA rev.23 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.24 — familia de organizadores modulares Nitron (3 moldes).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -28,6 +28,22 @@ REGRA QUE GOVERNA TUDO
   Toda superficie que desliza no ninho tem os mesmos 7,5 graus: parede,
   face externa do copo, paredes internas do copo. E a PAREDE E LISA POR
   FORA — nenhum relevo, senao o ninho trava a meio caminho.
+
+  rev.24: isso vale tambem para o ARO. No ninho a peca de cima entra girada
+  180 graus, e a frente rebaixada dela (o mergulho) desce dentro da traseira
+  alta da de baixo: um aro em L nessa frente atravessava a parede de baixo em
+  10 mm (medido: 22 mil vertices). Desde a rev.24 o aro (aba + saia) so existe
+  onde a borda esta na altura cheia; no mergulho a borda e a propria parede,
+  lisa e arredondada no molde.
+
+A CADEIA (rev.24)
+  Dois P lado a lado, acoplados entre si pelo macho/femea das laterais, pousam
+  pela saia no aro de um M; dois M, girados 90 graus e frente com frente, no
+  aro de um G. Quem TRAVA o par no grande sao POSTES em T que sobem do aro do
+  grande e entram, por baixo, na femea que o pequeno ja tem na saia (8,5 mm de
+  engate). No ninho do M o poste entra na femea do proprio M girado — por isso
+  as posicoes de macho/femea do M sao as do P negadas (ym_M = -yf_P, yf_M = -ym_P)
+  e o bolsao da femea do M e mais fundo (4,7 mm) para engolir a cabeca do poste.
 """
 import math
 from geometria import DEG, Contorno, Malha, banda, perfurada
@@ -68,11 +84,24 @@ TAMANHOS = {
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
               acoplador=True),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=36.0, aba=12.4,
-              barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False),
+              barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False,
+              acoplador=True),
     "G": dict(nome="MODULA G", X=596.0, Y=396.0, H=368.0, perna=50.0, e=2.3, R=46.0, aba=11.6,
-              barra=2.3, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False, fundo_chapado=False),
+              barra=2.3, vao_fundo=22.0, graf_alma=4.5, graf_espelho=False, fundo_chapado=False,
+              acoplador=True),
 }
 PENDURA = {"P": "M", "M": "G"}           # quem pendura em quem
+FILHO = {g: p for p, g in PENDURA.items()}  # quem pendura DENTRO de mim
+# rev.24: como o par entra no grande. "lado": os dois pequenos lado a lado ao
+# longo de X, frentes para a frente, laterais do pequeno nas laterais do grande
+# (postes nas laterais). "frente": girados 90 graus e frente com frente — as
+# duas traseiras (com aro) pousam nas laterais do grande, e a lateral de tras
+# de cada um pousa na traseira do grande (postes na traseira).
+MODO_PENDURA = {"P": "lado", "M": "frente"}
+MODULO = {192.0: 200, 289.0: 300, 390.0: 400, 596.0: 600}
+# a aba do grande: patamar no topo ate A-4,6; degraus a -0,5 (ate A-3,2) e
+# -1,6 (ate A-2,0); topo da saia a -1,4.
+DEGRAUS_ARO = ((4.6, 0.0), (3.2, -0.5), (2.0, -1.6), (0.0, -1.4))
 
 CANTOS = {"canto_fd": (1, 1), "canto_fe": (-1, 1), "canto_te": (-1, -1), "canto_td": (1, -1)}
 
@@ -153,16 +182,63 @@ def parametros(k):
     # entra em outra peca (no ninho ela fica um passo acima da saia de baixo).
     # Em cada lateral, um macho e uma femea em posicoes espelhadas: o macho
     # direito de A entra na femea esquerda de B, e vice-versa. Passo = X exato.
-    s["ac_stem"] = 2.2                # haste: atravessa a saia da vizinha (e) e sobra 0,4
-    s["ac_cabeca"] = 1.8              # cabeca do T (2,2 + 1,8 = 4,0 -> 192 + 8,0 <= 200, o modulo)
+    s["ac_stem"] = round(e + 0.4, 1)  # haste: atravessa a saia da vizinha (e) e sobra 0,4
+    s["ac_cabeca"] = 1.8              # cabeca do T
     s["ac_w_stem"], s["ac_w_cabeca"] = 4.5, 10.0
     s["ac_folga"] = 0.3               # por lado, na ranhura e no bolsao
-    s["ac_prof_bolsao"] = s["ac_stem"] - e + s["ac_cabeca"] + 0.4     # cabeca dentro, com folga
-    s["ac_y"] = (round(0.29 * s["b"], 1), round(-0.71 * s["b"], 1))   # (macho dir., femea dir.) no aro
-    s["ac_saliencia"] = s["ac_stem"] + s["ac_cabeca"]
+    s["ac_prof_bolsao"] = round(s["ac_stem"] - e + s["ac_cabeca"] + 0.4, 2)   # cabeca dentro, com folga
+    s["ac_saliencia"] = round(s["ac_stem"] + s["ac_cabeca"], 1)
+    # o macho vai de ztopo-S+0,6 ate ztopo-2,8: 0,4 abaixo do lintel da vizinha
+    s["ac_z1"] = 2.8
+    filho = FILHO.get(k)
+    f = parametros(filho) if filho else None
+    if f and MODO_PENDURA[filho] == "lado":
+        # rev.24: o poste que trava o filho tem de entrar, no ninho, na femea do
+        # proprio M girado 180 graus: poste em (lat_d, yf_filho) encontra a femea
+        # de lat_e (em ym) girada -> ym_M = -yf_filho; e vice-versa.
+        s["ac_y"] = (-f["ac_y"][1], -f["ac_y"][0])
+    else:
+        s["ac_y"] = (round(0.29 * s["b"], 1), round(-0.71 * s["b"], 1))   # (macho dir., femea dir.) no aro
     if s.get("acoplador"):
-        assert X + 2 * s["ac_saliencia"] <= {192.0: 200, 289.0: 300, 390.0: 400, 596.0: 600}.get(X, X + 20), \
+        # fileira de dois: 2X + uma cabeca livre cabe em dois modulos do palete
+        assert 2 * X + s["ac_saliencia"] <= 2 * MODULO.get(X, X + 10), \
             f"{k}: macho estoura o modulo do palete"
+    # ---- postes do aro (rev.24): travam o par de filhos pendurado --------------
+    s["postes"] = []
+    if f:
+        modo = MODO_PENDURA[filho]
+        folga_lado = (X - 2 * f["X"]) / 2 if modo == "lado" else (Y - f["X"]) / 2
+        # face externa da saia do filho pousada, em offset ao contorno do grande
+        # (as duas superficies tem os mesmos 7,5 graus, entao o offset e constante)
+        o_out = aba - folga_lado - f["saia"] * TAN
+        o_in = o_out - f["e"]
+        po = dict(o_stem1=round(o_out - 0.3, 2), o_stem0=round(o_in - 0.3, 2),
+                  o_cab0=round(o_in - 0.3 - 1.8, 2), alt=round(f["saia"] - 2.4 - 0.8, 1),
+                  w_stem=4.5, w_cab=10.0, o_saia_out=round(o_out, 2), o_saia_in=round(o_in, 2))
+        s["poste"] = po
+        assert po["o_cab0"] > 0.8, f"{k}: poste do aro encosta na parede ({po['o_cab0']:.1f})"
+        assert po["o_stem1"] < aba - 2.0, f"{k}: poste do aro entra na saia"
+        # a cabeca do poste cabe no bolsao do filho
+        assert f["ac_prof_bolsao"] >= o_in - po["o_cab0"] + 0.3, \
+            f"{k}: bolsao do {filho} raso para o poste ({f['ac_prof_bolsao']} mm)"
+        if modo == "lado":
+            s["postes"] = [("lat_d", f["ac_y"][1]), ("lat_e", f["ac_y"][0])]
+            # no ninho o poste entra na femea do proprio {k}: a saia de cima passa
+            # pn*tan mais para dentro; a haste tem de ficar aquem dela e a cabeca
+            # aquem do fundo do bolsao.
+            saia_in_ninho = aba - e - pn * TAN
+            s["f_poste_ninho"] = round(saia_in_ninho - po["o_stem1"], 2)
+            assert s["f_poste_ninho"] >= 0.4, \
+                f"{k}: poste do aro raspa na saia da peca de cima no ninho ({s['f_poste_ninho']} mm)"
+            s["ac_prof_bolsao"] = round(max(s["ac_prof_bolsao"], saia_in_ninho - po["o_cab0"] + 0.4), 2)
+            s["f_poste_lintel"] = round(s["saia"] - 2.4 - (po["alt"] - (pn - s["saia"])), 2)
+            assert s["f_poste_lintel"] > 0.5, f"{k}: poste bate no lintel da peca de cima no ninho"
+        else:
+            c = f["Y"] / 2                       # centro de cada filho, em x
+            # filho da esquerda girado -90 (lat_d para tras, femea em yf);
+            # filho da direita girado +90 (lat_e para tras, femea em ym)
+            s["postes"] = [("traseira", round(-c + f["ac_y"][1], 1)), ("traseira", round(c - f["ac_y"][0], 1))]
+    if s.get("acoplador"):
         assert s["ac_prof_bolsao"] + 1.8 < aba - e - 0.5, f"{k}: bolsao da femea nao cabe na aba"
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
     s["larg_canal"] = round(s["canal_out_abs"] - s["r_col_top"], 1)
@@ -371,52 +447,96 @@ def construir(k):
               lambda i: ztopo(i) - h_aro, furo, "ripa", cheio=cheio)
     emitir(lambda i: True, OE, OI, lambda i: ztopo(i) - h_aro, ztopo, "aro")
 
-    # ---- aro: continuo, fechado, com topo em tres degraus (vira filete) ----
+    # ---- aro: so onde a borda esta na altura cheia (rev.24) ----------------
+    # No mergulho a borda e a parede nua: qualquer relevo para fora ali
+    # atravessa a parede da peca de baixo no ninho (a peca de cima entra
+    # girada, frente sobre traseira). O aro termina no canto, onde a borda
+    # comecou a descer 3 mm — a saia de cima ainda passa 1 mm acima do aro de
+    # baixo (pn - S = 4).
     A, S = aba, s["saia"]
-    todos = lambda i: True
+    com_aro = lambda i: min(ztopo(i), ztopo(i + 1)) >= h_geral - 3.0   # a banda vai ate i+1
+    todos = com_aro
     ext = lambda d: (lambda i, z: A - d)
     emitir(todos, ext(2.0), -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
     emitir(todos, ext(3.2), -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
     emitir(todos, ext(4.6), -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
-    # ---- acoplador lateral (rev.22) ----------------------------------------
+    # ---- acoplador lateral (rev.22) e postes do aro (rev.24) ---------------
+    # rev.24: tudo aqui e emitido com COORDENADAS EXATAS (blocos), nao por
+    # amostra do contorno: a folga de projeto e 0,3 mm e a amostra e 1,3 mm —
+    # por banda, macho e ranhura saiam ate 1,3 mm fora do lugar e a malha
+    # mostrava interferencia que o projeto nao tem.
+    x_rim = [cont.ponto(i % n, H)[0] for i in range(n)]
     y_rim = [cont.ponto(i % n, H)[1] for i in range(n)]
     lado = [cont.amostras[i % n][0] for i in range(n)]
-    ym, yf = s["ac_y"]
 
-    def perto(i, alvo, meia):
-        """A amostra i esta a menos de 'meia' do alvo, na lateral certa?
-        alvo = ('macho'|'femea'); lat_d tem macho em ym e femea em yf, lat_e
-        o contrario — assim A(direita) casa com B(esquerda)."""
-        if not s.get("acoplador") or lado[i % n] not in ("lat_d", "lat_e"):
-            return False
-        yc = {("lat_d", "macho"): ym, ("lat_d", "femea"): yf,
-              ("lat_e", "macho"): yf, ("lat_e", "femea"): ym}[(lado[i % n], alvo)]
-        return abs(y_rim[i % n] - yc) < meia
+    def coord(i):                                # coordenada ao longo do lado, no aro
+        return x_rim[i % n] if lado[i % n] in ("frente", "traseira") else y_rim[i % n]
+
+    def bloco(l, c0, c1, o0, o1, z0, z1, tag="aro"):
+        """Hexaedro num lado reto: coordenada ao longo do lado c0..c1 (numero,
+        ou funcao de z — a aresta de uma banda por amostra abre com a saida),
+        offsets o0..o1 ao contorno (constantes em z: acompanham os 7,5 graus)."""
+        def quad(z):
+            d = z * TAN
+            ca, cb = sorted((c0(z) if callable(c0) else c0, c1(z) if callable(c1) else c1))
+            if l in ("lat_d", "lat_e"):
+                sg = 1.0 if l == "lat_d" else -1.0
+                xs = sorted(sg * (s["Xb"] / 2 + d + o) for o in (o0, o1))
+                return [(xs[0], ca), (xs[1], ca), (xs[1], cb), (xs[0], cb)]
+            sg = 1.0 if l == "frente" else -1.0
+            ys = sorted(sg * (s["Yb"] / 2 + d + o) for o in (o0, o1))
+            return [(ca, ys[0]), (cb, ys[0]), (cb, ys[1]), (ca, ys[1])]
+        m.hexa([(x, y, z0) for x, y in quad(z0)], [(x, y, z1) for x, y in quad(z1)], tag)
+
+    def coord_z(i):
+        """A coordenada da amostra i ao longo do lado, como funcao de z."""
+        ax = 0 if lado[i % n] in ("frente", "traseira") else 1
+        return lambda z: cont.ponto(i % n, z)[ax]
+
     fg = s["ac_folga"]; ws, wc = s["ac_w_stem"], s["ac_w_cabeca"]
-    ranhura = lambda i: perto(i, "femea", ws / 2 + fg)                    # furo na saia
-    bolsao = lambda i: perto(i, "femea", wc / 2 + fg)                     # onde a cabeca entra
-    bochecha = lambda i: perto(i, "femea", wc / 2 + fg + e) and not bolsao(i)
     prof = s["ac_prof_bolsao"]
-    # a saia: inteira fora da ranhura; na ranhura fica so o lintel de cima (0,8 mm)
-    emitir(lambda i: not ranhura(i), ext(0.0), A - e,
+    feats = []
+    if s.get("acoplador"):
+        ym, yf = s["ac_y"]
+        feats = [("lat_d", ym, "macho"), ("lat_d", yf, "femea"),
+                 ("lat_e", yf, "macho"), ("lat_e", ym, "femea")]
+    ranhuras = [(l, c) for l, c, t in feats if t == "femea"]
+    meia_r = ws / 2 + fg
+    larga = meia_r + AMOSTRA[0] * 1.01
+
+    def na_ranhura_larga(i):
+        return any(lado[i % n] == l and abs(coord(i) - c) < larga for l, c in ranhuras)
+    # a saia por banda, parando uma amostra ANTES da ranhura; o que falta ate a
+    # aresta exata da ranhura e completado por bloco
+    emitir(lambda i: com_aro(i) and not na_ranhura_larga(i), ext(0.0), A - e,
            lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
-    emitir(ranhura, ext(0.0), A - e,
-           lambda i: ztopo(i) - 2.4, lambda i: ztopo(i) - 1.6, "aro")
     emitir(todos, ext(0.0), A - 2.0,
            lambda i: ztopo(i) - 2.6, lambda i: ztopo(i) - 1.4, "aro")
-    if s.get("acoplador"):
+    for l, c in ranhuras:
+        idx = [i for i in range(n) if lado[i] == l and abs(coord(i) - c) < larga]
+        j0, k = min(idx), max(idx) + 1              # a banda vai ate j0 e recomeca em k
+        ja, jb = (j0, k) if coord(j0) < coord(k) else (k, j0)
+        bloco(l, coord_z(ja), c - meia_r, A, A - e, H - S, H - 1.6)
+        bloco(l, c + meia_r, coord_z(jb), A, A - e, H - S, H - 1.6)
+        bloco(l, c - meia_r, c + meia_r, A, A - e, H - 2.4, H - 1.6)          # lintel
         # femea: parede de fundo do bolsao e duas bochechas, dentro do oco da aba
-        emitir(bolsao, lambda i, z: A - e - prof, lambda i, z: A - e - prof - e,
-               lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
-        emitir(bochecha, lambda i, z: A - e + 0.3, lambda i, z: A - e - prof - e,
-               lambda i: ztopo(i) - S, lambda i: ztopo(i) - 1.6, "aro")
-        # macho: haste e cabeca do T, para fora da saia
-        zm0 = lambda i: ztopo(i) - S + 0.6
-        zm1 = lambda i: ztopo(i) - 1.6
-        emitir(lambda i: perto(i, "macho", ws / 2), lambda i, z: A + s["ac_stem"], lambda i, z: A - 0.3,
-               zm0, zm1, "aro")
-        emitir(lambda i: perto(i, "macho", wc / 2), lambda i, z: A + s["ac_saliencia"],
-               lambda i, z: A + s["ac_stem"] - 0.3, zm0, zm1, "aro")
+        bloco(l, c - wc / 2 - fg, c + wc / 2 + fg, A - e - prof, A - e - prof - e, H - S, H - 1.6)
+        bloco(l, c - wc / 2 - fg - e, c - wc / 2 - fg, A - e + 0.3, A - e - prof - e, H - S, H - 1.6)
+        bloco(l, c + wc / 2 + fg, c + wc / 2 + fg + e, A - e + 0.3, A - e - prof - e, H - S, H - 1.6)
+    for l, c, t in feats:
+        if t != "macho":
+            continue
+        # macho: haste e cabeca do T, para fora da saia. Termina 0,4 abaixo do
+        # lintel da vizinha (rev.24; antes invadia o lintel em 0,8 mm).
+        bloco(l, c - ws / 2, c + ws / 2, A + s["ac_stem"], A - 0.3, H - S + 0.6, H - s["ac_z1"])
+        bloco(l, c - wc / 2, c + wc / 2, A + s["ac_saliencia"], A + s["ac_stem"] - 0.3,
+              H - S + 0.6, H - s["ac_z1"])
+    # postes do aro (rev.24): um T que sobe do patamar e entra, por baixo, na
+    # femea da saia do filho pousado — cabeca no bolsao dele, haste na ranhura.
+    for l, c in s["postes"]:
+        po = s["poste"]
+        bloco(l, c - po["w_cab"] / 2, c + po["w_cab"] / 2, po["o_stem0"], po["o_cab0"], H - 1.0, H + po["alt"])
+        bloco(l, c - po["w_stem"] / 2, c + po["w_stem"] / 2, po["o_stem1"], po["o_stem0"] - 0.3, H - 1.0, H + po["alt"])
 
     # ---- ponte, canal e guia no topo da coluna (rev.18) --------------------
     # O bolsao atras da coluna era aberto em cima: o rodape pousava numa
@@ -654,43 +774,85 @@ def confere_ninho(m, s, k=1):
 
 
 def pendura(kp, kg):
-    """Dois 'kp' lado a lado, pendurados pela aba no aro de um 'kg'. O pequeno
-    entra girado 90 graus ou nao — o que couber. Devolve as folgas e o apoio;
-    a build quebra se nao couber."""
+    """Dois 'kp' pendurados pela saia no aro de um 'kg', no modo de
+    MODO_PENDURA (lado a lado, ou girados frente com frente). Devolve folgas,
+    apoio e a altura que o pequeno sobe; a build quebra se nao couber."""
     p, g = parametros(kp), parametros(kg)
-    melhor = None
-    for girado in (False, True):
-        lx, ly = (p["Y"], p["X"]) if girado else (p["X"], p["Y"])   # cotas do pequeno nos eixos do grande
-        sx = (g["X"] - 2 * lx) / 2              # folga por lado, em x (dois pequenos)
-        sy = (g["Y"] - ly) / 2                  # folga por lado, em y
-        if sx < 0 or sy < 0:
-            continue
-        par_px = g["X"] / 2 - sx - p["aba"]     # face externa da parede do pequeno no aro
-        par_py = g["Y"] / 2 - sy - p["aba"]
-        int_gx = g["X"] / 2 - g["aba"] - g["e"]  # face interna da parede do grande no aro
-        int_gy = g["Y"] / 2 - g["aba"] - g["e"]
-        f_par_x, f_par_y = int_gx - par_px, int_gy - par_py
-        # nas laterais do grande ha a PONTE da coluna: a parede do pequeno passa na
-        # fenda entre a ponte e a parede (a mesma fenda da parede de cima no ninho)
-        ponte_x = g["Xb"] / 2 + g["hc"] * TAN + g["ponte_out_rel"]
-        f_ponte = (par_px - p["e"]) - ponte_x
-        apoio_x = (g["X"] / 2 - sx) - (g["X"] / 2 - g["aba"])
-        apoio_y = (g["Y"] / 2 - sy) - (g["Y"] / 2 - g["aba"])
-        sobe = p["saia"] - 1.6                  # a saia do pequeno pousa em ztopo - 1,6 do grande
-        z_base_p = g["H"] + sobe - p["H"]
-        f_fundo = z_base_p - (g["perna"] + g["z_fundo"] + g["ef"])
-        r = dict(girado=girado, sx=sx, sy=sy, f_par_x=round(f_par_x, 2), f_par_y=round(f_par_y, 2),
-                 f_ponte=round(f_ponte, 2), apoio_x=round(apoio_x, 1), apoio_y=round(apoio_y, 1),
-                 sobe=round(sobe, 1), f_fundo=round(f_fundo, 1), largura_dois=2 * lx, vao_grande=g["X"])
-        if melhor is None or min(r["f_par_x"], r["f_par_y"], r["f_ponte"]) > min(melhor["f_par_x"], melhor["f_par_y"], melhor["f_ponte"]):
-            melhor = r
-    assert melhor is not None, f"{kp} nao cabe no aro do {kg} em nenhuma orientacao"
-    r = melhor
+    girado = MODO_PENDURA[kp] == "frente"
+    lx, ly = (p["Y"], p["X"]) if girado else (p["X"], p["Y"])   # cotas do pequeno nos eixos do grande
+    sx = (g["X"] - 2 * lx) / 2              # folga por lado, em x (dois pequenos)
+    sy = (g["Y"] - ly) / 2                  # folga por lado, em y
+    assert sx >= 0 and sy >= 0, f"{kp} nao cabe no aro do {kg}"
+    par_px = g["X"] / 2 - sx - p["aba"]     # face externa da parede do pequeno no aro
+    par_py = g["Y"] / 2 - sy - p["aba"]
+    int_gx = g["X"] / 2 - g["aba"] - g["e"]  # face interna da parede do grande no aro
+    int_gy = g["Y"] / 2 - g["aba"] - g["e"]
+    f_par_x, f_par_y = int_gx - par_px, int_gy - par_py
+    # nas laterais do grande ha a PONTE da coluna: a parede do pequeno passa na
+    # fenda entre a ponte e a parede (a mesma fenda da parede de cima no ninho)
+    ponte_x = g["Xb"] / 2 + g["hc"] * TAN + g["ponte_out_rel"]
+    f_ponte = (par_px - p["e"]) - ponte_x
+    apoio_x = (g["X"] / 2 - sx) - (g["X"] / 2 - g["aba"])
+    apoio_y = (g["Y"] / 2 - sy) - (g["Y"] / 2 - g["aba"])
+    # onde a saia do pequeno pousa: no degrau mais alto do aro do grande que a
+    # sola dela alcanca (rev.24; antes assumia ztopo-1,6 e o pequeno afundava)
+    po = g["poste"]
+    o_in, o_out = po["o_saia_in"], po["o_saia_out"]
+    A = g["aba"]
+    z_pousa = None
+    for d, dz in DEGRAUS_ARO:
+        if o_in < A - d + 0.01:
+            z_pousa = dz
+            break
+    assert z_pousa is not None, f"{kp} em {kg}: a saia do pequeno nao alcanca o aro"
+    sobe = p["saia"] + z_pousa
+    z_base_p = g["H"] + sobe - p["H"]
+    f_fundo = z_base_p - (g["perna"] + g["z_fundo"] + g["ef"])
+    # no modo frente, a frente nua do pequeno (mergulho) fica dentro da boca do
+    # grande, e a borda dela tem de ficar acima do fundo... e abaixo do aro do
+    # grande so e problema se houvesse aro nela — nao ha (rev.24).
+    r = dict(girado=girado, sx=sx, sy=sy, f_par_x=round(f_par_x, 2), f_par_y=round(f_par_y, 2),
+             f_ponte=round(f_ponte, 2), apoio_x=round(apoio_x, 1), apoio_y=round(apoio_y, 1),
+             sobe=round(sobe, 1), f_fundo=round(f_fundo, 1), largura_dois=2 * lx, vao_grande=g["X"],
+             postes=list(g["postes"]), engate=po["alt"],
+             folga_poste_saia=round(o_out - po["o_stem1"], 2))
     for nome in ("f_par_x", "f_par_y", "f_ponte"):
         assert r[nome] >= 1.2, f"{kp} em {kg}: {nome} = {r[nome]} mm (parede raspa)"
     assert r["f_fundo"] > 5, f"{kp} em {kg}: a base do pequeno encosta no fundo ({r['f_fundo']} mm)"
     assert min(r["apoio_x"], r["apoio_y"]) >= 6, f"{kp} em {kg}: apoio de {min(r['apoio_x'], r['apoio_y'])} mm e pouco"
+    # o poste sobe do patamar e entra na ranhura do pequeno ate 0,8 do lintel
+    assert po["alt"] + 0.8 <= p["saia"] - 2.4 + 0.01, f"{kp} em {kg}: poste alto demais para a ranhura"
+    assert z_pousa == 0.0, f"{kp} em {kg}: a saia pousa num degrau, nao no patamar (poste sem base)"
     return r
+
+
+def confere_aro_ninho(m, s):
+    """rev.24: no ninho, todo vertice do aro da peca de cima que fique abaixo do
+    aro de baixo tem de estar DENTRO da parede de baixo (nunca atravessa-la).
+    E o teste que faltava desde a rev.01 — a frente rebaixada com aba em L
+    atravessava a traseira de baixo em 10 mm."""
+    H, perna, pn, e = s["hc"], s["perna"], s["passo_ninho"], s["e"]
+    Xb, Yb, Rb = s["Xb"], s["Yb"], s["Rb"]
+
+    def dist_ext(x, y, z):
+        d = z * TAN
+        hx, hy = Xb / 2 + d, Yb / 2 + d
+        qx, qy = abs(x) - (hx - Rb), abs(y) - (hy - Rb)
+        if qx > 0 and qy > 0:
+            return math.hypot(qx, qy) - Rb
+        return max(qx, qy) - Rb
+    viol = tot = 0
+    for a, b, c, tag in m.tris:
+        if tag != "aro":
+            continue
+        for p in (a, b, c):
+            z = p[2] - perna + pn
+            if z >= H - 0.5:
+                continue
+            tot += 1
+            if dist_ext(-p[0], -p[1], z) > -e + 0.05:
+                viol += 1
+    return viol, tot
 
 
 def area_interna(s, z):
@@ -720,9 +882,11 @@ def ficha(k):
         s["pendura"] = pendura(k, PENDURA[k])
     viol, total = confere_ninho(m, s, 1)
     viol2, total2 = confere_ninho(m, s, 2)
-    s["ninho_viol"], s["ninho_pts"] = viol + viol2, total + total2
+    viol3, total3 = confere_aro_ninho(m, s)
+    s["ninho_viol"], s["ninho_pts"] = viol + viol2 + viol3, total + total2 + total3
     assert viol == 0, f"{k}: {viol} vertices da base atravessam a peca de baixo no ninho"
     assert viol2 == 0, f"{k}: {viol2} vertices da base atravessam a peca DOIS passos abaixo"
+    assert viol3 == 0, f"{k}: {viol3} vertices do aro atravessam a parede de baixo no ninho"
     return m, s
 
 

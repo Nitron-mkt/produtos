@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.24** — a cadeia inteira fecha: **acoplador macho/fêmea nas laterais de P, M e G**; dois P acoplados pousam no aro de um M e dois M (girados, frente com frente) no de um G, **travados por postes em T que sobem do aro do grande** e entram na fêmea que o pequeno já tem na saia. **Correção estrutural**: o aro só existe onde a borda é alta — o aro em L na frente rebaixada atravessava a parede da peça de baixo no ninho em 10 mm desde a rev.01, e o teste de ninho nunca olhou o aro. Larguras inalteradas.
+
 **rev.23** — o **P abre pelo lado curto** (frente de 192 mm, 289 de profundidade), como os cestos de referência; acopladores nos lados longos, fileira com passo 192; macho reduzido a 4,0 mm para caber no módulo de 200.
 
 **rev.22** — **acoplador lateral no P**: macho em T e fêmea em ranhura na saia do aro, espelhados nas duas laterais; dois P se ligam lado a lado com passo = X exato.
@@ -19,9 +21,9 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 289 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
-| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 475 g | 15,1 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
-| **G** | 596 × 396 × 368 | 318 + 50 | 2,3 mm | 11,6 | 1.041 g | 53,6 L | 326 mm | 19,5 mm | 6,8× | 722–963 tf |
+| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 280 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
+| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 455 g | 15,1 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
+| **G** | 596 × 396 × 368 | 318 + 50 | 2,3 mm | 11,6 | 1.005 g | 53,6 L | 326 mm | 19,5 mm | 6,8× | 722–963 tf |
 
 Grade **1 : 2 : 4** no palete — dois P dão um M, dois M dão um G — e a partir da rev.21 as cotas
 formam a **cadeia de pendura**: cada cota do pequeno é o módulo do grande menos 6 mm, para a
@@ -904,17 +906,76 @@ os cestos laranja da referência, e não como M e G, que abrem pelo lado longo. 
   com a que cabe; para o M no G continua girado 90°. Folgas iguais às da rev.21.
 - Massa do P 281 → 289 g (a frente rebaixada agora é o lado curto: sobra mais parede).
 
+### rev.24 — a cadeia fecha: postes no aro, acoplador nos três, e o aro sai do mergulho
+
+Pedido: encaixes no topo do M para travar o par de P, o mesmo no G para o par de M, e
+macho/fêmea nas laterais de M e G. Antes de desenhar, duas medições mudaram o caminho.
+
+**1. O aro da frente rebaixada atravessava a parede de baixo no ninho.** A peça de cima entra
+girada 180°, então a frente rebaixada dela (aro a `hf` = 40% da altura) desce dentro da
+traseira alta da peça de baixo. O aro em L ali sai 12,4 mm para fora de uma parede que está
+0,26 mm dentro da parede de baixo: **10,1 mm de interferência, 22.488 vértices** no M. Está
+assim desde a rev.01 — `confere_ninho()` só olhava a base. O mesmo acontecia com o M girado
+dentro do G (rev.21): a frente do M cortava a lateral do G. Correção: **o aro (aba + saia)
+só existe onde a borda está na altura cheia** — laterais, traseira e o começo dos cantos, até
+a borda ter descido 3 mm. No mergulho a borda é a própria parede (2 mm), a arredondar no molde.
+Novo teste `confere_aro_ninho()` em toda build: 0 vértices do aro dentro da parede de baixo.
+Massa cai 9 / 20 / 36 g.
+
+**2. Uma fenda no aro do M engataria 1 mm.** O P pousa pela saia no patamar do aro do M,
+11,7 mm acima dele; o macho do P fica na saia, 0,6 mm acima da sola — ou seja, quase todo
+ACIMA do aro do M. Qualquer fenda no M receberia 1 mm de macho. Dente pendurado sob a saia
+não serve: no ninho a saia de cima passa 4 mm acima do aro de baixo. Solução invertida:
+**postes em T que sobem do patamar do aro do grande** e entram, por baixo, na fêmea que o
+pequeno já tem — a fêmea é aberta embaixo justamente para o macho da vizinha entrar.
+Engate de **8,5 mm no P, 10,0 no M** (altura da ranhura menos 0,8). O poste tem os mesmos
+7,5° da saia, então acompanha a fêmea inclinada sem folga variável.
+
+**Por que ym_M = −yf_P e yf_M = −ym_P.** No ninho o poste do M de baixo cai onde está a
+fêmea do M de cima, girado: poste em (lat_d, y) encontra a fêmea de lat_e em −y. Como os
+postes ficam onde estão as fêmeas do P (lat_d em yf_P = −84,1; lat_e em ym_P = +34,4), a fêmea
+do M tem de estar em ym_M = 84,1 (lat_e) e yf_M = −34,4 (lat_d). O bolsão do M fica com
+**4,6 mm** para engolir a cabeça do poste (2,6 no P e no G); haste do poste a 0,58 mm da saia
+da peça de cima; topo do poste 6,3 mm abaixo do lintel dela.
+
+**Dois M no G, frente com frente.** Girados 90°, a lateral do M fica de frente para a frente
+e para a traseira do G; só a traseira tem altura para receber poste. Entrando frente com
+frente, as duas traseiras (com aro) pousam nas laterais do G e a lateral de trás de cada M
+pousa na traseira do G, onde estão os dois postes (x = −181,9 e +63,4). Cada M apoia em
+dois lados e trava num poste. A frente nua de cada M encosta na do outro no meio.
+
+**Acopladores nos três.** Haste = e + 0,4 (2,2 / 2,4 / 2,7), cabeça 1,8, saliência 4,0 / 4,2 /
+4,5. Módulo de palete conferido para a fileira de dois: 2X + uma cabeça livre ≤ dois módulos
+(388, 784, 1.196,5). Correção de rev.22: o macho terminava 0,8 mm DENTRO do lintel da
+vizinha; agora para 0,4 mm abaixo dele.
+
+**Malha exata onde a folga é 0,3.** Macho, ranhura, bolsão, bochechas e postes passaram a
+ser blocos com coordenada exata; por banda de amostra (1,3 mm) saíam até 1,3 mm fora do
+lugar e a malha mostrava interferência que o projeto não tem. A saia por banda para uma
+amostra antes da ranhura e o resto vai por bloco que acompanha a aresta inclinada da amostra.
+
+**Sobre a proporção áurea.** Não foi preciso mexer nas larguras. Dobrar um lado e girar 90°
+a cada degrau (P → M → G) é a aritmética da série A de papel (razão √2 preservaria a
+proporção; com 3 : 2 do palete, P e G ficam em 1,5 e o M em 1,32). φ continua na altura
+(H = X / 1,618) e não cabe na planta de três tamanhos ao mesmo tempo.
+
+Conferências novas em toda build: aro fora da parede de baixo no ninho (3 tamanhos); poste
+dentro do bolsão do filho; poste dentro do próprio bolsão girado (M); poste sob o lintel;
+saia do pequeno pousa no patamar (não num degrau); haste do macho abaixo do lintel.
+
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
 | `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
-| `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`; `python3 modelo.py` imprime a ficha e quebra se o ninho colidir |
+| `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `pendura()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
+| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, poste, frente |
+| `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev24.pdf`) |
 | `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
 | `exporta.py` | gera o JSON do visualizador, as vistas e o STL (`python3 exporta.py stl` só o STL, `png` só as vistas) |
 | `celular.py` | GLB (abre no celular), prancha de 6 vistas por tamanho e giro em GIF |
 | `dossie.html` | o dossiê publicado |
-| `out/0*.png` | vistas: família nas três cores, isométrica, ninho, pilha, encaixe, torre branca |
+| `out/0*.png`, `out/10-*.png` | vistas: família, isométrica, ninho, pilha, encaixe, torre, pendura P–M e M–G, fileiras acopladas |
 | `out/modula.json` | malha quantizada (int16 → base64) usada pelo visualizador |
 
 Mudar `TAMANHOS` em `modelo.py` e rodar `python3 exporta.py` refaz tudo. O ritmo das ripas,
@@ -967,7 +1028,7 @@ narrativa.
 
 ## Estado
 
-Estudo de geometria e mecânica. **Não gravado em `pdp_lancamento`.** Falta o
+Estudo de geometria e mecânica. **Não gravado em `pdp_lancamento`.** A borda nua do mergulho (2 mm) pede raio no molde e talvez reforço interno com saída — decidir com a ferramentaria. Falta o
 `engenheiro-molde` (máquina, resina, ciclo) e o `curador-portfolio` (payback de 3 moldes,
 canibalização do 254, resposta sobre o 552). Com 0,7% de acerto na safra 2025, três moldes
 de uma vez é aposta de plataforma — e o viés padrão do projeto é não lançar.

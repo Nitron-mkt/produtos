@@ -116,25 +116,31 @@ def main():
     R.cena(g, 900, 1100, az=48, el=13, fundo=(212, 207, 199)) \
         .save(os.path.join(SAIDA, "07-torre-casa.png"))
 
-    # ---- 08 a pendura: dois P girados no aro de um M; dois M no de um G ----
-    def girado(k, cx, cy, cz, destaque=False):
-        """Peca girada 90 graus em planta (X do pequeno corre no Y do grande)."""
+    # ---- 08 a pendura: dois P lado a lado no aro de um M; dois M, girados e
+    # frente com frente, no de um G (rev.24) ----
+    def girado(k, ang, cx, cy, cz, destaque=False):
+        """Peca girada 'ang' graus em planta."""
         sol, sp = fichas[k]
-        tris = [((-a[1] + cx, a[0] + cy, a[2] + cz), (-b[1] + cx, b[0] + cy, b[2] + cz),
-                 (-c[1] + cx, c[0] + cy, c[2] + cz), t) for a, b, c, t in sol.tris]
-        return (tris, paleta(COR_CORPO[k], destaque), None)
+        c, s_ = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+        f = lambda p: (c * p[0] - s_ * p[1] + cx, s_ * p[0] + c * p[1] + cy, p[2] + cz)
+        return ([(f(a), f(b), f(c_), t) for a, b, c_, t in sol.tris], paleta(COR_CORPO[k], destaque), None)
 
     def pendurados(kp, kg, cx=0.0):
         sp, sg = fichas[kp][1], fichas[kg][1]
         pd = sp["pendura"]
         z = sg["H"] + pd["sobe"] - sp["H"]          # base do pequeno
         dx = pd["largura_dois"] / 4                  # dois lado a lado, encostados no centro
-        if pd["girado"]:
-            return [grupo(kg, offset=(cx, 0, 0)), girado(kp, cx - dx, 0, z), girado(kp, cx + dx, 0, z)]
+        if pd["girado"]:                             # esquerdo -90, direito +90: frentes no meio
+            return [grupo(kg, offset=(cx, 0, 0)), girado(kp, -90, cx - dx, 0, z), girado(kp, 90, cx + dx, 0, z)]
         return [grupo(kg, offset=(cx, 0, 0)), grupo(kp, offset=(cx - dx, 0, z)), grupo(kp, offset=(cx + dx, 0, z))]
     g = pendurados("P", "M", cx=-330) + pendurados("M", "G", cx=330)
     R.cena(g, 1600, 900, az=36, el=22).save(os.path.join(SAIDA, "08-pendura.png"))
     R.cena(pendurados("P", "M"), 1200, 950, az=90, el=4).save(os.path.join(SAIDA, "09-pendura-lateral.png"))
+
+    # ---- 10 fileiras acopladas: tres P e tres M, passo = X ------------------
+    g = [grupo("P", offset=(i * sP["X"], 0, 0)) for i in range(3)]
+    g += [grupo("M", offset=(i * s["X"] - 100, -s["Y"] - 120, 0)) for i in range(3)]
+    R.cena(g, 1600, 900, az=30, el=22).save(os.path.join(SAIDA, "10-fileiras.png"))
 
     print("  imagens em", SAIDA)
 

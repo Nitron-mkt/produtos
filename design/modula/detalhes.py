@@ -65,6 +65,21 @@ def main(k="M"):
            ((0, 0, perna + H - 50), (0, 0, 1)), ((0, 0, perna + H + 50), (0, 0, -1))]
     salva("pilha-assento", [(clip(peca(), *rec), cinza, None), (clip(peca((0, 0, pp)), *rec), cor, None)],
           1200, 950, 62, 16)
+    # rev.24: o poste do aro do M dentro da femea da saia do P pousado (corte)
+    solP, sP = ficha("P")
+    pd = sP["pendura"]
+    zP = s["H"] + pd["sobe"] - sP["H"]; dx = pd["largura_dois"] / 4
+    yq = s["postes"][1][1]                       # poste de lat_e
+    cx = [((-215, 0, 0), (1, 0, 0)), ((-160, 0, 0), (-1, 0, 0)), ((0, yq - 22, 0), (0, 1, 0)),
+          ((0, yq + 22, 0), (0, -1, 0)), ((0, 0, perna + H - 20), (0, 0, 1)), ((0, 0, perna + H + 30), (0, 0, -1))]
+    salva("poste", [(clip(peca(), *cx), cor, None),
+                    (clip(solP.triangulos(offset=(-dx, 0, zP)), *cx), claro, None)], 1200, 900, 150, 28)
+    # o poste sozinho no patamar do aro
+    cs = [((-215, 0, 0), (1, 0, 0)), ((-150, 0, 0), (-1, 0, 0)), ((0, yq - 30, 0), (0, 1, 0)),
+          ((0, yq + 30, 0), (0, -1, 0)), ((0, 0, perna + H - 30), (0, 0, 1))]
+    salva("poste-so", [(clip(peca(), *cs), cor, None)], 1000, 800, 220, 35)
+    # a frente nua: o aro termina no canto e a borda do mergulho e a parede
+    salva("frente", [(peca(), cor, ns)], 1300, 950, 90, 14, True)
     print("  detalhes em", OUT)
 
 
