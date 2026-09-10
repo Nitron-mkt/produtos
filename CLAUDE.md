@@ -484,7 +484,28 @@ do showroom vão inteiras com painel de 460 (500,3 mm).
 - Doc 15 rev. 1 propôs gôndola que afina; não é montável (ver acima).
 - Layout corredor-puro foi publicado a R$ 36.583 somando 2 faces em vez de 4; correto R$ 45.351.
 
-### Spec oficial do kit (aceita em 10/09/2026) — `dados/46-nitron-mob-kit-flex.xlsx`
+### Spec oficial das peças (lista do marketing, 10/09/2026) — `dados/54-plano-pecas.xlsx`
+Substitui a spec anterior (`dados/46`). **Painéis com papel definido**: `200×620` checkout ·
+`305×620` e `305×725` parede e ponta de gôndola · `450×725` ilha. **Ripas** (PIs existentes):
+altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · `BLA03AC 287` ·
+`PSC02 415` — comprimento `PST02 617` · `PSC04 717`. Conectores: trizeta, cruzeta, peça L, tampa.
+- Externos: profundidade 268 / 372 / 500 · comprimento de 1 vão 659 (620) e 759 (725) ·
+  vãos livres 247 / 323 / 490. O painel agora fica **recuado 17 mm** de cada face do nó
+  (725 contra 759 externo), não sobreposto como o 754.
+- **A ripa de 346 resgata 39 SKUs (R$ 9,16 M) para a parede** — quase tudo banho e lavanderia.
+  A lixeira mais funda tem 345 mm: **cabe nos 372 da parede**. Só o que pede 500 vai para a ilha.
+- Sete módulos, todos de um vão (zero cruzeta): parede-725 `270×6` (7 prat., 18,9 kg, R$ 346) ·
+  parede-620 `270×6` (ajuste de canto) · **parede-fundo `513·346·346·270`** (5 prat., olhos 78%
+  contra 32% da pilha antiga — lixeira sobe para a altura das mãos) · ponta `346·346·270` ·
+  ilha `513·346` (500 fundo, topo aberto) · checkout `270×3` (268 fundo) · arara `513·513 + L513`.
+- Showroom: sul 14 × 759 + 4 × 659 (folga 88) · norte 8 × 759 (28) · fundo 9 × 759 (42) ·
+  entrada 3 + 2 araras · 2 ilhas de 2 × 2 · 4 pontas · checkout 2 × 3 = **58 módulos, R$ 15.687,
+  855 kg, 236 m de frente, zero cruzeta**. Compras: painéis 24 / 28 / 242 / 24 · ripas largura
+  48 / 540 / 48 · comprimento 104 / 536 · altura 820 / 136 / 92 · 1.272 trizetas · 8 peças L.
+- Na coroa a peça L substitui a trizeta e só há ripa de comprimento (sem largura) — como no caderno.
+- Os documentos 16 e 17 (paredes) foram feitos com o painel 754 e precisam ser refeitos com 725.
+
+### Spec anterior do kit (10/09/2026, superada no mesmo dia) — `dados/46-nitron-mob-kit-flex.xlsx`
 - **3 painéis**: 300×450 · 300×754 · 460×754. **6 ripas** (PIs existentes): largura BLA-03-AC 287 e
   PSC-02 415 · comprimento PSC-02 415 e PSC-04 717 · vertical BAL-02-AC 270 e PSA-05 513.
   **4 conectores**: trizeta, cruzeta, peça L, tampa. Sai o porta-haste e o painel de 200.
