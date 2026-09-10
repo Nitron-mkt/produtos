@@ -71,10 +71,11 @@ def main(k="M"):
     cx_ = en["centros"][-1]                       # o P da direita
     xb = [x for l, x in en["bolsoes"] if l == "frente" and x > cx_][0]   # bolsao do canto direito
     yF = s["Y"] / 2
-    cx = [((xb - 16, 0, 0), (1, 0, 0)), ((xb + 16, 0, 0), (-1, 0, 0)), ((0, yF - 30, 0), (0, 1, 0)),
-          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 22), (0, 0, 1)), ((0, 0, perna + H + 40), (0, 0, -1))]
+    # corte pelo centro do pino (plano x = xb), visto de +x: pino dentro do bolsao
+    cx = [((xb - 22, 0, 0), (1, 0, 0)), ((xb, 0, 0), (-1, 0, 0)), ((0, yF - 34, 0), (0, 1, 0)),
+          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 24), (0, 0, 1)), ((0, 0, perna + H + 36), (0, 0, -1))]
     salva("pino", [(clip(peca(), *cx), cor, None),
-                   (clip(solP.triangulos(offset=(cx_, 0, en["z_filho"])), *cx), claro, None)], 1200, 900, 180, 25)
+                   (clip(solP.triangulos(offset=(cx_, 0, en["z_filho"])), *cx), claro, None)], 1200, 900, 0, 12)
     # o pe de canto do P visto de baixo, com o pino na sola
     salva("pe-canto", [(solP.triangulos(), paleta(COR_CORPO["P"]), None)], 1100, 900, 35, -25)
     # a frente do M: pilar no meio, dois vaos, cantos altos
