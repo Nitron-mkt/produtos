@@ -65,20 +65,19 @@ def main(k="M"):
            ((0, 0, perna + H - 50), (0, 0, 1)), ((0, 0, perna + H + 50), (0, 0, -1))]
     salva("pilha-assento", [(clip(peca(), *rec), cinza, None), (clip(peca((0, 0, pp)), *rec), cor, None)],
           1200, 950, 62, 16)
-    # rev.24: o poste do aro do M dentro da femea da saia do P pousado (corte)
+    # rev.25: o pino do pe de canto do P dentro do bolsao do aro do M (corte)
     solP, sP = ficha("P")
-    pd = sP["pendura"]
-    zP = s["H"] + pd["sobe"] - sP["H"]; dx = pd["largura_dois"] / 4
-    yq = s["postes"][1][1]                       # poste de lat_e
-    cx = [((-215, 0, 0), (1, 0, 0)), ((-160, 0, 0), (-1, 0, 0)), ((0, yq - 22, 0), (0, 1, 0)),
-          ((0, yq + 22, 0), (0, -1, 0)), ((0, 0, perna + H - 20), (0, 0, 1)), ((0, 0, perna + H + 30), (0, 0, -1))]
-    salva("poste", [(clip(peca(), *cx), cor, None),
-                    (clip(solP.triangulos(offset=(-dx, 0, zP)), *cx), claro, None)], 1200, 900, 150, 28)
-    # o poste sozinho no patamar do aro
-    cs = [((-215, 0, 0), (1, 0, 0)), ((-150, 0, 0), (-1, 0, 0)), ((0, yq - 30, 0), (0, 1, 0)),
-          ((0, yq + 30, 0), (0, -1, 0)), ((0, 0, perna + H - 30), (0, 0, 1))]
-    salva("poste-so", [(clip(peca(), *cs), cor, None)], 1000, 800, 220, 35)
-    # a frente nua: o aro termina no canto e a borda do mergulho e a parede
+    en = s["encaixe"]
+    cx_ = en["centros"][-1]                       # o P da direita
+    xb = [x for l, x in en["bolsoes"] if l == "frente" and x > cx_][0]   # bolsao do canto direito
+    yF = s["Y"] / 2
+    cx = [((xb - 16, 0, 0), (1, 0, 0)), ((xb + 16, 0, 0), (-1, 0, 0)), ((0, yF - 30, 0), (0, 1, 0)),
+          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 22), (0, 0, 1)), ((0, 0, perna + H + 40), (0, 0, -1))]
+    salva("pino", [(clip(peca(), *cx), cor, None),
+                   (clip(solP.triangulos(offset=(cx_, 0, en["z_filho"])), *cx), claro, None)], 1200, 900, 180, 25)
+    # o pe de canto do P visto de baixo, com o pino na sola
+    salva("pe-canto", [(solP.triangulos(), paleta(COR_CORPO["P"]), None)], 1100, 900, 35, -25)
+    # a frente do M: pilar no meio, dois vaos, cantos altos
     salva("frente", [(peca(), cor, ns)], 1300, 950, 90, 14, True)
     print("  detalhes em", OUT)
 
