@@ -1,0 +1,61 @@
+parede,item,quantidade,custo_rs
+sul,Módulo 300×754-1-alto,15,5274.8
+sul,Módulo 300×450-1-alto,4,928.5
+sul,Trizeta,532,
+sul,Tampa,76,
+sul,Painel 300×754,105,
+sul,Painel 300×450,28,
+sul,Ripa PSC-04 (717),210,
+sul,Ripa PSC-02 (415) como comprimento,56,
+sul,Ripa de largura BLA-03-AC (287),266,
+sul,Ripa vertical 270,456,
+sul,Pé,76,
+sul,Cruzeta,0,
+sul,Ancoragem (bucha S8 + parafuso 5×50 + arruela),19,22.8
+sul,"União poste a poste, 2 níveis",36,12.6
+sul,Testeira 754 × 200,15,
+sul,Testeira 450 × 200,4,
+sul,Faixa de prateleira,133,
+fundo,Módulo 460×754-1-alto-fundo,9,3237.98
+fundo,Trizeta,180,
+fundo,Tampa,36,
+fundo,Painel 460×754,45,
+fundo,Ripa PSC-04 (717),90,
+fundo,Ripa de largura PSC-02 (415),90,
+fundo,Ripa vertical 270,72,
+fundo,Ripa vertical 513,72,
+fundo,Pé,36,
+fundo,Cruzeta,0,
+fundo,Ancoragem (bucha S8 + parafuso 5×50 + arruela),9,10.8
+fundo,"União poste a poste, 2 níveis",16,5.6
+fundo,Testeira 754 × 200,9,
+fundo,Faixa de prateleira,45,
+norte,Módulo 300×754-1-alto,8,2813.22
+norte,Trizeta,224,
+norte,Tampa,32,
+norte,Painel 300×754,56,
+norte,Ripa PSC-04 (717),112,
+norte,Ripa de largura BLA-03-AC (287),112,
+norte,Ripa vertical 270,192,
+norte,Pé,32,
+norte,Cruzeta,0,
+norte,Ancoragem (bucha S8 + parafuso 5×50 + arruela),8,9.6
+norte,"União poste a poste, 2 níveis",14,4.9
+norte,Testeira 754 × 200,8,
+norte,Faixa de prateleira,56,
+entrada,Módulo 300×754-1-alto-fundo,3,775.59
+entrada,Trizeta,60,
+entrada,Tampa,12,
+entrada,Painel 300×754,15,
+entrada,Ripa PSC-04 (717),30,
+entrada,Ripa de largura BLA-03-AC (287),30,
+entrada,Ripa vertical 270,24,
+entrada,Ripa vertical 513,24,
+entrada,Pé,12,
+entrada,Cruzeta,0,
+entrada,Ancoragem (bucha S8 + parafuso 5×50 + arruela),3,3.6
+entrada,"União poste a poste, 2 níveis",4,1.4
+entrada,Testeira 754 × 200,3,
+entrada,Faixa de prateleira,15,
+entrada,Módulo 300×754-1-arara (vitrine Nitron-Mob),2,346.49
+entrada,Ancoragem das araras,2,2.4
