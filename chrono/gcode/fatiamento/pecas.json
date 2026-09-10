@@ -1,0 +1,18 @@
+{
+  "mesa": [255, 255],
+  "eixo_vertical_do_stl": "Y",
+  "saida": "prep",
+  "pecas": [
+    { "nome": "pino",     "stl": "/home/user/produtos/chrono/stl/Chrono_01_Pino_Travinha.stl", "flip": true },
+    { "nome": "anel_dia", "stl": "/home/user/produtos/chrono/stl/Chrono_02_Anel_Dia.stl",      "flip": false },
+    { "nome": "anel_mes", "stl": "/home/user/produtos/chrono/stl/Chrono_03_Anel_Mes.stl",      "flip": false }
+  ],
+  "chapa": {
+    "nome": "chapa_3_pecas",
+    "itens": [
+      { "peca": "pino",     "dx": -26, "dy":  12 },
+      { "peca": "anel_dia", "dx":  26, "dy":  12 },
+      { "peca": "anel_mes", "dx":   0, "dy": -26 }
+    ]
+  }
+}

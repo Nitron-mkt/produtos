@@ -94,6 +94,13 @@ do OrcaSlicer tem versão 0.2 e 0.4 — ou **imprimir em escala ≥ 2×** (a 3×
 de 1,56 mm, folga de 0,30 mm, mola de 0,45 mm). A peça em 3× não encaixa em nada, mas é a que
 demonstra o mecanismo. São dois testes diferentes e os dois valem.
 
+## Para jogar num agente
+
+`AGENTE-stl-para-gcode.md` é o runbook auto-contido: perfil, scripts, comandos, critério de
+aceite e as armadilhas já pagas. Entregue esse arquivo a um agente e ele refaz o caminho de
+`.stl` a `.gcode` sem precisar desta conversa. Os blocos de código dele foram extraídos para
+um diretório limpo e rodados de ponta a ponta, então é copiar e colar.
+
 ## Como regerar
 
 ```bash
