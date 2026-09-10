@@ -483,3 +483,15 @@ do showroom vão inteiras com painel de 460 (500,3 mm).
 - Doc 14 reportou R$ 86,0 M para 2.589 SKUs; o verificado é R$ 83,01 M em 1.599.
 - Doc 15 rev. 1 propôs gôndola que afina; não é montável (ver acima).
 - Layout corredor-puro foi publicado a R$ 36.583 somando 2 faces em vez de 4; correto R$ 45.351.
+
+### Spec oficial do kit (aceita em 10/09/2026) — `dados/46-nitron-mob-kit-flex.xlsx`
+- **3 painéis**: 300×450 · 300×754 · 460×754. **6 ripas** (PIs existentes): largura BLA-03-AC 287 e
+  PSC-02 415 · comprimento PSC-02 415 e PSC-04 717 · vertical BAL-02-AC 270 e PSA-05 513.
+  **4 conectores**: trizeta, cruzeta, peça L, tampa. Sai o porta-haste e o painel de 200.
+- **45 módulos padrão** = 3 footprints × N de 1 a 3 vãos × 5 pilhas (baixo 270×3 · médio 270×5 ·
+  alto 270×6 · alto-fundo 513·513·270·270 · arara 513·513 + coroa 513).
+- **N = 1 é módulo autônomo**: quatro postes próprios, **zero cruzeta**, 7 a 27 kg. É o que o
+  showroom monta hoje. N = 2 e 3 dividem poste (cruzeta) e ficam para parede fixa depois.
+- Módulo alto de 300 tem razão altura/base **4,5 : 1** — ancoragem na parede é obrigatória.
+- Showroom inteiro em N = 1: 59 módulos, R$ 18.116 de material, 247,6 m de frente, 1.316
+  trizetas, zero cruzetas. A modularização é feita **parede a parede** (começou pelo sul).

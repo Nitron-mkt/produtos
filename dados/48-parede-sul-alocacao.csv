@@ -1,0 +1,322 @@
+modulo,prateleira,altura_face_mm,zona,ordem_na_prateleira,referencia,nome,categoria,frente_mm,profundidade_min_mm,faturamento_12m,clientes
+1,6,1409,olhos,1,400.024.002,Abridor de Tampas Apertadas,DECOR,50,285,8518.06,57
+1,6,1409,olhos,2,422.024.002,Kit Decorador de Bolo com 7 Peças,DECOR,50,285,28531.44,77
+1,7,1671,olhos,1,403.024.002,Kit Biscoito Fácil,DECOR,60,285,39581.35,113
+1,7,1671,olhos,2,408.012.002,Kit Churros Fácil,DECOR,165,285,606220.53,839
+1,7,1671,olhos,3,419.024.002,Cortador de Batatas,DECOR,110,285,46023.6,99
+1,7,1671,olhos,4,421.024.002,Cortador e Ralador de Legumes,DECOR,80,285,62466.41,341
+1,7,1671,olhos,5,423.024.002,Cj. Bico Russo Confeiteiro com 5 Peças,DECOR,32,285,16165.4,66
+2,5,1148,maos,1,3790.006.P01,Kit POP - 6 Potes Quadrados,POP,113,285,2225.98,16
+2,6,1409,olhos,1,205.006.P01,Kit POP - 6 Potes Fits,POP,78,285,3756.9,17
+2,6,1409,olhos,2,241.006.P01,Kit POP - 6 Potes com Válvula,POP,117,285,2919.48,13
+2,6,1409,olhos,3,554.006.P01,Kit POP - 6 Potes Tampas Fixa,POP,80,285,2853.84,15
+2,6,1409,olhos,4,555.006.P01,Kit POP - 6 Potes Tampas Fixa,POP,105,285,3417.42,17
+2,7,1671,olhos,1,231.006.P01,Kit POP - 6 Potes com Travas,POP,100,285,4649.29,20
+2,7,1671,olhos,2,317.006.P01,Kit POP com 5 Marmitas Fits,POP,100,285,4937.94,14
+2,7,1671,olhos,3,319.006.P01,Kit POP - 6 Potes Quadrados,POP,78,285,5268.0,20
+2,7,1671,olhos,4,6120.006.P01,Kit POP - 6 Potes Retangulares,POP,112,285,9045.18,23
+3,5,1148,maos,1,269.004.M02,Caixa Juta Europa com Tampa Teca,TECA,240,372,38883.55,63
+3,5,1148,maos,2,269.004.M03,Caixa Juta Europa com Tampa Teca,TECA,240,372,36331.98,63
+3,6,1409,olhos,1,702.006.001,Organizador de Geladeira Rattan,GELADEIRA,195,285,36026.24,332
+3,6,1409,olhos,2,712.012.001,Organizador de Geladeira Flat,GELADEIRA,115,285,14333.64,132
+3,6,1409,olhos,3,713.012.001,Organizador de Geladeira Flat,GELADEIRA,175,285,16532.98,132
+3,7,1671,olhos,1,701.006.001,Organizador de Geladeira Rattan,GELADEIRA,220,372,54377.4,361
+3,7,1671,olhos,2,703.006.001,Organizador de Geladeira Rattan,GELADEIRA,195,285,64018.19,389
+3,7,1671,olhos,3,705.006.001,Organziador de Geladeira Juta,GELADEIRA,132,285,65296.42,382
+3,7,1671,olhos,4,706.006.001,Organziador de Geladeira Juta,GELADEIRA,100,285,43999.05,333
+4,4,886,maos,1,136.024.001,Travessa Micro-ondas c/Tampa,MICRO-ONDAS,208,372,23946.37,107
+4,4,886,maos,2,250.024.009,"Cacarola Micro-Ondas Com Cesto - Transparente 1,5L (250)",MICRO-ONDAS,175,285,24025.58,91
+4,4,886,maos,3,251.012.001,Caçarola Mini Micro-ondas,MICRO-ONDAS,140,285,46875.42,345
+4,5,1148,maos,1,020.024.001,Micro-ondas com Tampa,MICRO-ONDAS,235,285,72721.12,1342
+4,5,1148,maos,2,045.012.001,Micro-ondas com Tampa,MICRO-ONDAS,237,285,73024.85,281
+4,5,1148,maos,3,229.012.001,Cook Freezer com Cesto,MICRO-ONDAS,237,285,98439.49,254
+4,6,1409,olhos,1,178.024.001,Caçarola Micro-ondas,MICRO-ONDAS,175,285,156472.99,440
+4,6,1409,olhos,2,194.012.009,Micro-ondas com Cesto,MICRO-ONDAS,220,285,124068.22,355
+4,6,1409,olhos,3,240.024.001,Cook Freezer Micro-ondas,MICRO-ONDAS,237,285,190420.59,280
+4,7,1671,olhos,1,135.024.001,Tampa para Micro-ondas,MICRO-ONDAS,255,285,355308.6,1044
+4,7,1671,olhos,2,146.024.001,Forma de Ovos e Omeleteira Micro-ondas,MICRO-ONDAS,150,285,253547.82,644
+4,7,1671,olhos,3,149.024.001,Micro-ondas,MICRO-ONDAS,220,285,322251.72,670
+5,4,886,maos,1,112.012.547,Jarra Medidora Top Mix,JARRAS,85,285,24092.6,197
+5,4,886,maos,2,112.012.002,Jarra Medidora Top Mix,JARRAS,85,285,19837.11,180
+5,4,886,maos,3,207.024.001,Jarra Medidora Top Mix,JARRAS,99,285,63572.11,361
+5,4,886,maos,4,207.012.547,Jarra Medidora Top Mix,JARRAS,99,285,11127.59,114
+5,4,886,maos,5,207.012.002,Jarra Medidora Top Mix,JARRAS,99,285,5847.32,70
+5,5,1148,maos,1,064.012.547,Jarra com Tubo para Gelo,JARRAS,145,285,78084.59,190
+5,5,1148,maos,2,064.012.002,Jarra com Tubo para Gelo,JARRAS,145,285,37953.53,191
+5,5,1148,maos,3,088.012.547,Jarra com Tampa,JARRAS,130,285,45238.89,303
+5,5,1148,maos,4,088.012.002,Jarra com Tampa,JARRAS,130,285,19934.76,193
+5,5,1148,maos,5,222.012.546,Jarra com Tampa Flip Top,JARRAS,100,285,97949.86,505
+5,5,1148,maos,6,222.012.002,Jarra com Tampa Flip Top,JARRAS,100,285,43555.84,342
+5,6,1409,olhos,1,033.012.547,Jarra com Espremedor,JARRAS,145,285,133967.58,464
+5,6,1409,olhos,2,033.012.002,Jarra com Espremedor,JARRAS,145,285,51657.43,298
+5,6,1409,olhos,3,111.012.549,Espremedor Portátil Fit,JARRAS,95,285,186127.74,615
+5,6,1409,olhos,4,111.012.002,Espremedor Portátil Fit,JARRAS,95,285,59739.31,337
+5,6,1409,olhos,5,114.012.547,Espremedor Portátil Fit,JARRAS,132,285,143892.79,641
+5,6,1409,olhos,6,114.012.002,Jarrinhs com Espremedor,JARRAS,132,285,50664.54,524
+5,7,1671,olhos,1,032.012.547,Jarra com Tampa,JARRAS,145,285,304681.58,849
+5,7,1671,olhos,2,032.012.002,Jarra com Tampa,JARRAS,145,285,140806.36,681
+5,7,1671,olhos,3,078.036.001,Forma De Gelo Firenze (078),JARRAS,107,285,153793.64,552
+5,7,1671,olhos,4,153.012.546,Jarra com Tampa Flip Top,JARRAS,100,285,319913.49,868
+5,7,1671,olhos,5,153.012.002,Jarra com Tampa Flip Top,JARRAS,100,285,191484.03,715
+5,7,1671,olhos,6,255.036.016,Firenze com Tampa,JARRAS,119,372,594517.32,826
+6,4,886,maos,1,188.012.003,Super Prático,COZINHA,267,372,33554.56,217
+6,4,886,maos,2,188.012.002,Super Prático,COZINHA,265,372,19552.42,125
+6,4,886,maos,3,307.006.520,"Travessa Oval Canelada Com Tampa - Branca 2,5L",COZINHA,185,372,30872.75,275
+6,5,1148,maos,1,077.012.003,Escorredor Ideal,COZINHA,240,285,104979.63,818
+6,5,1148,maos,2,077.012.002,Escorredor Ideal,COZINHA,240,285,94377.4,620
+6,5,1148,maos,3,090.012.003,Açucareiro Doçura,COZINHA,110,285,117361.91,761
+6,5,1148,maos,4,090.012.002,Saleiro Rubi,COZINHA,110,285,89756.36,546
+6,6,1409,olhos,1,070.006.003,Escorredor Luxo,COZINHA,278,372,144426.93,847
+6,6,1409,olhos,2,070.006.002,Escorredor Luxo,COZINHA,278,372,126866.3,683
+6,6,1409,olhos,3,2231.024.009,Porta Frios com Tela,COZINHA,180,285,136231.61,297
+6,7,1671,olhos,1,144.006.003,Porta Talher com 6 Divisórias e Tampa,COZINHA,290,372,434598.16,1138
+6,7,1671,olhos,2,144.006.002,Porta Talher com 6 Divisórias e Tampa,COZINHA,290,372,407369.62,1048
+6,7,1671,olhos,3,4010.012.003,Açucareiro com Tampa,COZINHA,79,285,116174.66,635
+6,7,1671,olhos,4,4030.012.003,Porta Farofa com Tampa,COZINHA,79,285,269314.02,1509
+7,4,886,maos,1,369.006.001,Kit Porta Frios Com 3 Pecas,COZINHA,120,285,14592.02,62
+7,4,886,maos,2,427.024.003,Escorredor Quadrado,COZINHA,242,285,21523.56,51
+7,4,886,maos,3,427.024.002,Escorredor Quadrado,COZINHA,242,285,12087.99,55
+7,5,1148,maos,1,028.012.003,Escorredor de Arroz Tradicional,COZINHA,220,285,100491.69,944
+7,5,1148,maos,2,028.012.002,Escorredor de Arroz Tradicional,COZINHA,220,285,84637.74,580
+7,5,1148,maos,3,553.012.003,Porta Sabonete Líquido Flat,COZINHA,79,285,102701.29,601
+7,5,1148,maos,4,553.012.002,Porta Sabonete Líquido Flat,COZINHA,79,285,65988.77,451
+7,5,1148,maos,5,553.012.086,Porta Sabonete Líquido Flat,COZINHA,79,285,28412.71,246
+7,6,1409,olhos,1,096.012.003,Escorredor de Pratos Rattan,COZINHA,222,372,191514.17,337
+7,6,1409,olhos,2,096.012.002,Escorredor de Pratos Rattan,COZINHA,222,372,63400.83,213
+7,6,1409,olhos,3,096.012.086,Escorredor de Pratos Rattan,COZINHA,218,372,14771.65,77
+7,7,1671,olhos,1,046.012.003,Porta Óleo Itália,COZINHA,88,285,438457.13,1746
+7,7,1671,olhos,2,046.012.002,Porta Óleo Itália,COZINHA,88,285,173136.58,1038
+7,7,1671,olhos,3,133.012.003,Porta Detergente Rattan com Base,COZINHA,105,285,522953.07,1380
+7,7,1671,olhos,4,133.012.002,Porta Detergente Rattan com Base,COZINHA,105,285,174333.14,835
+7,7,1671,olhos,5,133.012.086,Porta Detergente Rattan com Base,COZINHA,105,285,89583.68,493
+7,7,1671,olhos,6,920.004.003,Kit Detergente Flat com 2 Peças,COZINHA,86,285,320244.62,818
+7,7,1671,olhos,7,920.004.002,Kit Detergente Flat com 2 Peças,COZINHA,86,285,115282.55,509
+7,7,1671,olhos,8,920.004.086,Kit Detergente Flat com 2 Peças,COZINHA,86,285,109006.56,422
+8,4,886,maos,1,429.024.002,Escorredor Meia Lua,COZINHA,120,372,7350.66,36
+8,4,886,maos,2,429.024.003,Escorredor Meia Lua,COZINHA,120,372,4201.64,26
+8,4,886,maos,3,822.006.003,Escorredor de Talheres Flat,COZINHA,100,285,5729.24,93
+8,4,886,maos,4,822.006.002,Escorredor de Talheres Flat,COZINHA,100,285,5554.8,98
+8,4,886,maos,5,822.006.086,Escorredor de Talheres Flat,COZINHA,100,285,2570.59,53
+8,5,1148,maos,1,002.036.002,Tábua Popular,COZINHA,207,372,140381.74,192
+8,5,1148,maos,2,018.030.002,Tábua Multiuso,COZINHA,205,372,100928.92,193
+8,5,1148,maos,3,2232.012.009,Porta Frios Duplo Com Tela (223/2),COZINHA,180,285,94177.74,232
+8,5,1148,maos,4,348.012.576,Porta Presunto Com Tela,COZINHA,120,285,83673.17,371
+8,6,1409,olhos,1,116.012.003,Porta Detergente Com Telinha - Preto (116/P),COZINHA,105,285,162300.53,897
+8,6,1409,olhos,2,116.012.002,Porta Detergente Com Telinha - Branco (116/B),COZINHA,105,285,83941.86,636
+8,6,1409,olhos,3,116.012.086,Porta Detergente Com Telinha - Chumbo,COZINHA,105,285,21816.46,245
+8,6,1409,olhos,4,306.006.520,"Travessa Oval Canelada Com Tampa - Branca 1,2L",COZINHA,145,285,123991.77,476
+8,6,1409,olhos,5,545.012.003,Porta Detergente e Esponja Flat,COZINHA,87,285,143479.86,684
+8,6,1409,olhos,6,545.012.002,Porta Detergente e Esponja Flat,COZINHA,87,285,61751.11,447
+8,6,1409,olhos,7,545.012.086,Porta Detergente e Esponja Flat,COZINHA,87,285,30993.78,300
+8,7,1671,olhos,1,044.012.005,Porta Leite de Saquinho,COZINHA,120,285,201220.37,800
+8,7,1671,olhos,2,060.012.003,Porta Talher Paris com 4 Divisórias e Tampa,COZINHA,210,372,318592.55,1054
+8,7,1671,olhos,3,060.012.002,Porta Talher Paris com 4 Divisórias e Tampa,COZINHA,210,372,250288.25,1026
+8,7,1671,olhos,4,179.024.001,Porta Frios com Pinça,COZINHA,175,285,498382.64,775
+9,4,886,maos,1,188.012.086,Super Prático,COZINHA,267,372,9196.31,59
+9,5,1148,maos,1,015.012.003,Ralador Pratic com Pote,COZINHA,115,285,28124.98,249
+9,5,1148,maos,2,015.012.002,Ralador Pratic Com Pote - Branco 420Ml,COZINHA,115,285,18538.47,160
+9,5,1148,maos,3,121.012.003,Escorredor de Arroz Caribe,COZINHA,165,285,43265.69,491
+9,5,1148,maos,4,121.012.002,Escorredor de Arroz Caribe,COZINHA,165,285,26288.19,309
+9,5,1148,maos,5,458.024.002,Porta Leite de Saquinho,COZINHA,65,285,29783.83,71
+9,5,1148,maos,6,458.024.003,Porta Leite de Saquinho,COZINHA,65,285,17007.55,93
+9,6,1409,olhos,1,169.012.003,Boleira Barcelona com Alça,COZINHA,305,372,140617.5,525
+9,6,1409,olhos,2,169.012.002,Boleira Barcelona com Alça,COZINHA,305,372,109802.85,389
+9,6,1409,olhos,3,349.012.575,Porta Queijo com Tela,COZINHA,120,285,104997.34,406
+9,7,1671,olhos,1,023.030.002,Ralador com 4 Faces,COZINHA,104,285,182716.25,349
+9,7,1671,olhos,2,051.012.003,Porta Detergente 3 Em 1 - Preto (051/P),COZINHA,120,285,230461.39,1296
+9,7,1671,olhos,3,051.012.002,Porta Detergente 3 Em 1 - Branco (051/B),COZINHA,102,285,86647.64,650
+9,7,1671,olhos,4,051.012.086,Porta Detergente 3 Em 1 - Chumbo,COZINHA,120,285,41706.07,303
+9,7,1671,olhos,5,224.012.003,Porta Talher Escorre e Guarda,COZINHA,95,285,288745.52,848
+9,7,1671,olhos,6,224.012.002,Porta Talher Escorre e Guarda,COZINHA,95,285,123104.88,565
+9,7,1671,olhos,7,224.012.086,Porta Talher Escorre e Guarda,COZINHA,95,285,67987.2,256
+10,5,1148,maos,1,094.012.003,Açucareiro Doçura,COZINHA,90,285,17774.27,348
+10,5,1148,maos,2,094.012.002,Açucareiro Doçura,COZINHA,90,285,17357.87,283
+10,5,1148,maos,3,129.012.003,Porta Talher Stillo com 4 Divisórias,COZINHA,215,372,28898.46,315
+10,5,1148,maos,4,129.012.002,Porta Talher Stillo com 4 Divisórias,COZINHA,215,372,26672.12,297
+10,5,1148,maos,5,305.006.520,Travessa Oval Canelada Com Tampa - Branca 650Ml,COZINHA,110,285,19745.26,229
+10,6,1409,olhos,1,016.012.003,Talheres Max,COZINHA,116,285,131079.78,957
+10,6,1409,olhos,2,016.012.002,Talheres Max,COZINHA,115,285,60055.6,576
+10,6,1409,olhos,3,016.012.086,Talheres Max,COZINHA,116,285,29299.15,308
+10,6,1409,olhos,4,067.012.003,Saleiro Premier com Alça,COZINHA,110,285,145218.67,794
+10,6,1409,olhos,5,067.012.002,Saleiro - Transparente E Branco,COZINHA,110,285,77301.01,668
+10,6,1409,olhos,6,350.012.577,Porta Frios com Tela,COZINHA,120,285,96263.89,438
+10,7,1671,olhos,1,055.012.003,Escorredor Multiuso,COZINHA,215,285,248395.68,579
+10,7,1671,olhos,2,055.012.002,Escorredor Multiuso,COZINHA,215,285,64323.58,282
+10,7,1671,olhos,3,221.012.003,Saleiro Premier com Alça,COZINHA,110,285,200087.68,632
+10,7,1671,olhos,4,221.012.002,Saleiro Premier com Alça,COZINHA,110,285,73673.44,346
+10,7,1671,olhos,5,4040.012.003,Saleiro com Tampa,COZINHA,79,285,65973.69,597
+11,3,624,chao,1,197.024.010,Pote com Travas e 2 Div.,POTES,119,285,25836.6,160
+11,3,624,chao,2,203.006.003,Pote Ultraforte com Travas,POTES,200,372,26459.44,154
+11,3,624,chao,3,303.012.001,Pote Raso Retangular Raso,POTES,210,372,30679.37,171
+11,3,624,chao,4,303.012.003,Pote Raso Retangular Raso,POTES,210,372,2849.76,22
+11,4,886,maos,1,2280.012.001,Pote Redondo com Travas,POTES,165,285,77902.76,379
+11,4,886,maos,2,2280.012.003,Pote Redondo com Travas,POTES,165,285,3954.96,48
+11,4,886,maos,3,2290.006.862,Coloratto com 3 Peças,POTES,125,285,42059.06,171
+11,4,886,maos,4,2290.012.001,Pote Redondo com Travas,POTES,125,285,21719.79,264
+11,4,886,maos,5,2290.012.003,Pote Redondo com Travas,POTES,125,285,4306.8,68
+11,5,1148,maos,1,050.012.001,Pote Premier com 4 Divisórias,POTES,225,285,144018.86,497
+11,5,1148,maos,2,050.012.003,Pote Premier com 4 Divisórias,POTES,225,285,16743.48,87
+11,5,1148,maos,3,154.012.001,Pote Alto com Travas,POTES,100,285,101377.25,826
+11,5,1148,maos,4,154.006.861,Kit Pote Alto Coloratto Com 2 Pecas - 460Ml (286/K),POTES,100,285,36688.83,201
+11,5,1148,maos,5,154.012.003,Pote Alto com Travas,POTES,100,285,8989.92,121
+11,6,1409,olhos,1,151.012.001,Pote Alto com Travas,POTES,180,285,213603.16,544
+11,6,1409,olhos,2,151.012.003,Pote Alto com Travas,POTES,180,285,31858.92,78
+11,6,1409,olhos,3,217.012.003,Pote Ultraforte com Travas,POTES,240,372,230051.12,513
+11,6,1409,olhos,4,360.012.003,Pote Feijao Acoplado Com Rosca - 2L,POTES,140,285,142422.77,540
+11,7,1671,olhos,1,027.012.001,Porta Pão Armazena e Conserva,POTES,140,372,519707.0,1089
+11,7,1671,olhos,2,139.012.001,Pote com 3 Divisórias,POTES,140,285,312662.12,957
+11,7,1671,olhos,3,139.012.003,Pote com 3 Divisórias,POTES,140,285,20809.89,107
+11,7,1671,olhos,4,233.012.001,Pote Raso com Travas,POTES,140,285,334805.31,1114
+11,7,1671,olhos,5,233.012.003,Pote Raso com Travas,POTES,140,285,12046.8,103
+12,3,624,chao,1,190.012.001,Pote Alto com Travas,POTES,145,285,24459.0,80
+12,3,624,chao,2,190.012.003,Pote Alto com Travas,POTES,145,285,1140.12,5
+12,3,624,chao,3,361.012.003,Pote Farinha Acoplado Com Rosca - 2L,POTES,140,285,23619.99,232
+12,3,624,chao,4,821.004.001,Pote com Tampa Fixa,POTES,130,285,24905.44,84
+12,3,624,chao,5,821.004.003,Pote com Tampa Fixa,POTES,130,285,549.2,5
+12,4,886,maos,1,158.024.029,Pote Alto com Travas,POTES,110,285,54604.7,292
+12,4,886,maos,2,191.012.001,Pote com 2 Divisórias,POTES,170,285,52479.02,308
+12,4,886,maos,3,191.012.003,Pote com 2 Divisórias,POTES,170,285,11491.56,61
+12,4,886,maos,4,301.012.001,Pote Raso Retangular Raso,POTES,150,285,53979.69,441
+12,4,886,maos,5,301.012.003,Pote Raso Retangular Raso,POTES,150,285,11339.56,98
+12,5,1148,maos,1,239.012.001,Pote Acoplado Com Rosca - Transparente 3L,POTES,155,285,75341.37,308
+12,5,1148,maos,2,239.012.002,Pote Acoplado Com Rosca - Branco 3L,POTES,155,285,43119.56,171
+12,5,1148,maos,3,239.012.003,Pote Acoplado Preto C/Rosca 3L,POTES,155,285,20142.12,106
+12,5,1148,maos,4,317.012.001,Marmita Fit,POTES,100,285,110430.97,217
+12,5,1148,maos,5,317.012.003,Marmita Fit,POTES,127,285,3737.16,38
+12,6,1409,olhos,1,238.012.001,Pote Acoplado Com Rosca - Transparente 2L,POTES,140,285,181397.0,538
+12,6,1409,olhos,2,238.012.002,Pote Acoplado Branco C/Rosca 2L,POTES,140,285,37681.16,270
+12,6,1409,olhos,3,238.012.003,Pote Acoplado Preto C/Rosca 2L,POTES,140,285,15931.33,91
+12,6,1409,olhos,4,2590.012.001,Pote Alto Retangular,POTES,150,285,187616.03,671
+12,6,1409,olhos,5,2590.012.003,Pote Alto Retangular,POTES,150,285,41793.72,124
+12,7,1671,olhos,1,152.006.003,Kit Mantimentos  5 Peças,POTES,230,285,299992.8,302
+12,7,1671,olhos,2,152.006.002,Kit Mantimentos  5 Peças,POTES,230,285,27493.02,105
+12,7,1671,olhos,3,156.012.001,Pote Alto com Travas,POTES,140,285,275049.01,942
+12,7,1671,olhos,4,156.012.003,Pote Alto com Travas,POTES,140,285,15974.52,90
+13,3,624,chao,1,228.012.003,Pote c/ Travas Laterais,POTES,165,285,22305.54,208
+13,3,624,chao,2,236.012.671,Pote Feijão Acoplado Com Rosca - 1L,POTES,118,285,1981.44,25
+13,3,624,chao,3,236.012.669,Pote Arroz Acoplado Com Rosca - 1L,POTES,118,285,1779.96,24
+13,3,624,chao,4,236.012.670,Pote Farinha Acoplado Com Rosca - 1L,POTES,118,285,800.52,11
+13,3,624,chao,5,554.012.001,Pote com Tampa Fixa,POTES,80,285,17767.83,246
+13,3,624,chao,6,554.012.003,Pote com Tampa Fixa,POTES,80,285,2079.48,48
+13,4,886,maos,1,235.012.001,Pote Acoplado Com Rosca - Transparente 500Ml,POTES,118,285,27450.1,304
+13,4,886,maos,2,235.012.002,Pote Acoplado Com Rosca - Branco 500Ml,POTES,118,285,18563.1,169
+13,4,886,maos,3,235.012.003,Pote Acoplado Preto C/Rosca 500Ml,POTES,118,285,9735.2,106
+13,4,886,maos,4,235.012.671,Pote Acoplado Preto C/Rosca - Sal 500Ml,POTES,118,285,4076.4,66
+13,4,886,maos,5,2500.012.001,Pote Alto Retangular,POTES,119,285,46733.4,499
+13,4,886,maos,6,2500.012.003,Pote Alto Retangular,POTES,119,285,4268.28,59
+13,5,1148,maos,1,236.012.001,Pote Acoplado Com Rosca - Transparente 1L,POTES,118,285,52667.61,390
+13,5,1148,maos,2,236.012.002,Pote Acoplado Com Rosca - Branco 1L,POTES,118,285,39949.81,212
+13,5,1148,maos,3,236.012.003,Pote Acoplado Preto C/Rosca 1L,POTES,118,285,17715.38,127
+13,5,1148,maos,4,236.012.667,Pote Sal Grosso Acoplado Com Rosca - 1L (236/Sg),POTES,118,285,15039.17,156
+13,5,1148,maos,5,236.012.668,Pote Café Acoplado Com Rosca - 1L,POTES,118,285,7830.72,101
+13,5,1148,maos,6,236.012.672,Pote Açucar Acoplado Com Rosca - 1L,POTES,118,285,3933.0,51
+13,6,1409,olhos,1,216.012.003,Pote Ultraforte com Travas,POTES,200,372,212734.84,606
+13,6,1409,olhos,2,241.024.001,Pote Raso com Válvula,POTES,117,285,93939.12,423
+13,6,1409,olhos,3,2540.012.001,Kit Potes Altos com 3 pçs,POTES,210,372,203640.25,112
+13,6,1409,olhos,4,2540.012.003,Kit Potes Altos com 3 pçs,POTES,210,372,20552.88,20
+13,7,1671,olhos,1,215.012.003,Pote Ultraforte com Travas,POTES,165,285,289403.85,807
+13,7,1671,olhos,2,244.012.001,"Pote Raso Com Valvula - 3,2L (244)",POTES,210,372,284556.52,508
+13,7,1671,olhos,3,2580.012.001,Pote Alto Retangular,POTES,185,372,309665.81,868
+13,7,1671,olhos,4,2580.012.003,Pote Alto Retangular,POTES,185,372,15118.11,75
+14,3,624,chao,1,323.006.003,"Pote Modular - Preto 2,4L",POTES,235,285,3615.06,39
+14,4,886,maos,1,212.012.003,Pote com Travas e 2 Div.,POTES,130,285,46851.82,275
+14,4,886,maos,2,248.012.009,Pote Tomatinho Acoplado Com Rosca - 500Ml (248),POTES,118,285,48255.55,368
+14,4,886,maos,3,319.012.001,Pote Modular - Transparente 250Ml,POTES,78,285,42014.81,272
+14,4,886,maos,4,319.012.003,Pote Modular - Preto 250Ml,POTES,113,285,3236.4,48
+14,4,886,maos,5,556.012.001,Pote com Tampa Fixa,POTES,130,285,42673.55,331
+14,4,886,maos,6,556.012.003,Pote com Tampa Fixa,POTES,130,285,3700.44,41
+14,5,1148,maos,1,231.012.001,Pote Raso com Travas,POTES,100,285,80234.86,759
+14,5,1148,maos,2,231.006.861,Kit Pote Raso Coloratto Com 2 Pecas - 270Ml (289/K),POTES,96,285,23410.6,164
+14,5,1148,maos,3,231.006.862,Kit Pote Raso Coloratto Com 3 Pecas - 270Ml (291/K),POTES,96,285,18076.82,169
+14,5,1148,maos,4,231.012.003,Pote Raso com Travas,POTES,100,285,3795.92,67
+14,5,1148,maos,5,3790.012.001,Pote Quadrado com Travas,POTES,113,285,74723.58,692
+14,5,1148,maos,6,3790.006.862,Kit Pote Quadrado Coloratto Com 3 Pecas - 370Ml,POTES,110,285,35340.93,165
+14,5,1148,maos,7,3790.012.003,Pote Quadrado com Travas,POTES,113,285,3761.4,77
+14,6,1409,olhos,1,232.012.001,Pote Raso com Travas,POTES,110,285,183711.13,923
+14,6,1409,olhos,2,232.006.861,Kit Pote Raso Coloratto Com 2 Pecas - 500Ml,POTES,110,285,16980.72,141
+14,6,1409,olhos,3,232.006.862,Kit Pote Raso Coloratto Com 3 Pecas - 500Ml,POTES,110,285,12784.62,105
+14,6,1409,olhos,4,232.012.003,Pote Raso com Travas,POTES,110,285,10214.13,118
+14,6,1409,olhos,5,3780.012.001,Pote Quadrado com Travas,POTES,145,285,158558.64,806
+14,6,1409,olhos,6,3780.012.003,Pote Quadrado com Travas,POTES,145,285,9537.04,98
+14,7,1671,olhos,1,030.012.001,Pote Monterey com 3 Divisórias,POTES,212,285,250297.93,459
+14,7,1671,olhos,2,030.012.003,Pote Monterey com 3 Divisórias,POTES,212,285,25746.36,95
+14,7,1671,olhos,3,103.024.003,Com Bandeja,POTES,125,285,250322.05,499
+14,7,1671,olhos,4,166.024.001,Porta Biscoitos e Torradas,POTES,91,285,255181.65,746
+14,7,1671,olhos,5,281.036.999,Pote Acoplado com Copo Medidor,POTES,60,285,103539.97,628
+15,4,886,maos,1,157.024.009,Pote Alto com Travas,POTES,110,285,36913.5,195
+15,4,886,maos,2,209.012.003,Marmita c/ Porta Talheres,POTES,110,285,41653.99,176
+15,4,886,maos,3,300.012.001,Pote Raso Retangular Raso,POTES,120,285,36798.57,352
+15,4,886,maos,4,300.012.003,Pote Raso Retangular Raso,POTES,120,285,5725.17,51
+15,4,886,maos,5,6120.050.001,Pote Raso com Travas,POTES,112,285,41338.23,213
+15,4,886,maos,6,6130.030.001,Pote Raso Retangular com 3 Peças,POTES,112,285,40197.96,217
+15,5,1148,maos,1,075.024.001,Sanduicheira Pratic,POTES,125,285,83281.03,535
+15,5,1148,maos,2,302.012.001,Pote Raso Retangular Raso,POTES,190,372,88924.57,386
+15,5,1148,maos,3,302.012.003,Pote Raso Retangular Raso,POTES,190,372,27256.68,67
+15,5,1148,maos,4,352.012.001,Kit Potes Modulares com 3 Peças,POTES,93,285,11700.51,48
+15,5,1148,maos,5,817.012.001,Pote Alto com Válvula,POTES,150,285,111682.0,364
+15,6,1409,olhos,1,2270.012.001,Pote Redondo com Travas,POTES,205,285,110417.37,411
+15,6,1409,olhos,2,2270.012.003,Pote Redondo com Travas,POTES,205,285,94150.2,204
+15,6,1409,olhos,3,359.012.003,Pote Arroz Acoplado Com Rosca - 2L,POTES,140,285,128599.85,389
+15,6,1409,olhos,4,818.012.001,"Pote Alto Com Valvula - Transparente 2,9L",POTES,190,372,163976.89,384
+15,7,1671,olhos,1,234.012.001,Pote Raso com Travas,POTES,180,285,236917.52,688
+15,7,1671,olhos,2,234.012.003,Pote Raso com Travas,POTES,180,285,18507.72,86
+15,7,1671,olhos,3,3770.012.001,Pote Quadrado com Travas,POTES,185,285,264644.58,723
+15,7,1671,olhos,4,3770.012.003,Pote Quadrado com Travas,POTES,185,285,10284.36,50
+16,4,886,maos,1,279.012.024,Pote Alho Acoplado Com Rosca - 500Ml (279),POTES,118,285,36744.95,330
+16,4,886,maos,2,321.012.001,Pote Modular - Transparente 800Ml,POTES,110,285,35431.35,258
+16,4,886,maos,3,321.012.003,Pote Modular - Preto 800Ml,POTES,185,285,4867.21,57
+16,4,886,maos,4,351.012.001,Kit Potes Modulares com 3 Peças,POTES,78,285,36282.03,102
+16,4,886,maos,5,351.012.003,Kit Potes Modulares com 3 Peças,POTES,113,285,3814.08,21
+16,4,886,maos,6,353.006.003,Kit Potes Modulares com 6 Peças,POTES,145,285,32623.56,24
+16,5,1148,maos,1,205.006.862,Kit Pote Fit Coloratto Com 3 Pecas - 450Ml (290/K),POTES,95,285,62317.04,267
+16,5,1148,maos,2,205.006.861,Kit Pote Fit Coloratto Com 2 Pecas - 450Ml (285/K),POTES,95,285,27091.02,218
+16,5,1148,maos,3,205.012.001,Pote Retangular Fit,POTES,95,285,18753.91,234
+16,5,1148,maos,4,205.012.003,Pote Retangular Fit,POTES,95,285,5287.08,83
+16,5,1148,maos,5,322.006.001,"Pote Modular - Transparente 1,2L",POTES,110,285,64068.31,367
+16,5,1148,maos,6,322.006.003,"Pote Modular - Preto 1,2L",POTES,235,285,26921.94,53
+16,6,1409,olhos,1,246.024.001,Pote Alto com Válvula,POTES,120,285,79316.29,375
+16,6,1409,olhos,2,2570.012.001,Pote Alto Retangular,POTES,210,372,164887.93,456
+16,6,1409,olhos,3,2570.012.003,Pote Alto Retangular,POTES,210,372,25730.86,109
+16,6,1409,olhos,4,819.012.001,"Pote Alto Com Valvula - Transparente 4,6L",POTES,210,372,159834.31,302
+16,7,1671,olhos,1,034.012.001,Pote Mônaco com 3 Divisórias,POTES,190,285,244281.34,712
+16,7,1671,olhos,2,034.012.003,Pote Mônaco com 3 Divisórias,POTES,190,285,5421.13,31
+16,7,1671,olhos,3,155.012.001,Pote Alto com Travas,POTES,110,285,227906.2,945
+16,7,1671,olhos,4,155.006.861,Kit Pote Alto Coloratto Com 2 Pecas - 850 Ml,POTES,110,285,13920.07,108
+16,7,1671,olhos,5,155.012.003,Pote Alto com Travas,POTES,110,285,12062.91,104
+17,4,886,maos,1,124.012.003,Com Bandeja e Talheres,POTES,125,285,30854.7,158
+17,4,886,maos,2,176.024.001,Marmita Due c/ Div Móvel,POTES,119,285,31796.35,156
+17,4,886,maos,3,320.012.001,Pote Modular - Transparente 450Ml,POTES,93,285,31523.11,242
+17,4,886,maos,4,320.012.003,Pote Modular - Preto 450Ml,POTES,145,285,2566.8,39
+17,4,886,maos,5,555.012.001,Pote com Tampa Fixa,POTES,105,285,30080.38,327
+17,4,886,maos,6,555.012.003,Pote com Tampa Fixa,POTES,105,285,5117.28,60
+17,5,1148,maos,1,311.012.517,Marmita e Pote 2 em 1,POTES,125,285,40540.93,183
+17,5,1148,maos,2,311.012.515,Marmita e Pote 2 em 1,POTES,125,285,33267.18,124
+17,5,1148,maos,3,311.012.002,Marmita e Pote 2 em 1,POTES,125,285,14889.18,142
+17,5,1148,maos,4,311.012.001,Marmita e Pote 2 em 1,POTES,125,285,8754.72,67
+17,5,1148,maos,5,3840.016.003,Kit Pote Café e Açúcar,POTES,183,285,82918.9,140
+17,6,1409,olhos,1,249.012.020,Pote Temperos Acoplado Com Rosca - 500Ml (249),POTES,118,285,63895.87,335
+17,6,1409,olhos,2,3760.012.001,Pote Quadrado com Travas,POTES,240,285,179756.96,406
+17,6,1409,olhos,3,3760.012.003,Pote Quadrado com Travas,POTES,240,285,3724.32,23
+17,6,1409,olhos,4,3820.016.644,Kit Pote Café e Açúcar,POTES,156,285,146163.07,546
+17,7,1671,olhos,1,105.024.003,Marmita Bom Apetite Com Bandeija E Valvula - Preto 800Ml,POTES,127,285,248640.09,414
+17,7,1671,olhos,2,242.024.001,Pote Raso com Válvula,POTES,150,285,213170.68,563
+17,7,1671,olhos,3,243.024.001,"Pote Raso Com Valvula - 1,9L (243)",POTES,185,372,231692.59,490
+17,7,1671,olhos,4,362.012.003,Pote Acucar Acoplado Com Rosca - 2L,POTES,140,285,248403.06,1001
+17,7,1671,olhos,5,363.012.003,Pote Cafe Acoplado Com Rosca - 2L,POTES,140,285,247062.72,710
+18,4,886,maos,1,683.004.M00,Base Teca com 2 Molheiras,TECA,88,285,2288.88,32
+18,4,886,maos,2,685.004.M00,Tábua de Servir Teca com 1 Molheira,TECA,230,285,2923.86,21
+18,5,1148,maos,1,390.012.M00,Tábua com Cabo Teca  P,TECA,150,285,10220.86,27
+18,5,1148,maos,2,507.004.M03,Teca com Gaveta,TECA,257,372,64622.1,36
+18,6,1409,olhos,1,256.006.M03,Caixa Juta Alongada com Tampa Teca,TECA,102,285,50486.31,86
+18,6,1409,olhos,2,256.006.M02,Caixa Juta Alongada com Tampa Teca,TECA,102,285,44972.78,69
+18,6,1409,olhos,3,385.006.M00,Tábua de Corte Teca M,TECA,230,372,45943.14,95
+18,7,1671,olhos,1,258.004.M03,Caixa Juta Alongada com Tampa Teca,TECA,165,372,116201.21,91
+18,7,1671,olhos,2,258.004.M02,Caixa Juta Alongada com Tampa Teca,TECA,165,372,95044.61,75
+18,7,1671,olhos,3,682.004.M00,Base Teca com 3 Molheiras,TECA,88,285,4229.52,40
+19,5,1148,maos,1,268.006.M02,Caixa Juta Europa com Tampa Teca,TECA,204,285,36260.8,44
+19,5,1148,maos,2,686.004.M00,Tábua de Servir Teca Com 3 Molheiras,TECA,210,372,11504.17,39
+19,6,1409,olhos,1,391.006.M00,Tábua com Cabo Teca M,TECA,180,372,27065.32,60
+19,6,1409,olhos,2,680.004.M00,Boleira Teca Com Acrílico,TECA,255,285,66879.17,105
+19,7,1671,olhos,1,257.006.M03,Caixa Juta Alongada com Tampa Teca,TECA,133,285,98395.97,98
+19,7,1671,olhos,2,257.006.M02,Caixa Juta Alongada com Tampa Teca,TECA,133,285,89490.58,95
+19,7,1671,olhos,3,681.004.M00,Queijeira Teca com Acrílico,TECA,165,285,38060.09,102
