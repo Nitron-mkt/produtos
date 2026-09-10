@@ -33,43 +33,86 @@ def bom(tipo):
     return cad.bom(f,1)
 G={t:geo(t) for t in TIPOS}; B={t:bom(t) for t in TIPOS}
 
-# ------------------------------------------------------------------ os modulos na planta (mm; x = comprimento, y = largura; porta em x=0, norte em y=0)
-M=[]
-def add(area,tipo,x,y,eixo,amb,nota=''):
-    g=G[tipo]; w,d=(g['L'],g['P']) if eixo=='x' else (g['P'],g['L'])
-    M.append(dict(n=len(M)+1,area=area,tipo=tipo,x=round(x),y=round(y),w=round(w),d=round(d),eixo=eixo,ambiente=amb,nota=nota))
-    return x+(w if eixo=='x' else 0), y+(d if eixo=='y' else 0)
-# sul: 2x659 + 14x759 + 2x659, folga 88 nos cantos
-x=44
-for t in ['parede-620']*2+['parede-725']*14+['parede-620']*2: x,_=add('Paredão sul',t,x,SALA['L']-372,'x','COZINHA')
+# ------------------------------------------------------------------ as corridas na planta (mm; x = comprimento, y = largura; porta em x=0, norte em y=0)
+# Uma corrida = N vaos com postes compartilhados (cruzeta no meio, trizeta nas pontas). Cada vao continua sendo um "modulo" para a alocacao.
+# A ripa entra ENC = 40,60 em cada no (o "4 cm" da fabrica); consome 81,20 por ripa. No de ponta 61,61; no compartilhado (cruzeta) 101,30.
+ENC,NOX,NOXC=cad.ENC,cad.NOX,cad.NOXC
+NMAX=3  # corrida padrao: ate 3 vaos (logistica e montagem)
+M=[]; RUNS=[]
+def run(area,tipos,x,y,eixo,amb,nota=''):
+    tipos=list(tipos); N=len(tipos); rid=len(RUNS)+1
+    ripas=[PAINEIS[TIPOS[t][0]][3] for t in tipos]
+    L=2*NOX+(N-1)*NOXC+sum(r-cad.CONSOME for r in ripas); P=G[tipos[0]]['P']
+    RUNS.append(dict(id=rid,area=area,tipos=tipos,N=N,x=round(x),y=round(y),eixo=eixo,L=round(L),P=round(P),A=G[tipos[0]]['A'],ambiente=amb,nota=nota,mods=[]))
+    pos=0
+    for k,(t,r) in enumerate(zip(tipos,ripas)):
+        w=(r-cad.CONSOME)+(NOX if k==0 else NOXC/2)+(NOX if k==N-1 else NOXC/2)
+        mx,my=(x+pos,y) if eixo=='x' else (x,y+pos)
+        M.append(dict(n=len(M)+1,area=area,tipo=t,x=round(mx),y=round(my),w=round(w if eixo=='x' else P),d=round(P if eixo=='x' else w),eixo=eixo,ambiente=amb,nota=nota,
+                      run=rid,pos=('unico' if N==1 else 'ini' if k==0 else 'fim' if k==N-1 else 'meio')))
+        RUNS[-1]['mods'].append(len(M)); pos+=w
+    return (x+L,y) if eixo=='x' else (x,y+L)
+def corridas(tipos,nmax=NMAX):
+    """divide uma fila de vaos em corridas de ate nmax, sem deixar corrida de 1 se der para evitar"""
+    out=[]; t=list(tipos)
+    while t:
+        k=min(nmax,len(t))
+        if len(t)-k==1 and k>1: k-=1
+        out.append(t[:k]); t=t[k:]
+    return out
+def fila(area,tipos,x,y,eixo,amb,nota=''):
+    for c in corridas(tipos): x,y=run(area,c,x,y,eixo,amb,nota)
+    return x,y
+# comprimento das filas com postes compartilhados
+def L_fila(tipos): return sum(2*NOX+(len(c)-1)*NOXC+sum(PAINEIS[TIPOS[t][0]][3]-cad.CONSOME for t in c) for c in corridas(tipos))
+# sul: 2x620 + 14x725 + 2x620, folga dividida nos cantos
+SUL=['parede-620']*2+['parede-725']*14+['parede-620']*2; fS=SALA['C']-L_fila(SUL)
+fila('Paredão sul',SUL,fS/2,SALA['L']-372,'x','COZINHA')
 # norte: do pilar ao modulo do fundo — baixo (1.030), a janela comeca em 1.100
-x=6745
-for _ in range(8): x,_=add('Paredão norte','parede-baixa',x,0,'x','ORGANIZACAO','sob a janela')
+fila('Paredão norte',['parede-baixa']*8,6745,0,'x','ORGANIZACAO','sob a janela')
 # fundo: entre norte e sul; o 659 no canto do norte
-y=372
-for t in ['fundo-620']+['parede-fundo']*8: _,y=add('Paredão do fundo',t,SALA['C']-372,y,'y','BANHO E LAVANDERIA')
-# entrada: 3 modulos encostados no canto do sul, araras na vitrine
-y=SALA['L']-372-3*L759
-for _ in range(3): _,y=add('Parede de entrada','parede-725',0,y,'y','FRASQUEIRAS E INFANTIL')
-add('Vitrine da entrada','arara',0,2300,'y','NITRON-MOB','arara Nitron-Mob montada'); add('Vitrine da entrada','arara',0,3600,'y','NITRON-MOB','arara Nitron-Mob montada')
-# ilhas: 2 x 2 de 450x725 costa a costa, ponta em cada cabeceira (759 ao longo de y, 372 em x)
+fila('Paredão do fundo',['fundo-620']+['parede-fundo']*8,SALA['C']-372,372,'y','BANHO E LAVANDERIA')
+# entrada: 3 vaos encostados no canto do sul, araras na vitrine
+ENT=['parede-725']*3
+fila('Parede de entrada',ENT,0,SALA['L']-372-L_fila(ENT),'y','FRASQUEIRAS E INFANTIL')
+run('Vitrine da entrada',['arara'],0,2300,'y','NITRON-MOB','arara Nitron-Mob montada'); run('Vitrine da entrada',['arara'],0,3600,'y','NITRON-MOB','arara Nitron-Mob montada')
+# ilhas: 2 vaos de 450x725 em corrida (cruzeta no meio), duas faces costa a costa, ponta em cada cabeceira
+LI=L_fila(['ilha']*2)
 for k,(ix,iy) in enumerate(((5400,1900),(5400,4300))):
-    add(f'Ilha {k+1}','ponta',ix,iy+(1000-L759)/2,'y','MIOLO','cabeceira oeste')
-    for j in range(2):
-        add(f'Ilha {k+1}','ilha',ix+372+j*L759,iy,'x','MIOLO','face norte'); add(f'Ilha {k+1}','ilha',ix+372+j*L759,iy+500,'x','MIOLO','face sul')
-    add(f'Ilha {k+1}','ponta',ix+372+2*L759,iy+(1000-L759)/2,'y','MIOLO','cabeceira leste')
-# corredor de PDV: duas gondolas dupla-face (3 pares costa a costa, 744 de fundo) com ponta em cada cabeceira, ao longo de y
+    run(f'Ilha {k+1}',['ponta'],ix,iy+(1000-L759)/2,'y','MIOLO','cabeceira oeste')
+    run(f'Ilha {k+1}',['ilha']*2,ix+372,iy,'x','MIOLO','face norte'); run(f'Ilha {k+1}',['ilha']*2,ix+372,iy+500,'x','MIOLO','face sul')
+    run(f'Ilha {k+1}',['ponta'],ix+372+LI,iy+(1000-L759)/2,'y','MIOLO','cabeceira leste')
+# corredor de PDV: duas gondolas dupla-face (corrida de 3 vaos costa a costa, 744 de fundo) com ponta em cada cabeceira, ao longo de y
+LG=L_fila(['gondola']*3)
 for k,rx in enumerate((8700,10844)):
     nome='Gôndola '+'AB'[k]; y0=2250
-    add(nome,'ponta',rx+372-L759/2,y0,'x','CORREDOR','cabeceira norte'); y=y0+372
-    for j in range(3):
-        add(nome,'gondola',rx,y,'y','CORREDOR','face oeste'); _,y=add(nome,'gondola',rx+372,y,'y','CORREDOR','face leste')
-    add(nome,'ponta',rx+372-L759/2,y,'x','CORREDOR','cabeceira sul')
-# checkout: duas fileiras ao longo de y desembocando no caixa (caixa em y 0-600, x 2400-5800)
+    run(nome,['ponta'],rx+372-L759/2,y0,'x','CORREDOR','cabeceira norte'); y=y0+372
+    run(nome,['gondola']*3,rx,y,'y','CORREDOR','face oeste'); run(nome,['gondola']*3,rx+372,y,'y','CORREDOR','face leste')
+    run(nome,['ponta'],rx+372-L759/2,y+LG,'x','CORREDOR','cabeceira sul')
+# checkout: duas fileiras (corrida de 3) ao longo de y desembocando no caixa (caixa em y 0-600, x 2400-5800)
 for cx,lado in ((2600,'lado oeste'),(4000,'lado leste')):
-    y=800
-    for _ in range(3): _,y=add('Corredor de checkout','checkout',cx,y,'y','CHECKOUT',lado)
+    run('Corredor de checkout',['checkout']*3,cx,800,'y','CHECKOUT',lado)
 assert len(M)==74, len(M)
+# ------------------------------------------------------------------ BOM por corrida (generaliza cad.bom para vaos de ripa mista)
+def bom_run(r):
+    tipos=r['tipos']; N=len(tipos); pan,pil,cor,_=TIPOS[tipos[0]]
+    n=len(pil)+1; cor_=bool(cor)
+    tz=4*n; lp=4 if cor_ else 0; cz=2*(N-1)*(n+(1 if cor_ else 0)); tp=2*(N+1); pes=2*(N+1)
+    qbc=collections.Counter(); qbl=collections.Counter(); np_=collections.Counter(); mad=0; madp=0
+    rl=PAINEIS[pan][2]; qbl[rl]=(N+1)*n; mad+=qbl[rl]*rl
+    for t in tipos:
+        lp_,cp_,rl_,rc_=PAINEIS[TIPOS[t][0]]
+        qbc[rc_]+=2*n+(2 if cor_ else 0); mad+=(2*n+(2 if cor_ else 0))*rc_
+        np_[TIPOS[t][0]]+=n; madp+=n*lp_*cp_*cad.PANT*cad.DENS
+    vert=collections.Counter()
+    for rp in pil: vert[rp]+=2*(N+1); mad+=2*(N+1)*rp
+    if cor_: vert[cor]+=2*(N+1); mad+=2*(N+1)*cor
+    mad+=pes*60; mad*=cad.GMM
+    conn=tz*cad.C_TZ+cz*cad.C_CZ+lp*cad.C_L+tp*cad.C_T; plast=tz*cad.M_TZ+cz*cad.M_CZ+lp*cad.M_L+tp*cad.M_T
+    return dict(tz=tz,cz=cz,lp=lp,tp=tp,pes=pes,qbc=qbc,qbl=qbl,vert=vert,np=np_,kg=(mad+madp+plast)/1000,custo=conn+(mad+madp)/1000*cad.RSKG)
+for r in RUNS: r['bom']=bom_run(r)
+# o que custaria tudo em modulos avulsos (N = 1, encostados), para comparar
+AVULSO=sum(B[m['tipo']]['custo'] for m in M); AVULSO_TZ=sum(B[m['tipo']]['tz'] for m in M)
 
 # ------------------------------------------------------------------ o catalogo
 skus=pc.ler()
@@ -218,49 +261,58 @@ for m in M:
 # ------------------------------------------------------------------ saidas
 D=RAIZ/'dados'
 with open(D/'55-projeto-modulos.csv','w',newline='',encoding='utf-8') as f:
-    w=csv.writer(f); w.writerow(['modulo','area','tipo','painel','pilha','x_mm','y_mm','largura_mm','profundidade_mm','eixo','altura_mm','prateleiras','ambiente','categoria','skus_1_facing','skus_2_facing','frente_ocupada_mm','frente_util_mm','faturamento_12m','nota'])
+    w=csv.writer(f); w.writerow(['modulo','corrida','posicao','area','tipo','painel','pilha','x_mm','y_mm','largura_mm','profundidade_mm','eixo','altura_mm','prateleiras','ambiente','categoria','skus_1_facing','skus_2_facing','frente_ocupada_mm','frente_util_mm','faturamento_12m','nota'])
     for m in M:
         g=G[m['tipo']]; ps=[p for p in prat.values() if p['mod']==m['n']]
         it1=[x for p in ps for x,fc in p['itens'] if fc==1]; it2=[x for p in ps for x,fc in p['itens'] if fc==2]
-        w.writerow([m['n'],m['area'],m['tipo'],g['painel'],'·'.join(map(str,g['pilha']))+(f'+L{g["coroa"]}' if g['coroa'] else ''),m['x'],m['y'],m['w'],m['d'],m['eixo'],round(g['A']),len(g['faces']),m['ambiente'],m.get('categoria',''),len(it1),len(it2),round(sum(x['frente']*(1+p['extra'][x['ref']]) for p in ps for x,fc in p['itens'])),g['util']*len(g['faces']),round(sum(x['fat'] for x in it1),2),m['nota']])
+        w.writerow([m['n'],m['run'],m['pos'],m['area'],m['tipo'],g['painel'],'·'.join(map(str,g['pilha']))+(f'+L{g["coroa"]}' if g['coroa'] else ''),m['x'],m['y'],m['w'],m['d'],m['eixo'],round(g['A']),len(g['faces']),m['ambiente'],m.get('categoria',''),len(it1),len(it2),round(sum(x['frente']*(1+p['extra'][x['ref']]) for p in ps for x,fc in p['itens'])),g['util']*len(g['faces']),round(sum(x['fat'] for x in it1),2),m['nota']])
 with open(D/'56-projeto-alocacao.csv','w',newline='',encoding='utf-8') as f:
     w=csv.writer(f); w.writerow(['modulo','area','prateleira','altura_face_mm','zona','vao_livre_mm','facing','facings_na_prateleira','ordem','referencia','nome','ambiente','categoria','frente_mm','profundidade_min_mm','altura_mm','faturamento_12m','clientes'])
     for (mn,k),p in sorted(prat.items()):
         for j,(s,fc) in enumerate(p['itens']):
             w.writerow([mn,p['area'],k,p['h'],p['zona'],round(p['vao']),fc,1+p['extra'][s['ref']],j+1,s['ref'],s['nome'],s['ambiente'],s['categoria'],round(s['frente']),s['prof'],round(s['alt']),round(s['fat'],2),s['clientes']])
 tot=collections.Counter(); custo=kg=0
-for m in M:
-    b=B[m['tipo']]; custo+=b['custo']; kg+=b['kg']
-    tot['Painel '+G[m['tipo']]['painel']]+=b['np']; tot['Ripa largura %d'%PAINEIS[G[m['tipo']]['painel']][2]]+=b['qbl']; tot['Ripa comprimento %d'%PAINEIS[G[m['tipo']]['painel']][3]]+=b['qbc']
+for r in RUNS:
+    b=r['bom']; custo+=b['custo']; kg+=b['kg']
+    for k,v in b['np'].items(): tot['Painel '+k]+=v
+    for k,v in b['qbl'].items(): tot['Ripa largura %d'%k]+=v
+    for k,v in b['qbc'].items(): tot['Ripa comprimento %d'%k]+=v
     for a,n in b['vert'].items(): tot['Ripa vertical %d'%a]+=n
-    tot['Trizeta']+=b['tz']; tot['Tampa']+=b['tp']; tot['Peça L']+=b['lp']; tot['Pé']+=b['pes']
+    tot['Trizeta']+=b['tz']; tot['Cruzeta']+=b['cz']; tot['Tampa']+=b['tp']; tot['Peça L']+=b['lp']; tot['Pé']+=b['pes']
 nparede=sum(1 for m in M if m['area'].startswith('Pared'))
 tot['Ancoragem (bucha S8 + parafuso 5×50 + arruela)']=nparede+2
-tot['União poste a poste, 2 níveis (parafuso)']=2*(nparede-4)
+tot['União poste a poste entre corridas vizinhas, 2 níveis (parafuso)']=2*sum(1 for r in RUNS if r['area'].startswith('Pared'))-2*4
 tot['União costa a costa das gôndolas, 2 níveis (parafuso)']=2*sum(1 for m in M if m['tipo']=='gondola')
 with open(D/'57-projeto-compras.csv','w',newline='',encoding='utf-8') as f:
     w=csv.writer(f); w.writerow(['item','quantidade'])
-    for k in ['Painel 200×620','Painel 305×620','Painel 305×725','Painel 450×725','Ripa largura 183','Ripa largura 287','Ripa largura 415','Ripa comprimento 617','Ripa comprimento 717','Ripa vertical 270','Ripa vertical 346','Ripa vertical 513','Pé','Trizeta','Peça L','Tampa','Ancoragem (bucha S8 + parafuso 5×50 + arruela)','União poste a poste, 2 níveis (parafuso)','União costa a costa das gôndolas, 2 níveis (parafuso)']:
+    for k in ['Painel 200×620','Painel 305×620','Painel 305×725','Painel 450×725','Ripa largura 183','Ripa largura 287','Ripa largura 415','Ripa comprimento 617','Ripa comprimento 717','Ripa vertical 270','Ripa vertical 346','Ripa vertical 513','Pé','Trizeta','Peça L','Tampa','Cruzeta','Ancoragem (bucha S8 + parafuso 5×50 + arruela)','União poste a poste entre corridas vizinhas, 2 níveis (parafuso)','União costa a costa das gôndolas, 2 níveis (parafuso)']:
         w.writerow([k,tot[k]])
-    w.writerow(['Cruzeta',0])
+with open(D/'58-projeto-corridas.csv','w',newline='',encoding='utf-8') as f:
+    w=csv.writer(f); w.writerow(['corrida','area','vaos','N','modulos','x_mm','y_mm','eixo','comprimento_mm','profundidade_mm','altura_mm','trizetas','cruzetas','pecas_L','tampas','paineis','custo_material','kg','nota'])
+    for r in RUNS:
+        b=r['bom']; w.writerow([r['id'],r['area'],' + '.join(r['tipos']),r['N'],'-'.join(map(str,r['mods'])),r['x'],r['y'],r['eixo'],r['L'],r['P'],r['A'],b['tz'],b['cz'],b['lp'],b['tp'],sum(b['np'].values()),round(b['custo'],2),round(b['kg'],2),r['nota']])
 # resumo
 fat_tot=sum(s['fat'] for s in gond); fat_al=sum(s['fat'] for s in aloc)
 z=collections.Counter(); zf=collections.Counter()
 for s in aloc: z[s['zona']]+=1; zf[s['zona']]+=s['fat']
 areas=collections.OrderedDict()
 for m in M:
-    a=areas.setdefault(m['area'],dict(mods=0,custo=0,kg=0,skus=0,fat=0,frente=0,prat=0,vazias=0))
-    a['mods']+=1; a['custo']+=B[m['tipo']]['custo']; a['kg']+=B[m['tipo']]['kg']
+    a=areas.setdefault(m['area'],dict(mods=0,custo=0,kg=0,skus=0,fat=0,frente=0,prat=0,vazias=0,runs=0))
+    a['mods']+=1
+for r in RUNS:
+    a=areas[r['area']]; a['custo']+=r['bom']['custo']; a['kg']+=r['bom']['kg']; a['runs']+=1
+for m in M:
+    a=areas[m['area']]
     ps=[p for p in prat.values() if p['mod']==m['n']]; a['prat']+=len(ps); a['vazias']+=sum(1 for p in ps if not p['itens'])
     a['skus']+=sum(1 for p in ps for x,fc in p['itens'] if fc==1); a['fat']+=sum(x['fat'] for p in ps for x,fc in p['itens'] if fc==1); a['frente']+=G[m['tipo']]['util']*len(ps)/1000
-R=dict(sala=SALA,M=M,G={t:dict(painel=g['painel'],pilha=g['pilha'],coroa=g['coroa'],L=round(g['L']),P=round(g['P']),A=round(g['A']),faces=g['faces'],vao=[round(v) for v in g['vao']],util=g['util']) for t,g in G.items()},
+R=dict(sala=SALA,M=M,RUNS=[dict(id=r['id'],area=r['area'],tipos=r['tipos'],N=r['N'],mods=r['mods'],L=r['L'],P=r['P'],A=r['A'],x=r['x'],y=r['y'],eixo=r['eixo'],nota=r['nota'],tz=r['bom']['tz'],cz=r['bom']['cz'],custo=r['bom']['custo'],kg=r['bom']['kg']) for r in RUNS],avulso=AVULSO,avulso_tz=AVULSO_TZ,enc=ENC,G={t:dict(painel=g['painel'],pilha=g['pilha'],coroa=g['coroa'],L=round(g['L']),P=round(g['P']),A=round(g['A']),faces=g['faces'],vao=[round(v) for v in g['vao']],util=g['util']) for t,g in G.items()},
        B={t:dict(custo=b['custo'],kg=b['kg'],tz=b['tz'],np=b['np']) for t,b in B.items()},
        areas=areas,custo=custo,kg=kg,tot=dict(tot),gond=len(gond),aloc=len(aloc),resto=[(s['ref'],s['nome'],s['categoria'],round(s['alt']),s['fundo'],s['fat']) for s in sorted(resto,key=lambda s:-s['fat'])],
        fat_tot=fat_tot,fat_al=fat_al,nfac=nfac,npos=npos,n2n=n2n,nrep=nrep,janela=JANELA,zonas={k:dict(n=z[k],fat=zf[k]) for k in z},n2p=n2p,n2c=n2c,
        cel={f"{p['mod']}-{p['nivel']}":[sum(1 for x,fc in p['itens'] if fc==1),sum(x['frente']*(1+p['extra'][x['ref']]) for x,fc in p['itens']),sum(x['fat'] for x,fc in p['itens'] if fc==1),sum(1 for x,fc in p['itens'] if fc==2),sum(1 for x,fc in p['itens'] if fc==3)] for p in prat.values()},
        cat={m['n']:m.get('categoria','') for m in M})
 json.dump(R,open('/tmp/claude-0/-home-user-produtos/a90e79dc-9d6b-5cf3-8b87-00e7e5301ee0/scratchpad/projeto.json','w'),ensure_ascii=False,default=float)
-print('%d módulos · R$ %.2f · %.0f kg'%(len(M),custo,kg))
+print('%d vãos em %d corridas · R$ %.2f · %.0f kg · %d trizetas · %d cruzetas · avulso (N=1) seria R$ %.2f com %d trizetas'%(len(M),len(RUNS),custo,kg,tot['Trizeta'],tot['Cruzeta'],AVULSO,AVULSO_TZ))
 print('catálogo em prateleira: %d de %d SKUs · R$ %.2f M de %.2f (%.1f%%) · sem lugar: %d'%(len(aloc),len(gond),fat_al/1e6,fat_tot/1e6,100*fat_al/fat_tot,len(resto)))
 for k in ('olhos','maos','chao','topo'):
     if z[k]: print('  %-6s %3d SKUs · %.0f%% do faturamento alocado'%(k,z[k],100*zf[k]/fat_al))

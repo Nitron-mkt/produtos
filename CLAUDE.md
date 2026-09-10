@@ -501,22 +501,34 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
 - Showroom (rev. 2): sul 14 × 759 + 4 × 659 (folga 88) · **norte 8 × parede-baixa** (folga 161 até o
   módulo do fundo) · **fundo 8 × 759 + 1 × 659** (as laterais têm 372 de fundo, corrida livre 6.776;
   folga 45) · entrada 3 + 2 araras · 2 ilhas de 2 × 2 · **corredor de PDV 2 gôndolas × 3 pares** ·
-  8 pontas · checkout 2 × 3 = **74 módulos, R$ 18.310, 998 kg, zero cruzeta**. Compras: painéis
-  24 / 33 / 289 / 24 · ripas largura 48 / 644 / 48 · comprimento 114 / 630 · altura 724 / 328 / 140 ·
-  1.480 trizetas · 296 tampas · 8 peças L. Dez módulos-tipo (entraram `parede-baixa` e `gondola`).
+  8 pontas · checkout 2 × 3 = 74 vãos. **Em corridas com cruzeta (rev. 3): R$ 17.429, 944 kg**,
+  compras: painéis 24 / 33 / 289 / 24 · ripas largura 32 / 456 / 36 · comprimento 114 / 630 · altura
+  494 / 244 / 104 · 616 trizetas · 432 cruzetas · 214 tampas · 214 pés · 8 peças L. Dez vãos-tipo
+  (entraram `parede-baixa` e `gondola`).
 
-### Projeto do showroom (doc 18 rev. 2, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-57`
+### Projeto do showroom (doc 18 rev. 3, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-58`
+- **Rev. 3 (pedido do usuário): a cruzeta voltou.** Vãos vizinhos dividem poste e formam **corridas de
+  até 3 vãos** (trizeta nas pontas, cruzeta nos postes do meio; `corridas()` evita corrida de 1).
+  **74 vãos em 33 corridas, R$ 17.429, 944 kg, 616 trizetas + 432 cruzetas** — avulso (N = 1,
+  encostado) seria R$ 18.310 e 1.480 trizetas. Cada junção compartilhada tira 21,92 mm: sul monta
+  12.998 (folga 352, 176 por canto), norte 5.962 (folga 271), fundo 6.599 (folga 177). BOM por
+  corrida em `dados/58` (`bom_run` generaliza `cad.bom` para vãos de ripa mista, ex. 620·620·725).
+  `dados/54` continua sendo o catálogo dos vãos-tipo avulsos; a compra do showroom é `dados/57`.
+- **Encaixe de 4 cm — conferido a pedido do usuário.** A ripa entra `ENC = 40,60` em cada nó (trizeta
+  ou cruzeta), nas duas pontas, e consome 81,20 do comprimento nominal. Já está em todas as cotas
+  (passo 261,88 na baia de 270; 759 no vão de 717; 372 na largura de 287). Se a fábrica confirmar
+  40,0 redondos, cada ripa ganha 1,2 mm (passo 263,08; corrida de 3 vãos +3,6 mm). Virou a fita nº 4.
 - **Rev. 2 (pedido do usuário):** o **norte tem janela, peitoril a 1.100** — nada de estrutura acima.
   O norte virou `parede-baixa` (pilha da ponta, 346·346·270, **1.030**, 4 prateleiras, topo com produto
   baixo). E o miolo ganhou um **corredor de PDV**: duas gôndolas dupla-face (`gondola` = parede-fundo
   costa a costa, 744 de fundo, topo aberto, 3 pares cada) com **ponta nas 4 cabeceiras**, ao lado das
-  2 ilhas 2 × 2. Total **74 módulos, R$ 18.310, 998 kg, 1.480 trizetas, zero cruzeta**. Rev. 1 tinha
-  58 módulos (R$ 15.657), norte alto e miolo só com ilhas.
+  2 ilhas 2 × 2. Em módulos avulsos deu 74 módulos, R$ 18.310, 998 kg, 1.480 trizetas (superado
+  pela rev. 3). Rev. 1 tinha 58 módulos (R$ 15.657), norte alto e miolo só com ilhas.
 - Planta (`dados/55`, mm, norte em y = 0, porta em x = 0 de y 0 a 2.000, caixa x 2.400–5.800 × 600,
   pilar 6.500–6.745 × 670): checkout 2 × 3 em x 2.600 e 4.000 (y 800–3.077) · ilhas em x 5.400–7.662,
   y 1.900–2.900 e 4.300–5.300 · gôndolas A e B em x 8.700–9.444 e 10.844–11.588, y 2.250–5.271
-  (corredor 1.400 entre elas) · norte baixo x 6.745–12.817. Corredores mínimos 1.028–1.038 (checkout–
-  ilha–gôndola A), 1.390 até o fundo, 1.878 até norte e sul.
+  (corredor 1.400 entre elas) · norte baixo x 6.745–12.707. Corredores mínimos 1.028 (checkout–ilha) e
+  1.060 (ilha–gôndola A), 1.390 até o fundo, 1.878 até o norte, 1.921 até o sul.
 - **Organização vive no corredor de PDV** (a baia de 490 aceita as caixas altas) e transborda para o
   norte baixo. Gôndola A 58 SKUs R$ 12,2 M · B 44 SKUs R$ 4,7 M · norte só 15 SKUs de 1º facing
   (R$ 0,32 M) + 109 campeões de Organização em 2º facing. Se preferir outra categoria no norte
@@ -530,8 +542,8 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
   prateleira mais forte da própria coluna (`facing = 3` em `dados/56`) e a frente livre recebe
   facings extras até 4 por SKU (coluna `facings_na_prateleira`). 1.553 facings em 1.446 posições;
   3 prateleiras vazias em 364.
-- Ancoragem 40 pontos (38 de parede + 2 araras), 68 parafusos de união poste a poste, 24 costa a costa
-  nas gôndolas (dupla-face 2,1 : 1 não precisa de parede; ponta 2,8 : 1 amarra na gôndola).
+- Ancoragem 40 pontos (38 de parede + 2 araras); dentro da corrida a cruzeta já une; 18 parafusos de
+  união entre corridas vizinhas, 24 costa a costa nas gôndolas (dupla-face 2,1 : 1 não precisa de parede; ponta 2,8 : 1 amarra na gôndola).
 - **Norte não usa o trecho do caixa**: entre caixa (5.800) e pilar (6.500) há 700 mm — cabe um 659,
   mas ficaria espremido entre balcão e pilar. Decisão: fica livre.
 - Na coroa a peça L substitui a trizeta e só há ripa de comprimento (sem largura) — como no caderno.
