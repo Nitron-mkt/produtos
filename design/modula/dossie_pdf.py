@@ -262,10 +262,10 @@ def main():
     gh = (H - 2 * M - 60 - 30) / 2
     y1 = H - M - 44 - gh
     y0 = y1 - 26 - gh
-    d.imagem(os.path.join(OUT, "det-poste.png"), M, y1, gw, gh, "Corte: o poste do aro do M (terracota) dentro da fêmea da saia do P (claro) — cabeça no bolsão, haste na ranhura")
-    d.imagem(os.path.join(OUT, "det-poste-so.png"), M + gw + 20, y1, gw, gh, "O poste sozinho: T de 10 × 4,5 mm, 8,5 mm acima do patamar, mesmos 7,5° da saia")
-    d.imagem(os.path.join(OUT, "10-fileiras.png"), M, y0, gw, gh, "Fileiras acopladas: três P (passo 192) e três M (passo 390); o macho de um entra na fêmea do vizinho")
-    d.imagem(os.path.join(OUT, "det-frente.png"), M + gw + 20, y0, gw, gh, "A frente do M: o aro termina no canto, a borda do mergulho é a própria parede (rev.24)")
+    d.imagem(os.path.join(OUT, "det-poste.png"), M, y1, gw, gh, "Corte: poste do M (terracota) dentro da fêmea da saia do P")
+    d.imagem(os.path.join(OUT, "det-poste-so.png"), M + gw + 20, y1, gw, gh, "O poste: T de 10 × 4,5 mm, 8,5 mm acima do patamar")
+    d.imagem(os.path.join(OUT, "10-fileiras.png"), M, y0, gw, gh, "Fileiras acopladas: três P (passo 192) e três M (passo 390)")
+    d.imagem(os.path.join(OUT, "det-frente.png"), M + gw + 20, y0, gw, gh, "A frente do M: o aro termina no canto; a borda do mergulho é a parede")
     d.nova()
 
     # ---------------- o grafismo ----------------
