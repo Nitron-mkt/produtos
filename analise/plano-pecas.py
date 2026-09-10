@@ -28,9 +28,11 @@ def bom(painel,pilha,coroa=None):
 MOD=[
  ('parede-725',  '305×725',[270]*6,None,'Parede · sul, norte, entrada · 7 prateleiras, duas na zona dos olhos'),
  ('parede-620',  '305×620',[270]*6,None,'Parede · ajuste de canto do sul'),
+ ('parede-baixa','305×725',[346,346,270],None,'Parede norte · sob a janela (peitoril 1.100): 1.030 de altura, 4 prateleiras, topo com produto baixo'),
  ('parede-fundo','305×725',[513,346,346,270],None,'Parede do fundo · lixeira na baia de 490 e nas duas de 323; olhos a 1.542'),
  ('fundo-620',   '305×620',[513,346,346,270],None,'Parede do fundo · ajuste de canto, mesma pilha'),
  ('ponta',       '305×725',[346,346,270],None,'Ponta de gôndola · cabeceira das ilhas, 4 prateleiras, baias de 323'),
+ ('gondola',     '305×725',[513,346,346,270],None,'Gôndola do corredor de PDV · dupla-face costa a costa (744 de fundo), topo aberto, 5 prateleiras'),
  ('ilha',        '450×725',[513,346],None,'Ilha · 500 de profundidade, topo aberto para produto alto; 2 × 2 costa a costa'),
  ('checkout',    '200×620',[270]*3,None,'Checkout · 268 de profundidade, 4 prateleiras, segundo facing dos campeões'),
  ('arara',       '305×725',[513,513],513,'Arara Nitron-Mob · vitrine da entrada; peça L como coroa'),
@@ -44,12 +46,13 @@ def compor(livre):
 fs,aS,bS=compor(13350); fn,aN,bN=compor(12978-6745); ff,aF,bF=compor(7520-372-372); fe,aE,bE=compor(7148-2000)
 PLANO=[
  ('Paredão sul · cozinha','parede-725',aS,13350),('Paredão sul · ajuste de canto','parede-620',bS,None),
- ('Paredão norte · organização','parede-725',aN,6233),
+ ('Paredão norte · organização · baixo, sob a janela','parede-baixa',aN,6233),
  ('Paredão do fundo · banho e lavanderia','parede-fundo',aF,6776),('Paredão do fundo · ajuste de canto','fundo-620',bF,None),
  ('Parede de entrada · frasqueiras e infantil','parede-725',3,5148),
  ('Vitrine da entrada · araras Nitron-Mob','arara',2,None),
  ('Ilhas · 2 ilhas de 2 × 2','ilha',8,None),
- ('Pontas de gôndola · 2 por ilha','ponta',4,None),
+ ('Corredor de PDV · 2 gôndolas dupla-face de 3 pares','gondola',12,None),
+ ('Pontas de gôndola · 2 por ilha e 2 por gôndola','ponta',8,None),
  ('Corredor de checkout · 2 lados × 3','checkout',6,None),
 ]
 

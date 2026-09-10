@@ -1,20 +1,21 @@
 item,quantidade
 Painel 200×620,24
 Painel 305×620,33
-Painel 305×725,237
+Painel 305×725,289
 Painel 450×725,24
 Ripa largura 183,48
-Ripa largura 287,540
+Ripa largura 287,644
 Ripa largura 415,48
 Ripa comprimento 617,114
-Ripa comprimento 717,526
-Ripa vertical 270,820
-Ripa vertical 346,136
-Ripa vertical 513,92
-Pé,232
-Trizeta,1272
+Ripa comprimento 717,630
+Ripa vertical 270,724
+Ripa vertical 346,328
+Ripa vertical 513,140
+Pé,296
+Trizeta,1480
 Peça L,8
-Tampa,232
+Tampa,296
 Ancoragem (bucha S8 + parafuso 5×50 + arruela),40
 "União poste a poste, 2 níveis (parafuso)",68
+"União costa a costa das gôndolas, 2 níveis (parafuso)",24
 Cruzeta,0

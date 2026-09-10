@@ -494,30 +494,44 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
   (725 contra 759 externo), não sobreposto como o 754.
 - **A ripa de 346 resgata 39 SKUs (R$ 9,16 M) para a parede** — quase tudo banho e lavanderia.
   A lixeira mais funda tem 345 mm: **cabe nos 372 da parede**. Só o que pede 500 vai para a ilha.
-- Sete módulos, todos de um vão (zero cruzeta): parede-725 `270×6` (7 prat., 18,9 kg, R$ 346) ·
+- Módulos, todos de um vão (zero cruzeta): parede-725 `270×6` (7 prat., 18,9 kg, R$ 346) ·
   parede-620 `270×6` (ajuste de canto) · **parede-fundo `513·346·346·270`** (5 prat., olhos 78%
   contra 32% da pilha antiga — lixeira sobe para a altura das mãos) · ponta `346·346·270` ·
   ilha `513·346` (500 fundo, topo aberto) · checkout `270×3` (268 fundo) · arara `513·513 + L513`.
-- Showroom: sul 14 × 759 + 4 × 659 (folga 88) · norte 8 × 759 (folga 161 até o módulo do fundo) ·
-  **fundo 8 × 759 + 1 × 659** (as laterais agora têm 372 de fundo, a corrida livre é 6.776; folga 45) ·
-  entrada 3 + 2 araras · 2 ilhas de 2 × 2 · 4 pontas · checkout 2 × 3 = **58 módulos, R$ 15.657,
-  854 kg, zero cruzeta**. Compras: painéis 24 / 33 / 237 / 24 · ripas largura 48 / 540 / 48 ·
-  comprimento 114 / 526 · altura 820 / 136 / 92 · 1.272 trizetas · 232 tampas · 8 peças L.
+- Showroom (rev. 2): sul 14 × 759 + 4 × 659 (folga 88) · **norte 8 × parede-baixa** (folga 161 até o
+  módulo do fundo) · **fundo 8 × 759 + 1 × 659** (as laterais têm 372 de fundo, corrida livre 6.776;
+  folga 45) · entrada 3 + 2 araras · 2 ilhas de 2 × 2 · **corredor de PDV 2 gôndolas × 3 pares** ·
+  8 pontas · checkout 2 × 3 = **74 módulos, R$ 18.310, 998 kg, zero cruzeta**. Compras: painéis
+  24 / 33 / 289 / 24 · ripas largura 48 / 644 / 48 · comprimento 114 / 630 · altura 724 / 328 / 140 ·
+  1.480 trizetas · 296 tampas · 8 peças L. Dez módulos-tipo (entraram `parede-baixa` e `gondola`).
 
-### Projeto do showroom (doc 18, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-57`
-- Os 58 módulos posicionados em planta (`dados/55`, x/y em mm, norte em y = 0, porta em x = 0 de
-  y 0 a 2.000, caixa x 2.400–5.800 × 600, pilar 6.500–6.745 × 670) e o catálogo alocado módulo a
-  módulo (`dados/56`, com `facing` 1 ou 2). **605 de 609 SKUs de prateleira têm lugar — R$ 72,99 M
-  de 73,33 (99,5%)**; olhos 71% · mãos 24% · chão 5% do faturamento. Sem lugar: sapateira 4 Andares
-  (`053.004.002/003`, 705 de altura) e Cesto de Roupas (`054.004.001/003`) — vão em pé na vitrine.
-- Sul (Cozinha) 18 mód · 321 SKUs · R$ 28,6 M — Decor 1, POP 1, Geladeira 1, Micro-ondas 1, Jarras 1,
-  Cozinha 4, Potes 7, Teca 2 · Norte (Organização) 8 · 109 · R$ 15,9 M · Fundo (Banho e Lavanderia)
-  9 · 80 · R$ 15,0 M — Limpeza 2, Lixeiras 6, Banheiro 1 · Entrada 3 · 34 · R$ 6,4 M + 2 araras ·
-  Ilha 1 41 SKUs, Ilha 2 20 (sobras das paredes: fundo 500 ou acima do vão) · pontas 40 campeões
-  em 2º facing, checkout 60. 128 das 312 prateleiras ficam livres.
-- Corredores: 1.028 entre as fileiras do checkout · 1.400 entre as ilhas · 1.528 ilha–norte ·
-  1.848 ilha–sul · 2.928 checkout–ilha · 3.016 ilha–fundo. Ancoragem 40 pontos (38 de parede + 2
-  araras), 68 parafusos de união poste a poste.
+### Projeto do showroom (doc 18 rev. 2, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-57`
+- **Rev. 2 (pedido do usuário):** o **norte tem janela, peitoril a 1.100** — nada de estrutura acima.
+  O norte virou `parede-baixa` (pilha da ponta, 346·346·270, **1.030**, 4 prateleiras, topo com produto
+  baixo). E o miolo ganhou um **corredor de PDV**: duas gôndolas dupla-face (`gondola` = parede-fundo
+  costa a costa, 744 de fundo, topo aberto, 3 pares cada) com **ponta nas 4 cabeceiras**, ao lado das
+  2 ilhas 2 × 2. Total **74 módulos, R$ 18.310, 998 kg, 1.480 trizetas, zero cruzeta**. Rev. 1 tinha
+  58 módulos (R$ 15.657), norte alto e miolo só com ilhas.
+- Planta (`dados/55`, mm, norte em y = 0, porta em x = 0 de y 0 a 2.000, caixa x 2.400–5.800 × 600,
+  pilar 6.500–6.745 × 670): checkout 2 × 3 em x 2.600 e 4.000 (y 800–3.077) · ilhas em x 5.400–7.662,
+  y 1.900–2.900 e 4.300–5.300 · gôndolas A e B em x 8.700–9.444 e 10.844–11.588, y 2.250–5.271
+  (corredor 1.400 entre elas) · norte baixo x 6.745–12.817. Corredores mínimos 1.028–1.038 (checkout–
+  ilha–gôndola A), 1.390 até o fundo, 1.878 até norte e sul.
+- **Organização vive no corredor de PDV** (a baia de 490 aceita as caixas altas) e transborda para o
+  norte baixo. Gôndola A 58 SKUs R$ 12,2 M · B 44 SKUs R$ 4,7 M · norte só 15 SKUs de 1º facing
+  (R$ 0,32 M) + 109 campeões de Organização em 2º facing. Se preferir outra categoria no norte
+  baixo, é troca de uma linha em `ZONAS`.
+- **605 de 609 SKUs de prateleira têm lugar — R$ 72,99 M de 73,33 (99,5%)**; olhos 69% · mãos 25% ·
+  chão 6%. Sem lugar: sapateira 4 Andares (`053.004.002/003`, 705 de altura) e Cesto de Roupas
+  (`054.004.001/003`) — vão em pé na vitrine. Sul 18 mód · 321 SKUs · R$ 28,6 M · Fundo 9 · 80 ·
+  R$ 15,0 M · Entrada 3 · 34 · R$ 6,4 M · Ilhas 35 + 18 SKUs.
+- **O catálogo enche só ~40% da frente a 1 facing** (97 m de demanda para 258 m). O resto é facing
+  múltiplo: 64 campeões nas 8 pontas, 60 no checkout, 109 no norte, 146 prateleiras vazias repetem a
+  prateleira mais forte da própria coluna (`facing = 3` em `dados/56`) e a frente livre recebe
+  facings extras até 4 por SKU (coluna `facings_na_prateleira`). 1.553 facings em 1.446 posições;
+  3 prateleiras vazias em 364.
+- Ancoragem 40 pontos (38 de parede + 2 araras), 68 parafusos de união poste a poste, 24 costa a costa
+  nas gôndolas (dupla-face 2,1 : 1 não precisa de parede; ponta 2,8 : 1 amarra na gôndola).
 - **Norte não usa o trecho do caixa**: entre caixa (5.800) e pilar (6.500) há 700 mm — cabe um 659,
   mas ficaria espremido entre balcão e pilar. Decisão: fica livre.
 - Na coroa a peça L substitui a trizeta e só há ripa de comprimento (sem largura) — como no caderno.
