@@ -185,7 +185,15 @@ nulo. Não confunda com dado de concorrência.
 
 ### A curva
 Marca própria, janelas móveis de 12 M: **R$ 101,4 M → R$ 96,1 M → R$ 83,1 M (−18%)**.
-Lucro bruto R$ 41,4 M. Só duas linhas crescem: **Frasqueiras (+8,6%)** e **Decor Util (+21%)**.
+Lucro bruto R$ 41,4 M.
+
+**Releitura de 10/09/2026** (mesmo recorte, dado fresco, 21 linhas):
+**R$ 93,2 M → R$ 82,2 M (−11,8%)**. Das 21 linhas, **só uma cresce: Decor-Confeitaria
+(+58,2%)**.
+
+⚠️ **`Frasqueiras +8,6%` é variação de DOIS anos, não do último ciclo.** No último
+ciclo de 12 M a linha está em **−5,9%**. Esse número foi publicado como se fosse 12 M
+no artefato da diretoria e teve que ser corrigido. Sempre diga a janela junto do número.
 
 ### O achado principal
 Taxa de acerto de lançamento (SKU que acumula R$ 500 k na vida), só marca própria:
@@ -230,6 +238,83 @@ Dos 267 anúncios coletados, **só 8 dizem "hermético" (3%)** e **apenas 1 dess
 Os que dizem "hermético + válvula" são de **vidro** com guarnição de silicone.
 **Sanremo**, em plástico com válvula, escreve *"válvula micro ondas"* — evita o claim.
 Material não cria hermeticidade; geometria de vedação + força de fechamento criam.
+
+---
+
+### Banheiro — a categoria escolhida para a esteira de lançamento (10/09/2026)
+
+A pergunta "em qual categoria investir" foi decidida por **clientes por SKU**, não por
+faturamento nem por score. O portfólio tem 0,7% de acerto porque **espalha SKU sobre a
+mesma base de clientes**; a categoria certa é onde cada SKU novo encontra público, não
+onde a linha é grande.
+
+| Linha | Lucro bruto | Clientes | SKUs | **Clientes/SKU** |
+|---|---|---|---|---|
+| **Banheiro** | R$ 2,23 M | 5.421 | **52** | **104** |
+| Cozinha | — | — | — | 37 |
+| Organização | R$ 11,8 M | — | — | 12 |
+| Potes | R$ 7,2 M | — | — | 9 |
+
+Banheiro soma: MB **54,7%**, **peça menor da casa** (custo médio R$ 1,85 → molde menor,
+ciclo menor, tonelagem menor) e **só 3 dos 15 Tier A** disputam. É a única categoria
+onde uma esteira de 12 lançamentos/ano não vira proliferação sobre cliente repetido.
+
+### Banheiro — o mercado (620 anúncios coletados, 454 únicos, 10/09/2026)
+
+**Fixação é a variável que decide, e a Nitron está do lado errado:**
+adesivo **135** × ventosa **14** entre os que declaram (**90,6%**), e a distância em
+prova social é maior ainda: **169.016 reviews contra 2.880 — 59×**.
+Padrão vencedor repetido: **kit de 2, adesivo, "sem furar", R$ 25–39**.
+Homeroarte ocupa o top 3 com ~24.890 reviews cada.
+**Arthi (Tier A) é ventosa a R$ 103,90 e tem a pior nota do top 14 (4,2 contra 4,5–4,8).**
+Plástico é só 9 de 193 anúncios de prateleira, mas tem o **menor preço (R$ 30,25)** e a
+**maior mediana de reviews (342)** — o espaço é de plástico e ninguém ocupou.
+
+⚠️ **Barreira técnica do adesivo:** PP tem energia de superfície ~29–31 dyn/cm e adesivo
+VHB pede ~38+. Colar fita em PP cru **descola**. Rota: tratamento (chama/corona/primer)
+ou base de outro material. Isso é engenharia, não escolha de fornecedor.
+
+**Lacunas de catálogo confirmadas** (existem no cadastro, nunca venderam / não existem):
+`158/6` porta papel higiênico (**zero linha em TGFITE, sempre**) · `157/6` porta toalha
+(zero linha) · dispenser de sabonete líquido de banheiro não existe (o `553` Porta Sabão
+Líquido é Cozinha/Limpeza, 500 ml) · a saboneteira de parede `092` é **ventosa** enquanto
+45% do mercado já é adesivo.
+
+Ranking das lacunas por demanda de mercado: **porta papel higiênico** (636 reviews/anúncio,
+R$ 25,37, só 2 de plástico) > porta escova de dentes (563) > saboneteira de parede (346) >
+dispenser (132, R$ 49,90) > **porta escova sanitária (36 — o mais fraco, despriorizar)**.
+
+### Decor-Confeitaria e os moldes vermelhos dormentes
+
+Única linha que cresce (**+58,2%**). O motor é o **Kit Churros Fácil**: #2 em ganho
+absoluto (**+R$ 299.104**) e **#1 em ganho de clientes (+503, de 347 para 850)**.
+Testado contra a armadilha de concentração: o cliente 110877 foi de R$ 80.202 para
+R$ 211.048 (34,9% do total), mas **os outros 849 clientes foram de R$ 225.503 para
+R$ 393.761 = +74,6%**. O crescimento é real dos dois lados.
+
+⚠️ **"Fácil" não é plataforma.** Lixeira Fecha Fácil caiu −85,7% e −79,2%. Funciona
+quando o produto é um **mecanismo que resolve uma tarefa difícil**, não quando é um nome.
+
+**33 gadgets vermelhos mortos** na Decor Util, e **~16 moldes existem só em vermelho, sem
+irmão branco**: Hamburgueira (R$ 31.597 / 86 clientes), Modelador de Coxinha, Modelador de
+Pastel, Cortador e Ralador, Descascador Lile, entre outros. Molde pago, cor errada — mas
+lembre da lição de 2022: **cor divide demanda**. Isso é candidato a *troca* de cor, não a
+somar cor.
+
+### A impressora 3D — o que ela resolve e o que não resolve
+
+**Resolve:** forma, ergonomia, encaixe, empilhamento, prova de conceito na frente do
+cliente, iteração de geometria antes do aço.
+
+**Não resolve:** o custo real de um lançamento. Molde é 30–40%; cadastro, EAN, arte, foto,
+catálogo, amostra, estoque e gôndola não ficam mais baratos. Também **não testa
+comportamento de material** — FDM/SLA não tem a fluência do PP, nem a memória elástica de
+uma trava, nem o comportamento de vedação sob força de fechamento. Peça impressa que
+"fecha bem" não prova hermeticidade.
+
+**O uso certo:** aumentar a taxa de acerto, não o número de lançamentos. Com 0,7% de
+acerto, protótipo barato que valida antes do aço vale mais que protótipo barato que
+multiplica proposta.
 
 ---
 
@@ -352,8 +437,14 @@ case de lançamento contabiliza.
 - **`TGFEST` não é legível sem mapa de local** — 120 combinações empresa/local para 3
   produtos, com o local 1080000 em negativo grande. Falta saber qual `CODLOCAL` é o
   armazém de PA para medir saldo e ruptura.
+- **Chumbo Flat devolve 21–27%** — exatamente 1.224 unidades em cada um dos 3 tamanhos,
+  dos **mesmos 3 clientes**. Devolução idêntica em três SKUs não é qualidade difusa.
+- **Cinco refs de Frasqueira nascidas neste ciclo têm MB de 22–29%** contra 50–66% das
+  irmãs. A 2,2 L de medicamento custa **R$ 10,75** contra R$ 8,03 da 6,2 L — fisicamente
+  impossível. Erro de custeio ou rateio, não preço.
 - **Perguntas para a fábrica:** os moldes de tampa aceitam inserto trocável? Os potes
-  quadrados atuais são altos ou rasos?
+  quadrados atuais são altos ou rasos? **A fábrica tem tratamento de superfície (chama,
+  corona ou primer) para colar adesivo em PP?** — essa resposta decide a linha Banheiro.
 
 ---
 
