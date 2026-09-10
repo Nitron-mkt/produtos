@@ -498,12 +498,31 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
   parede-620 `270×6` (ajuste de canto) · **parede-fundo `513·346·346·270`** (5 prat., olhos 78%
   contra 32% da pilha antiga — lixeira sobe para a altura das mãos) · ponta `346·346·270` ·
   ilha `513·346` (500 fundo, topo aberto) · checkout `270×3` (268 fundo) · arara `513·513 + L513`.
-- Showroom: sul 14 × 759 + 4 × 659 (folga 88) · norte 8 × 759 (28) · fundo 9 × 759 (42) ·
-  entrada 3 + 2 araras · 2 ilhas de 2 × 2 · 4 pontas · checkout 2 × 3 = **58 módulos, R$ 15.687,
-  855 kg, 236 m de frente, zero cruzeta**. Compras: painéis 24 / 28 / 242 / 24 · ripas largura
-  48 / 540 / 48 · comprimento 104 / 536 · altura 820 / 136 / 92 · 1.272 trizetas · 8 peças L.
+- Showroom: sul 14 × 759 + 4 × 659 (folga 88) · norte 8 × 759 (folga 161 até o módulo do fundo) ·
+  **fundo 8 × 759 + 1 × 659** (as laterais agora têm 372 de fundo, a corrida livre é 6.776; folga 45) ·
+  entrada 3 + 2 araras · 2 ilhas de 2 × 2 · 4 pontas · checkout 2 × 3 = **58 módulos, R$ 15.657,
+  854 kg, zero cruzeta**. Compras: painéis 24 / 33 / 237 / 24 · ripas largura 48 / 540 / 48 ·
+  comprimento 114 / 526 · altura 820 / 136 / 92 · 1.272 trizetas · 232 tampas · 8 peças L.
+
+### Projeto do showroom (doc 18, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-57`
+- Os 58 módulos posicionados em planta (`dados/55`, x/y em mm, norte em y = 0, porta em x = 0 de
+  y 0 a 2.000, caixa x 2.400–5.800 × 600, pilar 6.500–6.745 × 670) e o catálogo alocado módulo a
+  módulo (`dados/56`, com `facing` 1 ou 2). **605 de 609 SKUs de prateleira têm lugar — R$ 72,99 M
+  de 73,33 (99,5%)**; olhos 71% · mãos 24% · chão 5% do faturamento. Sem lugar: sapateira 4 Andares
+  (`053.004.002/003`, 705 de altura) e Cesto de Roupas (`054.004.001/003`) — vão em pé na vitrine.
+- Sul (Cozinha) 18 mód · 321 SKUs · R$ 28,6 M — Decor 1, POP 1, Geladeira 1, Micro-ondas 1, Jarras 1,
+  Cozinha 4, Potes 7, Teca 2 · Norte (Organização) 8 · 109 · R$ 15,9 M · Fundo (Banho e Lavanderia)
+  9 · 80 · R$ 15,0 M — Limpeza 2, Lixeiras 6, Banheiro 1 · Entrada 3 · 34 · R$ 6,4 M + 2 araras ·
+  Ilha 1 41 SKUs, Ilha 2 20 (sobras das paredes: fundo 500 ou acima do vão) · pontas 40 campeões
+  em 2º facing, checkout 60. 128 das 312 prateleiras ficam livres.
+- Corredores: 1.028 entre as fileiras do checkout · 1.400 entre as ilhas · 1.528 ilha–norte ·
+  1.848 ilha–sul · 2.928 checkout–ilha · 3.016 ilha–fundo. Ancoragem 40 pontos (38 de parede + 2
+  araras), 68 parafusos de união poste a poste.
+- **Norte não usa o trecho do caixa**: entre caixa (5.800) e pilar (6.500) há 700 mm — cabe um 659,
+  mas ficaria espremido entre balcão e pilar. Decisão: fica livre.
 - Na coroa a peça L substitui a trizeta e só há ripa de comprimento (sem largura) — como no caderno.
-- Os documentos 16 e 17 (paredes) foram feitos com o painel 754 e precisam ser refeitos com 725.
+- Os documentos 16 e 17 (paredes) foram feitos com o painel 754; o **doc 18** os substitui com a spec nova.
+  O canvas de sinalização (`design/pdv-sinalizacao`) ainda usa larguras 754 — refazer com 725/620.
 
 ### Spec anterior do kit (10/09/2026, superada no mesmo dia) — `dados/46-nitron-mob-kit-flex.xlsx`
 - **3 painéis**: 300×450 · 300×754 · 460×754. **6 ripas** (PIs existentes): largura BLA-03-AC 287 e

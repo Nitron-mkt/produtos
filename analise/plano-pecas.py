@@ -29,6 +29,7 @@ MOD=[
  ('parede-725',  '305×725',[270]*6,None,'Parede · sul, norte, entrada · 7 prateleiras, duas na zona dos olhos'),
  ('parede-620',  '305×620',[270]*6,None,'Parede · ajuste de canto do sul'),
  ('parede-fundo','305×725',[513,346,346,270],None,'Parede do fundo · lixeira na baia de 490 e nas duas de 323; olhos a 1.542'),
+ ('fundo-620',   '305×620',[513,346,346,270],None,'Parede do fundo · ajuste de canto, mesma pilha'),
  ('ponta',       '305×725',[346,346,270],None,'Ponta de gôndola · cabeceira das ilhas, 4 prateleiras, baias de 323'),
  ('ilha',        '450×725',[513,346],None,'Ilha · 500 de profundidade, topo aberto para produto alto; 2 × 2 costa a costa'),
  ('checkout',    '200×620',[270]*3,None,'Checkout · 268 de profundidade, 4 prateleiras, segundo facing dos campeões'),
@@ -39,12 +40,13 @@ L759=cad.ext_comp(717,1); L659=cad.ext_comp(617,1)
 def compor(livre):
     c=[(livre-(a*L759+b*L659),a,b) for a in range(0,25) for b in range(0,6) if a*L759+b*L659<=livre]
     fmin=min(x[0] for x in c); return min((x for x in c if x[0]<=fmin+100),key=lambda x:(x[2],x[0]))
-fs,aS,bS=compor(13350); fn,aN,bN=compor(6100); ff,aF,bF=compor(6873)
+# corridas livres com as paredes laterais a 372: sul inteira; norte do pilar (6.745) ao modulo do fundo (12.978); fundo entre sul e norte; entrada da porta (2.000) ao modulo do sul (7.148)
+fs,aS,bS=compor(13350); fn,aN,bN=compor(12978-6745); ff,aF,bF=compor(7520-372-372); fe,aE,bE=compor(7148-2000)
 PLANO=[
  ('Paredão sul · cozinha','parede-725',aS,13350),('Paredão sul · ajuste de canto','parede-620',bS,None),
- ('Paredão norte · organização','parede-725',aN,6100),
- ('Paredão do fundo · banho e lavanderia','parede-fundo',aF,6873),
- ('Parede de entrada · frasqueiras e infantil','parede-725',3,6548),
+ ('Paredão norte · organização','parede-725',aN,6233),
+ ('Paredão do fundo · banho e lavanderia','parede-fundo',aF,6776),('Paredão do fundo · ajuste de canto','fundo-620',bF,None),
+ ('Parede de entrada · frasqueiras e infantil','parede-725',3,5148),
  ('Vitrine da entrada · araras Nitron-Mob','arara',2,None),
  ('Ilhas · 2 ilhas de 2 × 2','ilha',8,None),
  ('Pontas de gôndola · 2 por ilha','ponta',4,None),
@@ -129,7 +131,7 @@ M.freeze_panes='B5'
 # Showroom
 S=wb.create_sheet('Showroom')
 S['A1']='O showroom com as peças novas — onde vai cada módulo e quanto'; S['A1'].font=ft
-S['A2']='Quantidades em azul são a proposta; troque e o resto recalcula. Paredes: %d × 759 + %d × 659 no sul (folga %.0f), %d × 759 no norte (%.0f), %d × 759 no fundo (%.0f). Entrada: 3 módulos + vitrine.'%(aS,bS,fs,aN,fn,aF,ff); S['A2'].font=fn_
+S['A2']='Quantidades em azul são a proposta; troque e o resto recalcula. Paredes: sul %d × 759 + %d × 659 (folga %.0f) · norte %d × 759 (%.0f) · fundo %d × 759 + %d × 659 (%.0f) · entrada 3 módulos + vitrine de %.0f mm.'%(aS,bS,fs,aN,fn,aF,bF,ff,5148-3*L759); S['A2'].font=fn_
 header(S,4,['Onde','Módulo','Qtd','Comprimento montado (mm)','Custo (R$)','Massa (kg)','Frente (m)'])
 LK=lambda col,r: f'INDEX(Modulos!${col}$5:${col}${4+len(MOD)},MATCH($B{r},Modulos!$A$5:$A${4+len(MOD)},0))'
 for i,(onde,mod,q,livre) in enumerate(PLANO):
