@@ -501,18 +501,24 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
 - Showroom (rev. 2): sul 14 × 759 + 4 × 659 (folga 88) · **norte 8 × parede-baixa** (folga 161 até o
   módulo do fundo) · **fundo 8 × 759 + 1 × 659** (as laterais têm 372 de fundo, corrida livre 6.776;
   folga 45) · entrada 3 + 2 araras · 2 ilhas de 2 × 2 · **corredor de PDV 2 gôndolas × 3 pares** ·
-  8 pontas · checkout 2 × 3 · **entrada 7 vãos (rev. 4)** = 78 vãos. **Em corridas com cruzeta:
-  R$ 18.676, 1.012 kg**, compras em `dados/57` (672 trizetas · 460 cruzetas · 8 peças L). Dez vãos-tipo
+  10 pontas · checkout 2 × 3 · **entrada 8 vãos · 3 ilhas (rev. 5)** = 83 vãos, sem araras. **Em corridas
+  com cruzeta: R$ 19.841, 1.074 kg**, compras em `dados/57` (704 trizetas · 486 cruzetas · 0 peças L). Dez vãos-tipo
   (entraram `parede-baixa` e `gondola`).
 
-### Projeto do showroom (doc 18 rev. 4, 11/09/2026) — `analise/showroom-projeto.py` → `dados/55-58`
-- **Rev. 4 (pedido do usuário): a porta é de enrolar**, abre para cima, colada ao caixa — não há folha
-  girando. A parede da esquerda (x = 0) vai **inteira de prateleira da porta (2.000) ao canto do sul
-  (7.148)**: 7 vãos (5 × 725 + 2 × 620) em corridas 3 + 2 + 2 = 5.025 mm, folga 123 junto à porta.
-  Recebe **Decor, Teca, Infantil + Realce e Frasqueiras** (60 SKUs, R$ 8,1 M) — Decor e Teca saíram do
-  sul, que ficou com POP, Geladeira, Micro-ondas, Jarras, Cozinha e Potes. As 2 araras Nitron-Mob foram
-  para a **parede norte entre a porta e o caixa** (x 500 e 1.400, 2.400 livres). Total **78 vãos em
-  35 corridas, R$ 18.676, 1.012 kg, 672 trizetas + 460 cruzetas**; olhos 73%.
+### Projeto do showroom (doc 18 rev. 5, 11/09/2026) — `analise/showroom-projeto.py` → `dados/55-58`
+- **Rev. 5 (croqui do usuário): a porta são DUAS FOLHAS na parede NORTE**, do canto esquerdo (x = 0) ao
+  caixa (x = 2.400), abrindo para dentro — não é na parede oeste nem de enrolar (rev. 4 estava errada).
+  Assumido 2 × 1.200; a folha do canto, aberta, deita sobre a parede oeste até y = 1.200. A parede da
+  esquerda vai de prateleira de y = 1.386 ao canto do sul: **8 vãos (6 × 725 + 2 × 620) em corridas
+  3 + 3 + 2 = 5.762**, folga 186 até a folha aberta. A praça entre a entrada e o checkout ganhou a
+  **ilha 3** (2 × 2 + 2 pontas, x 1.766–4.006, y 4.300–5.300, corredores de 1.394 para os dois lados,
+  1.223 até o checkout). **As araras saíram** (o showroom inteiro é o Nitron-Mob montado). Total
+  **83 vãos em 37 corridas, R$ 19.841, 1.074 kg, 704 trizetas + 486 cruzetas**; 605/609 SKUs; olhos 73%.
+  Prateleira vazia de ilha recebe 2º facing de campeões (108) antes da repetição de coluna.
+- **Rev. 4 (superada pela 5 na posição da porta):** entendi "porta de enrolar na parede oeste"; o croqui
+  mostrou duas folhas no norte. O que ficou da rev. 4: a parede de entrada recebe **Decor, Teca,
+  Infantil + Realce e Frasqueiras** (60 SKUs, R$ 8,1 M) — Decor e Teca saíram do sul, que ficou com POP,
+  Geladeira, Micro-ondas, Jarras, Cozinha e Potes; as zonas passaram a ser definidas por categoria.
 - **Rev. 3 (pedido do usuário): a cruzeta voltou.** Vãos vizinhos dividem poste e formam **corridas de
   até 3 vãos** (trizeta nas pontas, cruzeta nos postes do meio; `corridas()` evita corrida de 1).
   **74 vãos em 33 corridas, R$ 17.429, 944 kg, 616 trizetas + 432 cruzetas** — avulso (N = 1,

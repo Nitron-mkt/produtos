@@ -10,7 +10,7 @@ def load(n,f):
 pc=load('pc','planograma-catalogo.py'); cad=load('cad','pdv-caderno.py')
 
 # ------------------------------------------------------------------ a sala
-SALA=dict(C=13350,L=7520,H=3400,porta=(0,2000),porta_tipo='enrolar (abre para cima, colada ao caixa — sem giro de folha)',caixa=(2400,5800,600),pilar=(6500,6745,670))
+SALA=dict(C=13350,L=7520,H=3400,porta=(0,2400),porta_parede='norte',porta_folhas=2,porta_giro=1200,porta_tipo='duas folhas na parede norte, do canto ao caixa, abrindo para dentro',caixa=(2400,5800,600),pilar=(6500,6745,670))
 TESTEIRA=1900
 L759=cad.ext_comp(717,1); L659=cad.ext_comp(617,1)
 PAINEIS={'200×620':(200,620,183,617),'305×620':(305,620,287,617),'305×725':(305,725,287,717),'450×725':(450,725,415,717)}
@@ -72,14 +72,15 @@ fila('Paredão sul',SUL,fS/2,SALA['L']-372,'x','COZINHA')
 fila('Paredão norte',['parede-baixa']*8,6745,0,'x','ORGANIZACAO','sob a janela')
 # fundo: entre norte e sul; o 659 no canto do norte
 fila('Paredão do fundo',['fundo-620']+['parede-fundo']*8,SALA['C']-372,372,'y','BANHO E LAVANDERIA')
-# entrada: a porta e de enrolar (sem giro), entao a parede da esquerda vai inteira de prateleira, da porta (2.000) ao canto do sul (7.148)
-ENT=['parede-725']*5+['parede-620']*2   # corridas 3 + 2 + 2 = 5.025 em 5.148 livres
+# entrada: a porta (2 folhas, 2.400) esta na parede NORTE, do canto ao caixa, abrindo para dentro. A folha do canto, aberta, deita sobre a
+# parede oeste ate y = 1.200; a parede da esquerda vai de prateleira dali ao canto do sul (7.148): 8 vaos em corridas 3 + 3 + 2 = 5.762 em 5.948 livres
+ENT=['parede-725']*6+['parede-620']*2
 fila('Parede de entrada',ENT,0,SALA['L']-372-L_fila(ENT),'y','FRASQUEIRAS E INFANTIL')
-# araras Nitron-Mob: na parede norte entre a porta e o caixa (2.400 livres), de frente para quem entra
-run('Vitrine Nitron-Mob',['arara'],500,0,'x','NITRON-MOB','arara Nitron-Mob montada'); run('Vitrine Nitron-Mob',['arara'],1400,0,'x','NITRON-MOB','arara Nitron-Mob montada')
+assert SALA['L']-372-L_fila(ENT)>=SALA['porta_giro']
 # ilhas: 2 vaos de 450x725 em corrida (cruzeta no meio), duas faces costa a costa, ponta em cada cabeceira
 LI=L_fila(['ilha']*2)
-for k,(ix,iy) in enumerate(((5400,1900),(5400,4300))):
+# a terceira ilha ocupa a praca entre a parede de entrada e o checkout, alinhada com a ilha 2 (corredores de 1.394 para os dois lados)
+for k,(ix,iy) in enumerate(((5400,1900),(5400,4300),(1766,4300))):
     run(f'Ilha {k+1}',['ponta'],ix,iy+(1000-L759)/2,'y','MIOLO','cabeceira oeste')
     run(f'Ilha {k+1}',['ilha']*2,ix+372,iy,'x','MIOLO','face norte'); run(f'Ilha {k+1}',['ilha']*2,ix+372,iy+500,'x','MIOLO','face sul')
     run(f'Ilha {k+1}',['ponta'],ix+372+LI,iy+(1000-L759)/2,'y','MIOLO','cabeceira leste')
@@ -93,7 +94,7 @@ for k,rx in enumerate((8700,10844)):
 # checkout: duas fileiras (corrida de 3) ao longo de y desembocando no caixa (caixa em y 0-600, x 2400-5800)
 for cx,lado in ((2600,'lado oeste'),(4000,'lado leste')):
     run('Corredor de checkout',['checkout']*3,cx,800,'y','CHECKOUT',lado)
-assert len(M)==78, len(M)
+assert len(M)==83, len(M)
 # ------------------------------------------------------------------ BOM por corrida (generaliza cad.bom para vaos de ripa mista)
 def bom_run(r):
     tipos=r['tipos']; N=len(tipos); pan,pil,cor,_=TIPOS[tipos[0]]
@@ -222,6 +223,12 @@ for p in prat.values():
             if p['extra'][x['ref']]>=3: continue
             if x['frente']<=p['livre']: p['livre']-=x['frente']; p['extra'][x['ref']]+=1; add_=True
         if not add_: break
+# 5b) ilhas: prateleira vazia de ilha recebe segundo facing dos campeoes (a ilha 3 fica na praca da entrada)
+ps_il2=ordem([p for p in prat.values() if p['area'].startswith('Ilha') and not p['itens']])
+n2i=0
+for s_ in camp:
+    if not any(p['livre']>=s_['frente'] for p in ps_il2): break
+    if coloca([s_],ps_il2,facing=2): n2i+=1
 # 6) reforco do norte baixo: prateleiras vazias do norte recebem segundo facing dos campeoes de Organizacao (o corredor esta em frente)
 ps_norte=ordem([p for p in prat.values() if p['area']=='Paredão norte'])
 n2n=0
@@ -309,7 +316,7 @@ for m in M:
 R=dict(sala=SALA,M=M,RUNS=[dict(id=r['id'],area=r['area'],tipos=r['tipos'],N=r['N'],mods=r['mods'],L=r['L'],P=r['P'],A=r['A'],x=r['x'],y=r['y'],eixo=r['eixo'],nota=r['nota'],tz=r['bom']['tz'],cz=r['bom']['cz'],custo=r['bom']['custo'],kg=r['bom']['kg']) for r in RUNS],avulso=AVULSO,avulso_tz=AVULSO_TZ,enc=ENC,G={t:dict(painel=g['painel'],pilha=g['pilha'],coroa=g['coroa'],L=round(g['L']),P=round(g['P']),A=round(g['A']),faces=g['faces'],vao=[round(v) for v in g['vao']],util=g['util']) for t,g in G.items()},
        B={t:dict(custo=b['custo'],kg=b['kg'],tz=b['tz'],np=b['np']) for t,b in B.items()},
        areas=areas,custo=custo,kg=kg,tot=dict(tot),gond=len(gond),aloc=len(aloc),resto=[(s['ref'],s['nome'],s['categoria'],round(s['alt']),s['fundo'],s['fat']) for s in sorted(resto,key=lambda s:-s['fat'])],
-       fat_tot=fat_tot,fat_al=fat_al,nfac=nfac,npos=npos,n2n=n2n,nrep=nrep,janela=JANELA,zonas={k:dict(n=z[k],fat=zf[k]) for k in z},n2p=n2p,n2c=n2c,
+       fat_tot=fat_tot,fat_al=fat_al,nfac=nfac,npos=npos,n2n=n2n,n2i=n2i,nrep=nrep,janela=JANELA,zonas={k:dict(n=z[k],fat=zf[k]) for k in z},n2p=n2p,n2c=n2c,
        cel={f"{p['mod']}-{p['nivel']}":[sum(1 for x,fc in p['itens'] if fc==1),sum(x['frente']*(1+p['extra'][x['ref']]) for x,fc in p['itens']),sum(x['fat'] for x,fc in p['itens'] if fc==1),sum(1 for x,fc in p['itens'] if fc==2),sum(1 for x,fc in p['itens'] if fc==3)] for p in prat.values()},
        cat={m['n']:m.get('categoria','') for m in M})
 json.dump(R,open('/tmp/claude-0/-home-user-produtos/a90e79dc-9d6b-5cf3-8b87-00e7e5301ee0/scratchpad/projeto.json','w'),ensure_ascii=False,default=float)
@@ -317,6 +324,6 @@ print('%d vãos em %d corridas · R$ %.2f · %.0f kg · %d trizetas · %d cruzet
 print('catálogo em prateleira: %d de %d SKUs · R$ %.2f M de %.2f (%.1f%%) · sem lugar: %d'%(len(aloc),len(gond),fat_al/1e6,fat_tot/1e6,100*fat_al/fat_tot,len(resto)))
 for k in ('olhos','maos','chao','topo'):
     if z[k]: print('  %-6s %3d SKUs · %.0f%% do faturamento alocado'%(k,z[k],100*zf[k]/fat_al))
-print('segundo facing: %d nas pontas · %d no checkout · %d no norte · %d prateleiras repetidas · facings totais %d em %d posições (%.1f por posição)'%(n2p,n2c,n2n,nrep,nfac,npos,nfac/npos))
+print('segundo facing: %d nas pontas · %d no checkout · %d nas ilhas · %d no norte · %d prateleiras repetidas · facings totais %d em %d posições (%.1f por posição)'%(n2p,n2c,n2i,n2n,nrep,nfac,npos,nfac/npos))
 for a,v in areas.items(): print('  %-24s %2d mód · R$ %8.2f · %3d SKUs · R$ %5.2f M · %5.1f m · vazias %2d/%2d'%(a,v['mods'],v['custo'],v['skus'],v['fat']/1e6,v['frente'],v['vazias'],v['prat']))
 if resto: print('sem lugar:',[(r['ref'],r['nome'][:30],round(r['alt']),r['fundo']) for r in resto[:6]])
