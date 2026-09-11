@@ -158,3 +158,94 @@ uma carta na manga para depois, não uma decisão de agora.
 4. **Comece comprando fita** (R$ 8–20 mil) para provar o conceito.
 5. **Se funcionar, avalie injetar o anel** num molde de família de 4 cavidades — sem junta,
    montagem 2× mais rápida, R$ 48,5 mil/ano contra R$ 69,3 mil.
+
+---
+
+# ADENDO — Molde de família balanceado por demanda
+
+**Pergunta:** *"no mesmo molde eu tenho o aro G, aí de repente eu coloco dois M e três P."*
+
+**Sim, é exatamente assim que se faz** — chama-se molde de família balanceado por demanda. Com os
+seus números, funciona ainda melhor do que a proporção que você imaginou. Três ajustes.
+
+## 1. A proporção não é 1G : 2M : 3P — e o motivo é estrutural
+
+O maior volume **não é o pote menor.** É o A1 (22×14), e por uma razão que vale entender:
+
+| Aro | Demanda/ano | Serve | |
+|---|---:|---|---|
+| **A1 22×14** | **155.949** | Raso 1,1 L + Alto 2,2 L | **dois produtos** |
+| A2 26×18 | 80.346 | Raso 2,3 L + Alto 4,3 L | **dois produtos** |
+| A3 20×19 | 68.257 | Quadrado 1,8 L | um |
+| A4 25×16,5 | 42.020 | Ultraforte 2,1 L | um |
+
+A proporção real é **3,71 : 1,91 : 1,62 : 1**, e ela vem da **demanda**, não do tamanho da peça.
+O A1 domina porque é a única tampa que serve dois produtos de alto giro.
+
+## 2. O limitante é a ÁREA do molde, não a tonelagem
+
+Aqui está o que quase derruba a ideia de pôr os quatro no mesmo molde. Um anel é **vazado no
+meio** — ocupa muita área de molde e quase nenhuma tonelagem:
+
+| Arranjo | Excesso | Área | Lado aprox. | Força | Menor injetora que aceita |
+|---|---:|---:|---:|---:|---|
+| 4 : 2 : 2 : 1 (proporção ideal) | 8,4% | 4.476 cm² | ~84 cm | **92 tf** | **600 tf** ❌ |
+| 2 : 1 : 1 : 1 | 13,7% | 2.511 cm² | ~63 cm | 52 tf | 380 tf ❌ |
+| 1 : 1 : 1 : 1 | 44,4% | 2.086 cm² | ~57 cm | 42 tf | 250 tf |
+
+**Precisaria de 92 tf de força e de uma máquina de 600 tf** — não pela força, mas porque o molde
+não caberia entre as colunas de nada menor. Rodar 92 tf numa 600 tf é pagar hora-máquina de
+máquina grande para fazer trabalho de máquina pequena.
+
+*(Espaço entre colunas por tonelagem é estimativa de engenharia — **confirmar nas máquinas
+reais** antes de fechar o projeto do molde.)*
+
+## 3. A solução: dois moldes pequenos, não um grande
+
+| Molde | Cavidades | Excesso | Área | Força | Injetora | Horas/ano |
+|---|---|---:|---:|---:|---|---:|
+| **1** | **2× A1 + 1× A2** | **2,0%** | 1.459 cm² (~48×48) | **30 tf** | **200 tf** ✅ | 558 h |
+| **2** | **2× A3 + 1× A4** | 12,5% | 1.558 cm² (~49×49) | **31 tf** | **200 tf** ✅ | 292 h |
+
+Os dois cabem nas injetoras de 200 tf que **já rodam essas tampas hoje**.
+
+### E com bloqueio de cavidade o excesso vai a ZERO
+
+É aqui que a sua ideia fica redonda. Roda o molde cheio até completar o item que satura primeiro,
+depois **bloqueia as cavidades prontas** e roda só o que falta:
+
+**Molde 1** — 77.974 ciclos com tudo aberto → A1 completo (155.949 ✓), A2 em 77.974.
+Bloqueia o A1, roda 2.372 ciclos só de A2. **Total 80.346 ciclos, excesso zero.**
+
+**Molde 2** — 34.128 ciclos com tudo aberto → A3 completo (68.257 ✓), A4 em 34.128.
+Bloqueia o A3, roda 7.892 ciclos só de A4. **Total 42.020 ciclos, excesso zero.**
+
+**850 horas de injetora por ano somando os dois** — 21% de dois turnos de uma máquina de 200 tf.
+
+## 4. O que precisa de atenção no projeto do molde
+
+⚠️ **Balanceamento de enchimento.** Cavidades de tamanhos diferentes enchem em tempos diferentes —
+a maior demora mais. Desbalanceado, a menor superpacka (rebarba, tensão interna) e a maior sai
+incompleta. **No caso do aro é mais fácil que o normal**, porque a seção é a mesma em todas: o que
+muda é só o comprimento do caminho, e isso se corrige **dimensionando os canais** (canal escalonado,
+mais estreito para a cavidade menor). Exigir do ferramenteiro o estudo de balanceamento — é o item
+técnico nº 1 do molde.
+
+⚠️ **O bloqueio precisa ser previsto no projeto**, não improvisado depois: obturador de canal por
+cavidade, acessível sem desmontar o molde.
+
+⚠️ **Confirmar o espaço entre colunas** das injetoras de 200 tf antes de fechar a área do molde.
+
+## 5. Investimento revisado
+
+| | |
+|---|---|
+| Molde 1 (2× A1 + 1× A2, com bloqueio) | R$ 40.000 – 70.000 |
+| Molde 2 (2× A3 + 1× A4, com bloqueio) | R$ 40.000 – 70.000 |
+| **Total** | **R$ 80.000 – 140.000** |
+
+Mesma faixa do molde de família único de 4 cavidades — **mas rodando em máquina de 200 tf em vez
+de 600 tf**, o que muda o custo por hora de produção, e com excesso zero em vez de 8 a 14%.
+
+**A recomendação do corpo deste documento não muda:** comece comprando fita (R$ 8–20 mil) para
+provar o conceito. O molde de família é o passo dois, quando a geometria estiver validada.
