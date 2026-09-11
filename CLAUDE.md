@@ -501,12 +501,18 @@ altura `BAL02AC 270` · `PSA02 346` · `PSA05 513` — largura `BAL01AC 183` · 
 - Showroom (rev. 2): sul 14 × 759 + 4 × 659 (folga 88) · **norte 8 × parede-baixa** (folga 161 até o
   módulo do fundo) · **fundo 8 × 759 + 1 × 659** (as laterais têm 372 de fundo, corrida livre 6.776;
   folga 45) · entrada 3 + 2 araras · 2 ilhas de 2 × 2 · **corredor de PDV 2 gôndolas × 3 pares** ·
-  8 pontas · checkout 2 × 3 = 74 vãos. **Em corridas com cruzeta (rev. 3): R$ 17.429, 944 kg**,
-  compras: painéis 24 / 33 / 289 / 24 · ripas largura 32 / 456 / 36 · comprimento 114 / 630 · altura
-  494 / 244 / 104 · 616 trizetas · 432 cruzetas · 214 tampas · 214 pés · 8 peças L. Dez vãos-tipo
+  8 pontas · checkout 2 × 3 · **entrada 7 vãos (rev. 4)** = 78 vãos. **Em corridas com cruzeta:
+  R$ 18.676, 1.012 kg**, compras em `dados/57` (672 trizetas · 460 cruzetas · 8 peças L). Dez vãos-tipo
   (entraram `parede-baixa` e `gondola`).
 
-### Projeto do showroom (doc 18 rev. 3, 10/09/2026) — `analise/showroom-projeto.py` → `dados/55-58`
+### Projeto do showroom (doc 18 rev. 4, 11/09/2026) — `analise/showroom-projeto.py` → `dados/55-58`
+- **Rev. 4 (pedido do usuário): a porta é de enrolar**, abre para cima, colada ao caixa — não há folha
+  girando. A parede da esquerda (x = 0) vai **inteira de prateleira da porta (2.000) ao canto do sul
+  (7.148)**: 7 vãos (5 × 725 + 2 × 620) em corridas 3 + 2 + 2 = 5.025 mm, folga 123 junto à porta.
+  Recebe **Decor, Teca, Infantil + Realce e Frasqueiras** (60 SKUs, R$ 8,1 M) — Decor e Teca saíram do
+  sul, que ficou com POP, Geladeira, Micro-ondas, Jarras, Cozinha e Potes. As 2 araras Nitron-Mob foram
+  para a **parede norte entre a porta e o caixa** (x 500 e 1.400, 2.400 livres). Total **78 vãos em
+  35 corridas, R$ 18.676, 1.012 kg, 672 trizetas + 460 cruzetas**; olhos 73%.
 - **Rev. 3 (pedido do usuário): a cruzeta voltou.** Vãos vizinhos dividem poste e formam **corridas de
   até 3 vãos** (trizeta nas pontas, cruzeta nos postes do meio; `corridas()` evita corrida de 1).
   **74 vãos em 33 corridas, R$ 17.429, 944 kg, 616 trizetas + 432 cruzetas** — avulso (N = 1,

@@ -10,7 +10,7 @@ def load(n,f):
 pc=load('pc','planograma-catalogo.py'); cad=load('cad','pdv-caderno.py')
 
 # ------------------------------------------------------------------ a sala
-SALA=dict(C=13350,L=7520,H=3400,porta=(0,2000),caixa=(2400,5800,600),pilar=(6500,6745,670))
+SALA=dict(C=13350,L=7520,H=3400,porta=(0,2000),porta_tipo='enrolar (abre para cima, colada ao caixa — sem giro de folha)',caixa=(2400,5800,600),pilar=(6500,6745,670))
 TESTEIRA=1900
 L759=cad.ext_comp(717,1); L659=cad.ext_comp(617,1)
 PAINEIS={'200×620':(200,620,183,617),'305×620':(305,620,287,617),'305×725':(305,725,287,717),'450×725':(450,725,415,717)}
@@ -72,10 +72,11 @@ fila('Paredão sul',SUL,fS/2,SALA['L']-372,'x','COZINHA')
 fila('Paredão norte',['parede-baixa']*8,6745,0,'x','ORGANIZACAO','sob a janela')
 # fundo: entre norte e sul; o 659 no canto do norte
 fila('Paredão do fundo',['fundo-620']+['parede-fundo']*8,SALA['C']-372,372,'y','BANHO E LAVANDERIA')
-# entrada: 3 vaos encostados no canto do sul, araras na vitrine
-ENT=['parede-725']*3
+# entrada: a porta e de enrolar (sem giro), entao a parede da esquerda vai inteira de prateleira, da porta (2.000) ao canto do sul (7.148)
+ENT=['parede-725']*5+['parede-620']*2   # corridas 3 + 2 + 2 = 5.025 em 5.148 livres
 fila('Parede de entrada',ENT,0,SALA['L']-372-L_fila(ENT),'y','FRASQUEIRAS E INFANTIL')
-run('Vitrine da entrada',['arara'],0,2300,'y','NITRON-MOB','arara Nitron-Mob montada'); run('Vitrine da entrada',['arara'],0,3600,'y','NITRON-MOB','arara Nitron-Mob montada')
+# araras Nitron-Mob: na parede norte entre a porta e o caixa (2.400 livres), de frente para quem entra
+run('Vitrine Nitron-Mob',['arara'],500,0,'x','NITRON-MOB','arara Nitron-Mob montada'); run('Vitrine Nitron-Mob',['arara'],1400,0,'x','NITRON-MOB','arara Nitron-Mob montada')
 # ilhas: 2 vaos de 450x725 em corrida (cruzeta no meio), duas faces costa a costa, ponta em cada cabeceira
 LI=L_fila(['ilha']*2)
 for k,(ix,iy) in enumerate(((5400,1900),(5400,4300))):
@@ -92,7 +93,7 @@ for k,rx in enumerate((8700,10844)):
 # checkout: duas fileiras (corrida de 3) ao longo de y desembocando no caixa (caixa em y 0-600, x 2400-5800)
 for cx,lado in ((2600,'lado oeste'),(4000,'lado leste')):
     run('Corredor de checkout',['checkout']*3,cx,800,'y','CHECKOUT',lado)
-assert len(M)==74, len(M)
+assert len(M)==78, len(M)
 # ------------------------------------------------------------------ BOM por corrida (generaliza cad.bom para vaos de ripa mista)
 def bom_run(r):
     tipos=r['tipos']; N=len(tipos); pan,pil,cor,_=TIPOS[tipos[0]]
@@ -149,20 +150,21 @@ def coloca(bl,ps,facing=1):
     return True
 # 1) paredes e corredor, por ambiente, categoria em bloco vertical (ordem de percurso)
 # Organizacao vive no corredor de PDV (gondolas, 5 niveis com baia de 490) e transborda para o norte baixo (sob a janela)
-ZONAS=[('Paredão sul',['Paredão sul'],'COZINHA',['DECOR','POP','GELADEIRA','MICRO-ONDAS','JARRAS','COZINHA','POTES','TECA']),
+# a entrada (7 vaos) leva as linhas de design e presente — Decor e Teca — mais Infantil/Realce e Frasqueiras (a linha que cresce), Frasqueiras no canto que emenda com o sul
+ZONAS=[('Paredão sul',['Paredão sul'],'COZINHA',['POP','GELADEIRA','MICRO-ONDAS','JARRAS','COZINHA','POTES']),
        ('Corredor de PDV + norte',['Gôndola A','Gôndola B','Paredão norte'],'ORGANIZACAO',['ORGANIZACAO']),
        ('Paredão do fundo',['Paredão do fundo'],'BANHO E LAVANDERIA',['LIMPEZA','LIXEIRAS','BANHEIRO']),
-       ('Parede de entrada',['Parede de entrada'],'FRASQUEIRAS E INFANTIL',['FRASQUEIRAS','INFANTIL','REALCE'])]
+       ('Parede de entrada',['Parede de entrada'],'FRASQUEIRAS E INFANTIL',['DECOR','TECA','INFANTIL','REALCE','FRASQUEIRAS'])]
 sobra=[]
 for nome,areas_,amb,fluxo in ZONAS:
     mods=sorted([m for m in M if m['area'] in areas_ and m['tipo']!='ponta'],key=lambda m:(areas_.index(m['area']),m['n']))
     ps_all=[p for p in prat.values() if p['mod'] in {m['n'] for m in mods}]
     prof=min(p['prof'] for p in ps_all); vmax=max(p['vao'] for p in ps_all)
-    A=[s for s in gond if s['ambiente']==amb]
+    A=[s for s in gond if s['categoria'] in fluxo]
     cabe=[s for s in A if s['fundo']<=prof and s['alt']<=vmax]; sobra+= [s for s in A if s not in cabe]
     if nome=='Parede de entrada':
-        for s in cabe: s['cat2']='FRASQUEIRAS' if s['categoria']=='FRASQUEIRAS' else 'INFANTIL+REALCE'
-        fluxo=['FRASQUEIRAS','INFANTIL+REALCE']
+        for s in cabe: s['cat2']='INFANTIL+REALCE' if s['categoria'] in ('INFANTIL','REALCE') else s['categoria']
+        fluxo=['DECOR','TECA','INFANTIL+REALCE','FRASQUEIRAS']
     else:
         for s in cabe: s['cat2']=s['categoria']
     dem=collections.Counter()
@@ -171,7 +173,6 @@ for nome,areas_,amb,fluxo in ZONAS:
     alvo={c:dem[c]/tot*len(mods) for c in fluxo}; nmod={c:max(1,int(alvo[c])) for c in fluxo}
     while sum(nmod.values())<len(mods): c=max(fluxo,key=lambda k:alvo[k]-nmod[k]); nmod[c]+=1
     while sum(nmod.values())>len(mods): c=max((k for k in fluxo if nmod[k]>1),key=lambda k:nmod[k]-alvo[k]); nmod[c]-=1
-    if nome=='Paredão sul' and nmod.get('TECA',0)<2: nmod['TECA']=2; nmod['POTES']-=1
     i=0; faixa={}
     for c in fluxo:
         faixa[c]=[mods[j]['n'] for j in range(i,i+nmod[c])]; i+=nmod[c]
