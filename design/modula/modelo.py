@@ -38,16 +38,19 @@ REGRA QUE GOVERNA TUDO
 
 A CADEIA (rev.25) — EM CIMA, nao dentro
   Dois P acoplados lado a lado pousam EM CIMA de um M; tres P em cima de um G.
-  O P tem quatro PES DE CANTO: colunas ocas verticais que descem do aro ate o
-  chao no contorno do aro (fora do corpo conico), fechadas por uma alma em
-  cada ponta e abertas embaixo (saem do molde por baixo). Na sola de cada pe
-  ha um PINO de 7 x 7 x 10 que cai num BOLSAO aberto no patamar do aro do M e
-  do G, dentro do oco da aba. O ombro do pe pousa no patamar; o pino trava.
+  O P tem quatro COLUNAS DE CANTO: casca vertical no contorno do aro, do aro ao
+  chao, sobre o arco do canto e PE_RETA de cada reta, fechada por uma alma em
+  cada ponta e aberta embaixo (sai do molde por baixo: a parede se afasta da
+  casca com os 7,5 graus). Sao os unicos pes do P — nao ha copos.
+  Quem trava e o grande: PINOS de 7 x 6 x 10 sobem do patamar do aro do M e do
+  G, onde cai cada coluna do P, e entram no oco da coluna por baixo. A coluna
+  e o proprio bolsao; o P pousa com a sola inteira da coluna no patamar. Os
+  pinos sao compativeis com o ninho do M e do G: entram no oco da aba da peca
+  de cima (que e aberto embaixo) com 0,9 mm da saia dela.
   Para o pino do meio ter aro embaixo, a frente do M tem um PILAR de altura
   cheia no meio (dois vaos) e a do G tem dois (tres vaos): cada vao fica sob
   um P. Os cantos de M, G e P passam a ter altura cheia; o mergulho e so no vao.
-  O P deixa de ninhar (os pes de canto ocupam o contorno do aro); M e G ninham
-  como antes — bolsao e vazio, pilar e parede.
+  O P deixa de ninhar (as colunas ocupam o contorno do aro).
 """
 import math
 from geometria import DEG, Contorno, Malha, banda, perfurada
@@ -79,7 +82,7 @@ TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     # rev.23: o P abre pelo lado CURTO (frente de 192), como os cestos de
     # referencia; os acopladores ficam nos lados longos e a fileira tem passo 192.
-    "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
+    "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=30.0, e=1.8, R=26.0, aba=12.9,
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
               acoplador=True, pes_canto=True, ninha=False),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=26.0, aba=12.4,
@@ -90,8 +93,8 @@ TAMANHOS = {
               acoplador=True, sobre=("P", 3)),
 }
 MODULO = {192.0: 200, 289.0: 300, 390.0: 400, 582.0: 600, 596.0: 600}
-PINO = dict(w=7.0, alt=10.0, o0=0.9, o1=7.9)   # pino do pe: largura, altura, offsets desde a linha do aro
-PE_RETA = 8.0        # quanto o pe de canto avanca pelo trecho reto, alem do arco
+PINO = dict(w=7.0, alt=10.0, o0=1.2, o1=7.2)   # pino do aro do grande: largura, altura, offsets ao contorno dele
+PE_RETA = 8.0        # quanto a coluna de canto avanca pelo trecho reto, alem do arco
 E_POSTE = 1.8        # casca do pe de canto (= parede do P)
 RAMPA_FRENTE = 14.0  # rampa entre a borda alta e o vao
 
@@ -187,16 +190,13 @@ def parametros(k):
         # fileira de dois: 2X + uma cabeca livre cabe em dois modulos do palete
         assert 2 * X + s["ac_saliencia"] <= 2 * MODULO.get(X, X + 10), \
             f"{k}: macho estoura o modulo do palete"
-    # ---- pes de canto e pinos (rev.25) --------------------------------------
-    # O pe e uma coluna oca vertical no contorno do aro, do aro ao chao, sobre o
-    # arco do canto e PE_RETA mm de cada reta vizinha. O pino fica na ponta da
-    # frente/traseira, centrado em x_pino, a PINO.o0..o1 da linha do aro.
-    s["x_pino"] = round(s["ax"] - PE_RETA / 2, 1)
-    s["y_pe"] = round(s["b"] - PE_RETA, 1)          # onde o pe termina na lateral
-    s["x_pe"] = round(s["ax"] - PE_RETA, 1)         # onde o pe termina na frente/tras
+    # ---- colunas de canto (P) e pinos do aro (M, G) — rev.25 ---------------
+    s["y_pe"] = round(s["b"] - PE_RETA, 1)          # onde a coluna termina na lateral
+    s["x_pe"] = round(s["ax"] - PE_RETA, 1)         # onde a coluna termina na frente/tras
+    s["x_pino"] = round(s["ax"] - 4.0, 1)           # centro do pino que entra na coluna, junto ao arco
     s["pilares"] = []
-    s["bolsoes"] = []
-    s["x_cheia"] = s["ax"] - PE_RETA if s.get("pes_canto") else s["ax"] - 2.0
+    s["pinos"] = []
+    s["x_cheia"] = s["x_pe"] if s.get("pes_canto") else s["ax"] - 2.0
     s["pilar_meia"] = 0.0
     if s.get("sobre"):
         kf, nf = s["sobre"]
@@ -206,29 +206,35 @@ def parametros(k):
         assert abs(folga_x - 3.0) < 0.01 and abs(folga_y - 3.0) < 0.01, \
             f"{k}: {nf} {kf} nao dao o aro com 3 mm por lado ({folga_x:.1f} / {folga_y:.1f})"
         s["folga_sobre"] = folga_x
-        # offsets (ao contorno deste) onde cai o pino: a linha do aro do filho
-        # esta 'folga' para dentro da nossa; o pino a PINO.o0..o1 para dentro dela
-        s["bolsao_o"] = (round(aba - folga_x - PINO["o1"], 2), round(aba - folga_x - PINO["o0"], 2))
-        # o furo tira os degraus B e C inteiros e a placa A de 0,6 ate A-3,2
-        s["furo_o"] = (0.6, round(aba - 3.2, 2))
-        assert s["bolsao_o"][0] >= s["furo_o"][0] + 0.5 and s["bolsao_o"][1] <= s["furo_o"][1] + 0.01 - 0.5, \
-            f"{k}: pino nao cabe no bolsao ({s['bolsao_o']} em {s['furo_o']})"
-        s["bolsao_meia"] = PINO["w"] / 2 + 1.0
+        # o pino sobe do patamar C (offsets 0,6..A-4,6) e entra no oco da coluna do
+        # filho: a casca dela esta a folga..folga+E_POSTE para dentro da nossa linha
+        casca_in = aba - folga_x - E_POSTE            # face interna da casca do filho, em offset nosso
+        # cota radial do pino: o mais para fora que cabe com 0,6 da saia da peca
+        # de cima no ninho (o passo do G e maior, entao o pino dele recua)
+        o1 = round(min(PINO["o1"], (aba - e - pn * TAN) - 0.6, casca_in - 0.3), 1)
+        s["pino"] = dict(w=PINO["w"], alt=PINO["alt"], o1=o1, o0=round(max(1.1, o1 - (PINO["o1"] - PINO["o0"])), 1))
+        assert s["pino"]["o0"] >= 0.6 + 0.5 and o1 <= aba - 4.6 + 0.01, f"{k}: pino fora do patamar do aro"
+        # no ninho o pino entra no oco da aba da peca de cima (aberto embaixo)
+        s["f_pino_saia"] = round((aba - e - pn * TAN) - o1, 2)
+        assert s["f_pino_saia"] >= 0.6, f"{k}: pino raspa na saia da peca de cima no ninho ({s['f_pino_saia']} mm)"
+        s["f_pino_placa"] = round((pn - (e + 1.6 + 1.1 + 0.5)) - PINO["alt"], 1)
+        assert s["f_pino_placa"] >= 1.0, f"{k}: pino bate na placa do aro da peca de cima no ninho"
         centros = [-(nf - 1) / 2 * f["X"] + j * f["X"] for j in range(nf)]
         s["centros_sobre"] = centros
         xs = sorted(round(c + sgn * f["x_pino"], 1) for c in centros for sgn in (-1, 1))
-        s["bolsoes"] = [(lado, x) for x in xs for lado in ("frente", "traseira")]
-        assert max(xs) + s["bolsao_meia"] <= s["ax"] - 0.5, \
-            f"{k}: bolsao do canto entra no arco ({max(xs) + s['bolsao_meia']:.1f} > {s['ax']:.1f})"
-        # pilares: entre filhos vizinhos, cobrindo os dois pinos da juncao
+        s["pinos"] = [(lado, x) for x in xs for lado in ("frente", "traseira")]
+        # o pino tem de cair dentro da coluna do filho: entre a alma (x_pe) e o arco (ax)
+        assert f["x_pe"] + 0.5 <= f["x_pino"] - PINO["w"] / 2 and f["x_pino"] + PINO["w"] / 2 <= f["ax"] - 0.3, \
+            f"{k}: pino fora da coluna do {kf}"
+        assert max(xs) + PINO["w"] / 2 <= s["ax"] - 0.5, f"{k}: pino do canto entra no arco"
+        # pilares: entre filhos vizinhos, cobrindo os dois pinos da juncao (e 6 mm de
+        # borda alta alem deles: a banda do aro acaba uma amostra depois da mascara)
         s["pilares"] = [round((centros[j] + centros[j + 1]) / 2, 1) for j in range(nf - 1)]
-        # 6 mm de borda alta alem do furo: a banda do aro acaba uma amostra depois
-        # da mascara, e tem de acabar ainda na altura cheia
-        s["pilar_meia"] = round(f["X"] / 2 - f["x_pino"] + s["bolsao_meia"] + 6.0, 1)
-        s["x_cheia"] = round(max(xs) - s["bolsao_meia"] - 6.0, 1)
+        s["pilar_meia"] = round(f["X"] / 2 - f["x_pino"] + PINO["w"] / 2 + 6.0, 1)
+        s["x_cheia"] = round(max(xs) - PINO["w"] / 2 - 6.0, 1)
         s["vao_frente"] = round((s["pilares"][0] - s["pilar_meia"]) - (-s["x_cheia"]), 1) if nf > 1 else 0.0
-        s["z_filho"] = round(s["H"] - PINO["alt"], 1)         # onde a base do filho fica
-        s["prof_pino"] = round(PINO["alt"] - (e + 1.6), 1)    # o que entra abaixo da placa A
+        s["z_filho"] = s["H"]                                 # a sola da coluna do filho pousa no patamar
+        s["engate_pino"] = PINO["alt"]
     if s.get("acoplador"):
         assert s["ac_prof_bolsao"] + 1.8 < aba - e - 0.5, f"{k}: bolsao da femea nao cabe na aba"
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
@@ -493,36 +499,14 @@ def construir(k):
         ax_ = 0 if lado[i % n] in ("frente", "traseira") else 1
         return lambda z: cont.ponto(i % n, z)[ax_]
 
-    # ---- bolsoes dos pinos (rev.25): furos no patamar do aro do M e do G ----
-    # O furo tira os degraus B e C inteiros e, da placa A, a faixa de 0,6 ate
-    # A-3,2: sobra a placa sobre a parede e uma tira junto a saia. O pino cai
-    # no oco da aba, aberto por baixo.
-    bmeia = s.get("bolsao_meia", 0.0)
-    larga_b = bmeia + AMOSTRA[0] * 1.01
+    emitir(todos, ext(2.0), -e, lambda i: ztopo(i) - e - 1.6, lambda i: ztopo(i) - 1.6, "aro")
+    emitir(todos, ext(3.2), -e + 1.2, lambda i: ztopo(i) - 1.6, lambda i: ztopo(i) - 0.5, "aro")
+    emitir(todos, ext(4.6), -e + 2.6, lambda i: ztopo(i) - 0.5, ztopo, "aro")
+    # ---- pinos do aro (rev.25): sobem do patamar onde cai cada coluna do filho --
+    for l, c in s["pinos"]:
+        pn_ = s["pino"]
+        bloco(l, c - pn_["w"] / 2, c + pn_["w"] / 2, pn_["o1"], pn_["o0"], H - 1.0, H + pn_["alt"], "aro")
 
-    def no_bolsao(i, meia):
-        return any(lado[i % n] == l and abs(coord(i) - c) < meia for l, c in s["bolsoes"])
-
-    def banda_aro(o_ext_d, o_int_v, dz0, dz1, tiras):
-        """Uma das tres bandas do topo do aro, com os furos dos bolsoes. 'tiras'
-        sao as faixas de offset que sobrevivem dentro do furo."""
-        emitir(lambda i: com_aro(i) and not no_bolsao(i, larga_b), ext(o_ext_d), o_int_v,
-               lambda i: ztopo(i) + dz0, lambda i: ztopo(i) + dz1, "aro")
-        for l, c in s["bolsoes"]:
-            idx = [i for i in range(n) if lado[i] == l and abs(coord(i) - c) < larga_b]
-            j0, k = min(idx), max(idx) + 1
-            ja, jb = (j0, k) if coord(j0) < coord(k) else (k, j0)
-            assert ztopo(j0) >= H - 0.01 and ztopo(k) >= H - 0.01, f"{k_}: bolsao fora da borda alta"
-            bloco(l, coord_z(ja), c - bmeia, A - o_ext_d, o_int_v, H + dz0, H + dz1)
-            bloco(l, c + bmeia, coord_z(jb), A - o_ext_d, o_int_v, H + dz0, H + dz1)
-            for t0, t1 in tiras:
-                if t1 - t0 > 0.05:
-                    bloco(l, c - bmeia, c + bmeia, t1, t0, H + dz0, H + dz1)
-    k_ = s["nome"]
-    f0, f1 = s.get("furo_o", (0.0, 0.0))
-    banda_aro(2.0, -e, -e - 1.6, -1.6, [(-e, f0), (f1, A - 2.0)])
-    banda_aro(3.2, -e + 1.2, -1.6, -0.5, [(-e + 1.2, f0)])
-    banda_aro(4.6, -e + 2.6, -0.5, 0.0, [])
     # ---- acoplador lateral (rev.22) e postes do aro (rev.24) ---------------
     # rev.24: tudo aqui e emitido com COORDENADAS EXATAS (blocos), nao por
     # amostra do contorno: a folga de projeto e 0,3 mm e a amostra e 1,3 mm —
@@ -576,29 +560,23 @@ def construir(k):
         bloco(l, c - ws / 2, c + ws / 2, A + s["ac_stem"], A - 0.3, H - S + 0.6, H - s["ac_z1"])
         bloco(l, c - wc / 2, c + wc / 2, A + s["ac_saliencia"], A + s["ac_stem"] - 0.3,
               H - S + 0.6, H - s["ac_z1"])
-    # ---- pes de canto (rev.25) ---------------------------------------------
+    # ---- colunas de canto (rev.25) ------------------------------------------
     # Casca vertical (a face externa e a linha do aro, reta ate o chao) sobre
     # o arco do canto e PE_RETA de cada reta; almas nas duas pontas fechando
-    # ate a parede; pino na sola, na ponta da frente/traseira. Oco aberto
-    # embaixo — o postico entra por baixo e alarga descendo, porque a parede
-    # se afasta da casca com os 7,5 graus.
+    # ate a parede. Oco aberto embaixo — o postico entra por baixo e alarga
+    # descendo, porque a parede se afasta da casca com os 7,5 graus. O oco e o
+    # bolsao onde entra o pino do aro do grande.
     if s.get("pes_canto"):
         rim = lambda z: A + (H - z) * TAN                  # linha do aro, em offset
-        zp0 = -perna + PINO["alt"]                         # ombro do pe
         emitir(lambda i: no_pe(i) and com_aro(i), lambda i, z: rim(z),
-               lambda i, z: rim(z) - E_POSTE, lambda i: zp0, lambda i: ztopo(i) - 1.4, "pe")
+               lambda i, z: rim(z) - E_POSTE, lambda i: -perna, lambda i: ztopo(i) - 1.4, "pe")
         for sx_, sy_ in CANTOS.values():
             lf = "frente" if sy_ > 0 else "traseira"
             ll = "lat_d" if sx_ > 0 else "lat_e"
-            # almas: na ponta da frente/tras (plano x = cte) e na ponta da lateral
             xa = sx_ * s["x_pe"]
-            bloco(lf, xa, xa - sx_ * E_POSTE, -0.3, lambda z: rim(z) - E_POSTE + 0.3, zp0, H - 1.4, "pe")
+            bloco(lf, xa, xa - sx_ * E_POSTE, -0.3, lambda z: rim(z) - E_POSTE + 0.3, -perna, H - 1.4, "pe")
             ya = sy_ * s["y_pe"]
-            bloco(ll, ya, ya - sy_ * E_POSTE, -0.3, lambda z: rim(z) - E_POSTE + 0.3, zp0, H - 1.4, "pe")
-            # pino
-            xp = sx_ * s["x_pino"]
-            bloco(lf, xp - PINO["w"] / 2, xp + PINO["w"] / 2, lambda z: rim(z) - PINO["o1"],
-                  lambda z: rim(z) - PINO["o0"], -perna, zp0 + 0.5, "pe")
+            bloco(ll, ya, ya - sy_ * E_POSTE, -0.3, lambda z: rim(z) - E_POSTE + 0.3, -perna, H - 1.4, "pe")
 
     # ---- ponte, canal e guia no topo da coluna (rev.18) --------------------
     # O bolsao atras da coluna era aberto em cima: o rodape pousava numa
@@ -625,6 +603,8 @@ def construir(k):
     # para o canto conforme desce) cruza a casca — por isso o pe alarga TAN
     # por mm subindo, e nasce do rodape sem degrau.
     def no_copo(i, z, o=-rec):
+        if s.get("pes_canto"):                     # rev.25: as colunas de canto sao os pes
+            return False
         p = cont.pt(i % n, z, o)
         return abs(p[0]) > x_w(z) and abs(p[1]) > y_w(z)
 
@@ -725,7 +705,11 @@ def construir(k):
         area = abs(sum(fd[i][0] * fd[i - 1][1] - fd[i - 1][0] * fd[i][1]
                        for i in range(len(fd)))) / 2
         return area
-    s["apoio_cm2"] = round(sum(copo(sx, sy) for sx, sy in CANTOS.values()) / 100.0, 1)
+    if s.get("pes_canto"):
+        # sola das quatro colunas: casca de E_POSTE sobre arco + 2*PE_RETA
+        s["apoio_cm2"] = round(4 * E_POSTE * (math.pi / 2 * (s["R"] - E_POSTE / 2) + 2 * PE_RETA) / 100.0, 1)
+    else:
+        s["apoio_cm2"] = round(sum(copo(sx, sy) for sx, sy in CANTOS.values()) / 100.0, 1)
 
     # ---- fundo em grelha diagonal de nervuras altas ------------------------
     hx = s["Xb"] / 2 + zf * TAN - e - w_mold
@@ -743,7 +727,9 @@ def construir(k):
 
     def na_sombra(x, y):
         """Sombra da coluna de baixo no ninho (posicoes espelhadas): ali a
-        nervura para antes da moldura."""
+        nervura para antes da moldura. Quem nao ninha tem fundo inteiro."""
+        if not s.get("ninha", True):
+            return False
         return abs(x) > r_lim and any(abs(y - yj) < meia_jan for yj in yc_jan)
 
     def dentro_fundo(x, y):
@@ -836,24 +822,19 @@ def confere_ninho(m, s, k=1):
 
 
 def encaixe_topo(kg):
-    """n filhos acoplados em cima de 'kg': onde ficam, o que entra no bolsao e
-    as folgas. A build quebra se nao fechar."""
+    """n filhos acoplados em cima de 'kg': onde ficam, os pinos e as folgas."""
     g = parametros(kg)
     kf, nf = g["sobre"]
     f = parametros(kf)
-    r = dict(filho=kf, n=nf, centros=g["centros_sobre"], z_filho=g["z_filho"],
-             folga=g["folga_sobre"], bolsoes=list(g["bolsoes"]), pilares=list(g["pilares"]),
-             pilar_larg=round(2 * g["pilar_meia"], 1), vao_frente=g["vao_frente"],
-             prof_pino=g["prof_pino"], pino=dict(PINO),
-             folga_pino=(round(g["bolsao_o"][0] - g["furo_o"][0], 2), round(g["furo_o"][1] - g["bolsao_o"][1], 2)),
-             folga_pino_lado=round(g["bolsao_meia"] - PINO["w"] / 2, 2))
-    # o ombro do pe (casca + almas) pousa no patamar C (offsets 0,6..A-4,6) fora do furo
-    assert g["prof_pino"] >= 5.0, f"{kg}: pino entra so {g['prof_pino']} mm abaixo da placa"
-    assert g["saia"] > PINO["alt"] + 1.0, f"{kg}: pino bate no fundo do oco da aba"
-    # a linha do aro do filho fica 3 mm para dentro da nossa: o pe do filho
-    # (casca de E_POSTE) cai sobre o degrau B/C, nunca fora da saia
-    assert g["folga_sobre"] + E_POSTE < g["aba"] - 0.6, f"{kg}: casca do pe do filho cai fora do aro"
-    return r
+    casca_in = g["aba"] - g["folga_sobre"] - E_POSTE
+    return dict(filho=kf, n=nf, centros=g["centros_sobre"], z_filho=g["z_filho"],
+                folga=g["folga_sobre"], pinos=list(g["pinos"]), pilares=list(g["pilares"]),
+                pilar_larg=round(2 * g["pilar_meia"], 1), vao_frente=g["vao_frente"],
+                engate=g["engate_pino"], pino=dict(g["pino"]),
+                folga_pino_casca=round(casca_in - g["pino"]["o1"], 2),
+                folga_pino_arco=round(f["ax"] - (f["x_pino"] + PINO["w"] / 2), 2),
+                folga_pino_alma=round((f["x_pino"] - PINO["w"] / 2) - f["x_pe"], 2),
+                f_pino_saia=g["f_pino_saia"], f_pino_placa=g["f_pino_placa"])
 
 
 def confere_aro_ninho(m, s):

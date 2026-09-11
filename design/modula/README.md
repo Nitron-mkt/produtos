@@ -1,6 +1,6 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
-**rev.25** — **em cima, não dentro.** Dois P acoplados pousam **em cima** de um M e três P em cima de um G, com **pés de canto** (colunas ocas verticais no contorno do aro) cujo **pino** cai em **bolsões no patamar do aro** do grande. A frente do M ganha um **pilar** (dois vãos) e a do G dois (três vãos), um vão sob cada P; cantos na altura cheia nos três. **G encolhe para 582 × 295 × 360.** O P deixa de ninhar. A pendura da rev.21–24 sai.
+**rev.25** — **em cima, não dentro.** Dois P acoplados pousam **em cima** de um M e três P em cima de um G. O P ganha quatro **colunas de canto** ocas (do aro ao chão, no contorno do aro) e perde os copos; **pinos no aro do M e do G** entram nas colunas por baixo. A frente do M ganha um **pilar** (dois vãos) e a do G dois (três vãos), um vão sob cada P; cantos na altura cheia nos três. **G encolhe para 582 × 295 × 360.** O P deixa de ninhar. A pendura da rev.21–24 sai.
 
 **rev.24** — a cadeia inteira fecha: **acoplador macho/fêmea nas laterais de P, M e G**; dois P acoplados pousam no aro de um M e dois M (girados, frente com frente) no de um G, **travados por postes em T que sobem do aro do grande** e entram na fêmea que o pequeno já tem na saia. **Correção estrutural**: o aro só existe onde a borda é alta — o aro em L na frente rebaixada atravessava a parede da peça de baixo no ninho em 10 mm desde a rev.01, e o teste de ninho nunca olhou o aro. Larguras inalteradas.
 
@@ -23,9 +23,9 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 413 g | 4,5 L | 187 mm | não ninha | — | 170–226 tf |
-| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 520 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
-| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 874 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
+| **P** | 192 × 289 × 179 | 149 + 30 | 1,8 mm | 12,9 | ~410 g | 5,0 L | 183 mm | não ninha | — | 170–226 tf |
+| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 503 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
+| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 848 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
 
 Desde a rev.25 as cotas fecham **em cima**: X do grande = n × 192 + 6 e Y = 289 + 6, com
 n = 2 para o M e n = 3 para o G, 3 mm de folga por lado entre a fileira de P e o aro do grande.
@@ -974,16 +974,21 @@ mesmo para três P no G, e o G encolhe para caber os três. "Uma peça uniforme.
 quebrar o ninho do M (a peça de cima passa a 0,26 mm da parede). Então o pé tem de estar **no
 contorno do aro**: uma coluna vertical, fora do corpo cônico.
 
-**O pé de canto.** Casca vertical de 1,8 mm cuja face externa é a linha do aro, do aro ao chão,
+**A coluna de canto.** Casca vertical de 1,8 mm cuja face externa é a linha do aro, do aro ao chão,
 sobre o arco do canto e 8 mm de cada reta vizinha; uma alma em cada ponta fecha até a parede; oco
-aberto embaixo. Sai do molde por baixo: a parede se afasta da casca ao descer (24,5 mm no chão),
-então o postiço alarga para baixo. Na sola, na ponta da frente/traseira, um **pino de 7 × 7 × 10**
-a 0,9–7,9 mm da linha do aro. O P fica com 8 apoios no chão (4 pinos + 4 copos) e 413 g (+133 g).
+aberto embaixo. Sai do molde por baixo: a parede se afasta da casca ao descer (23,6 mm no chão),
+então o postiço alarga para baixo. São os únicos pés do P: os **copos internos saíram** (só serviam
+ao ninho), a **perna caiu de 50 para 30 mm** e o fundo ficou inteiro (sem as sombras de coluna).
+A primeira versão tinha pinos na sola e copos junto com as colunas — oito pés, ficou feio; a
+versão final inverte o encaixe.
 
-**O bolsão.** No aro do M e do G, onde cai cada pino, o furo tira os dois degraus de cima e a placa
-do aro de 0,6 até A−3,2: o pino desce no oco da aba (aberto embaixo), 6,4 mm abaixo da placa no M,
-6,1 no G, com 0,9/0,7 mm de folga radial e 1,0 por lado. O ombro do pé pousa no patamar. Trava
-contra deslizar, não contra levantar — como os cestos de referência.
+**O pino.** Quem trava é o grande: um pino de 7 × 6 × 10 mm sobe do patamar do aro do M e do G
+onde cai cada coluna do P, junto ao arco do canto, e entra no oco da coluna por baixo. A coluna é
+o próprio bolsão: casca a 0,4 mm do pino (0,7 no G), arco a 0,5, alma a 4,5. A sola inteira da
+coluna pousa no patamar. Trava contra deslizar, não contra levantar. O pino **não estraga o ninho**
+do M e do G: a peça de cima entra girada 17 mm acima e o oco da aba dela é aberto embaixo — o pino
+entra nele a 0,9 mm da saia (M) e 2 mm abaixo da placa; no G o pino recua 0,3 mm porque o passo é
+19,5. Conferido em toda build. O aro do M e do G fica inteiro (sem furos).
 
 **O pilar.** Dois P lado a lado põem dois pés no meio da frente, onde havia o mergulho. A frente do
 M ganhou um pilar de altura cheia de 81 mm e o mergulho virou **dois vãos de 111 mm, um sob cada
@@ -992,9 +997,8 @@ para nascer; o bolsão precisa do aro para existir). O perfil da frente virou fu
 zonas cheias (pontas e pilares), rampas suaves de 14 mm e o mergulho no meio de cada vão.
 
 **As cotas.** X_g = n × 192 + 6, Y_g = 289 + 6 → M 390 × 295 (igual), **G 582 × 295 × 360**
-(era 596 × 396 × 368; 35 L em vez de 54). Raio do canto 26 nos três (o bolsão do canto tem de cair
-na reta: a_M = 169 ≥ 162 + 4,5). Aba do G 12,4 (o pino pede 1,5–8,5 mm no oco). Módulo de palete
-mantido: 2 × 582 + 4,5 ≤ 1.200.
+(era 596 × 396 × 368; 35 L em vez de 54). Raio do canto 26 nos três (o pino do canto tem de cair
+na reta: a_M = 169 ≥ 162 + 3,5). Aba do G 12,4. Módulo de palete mantido: 2 × 582 + 4,5 ≤ 1.200.
 
 **O que se perdeu.** O **P não ninha**: os quatro pés ocupam exatamente o contorno onde a peça de
 cima teria de descer, e com giro de 180° e quatro pés iguais não há posição que passe (só passaria
@@ -1002,9 +1006,9 @@ com pés assimétricos — dois à esquerda, dois à direita deslocados — que 
 ou pedem entalhes no aro). Dez P empilham pela pilha: 179 + 9 × 187 mm. **Dois M já não fazem um
 G** (2 × 390 > 582). M e G ninham como antes: pilar e canto alto são parede, bolsão é vazio.
 
-Conferências em toda build: fileira de n P dá o aro com 3 mm por lado; pino dentro do furo com
-≥ 0,5 mm radial; bolsão inteiro na reta (não no arco) e inteiro na borda alta; pino entra ≥ 5 mm
-sob a placa; casca do pé do filho cai sobre o aro, não fora; ninho de M e G (base e aro) intacto.
+Conferências em toda build: fileira de n P dá o aro com 3 mm por lado; pino dentro da coluna do
+P (entre alma e arco, aquém da casca); pino na reta (não no arco) e na borda alta; pino a ≥ 0,6 mm
+da saia e ≥ 1 mm da placa da peça de cima no ninho; ninho de M e G (base e aro) intacto.
 
 ## Arquivos
 
@@ -1012,7 +1016,7 @@ sob a placa; casca do pé do filho cai sobre o aro, não fora; ninho de M e G (b
 |---|---|
 | `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
 | `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `pendura()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
-| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, pino, pé de canto, frente |
+| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, pino, pino no ninho, colunas do P, frente |
 | `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev25.pdf`) |
 | `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
 | `exporta.py` | gera o JSON do visualizador, as vistas e o STL (`python3 exporta.py stl` só o STL, `png` só as vistas) |

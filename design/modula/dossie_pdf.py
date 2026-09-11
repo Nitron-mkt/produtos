@@ -150,8 +150,8 @@ def main():
     y = d.texto(M, H - 268, [
         "M e G ninham quase colados no transporte (17 mm no M) e plugam um sobre o outro no uso (pilha com canal e guia). "
         "Fundo chapado no P e vazado no M e no G, parede com o pattern oficial da marca, acopladores macho/fêmea nas laterais dos três. "
-        "Dois P acoplados pousam EM CIMA de um M e três em cima de um G: pés de canto com pino que caem em bolsões no aro; "
-        "cada vão da frente do M e do G fica sob um P.",
+        "Dois P acoplados pousam EM CIMA de um M e três em cima de um G: colunas de canto ocas que descem do aro ao chão, "
+        "e pinos no aro do M e do G que entram nelas por baixo; cada vão da frente do M e do G fica sob um P.",
     ], tam=10.5, larg=W * 0.40 - M)
     y = d.tabela(M, y - 14, ["", "Externo (mm)", "Capacidade", "Massa"],
                  [[k, f"{fmt(F[k]['X'],0)} × {fmt(F[k]['Y'],0)} × {fmt(F[k]['H'],0)}",
@@ -180,7 +180,7 @@ def main():
         "X do grande = n × 192 + 6, Y = 289 + 6: dois P dão um M (390 × 295), três P dão um G (582 × 295). Todos dentro do módulo de palete. "
         "A altura segue a proporção áurea (X : H = 1,618).",
         "M e G ninham; o passo é conferido em toda build contra a malha real (girada 180°, subida o passo: nenhum vértice da base fora de um copo, "
-        "nenhum vértice do aro dentro da parede de baixo). O P não ninha desde a rev.25: os pés de canto ocupam o contorno do aro. "
+        "nenhum vértice do aro dentro da parede de baixo). O P não ninha desde a rev.25: as colunas de canto ocupam o contorno do aro. "
         "Fechamento = área projetada × 300–400 bar.",
     ], larg=W - 2 * M)
     d.nova()
@@ -212,7 +212,7 @@ def main():
         "**A regra.** Toda superfície que desliza no ninho tem os mesmos 7,5°, e a parede é lisa por fora: um friso de 2 mm já trava o ninho a meio caminho. "
         "Desde a rev.24 isso vale para o aro: a peça de cima entra girada, a frente rebaixada dela desce dentro da traseira de baixo, e um aro em L ali "
         "atravessava a parede em 10 mm. O aro só existe onde a borda está na altura cheia; no vão a borda é a parede, arredondada no molde. "
-        "Pilar e canto alto são parede; bolsão é vazio — nada disso mexe no ninho do M e do G.",
+        "Pilar e canto alto são parede; o pino do aro entra no oco da aba da peça de cima — nada disso mexe no ninho do M e do G.",
     ], larg=W - 2 * M)
     d.nova()
     d.rodape("Em seção — três M ninhadas e duas M plugadas (cortes)")
@@ -235,40 +235,45 @@ def main():
     d.nova()
 
     # ---------------- em cima ----------------
-    d.rodape("O encaixe em cima — dois P num M, três P num G, pés nos bolsões do aro")
+    d.rodape("O encaixe em cima — dois P num M, três P num G, pinos do aro nas colunas de canto")
     d.imagem(os.path.join(OUT, "08-em-cima.png"), M, H - M - 300, (W - 2 * M) * 0.64, 255,
-             "Dois P acoplados sobre um M (esq.) e três sobre um G (dir.): os pés de canto pousam no aro, os pinos caem nos bolsões")
+             "Dois P acoplados sobre um M (esq.) e três sobre um G (dir.): as colunas de canto pousam no aro, sobre os pinos")
     d.imagem(os.path.join(OUT, "09-em-cima-frente.png"), M + (W - 2 * M) * 0.66, H - M - 300, (W - 2 * M) * 0.34, 255,
              "De frente: cada vão do G fica sob um P; os pilares levam os pinos do meio")
     em, eg = F["M"]["encaixe"], F["G"]["encaixe"]
-    cols = ["", "P em cima", "folga por lado", "bolsões", "pino no bolsão (mm)", "entra sob a placa", "pilares", "vão da frente"]
+    cols = ["", "P em cima", "folga por lado", "pinos", "pino (mm)", "engate", "folga na coluna", "no ninho: saia / placa", "pilares", "vão da frente"]
     d.tabela(M, H - M - 332, cols, [
-        ["M", f"{em['n']}", f"{fmt(em['folga'])} mm", f"{len(em['bolsoes'])}", f"7 em {fmt(7 + 2*em['folga_pino_lado'])} × {fmt(em['folga_pino'][0] + 7 + em['folga_pino'][1])}", f"{fmt(em['prof_pino'])} mm", f"{len(em['pilares'])} de {fmt(em['pilar_larg'],0)} mm", f"{fmt(em['vao_frente'],0)} mm"],
-        ["G", f"{eg['n']}", f"{fmt(eg['folga'])} mm", f"{len(eg['bolsoes'])}", f"7 em {fmt(7 + 2*eg['folga_pino_lado'])} × {fmt(eg['folga_pino'][0] + 7 + eg['folga_pino'][1])}", f"{fmt(eg['prof_pino'])} mm", f"{len(eg['pilares'])} de {fmt(eg['pilar_larg'],0)} mm", f"{fmt(eg['vao_frente'],0)} mm"],
-    ], [40, 70, 90, 70, 130, 110, 100, 100], tam=8.8, alt=14)
+        [k_, f"{e_['n']}", f"{fmt(e_['folga'])} mm", f"{len(e_['pinos'])}",
+         f"{fmt(e_['pino']['w'],0)} × {fmt(e_['pino']['o1'] - e_['pino']['o0'])} × {fmt(e_['pino']['alt'],0)}", f"{fmt(e_['engate'],0)} mm",
+         f"{fmt(e_['folga_pino_casca'])} / {fmt(e_['folga_pino_arco'])} mm", f"{fmt(e_['f_pino_saia'])} / {fmt(e_['f_pino_placa'])} mm",
+         f"{len(e_['pilares'])} de {fmt(e_['pilar_larg'],0)}", f"{fmt(e_['vao_frente'],0)} mm"]
+        for k_, e_ in (("M", em), ("G", eg))
+    ], [30, 60, 80, 45, 90, 55, 100, 120, 80, 80], tam=8.6, alt=14)
     d.texto(M, H - M - 385, [
-        "**Em cima, não dentro (rev.25).** O P ganhou quatro PÉS DE CANTO: colunas ocas verticais que descem do aro ao chão no contorno do aro, "
-        "fora do corpo cônico, fechadas por uma alma em cada ponta e abertas embaixo — saem do molde por baixo, porque a parede se afasta da casca "
-        "com os 7,5°. Na sola de cada pé há um pino de 7 × 7 × 10 mm. O ombro do pé pousa no patamar do aro do grande; o pino cai num bolsão aberto "
-        f"no patamar, dentro do oco da aba, e entra {fmt(em['prof_pino'])} mm abaixo da placa. Folga de 1 mm por lado no bolsão. Trava contra deslizar; não contra levantar.",
-        "**Por que o pilar.** Dois P lado a lado põem dois pés no meio da frente do M, onde havia o mergulho. A frente ganhou um pilar de altura "
+        "**Em cima, não dentro (rev.25).** O P ganhou quatro COLUNAS DE CANTO: cascas verticais de 1,8 mm que descem do aro ao chão no contorno do aro, "
+        "sobre o arco e 8 mm de cada reta, fechadas por uma alma em cada ponta e abertas embaixo — saem do molde por baixo, porque a parede se afasta da casca "
+        "com os 7,5°. São os únicos pés do P: os copos internos saíram, a perna caiu de 50 para 30 mm e o fundo ficou inteiro. "
+        "Quem trava é o grande: PINOS de 7 × 6 × 10 mm sobem do patamar do aro do M e do G onde cai cada coluna, e entram no oco dela por baixo. "
+        "A coluna é o próprio bolsão; a sola inteira pousa no patamar. Trava contra deslizar em x e y (casca contra pino nos quatro cantos); não contra levantar.",
+        "**O pino não estraga o ninho do M e do G.** A peça de cima entra girada com o aro 17 mm acima; o oco da aba dela é aberto embaixo, e o pino entra nele "
+        f"com {fmt(em['f_pino_saia'])} mm da saia (M) e {fmt(em['f_pino_placa'])} mm abaixo da placa. No G o pino recua 0,3 mm porque o passo é maior.",
+        "**Por que o pilar.** Dois P lado a lado põem duas colunas no meio da frente do M, onde havia o mergulho. A frente ganhou um pilar de altura "
         f"cheia com {fmt(em['pilar_larg'],0)} mm, e o mergulho virou dois vãos de {fmt(em['vao_frente'],0)} mm, um sob cada P. No G, dois pilares e três vãos. "
-        "Os cantos dos três tamanhos ficaram na altura cheia pelo mesmo motivo. As cotas fecham sem mexer no P: X do grande = n × 192 + 6, Y = 295; "
+        "Os cantos dos três tamanhos ficaram na altura cheia. As cotas fecham sem mexer no P: X do grande = n × 192 + 6, Y = 295; "
         "o G encolheu de 596 × 396 para 582 × 295 (35 L em vez de 54).",
-        "**O que se perdeu.** O P deixou de ninhar — os pés ocupam exatamente o contorno onde a peça de cima teria de descer. Com 180° de giro e "
-        "quatro pés iguais não há posição que passe. Dez P empilham pela pilha (canal): 179 + 9 × 187 mm. M e G ninham como antes. "
-        "A relação dois M = um G também caiu: 2 × 390 não cabe em 582.",
+        "**O que se perdeu.** O P deixou de ninhar — as colunas ocupam exatamente o contorno onde a peça de cima teria de descer. Dez P empilham pela pilha (canal). "
+        "M e G ninham como antes. A relação dois M = um G caiu: 2 × 390 não cabe em 582.",
     ], larg=W - 2 * M)
     d.nova()
-    d.rodape("Pé, pino, bolsão e pilar em detalhe")
+    d.rodape("Coluna, pino e pilar em detalhe")
     gw = (W - 2 * M - 20) / 2
     gh = (H - 2 * M - 60 - 30) / 2
     y1 = H - M - 44 - gh
     y0 = y1 - 26 - gh
-    d.imagem(os.path.join(OUT, "det-pino.png"), M, y1, gw, gh, "Corte: o pé do P (claro) pousado no aro do M; o pino dentro do bolsão")
-    d.imagem(os.path.join(OUT, "det-pe-canto.png"), M + gw + 20, y1, gw, gh, "O P por baixo: quatro pés de canto ocos, pino na sola, copos e fundo chapado")
-    d.imagem(os.path.join(OUT, "10-fileiras.png"), M, y0, gw, gh, "Fileiras acopladas: três P (passo 192) e três M (passo 390)")
-    d.imagem(os.path.join(OUT, "det-frente.png"), M + gw + 20, y0, gw, gh, "A frente do M: pilar no meio, dois vãos, cantos altos com os bolsões")
+    d.imagem(os.path.join(OUT, "det-pino.png"), M, y1, gw, gh, "Corte: a coluna do P (claro) pousada no aro do M; o pino do aro dentro do oco da coluna")
+    d.imagem(os.path.join(OUT, "det-pino-ninho.png"), M + gw + 20, y1, gw, gh, "O mesmo pino no ninho do M: entra no oco da aba da peça de cima (cinza)")
+    d.imagem(os.path.join(OUT, "det-pe-canto.png"), M, y0, gw, gh, "O P por baixo: quatro colunas de canto ocas e fundo inteiro")
+    d.imagem(os.path.join(OUT, "det-frente.png"), M + gw + 20, y0, gw, gh, "A frente do M: pilar no meio, dois vãos, cantos altos com os pinos")
     d.nova()
 
     # ---------------- o grafismo ----------------
@@ -364,15 +369,15 @@ def main():
         "• A malha não é estanque (1,5–2,0 % de arestas ímpares, das emendas de banda): serve para forma, medida e impressão 3D, não para usinar.",
         "• Guia, ponte e face interna da coluna sem raio de concordância — trabalho de CAD.",
         "• Furo do P com 14,8 mm de largura: fora da faixa de aprisionamento de dedo (7–12 mm).",
-        "• O P não ninha (pés de canto no contorno do aro) e pesa 413 g: 133 g a mais que sem os pés. Vale estudar tirar os copos internos, que só serviam ao ninho.",
+        "• O P não ninha (colunas de canto no contorno do aro) e pesa ~410 g: as quatro colunas pesam mais do que os copos que saíram.",
         "• A borda do vão ficou nua (2 mm): pede raio no molde e talvez um reforço interno com saída, a definir com a ferramentaria.",
-        "• O P só trava por gravidade nos bolsões; não há dente contra levantar. Pino 7 mm com 1 mm de folga por lado.",
+        "• O P só trava por gravidade sobre os pinos; não há dente contra levantar. Folga de 0,4–0,7 mm entre pino e casca da coluna.",
         "• O G perdeu capacidade (54 → 35 L) para caber três P; dois M já não cabem num G.",
         "• O `engenheiro-molde` ainda não validou a parede do G.",
         "",
         "**Verificado nesta revisão**",
         "• Ninho: peça girada 180° e subida o passo — 0 vértices da base fora de um copo e 0 vértices do aro dentro da parede de baixo (P, M, G).",
-        "• Em cima: pino dentro do bolsão com 0,7–1,0 mm de folga; ombro do pé no patamar; bolsão inteiro na borda alta; macho 0,4 mm abaixo do lintel da vizinha.",
+        "• Em cima: pino do aro dentro da coluna do P (0,4–0,7 mm da casca, 0,5 do arco); pino a 0,9/0,6 mm da saia da peça de cima no ninho; macho 0,4 mm abaixo do lintel da vizinha.",
         "• Saída de molde: face externa do copo pela cavidade, interna pelo macho; vão sob o fundo alarga para baixo; coluna com 0,5°; "
         "nervura afunilada 1°.",
         "• Pilha: rodapé cai no canal com −3 / +1 mm; a parede de cima passa na fenda entre ponte e aba com 1,5 mm.",

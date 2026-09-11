@@ -65,18 +65,20 @@ def main(k="M"):
            ((0, 0, perna + H - 50), (0, 0, 1)), ((0, 0, perna + H + 50), (0, 0, -1))]
     salva("pilha-assento", [(clip(peca(), *rec), cinza, None), (clip(peca((0, 0, pp)), *rec), cor, None)],
           1200, 950, 62, 16)
-    # rev.25: o pino do pe de canto do P dentro do bolsao do aro do M (corte)
+    # rev.25: o pino do aro do M entrando na coluna de canto do P (corte pelo pino)
     solP, sP = ficha("P")
     en = s["encaixe"]
     cx_ = en["centros"][-1]                       # o P da direita
-    xb = [x for l, x in en["bolsoes"] if l == "frente" and x > cx_][0]   # bolsao do canto direito
+    xb = [x for l, x in en["pinos"] if l == "frente" and x > cx_][0]   # pino do canto direito
     yF = s["Y"] / 2
-    # corte pelo centro do pino (plano x = xb), visto de +x: pino dentro do bolsao
-    cx = [((xb - 22, 0, 0), (1, 0, 0)), ((xb, 0, 0), (-1, 0, 0)), ((0, yF - 34, 0), (0, 1, 0)),
-          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 24), (0, 0, 1)), ((0, 0, perna + H + 36), (0, 0, -1))]
+    cx = [((xb - 24, 0, 0), (1, 0, 0)), ((xb, 0, 0), (-1, 0, 0)), ((0, yF - 40, 0), (0, 1, 0)),
+          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 24), (0, 0, 1)), ((0, 0, perna + H + 40), (0, 0, -1))]
     salva("pino", [(clip(peca(), *cx), cor, None),
                    (clip(solP.triangulos(offset=(cx_, 0, en["z_filho"])), *cx), claro, None)], 1200, 900, 0, 12)
-    # o pe de canto do P visto de baixo, com o pino na sola
+    # o mesmo pino no ninho do M: entra no oco da aba da peca de cima
+    salva("pino-ninho", [(clip(peca(), *cx), cor, None),
+                         (clip(peca((0, 0, pn), True), *cx), cinza, None)], 1200, 900, 0, 12)
+    # o P visto de baixo: quatro colunas de canto ocas, fundo inteiro
     salva("pe-canto", [(solP.triangulos(), paleta(COR_CORPO["P"]), None)], 1100, 900, 35, -25)
     # a frente do M: pilar no meio, dois vaos, cantos altos
     salva("frente", [(peca(), cor, ns)], 1300, 950, 90, 14, True)
