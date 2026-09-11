@@ -2,3 +2,4 @@ frontend/config.js
 node_modules/
 .env
 .env.*
+design/**/__pycache__/
