@@ -122,6 +122,7 @@ if __name__ == "__main__":
                      tuple(c/255 for c in COR_CORPO[k]))
         print(f"  GLB {k}: {n} tri, {tam/1e6:.2f} MB")
     modelo.AMOSTRA = [1.8, 16]
-    print(f"  prancha: {prancha('M')/1e6:.2f} MB")
+    for k in ("P", "M", "G"):
+        print(f"  prancha {k}: {prancha(k)/1e6:.2f} MB")
     modelo.AMOSTRA = [2.6, 14]
     print(f"  giro: {giro('M')/1e6:.2f} MB")
