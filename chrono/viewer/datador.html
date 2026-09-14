@@ -1,0 +1,338 @@
+<title>Datador Chrono</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="malhas.js"></script>
+<style>
+:root{
+  --ground:#e8eaed; --surface:#f6f7f8; --sunk:#dcdfe3; --canvas:#c9ced4;
+  --ink:#12171d; --ink2:#4a555f; --ink3:#7b8791;
+  --line:#c3c9cf; --line2:#d6dade;
+  --dye:#17558f;            /* azul de tracagem — o azul que a ferramentaria passa no aco */
+  --dye-soft:#e2ebf5;
+  --oxide:#a84a16;          /* oxido — so para o que exige atencao */
+  --m01:#6d7a85; --m02:#17558f; --m03:#a84a16;
+  --sh:0 1px 2px rgba(18,23,29,.10), 0 6px 18px rgba(18,23,29,.06);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0e1319; --surface:#151c23; --sunk:#0a0e13; --canvas:#0a0e13;
+  --ink:#e7ecf1; --ink2:#a0adb8; --ink3:#6d7b86;
+  --line:#26313b; --line2:#1c252d;
+  --dye:#68a8e8; --dye-soft:#16263a; --oxide:#e08a4e;
+  --m01:#8e9ba6; --m02:#68a8e8; --m03:#e08a4e;
+  --sh:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --ground:#0e1319; --surface:#151c23; --sunk:#0a0e13; --canvas:#0a0e13;
+  --ink:#e7ecf1; --ink2:#a0adb8; --ink3:#6d7b86;
+  --line:#26313b; --line2:#1c252d;
+  --dye:#68a8e8; --dye-soft:#16263a; --oxide:#e08a4e;
+  --m01:#8e9ba6; --m02:#68a8e8; --m03:#e08a4e;
+  --sh:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;
+  padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+header h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.015em}
+header .sub{color:var(--ink2);font-size:12.5px}
+header .spacer{flex:1 1 40px}
+
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;
+  height:calc(100dvh - 56px);min-height:520px}
+#palco{position:relative;background:var(--canvas);min-width:0;overflow:hidden}
+#palco canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#palco canvas:active{cursor:grabbing}
+#carga{position:absolute;inset:0;display:grid;place-content:center;gap:10px;justify-items:center;
+  background:var(--canvas);color:var(--ink2);font-size:12.5px;transition:opacity .35s}
+#carga.off{opacity:0;pointer-events:none}
+.barra{width:180px;height:3px;background:var(--line);overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:var(--dye);transition:width .2s}
+.dica{position:absolute;left:14px;bottom:12px;color:var(--ink3);font-size:11px;
+  background:color-mix(in srgb,var(--canvas) 78%,transparent);padding:4px 8px;border-radius:3px}
+
+.rail{background:var(--surface);border-left:1px solid var(--line);overflow-y:auto;
+  display:flex;flex-direction:column}
+.bloco{padding:16px 18px;border-bottom:1px solid var(--line2);display:flex;flex-direction:column;gap:12px}
+.bloco:last-child{border-bottom:0}
+
+.leitura{display:flex;align-items:flex-end;gap:10px;padding:12px 14px;
+  background:var(--sunk);border:1px solid var(--line);border-radius:3px}
+.leitura .d{font-size:40px;font-weight:600;line-height:.9;letter-spacing:-.02em}
+.leitura .m{font-size:20px;font-weight:500;line-height:1.15;color:var(--dye);letter-spacing:.04em}
+.leitura .z{flex:1;text-align:right;font-size:10.5px;color:var(--ink3);line-height:1.3}
+
+label.campo{display:flex;flex-direction:column;gap:6px}
+label.campo .top{display:flex;justify-content:space-between;align-items:baseline}
+label.campo .val{font-size:12px;font-weight:500;color:var(--ink2)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:20px;background:none;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--line);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--line);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+  background:var(--dye);border:2px solid var(--surface);margin-top:-6px;box-shadow:0 0 0 1px var(--dye)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--dye);
+  border:2px solid var(--surface);box-shadow:0 0 0 1px var(--dye)}
+input[type=range]:focus-visible{outline:2px solid var(--dye);outline-offset:3px;border-radius:3px}
+
+.peca{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;color:inherit;
+  font:inherit;cursor:pointer}
+.peca:hover{background:var(--dye-soft)}
+.peca[aria-pressed="false"]{opacity:.45}
+.peca:focus-visible{outline:2px solid var(--dye);outline-offset:2px}
+.peca .sw{width:11px;height:11px;border-radius:2px;flex:none}
+.peca .nm{flex:1;font-size:12.5px;font-weight:500;min-width:0}
+.peca .nm small{display:block;font-weight:400;color:var(--ink3);font-size:11px}
+.peca .g{font-size:11.5px;color:var(--ink2)}
+
+.linha{display:flex;gap:8px;flex-wrap:wrap}
+.bt{flex:1 1 auto;padding:7px 10px;font:inherit;font-size:12px;font-weight:500;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:3px}
+.bt:hover{background:var(--dye-soft)}
+.bt[aria-pressed="true"]{background:var(--dye);border-color:var(--dye);color:#fff}
+.bt:focus-visible{outline:2px solid var(--dye);outline-offset:2px}
+
+dl.cotas{margin:0;display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:12px}
+dl.cotas dt{color:var(--ink2);min-width:0}
+dl.cotas dd{margin:0;text-align:right;white-space:nowrap}
+dl.cotas dd b{font-weight:600}
+.nota{font-size:11.5px;color:var(--ink2);line-height:1.45;margin:0}
+.nota b{color:var(--ink);font-weight:600}
+.selo{display:inline-block;padding:1px 6px;border-radius:2px;font-size:10.5px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;background:var(--dye-soft);color:var(--dye)}
+.selo.ox{background:color-mix(in srgb,var(--oxide) 15%,transparent);color:var(--oxide)}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;height:auto;min-height:0}
+  #palco{height:58svh;min-height:320px}
+  .rail{border-left:0;border-top:1px solid var(--line);overflow:visible}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <h1>Datador Chrono</h1>
+  <span class="sub">três moldes sobre a válvula que já é injetada · tampa intocada</span>
+  <span class="spacer"></span>
+  <span class="eyebrow">escala 1:1 · cotas em mm</span>
+</header>
+
+<div class="wrap">
+  <div id="palco">
+    <div id="carga"><div class="barra"><i id="pc"></i></div><span id="carga-txt">carregando as malhas…</span></div>
+    <div class="dica">arraste para girar · rolar para aproximar</div>
+  </div>
+
+  <div class="rail">
+    <div class="bloco">
+      <span class="eyebrow">Data marcada</span>
+      <div class="leitura">
+        <span class="d mono" id="rd">14</span>
+        <span class="m" id="rm">SET</span>
+        <span class="z">seta → dia<br>índice ▼ → mês</span>
+      </div>
+      <label class="campo" for="dia">
+        <span class="top"><span class="eyebrow">Dia — gira a travinha</span><span class="val mono" id="vd">14</span></span>
+        <input type="range" id="dia" min="1" max="31" step="1" value="14">
+      </label>
+      <label class="campo" for="mes">
+        <span class="top"><span class="eyebrow">Mês — gira o aro</span><span class="val mono" id="vm">SET</span></span>
+        <input type="range" id="mes" min="1" max="12" step="1" value="9">
+      </label>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Peças</span>
+      <button class="peca" id="p1" aria-pressed="true"><span class="sw" style="background:var(--m01)"></span>
+        <span class="nm">M01 Válvula + 31 dias<small>fixa — é a válvula</small></span><span class="g mono">2,24 g</span></button>
+      <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
+        <span class="nm">M02 Aro dos meses<small>gira · 12 encaixes</small></span><span class="g mono">0,30 g</span></button>
+      <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
+        <span class="nm">M03 Travinha com seta<small>gira solta no poste</small></span><span class="g mono">0,05 g</span></button>
+      <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
+        <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Vista</span>
+      <label class="campo" for="exp">
+        <span class="top"><span class="eyebrow">Explodir</span><span class="val mono" id="ve">0,0 mm</span></span>
+        <input type="range" id="exp" min="0" max="100" step="1" value="0">
+      </label>
+      <div class="linha">
+        <button class="bt" id="gira" aria-pressed="true">Girar sozinho</button>
+        <button class="bt" id="corte" aria-pressed="false">Meio corte</button>
+        <button class="bt" id="zerar" aria-pressed="false">Vista de topo</button>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Cotas que mandam</span>
+      <dl class="cotas">
+        <dt>Face de topo da válvula (datum)</dt><dd class="mono">Y 37,23</dd>
+        <dt>Mesa dos dias</dt><dd class="mono">r 14,20–18,75</dd>
+        <dt>Caixa alta dos dias · relevo</dt><dd class="mono">1,70 · 0,25</dd>
+        <dt>Traço mais fino</dt><dd class="mono">0,32</dd>
+        <dt>Folga entre dois dias</dt><dd class="mono">0,98</dd>
+        <dt>Aro dos meses</dt><dd class="mono">r 5,60–12,90 × 0,80</dd>
+        <dt>Folga entre dois meses</dt><dd class="mono">1,39</dd>
+        <dt>Braço da seta</dt><dd class="mono">2,10 × 0,50</dd>
+        <dt>Altura total do conjunto</dt><dd class="mono">Y 39,05</dd>
+        <dt>Aro de empilhamento da tampa</dt><dd class="mono">Y 39,72</dd>
+      </dl>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Conferência</span>
+      <p class="nota"><span class="selo">0,0000 mm³</span> de interferência entre as três peças, e zero contra a tampa.</p>
+      <p class="nota">Válvula <b>nova</b> × tampa = <b class="mono">1,6357 mm³</b>. Válvula <b>original</b> × tampa =
+        <b class="mono">1,6357 mm³</b>. Diferença <b class="mono">+0,0000</b> — a parte de baixo é a sua, sem aperto novo.</p>
+      <p class="nota"><span class="selo ox">de projeto</span> Entre dois encaixes o aro monta <b class="mono">0,16 mm</b>
+        sobre a mola. É o detente, não é colisão.</p>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Acionamento</span>
+      <p class="nota">A válvula é gangorra: o eixo passa pelas <b>orelhas</b> (3 h e 9 h) e ela é apertada nas duas pontas.
+        A concha original das 12 h tem <b class="mono">1,02 mm</b> de fundo e continua aberta sob o aro.</p>
+      <p class="nota">O ressalto das 6 h saiu com o topo antigo; quem aperta agora é a <b>mesa dos dias</b>, com braço de
+        alavanca de <b class="mono">16,6 mm</b> contra <b class="mono">12,2 mm</b> do ressalto — <b>36% maior</b>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const MES=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const SD=360/31, EIXO_Y=35.6;
+const palco=document.getElementById('palco');
+const cssvar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+const ren=new THREE.WebGLRenderer({antialias:true});
+ren.setPixelRatio(Math.min(devicePixelRatio,2));
+palco.appendChild(ren.domElement);
+const cena=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(32,1,1,900);
+const alvo=new THREE.Vector3(0,EIXO_Y,0);
+
+cena.add(new THREE.HemisphereLight(0xdfe7ef,0x2a3138,.85));
+const key=new THREE.DirectionalLight(0xffffff,.95); key.position.set(38,70,44); cena.add(key);
+const fill=new THREE.DirectionalLight(0xc8d6e4,.42); fill.position.set(-52,26,-30); cena.add(fill);
+const rim=new THREE.DirectionalLight(0xffffff,.30); rim.position.set(-8,-40,-52); cena.add(rim);
+
+function pinta(){ cena.background=new THREE.Color(cssvar('--canvas')||'#c9ced4'); }
+pinta();
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>setTimeout(pinta,60));
+
+/* ---- camera orbital: raio, azimute, elevacao ---- */
+let raio=118, az=-0.62, el=0.78;
+function poe(){
+  el=Math.max(-1.45,Math.min(1.50,el)); raio=Math.max(52,Math.min(320,raio));
+  cam.position.set(alvo.x+raio*Math.cos(el)*Math.sin(az), alvo.y+raio*Math.sin(el),
+                   alvo.z+raio*Math.cos(el)*Math.cos(az));
+  cam.lookAt(alvo);
+}
+let arrasta=false,px=0,py=0;
+const cv=ren.domElement;
+cv.addEventListener('pointerdown',e=>{arrasta=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);
+  document.getElementById('gira').setAttribute('aria-pressed','false');auto=false;});
+cv.addEventListener('pointermove',e=>{ if(!arrasta)return;
+  az-=(e.clientX-px)*.008; el+=(e.clientY-py)*.006; px=e.clientX;py=e.clientY; poe(); });
+addEventListener('pointerup',()=>arrasta=false);
+cv.addEventListener('wheel',e=>{e.preventDefault(); raio*=Math.exp(e.deltaY*.0011); poe();},{passive:false});
+
+/* ---- malhas ---- */
+const ESP={m01:{cor:'--m01',rug:.55,met:.18},m02:{cor:'--m02',rug:.42,met:.10},
+           m03:{cor:'--m03',rug:.42,met:.10},tampa:{cor:'--ink3',rug:.72,met:.02,op:.30}};
+const obj={};
+function geo(p){
+  const raw=atob(p.b), buf=new ArrayBuffer(raw.length), u8=new Uint8Array(buf);
+  for(let i=0;i<raw.length;i++) u8[i]=raw.charCodeAt(i);
+  const q=new Uint16Array(buf,0,p.nv*3), pos=new Float32Array(p.nv*3);
+  for(let i=0;i<p.nv*3;i++) pos[i]=p.o[i%3]+q[i]/65535*p.s[i%3];
+  const off=p.nv*6;
+  const idx=(p.ib===2)?new Uint16Array(buf,off,p.ni)
+                      :new Uint32Array(buf.slice(off,off+p.ni*4));
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setIndex(new THREE.BufferAttribute(idx,1));
+  g.computeVertexNormals(); return g;
+}
+function material(k){
+  const s=ESP[k];
+  return new THREE.MeshStandardMaterial({color:new THREE.Color(cssvar(s.cor)),roughness:s.rug,
+    metalness:s.met,flatShading:true,transparent:!!s.op,opacity:s.op||1,
+    side:s.op?THREE.DoubleSide:THREE.FrontSide,depthWrite:!s.op});
+}
+// as malhas vao embutidas em malhas.js: posicoes em uint16 sobre a caixa da peca
+// (50 mm / 65535 = 0,0008 mm de passo) e indices em uint16.
+function monta(i){
+  if(typeof MALHAS==='undefined'){
+    document.getElementById('pc').style.background='var(--oxide)';
+    document.getElementById('carga-txt').textContent='as malhas não carregaram'; return;
+  }
+  if(i>=MALHAS.length){
+    document.getElementById('carga').classList.add('off'); aplica(); anima(); return;
+  }
+  const p=MALHAS[i];
+  const m=new THREE.Mesh(geo(p),material(p.n)); m.renderOrder=(p.n==='tampa')?2:1;
+  obj[p.n]=m; cena.add(m);
+  document.getElementById('pc').style.width=((i+1)/MALHAS.length*100)+'%';
+  requestAnimationFrame(()=>monta(i+1));
+}
+requestAnimationFrame(()=>monta(0));
+
+/* ---- meio corte: plano que fatia tudo menos o conjunto visivel ---- */
+const plano=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
+ren.localClippingEnabled=true;
+
+/* ---- estado ---- */
+const el_=id=>document.getElementById(id);
+const S={dia:14,mes:9,exp:0,corte:false,ver:{m01:1,m02:1,m03:1,tampa:1}};
+let auto=!matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function aplica(){
+  el_('rd').textContent=String(S.dia).padStart(2,'0');
+  el_('rm').textContent=MES[S.mes-1];
+  el_('vd').textContent=String(S.dia).padStart(2,'0');
+  el_('vm').textContent=MES[S.mes-1];
+  const e=S.exp/100;
+  el_('ve').textContent=(e*26).toFixed(1).replace('.',',')+' mm';
+  if(obj.m02){ obj.m02.rotation.y=THREE.MathUtils.degToRad((S.mes-1)*30); obj.m02.position.y=e*9; }
+  if(obj.m03){ obj.m03.rotation.y=THREE.MathUtils.degToRad(-(S.dia-1)*SD); obj.m03.position.y=e*20; }
+  if(obj.m01) obj.m01.position.y=e*2.5;
+  if(obj.tampa) obj.tampa.position.y=-e*6;
+  for(const k in S.ver) if(obj[k]) obj[k].visible=!!S.ver[k];
+  for(const k in obj) obj[k].material.clippingPlanes=S.corte?[plano]:null;
+}
+el_('dia').addEventListener('input',e=>{S.dia=+e.target.value;aplica()});
+el_('mes').addEventListener('input',e=>{S.mes=+e.target.value;aplica()});
+el_('exp').addEventListener('input',e=>{S.exp=+e.target.value;aplica()});
+[['p1','m01'],['p2','m02'],['p3','m03'],['p0','tampa']].forEach(([id,k])=>{
+  el_(id).addEventListener('click',ev=>{ S.ver[k]=!S.ver[k];
+    ev.currentTarget.setAttribute('aria-pressed',S.ver[k]?'true':'false'); aplica(); });
+});
+el_('gira').addEventListener('click',ev=>{auto=!auto;ev.currentTarget.setAttribute('aria-pressed',auto?'true':'false')});
+el_('corte').addEventListener('click',ev=>{S.corte=!S.corte;
+  ev.currentTarget.setAttribute('aria-pressed',S.corte?'true':'false');aplica()});
+el_('zerar').addEventListener('click',()=>{az=0;el=1.47;raio=104;auto=false;
+  el_('gira').setAttribute('aria-pressed','false');poe()});
+el_('gira').setAttribute('aria-pressed',auto?'true':'false');
+
+function tamanho(){
+  const w=palco.clientWidth,h=palco.clientHeight;
+  if(!w||!h) return;
+  ren.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); poe();
+}
+addEventListener('resize',tamanho); tamanho();
+
+let t0=performance.now();
+function anima(){
+  requestAnimationFrame(anima);
+  const t=performance.now(); if(auto){ az+=(t-t0)*0.00016; poe(); } t0=t;
+  ren.render(cena,cam);
+}
+</script>

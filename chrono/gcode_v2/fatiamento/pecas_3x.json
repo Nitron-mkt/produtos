@@ -1,0 +1,7 @@
+{ "mesa": [255,255], "eixo_vertical_do_stl": "Y", "saida": "prep3x",
+  "pecas": [
+    {"nome":"disco",     "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Disco_Prova.stl"},
+    {"nome":"aro",       "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Aro_Meses.stl"},
+    {"nome":"travinha",  "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Travinha_Seta.stl"}
+  ]
+}
