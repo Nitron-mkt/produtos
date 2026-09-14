@@ -8,10 +8,10 @@ seu arquivo, e a prova disso é a interferência contra a tampa (abaixo).
 |---|---|---|---|
 | `Chrono_M01_Valvula_Dias.stl` | válvula + 31 dias em relevo | **não** — é a válvula | 2,25 g |
 | `Chrono_M02_Aro_Meses.stl` | aro dos 12 meses | **sim** | 0,30 g |
-| `Chrono_M03_Travinha_Seta.stl` | travinha com a seta | **sim, solta no poste** | 0,06 g |
-| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,61 g |
+| `Chrono_M03_Travinha_Seta.stl` | travinha com a seta | **sim, solta no poste** | 0,05 g |
+| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,60 g |
 
-Válvula original: 2,04 g. O datador inteiro custa **+0,57 g de PP** por tampa.
+Válvula original: 2,04 g. O datador inteiro custa **+0,56 g de PP** por tampa.
 
 ## Como se lê — e por que a seta gira
 
@@ -84,7 +84,9 @@ como a que já está em linha. Nada mudou embaixo.
 |---|---|
 | face de topo da válvula (datum) | Y 37,23 |
 | mesa dos dias | r 14,20–18,75 · Y 37,23→37,41 |
-| 31 dias | r 16,65 · caixa alta 2,00 · relevo 0,30 · passo **3,37 mm** de arco |
+| 31 dias | r 16,65 (banda 15,80–17,50) · caixa alta **1,70** · relevo **0,25** |
+| passo e folga dos dias | passo 3,37 mm de arco · **0,98 mm** entre dois números |
+| traço mais fino dos dias | **0,32 mm** |
 | grafia dos dias | **1 a 9 sem zero**, 10 a 31 com dois dígitos |
 | índice fixo do mês | 12 h · r 14,25–15,30 · relevo 0,30 |
 | poste central | r 5,40 · topo Y 38,90 · canaleta r 4,70 de 38,15 a 38,55 |
@@ -95,21 +97,27 @@ como a que já está em linha. Nada mudou embaixo.
 | detente | 2 molas r 0,42 na válvula × 12 covinhas r 0,55 no aro, em r 7,50 |
 | curso do detente | **0,16 mm** de interferência entre encaixes |
 | travinha | colar r 5,55–**6,90** · braço **2,10** de largura, 0,50 de espessura |
-| ponta da seta | afina de 2,10 para **1,40** e fecha em ponta em r **19,90** |
-| espigão do dorso | 0,80 × 0,60, de r 14,45 a 19,50 · topo Y 39,05 |
+| ponta da seta | cabeça triangular de r 14,45 a **r 15,65** — para rente à borda de dentro dos dias |
+| espigão do dorso | 0,80 × 0,60, de r 14,45 a 15,30 · topo Y 39,05 |
 
 ## O que ainda não está resolvido
 
-- **Traço de 0,36–0,38 mm.** Em molde, é relevo fino mas viável em PP; o contraste
-  tem de vir de **acabamento de molde** (caractere polido sobre campo VDI 27-30),
-  não de tampografia. Em impressão 3D com bico de 0,40 é **1 extrusão** — o número
-  forma mas sai esfarrapado. Para provar a leitura, bico de 0,25 ou escala ≥ 2×.
+- **Traço de 0,32 mm nos dias** (0,36 nos meses). Em molde é relevo fino mas viável
+  em PP — o sulco no aço fica 0,32 de largura por 0,25 de fundo, proporção < 1, que
+  enche. O contraste tem de vir de **acabamento de molde** (caractere polido sobre
+  campo VDI 27-30), não de tampografia. Em impressão 3D com bico de 0,40 o traço é
+  **menor que uma extrusão: o número não forma**. Para provar a leitura, bico de
+  0,25 mm ou escala ≥ 2×.
 - **Fecho do colar da travinha.** A barbela interna de 0,45 mm tem de estalar na
   canaleta do poste e ainda girar solta. Isso é ensaio de peça, não de CAD.
-- **Rigidez do braço da seta.** O braço tem 0,50 mm de espessura num vão de 5,5 mm,
-  e só 0,24 mm de folga sobre os números. Por isso o **espigão de 0,60 mm no dorso**,
-  que triplica a inércia sem engrossar o desenho visto de cima. Se ainda raspar, a
-  correção é subir o braço externo (37,95 → 38,05), não engrossá-lo.
+- **A seta não tem detente.** O aro dos meses trava em 12 posições, mas o dia é
+  posicionado a olho. Se quiser estalo também no dia, cabem 31 dentes no colar
+  (passo de 1,12 mm em r 5,55) — é detalhe fino de molde, e não está desenhado.
+- **Rigidez do braço da seta.** O braço tem 0,50 mm de espessura, e só 0,24 mm de
+  folga sobre os números. Com a seta curta o vão livre caiu para ~1,2 mm e o
+  **espigão de 0,60 mm no dorso** passou a ser folga, não necessidade — ficou porque
+  lê como o nervo da seta. Se ainda raspar, a correção é subir o braço externo
+  (37,95 → 38,05), não engrossá-lo.
 - **Onde o detente trava.** 0,16 mm de interferência num aro de 0,80 mm de PP é
   firme; se ficar duro demais, a correção é a mola (0,42 → 0,35), não a covinha.
 

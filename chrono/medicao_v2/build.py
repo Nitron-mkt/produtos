@@ -13,7 +13,7 @@ FACE = 37.23                       # face de topo da valvula = datum
 # ---- M01 valvula ----
 DIA_RI, DIA_RE   = 14.60, 18.70    # banda dos dias (fixa, nao gira)
 DIA_R            = 16.65
-DIA_CAP, DIA_REL = 2.00, 0.30
+DIA_CAP, DIA_REL = 1.70, 0.25   # traco de 0,32: o relevo desce junto p/ o molde encher
 # mesa dos dias: anel plano que ponte a concha de acionamento das 12h, para que
 # os 31 numeros nasçam todos na mesma altura e a banda vire superficie de aperto
 MESA_RI, MESA_RE, MESA_H = 14.20, 18.75, 0.18
@@ -123,8 +123,8 @@ rampa    =trimesh.creation.extrude_polygon(
 rampa    =place(rampa, radians(90), 0.0, COL_Y1, 1.0)   # bloco; a rampa vem do corte abaixo
 # braco externo + ponta numa peca so, afinando ate a seta
 ext=trimesh.creation.extrude_polygon(
-      SP([(-MEIA_BR,RAMPA_R1-0.10),(MEIA_BR,RAMPA_R1-0.10),(MEIA_PT,18.80),
-          (0.0,19.90),(-MEIA_PT,18.80)]), height=EXT_Y1-EXT_Y0)
+      SP([(-MEIA_BR,RAMPA_R1-0.10),(MEIA_BR,RAMPA_R1-0.10),(0.0,15.65)]),
+      height=EXT_Y1-EXT_Y0)
 ext=place(ext, radians(90), 0.0, EXT_Y1, EXT_Y1-EXT_Y0)
 # espigao: um braco de 0,50 e 12 mm em PP verga; a nervura no dorso segura,
 # e nao aparece de cima porque fica na linha de centro da seta
@@ -132,8 +132,7 @@ ext=place(ext, radians(90), 0.0, EXT_Y1, EXT_Y1-EXT_Y0)
 # e a rampa tem 1,0 mm de secao. No colar o espigao nao entra, senao come a
 # folga de 0,52 mm ate o aro de empilhamento da tampa.
 esp=trimesh.creation.extrude_polygon(
-      SP([(-ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,18.60),
-          (0.0,19.50),(-ESP_W/2,18.60)]), height=ESP_H)
+      SP([(-ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,RAMPA_R1-0.10),(0.0,15.30)]), height=ESP_H)
 esp=place(esp, radians(90), 0.0, EXT_Y1+ESP_H, ESP_H)
 m03=boolean('union',[colar,liga,braco_int,rampa,ext,esp])
 # corta a rampa em diagonal: de (RAMPA_R0, BRACO_Y0) ate (RAMPA_R1, EXT_Y0)
