@@ -15,6 +15,7 @@ SAIDA = BASE / 'manual-850-004-N03.pdf'
 CHROME = next((p for p in (
     '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell',
     '/opt/pw-browsers/chromium-1194/chrome-linux/chrome') if pathlib.Path(p).exists()), None)
+META = '<meta charset="utf-8">\n'
 UA = ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
       'Chrome/120.0.0.0 Safari/537.36')          # sem isto o Google devolve ttf, não woff2
 
@@ -36,7 +37,10 @@ def fontes_embutidas(url_css):
 def main():
     if CHROME is None:
         sys.exit('Chromium não encontrado.')
-    html = ENTRADA.read_text(encoding='utf-8')
+    # sem isto o Chromium le o arquivo como windows-1252 e todo acento
+    # vira mojibake ('PEÃ§AS'). O manual publicado nao precisa porque a
+    # plataforma injeta o charset; um arquivo solto precisa.
+    html = META + ENTRADA.read_text(encoding='utf-8')
     m = re.search(r'<link rel="stylesheet" href="(https://fonts\.googleapis\.com/[^"]+)">', html)
     if not m:
         sys.exit('Não achei o <link> das fontes no manual.')
