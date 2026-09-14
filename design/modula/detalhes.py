@@ -65,22 +65,27 @@ def main(k="M"):
            ((0, 0, perna + H - 50), (0, 0, 1)), ((0, 0, perna + H + 50), (0, 0, -1))]
     salva("pilha-assento", [(clip(peca(), *rec), cinza, None), (clip(peca((0, 0, pp)), *rec), cor, None)],
           1200, 950, 62, 16)
-    # rev.25: o rodape do P dentro da boca do M, no pilar da frente (corte pelo pilar)
+    # rev.26: o copo do P dentro do bolsao da grade, sobre o aro do M (corte)
+    import grade as G_
     solP, sP = ficha("P")
-    en = s["encaixe"]
-    cx_ = en["centros"][-1]                       # o P da direita
-    yF = s["Y"] / 2
-    x0 = en["pilares"][0] if en["pilares"] else 0.0
-    cx = [((x0, 0, 0), (1, 0, 0)), ((x0 + 22, 0, 0), (-1, 0, 0)), ((0, yF - 46, 0), (0, 1, 0)),
-          ((0, yF + 4, 0), (0, -1, 0)), ((0, 0, perna + H - 26), (0, 0, 1)), ((0, 0, perna + H + 26), (0, 0, -1))]
-    salva("encaixe", [(clip(peca(), *cx), cor, None),
-                      (clip(solP.triangulos(offset=(cx_, 0, en["z_filho"])), *cx), claro, None)], 1200, 900, 180, 14)
-    # o P por baixo: caixa de parede reta, rodape de 3 mm e fundo inteiro
+    mg, info = G_.construir("M")
+    cx_ = s["centros_sobre"][-1]
+    sola = [b for b in info["solas"] if b[0] > 0 and b[2] > 0][0]
+    xb = cx_ + (sola[0] + sola[1]) / 2; yb = (sola[2] + sola[3]) / 2
+    zM = perna + H
+    cx = [((xb - 40, 0, 0), (1, 0, 0)), ((xb, 0, 0), (-1, 0, 0)), ((0, yb - 40, 0), (0, 1, 0)),
+          ((0, yb + 40, 0), (0, -1, 0)), ((0, 0, zM - 12), (0, 0, 1)), ((0, 0, zM + 60), (0, 0, -1))]
+    cinza_g = {"grade": (150, 158, 165)}
+    salva("encaixe", [(clip(peca(), *cx), cor, None), (clip(mg.triangulos(offset=(0, 0, zM)), *cx), cinza_g, None),
+                      (clip(solP.triangulos(offset=(cx_, 0, info["z_filho"])), *cx), claro, None)], 1200, 900, 0, 14)
+    # a grade sozinha
+    salva("grade", [(mg.triangulos(), cinza_g, None)], 1200, 900, 38, 32)
+    # o P por baixo: copos, rodape com as janelas, fundo chapado
     salva("pe-canto", [(solP.triangulos(), paleta(COR_CORPO["P"]), None)], 1100, 900, 35, -25)
-    # tres P empilhados: o rodape cai na boca do de baixo, rente
-    salva("pilha-P", [(solP.triangulos(offset=(0, 0, i * sP["passo_pilha"])), paleta(COR_CORPO["P"]), None) for i in range(3)],
-          900, 1100, 44, 13, True)
-    # a frente do M: pilar no meio, dois vaos, cantos altos
+    # dez P ninhados
+    salva("pilha-P", [(solP.triangulos(offset=(0, 0, i * sP["passo_ninho"]), giro180=bool(i % 2)),
+                       paleta(COR_CORPO["P"]), None) for i in range(10)], 1000, 900, 44, 17, True)
+    # a frente do M: mergulho entre cantos altos
     salva("frente", [(peca(), cor, ns)], 1300, 950, 90, 14, True)
     print("  detalhes em", OUT)
 

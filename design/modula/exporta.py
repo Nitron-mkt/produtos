@@ -3,12 +3,14 @@ import base64, json, math, os, sys
 import numpy as np
 import modelo
 from modelo import construir, ficha, TAN, RHO_PP
+import grade
 import render as R
 
 SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
 os.makedirs(SAIDA, exist_ok=True)
 
 COR_CORPO = {"P": (243, 241, 236), "M": (206, 80, 38), "G": (66, 71, 78)}
+COR_GRADE = (150, 158, 165)
 
 
 def paleta(base, destaque=False):
@@ -116,15 +118,20 @@ def main():
     R.cena(g, 900, 1100, az=48, el=13, fundo=(212, 207, 199)) \
         .save(os.path.join(SAIDA, "07-torre-casa.png"))
 
-    # ---- 08 em cima (rev.25): dois P sobre um M, tres P sobre um G ----------
-    def sobre(kg, cx=0.0):
-        sg = fichas[kg][1]
-        en = sg["encaixe"]
-        return [grupo(kg, offset=(cx, 0, 0))] + [grupo(en["filho"], offset=(cx + c, 0, en["z_filho"]))
-                                                 for c in en["centros"]]
-    g = sobre("M", cx=-320) + sobre("G", cx=330)
-    R.cena(g, 1700, 950, az=36, el=20).save(os.path.join(SAIDA, "08-em-cima.png"))
-    R.cena(sobre("G"), 1500, 900, az=90, el=6).save(os.path.join(SAIDA, "09-em-cima-frente.png"))
+    # ---- 08 em cima (rev.26): a GRADE no aro do M recebe dois P; a do G, tres --
+    grades = {k: grade.construir(k) for k in ("M", "G")}
+
+    def gr(k, off=(0, 0, 0)):
+        return (grades[k][0].triangulos(offset=off), {"grade": COR_GRADE}, None)
+
+    def torre(kg, cx=0.0):
+        sg = fichas[kg][1]; info = grades[kg][1]
+        return [grupo(kg, offset=(cx, 0, 0)), gr(kg, (cx, 0, sg["H"]))] + \
+               [grupo(info["filho"], offset=(cx + c, 0, info["z_filho"])) for c in sg["centros_sobre"]]
+    g = torre("M", cx=-320) + torre("G", cx=330)
+    R.cena(g, 1700, 1000, az=36, el=20).save(os.path.join(SAIDA, "08-em-cima.png"))
+    R.cena(torre("G"), 1500, 900, az=90, el=6).save(os.path.join(SAIDA, "09-em-cima-frente.png"))
+    R.cena([gr("M", (-320, 0, 0)), gr("G", (330, 0, 0))], 1700, 700, az=36, el=34).save(os.path.join(SAIDA, "11-grades.png"))
 
     # ---- 10 fileiras acopladas: tres P e tres M, passo = X ------------------
     g = [grupo("P", offset=(i * sP["X"], 0, 0)) for i in range(3)]
@@ -185,6 +192,10 @@ def stl():
               f"{cx[0]:.1f} x {cx[1]:.1f} x {cx[2]:.1f} mm  "
               f"arestas abertas {ab}/{tot} ({ab/tot:.2%})  "
               f"{s['massa_g']:.0f} g  {s['litros_total']:.1f} L  [{time.time()-t0:.0f}s]")
+    for k in ("M", "G"):
+        m, info = grade.construir(k)
+        n = escreve_stl(m, os.path.join(SAIDA, f"modula-grade-{k}.stl"), info["nome"])
+        print(f"  {info['nome']}: {n:6d} tri  {info['massa_g']} g  {info['bolsoes']} bolsoes")
 
 
 if __name__ == "__main__":

@@ -121,6 +121,11 @@ if __name__ == "__main__":
         n, tam = glb(sol, f"{SAIDA}/modula-{k}.glb", s["nome"],
                      tuple(c/255 for c in COR_CORPO[k]))
         print(f"  GLB {k}: {n} tri, {tam/1e6:.2f} MB")
+    import grade
+    for k in ("M", "G"):
+        mg, info = grade.construir(k)
+        n, tam = glb(mg, f"{SAIDA}/modula-grade-{k}.glb", info["nome"], (0.59, 0.62, 0.65))
+        print(f"  GLB grade {k}: {n} tri, {tam/1e6:.2f} MB")
     modelo.AMOSTRA = [1.8, 16]
     for k in ("P", "M", "G"):
         print(f"  prancha {k}: {prancha(k)/1e6:.2f} MB")

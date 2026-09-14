@@ -1,5 +1,5 @@
 """
-MODULA rev.25 — familia de organizadores modulares Nitron (3 moldes).
+MODULA rev.26 — familia de organizadores modulares Nitron (3 moldes + 2 grades).
 
 FORMA
   Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
@@ -36,17 +36,20 @@ REGRA QUE GOVERNA TUDO
   onde a borda esta na altura cheia; no mergulho a borda e a propria parede,
   lisa e arredondada no molde.
 
-A CADEIA (rev.25) — EM CIMA, nao dentro
-  Dois P acoplados lado a lado pousam EM CIMA de um M; tres P em cima de um G.
-  O P e uma CAIXA: parede a 0,5 grau (nao ninha, entao nao precisa dos 7,5),
-  borda de 7 mm com saia de 12 para os acopladores, e um RODAPE de 3 mm recuado
-  4 mm que cai dentro da boca do grande — como caixa em cima de caixa. O ombro
-  do rodape pousa no topo da parede do grande; a boca dele segura o par em x e
-  y, com 1,2 mm de folga. Nao ha pe, coluna nem pino.
-  Na frente do grande o mergulho nao pode ficar onde o rodape do P precisa de
-  parede: a frente do M tem um PILAR de altura cheia no meio (dois vaos) e a do
-  G tem dois (tres vaos), e os cantos ficam na altura cheia. Cada vao fica sob
-  um P. Pilar e canto alto sao parede: nada muda no ninho do M e do G.
+A CADEIA (rev.26) — todos ninham, todos empilham, e a GRADE liga os tamanhos
+  Premissas: P, M e G acoplam lado a lado (macho/femea, proporcional ao
+  tamanho), empilham um sobre o outro (0 graus: rodape no canal das colunas)
+  e ninham um dentro do outro (180 graus). Dois P acoplados pousam sobre um M
+  e tres sobre um G. Como o P afunila 7,5 graus para ninhar, seus pes caem
+  30 mm dentro da boca do grande, onde um M que ninha nao pode ter nada; a
+  ponte e uma GRADE DE ENCAIXE (grade.py): peca plana que pousa no aro do M
+  (outra no G), com aba que desce na boca e bolsoes conicos de 15 mm onde os
+  copos do P assentam. E o 4o e o 5o molde, planos e simples.
+
+  rev.26 tambem corrige o ninho de M e G: desde a rev.20 o rodape e a moldura
+  do fundo eram aneis continuos, e o topo das colunas (labio, canal e guia)
+  nao passava por eles na descida — o teste so olhava a posicao final. As
+  JANELAS voltaram no espelho das colunas, e confere_trajeto() varre o caminho.
 """
 import math
 from geometria import DEG, Contorno, Malha, banda, perfurada
@@ -78,9 +81,9 @@ TAMANHOS = {
     # H = altura TOTAL (chao ate o aro). A cesta e H - perna.
     # rev.23: o P abre pelo lado CURTO (frente de 192), como os cestos de
     # referencia; os acopladores ficam nos lados longos e a fileira tem passo 192.
-    "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=3.0, e=1.8, R=26.0, aba=7.0,
+    "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
-              acoplador=True, caixa=True, ninha=False, saida=0.5, saia=12.0, recuo=4.0),
+              acoplador=True),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=26.0, aba=12.4,
               barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False,
               acoplador=True, sobre=("P", 2)),
@@ -89,7 +92,8 @@ TAMANHOS = {
               acoplador=True, sobre=("P", 3)),
 }
 MODULO = {192.0: 200, 289.0: 300, 390.0: 400, 582.0: 600, 596.0: 600}
-PILAR_MEIA = 25.0    # meia-largura do pilar da frente: 25 mm de rodape de cada P apoiado nele
+# acoplador proporcional ao tamanho (rev.26): (haste, cabeca) em mm de largura
+AC_LARG = {"P": (4.5, 10.0), "M": (5.5, 12.0), "G": (6.5, 14.0)}
 RAMPA_FRENTE = 14.0  # rampa entre a borda alta e o vao
 
 CANTOS = {"canto_fd": (1, 1), "canto_fe": (-1, 1), "canto_te": (-1, -1), "canto_td": (1, -1)}
@@ -154,12 +158,14 @@ def parametros(k):
     # rodape da peca de cima pousa: labio da coluna por dentro, guia chanfrada
     # por fora. rev.18 tambem recuou as colunas de 0,72b/0,24b para
     # 0,66b/0,22b, para o copo do P caber entre a janela e o canto.
-    s["y_col"] = (round(0.66 * s["b"], 1), round(-0.22 * s["b"], 1))
-    s["w_col"] = round(0.17 * s["b"], 1)
-    s["rampa_col"] = round(min(5.5, 0.055 * s["b"]), 1)
-    vao_col = 0.44 * s["b"]
-    assert s["w_col"] + 2 * s["rampa_col"] + 6 < vao_col, \
-        f"{k}: coluna e janela se encostam ({vao_col:.0f} mm de vao)"
+    # rev.26: coluna de 20 mm nos tres tamanhos, e a POSICAO vem do copo: o
+    # teste de trajetoria mostrou que o copo do canto encostava na coluna de
+    # baixo no meio da descida (a regra da rev.18 usava a meia-lateral do aro,
+    # nao a da base). Agora: coluna 1 acaba 3 mm antes do copo; coluna 2 fica
+    # junto ao meio da lateral, de modo que as duas janelas (espelhos) nao
+    # toquem nenhuma coluna. y_col e definido depois do copo, abaixo.
+    s["w_col"], s["rampa_col"] = 20.0, 5.5
+    s["meia_col"] = meia_col = s["w_col"] / 2 + s["rampa_col"]
     # faces do rodape na sua aresta de baixo (meia-largura absoluta - Xb/2):
     # face externa afina 0,5 grau para baixo (cavidade), interna alarga 1 grau
     # para baixo (postico do vao). Ficou quase vertical, e por isso sobra
@@ -178,8 +184,8 @@ def parametros(k):
     # Em cada lateral, um macho e uma femea em posicoes espelhadas: o macho
     # direito de A entra na femea esquerda de B, e vice-versa. Passo = X exato.
     s["ac_stem"] = round(e + 0.4, 1)  # haste: atravessa a saia da vizinha (e) e sobra 0,4
-    s["ac_cabeca"] = 1.8              # cabeca do T
-    s["ac_w_stem"], s["ac_w_cabeca"] = 4.5, 10.0
+    s["ac_cabeca"] = max(1.8, e)      # cabeca do T (cresce com a parede)
+    s["ac_w_stem"], s["ac_w_cabeca"] = AC_LARG.get(k, (4.5, 10.0))
     s["ac_folga"] = 0.3               # por lado, na ranhura e no bolsao
     s["ac_prof_bolsao"] = round(s["ac_stem"] - e + s["ac_cabeca"] + 0.4, 2)   # cabeca dentro, com folga
     s["ac_saliencia"] = round(s["ac_stem"] + s["ac_cabeca"], 1)
@@ -190,9 +196,9 @@ def parametros(k):
         # fileira de dois: 2X + uma cabeca livre cabe em dois modulos do palete
         assert 2 * X + s["ac_saliencia"] <= 2 * MODULO.get(X, X + 10), \
             f"{k}: macho estoura o modulo do palete"
-    # ---- encaixe em cima (rev.25): o rodape do filho cai na nossa boca ----------
+    # ---- encaixe em cima (rev.26): pela GRADE (grade.py) -----------------------
     s["pilares"] = []
-    s["x_cheia"] = s["ax"] - 2.0
+    s["x_cheia"] = s["ax"] - 2.0          # cantos na altura cheia; o mergulho e so na reta da frente
     s["pilar_meia"] = 0.0
     if s.get("sobre"):
         kf, nf = s["sobre"]
@@ -202,27 +208,7 @@ def parametros(k):
         assert abs(folga_x - 3.0) < 0.01 and abs(folga_y - 3.0) < 0.01, \
             f"{k}: {nf} {kf} nao dao o aro com 3 mm por lado ({folga_x:.1f} / {folga_y:.1f})"
         s["folga_sobre"] = folga_x
-        # em offsets ao NOSSO contorno no aro: a linha do aro do filho esta 'folga'
-        # para dentro; a parede dele, 'aba_f' mais; o rodape, 'recuo_f' mais; e a
-        # saida dele fecha H_f*tan ate a sola
-        queda = f["H"] * f["tan"]
-        s["ombro_out"] = round(aba - folga_x - f["aba"] - queda, 2)        # face externa da parede do filho, na sola
-        s["ombro_in"] = round(s["ombro_out"] - f["recuo"], 2)              # face externa do rodape do filho
-        s["f_rodape"] = round((-e) - s["ombro_in"], 2)                     # rodape x face interna da nossa parede
-        assert s["f_rodape"] >= 0.8, f"{k}: rodape do {kf} raspa na parede ({s['f_rodape']} mm)"
-        s["apoio_ombro"] = round(min(s["ombro_out"], 0.0) - max(s["ombro_in"], -e), 2)   # sobre o topo da parede
-        assert s["apoio_ombro"] >= 1.5, f"{k}: ombro do {kf} apoia so {s['apoio_ombro']} mm no topo da parede"
-        assert s["ombro_out"] <= aba - 4.6, f"{k}: ombro do {kf} passa do patamar"
-        centros = [-(nf - 1) / 2 * f["X"] + j * f["X"] for j in range(nf)]
-        s["centros_sobre"] = centros
-        # pilares entre filhos vizinhos e cantos altos: e onde a frente tem parede
-        # para segurar o rodape do filho (o resto da frente e o vao)
-        s["pilares"] = [round((centros[j] + centros[j + 1]) / 2, 1) for j in range(nf - 1)]
-        s["pilar_meia"] = PILAR_MEIA
-        s["x_cheia"] = round(nf * f["X"] / 2 - PILAR_MEIA, 1)
-        assert s["x_cheia"] < s["ax"], f"{k}: o canto alto nao alcanca a reta"
-        s["vao_frente"] = round((s["pilares"][0] - s["pilar_meia"]) - (-s["x_cheia"]), 1) if nf > 1 else 0.0
-        s["z_filho"] = round(s["H"] - f["h_rodape"], 1)      # o rodape do filho desce h_rodape na boca
+        s["centros_sobre"] = [-(nf - 1) / 2 * f["X"] + j * f["X"] for j in range(nf)]
     if s.get("acoplador"):
         assert s["ac_prof_bolsao"] + 1.8 < aba - e - 0.5, f"{k}: bolsao da femea nao cabe na aba"
     s["canal_out_abs"] = s["Xb"] / 2 + ro_out_b + tout    # face interna da guia
@@ -257,12 +243,27 @@ def parametros(k):
     # mm subindo: no rodape e hw + h_copo*s["tan"], e isso tem de parar 4 mm antes
     # da janela.
     s["arco_canto"] = ac = math.pi * s["Rb"] / 4
-    dist_jan = 0.34 * s["b"] + ac - (s["w_col"] / 2 + s["rampa_col"])
-    s["hw_pe"] = hw = round(min(0.30 * min(s["b"], s["ax"]), dist_jan - 4.0 - hcp * s["tan"]), 1)
+    # a face interna do copo (paralela a x) no topo do copo fica em
+    #   y_w_top = Yb/2 - perna*tan - Rb - (hw - ac) - hcp*tan
+    # e a coluna 1 precisa de y1 = y_w_top - meia - 3 >= 3*meia + 3,5 (para as
+    # janelas nao tocarem coluna nenhuma): isso limita hw.
+    base_y = s["Yb"] / 2 - s["perna"] * s["tan"] - s["Rb"] + ac - hcp * s["tan"]
+    hw_max = base_y - (4 * meia_col + 10.5)         # 6 mm entre o colar do copo e a rampa da coluna, 1 de sobra
+    if hw_max < 0.15 * min(s["b"], s["ax"]) + 1.0:
+        # peca alta e estreita na base (G): coluna de 16 com rampa de 4
+        s["w_col"], s["rampa_col"] = 16.0, 4.0
+        s["meia_col"] = meia_col = s["w_col"] / 2 + s["rampa_col"]
+        hw_max = base_y - (4 * meia_col + 10.5)
+    s["hw_pe"] = hw = round(min(0.30 * min(s["b"], s["ax"]), hw_max), 1)
     assert hw > 0.15 * min(s["b"], s["ax"]), f"{k}: pe estreito demais ({2*hw:.0f} mm)"
     assert hw > ac + 3.0, f"{k}: o copo nao alcanca a reta ({hw:.1f} vs arco {ac:.1f})"
     s["hw_topo"] = round(hw + hcp * s["tan"], 1)
     s["larg_pe"] = round(2 * hw, 1)
+    y_w_top = base_y - hw
+    s["y_col"] = (round(y_w_top - meia_col - 6.0, 1), round(-(meia_col + 1.5), 1))
+    y1, y2 = s["y_col"]
+    assert y1 - meia_col > -y2 + meia_col + 2.0, f"{k}: janela da coluna 2 toca a coluna 1"
+    assert -y1 + meia_col < y2 - meia_col - 2.0, f"{k}: janela da coluna 1 toca a coluna 2"
     # paredes internas do copo (face do lado do bolsao), no chao (z = -perna):
     zc = -s["perna"]
     s["y_wf"] = (s["Yb"] / 2 + zc * s["tan"] - s["Rb"]) - (hw - ac)
@@ -295,7 +296,10 @@ def parametros(k):
     hx_led = s["Xb"] / 2 + s["z_fundo"] * s["tan"] - e - s["w_mold"]
     s["f_gre"] = f_gre = round(hx_led - (r_col(pn) + e), 2)
     assert not s.get("ninha", True) or f_gre > 1.5, f"{k}: a moldura do fundo alcanca a coluna no ninho ({f_gre:.1f} mm)"
-    s["r_lim_nerv"] = round(r_col(pn) - 1.5, 2)          # onde a nervura para, na sombra
+    # onde a nervura para, na sombra da coluna de baixo: medido na cota da PONTA
+    # da nervura (alt_nerv abaixo do topo do fundo), onde a coluna e mais grossa,
+    # e com 1,5 mm a mais porque a viga avanca 1,5 mm alem do corte (rev.26)
+    s["r_lim_nerv"] = round(r_col(pn + zt - s["alt_nerv"]) - 3.0, 2)
     # (5b) ninho profundo: coluna da peca 1 x coluna da peca 3
     s["f_col3"] = f_col3 = round(2 * pn * s["t_col"] - e, 2)
     assert not s.get("ninha", True) or f_col3 > 0.3, f"{k}: colunas das pecas 1 e 3 colidem no ninho ({f_col3:.1f} mm)"
@@ -605,7 +609,19 @@ def construir(k):
 
     # rev.20: rodape e moldura CONTINUOS em toda a volta. A coluna de baixo passa
     # por dentro deles no ninho (f_gre); so a nervura e recortada na sombra dela.
-    livre = lambda i: True
+    # rev.26: a JANELA volta. No ninho (180 graus) o topo da coluna de baixo —
+    # labio, canal e guia, do raio r_col_top ate a parede — tem de atravessar o
+    # rodape e a moldura da peca de cima; por isso ambos abrem no espelho da
+    # coluna, com 1,5 mm de folga por lado. Na pilha (0 graus) o rodape passa
+    # inteiro sobre o canal, porque a janela esta do outro lado.
+    meia_janela = s["w_col"] / 2 + s["rampa_col"] + max(1.5, AMOSTRA[0] + 0.2)   # a banda avanca ate 1 amostra alem da mascara
+    def na_janela(i):
+        tr, _ = cont.amostras[i % n]
+        if tr not in ("lat_d", "lat_e"):
+            return False
+        y = cont.y_de(i % n)
+        return any(abs(y - yj) < meia_janela for yj in yc_jan)
+    livre = lambda i: not na_janela(i)
     emitir(livre, o_ext_base, o_int_base, lambda i: z_base[i % n], lambda i: zt, "saia")
 
     # ---- moldura do fundo: inteira fora do copo, so a tira sobre ele -------
@@ -690,7 +706,7 @@ def construir(k):
     xw_v, yw_v = x_w(zt) - ec - 0.5, y_w(zt) - ec - 0.5
 
     r_lim = s["r_lim_nerv"]
-    meia_jan = wc + rc + 1.0
+    meia_jan = wc + rc + 3.0                    # rev.26: a viga avanca 1,5 alem do corte
 
     def na_sombra(x, y):
         """Sombra da coluna de baixo no ninho (posicoes espelhadas): ali a
@@ -789,15 +805,51 @@ def confere_ninho(m, s, k=1):
 
 
 def encaixe_topo(kg):
-    """n filhos acoplados em cima de 'kg': onde ficam e as folgas do rodape na boca."""
+    """n filhos acoplados em cima de 'kg', pela grade: onde ficam os centros."""
     g = parametros(kg)
     kf, nf = g["sobre"]
-    f = parametros(kf)
-    return dict(filho=kf, n=nf, centros=g["centros_sobre"], z_filho=g["z_filho"],
-                folga=g["folga_sobre"], pilares=list(g["pilares"]),
-                pilar_larg=round(2 * g["pilar_meia"], 1), vao_frente=g["vao_frente"],
-                rodape=f["h_rodape"], recuo=f["recuo"], f_rodape=g["f_rodape"],
-                apoio_ombro=g["apoio_ombro"], ombro=(g["ombro_in"], g["ombro_out"]))
+    return dict(filho=kf, n=nf, centros=g["centros_sobre"], folga=g["folga_sobre"])
+
+
+def confere_trajeto(m, s, passo=2.0):
+    """rev.26: varre a DESCIDA da peca de cima no ninho (girada 180 graus), do
+    aro ate o passo final, e confere que nenhum vertice da base dela entra no
+    topo das colunas de baixo (labio, canal e guia) nem na casca da coluna.
+    E o teste que faltava: confere_ninho() so olha a posicao final."""
+    H, perna, pn, e, tan = s["hc"], s["perna"], s["passo_ninho"], s["e"], s["tan"]
+    Xb2 = s["Xb"] / 2
+    r_col = s["fn_r_col"]
+    meia = s["w_col"] / 2 + s["rampa_col"]
+    ycs = s["y_col"]
+    pc, esp = s["prof_canal"], 2.5
+    base = set()
+    for a, b, c, t in m.tris:
+        if t in ("saia", "pe", "fundo"):
+            for p in (a, b, c):
+                base.add((round(p[0], 2), round(p[1], 2), round(p[2], 2)))
+    pior = (0, None)
+    d = H
+    while d >= pn - 0.01:
+        n_bad = 0
+        for (x, y, z) in base:
+            zz = z - perna + d                       # cota na cesta de baixo
+            if zz < 0 or zz > H:
+                continue
+            xg, yg = -x, -y                          # girada 180 graus
+            r = abs(xg)
+            for yc in ycs:
+                if abs(yg - yc) > meia:
+                    continue
+                parede_in = Xb2 + zz * tan - e
+                if zz >= H - pc - esp:               # ponte, canal e guia
+                    if r_col(zz) - 0.6 <= r <= parede_in + 0.1:
+                        n_bad += 1
+                elif r_col(zz) - 0.1 <= r <= r_col(zz) + e + 0.1:   # casca da coluna
+                    n_bad += 1
+        if n_bad > pior[0]:
+            pior = (n_bad, round(d, 1))
+        d -= passo
+    return pior
 
 
 def confere_aro_ninho(m, s):
@@ -862,6 +914,9 @@ def ficha(k):
         assert viol == 0, f"{k}: {viol} vertices da base atravessam a peca de baixo no ninho"
         assert viol2 == 0, f"{k}: {viol2} vertices da base atravessam a peca DOIS passos abaixo"
         assert viol3 == 0, f"{k}: {viol3} vertices do aro atravessam a parede de baixo no ninho"
+        s["trajeto_viol"], s["trajeto_d"] = confere_trajeto(m, s)
+        assert s["trajeto_viol"] == 0, \
+            f"{k}: a base da peca de cima bate no topo da coluna de baixo a {s['trajeto_d']} mm de descida ({s['trajeto_viol']} vertices)"
     else:
         s["ninho_viol"], s["ninho_pts"] = 0, 0
     return m, s

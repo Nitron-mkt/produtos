@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.26** — **3 moldes + 2 grades, e nada se perde.** As premissas fecham inteiras: P, M e G **ninham** (7,5°), **empilham** (rodapé no canal das colunas) e **acoplam** lado a lado (macho/fêmea proporcional: 4,5 / 5,5 / 6,5 mm). Dois P acoplados pousam **em cima** de um M e três em cima de um G — não pela boca do grande (geometricamente impossível numa peça que ninha), mas por uma **grade de encaixe** que descansa no aro: placa de 4 mm com bolsões cônicos onde os copos do P assentam. Grade M 240 g, grade G 335 g. De quebra, o teste de **trajeto do ninho** (a descida inteira, não só a posição final) achou uma colisão que existia desde a rev.20 — rodapé contra o topo das colunas — e ela foi corrigida com janelas no rodapé e na moldura.
+
 **rev.25** — **em cima, não dentro.** Dois P acoplados pousam **em cima** de um M e três P em cima de um G. O P vira uma **caixa de parede reta (0,5°)**, borda de 7 mm e **rodapé de 3 mm que cai na boca do grande** — caixa sobre caixa, sem pé, coluna ou pino. A frente do M ganha um **pilar** (dois vãos) e a do G dois (três vãos), um vão sob cada P; cantos na altura cheia nos três. **G encolhe para 582 × 295 × 360.** O P deixa de ninhar. A pendura da rev.21–24 sai.
 
 **rev.24** — a cadeia inteira fecha: **acoplador macho/fêmea nas laterais de P, M e G**; dois P acoplados pousam no aro de um M e dois M (girados, frente com frente) no de um G, **travados por postes em T que sobem do aro do grande** e entram na fêmea que o pequeno já tem na saia. **Correção estrutural**: o aro só existe onde a borda é alta — o aro em L na frente rebaixada atravessava a parede da peça de baixo no ninho em 10 mm desde a rev.01, e o teste de ninho nunca olhou o aro. Larguras inalteradas.
@@ -23,14 +25,17 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 192 × 289 × 179 | 176 + 3 | 1,8 mm | 7,0 | 297 g | 8,1 L | 176 mm | não ninha | — | 170–226 tf |
-| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 491 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
-| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 827 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
+| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 281 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
+| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 460 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
+| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 795 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
+| grade M | 390 × 295 × 19 | placa 4 + aba 12 | 4,0 mm | — | 240 g | 8 bolsões | — | — | — | — |
+| grade G | 582 × 295 × 19 | placa 4 + aba 12 | 4,0 mm | — | 335 g | 12 bolsões | — | — | — | — |
 
 Desde a rev.25 as cotas fecham **em cima**: X do grande = n × 192 + 6 e Y = 289 + 6, com
 n = 2 para o M e n = 3 para o G, 3 mm de folga por lado entre a fileira de P e o aro do grande.
-A altura segue φ (H = X / 1,618). O passo de ninho é conferido em toda build contra a malha real, para a peça
-2 e para a peça 3; o passo de pilha inclui os 3 mm que o rodapé afunda no canal.
+A altura segue φ (H = X / 1,618). Desde a rev.26 os três ninham de novo: o passo de ninho é conferido em toda
+build contra a malha real (peça 2, peça 3, aro e **a descida inteira**); o passo de pilha inclui os 3 mm que o
+rodapé afunda no canal. A grade tem a planta do grande e sobe 19 mm da boca (4 de placa + 15 de bolsão).
 
 ## Contra as peças de referência
 
@@ -1007,19 +1012,72 @@ Conferências em toda build: fileira de n P dá o aro com 3 mm por lado; rodapé
 face interna da parede do grande; ombro apoiado ≥ 1,5 mm no topo da parede; canto alto alcança a
 reta; ninho de M e G (base e aro) intacto. As conferências de ninho só rodam em quem ninha.
 
+### rev.26 — nada se perde: ninho, pilha, acoplador e a grade
+
+Pedido, em premissas fechadas: **P** acopla P–P pela lateral, empilha P sobre P com o pé na borda,
+**ninha** para cubagem, dois P vão em cima do M e três em cima do G. **M** e **G** idem, com
+acoplador maior e proporcional — e **também ninham**. "Não abro mão de nada: como as peças se
+conectam pelo macho e fêmea, elas já estão pré-conectadas, só precisam encaixar no M e no G."
+
+**Por que a rev.25 tinha aberto mão.** Com parede a 7,5° (o ninho), os pés do P ficam ~30 mm para
+dentro da linha do próprio aro. Em cima de um M eles caem dentro da boca — e nada pode haver dentro
+da boca de uma peça que ninha, porque a peça de cima passa a 0,26 mm da face interna da parede.
+Pé no contorno do aro (colunas de canto) foi tentado duas vezes e rejeitado: feio, oito pés, boca
+estreita. A rev.25 resolveu tirando o ninho do P. A rev.26 devolve o ninho e tira o problema do molde
+do cesto: **o encaixe em cima não é da parede, é de uma peça à parte**.
+
+**A grade de encaixe** (`grade.py`, 4º e 5º moldes). Placa de **4 mm** em anel — da linha do aro até
+12 mm para dentro da parede — com **aba de 12 mm** que desce pela face interna a 1 mm da parede
+(centra a grade na boca), barras longitudinais de 12 mm sob cada fila de copos e uma transversal
+no meio. Sobre a placa, um **bolsão cônico** (7,5°, 15 mm de altura, 0,4 mm de folga por lado) para
+cada copo do P: 8 no M, 12 no G. Os copos são a única geometria da sola do P, então a grade é gerada
+a partir da malha do P (tag `pe`, z < 0,5) — mudou o copo, muda a grade. Grade M **240 g**, grade
+G **335 g**. A aba passa a 0,5 mm livre da guia da coluna e o bolsão fica dentro do anel, conferidos.
+O aro do M e do G continua **inteiro, sem furo** — o molde do cesto não sabe que a grade existe.
+
+**Os acopladores, proporcionais.** Haste = e + 0,4; cabeça = max(1,8, e); larguras
+(haste / cabeça) **P 4,5 / 10 · M 5,5 / 12 · G 6,5 / 14**. Topo do macho a 2,8 mm do topo da
+saia; passo da fileira = X exato; 2 X + saliência ≤ 2 × módulo do palete nos três.
+
+**O bug que estava lá desde a rev.20.** `confere_ninho()` só olhava a posição final. Um teste novo,
+`confere_trajeto()`, faz a peça de cima **descer** de H até o passo de ninho em passos de 2 mm e
+confere cada vértice da base contra a casca da coluna e contra a zona ponte/canal/guia do topo das
+colunas. Achou: o rodapé e a moldura da peça de cima (contínuos ao longo da parede) batiam no prato do
+canal no topo das colunas de baixo (no M, raio 146,8–153,2 contra 142,5–155,5 do quadro). Correção:
+**janelas** no rodapé e na moldura, espelhadas na posição das colunas (a peça gira 180° no ninho), com
+margem que segue o passo de amostragem (a banda avança até uma amostra além da máscara). Segundo
+achado do mesmo teste: o colar do copo tocava a coluna no meio da descida — os copos passaram a ser
+**dimensionados junto com as colunas** (margem de 6 mm), e as pontas das nervuras recuam 3 mm do raio
+da coluna à altura em que passam por ela. Terceiro: o G, com pé de 42 mm, não cabia colunas de 20 —
+o G usa **coluna de 16 + rampa 4**; P e M ficam com 20 + 5,5.
+
+**As peças.** P volta a **129 + 50** com copos de 42 mm: 281 g, 4,5 L, passo de ninho 15,7, pilha 137;
+dez P em 179 + 9 × 15,7 = 320 mm (5,6× de cubagem). M 460 g (copo 45,6). G 795 g (copo 42,4).
+Cotas externas iguais à rev.25: **192 × 289 × 179 · 390 × 295 × 241 · 582 × 295 × 360**, R 26.
+
+**Conferências em toda build**, agora nos três: ninho (peça 2, peça 3, aro), **trajeto de descida**,
+pilha (rodapé no canal), fileira de n P com 3 mm por lado no aro do grande, módulo do palete; na grade,
+bolsão dentro do anel e aba livre da guia.
+
+**O que fica em aberto.** A grade é **peça solta** (trava só por gravidade e pela aba na boca); dois P
+acoplados + grade + M é uma pilha de três coisas, não uma. A borda nua do mergulho (2 mm) segue pedindo
+raio no molde. Nada disso é geometria: é decisão da fábrica e do curador.
+
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
 | `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
-| `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `pendura()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
-| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, encaixe do P na boca, pilha de P, P por baixo, frente |
-| `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev25.pdf`) |
+| `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `confere_trajeto()`, `encaixe_topo()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
+| `grade.py` | a grade de encaixe do M e do G — anel, aba, barras e um bolsão cônico por copo do P, gerada a partir da malha do P; `python3 grade.py` imprime massa e conta bolsões |
+| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, corte do bolsão da grade com o copo do P, grade sozinha, P por baixo, dez P ninhados, frente |
+| `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev26.pdf`) |
 | `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
-| `exporta.py` | gera o JSON do visualizador, as vistas e o STL (`python3 exporta.py stl` só o STL, `png` só as vistas) |
-| `celular.py` | GLB (abre no celular), prancha de 6 vistas por tamanho e giro em GIF |
+| `exporta.py` | gera o JSON do visualizador, as vistas e os STL dos 3 cestos e das 2 grades (`python3 exporta.py stl` só o STL, `png` só as vistas) |
+| `celular.py` | GLB dos cestos e das grades (abre no celular), prancha de 6 vistas por tamanho e giro em GIF |
 | `dossie.html` | o dossiê publicado |
-| `out/0*.png`, `out/10-*.png` | vistas: família, isométrica, ninho, pilha, encaixe, torre, P em cima do M e do G, fileiras acopladas |
+| `out/0*.png`, `out/1*.png` | vistas: família, isométrica, ninho, pilha, encaixe, torre, P em cima do M e do G (pela grade), fileiras acopladas, as duas grades |
+| `out/modula-{P,M,G}.stl`, `out/modula-grade-{M,G}.stl` | as 5 malhas, STL binário (mm) |
 | `out/modula.json` | malha quantizada (int16 → base64) usada pelo visualizador |
 
 Mudar `TAMANHOS` em `modelo.py` e rodar `python3 exporta.py` refaz tudo. O ritmo das ripas,
@@ -1073,6 +1131,6 @@ narrativa.
 ## Estado
 
 Estudo de geometria e mecânica. **Não gravado em `pdp_lancamento`.** A borda nua do mergulho (2 mm) pede raio no molde e talvez reforço interno com saída — decidir com a ferramentaria. Falta o
-`engenheiro-molde` (máquina, resina, ciclo) e o `curador-portfolio` (payback de 3 moldes,
-canibalização do 254, resposta sobre o 552). Com 0,7% de acerto na safra 2025, três moldes
+`engenheiro-molde` (máquina, resina, ciclo) e o `curador-portfolio` (payback de **3 moldes + 2 grades**,
+canibalização do 254, resposta sobre o 552). Com 0,7% de acerto na safra 2025, cinco moldes
 de uma vez é aposta de plataforma — e o viés padrão do projeto é não lançar.
