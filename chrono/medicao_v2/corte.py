@@ -20,7 +20,7 @@ def segs(m):
 PECAS=[('tampa',U+'1c50a47b-Mont_pote_com_valvula__Tampa_Pote_025_Pequeno_Cav1.STL',(150,158,166),1),
        ('M01',D+'Chrono_M01_Valvula_Dias.stl',(90,102,112),2),
        ('M02',D+'Chrono_M02_Aro_Meses.stl',(23,85,143),2),
-       ('M03',D+'Chrono_M03_Travinha_Seta.stl',(168,74,22),2)]
+       ('M03',D+'Chrono_M03_Ponteira.stl',(168,74,22),2)]
 X0,X1,Y0,Y1 = -26.0,26.0,30.0,40.5
 W=1500; K=W/(X1-X0); H=int((Y1-Y0)*K)
 img=Image.new('RGB',(W,H),(248,249,250)); d=ImageDraw.Draw(img)

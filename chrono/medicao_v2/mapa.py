@@ -29,9 +29,3 @@ def mapa(meshes, y0, y1, out, W=1000, span=42.0):
     rgb[...,0]=g; rgb[...,1]=g; rgb[...,2]=g
     rgb[np.isnan(v)]=255
     Image.fromarray(rgb).save(out); print(out,'gravado')
-M1=trimesh.load(D+'Chrono_M01_Valvula_Dias.stl')
-M2=trimesh.load(D+'Chrono_M02_Aro_Meses.stl')
-M3=trimesh.load(D+'Chrono_M03_Travinha_Seta.stl')
-mapa([M1],37.15,37.70,'n_dias.png')
-mapa([M2],37.95,38.40,'n_meses.png')
-mapa([M1,M2,M3],37.15,39.25,'n_conj.png')

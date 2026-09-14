@@ -116,7 +116,7 @@ dl.cotas dd b{font-weight:600}
 
 <header>
   <h1>Datador Chrono</h1>
-  <span class="sub">três moldes sobre a válvula que já é injetada · tampa intocada</span>
+  <span class="sub">três moldes sobre a válvula que já é injetada · tampa intocada · mercado internacional</span>
   <span class="spacer"></span>
   <span class="eyebrow">escala 1:1 · cotas em mm</span>
 </header>
@@ -131,17 +131,17 @@ dl.cotas dd b{font-weight:600}
     <div class="bloco">
       <span class="eyebrow">Data marcada</span>
       <div class="leitura">
-        <span class="d mono" id="rd">14</span>
-        <span class="m" id="rm">SET</span>
-        <span class="z">seta → dia<br>índice ▼ → mês</span>
+        <span class="d mono" id="rd">09</span>
+        <span class="m mono" id="rm">3</span>
+        <span class="z">a ponteira lê<br>as duas escalas</span>
       </div>
       <label class="campo" for="dia">
-        <span class="top"><span class="eyebrow">Dia — gira a travinha</span><span class="val mono" id="vd">14</span></span>
-        <input type="range" id="dia" min="1" max="31" step="1" value="14">
+        <span class="top"><span class="eyebrow">Dia — gira a travinha</span><span class="val mono" id="vd">09</span></span>
+        <input type="range" id="dia" min="1" max="31" step="1" value="9">
       </label>
       <label class="campo" for="mes">
-        <span class="top"><span class="eyebrow">Mês — gira o aro</span><span class="val mono" id="vm">SET</span></span>
-        <input type="range" id="mes" min="1" max="12" step="1" value="9">
+        <span class="top"><span class="eyebrow">Mês — gira o aro</span><span class="val mono" id="vm">3</span></span>
+        <input type="range" id="mes" min="1" max="12" step="1" value="3">
       </label>
     </div>
 
@@ -152,9 +152,18 @@ dl.cotas dd b{font-weight:600}
       <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
         <span class="nm">M02 Aro dos meses<small>gira · 12 encaixes</small></span><span class="g mono">0,30 g</span></button>
       <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
-        <span class="nm">M03 Travinha com seta<small>gira solta · pino passante</small></span><span class="g mono">0,14 g</span></button>
+        <span class="nm">M03 Ponteira<small>gira solta · pino passante · ícone Nitron</small></span><span class="g mono" id="gm03">0,13 g</span></button>
       <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
         <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">Versão da ponteira</span>
+      <div class="linha">
+        <button class="bt" id="vA" aria-pressed="false">M / D</button>
+        <button class="bt" id="vB" aria-pressed="true">Rasgo</button>
+      </div>
+      <p class="nota" id="notaV">O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.</p>
     </div>
 
     <div class="bloco">
@@ -180,8 +189,10 @@ dl.cotas dd b{font-weight:600}
         <dt>Traço mais fino</dt><dd class="mono">0,32</dd>
         <dt>Folga entre dois dias</dt><dd class="mono">0,98</dd>
         <dt>Aro dos meses</dt><dd class="mono">r 5,60–12,90 × 0,80</dd>
-        <dt>Folga entre dois meses</dt><dd class="mono">1,39</dd>
-        <dt>Braço da seta</dt><dd class="mono">2,10 × 0,50</dd>
+        <dt>Meses · numeral 1 a 12</dt><dd class="mono">r 9,60 · caixa alta 2,00</dd>
+        <dt>Lâmina M / D</dt><dd class="mono">3,20, cintura 0,90</dd>
+        <dt>Lâmina do rasgo</dt><dd class="mono">5,40 · rasgo 3,40 × 9,40</dd>
+        <dt>Ícone Nitron no cubo</dt><dd class="mono">7,00 alt · gravado 0,25</dd>
         <dt>Furo passante na válvula</dt><dd class="mono">Ø5,00</dd>
         <dt>Pino · folga radial</dt><dd class="mono">Ø4,80 · 0,10</dd>
         <dt>Farpa · encaixe radial</dt><dd class="mono">Ø5,80 · 0,40</dd>
@@ -228,7 +239,7 @@ dl.cotas dd b{font-weight:600}
 </div>
 
 <script>
-const MES=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const MES=['1','2','3','4','5','6','7','8','9','10','11','12'];
 const SD=360/31, EIXO_Y=35.6;
 const palco=document.getElementById('palco');
 const cssvar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -268,7 +279,8 @@ cv.addEventListener('wheel',e=>{e.preventDefault(); raio*=Math.exp(e.deltaY*.001
 
 /* ---- malhas ---- */
 const ESP={m01:{cor:'--m01',rug:.55,met:.18},m02:{cor:'--m02',rug:.42,met:.10},
-           m03:{cor:'--m03',rug:.42,met:.10},tampa:{cor:'--ink3',rug:.72,met:.02,op:.30}};
+           m03a:{cor:'--m03',rug:.42,met:.10},m03b:{cor:'--m03',rug:.42,met:.10},
+           tampa:{cor:'--ink3',rug:.72,met:.02,op:.30}};
 const obj={};
 function geo(p){
   const raw=atob(p.b), buf=new ArrayBuffer(raw.length), u8=new Uint8Array(buf);
@@ -313,7 +325,7 @@ ren.localClippingEnabled=true;
 
 /* ---- estado ---- */
 const el_=id=>document.getElementById(id);
-const S={dia:14,mes:9,exp:0,corte:false,ver:{m01:1,m02:1,m03:1,tampa:1}};
+const S={dia:9,mes:3,exp:0,corte:false,vers:'m03b',ver:{m01:1,m02:1,m03:1,tampa:1}};
 let auto=!matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 function aplica(){
@@ -323,12 +335,23 @@ function aplica(){
   el_('vm').textContent=MES[S.mes-1];
   const e=S.exp/100;
   el_('ve').textContent=(e*26).toFixed(1).replace('.',',')+' mm';
-  if(obj.m02){ obj.m02.rotation.y=THREE.MathUtils.degToRad((S.mes-1)*30); obj.m02.position.y=e*9; }
-  if(obj.m03){ obj.m03.rotation.y=THREE.MathUtils.degToRad(-(S.dia-1)*SD); obj.m03.position.y=e*20; }
+  // A ponteira lê as DUAS escalas: o ângulo dela escolhe o dia (os dias são fixos
+  // na válvula) e o aro gira até o mês pedido cair sob ela. Por isso o aro depende
+  // do dia também — não há mais índice fixo na válvula.
+  const aD=-(S.dia-1)*SD, aM=(S.mes-1)*30-(S.dia-1)*SD;
+  if(obj.m02){ obj.m02.rotation.y=THREE.MathUtils.degToRad(aM); obj.m02.position.y=e*9; }
+  ['m03a','m03b'].forEach(k=>{ if(obj[k]){
+    obj[k].rotation.y=THREE.MathUtils.degToRad(aD); obj[k].position.y=e*20;
+    obj[k].visible=!!S.ver.m03 && k===S.vers; } });
   if(obj.m01) obj.m01.position.y=e*2.5;
   if(obj.tampa) obj.tampa.position.y=-e*6;
-  for(const k in S.ver) if(obj[k]) obj[k].visible=!!S.ver[k];
+  ['m01','m02','tampa'].forEach(k=>{ if(obj[k]) obj[k].visible=!!S.ver[k]; });
   for(const k in obj) obj[k].material.clippingPlanes=S.corte?[plano]:null;
+  el_('gm03').textContent=(S.vers==='m03a'?'0,12 g':'0,13 g');
+  el_('notaV').innerHTML = S.vers==='m03b'
+    ? 'O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.'
+    : 'A <b>lâmina M / D</b> indexa o dia pela ponta. No mês ela cobre o numeral — '
+      +'a cintura de 0,90 mm deixa ver os vizinhos, e você lê como ponteiro de relógio.';
 }
 el_('dia').addEventListener('input',e=>{S.dia=+e.target.value;aplica()});
 el_('mes').addEventListener('input',e=>{S.mes=+e.target.value;aplica()});
@@ -350,6 +373,10 @@ el_('vpino').addEventListener('click',()=>{
   alvo.set(0,35.9,0); aplica(); poe();
 });
 el_('gira').setAttribute('aria-pressed',auto?'true':'false');
+el_('vA').addEventListener('click',()=>{S.vers='m03a';
+  el_('vA').setAttribute('aria-pressed','true'); el_('vB').setAttribute('aria-pressed','false'); aplica();});
+el_('vB').addEventListener('click',()=>{S.vers='m03b';
+  el_('vB').setAttribute('aria-pressed','true'); el_('vA').setAttribute('aria-pressed','false'); aplica();});
 
 function tamanho(){
   const w=palco.clientWidth,h=palco.clientHeight;

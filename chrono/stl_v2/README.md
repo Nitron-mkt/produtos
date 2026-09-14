@@ -1,5 +1,8 @@
 # Chrono · datador — 3 moldes sobre a válvula que a Nitron já injeta
 
+> **Mercado internacional:** os meses são **numerais de 1 a 12**, não abreviações em
+> português. Nada no produto depende de idioma.
+
 Gerado de `Mont_pote_com_valvula__prova_valvula1.STL`. **A tampa não foi tocada.**
 A parte de baixo da válvula é a original, bit a bit: tudo abaixo de Y 37,23 saiu do
 seu arquivo, e a prova disso é a interferência contra a tampa (abaixo).
@@ -187,3 +190,45 @@ o furo é pino de macho reto. O molde ficou mais simples do que era antes do pin
 
 **Higiene.** O canal de Ø3,10 no meio do pino fica **aberto em cima e embaixo**: água
 entra por cima, atravessa e escorre. Cavidade cega que junta água é o que não pode.
+
+## As duas versões da ponteira
+
+A ponteira passou a ler **as duas escalas**, e por isso o índice fixo ▼ que ficava na
+válvula **saiu**. Como os dias são fixos na válvula, o ângulo da ponteira escolhe o
+dia; o aro gira até o mês pedido cair sob ela. Continuam dois graus de liberdade
+independentes, agora numa linha de leitura só.
+
+| | `M03a` M / D | `M03b` rasgo |
+|---|---|---|
+| largura da lâmina | **3,20 mm**, cintura de 0,90 sobre a faixa do mês | **5,40 mm** |
+| abertura | nenhuma | **rasgo 3,40 × 9,40**, de r 8,30 a 17,70 |
+| lê o **dia** | ponta em r 15,65, aponta de dentro — numeral inteiro à vista | numeral **enquadrado** no rasgo |
+| lê o **mês** | a lâmina cobre o numeral | numeral **enquadrado** no rasgo |
+| massa | 0,12 g | 0,13 g |
+| Ø | 21,95 | 25,40 |
+
+**A diferença que decide.** Uma lâmina cheia não consegue mostrar o numeral em que
+está por cima — ela tem 3,20 mm e o numeral do mês tem 1,4 a 2,8. Na `M03a` a cintura
+de 0,90 mm reduz o estrago: os meses vizinhos aparecem dos dois lados e você lê como
+lê ponteiro de relógio ("está entre o 2 e o 4, logo é 3"). Funciona, mas é inferência.
+Na `M03b` o rasgo **enquadra** os dois numerais de uma vez — mês na ponta de dentro,
+dia na de fora, `M` e `D` gravados nas extremidades. É o jeito do calendário de relógio,
+e é o que eu recomendo.
+
+O dia, nas duas, é lido igual de bem: a `M03a` aponta de dentro sem cobrir, a `M03b`
+enquadra.
+
+## O ícone da Nitron
+
+Extraído em **vetor** do `icone_nitron.pdf` (3 lâminas, sem rasterizar), **7,00 mm** de
+altura, **gravado 0,25 mm** no cubo da ponteira. Traço mais fino: **1,68 mm** — cinco
+vezes o traço dos números, então é o detalhe mais seguro do molde inteiro.
+
+Gravado e não em relevo por dois motivos: o topo da ponteira continua **raso em Y 38,95**
+(o que preserva a folga de 0,77 mm até o aro de empilhamento da tampa e faz a peça
+imprimir apoiada no plano inteiro), e logo gravado numa peça que roda na mão pega
+sombra em vez de pegar pancada.
+
+O cubo é **maciço**: ele fecha o topo do canal do pino. A água que entra pelas fendas
+sai pelos **quatro drenos radiais de 0,30 × 0,25** na face de baixo do cubo e pelo
+fundo aberto do pino. Não há cavidade cega.

@@ -1,12 +1,14 @@
 { "mesa": [255,255], "eixo_vertical_do_stl": "Y", "saida": "prep1x",
   "pecas": [
-    {"nome":"m01_valvula",  "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Valvula_Dias.stl"},
-    {"nome":"m02_aro",      "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Aro_Meses.stl"},
-    {"nome":"m03_travinha", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Travinha_Seta.stl", "flip":true}
+    {"nome":"m01_valvula",   "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Valvula_Dias.stl"},
+    {"nome":"m02_aro",       "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Aro_Meses.stl"},
+    {"nome":"m03a_md",       "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03a_Ponteira_MD.stl",     "flip":true},
+    {"nome":"m03b_janela",   "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03b_Ponteira_Janela.stl", "flip":true}
   ],
   "chapa": {"nome":"chapa", "itens":[
-    {"peca":"m01_valvula",  "dx":-26, "dy": 10},
-    {"peca":"m02_aro",      "dx": 24, "dy": 10},
-    {"peca":"m03_travinha", "dx":  0, "dy":-22}
+    {"peca":"m01_valvula", "dx":-28, "dy": 12},
+    {"peca":"m02_aro",     "dx": 24, "dy": 12},
+    {"peca":"m03a_md",     "dx":-12, "dy":-24},
+    {"peca":"m03b_janela", "dx": 20, "dy":-24}
   ]}
 }

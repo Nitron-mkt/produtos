@@ -2,14 +2,14 @@
 (o --scale do CLI escala em torno do centro do objeto e bagunca o arranjo)."""
 import trimesh, numpy as np, os
 S='/home/user/produtos/chrono/stl_v2/'; K=3.0; os.makedirs('prep3x',exist_ok=True)
-POS={'disco':(70,135),'aro':(190,175),'travinha':(190,75)}
+POS={'disco':(70,135),'aro':(190,175),'ponteira':(190,75)}
 ARQ={'disco':'Chrono_M01_Disco_Prova.stl','aro':'Chrono_M02_Aro_Meses.stl',
-     'travinha':'Chrono_M03_Travinha_Seta.stl'}
+     'ponteira':'Chrono_M03b_Ponteira_Janela.stl'}
 cx={}
 for n,f in ARQ.items():
     m=trimesh.load(S+f)
     # a travinha vai INVERTIDA: com o pino para baixo ela apoiaria na ponta dele
-    ang = -np.pi/2 if n=='travinha' else np.pi/2
+    ang = -np.pi/2 if n=='ponteira' else np.pi/2
     m.apply_transform(trimesh.transformations.rotation_matrix(ang,[1,0,0]))  # Y -> Z
     m.apply_scale(K)
     c=(m.bounds[0]+m.bounds[1])/2
