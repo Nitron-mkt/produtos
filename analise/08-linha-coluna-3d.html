@@ -139,33 +139,32 @@ a{color:var(--teca)}
 <div class="wrap">
 
 <header>
-  <span class="eyebrow">Nome de trabalho &middot; projeto 3D &middot; 31 ago 2026</span>
+  <span class="eyebrow">Nome de trabalho &middot; projeto 3D modular &middot; 14 set 2026</span>
   <div class="title-row">
     <h1>Linha<br>Coluna</h1>
-    <p class="lede">Quatro alturas sobre um diâmetro. Corpo em SAN transparente, anel de TPE entre dois frisos, capa de teca que também é o registro de empilhamento.</p>
+    <p class="lede">Dois tamanhos sobre um diâmetro. Dois P empilhados têm a altura exata de um G — e a mesma tampa serve os dois.</p>
   </div>
   <div class="hdmeta">
     <div><span class="eyebrow">Ø corpo</span><span class="v">140 mm</span></div>
-    <div><span class="eyebrow">Alturas</span><span class="v">4</span></div>
+    <div><span class="eyebrow">Tamanhos</span><span class="v">2</span></div>
     <div><span class="eyebrow">Tampa</span><span class="v">1 (comum)</span></div>
-    <div><span class="eyebrow">Fecho</span><span class="v">baioneta ¼ volta</span></div>
+    <div><span class="eyebrow">Módulo</span><span class="v">P + P = G</span></div>
     <div><span class="eyebrow">Status</span><span class="v">conceito — não aprovado</span></div>
   </div>
 </header>
 
 <div class="studio">
   <canvas id="gl"></canvas>
-  <div class="fallback" id="fb"><p>Este modelo precisa de WebGL. As cotas e o detalhe da vedação abaixo funcionam sem ele.</p></div>
+  <div class="fallback" id="fb"><p>Este modelo precisa de WebGL. As cotas e a aritmética do empilhamento abaixo funcionam sem ele.</p></div>
   <div class="hud">
     <div class="bar">
       <div class="seg" role="group" aria-label="Tamanho">
-        <button data-size="all" aria-pressed="true">Todos</button>
-        <button data-size="0">1,2 L</button>
-        <button data-size="1">1,8 L</button>
-        <button data-size="2">2,6 L</button>
-        <button data-size="3">3,5 L</button>
+        <button data-size="all" aria-pressed="true">Os dois</button>
+        <button data-size="0">P · 1,2 L</button>
+        <button data-size="1">G · 2,8 L</button>
       </div>
       <div class="seg" role="group" aria-label="Vista">
+        <button id="bCol" aria-pressed="false">Coluna</button>
         <button id="bExp" aria-pressed="false">Explodir</button>
         <button id="bCut" aria-pressed="false">Corte</button>
         <button id="bDet" aria-pressed="false">Vedação</button>
@@ -185,9 +184,43 @@ a{color:var(--teca)}
 </div>
 
 <section>
+  <div class="sechead"><span class="eyebrow">o módulo</span><h2>A aritmética do P + P = G</h2></div>
+  <div class="prose">
+    <p>O empilhamento não soma só o corpo — soma o corpo <strong>mais a tampa</strong>. Acima da borda ficam o friso de 2,4 mm, o disco de PP de 2,5 e a capa de teca de 15: <strong>19,9 mm de passo</strong> que entram na conta toda vez que um pote fecha.</p>
+    <p>Por isso a altura do G não é o dobro da do P — é o dobro <em>mais um passo de tampa</em>. No modelo ela não está digitada: é calculada como <span class="mono">H_G = 2 × H_P + 19,9</span>, então o 2:1 fecha por construção e não por sorte.</p>
+  </div>
+  <div class="tblwrap"><table id="spec"></table></div>
+  <div class="verdict">
+    <span class="k">O que não pode virar claim</span>
+    <div>
+      <p><strong>O 2:1 é de altura, não de litragem.</strong> Dois P somam 2,40 L; o G tem 2,82 L — ele rende <strong>18% a mais</strong>.</p>
+      <p>Isso acontece porque o G não gasta altura com uma tampa e um fundo no meio do caminho. É vantagem real de produto e vale dizer assim — <em>"o G aproveita a altura que dois P gastam em tampa"</em>. O que não pode é escrever "dois P = um G" em volume: o consumidor confere com um copo medidor, e o art. 36 do CDC cobra o dado de quem alega.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">litragem</span><h2>Por que 1,2 e 2,8</h2></div>
+  <div class="prose">
+    <p>As duas caem nas únicas faixas que crescem. Na curva de pote da casa, 12 meses contra 12 meses até 14/09/2026: <strong>1,1–2 L cresce 32,4%</strong> e <strong>2,1–3,5 L cresce 52,7%</strong>, enquanto abaixo de 1 L cai 27,2% e acima de 3,5 L fica parado.</p>
+    <p>E o par é forçado pela restrição modular, não escolhido por gosto. Testadas as alternativas: com <strong>G = 2,0 L</strong> — a litragem mais forte da raspagem — o P cairia para 0,79 L, abaixo do piso de 1 L. Com <strong>P = 2,0 L</strong> o G iria a 4,4 L e 318 mm de altura: faixa parada, pote instável e curso de abertura de molde perto de 700 mm. <strong>O 2:1 custa o 2,0 L</strong>, e não há arranjo que devolva.</p>
+    <p>A compensação é que isso <strong>reduz a sobreposição com o próprio catálogo</strong>. O 2 L é onde a casa já tem <span class="mono">362</span> com 981 clientes, <span class="mono">238</span> com 545 e <span class="mono">360</span> com 535 — R$ 594 k somados. O 2,8 L encosta no <span class="mono">239</span> de 3 L, que faz R$ 80 k com 326 clientes. Entra-se na faixa que mais cresce pisando num sexto do volume próprio.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">empilhar</span><h2>Registro, não trava</h2></div>
+  <div class="prose">
+    <p>O pé de Ø 134 mm — constante nos dois tamanhos — assenta num rebaixo na capa de teca. É compressão distribuída num anel grande, que a teca aguenta sem marcar.</p>
+    <p>Mas é <strong>registro, não trava</strong>: a coluna fica alinhada e não escorrega, e levantar o de cima não leva o de baixo junto. Travar de verdade exigiria junta de PP contra PP, o que tiraria a teca da face de cima do encaixe — e a teca é o que justifica o preço. A escolha aqui é preservar a madeira.</p>
+    <p>A <strong>faceta frontal</strong> está modelada: o corpo é achatado num plano a 64,5 mm do eixo, o que dá uma área plana de <strong>54 mm de corda</strong> para rótulo, sem custo de molde além do usinado. Ela para 22 mm antes da borda — o bocal continua redondo, porque é ali que a saia da tampa e as três orelhas da baioneta trabalham.</p>
+  </div>
+</section>
+
+<section>
   <div class="sechead"><span class="eyebrow">material</span><h2>Se não for Tritan, é SAN</h2></div>
   <div class="prose">
-    <p>A pergunta certa não é qual resina é mais bonita — é qual delas resolve <em>clareza de vidro</em> sem quebrar as três outras coisas: impacto, lava-louças e caixa. Só existem cinco candidatas reais, e a tabela abaixo é a comparação honesta.</p>
+    <p>A pergunta certa não é qual resina é mais bonita — é qual delas resolve <em>clareza de vidro</em> sem quebrar as três outras coisas: impacto, lava-louças e caixa.</p>
   </div>
   <div class="tblwrap">
     <table>
@@ -204,39 +237,25 @@ a{color:var(--teca)}
   <div class="verdict">
     <span class="k">Por que SAN</span>
     <div>
-      <p><strong>A tampa de teca já obriga lavagem à mão.</strong> Com isso, a única fraqueza séria do SAN contra o Tritan — o desempenho em ciclos quentes de lava-louças — deixa de ser fraqueza deste produto.</p>
-      <p>Sobra a clareza, que é o que o cliente vê: SAN tem névoa de 2 a 3% contra 20 a 30% do PP clarificado numa parede de 2,5 mm. É a diferença entre "plástico bom" e "parece vidro". E ele é rígido: o som e o peso na mão leem como premium, coisa que PP não entrega. Custa 2 a 3 vezes o PP, não 5 a 8 como o copoliéster, injeta em máquina convencional e a secagem é de 80&nbsp;°C em ar quente — não exige o secador dessecante com ponto de orvalho de −29&nbsp;°C que o Tritan pede.</p>
-      <p><strong>O que o projeto tem que compensar é o impacto.</strong> SAN é sensível a entalhe. Daí a parede de 2,5 mm em vez de 2,0, os raios generosos no fundo, nenhum canto vivo interno e ponto de injeção central no fundo — para não deixar linha de solda na parede, que num material frágil vira a trinca. E o refugo de SAN tem que ser moído e ensacado separado do PP: é disciplina de chão de fábrica, não perda, mas um saco trocado desvaloriza a batelada.</p>
+      <p><strong>A tampa de teca já obriga lavagem à mão.</strong> Com isso, a única fraqueza séria do SAN contra o Tritan — ciclo quente de lava-louças — deixa de valer para este produto.</p>
+      <p>Sobra a clareza, que é o que o cliente vê: névoa de 2 a 3% contra 20 a 30% do PP clarificado numa parede de 2,5 mm. Custa 2 a 3 vezes o PP, não 5 a 8 como o copoliéster, injeta em máquina convencional e seca a 80&nbsp;°C em ar quente — sem o secador dessecante que o Tritan exige. <strong>O que o projeto compensa é o impacto:</strong> parede de 2,5 mm, raios generosos, nenhum canto vivo interno e ponto de injeção central no fundo. A <strong>tampa interna sai em PP</strong>, não em SAN — carrega as rampas da baioneta, que querem tenacidade, e fica escondida sob a teca.</p>
     </div>
-  </div>
-  <div class="prose">
-    <p>Uma exceção dentro da própria peça: <strong>a tampa interna sai em PP</strong>, não em SAN. Ela carrega as rampas da baioneta, que giram e apoiam a cada abertura — isso quer tenacidade, não clareza. E ela fica escondida sob a capa de teca de qualquer forma.</p>
-  </div>
-</section>
-
-<section>
-  <div class="sechead"><span class="eyebrow">cotas</span><h2>O que está modelado</h2></div>
-  <div class="tblwrap"><table id="spec"></table></div>
-  <div class="prose">
-    <p>A vedação é a mesma do brief: cordão <span class="mono">Ø 3,0</span> shore A 60 num canal de <span class="mono">3,8 mm</span> formado entre o friso interno e a própria saia da tampa — <strong>a saia faz de friso externo</strong>, o que economiza uma parede. O anel sobra <span class="mono">0,6 mm</span> além do friso de <span class="mono">2,4 mm</span>: ao fechar, esmaga 20% e para no friso, que vira batente contra sobrecompressão.</p>
-    <p>A saia da tampa passa por fora do bocal, e por isso a tampa tem <span class="mono">145 mm</span> contra os <span class="mono">140</span> do corpo. Não é descuido — é o que evita um rebaixo no bocal, que seria contra-saída para o macho e obrigaria gaveta. Os 2,5 mm de aba por lado leem como intenção de projeto e ainda protegem o anel de pancada.</p>
-    <p>E o <strong>pé de Ø 134 mm é igual nos quatro corpos</strong>, apesar da conicidade de 0,5°. É ele que assenta no rebaixo da capa de teca, então a coluna empilha em qualquer ordem de tamanho.</p>
   </div>
 </section>
 
 <section>
   <div class="sechead"><span class="eyebrow">pendências</span><h2>O que o 3D ainda não decide</h2></div>
   <ol class="steps">
-    <li><span class="n">01</span><div><b>Cotação do SAN posto na fábrica</b><span>É a única variável que pode derrubar a escolha. Entre 2 e 3× o PP a conta fecha; acima de 4× vale reabrir o PP clarificado com acabamento de molde melhor.</span></div></li>
-    <li><span class="n">02</span><div><b>Ensaio de queda com o pote cheio</b><span>É o teste que o SAN pode reprovar. 3,5 L de arroz caindo de 1,40 m em piso duro, nas quatro alturas, antes de liberar o aço. Se reprovar, a parede sobe para 3,0 mm antes de trocar de resina.</span></div></li>
-    <li><span class="n">03</span><div><b>Compression set do TPE</b><span>Fechado por 30 dias, reabrir e reensaiar. É onde o TPE falha e o silicone se paga — e decide se o anel é peça de casa ou compra externa.</span></div></li>
-    <li><span class="n">04</span><div><b>Baioneta: gaveta ou arranque?</b><span>Três orelhas rasas com rampa podem sair por arranque em PP; em SAN, que é rígido, provavelmente não. As orelhas estão no corpo — então é o molde do corpo que paga a conta. Pergunta direta para a ferramentaria.</span></div></li>
-    <li><span class="n">05</span><div><b>Curso de abertura para o 3,5 L</b><span>249 mm de profundidade pedem por volta de 550 mm de abertura. Tonelagem sobra em qualquer máquina de 80 a 130 t; o curso provavelmente empurra essa peça para uma de 200 ou 250 t.</span></div></li>
+    <li><span class="n">01</span><div><b>Cotação do SAN posto na fábrica</b><span>Única variável que pode derrubar a escolha de resina. Entre 2 e 3× o PP a conta fecha; acima de 4× vale reabrir o PP clarificado com acabamento de molde melhor.</span></div></li>
+    <li><span class="n">02</span><div><b>Ensaio de queda com o pote cheio</b><span>É o teste que o SAN pode reprovar. 2,8 L de arroz caindo de 1,40 m em piso duro, nos dois tamanhos, antes de liberar o aço. Se reprovar, a parede sobe para 3,0 mm antes de trocar de resina.</span></div></li>
+    <li><span class="n">03</span><div><b>Sobreposição com o acoplado+rosca</b><span>A plataforma que mais cresce na casa é justamente a acoplada — <span class="mono">238</span> fez +445%, <span class="mono">360</span> +229%, <span class="mono">239</span> +233%. Antes a defesa era "premium contra commodity"; agora é premium acoplado contra commodity acoplado, que são substitutos mais próximos. É tese de posicionamento, não fato — o curador vai cobrar.</span></div></li>
+    <li><span class="n">04</span><div><b>Baioneta: gaveta ou arranque?</b><span>Três orelhas rasas com rampa podem sair por arranque em PP; em SAN, que é rígido, provavelmente não. As orelhas estão no corpo, então é o molde do corpo que paga a conta.</span></div></li>
+    <li><span class="n">05</span><div><b>Compression set do TPE</b><span>Fechado por 30 dias, reabrir e reensaiar. Decide se o anel é peça de casa ou compra externa.</span></div></li>
   </ol>
 </section>
 
 <footer>
-  <p>Modelo gerado em WebGL a partir da mesma tabela de cotas desta página — girar, explodir e cortar mostram a geometria descrita acima. Superfícies, raios e o desenho da baioneta são hipótese de conceito, não desenho de ferramentaria: espessuras, conicidade e a folga do canal mudam depois do primeiro estudo de fluxo e do tryout. "Linha Coluna" é nome de trabalho. Nada aqui foi gravado em <span class="mono">pdp_lancamento</span>.</p>
+  <p>Modelo gerado em WebGL a partir da mesma tabela de cotas desta página — a altura do G é calculada de <span class="mono">2 × H_P + 19,9</span>, então o empilhamento mostrado é o que a cota produz. Superfícies, raios, faceta e o desenho da baioneta são hipótese de conceito, não desenho de ferramentaria: espessuras, conicidade e a folga do canal mudam depois do estudo de fluxo e do tryout. "Linha Coluna" é nome de trabalho. Nada aqui foi gravado em <span class="mono">pdp_lancamento</span>.</p>
 </footer>
 
 </div>
@@ -250,8 +269,9 @@ var G = {
   R: 70,        // raio externo na boca
   WALL: 2.5,    // parede do corpo
   DRAFT: 0.5,   // saída, graus por lado
-  FOOT: 67,     // raio do pé — constante nas quatro alturas
+  FOOT: 67,     // raio do pé — constante nos dois tamanhos
   FLOOR: 3.0,   // fundo
+  FREE: 6.0,    // borda livre acima da linha de enchimento
   LIDR: 72.5,   // raio externo da tampa
   LIDT: 2.5,    // disco da tampa
   SKIRT: 12,    // saia da tampa
@@ -259,55 +279,64 @@ var G = {
   TECA: 15,     // capa de teca
   CORD: 3.0,    // seção do cordão
   FRISO: 2.4,   // altura do friso = esmagamento controlado
-  CHAN: 3.8     // canal do anel
+  CHAN: 3.8,    // canal do anel
+  FACET: 64.5   // plano da faceta de rótulo (corda de ~54 mm)
 };
 var K = Math.tan(G.DRAFT * Math.PI / 180);
 var CH_OUT = G.LIDR - G.SKW;          // 70,6 — a saia é o friso externo
 var CH_IN  = CH_OUT - G.CHAN;         // 66,8
-var FR_IN  = CH_IN - 1.2;             // 65,6 — parede do friso interno
-var RING_R = (CH_OUT + CH_IN) / 2;    // 68,7 — raio médio do anel
+var FR_IN  = CH_IN - 1.2;             // 65,6
+var RING_R = (CH_OUT + CH_IN) / 2;    // 68,7
+
+/* passo de tampa acima da borda — é ele que faz o G não ser o dobro exato do P */
+var PASSO = G.FRISO + G.LIDT + G.TECA;              // 19,9
+var AREA  = Math.PI * Math.pow(G.R - G.WALL, 2);    // mm² de área interna
+
+var HP = 93;                      // altura do corpo P
+var HG = 2 * HP + PASSO;          // G derivado: garante P+P = G por construção
 
 var SIZES = [
-  { cod:'CL-12', nom:'1,2 L', H:91  },
-  { cod:'CL-18', nom:'1,8 L', H:132 },
-  { cod:'CL-26', nom:'2,6 L', H:187 },
-  { cod:'CL-35', nom:'3,5 L', H:249 }
+  { cod:'CO-P', nom:'P', H:HP },
+  { cod:'CO-G', nom:'G', H:HG }
 ];
 SIZES.forEach(function(s){
-  s.rBase   = +(G.R - K * s.H).toFixed(2);
-  s.dInt    = +((G.R - G.WALL) * 2).toFixed(1);
-  s.altMont = s.H + G.FRISO + G.LIDT + G.TECA;
-  // massa: área da casca × parede × densidade do SAN (1,07 g/cm³)
-  var lat = 2 * Math.PI * (G.R / 10) * (s.H / 10);
-  var fun = Math.PI * Math.pow(G.R / 10, 2);
-  s.gCorpo = Math.round((lat + fun) * (G.WALL / 10) * 1.07);
+  s.litros = (s.H - G.FLOOR - G.FREE) * AREA / 1e6;
+  s.passo  = s.H + PASSO;
+  s.rBase  = +(G.R - K * s.H).toFixed(2);
+  var lat = 2 * Math.PI * (G.R/10) * (s.H/10), fun = Math.PI * Math.pow(G.R/10, 2);
+  s.gCorpo = Math.round((lat + fun) * (G.WALL/10) * 1.07);   // SAN 1,07 g/cm³
 });
-var nf = function(v, d){ return v.toLocaleString('pt-BR', { minimumFractionDigits: d||0, maximumFractionDigits: d||0 }); };
+var nf = function(v, d){ return v.toLocaleString('pt-BR', { minimumFractionDigits:d||0, maximumFractionDigits:d||0 }); };
 
 /* ---------- tabela de especificação ---------- */
 (function(){
   var cols = [
     ['Tamanho',        function(s){ return '<strong>' + s.nom + '</strong>'; }],
     ['Código',         function(s){ return s.cod; }],
+    ['Volume',         function(s){ return nf(s.litros,2).replace('.',',') + ' L'; }],
     ['Ø externo',      function(){ return '140'; }],
-    ['Ø na base',      function(s){ return nf(s.rBase * 2, 1); }],
-    ['Ø interno boca', function(s){ return nf(s.dInt, 1); }],
-    ['Altura corpo',   function(s){ return nf(s.H); }],
-    ['Altura montada', function(s){ return nf(s.altMont); }],
+    ['Ø na base',      function(s){ return nf(s.rBase*2,1); }],
+    ['Altura corpo',   function(s){ return nf(s.H,1); }],
+    ['Passo empilhado',function(s){ return '<strong>' + nf(s.passo,1) + '</strong>'; }],
     ['Corpo SAN',      function(s){ return nf(s.gCorpo) + ' g'; }]
   ];
-  var head = '<thead><tr>' + cols.map(function(c, i){
-    return '<th>' + c[0] + (i >= 2 && i <= 6 ? ' <span style="opacity:.55">mm</span>' : '') + '</th>';
+  var head = '<thead><tr>' + cols.map(function(c,i){
+    return '<th>' + c[0] + (i>=3 && i<=6 ? ' <span style="opacity:.55">mm</span>' : '') + '</th>';
   }).join('') + '</tr></thead>';
   var rows = SIZES.map(function(s){
-    return '<tr>' + cols.map(function(c, i){
-      return '<td class="' + (i ? 'k' : '') + '">' + c[1](s) + '</td>';
+    return '<tr>' + cols.map(function(c,i){
+      return '<td class="' + (i?'k':'') + '">' + c[1](s) + '</td>';
     }).join('') + '</tr>';
   }).join('');
-  var extra = '<tr><td><strong>Tampa</strong></td><td class="k">comum</td><td class="k">145</td>'
-            + '<td class="k">—</td><td class="k">—</td><td class="k">' + nf(G.LIDT + G.TECA + G.SKIRT)
-            + '</td><td class="k">—</td><td class="k">~45 g + teca</td></tr>';
-  document.getElementById('spec').innerHTML = head + '<tbody>' + rows + extra + '</tbody>';
+  var conf = '<tr class="hi"><td><strong>P + P</strong></td><td class="k">coluna</td>'
+    + '<td class="k">' + nf(SIZES[0].litros*2,2).replace('.',',') + ' L</td>'
+    + '<td class="k">140</td><td class="k">—</td><td class="k">—</td>'
+    + '<td><strong>' + nf(SIZES[0].passo*2,1) + '</strong></td>'
+    + '<td class="k">' + nf(SIZES[0].gCorpo*2) + ' g</td></tr>';
+  var tampa = '<tr><td><strong>Tampa</strong></td><td class="k">comum aos dois</td><td class="k">—</td>'
+    + '<td class="k">145</td><td class="k">—</td><td class="k">' + nf(PASSO,1)
+    + '</td><td class="k">—</td><td class="k">~45 g + teca</td></tr>';
+  document.getElementById('spec').innerHTML = head + '<tbody>' + rows + conf + tampa + '</tbody>';
 })();
 
 /* ==========================================================
@@ -315,291 +344,267 @@ var nf = function(v, d){ return v.toLocaleString('pt-BR', { minimumFractionDigit
    ========================================================== */
 (function(){
 var cv = document.getElementById('gl');
-if (typeof THREE === 'undefined') { document.getElementById('fb').style.display = 'grid'; cv.style.display = 'none'; return; }
-
+if (typeof THREE === 'undefined') { document.getElementById('fb').style.display='grid'; cv.style.display='none'; return; }
 var renderer;
-try {
-  renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: false });
-} catch (e) { renderer = null; }
-if (!renderer) { document.getElementById('fb').style.display = 'grid'; cv.style.display = 'none'; return; }
+try { renderer = new THREE.WebGLRenderer({ canvas:cv, antialias:true, alpha:false }); } catch(e) { renderer = null; }
+if (!renderer) { document.getElementById('fb').style.display='grid'; cv.style.display='none'; return; }
 
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.localClippingEnabled = true;
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(32, 16 / 10, 10, 4000);
+var camera = new THREE.PerspectiveCamera(32, 16/10, 10, 4000);
 
-/* ---------- perfis de revolução ---------- */
-function V(r, y){ return new THREE.Vector2(r, y); }
+function V(r,y){ return new THREE.Vector2(r,y); }
 
 function bodyProfile(H){
-  var rb = G.R - K * H, w = G.WALL, f = G.FLOOR;
+  var rb = G.R - K*H, w = G.WALL, f = G.FLOOR;
   return [
-    V(0, 0), V(52, 0), V(G.FOOT - 3, 1.0), V(G.FOOT, 3.0), V(G.FOOT, 6),
-    V(rb, 10),
-    V(G.R - K * 14, H - 14),
-    V(G.R, H - 1.4),
-    V(G.R - 1.1, H),
-    V(G.R - w, H),
-    V(G.R - w - K * 14, H - 14),
-    V(rb - w, 10),
-    V(rb - w - 4, 6.0),
+    V(0,0), V(52,0), V(G.FOOT-3,1.0), V(G.FOOT,3.0), V(G.FOOT,6),
+    V(rb,10),
+    V(G.R - K*14, H-14),
+    V(G.R, H-1.4),
+    V(G.R-1.1, H),
+    V(G.R-w, H),
+    V(G.R-w-K*14, H-14),
+    V(rb-w, 10),
+    V(rb-w-4, 6.0),
     V(48, f), V(0, f)
   ];
 }
-
 function lidProfile(H){
-  var d0 = H + G.FRISO;          // face inferior do disco
-  var d1 = d0 + G.LIDT;          // topo do disco
-  var sb = d0 - G.SKIRT;         // base da saia
+  var d0 = H + G.FRISO, d1 = d0 + G.LIDT, sb = d0 - G.SKIRT;
   return [
-    V(0, d1), V(G.LIDR - 1.4, d1), V(G.LIDR, d1 - 1.4),
-    V(G.LIDR, sb + 1.0), V(G.LIDR - 0.9, sb),
-    V(CH_OUT, sb + 0.9), V(CH_OUT, d0),
-    V(CH_IN, d0), V(CH_IN, H), V(FR_IN, H), V(FR_IN, d0),
-    V(0, d0)
+    V(0,d1), V(G.LIDR-1.4,d1), V(G.LIDR,d1-1.4),
+    V(G.LIDR,sb+1.0), V(G.LIDR-0.9,sb),
+    V(CH_OUT,sb+0.9), V(CH_OUT,d0),
+    V(CH_IN,d0), V(CH_IN,H), V(FR_IN,H), V(FR_IN,d0),
+    V(0,d0)
   ];
 }
-
 function tecaProfile(H){
-  var t0 = H + G.FRISO + G.LIDT + 1.0, t1 = t0 + G.TECA;
+  var t0 = H + G.FRISO + G.LIDT + 0.15, t1 = H + G.FRISO + G.LIDT + G.TECA;
   return [
-    V(0, t1 - 1.8), V(G.FOOT - 2, t1 - 1.8), V(G.FOOT + 1, t1 - 0.5), V(G.FOOT + 3, t1),
-    V(G.LIDR - 2.2, t1), V(G.LIDR, t1 - 2.2),
-    V(G.LIDR, t0 + 1.2), V(G.LIDR - 1.2, t0),
-    V(0, t0)
+    V(0,t1-1.8), V(G.FOOT-2,t1-1.8), V(G.FOOT+1,t1-0.5), V(G.FOOT+3,t1),
+    V(G.LIDR-2.2,t1), V(G.LIDR,t1-2.2),
+    V(G.LIDR,t0+1.2), V(G.LIDR-1.2,t0),
+    V(0,t0)
   ];
 }
 
-/* ---------- materiais ---------- */
-function css(name){
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888';
+/* faceta de rótulo: achata cada superfície concêntrica no seu próprio plano
+   proporcional ao raio, o que preserva a espessura da parede. Para 22 mm
+   antes da borda — o bocal fica redondo para a saia e as orelhas. */
+function facetar(geo, H){
+  var k = G.FACET / G.R, p = geo.attributes.position, i, x, y, z, r, lim;
+  for (i = 0; i < p.count; i++) {
+    y = p.getY(i);
+    if (y > H - 22) continue;
+    x = p.getX(i); z = p.getZ(i);
+    r = Math.sqrt(x*x + z*z);
+    lim = k * r;
+    if (z > lim) p.setZ(i, lim);
+  }
+  p.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
 }
-var matCorpo = new THREE.MeshPhongMaterial({
-  color: 0x8FB6C2, transparent: true, opacity: 0.26, shininess: 88,
-  specular: 0x8fa4ab, side: THREE.DoubleSide, depthWrite: false
-});
-var matPP = new THREE.MeshPhongMaterial({
-  color: 0xDCE1DD, transparent: true, opacity: 0.58, shininess: 45,
-  specular: 0x9a9f9b, side: THREE.DoubleSide
-});
-var matAnel = new THREE.MeshPhongMaterial({ color: 0x24282B, shininess: 24, specular: 0x4a4a4a });
-var matTeca = new THREE.MeshPhongMaterial({ color: 0x7E5228, shininess: 6, specular: 0x241810 });
+
+var matCorpo = new THREE.MeshPhongMaterial({ color:0x8FB6C2, transparent:true, opacity:0.26,
+  shininess:88, specular:0x8fa4ab, side:THREE.DoubleSide, depthWrite:false });
+var matPP = new THREE.MeshPhongMaterial({ color:0xDCE1DD, transparent:true, opacity:0.58,
+  shininess:45, specular:0x9a9f9b, side:THREE.DoubleSide });
+var matAnel = new THREE.MeshPhongMaterial({ color:0x24282B, shininess:24, specular:0x4a4a4a });
+var matTeca = new THREE.MeshPhongMaterial({ color:0x7E5228, shininess:6, specular:0x241810 });
 var ALLMAT = [matCorpo, matPP, matAnel, matTeca];
 
-/* ---------- montagem ---------- */
-var SPACING = 172;
-var groups = [];
-var lidGroups = [];
-var tecaMeshes = [];
-var ringMeshes = [];
-
-SIZES.forEach(function(s, i){
-  var g = new THREE.Group();
-  g.userData.x = (i - (SIZES.length - 1) / 2) * SPACING;
-  g.position.x = g.userData.x;
-
-  var body = new THREE.Mesh(new THREE.LatheGeometry(bodyProfile(s.H), 96), matCorpo);
-  g.add(body);
-
-  // orelhas da baioneta no bocal
-  for (var a = 0; a < 3; a++) {
-    var th = a * Math.PI * 2 / 3;
-    var lug = new THREE.Mesh(new THREE.BoxGeometry(2.6, 3.0, 17), matCorpo);
-    lug.position.set(Math.cos(th) * (G.R + 0.9), s.H - 8, Math.sin(th) * (G.R + 0.9));
-    lug.rotation.y = -th;
-    g.add(lug);
-  }
-
-  var lid = new THREE.Group();
-  lid.add(new THREE.Mesh(new THREE.LatheGeometry(lidProfile(s.H), 96), matPP));
-  // rampas internas da baioneta
-  for (var b = 0; b < 3; b++) {
-    var tb = b * Math.PI * 2 / 3 + 0.5;
-    var rp = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.4, 15), matPP);
-    rp.position.set(Math.cos(tb) * (CH_OUT + 0.9), s.H - 7, Math.sin(tb) * (CH_OUT + 0.9));
-    rp.rotation.y = -tb;
-    lid.add(rp);
-  }
-  g.add(lid);
-  lidGroups.push(lid);
-
-  var ring = new THREE.Mesh(new THREE.TorusGeometry(RING_R, G.CORD / 2, 18, 96), matAnel);
-  ring.rotation.x = Math.PI / 2;
-  ring.position.y = s.H + G.FRISO / 2;
-  ring.scale.z = G.FRISO / G.CORD;          // esmagado 20%
-  g.add(ring);
-  ringMeshes.push(ring);
-
-  var teca = new THREE.Mesh(new THREE.LatheGeometry(tecaProfile(s.H), 96), matTeca);
-  g.add(teca);
-  tecaMeshes.push(teca);
-
-  g.userData.H = s.H;
-  scene.add(g);
-  groups.push(g);
-});
-
-/* ---------- chão e luz ---------- */
 var shadowTex = (function(){
-  var c = document.createElement('canvas');
-  c.width = c.height = 128;
+  var c = document.createElement('canvas'); c.width = c.height = 128;
   var x = c.getContext('2d');
-  var gr = x.createRadialGradient(64, 64, 4, 64, 64, 62);
-  gr.addColorStop(0, 'rgba(0,0,0,.26)');
-  gr.addColorStop(1, 'rgba(0,0,0,0)');
-  x.fillStyle = gr; x.fillRect(0, 0, 128, 128);
+  var gr = x.createRadialGradient(64,64,4,64,64,62);
+  gr.addColorStop(0,'rgba(0,0,0,.26)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+  x.fillStyle = gr; x.fillRect(0,0,128,128);
   return new THREE.CanvasTexture(c);
 })();
-groups.forEach(function(g){
-  var sh = new THREE.Mesh(
-    new THREE.PlaneGeometry(190, 190),
-    new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false })
-  );
-  sh.rotation.x = -Math.PI / 2;
-  sh.position.y = 0.4;
-  g.add(sh);
-});
+
+function buildPot(s, comSombra){
+  var g = new THREE.Group();
+  g.add(new THREE.Mesh(facetar(new THREE.LatheGeometry(bodyProfile(s.H), 128), s.H), matCorpo));
+  for (var a = 0; a < 3; a++) {
+    var th = a * Math.PI * 2/3;
+    var lug = new THREE.Mesh(new THREE.BoxGeometry(2.6, 3.0, 17), matCorpo);
+    lug.position.set(Math.cos(th)*(G.R+0.9), s.H-8, Math.sin(th)*(G.R+0.9));
+    lug.rotation.y = -th; g.add(lug);
+  }
+  var lid = new THREE.Group();
+  lid.add(new THREE.Mesh(new THREE.LatheGeometry(lidProfile(s.H), 96), matPP));
+  for (var b = 0; b < 3; b++) {
+    var tb = b * Math.PI * 2/3 + 0.5;
+    var rp = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.4, 15), matPP);
+    rp.position.set(Math.cos(tb)*(CH_OUT+0.9), s.H-7, Math.sin(tb)*(CH_OUT+0.9));
+    rp.rotation.y = -tb; lid.add(rp);
+  }
+  g.add(lid);
+  var ring = new THREE.Mesh(new THREE.TorusGeometry(RING_R, G.CORD/2, 18, 96), matAnel);
+  ring.rotation.x = Math.PI/2; ring.position.y = s.H + G.FRISO/2;
+  ring.scale.z = G.FRISO / G.CORD; g.add(ring);
+  var teca = new THREE.Mesh(new THREE.LatheGeometry(tecaProfile(s.H), 96), matTeca);
+  g.add(teca);
+  if (comSombra) {
+    var sh = new THREE.Mesh(new THREE.PlaneGeometry(190,190),
+      new THREE.MeshBasicMaterial({ map:shadowTex, transparent:true, depthWrite:false }));
+    sh.rotation.x = -Math.PI/2; sh.position.y = 0.4; g.add(sh);
+  }
+  g.userData = { H:s.H, lid:lid, teca:teca, ring:ring };
+  return g;
+}
+
+var SPACING = 135;
+var potP  = buildPot(SIZES[0], true);
+var potG  = buildPot(SIZES[1], true);
+var potP2 = buildPot(SIZES[0], false);      // gêmeo que sobe na vista Coluna
+scene.add(potP); scene.add(potG); scene.add(potP2);
+var pots = [potP, potG, potP2];
+potP2.visible = false;
 
 scene.add(new THREE.HemisphereLight(0xffffff, 0x4a5250, 0.68));
-var d1 = new THREE.DirectionalLight(0xffffff, 0.60); d1.position.set(220, 430, 340); scene.add(d1);
-var d2 = new THREE.DirectionalLight(0xffffff, 0.34); d2.position.set(-320, 240, -280); scene.add(d2);
+var d1 = new THREE.DirectionalLight(0xffffff, 0.60); d1.position.set(220,430,340); scene.add(d1);
+var d2 = new THREE.DirectionalLight(0xffffff, 0.34); d2.position.set(-320,240,-280); scene.add(d2);
 scene.add(new THREE.AmbientLight(0xffffff, 0.36));
 
-/* ---------- tema ---------- */
+function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#888'; }
 function applyTheme(){
-  var bg = css('--studio');
-  try { scene.background = new THREE.Color(bg); } catch (e) { scene.background = new THREE.Color(0xD8DAD6); }
+  try { scene.background = new THREE.Color(css('--studio')); }
+  catch(e){ scene.background = new THREE.Color(0xD8DAD6); }
 }
 applyTheme();
 try {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-  new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-} catch (e) {}
+  new MutationObserver(applyTheme).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+} catch(e) {}
 
-/* ---------- câmera orbital ---------- */
-var target = new THREE.Vector3(0, 128, 0);
-var theta = 0.5, phi = 1.16, dist = 1000;
+var target = new THREE.Vector3(0,110,0);
+var theta = 0.5, phi = 1.16, dist = 700;
 function place(){
   camera.position.set(
-    target.x + dist * Math.sin(phi) * Math.sin(theta),
-    target.y + dist * Math.cos(phi),
-    target.z + dist * Math.sin(phi) * Math.cos(theta)
-  );
+    target.x + dist*Math.sin(phi)*Math.sin(theta),
+    target.y + dist*Math.cos(phi),
+    target.z + dist*Math.sin(phi)*Math.cos(theta));
   camera.lookAt(target);
 }
-var down = false, lx = 0, ly = 0;
-cv.addEventListener('pointerdown', function(e){
-  down = true; lx = e.clientX; ly = e.clientY; cv.classList.add('drag');
-  try { cv.setPointerCapture(e.pointerId); } catch (err) {}
-});
-cv.addEventListener('pointermove', function(e){
-  if (!down) return;
-  theta -= (e.clientX - lx) * 0.008;
-  phi = Math.max(0.22, Math.min(1.72, phi - (e.clientY - ly) * 0.006));
-  lx = e.clientX; ly = e.clientY;
-});
-function up(){ down = false; cv.classList.remove('drag'); }
-cv.addEventListener('pointerup', up);
-cv.addEventListener('pointercancel', up);
-cv.addEventListener('wheel', function(e){
-  e.preventDefault();
-  dist = Math.max(230, Math.min(2000, dist * (1 + Math.sign(e.deltaY) * 0.10)));
-}, { passive: false });
+var down=false, lx=0, ly=0;
+cv.addEventListener('pointerdown', function(e){ down=true; lx=e.clientX; ly=e.clientY;
+  cv.classList.add('drag'); try{ cv.setPointerCapture(e.pointerId); }catch(err){} });
+cv.addEventListener('pointermove', function(e){ if(!down) return;
+  theta -= (e.clientX-lx)*0.008;
+  phi = Math.max(0.22, Math.min(1.72, phi - (e.clientY-ly)*0.006));
+  lx=e.clientX; ly=e.clientY; });
+function up(){ down=false; cv.classList.remove('drag'); }
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+cv.addEventListener('wheel', function(e){ e.preventDefault();
+  dist = Math.max(230, Math.min(2000, dist*(1 + Math.sign(e.deltaY)*0.10))); }, { passive:false });
 
-/* ---------- controles ---------- */
-var exploded = false, cut = false, spin = false, sel = 'all', detail = false;
-var clip = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+var exploded=false, cut=false, spin=false, detail=false, coluna=false, sel='all';
+var clip = new THREE.Plane(new THREE.Vector3(0,0,1), 0);
+function press(b,on){ b.setAttribute('aria-pressed', on?'true':'false'); }
 
-function setPressed(btn, on){ btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+var bCol = document.getElementById('bCol'), bExp = document.getElementById('bExp'),
+    bCut = document.getElementById('bCut'), bDet = document.getElementById('bDet'),
+    bSpin = document.getElementById('bSpin');
+
+/* posiciona a cena conforme tamanho selecionado e vista Coluna */
+function layout(){
+  var um = (sel !== 'all');
+  potP2.visible = coluna && !um;
+  if (coluna && !um) {
+    potP.position.set(-SPACING, 0, 0);
+    potP2.position.set(-SPACING, SIZES[0].passo, 0);
+    potG.position.set(SPACING, 0, 0);
+    potP.visible = true; potG.visible = true;
+    target.set(0, SIZES[1].passo*0.5, 0);
+    dist = SIZES[1].passo*2.6 + 150;
+  } else if (um) {
+    var i = +sel;
+    potP.visible = (i===0); potG.visible = (i===1);
+    potP.position.set(0,0,0); potG.position.set(0,0,0);
+    var a = SIZES[i].passo;
+    target.set(0, a*0.46, 0);
+    dist = a*2.3 + 190;
+  } else {
+    potP.visible = true; potG.visible = true;
+    potP.position.set(-SPACING,0,0); potG.position.set(SPACING,0,0);
+    target.set(0, 110, 0);
+    dist = 700;
+  }
+}
+layout();
 
 Array.prototype.forEach.call(document.querySelectorAll('[data-size]'), function(btn){
   btn.addEventListener('click', function(){
     sel = btn.getAttribute('data-size');
-    Array.prototype.forEach.call(document.querySelectorAll('[data-size]'), function(b){
-      setPressed(b, b === btn);
-    });
-    groups.forEach(function(g, i){
-      var on = (sel === 'all') || (+sel === i);
-      g.visible = on;
-      g.position.x = (sel === 'all') ? g.userData.x : 0;
-    });
-    if (detail) { detail = false; setPressed(bDet, false); if (exploded) bExp.click(); }
-    if (sel === 'all') { target.set(0, 128, 0); dist = 1000; }
-    else {
-      var a = SIZES[+sel].altMont;
-      target.set(0, a * 0.46, 0);
-      dist = a * 2.3 + 170;
-    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-size]'), function(b){ press(b, b===btn); });
+    if (detail) { detail=false; press(bDet,false); if (exploded) bExp.click(); }
+    if (sel !== 'all' && coluna) { coluna=false; press(bCol,false); }
+    layout();
   });
 });
 
-var bExp = document.getElementById('bExp');
-bExp.addEventListener('click', function(){ exploded = !exploded; setPressed(bExp, exploded); });
-
-var bCut = document.getElementById('bCut');
-bCut.addEventListener('click', function(){
-  cut = !cut; setPressed(bCut, cut);
-  ALLMAT.forEach(function(m){ m.clippingPlanes = cut ? [clip] : []; m.needsUpdate = true; });
+bCol.addEventListener('click', function(){
+  coluna = !coluna; press(bCol, coluna);
+  if (coluna) {
+    if (sel !== 'all') { sel='all';
+      Array.prototype.forEach.call(document.querySelectorAll('[data-size]'), function(b){
+        press(b, b.getAttribute('data-size')==='all'); }); }
+    if (exploded) bExp.click();
+    if (detail) { detail=false; press(bDet,false); }
+    phi = 1.34; theta = 0;
+  }
+  layout();
 });
-
-var bSpin = document.getElementById('bSpin');
-bSpin.addEventListener('click', function(){ spin = !spin; setPressed(bSpin, spin); });
-
-/* detalhe da vedação: corta e aproxima no aro, onde o friso e o anel trabalham */
-var bDet = document.getElementById('bDet');
-function pickSize(i){
-  var btn = document.querySelector('[data-size="' + i + '"]');
-  if (btn) btn.click();
-}
+bExp.addEventListener('click', function(){ exploded = !exploded; press(bExp, exploded);
+  if (exploded && coluna) { coluna=false; press(bCol,false); layout(); } });
+bCut.addEventListener('click', function(){ cut = !cut; press(bCut, cut);
+  ALLMAT.forEach(function(m){ m.clippingPlanes = cut ? [clip] : []; m.needsUpdate = true; }); });
+bSpin.addEventListener('click', function(){ spin = !spin; press(bSpin, spin); });
 bDet.addEventListener('click', function(){
-  detail = !detail; setPressed(bDet, detail);
+  detail = !detail; press(bDet, detail);
   if (detail) {
-    if (sel === 'all') pickSize(1);
+    if (coluna) { coluna=false; press(bCol,false); }
+    if (sel === 'all') { var b = document.querySelector('[data-size="0"]'); if (b) b.click(); }
     if (cut) bCut.click();
     if (!exploded) bExp.click();
+    press(bDet, true); detail = true;
     var H = SIZES[+sel].H;
-    target.set(0, H + 64, 0);           // enquadra o conjunto da tampa aberto
-    dist = 340; phi = 1.28; theta = 0.55;
+    target.set(0, H + 64, 0); dist = 340; phi = 1.28; theta = 0.55;
   } else {
     if (exploded) bExp.click();
-    var a = SIZES[+sel].altMont;
-    target.set(0, a * 0.46, 0);
-    dist = a * 2.3 + 170;
+    layout();
     phi = 1.16;
   }
 });
 
-/* ---------- loop ---------- */
 var reduce = false;
-try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-
+try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
 function resize(){
   var w = cv.clientWidth || 800, h = cv.clientHeight || 500;
   if (cv.width !== w || cv.height !== h) {
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
+    renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
   }
 }
-try { new ResizeObserver(resize).observe(cv); } catch (e) { window.addEventListener('resize', resize); }
+try { new ResizeObserver(resize).observe(cv); } catch(e){ window.addEventListener('resize', resize); }
 
 var t0 = performance.now();
 function frame(now){
-  var dt = Math.min((now - t0) / 1000, 0.05); t0 = now;
-  if (spin && !down && !reduce) theta += dt * 0.42;
-
-  groups.forEach(function(g, i){
-    var H = g.userData.H;
-    var eL = exploded ? 58 : 0, eT = exploded ? 122 : 0, eR = exploded ? 26 : 0;
-    var lid = lidGroups[i], teca = tecaMeshes[i], ring = ringMeshes[i];
-    lid.position.y += (eL - lid.position.y) * Math.min(dt * 6, 1);
-    teca.position.y += (eT - teca.position.y) * Math.min(dt * 6, 1);
-    ring.position.y += ((H + G.FRISO / 2 + eR) - ring.position.y) * Math.min(dt * 6, 1);
+  var dt = Math.min((now-t0)/1000, 0.05); t0 = now;
+  if (spin && !down && !reduce) theta += dt*0.42;
+  var eL = exploded ? 58 : 0, eT = exploded ? 122 : 0, eR = exploded ? 26 : 0;
+  pots.forEach(function(g){
+    var u = g.userData, f = Math.min(dt*6, 1);
+    u.lid.position.y  += (eL - u.lid.position.y)*f;
+    u.teca.position.y += (eT - u.teca.position.y)*f;
+    u.ring.position.y += ((u.H + G.FRISO/2 + eR) - u.ring.position.y)*f;
   });
-
-  resize();
-  place();
+  resize(); place();
   renderer.render(scene, camera);
   requestAnimationFrame(frame);
 }

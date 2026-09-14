@@ -451,6 +451,72 @@ Procedimento em `analise/09-emenda-do-anel.html`.
   extraível, praticamente inerte, melhor compression set); TPE é a opção barata e injetável na casa
   e exige especificação mais apertada. As duas são legítimas com o grade certo.
 
+### Linha Coluna modular — dois tamanhos (14/09/2026)
+
+Direção do usuário: **só dois tamanhos, que se acoplem**, e visual de sistema. Modelo 3D atualizado
+em `analise/08-linha-coluna-3d.html` (vista **Coluna** mostra P+P ao lado do G).
+
+- **P = 1,2 L (corpo 93 mm) · G = 2,8 L (corpo 205,9 mm)**, Ø 140 externo, parede 2,5, saída 0,5°,
+  pé Ø 134 constante. Uma tampa serve os dois.
+- ⚠️ **O passo de empilhamento não é o corpo, é corpo + tampa.** Acima da borda ficam friso 2,4 +
+  disco PP 2,5 + teca 15 = **19,9 mm**. Por isso `H_G = 2 × H_P + 19,9` — no modelo a altura do G é
+  **calculada**, não digitada, então o 2:1 fecha por construção: passo P 112,9 × 2 = **225,8** =
+  passo do G.
+- ⚠️ **O 2:1 é de altura, não de litragem.** Dois P somam 2,40 L, o G tem 2,82 L — **rende 18% a
+  mais**, porque não gasta altura com tampa e fundo no meio. Vale como vantagem de produto, **não
+  pode virar claim de "dois P = um G"** em volume (art. 36 do CDC, e o consumidor confere com copo
+  medidor).
+- ⚠️ **A restrição modular custa o 2,0 L**, que é a litragem mais forte da raspagem (21 anúncios,
+  mediana 113 avaliações). Testado: com G = 2,0 L o P cai para **0,79 L** (abaixo do piso de 1 L);
+  com P = 2,0 L o G vai a **4,4 L e 318 mm** (faixa parada, instável, ~700 mm de curso de molde).
+  Não há arranjo que devolva o 2,0 L.
+- **Em compensação, reduz a sobreposição com o próprio catálogo.** O 2 L é onde estão `362`
+  (981 clientes), `238` (545) e `360` (535) — R$ 594 k somados. O 2,8 L encosta no `239` de 3 L,
+  R$ 80 k e 326 clientes: **um sexto do volume próprio**.
+- **Empilhamento é registro, não trava.** O pé de Ø 134 assenta num rebaixo na capa de teca —
+  compressão distribuída num anel grande, a teca aguenta. Travar de verdade exigiria junta PP-PP,
+  o que tiraria a teca da face de cima do encaixe. Escolha: preservar a madeira.
+- **Faceta de rótulo modelada:** o corpo é achatado num plano a **64,5 mm do eixo** (corda de
+  ~54 mm), e a faceta **para 22 mm antes da borda** — o bocal continua redondo, porque é ali que a
+  saia da tampa e as três orelhas da baioneta trabalham. No código é um clamp proporcional ao raio
+  (`z ≤ (FACET/R)·r`), que achata cada superfície no seu próprio plano e **preserva a espessura da
+  parede** — clamp absoluto zeraria a parede na faceta.
+- ⚠️ **O risco de canibalização subiu, não caiu.** A plataforma que mais cresce na casa é justamente
+  a acoplada (`238` +445%, `360` +229%, `239` +233%). Antes a defesa era "premium contra
+  commodity"; agora é **premium acoplado contra commodity acoplado** — substitutos mais próximos.
+  É tese de posicionamento, não fato.
+
+### Curva de litragem revalidada (12 M até 14/09/2026, pote, marca própria)
+
+| Faixa | Anterior | Atual | Var |
+|---|---|---|---|
+| até 600 ml | 2.533.328 | 1.843.391 | **−27,2%** |
+| 601 ml – 1 L | 2.010.151 | 1.908.631 | −5,1% |
+| **1,1 – 2 L** | 2.727.224 | **3.612.039** | **+32,4%** |
+| **2,1 – 3,5 L** | 1.651.064 | **2.521.112** | **+52,7%** |
+| acima de 3,5 L | 2.033.379 | 2.035.683 | +0,1% |
+
+A regra se sustenta e ficou mais forte que no estudo de 79 referências.
+
+### Raspagem de litragem (run `2026-09-14-litragem`)
+
+12 termos neutros no Apify, **591 anúncios novos**, 606 únicos em mantimento (~US$ 1,80).
+⚠️ `pdp_ml_oferta` agora tem ~2.200 linhas e 42 termos.
+
+- **Corrigido o parser de litragem**: o regex de `pdp_carrega_ml` usa `l(?![a-z])` e por isso
+  **perde "litros" e "lt"**. Padrão certo: `(\d+[.,]?\d*)\s*(?:litros|litro|lts|lt|l)\y`,
+  testando `ml` antes. Vale corrigir a função na próxima migration.
+- `vendidos` vem **sempre nulo** do actor — o proxy de demanda é `n_avaliacoes`.
+- ⚠️ **Avaliação no ML é estoque de vida, não fluxo.** Diz onde está a base instalada, não onde
+  está o crescimento. E **título de kit joga a contagem em todas as faixas que menciona** — 63% dos
+  anúncios são kits. Leitura robusta = número de anúncios (saturação) + corte só de unidades.
+- Unidades por faixa: até 600 ml 14 anúncios / R$ 58,44 por litro · 601–1000 29 / 44,99 ·
+  **1,1–2 L 42 / 24,28** · 2,1–3,5 L 13 / 20,55 · >3,5 L 10 / 8,28.
+- Por litragem: **2,0 L é a mais forte acima de 1 L** (21 anúncios, mediana 113 avaliações).
+  **1,5 L é armadilha**: 15 anúncios e mediana de **2** avaliações.
+- **O pico de 600 ml é marmita, não mantimento** — conferido nos títulos (*"Jogo Potes 600ml Kit 3
+  Unidades Com Tampa Marmita"*, Tramontina, R$ 12–14/peça). Descartar da leitura de mantimento.
+
 ## 6. Lições de método (erros já cometidos neste projeto)
 
 1. **Verifique se o produto já existe antes de propor lançar.** Dois "certeiros" foram
