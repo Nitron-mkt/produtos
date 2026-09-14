@@ -71,6 +71,7 @@ thead th{font-family:var(--display); font-weight:700; font-size:7.6px; letter-sp
 /* ---------- arte ---------- */
 .arte{display:block; color:var(--preto); margin-inline:auto}
 .arte svg{width:100%; height:100%; display:block; overflow:visible}
+.arte text{font-family:var(--display); font-weight:700}
 .inclusas .arte{height:6.6mm; width:15mm}
 .inclusas .arte.barra-mad{height:3.4mm; width:17mm}
 
@@ -102,8 +103,12 @@ thead th{font-family:var(--display); font-weight:700; font-size:7.6px; letter-sp
 .fig .arte svg{object-fit:contain; height:100%}
 .usadas{font-size:7.8px; font-weight:500}
 .usadas .rot{font-weight:700; margin-bottom:.5mm}
-.usadas li{display:flex; gap:1.2mm; line-height:1.34}
-.usadas li::before{content:"•"}
+.usadas li{display:flex; gap:1.1mm; line-height:1.32; align-items:flex-start;
+            margin-bottom:.35mm}
+.usadas li b{font-weight:700}
+.bal{flex:none; display:grid; place-items:center; width:2.5mm; height:2.5mm;
+     border:.5px solid var(--preto); border-radius:50%; font-size:6.2px;
+     font-weight:700; line-height:1; margin-top:.15mm}
 
 /* etapa 1: a conferência das peças, no lugar da ilustração */
 .confere{display:grid; grid-template-columns:auto auto; gap:.3mm 2mm; font-size:7.8px;
@@ -195,21 +200,14 @@ body.editando [data-e]:focus{outline:2px solid #1B6DD0; background:transparent}
     { "ref": "BPE-01-AC", "art": "BPE-01-AC", "desc": "Peça de Pés Após Corte",       "qtd": 4,  "med": "6,0",  "plastica": "" }
   ],
   "passos": [
-    { "titulo": "Separe e confira todas as peças.", "fig": "",         "usa": [] },
-    { "titulo": "Monte o quadro inferior.",         "fig": "passo-2",
-      "usa": [["850TZ1",2],["850TZ2",2],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "Encaixe os pés inferiores.",       "fig": "passo-3",
-      "usa": [["BPE-01-AC",4]] },
-    { "titulo": "Encaixe o 1º conjunto de colunas e monte o quadro do calceiro.", "fig": "passo-4",
-      "usa": [["PSA-05",4],["850TZ1",2],["850TZ2",2],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "Encaixe os porta-hastes nas pontas das ripas, voltados para dentro, e monte o calceiro.", "fig": "passo-5",
-      "usa": [["850H",16],["PSC-02",8]] },
-    { "titulo": "Encaixe o 2º conjunto de colunas.", "fig": "passo-6",
-      "usa": [["PSA-05",4]] },
-    { "titulo": "Encaixe o 3º conjunto de colunas e monte o topo do cabideiro.", "fig": "passo-7",
-      "usa": [["PSA-05",4],["850L",2],["850TZ1",3],["850TZ2",3],["PSC-04",4],["PST-01",4]] },
-    { "titulo": "Finalize com as tampas.",           "fig": "passo-8",
-      "usa": [["850T",4]] }
+    {"titulo": "Separe e confira todas as peças.", "fig": "", "usa": []},
+    {"titulo": "Monte o 1º andar inteiro, deitado, e encaixe os pés.", "fig": "passo-2", "usa": [["850TZ1", 2], ["850TZ2", 2], ["PSC-04", 2], ["PST-01", 2], ["BPE-01-AC", 4]]},
+    {"titulo": "Monte o 2º andar inteiro — o calceiro — com os porta-hastes e as ripas.", "fig": "passo-3", "usa": [["850TZ1", 2], ["850TZ2", 2], ["PSC-04", 2], ["PST-01", 2], ["850H", 16], ["PSC-02", 8]]},
+    {"titulo": "Monte o 3º andar inteiro.", "fig": "passo-4", "usa": [["850TZ1", 2], ["850TZ2", 2], ["PSC-04", 2], ["PST-01", 2]]},
+    {"titulo": "Monte o 4º andar inteiro — o cabideiro.", "fig": "passo-5", "usa": [["850L", 2], ["850TZ1", 1], ["850TZ2", 1], ["PSC-04", 2], ["PST-01", 2]]},
+    {"titulo": "Levante a arara: conecte o 1º ao 2º andar.", "fig": "passo-6", "usa": [["PSA-05", 4]]},
+    {"titulo": "Conecte o 2º ao 3º e o 3º ao 4º andar.", "fig": "passo-7", "usa": [["PSA-05", 8]]},
+    {"titulo": "Finalize com as tampas.", "fig": "passo-8", "usa": [["850T", 4]]}
   ],
   "atencao": [
     "Monte sobre superfície plana.",
@@ -219,7 +217,7 @@ body.editando [data-e]:focus{outline:2px solid #1B6DD0; background:transparent}
     "Uso doméstico."
   ],
   "rodape": { "video": "Vídeo da montagem", "qr": "QR do vídeo" },
-  "pendencia": "Confirmar com a ferramentaria em quais 2 cantos do topo do cabideiro entram os conectores 850L. A quantidade fecha (2 unidades na etapa 7), mas a posição não foi conferida contra o desenho de conjunto — um canto de 2 vias não fecha sozinho um retângulo de 4 cantos."
+  "pendencia": "Confirmar com a ferramentaria em quais 2 cantos do 4º andar entram os conectores 850L. A quantidade fecha (2 unidades na etapa 5), mas a posição não foi conferida contra o desenho de conjunto — um canto de 2 vias não fecha sozinho um retângulo de 4 cantos. O balão 1 da etapa 5 está num canto provisório."
 }
 </script>
 
@@ -240,6 +238,12 @@ const campo = (c, tag, cls) => {
   const t = tag || 'span';
   return `<${t}${cls ? ` class="${cls}"` : ''} data-e="${c}">${esc(leia(c))}</${t}>`;
 };
+/* a medida sai da lista de peças: um número, um lugar só */
+const medida = ref => {
+  const c = DADOS.pecas.find(x => x.ref === ref);
+  return (c && c.med && c.med !== '—') ? ` — ${esc(c.med)} cm` : '';
+};
+
 const arte = (ref, cls) =>
   ART[ref] ? `<span class="arte${cls ? ' ' + cls : ''}" aria-hidden="true">${ART[ref]}</span>` : '';
 
@@ -318,7 +322,8 @@ function montagem() {
       <div class="fig">${s.fig ? arte(s.fig) : listaConferencia()}</div>
       ${(s.usa && s.usa.length) ? `<div class="usadas">
         <div class="rot">REF. usadas:</div>
-        <ul>${s.usa.map(([r, q]) => `<li>${q}× ${esc(r)}</li>`).join('')}</ul></div>` : ''}
+        <ul>${s.usa.map(([r, q], n) => `<li><span class="bal">${n + 1}</span>
+          <span>${q}× <b>${esc(r)}</b>${medida(r)}</span></li>`).join('')}</ul></div>` : ''}
     </article>`).join('')}</div>
   </section>`;
 }

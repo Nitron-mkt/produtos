@@ -56,11 +56,16 @@ def _zbuffer(P, D, faces, W, H):
 
 # ---------------------------------------------------------------- desenho
 def desenha(tris, saida, grupos=None, eye=(1., -1., .62), up=(0, 0, 1.),
-            lado=760, pad=26, vinco=22.0, res=1100, traco=(2.6, 1.5), ref=None):
+            lado=760, pad=26, vinco=22.0, res=1100, traco=(2.6, 1.5), ref=None,
+            baloes=None, caixa_mm=(41, 22)):
     """tris (n,3,3); grupos (n,) com 0='feito' e 1='novo' (ou None = tudo novo).
 
     ref: malha que define o enquadramento. Passando a mesma ref para varias
     etapas, todas saem no mesmo tamanho e a estrutura cresce dentro do quadro.
+
+    baloes: [(ponto3d, numero)] — a identificacao das pecas. O tamanho sai de
+    caixa_mm (a area, em mm, onde o desenho vai ser impresso), para o balao
+    sair do mesmo tamanho em todas as ilustracoes, qualquer que seja a escala.
     """
     if grupos is None: grupos = np.ones(len(tris), int)
     grupos = np.asarray(grupos, int)
@@ -70,7 +75,8 @@ def desenha(tris, saida, grupos=None, eye=(1., -1., .62), up=(0, 0, 1.),
     verts, inv = np.unique(chave, axis=0, return_inverse=True)
     faces = inv.reshape(-1, 3)
 
-    r, u, f = _base(eye, up)
+    r_, u_, f = _base(eye, up)
+    r, u = r_, u_
     moldura = (tris if ref is None else ref).reshape(-1, 3)
     centro = moldura.mean(0)
     verts = verts - centro
@@ -141,9 +147,27 @@ def desenha(tris, saida, grupos=None, eye=(1., -1., .62), up=(0, 0, 1.),
     corpo = "".join(
         f'<path d="{d(sg)}" stroke-width="{lw:.2f}" opacity="{op}"/>'
         for sg, lw, op in camadas if sg)
+    marcas = ''
+    if baloes:
+        cw, ch = caixa_mm
+        mm = min(cw / w, ch / h)                      # mm por unidade do desenho
+        r, fs, lw = 1.35 / mm, 1.85 / mm, 0.20 / mm
+        for ponto, n in baloes:
+            q = np.asarray(ponto, float) - centro
+            cx = float((q @ r_) - MX.min()) * s + pad
+            cy = (MY.max() - float(q @ u_)) * s + pad
+            cx = min(max(cx, r + 1), w - r - 1)
+            cy = min(max(cy, r + 1), h - r - 1)
+            marcas += (f'<g><circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r:.1f}" fill="#fff" '
+                       f'stroke="currentColor" stroke-width="{lw:.2f}"/>'
+                       f'<text x="{cx:.1f}" y="{cy:.1f}" font-size="{fs:.1f}" '
+                       f'text-anchor="middle" dominant-baseline="central" '
+                       f'fill="currentColor" stroke="none">{n}</text></g>')
+        marcas = f'<g class="baloes">{marcas}</g>'
+
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w:.1f} {h:.1f}" '
            f'width="{w:.0f}" height="{h:.0f}">'
            f'<g fill="none" stroke="currentColor" stroke-linecap="round" '
-           f'stroke-linejoin="round">{corpo}</g></svg>')
+           f'stroke-linejoin="round">{corpo}</g>{marcas}</svg>')
     open(saida, 'w').write(svg)
     return w, h, sum(len(v) for v in saidas.values())

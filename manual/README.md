@@ -14,7 +14,7 @@ a partir dele.
 | `build.py` | Junta `template.html` + tudo que estiver em `pecas/` e gera o manual. |
 | `linework.py` | Malha 3D → arte de linha vetorial, com remoção de linha oculta. |
 | `stl2svg.py` | Desenha uma peça a partir de um STL. |
-| `montagem2svg.py` | Modela a arara pelas medidas das ripas e desenha o conjunto e as 7 etapas. |
+| `montagem2svg.py` | Modela a arara pelas medidas das ripas, desenha o conjunto e as 7 etapas ilustradas, e posiciona os balões de identificação. |
 | `pecas/*.svg` | Todas as artes. Importam em Illustrator, Inkscape e Canva. |
 
 ## Três formas de editar
@@ -44,6 +44,11 @@ internas viram linha. Nas ilustrações de etapa, o que **entra naquela etapa** 
 traço cheio e o que já estava montado sai mais fino — é assim que a caixa mostra o que
 muda sem precisar de seta.
 
+Cada peça que entra na etapa leva um **balão numerado**, na mesma ordem da lista
+REF. usadas da caixa. As âncoras dos balões ficam em `ETAPAS`, em `montagem2svg.py`;
+o tamanho do balão sai de `CAIXA_MM` (a área, em mm, onde o desenho é impresso), para
+sair igual em todas as ilustrações qualquer que seja a escala do desenho.
+
 As medidas do modelo 3D saem da própria lista de peças (`montagem2svg.py`):
 PSC-04 717 mm, PST-01 437 mm, PSA-05 513 mm, PSC-02 415 mm, BPE-01-AC 60 mm.
 Mexeu numa medida, rode os dois scripts e o desenho acompanha.
@@ -53,6 +58,21 @@ Mexeu numa medida, rode os dois scripts e o desenho acompanha.
 O painel abaixo da folha compara, referência por referência, a quantidade declarada em
 PEÇAS INCLUSAS com a soma do que as 8 etapas pedem. Aparece só na tela — não sai na
 impressão. Se você mexer numa quantidade e a conta deixar de fechar, ele acusa na hora.
+
+## A sequência de montagem
+
+Pedido da qualidade: **cada andar é montado inteiro, deitado, e só depois as alturas são
+conectadas** — nunca montar um quadro no ar.
+
+| Etapa | O que faz |
+|---|---|
+| 1 | Separe e confira todas as peças |
+| 2–5 | Monta os 4 andares inteiros, um por caixa (o 2º já com porta-hastes e ripas do calceiro) |
+| 6–7 | Levanta: conecta 1º→2º, depois 2º→3º→4º com as 12 colunas PSA-05 |
+| 8 | Tampas |
+
+A medida de cada peça vem da própria lista de peças (campo `med`), não de um segundo
+cadastro — mudou na lista, muda no passo a passo.
 
 ## O que mudou em relação ao manual anterior
 
@@ -65,10 +85,12 @@ impressão. Se você mexer numa quantidade e a conta deixar de fechar, ele acusa
   conjunto e as etapas saem de um modelo construído com as medidas das ripas.
 - **850TZ1 × 850TZ2**: medidas na geometria dos STLs confirmam mesma inércia (0,1% de
   diferença) e quiralidade oposta. São espelhadas e não se substituem.
+- **Sequência refeita** para montar andar inteiro antes de conectar as alturas, e
+  **peças identificadas** por balão, referência e medida em cada etapa.
 
 ## Pendência aberta
 
-Em quais 2 cantos do topo do cabideiro entram os conectores **850L**. A quantidade fecha
-(2 unidades na etapa 7), mas a posição não foi conferida contra o desenho de conjunto —
+Em quais 2 cantos do 4º andar entram os conectores **850L**. A quantidade fecha
+(2 unidades na etapa 5), mas a posição não foi conferida contra o desenho de conjunto —
 um canto de 2 vias não fecha sozinho um retângulo de 4 cantos. Enquanto isso não se
-resolve, o desenho da etapa 7 mostra os cantos de forma esquemática.
+resolve, o balão 1 da etapa 5 está num canto provisório.
