@@ -9,7 +9,7 @@ Para regerar as artes depois de alterar um STL:
 import re, json, pathlib
 
 BASE = pathlib.Path(__file__).parent
-ARTES = ['850L', '850TZ1', '850TZ2', '850H', '850T']
+ARTES = sorted(q.stem for q in (BASE / 'pecas').glob('*.svg'))
 
 def limpa(svg: str) -> str:
     """Mantém o viewBox, tira width/height (o CSS controla o tamanho),

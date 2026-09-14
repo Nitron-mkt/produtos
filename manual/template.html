@@ -1,212 +1,164 @@
 <title>Arara Nitron-MOB</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
 
 <style id="css">
+/* Folha monocromática, como o manual impresso: preto sobre branco, sem cor. */
 :root{
-  --papel:#EFEFEB; --folha:#FFFFFF; --tinta:#16191C; --tinta2:#5C636A;
-  --regua:#D8DAD5; --regua2:#EAEBE7; --sinal:#F0B429; --sinal-tinta:#16191C;
-  --ardosia:#2F545E; --ardosia-fraca:#EAF0F1; --alerta:#AE3125; --alerta-fraca:#FBEDEB;
-  --sombra:0 1px 2px rgba(22,25,28,.06), 0 8px 24px rgba(22,25,28,.08);
+  --preto:#000; --branco:#fff; --cinza:#8A8A8A; --fundo:#D9DAD6;
+  --linha:1px; --raio:2.2mm;
+  --display:Archivo,"Arial Narrow","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --papel:#0F1113; --folha:#1A1D20; --tinta:#E9EAE6; --tinta2:#9AA2A8;
-    --regua:#333A3E; --regua2:#262B2E; --sinal:#E7AE1F; --sinal-tinta:#16191C;
-    --ardosia:#8FBAC4; --ardosia-fraca:#1E2A2E; --alerta:#E4796C; --alerta-fraca:#2C1D1B;
-    --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.45);
-  }
-}
-:root[data-theme="dark"]{
-  --papel:#0F1113; --folha:#1A1D20; --tinta:#E9EAE6; --tinta2:#9AA2A8;
-  --regua:#333A3E; --regua2:#262B2E; --sinal:#E7AE1F; --sinal-tinta:#16191C;
-  --ardosia:#8FBAC4; --ardosia-fraca:#1E2A2E; --alerta:#E4796C; --alerta-fraca:#2C1D1B;
-  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.45);
-}
-
 *{box-sizing:border-box}
 body{
-  margin:0; background:var(--papel); color:var(--tinta);
-  font-family:"IBM Plex Sans",-apple-system,Segoe UI,Roboto,sans-serif;
-  font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  margin:0; background:var(--fundo); color:var(--preto);
+  font-family:Figtree,-apple-system,Segoe UI,Roboto,sans-serif; font-size:14px; line-height:1.4;
+  -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,h4{font-family:Archivo,"IBM Plex Sans",sans-serif; margin:0; text-wrap:balance; letter-spacing:-.012em}
-p{margin:0}
-:focus-visible{outline:2px solid var(--ardosia); outline-offset:2px; border-radius:2px}
+p,h1,h2,h3,h4,ul,ol{margin:0} ul{padding:0; list-style:none}
+:focus-visible{outline:2px solid #1B6DD0; outline-offset:2px}
 
-/* ---------- barra de ferramentas (só tela) ---------- */
+/* ---------- barra (só na tela) ---------- */
 .barra{
   position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
   padding-block:10px; padding-left:16px; padding-right:16px;
-  background:color-mix(in srgb,var(--papel) 88%, transparent); backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--regua);
+  background:rgba(217,218,214,.92); backdrop-filter:blur(8px); border-bottom:1px solid #A9ABA6;
 }
-.barra .marca{font-family:Archivo; font-weight:700; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-right:auto}
-.barra .marca span{color:var(--tinta2); font-weight:500; letter-spacing:.02em; text-transform:none}
-.btn{
-  font:600 12.5px/1 "IBM Plex Sans",sans-serif; letter-spacing:.01em;
-  padding:9px 14px; border-radius:3px; border:1px solid var(--regua);
-  background:var(--folha); color:var(--tinta); cursor:pointer;
-}
-.btn:hover{border-color:var(--tinta2)}
-.btn[aria-pressed="true"]{background:var(--sinal); border-color:var(--sinal); color:var(--sinal-tinta)}
-.btn.principal{background:var(--tinta); border-color:var(--tinta); color:var(--folha)}
-.btn:disabled{opacity:.45; cursor:default}
-.recado{font-size:12px; color:var(--tinta2); font-variant-numeric:tabular-nums}
+.barra .marca{font-family:var(--display); font-weight:800; font-size:12.5px; letter-spacing:.07em;
+  text-transform:uppercase; margin-right:auto; color:#26282A}
+.barra .marca span{font-weight:600; letter-spacing:.02em; text-transform:none; color:#5E625F}
+.btn{font:600 12.5px/1 Figtree,sans-serif; padding:9px 14px; border-radius:3px;
+  border:1px solid #A9ABA6; background:#fff; color:#111; cursor:pointer}
+.btn:hover{border-color:#4A4D49}
+.btn[aria-pressed="true"]{background:#111; border-color:#111; color:#fff}
+.btn.principal{background:#111; border-color:#111; color:#fff}
+.btn:disabled{opacity:.42; cursor:default}
+.recado{font-size:12px; color:#4A4D49}
 
-/* ---------- folha A4 ---------- */
-.folhas{display:flex; flex-direction:column; align-items:center; gap:22px; padding-block:22px; padding-left:16px; padding-right:16px}
-.folha{
-  width:210mm; max-width:100%; min-height:297mm; background:var(--folha);
-  padding:13mm 13mm 11mm; box-shadow:var(--sombra); position:relative;
-  display:flex; flex-direction:column; gap:7mm;
-}
+/* ---------- a folha A4 ---------- */
+.folhas{display:flex; flex-direction:column; align-items:center; gap:20px;
+        padding-block:20px; padding-left:16px; padding-right:16px}
+.folha{width:210mm; max-width:100%; height:297mm; background:var(--branco);
+       padding:4mm; box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.moldura{border:var(--linha) solid var(--preto); border-radius:var(--raio);
+         height:100%; padding:4mm 4.4mm 3.8mm; display:flex; flex-direction:column; gap:2.4mm;
+         overflow:hidden}
 
-/* ---------- cabeçalho ---------- */
-.topo{display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start;
-      border-bottom:2.5px solid var(--tinta); padding-bottom:9px}
-.sobrancelha{font:600 10.5px/1 Archivo,sans-serif; letter-spacing:.17em; text-transform:uppercase; color:var(--ardosia)}
-.topo h1{font-size:30px; font-weight:700; line-height:1.03; margin-top:6px}
-.topo .chamada{color:var(--tinta2); font-size:13px; margin-top:5px; max-width:52ch}
-.ref-cartao{text-align:right}
-.ref-cartao .rot{font:500 9.5px/1 Archivo,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta2)}
-.ref-cartao .cod{font:600 19px/1.1 "IBM Plex Mono",monospace; margin-top:5px; letter-spacing:-.01em}
+/* ---------- topo: identificação + desenho do conjunto ---------- */
+.cabeca{display:grid; grid-template-columns:1.06fr .94fr; gap:5mm; align-items:start}
+h1{font-family:var(--display); font-weight:800; font-size:21px; line-height:1.02;
+   letter-spacing:-.018em; text-transform:uppercase}
+.ref{font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.01em;
+     text-transform:uppercase; margin-top:2mm}
+.selo{display:inline-block; border:var(--linha) solid var(--preto); border-radius:1.4mm;
+      padding:1.5mm 3mm; font-size:10.5px; font-weight:500; margin-top:2.4mm}
+.resist{font-size:11.5px; font-weight:500; margin-top:2mm}
 
-/* ---------- faixa de especificação ---------- */
-.specs{display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--regua)}
-.specs div{padding:9px 12px; border-right:1px solid var(--regua)}
-.specs div:last-child{border-right:0}
-.specs dt{font:600 9.5px/1 Archivo,sans-serif; letter-spacing:.13em; text-transform:uppercase; color:var(--tinta2)}
-.specs dd{margin:5px 0 0; font-size:14.5px; font-weight:600}
+h2{font-family:var(--display); font-weight:800; font-size:13.5px; letter-spacing:.005em;
+   text-transform:uppercase; margin-bottom:1.8mm}
 
-/* ---------- títulos de seção ---------- */
-.secao{display:flex; align-items:baseline; gap:10px; margin-bottom:8px}
-.secao h2{font-size:15px; font-weight:700; letter-spacing:.03em; text-transform:uppercase}
-.secao .traco{flex:1; height:1px; background:var(--regua)}
-.secao .nota{font-size:11.5px; color:var(--tinta2)}
+/* ---------- tabelas ---------- */
+table{width:100%; border-collapse:collapse; table-layout:fixed}
+th,td{border:var(--linha) solid var(--preto); padding:1mm 1.2mm; text-align:center; vertical-align:middle}
+thead th{font-family:var(--display); font-weight:700; font-size:7.6px; letter-spacing:.045em; text-transform:uppercase}
+.inclusas td{font-size:9px; font-weight:500; height:6.3mm}
+.inclusas td.desc{font-size:8.4px; line-height:1.22}
+.inclusas td.ref{font-weight:700; font-size:9.2px; white-space:nowrap; letter-spacing:-.01em}
+.inclusas td.qtd{font-weight:700}
+.nota{font-size:8.6px; font-weight:500; margin-top:1.6mm}
 
-/* ---------- antes de começar ---------- */
-.antes{display:grid; grid-template-columns:repeat(2,1fr); gap:7px 16px}
-.antes li{display:flex; gap:9px; font-size:12.5px; line-height:1.42; list-style:none}
-.antes .qd{flex:none; width:15px; height:15px; margin-top:1px; border:1.5px solid var(--tinta2)}
-.antes ul{margin:0; padding:0}
-
-/* ---------- lista de peças ---------- */
-table.bom{width:100%; border-collapse:collapse; font-size:12.5px}
-table.bom th{
-  font:600 9.5px/1 Archivo,sans-serif; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--tinta2); text-align:left; padding:0 8px 6px; border-bottom:1.5px solid var(--tinta);
-}
-table.bom th.n, table.bom td.n{text-align:right; font-variant-numeric:tabular-nums}
-table.bom td{padding:5px 8px; border-bottom:1px solid var(--regua2); vertical-align:middle}
-table.bom tr:last-child td{border-bottom:1.5px solid var(--tinta)}
-.cel-ref{font:600 12.5px/1.2 "IBM Plex Mono",monospace; white-space:nowrap}
-.cel-desc{color:var(--tinta2); line-height:1.35}
-.cel-qtd{font:600 15px/1 "IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right}
-.cel-med{font:400 12px/1 "IBM Plex Mono",monospace; text-align:right; font-variant-numeric:tabular-nums; color:var(--tinta2)}
-td.cel-art{width:74px; padding:3px 8px}
-.cel-art .arte{height:46px; width:66px}
-.arte{display:block; color:var(--tinta)}
+/* ---------- arte ---------- */
+.arte{display:block; color:var(--preto); margin-inline:auto}
 .arte svg{width:100%; height:100%; display:block; overflow:visible}
+.inclusas .arte{height:6.6mm; width:15mm}
+.inclusas .arte.barra-mad{height:3.4mm; width:17mm}
 
-/* ---------- totais ---------- */
-.totais{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--regua); border:1px solid var(--regua)}
-.totais div{background:var(--folha); padding:8px 11px}
-.totais .v{font:700 20px/1 Archivo,sans-serif; font-variant-numeric:tabular-nums}
-.totais .r{font:500 9.5px/1.3 Archivo,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta2); margin-top:4px}
+/* ---------- coluna direita ---------- */
+.direita{display:flex; flex-direction:column; gap:3mm; height:100%}
+.conjunto{flex:1; display:grid; place-items:center; min-height:0}
+.conjunto .arte{height:46mm; width:auto}
+.plasticas{border:var(--linha) solid var(--preto); border-radius:var(--raio); padding:2.4mm 3mm}
+.plasticas h2{font-size:12px; margin-bottom:1.6mm}
+.plasticas table{border-collapse:collapse}
+.plasticas td{border:0; border-bottom:var(--linha) solid #C9C9C9; padding:.7mm 1mm; height:6.4mm}
+.plasticas tr:last-child td{border-bottom:0}
+.plasticas td.ref{font-weight:700; font-size:9.4px; text-align:left; width:16mm}
+.plasticas td.nome{font-size:9.2px; font-weight:500; text-align:left}
+.plasticas td.qtd{font-size:8.8px; font-weight:500; text-align:right; width:19mm}
+.plasticas .arte{height:6.2mm; width:13mm}
 
-/* ---------- passos ---------- */
-.passos{display:grid; grid-template-columns:repeat(2,1fr); gap:7px 9px; align-items:start}
-.passo{border-top:1.5px solid var(--tinta); padding-top:7px; display:flex; flex-direction:column; gap:5px; break-inside:avoid}
-.passo-topo{display:flex; gap:8px; align-items:baseline}
-.passo .num{
-  flex:none; width:21px; height:21px; background:var(--sinal); color:var(--sinal-tinta);
-  font:700 12.5px/21px Archivo,sans-serif; text-align:center; align-self:flex-start;
-}
-.passo h3{font-size:13px; font-weight:700; line-height:1.2}
-.passo .txt{font-size:11.8px; line-height:1.45; color:var(--tinta)}
-.passo .conf{
-  font-size:11px; line-height:1.4; color:var(--ardosia); background:var(--ardosia-fraca);
-  padding:5px 8px; border-left:2.5px solid var(--ardosia);
-}
-.passo .conf b{font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:9.5px; font-family:Archivo}
-.usa{display:flex; flex-wrap:wrap; gap:3px; padding-top:1px}
-.ficha{
-  font:500 10.5px/1 "IBM Plex Mono",monospace; padding:3.5px 6px;
-  border:1px solid var(--regua); background:var(--folha); white-space:nowrap;
-}
-.ficha b{font-weight:600; color:var(--ardosia)}
-.usa .nada{font:400 11px/1 "IBM Plex Sans",sans-serif; color:var(--tinta2); font-style:italic}
+/* ---------- montagem ---------- */
+.montagem{display:grid; grid-template-columns:repeat(4,1fr); gap:2.2mm}
+.etapa{border:var(--linha) solid var(--preto); border-radius:var(--raio);
+       padding:1.8mm 2.2mm 1.8mm; display:flex; flex-direction:column; gap:1.2mm; min-height:0}
+.etapa-topo{display:flex; gap:1.8mm; align-items:flex-start}
+.numero{flex:none; width:4.6mm; height:4.6mm; border-radius:1mm; background:var(--preto);
+        color:var(--branco); font-family:var(--display); font-weight:800; font-size:9.4px;
+        display:grid; place-items:center}
+.etapa h3{font-size:8.5px; font-weight:600; line-height:1.24}
+.fig{flex:1; display:grid; place-items:center; min-height:0; padding-block:.6mm}
+.fig .arte{max-height:22mm; height:22mm; width:100%}
+.fig .arte svg{object-fit:contain; height:100%}
+.usadas{font-size:7.8px; font-weight:500}
+.usadas .rot{font-weight:700; margin-bottom:.5mm}
+.usadas li{display:flex; gap:1.2mm; line-height:1.34}
+.usadas li::before{content:"•"}
 
-/* ---------- espelhadas ---------- */
-.espelho{border:1.5px solid var(--tinta); padding:10px 12px; display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center}
-.espelho .par{display:flex; gap:10px}
-.espelho .um{text-align:center}
-.espelho .um .arte{height:52px; width:66px}
-.espelho .um .lab{font:600 10.5px/1 "IBM Plex Mono",monospace; margin-top:4px}
-.espelho h3{font-size:12.5px; font-weight:700; margin-bottom:4px}
-.espelho p{font-size:11.5px; line-height:1.45; color:var(--tinta2)}
-
-/* ---------- atenção ---------- */
-.atencao{border:1.5px solid var(--tinta); display:grid; grid-template-columns:auto 1fr}
-.atencao .faixa{
-  background:var(--sinal); color:var(--sinal-tinta); padding:10px 12px; display:flex; align-items:center; gap:8px;
-  font:700 12px/1 Archivo,sans-serif; letter-spacing:.1em; text-transform:uppercase; writing-mode:horizontal-tb;
-}
-.atencao ul{margin:0; padding:9px 12px; display:grid; grid-auto-flow:column;
-             grid-template-rows:repeat(3,auto); grid-template-columns:repeat(2,1fr); gap:3px 16px}
-.atencao li{font-size:11.5px; line-height:1.4; list-style:none; display:flex; gap:7px}
-.atencao li::before{content:"—"; color:var(--tinta2); flex:none}
+/* etapa 1: a conferência das peças, no lugar da ilustração */
+.confere{display:grid; grid-template-columns:auto auto; gap:.3mm 2mm; font-size:7.8px;
+         font-weight:500; justify-content:start}
+.confere b{font-weight:700}
+.confere .med{color:#3A3A3A}
+.icones{display:grid; grid-template-columns:repeat(3,1fr); gap:1mm; margin-top:1.2mm}
+.icones .um{text-align:center}
+.icones .arte{height:5.8mm; width:100%}
+.icones .lab{font-size:6.4px; font-weight:700; margin-top:.3mm}
 
 /* ---------- rodapé ---------- */
-.rodape{margin-top:auto; padding-top:8px; border-top:1px solid var(--regua);
-        display:flex; justify-content:space-between; align-items:flex-end; gap:16px}
-.rodape .video{display:flex; gap:10px; align-items:center}
-.rodape .qr{width:52px; height:52px; border:1px solid var(--regua); display:grid; place-items:center;
-            font:500 8px/1.2 Archivo,sans-serif; text-align:center; color:var(--tinta2); padding:4px}
-.rodape .video h4{font-size:12px; font-weight:700}
-.rodape .video p{font-size:11px; color:var(--tinta2)}
-.rodape .id{font:400 10px/1.5 "IBM Plex Mono",monospace; color:var(--tinta2); text-align:right}
+.rodape{border:var(--linha) solid var(--preto); border-radius:var(--raio);
+        padding:2.4mm 3mm; display:grid; grid-template-columns:auto 1fr auto auto;
+        gap:3mm; align-items:center}
+.aviso{display:flex; gap:2.2mm; align-items:flex-start}
+.triangulo{flex:none; width:9mm; height:8mm}
+.aviso h2{font-size:12.5px; margin-bottom:1mm}
+.aviso li{font-size:8.4px; font-weight:500; line-height:1.36; display:flex; gap:1.2mm}
+.aviso li::before{content:"•"}
+.qr{width:14mm; height:14mm; display:grid; place-items:center; text-align:center;
+    border:var(--linha) solid var(--preto); font-size:5.6px; font-weight:600; padding:1mm}
+.qr img{width:100%; height:100%}
+.tarja{border:1.1px dashed var(--preto); border-radius:1.4mm; padding:3mm 6mm;
+       font-family:var(--display); font-weight:700; font-size:13px; letter-spacing:.005em;
+       text-transform:uppercase; white-space:nowrap}
 
-/* ---------- conferência (instrumento de edição, não sai na impressão) ---------- */
-.conferencia{
-  width:210mm; max-width:100%; background:var(--folha); border:1px solid var(--regua);
-  padding:14px 16px; box-shadow:var(--sombra);
-}
-.conferencia h2{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase}
-.conferencia .sub{font-size:11.5px; color:var(--tinta2); margin:4px 0 11px; max-width:70ch}
-.conf-grade{display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:1px; background:var(--regua)}
-.conf-item{background:var(--folha); padding:7px 9px; display:flex; justify-content:space-between; align-items:baseline; gap:8px}
-.conf-item .r{font:600 11.5px/1 "IBM Plex Mono",monospace}
-.conf-item .v{font:500 11.5px/1 "IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--tinta2)}
-.conf-item.ruim{background:var(--alerta-fraca)}
-.conf-item.ruim .r, .conf-item.ruim .v{color:var(--alerta); font-weight:600}
-.veredito{margin-top:11px; font-size:12px; padding:8px 11px; border-left:3px solid var(--ardosia); background:var(--ardosia-fraca); color:var(--ardosia)}
-.veredito.ruim{border-color:var(--alerta); background:var(--alerta-fraca); color:var(--alerta)}
-.pendencia{margin-top:11px; font-size:11.5px; line-height:1.5; padding:9px 11px; border:1px dashed var(--alerta); color:var(--tinta)}
-.pendencia b{font-family:Archivo; font-size:10px; letter-spacing:.11em; text-transform:uppercase; color:var(--alerta); display:block; margin-bottom:3px}
+/* ---------- conferência (instrumento de edição, não imprime) ---------- */
+.conferencia{width:210mm; max-width:100%; background:#fff; border:1px solid #A9ABA6;
+             border-radius:3px; padding:14px 16px}
+.conferencia h2{font-size:12.5px; margin-bottom:0}
+.conferencia .sub{font-size:11.5px; color:#4A4D49; margin:5px 0 11px; max-width:72ch}
+.grade{display:grid; grid-template-columns:repeat(auto-fill,minmax(146px,1fr)); gap:1px; background:#D5D6D2}
+.item{background:#fff; padding:7px 9px; display:flex; justify-content:space-between; gap:8px}
+.item .r{font:700 11.5px/1 Figtree,sans-serif}
+.item .v{font:500 11.5px/1 Figtree,sans-serif; font-variant-numeric:tabular-nums; color:#4A4D49}
+.item.ruim{background:#F6E4E1} .item.ruim .r,.item.ruim .v{color:#9B2C1F; font-weight:700}
+.veredito{margin-top:11px; font-size:12px; padding:8px 11px; border-left:3px solid #2F545E; background:#EDF2F3}
+.veredito.ruim{border-color:#9B2C1F; background:#F6E4E1; color:#9B2C1F}
+.pendencia{margin-top:10px; font-size:11.5px; line-height:1.5; padding:9px 11px; border:1px dashed #9B2C1F}
+.pendencia b{font-family:var(--display); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+             color:#9B2C1F; display:block; margin-bottom:3px}
 
-/* ---------- modo edição ---------- */
-body.editando [data-e]{
-  outline:1px dashed color-mix(in srgb,var(--ardosia) 55%, transparent); outline-offset:2px; border-radius:2px;
-}
-body.editando [data-e]:hover{background:color-mix(in srgb,var(--sinal) 20%, transparent)}
-body.editando [data-e]:focus{outline:2px solid var(--ardosia); background:transparent}
+/* ---------- edição ---------- */
+body.editando [data-e]{outline:1px dashed rgba(27,109,208,.6); outline-offset:2px}
+body.editando [data-e]:hover{background:rgba(27,109,208,.10)}
+body.editando [data-e]:focus{outline:2px solid #1B6DD0; background:transparent}
 
 /* ---------- telas estreitas ---------- */
 @media (max-width:820px){
-  .folha{width:100%; min-height:0; padding:18px 16px}
-  .passos, .antes{grid-template-columns:1fr}
-  .atencao ul{grid-auto-flow:row; grid-template-columns:1fr; grid-template-rows:none}
-  .specs, .totais{grid-template-columns:repeat(2,1fr)}
-  .specs div{border-bottom:1px solid var(--regua)}
-  .atencao{grid-template-columns:1fr}
-  .espelho{grid-template-columns:1fr}
-  .topo{grid-template-columns:1fr}
-  .ref-cartao{text-align:left}
-  .rodape{flex-direction:column; align-items:flex-start}
-  .rodape .id{text-align:left}
+  .folha{height:auto; padding:3mm}
+  .cabeca,.montagem{grid-template-columns:1fr}
+  .rodape{grid-template-columns:1fr; justify-items:start}
+  .fig .arte{height:40mm; max-height:40mm}
+  .conjunto .arte{height:70mm}
 }
 
 /* ---------- impressão ---------- */
@@ -215,9 +167,7 @@ body.editando [data-e]:focus{outline:2px solid var(--ardosia); background:transp
   body{background:#fff}
   .barra,.conferencia{display:none !important}
   .folhas{padding:0; gap:0}
-  .folha{width:210mm; min-height:297mm; box-shadow:none; break-after:page; page-break-after:always}
-  .folha:last-of-type{break-after:auto; page-break-after:auto}
-  .passo,.espelho,.atencao,.totais{break-inside:avoid}
+  .folha{box-shadow:none; width:210mm; height:297mm}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
 </style>
@@ -227,90 +177,49 @@ body.editando [data-e]:focus{outline:2px solid var(--ardosia); background:transp
 <script id="dados" type="application/json">
 {
   "produto": {
-    "sobrancelha": "Manual de montagem",
     "nome": "Arara de Roupas Nitron-MOB",
-    "ref": "850.004.N03",
-    "chamada": "Montagem por encaixe, sem ferramentas. Leia a lista de peças e confira tudo antes de começar.",
-    "specs": [
-      { "rot": "Montagem", "val": "Só encaixe — sem ferramentas" },
-      { "rot": "Carga do calceiro", "val": "10 kg" },
-      { "rot": "Carga do cabideiro", "val": "10 kg" }
-    ]
+    "ref": "REF. 850.004.N03",
+    "selo": "Montagem por encaixe. Não necessita ferramentas.",
+    "resistencia": "Resistência: Calceiro 10kg / Cabideiro 10kg"
   },
-  "antes": [
-    "Monte sobre uma superfície plana e livre — o chão é melhor que a mesa.",
-    "Separe as peças por referência antes do primeiro encaixe.",
-    "Pressione cada encaixe até o batente; encaixe pela metade tira o esquadro.",
-    "Deixe os parafusos de lado: esta arara não usa nenhum."
-  ],
   "pecas": [
-    { "ref": "850L",      "art": "850L",   "desc": "Conector L — canto de 2 vias",                       "qtd": 2,  "med": "—",       "grupo": "plastico" },
-    { "ref": "850TZ1",    "art": "850TZ1", "desc": "Trizeta 01 — canto de 3 vias",                       "qtd": 7,  "med": "—",       "grupo": "plastico" },
-    { "ref": "850TZ2",    "art": "850TZ2", "desc": "Trizeta 02 — canto de 3 vias, espelhada da 850TZ1",  "qtd": 7,  "med": "—",       "grupo": "plastico" },
-    { "ref": "850H",      "art": "850H",   "desc": "Porta Haste — apoia as ripas do calceiro",           "qtd": 16, "med": "—",       "grupo": "plastico" },
-    { "ref": "850T",      "art": "850T",   "desc": "Tampa — acabamento do topo das colunas",             "qtd": 4,  "med": "—",       "grupo": "plastico" },
-    { "ref": "PSC-04",    "art": "",       "desc": "Ripa de comprimento — lateral dos quadros",          "qtd": 8,  "med": "71,7 cm", "grupo": "madeira" },
-    { "ref": "PSA-05",    "art": "",       "desc": "Ripa de altura — coluna",                            "qtd": 12, "med": "51,3 cm", "grupo": "madeira" },
-    { "ref": "PST-01",    "art": "",       "desc": "Ripa travessa — fundo dos quadros",                  "qtd": 8,  "med": "43,7 cm", "grupo": "madeira" },
-    { "ref": "PSC-02",    "art": "",       "desc": "Ripa do calceiro — piso do calceiro",                "qtd": 8,  "med": "41,5 cm", "grupo": "madeira" },
-    { "ref": "BPE-01-AC", "art": "",       "desc": "Pé — fecha a base das colunas inferiores",           "qtd": 4,  "med": "6,0 cm",  "grupo": "pe" }
+    { "ref": "850L",      "art": "850L",      "desc": "L",                            "qtd": 2,  "med": "—",    "plastica": "L" },
+    { "ref": "850TZ1",    "art": "850TZ1",    "desc": "Trizeta 01",                   "qtd": 7,  "med": "—",    "plastica": "Trizeta 01" },
+    { "ref": "850TZ2",    "art": "850TZ2",    "desc": "Trizeta 02",                   "qtd": 7,  "med": "—",    "plastica": "Trizeta 02" },
+    { "ref": "850H",      "art": "850H",      "desc": "Porta Haste",                  "qtd": 16, "med": "—",    "plastica": "Porta Haste" },
+    { "ref": "850T",      "art": "850T",      "desc": "Tampa",                        "qtd": 4,  "med": "—",    "plastica": "Tampa" },
+    { "ref": "PSC-04",    "art": "PSC-04",    "desc": "Peça Simples para Comprimento","qtd": 8,  "med": "71,7", "plastica": "" },
+    { "ref": "PSA-05",    "art": "PSA-05",    "desc": "Peça Simples para Altura",     "qtd": 12, "med": "51,3", "plastica": "" },
+    { "ref": "PST-01",    "art": "PST-01",    "desc": "Peça Simples Travessa",        "qtd": 8,  "med": "43,7", "plastica": "" },
+    { "ref": "PSC-02",    "art": "PSC-02",    "desc": "Peça Simples para Comprimento","qtd": 8,  "med": "41,5", "plastica": "" },
+    { "ref": "BPE-01-AC", "art": "BPE-01-AC", "desc": "Peça de Pés Após Corte",       "qtd": 4,  "med": "6,0",  "plastica": "" }
   ],
   "passos": [
-    { "titulo": "Confira todas as peças",
-      "txt": "Separe as peças por referência e confira uma a uma contra a lista da frente. Peça faltando no meio da montagem obriga a desmontar tudo.",
-      "conf": "16 conectores, 36 ripas de madeira e 4 pés.",
-      "usa": [] },
-    { "titulo": "Monte o quadro inferior",
-      "txt": "Forme um retângulo com 2 ripas PSC-04 (71,7 cm) e 2 PST-01 (43,7 cm). Nos cantos, alterne as trizetas: 850TZ1 em dois cantos opostos na diagonal, 850TZ2 nos outros dois. Elas são espelhadas e não trocam de lugar.",
-      "conf": "As quatro bocas verticais devem apontar todas para o mesmo lado.",
+    { "titulo": "Separe e confira todas as peças.", "fig": "",         "usa": [] },
+    { "titulo": "Monte o quadro inferior.",         "fig": "passo-2",
       "usa": [["850TZ1",2],["850TZ2",2],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "Encaixe os pés",
-      "txt": "Encaixe um BPE-01-AC na boca inferior de cada canto do quadro que você acabou de montar.",
-      "conf": "Apoie no chão: o quadro não pode balançar em nenhum canto.",
+    { "titulo": "Encaixe os pés inferiores.",       "fig": "passo-3",
       "usa": [["BPE-01-AC",4]] },
-    { "titulo": "1º conjunto de colunas e quadro do calceiro",
-      "txt": "Encaixe 4 ripas PSA-05 (51,3 cm) nas bocas superiores do quadro inferior. Monte sobre elas o segundo quadro, com a mesma regra de canto da etapa 2.",
-      "conf": "Olhe de cima: os dois quadros têm que ficar exatamente um sobre o outro.",
+    { "titulo": "Encaixe o 1º conjunto de colunas e monte o quadro do calceiro.", "fig": "passo-4",
       "usa": [["PSA-05",4],["850TZ1",2],["850TZ2",2],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "Porta-hastes e piso do calceiro",
-      "txt": "Encaixe um 850H em cada ponta das 8 ripas PSC-02 (41,5 cm) — 2 por ripa, com a aba voltada para dentro. Apoie as 8 ripas sobre o quadro do calceiro, distribuídas por igual.",
-      "conf": "As 8 ripas ficam paralelas, no mesmo nível, e nenhuma gira quando você encosta a mão.",
+    { "titulo": "Encaixe os porta-hastes nas pontas das ripas, voltados para dentro, e monte o calceiro.", "fig": "passo-5",
       "usa": [["850H",16],["PSC-02",8]] },
-    { "titulo": "2º conjunto de colunas",
-      "txt": "Encaixe mais 4 ripas PSA-05 nas bocas superiores do quadro do calceiro.",
-      "conf": "Pressione até o batente — coluna curta de 2 mm desalinha os dois quadros de cima.",
+    { "titulo": "Encaixe o 2º conjunto de colunas.", "fig": "passo-6",
       "usa": [["PSA-05",4]] },
-    { "titulo": "Quadro intermediário",
-      "txt": "Monte o terceiro quadro sobre as colunas da etapa 6: 2 PSC-04 e 2 PST-01, com 850TZ1 e 850TZ2 alternadas na diagonal, como nas etapas 2 e 4.",
-      "conf": "Confira o esquadro agora. Depois deste ponto a estrutura já não cede para correção.",
-      "usa": [["850TZ1",2],["850TZ2",2],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "3º conjunto de colunas e quadro do cabideiro",
-      "txt": "Encaixe as 4 últimas ripas PSA-05 e feche o quadro do cabideiro com 2 PSC-04 e 2 PST-01. Nos cantos vão 2 conectores 850L e 1 par de trizetas 850TZ1 + 850TZ2.",
-      "conf": "É deste quadro que as roupas penduram. Pressione os quatro cantos com força antes de carregar.",
-      "usa": [["PSA-05",4],["850L",2],["850TZ1",1],["850TZ2",1],["PSC-04",2],["PST-01",2]] },
-    { "titulo": "Finalize com as tampas",
-      "txt": "Encaixe as 4 tampas 850T nas bocas que sobraram viradas para cima.",
-      "conf": "Nenhuma boca de conector pode ficar aberta no produto pronto.",
+    { "titulo": "Encaixe o 3º conjunto de colunas e monte o topo do cabideiro.", "fig": "passo-7",
+      "usa": [["PSA-05",4],["850L",2],["850TZ1",3],["850TZ2",3],["PSC-04",4],["PST-01",4]] },
+    { "titulo": "Finalize com as tampas.",           "fig": "passo-8",
       "usa": [["850T",4]] }
   ],
-  "espelho": {
-    "titulo": "850TZ1 e 850TZ2 são espelhadas",
-    "txt": "As duas trizetas têm a mesma forma e o mesmo peso, mas mãos opostas — uma não substitui a outra. Em cada quadro entram 2 de cada, em cantos opostos na diagonal. Trocar as duas é o erro de montagem que mais tira o esquadro."
-  },
   "atencao": [
     "Monte sobre superfície plana.",
     "Confira todas as peças antes de iniciar.",
     "Pressione os encaixes até o final.",
     "Não exceda a carga recomendada.",
-    "Uso doméstico.",
-    "Mantenha as peças pequenas longe de crianças durante a montagem."
+    "Uso doméstico."
   ],
-  "rodape": {
-    "videoTitulo": "Vídeo da montagem",
-    "videoTxt": "Aponte a câmera do celular para o código.",
-    "id": "NITRONPLAST · REF. 850.004.N03"
-  },
-  "pendencia": "Confirmar com a ferramentaria em quais 2 cantos do quadro do cabideiro entram os conectores 850L. A quantidade está fechada (2 unidades, etapa 8), mas a posição não foi verificada contra o desenho de conjunto."
+  "rodape": { "video": "Vídeo da montagem", "qr": "QR do vídeo" },
+  "pendencia": "Confirmar com a ferramentaria em quais 2 cantos do topo do cabideiro entram os conectores 850L. A quantidade fecha (2 unidades na etapa 7), mas a posição não foi conferida contra o desenho de conjunto — um canto de 2 vias não fecha sozinho um retângulo de 4 cantos."
 }
 </script>
 
@@ -319,188 +228,131 @@ body.editando [data-e]:focus{outline:2px solid var(--ardosia); background:transp
 
 const $ = (s, r) => (r || document).querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
-const FONTES = "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap";
+const FONTES = "https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap";
+const BARRAS = ['PSC-04', 'PSA-05', 'PST-01', 'PSC-02'];
 
 let DADOS = JSON.parse($('#dados').textContent);
 let editando = false, sujo = false;
 
-/* --- leitura/escrita por caminho, ex.: "passos.3.txt" --- */
 const leia = p => p.split('.').reduce((o, k) => o && o[k], DADOS);
-function escreva(p, v) {
-  const ks = p.split('.'), ult = ks.pop();
-  ks.reduce((o, k) => o[k], DADOS)[ult] = v;
-}
-
-/* --- campo editável: um só lugar decide como texto vira HTML --- */
-const campo = (caminho, tag, cls) => {
+function escreva(p, v) { const ks = p.split('.'), u = ks.pop(); ks.reduce((o, k) => o[k], DADOS)[u] = v; }
+const campo = (c, tag, cls) => {
   const t = tag || 'span';
-  return `<${t}${cls ? ` class="${cls}"` : ''} data-e="${caminho}">${esc(leia(caminho))}</${t}>`;
+  return `<${t}${cls ? ` class="${cls}"` : ''} data-e="${c}">${esc(leia(c))}</${t}>`;
 };
+const arte = (ref, cls) =>
+  ART[ref] ? `<span class="arte${cls ? ' ' + cls : ''}" aria-hidden="true">${ART[ref]}</span>` : '';
 
-const arte = ref => ART[ref] ? `<span class="arte" aria-hidden="true">${ART[ref]}</span>` : '';
-
-/* --- a conta: BOM declarado x soma das etapas --- */
+/* a conta: o que a lista declara x o que as etapas somam */
 function confere() {
   const soma = {};
   DADOS.passos.forEach(p => (p.usa || []).forEach(([r, q]) => soma[r] = (soma[r] || 0) + q));
-  return DADOS.pecas.map(p => ({
-    ref: p.ref, lista: p.qtd, etapas: soma[p.ref] || 0, ok: (soma[p.ref] || 0) === p.qtd
-  }));
+  return DADOS.pecas.map(p => ({ ref: p.ref, lista: p.qtd, etapas: soma[p.ref] || 0,
+                                 ok: (soma[p.ref] || 0) === p.qtd }));
 }
 
-function totais() {
-  const q = r => (DADOS.pecas.find(p => p.ref === r) || { qtd: 0 }).qtd;
-  const g = nome => DADOS.pecas.filter(p => p.grupo === nome).reduce((a, p) => a + p.qtd, 0);
-  return [
-    { v: q('850L') + q('850TZ1') + q('850TZ2'), r: 'Conectores de canto' },
-    { v: q('850H') + q('850T'), r: 'Porta-hastes e tampas' },
-    { v: g('madeira'), r: 'Ripas de madeira' },
-    { v: g('pe'), r: 'Pés' }
-  ];
-}
-
-/* ---------- desenho da página ---------- */
-function folhaUm() {
+/* ---------- topo ---------- */
+function cabeca() {
   const p = DADOS.produto;
-  return `
-  <section class="folha">
-    <header class="topo">
-      <div>
-        ${campo('produto.sobrancelha', 'div', 'sobrancelha')}
-        <h1 data-e="produto.nome">${esc(p.nome)}</h1>
-        ${campo('produto.chamada', 'p', 'chamada')}
-      </div>
-      <div class="ref-cartao">
-        <div class="rot">Referência</div>
-        <div class="cod" data-e="produto.ref">${esc(p.ref)}</div>
-      </div>
-    </header>
+  return `<div class="cabeca">
+    <div>
+      <h1 data-e="produto.nome">${esc(p.nome)}</h1>
+      ${campo('produto.ref', 'div', 'ref')}
+      ${campo('produto.selo', 'div', 'selo')}
+      ${campo('produto.resistencia', 'div', 'resist')}
 
-    <dl class="specs">
-      ${p.specs.map((s, i) => `<div>
-        <dt data-e="produto.specs.${i}.rot">${esc(s.rot)}</dt>
-        <dd data-e="produto.specs.${i}.val">${esc(s.val)}</dd></div>`).join('')}
-    </dl>
-
-    <section>
-      <div class="secao"><h2>Antes de começar</h2><span class="traco"></span></div>
-      <ul class="antes">
-        ${DADOS.antes.map((t, i) => `<li><span class="qd"></span>${campo('antes.' + i)}</li>`).join('')}
-      </ul>
-    </section>
-
-    <section>
-      <div class="secao"><h2>Lista de peças</h2><span class="traco"></span>
-        <span class="nota">Medidas das ripas de madeira em centímetros.</span></div>
-      <table class="bom">
+      <h2 style="margin-top:3mm">Peças inclusas</h2>
+      <table class="inclusas">
         <thead><tr>
-          <th class="n">Nº</th><th>Peça</th><th>Ref.</th><th>Descrição</th>
-          <th class="n">Qtde.</th><th class="n">Medida</th>
+          <th style="width:8%">Número</th><th style="width:17.5%">Ref.</th>
+          <th style="width:18%">Ilustração</th><th style="width:30%">Descrição</th>
+          <th style="width:11.5%">Qtde.</th><th style="width:15%">Medida (cm)</th>
         </tr></thead>
-        <tbody>
-          ${DADOS.pecas.map((c, i) => `<tr>
-            <td class="n">${i + 1}</td>
-            <td class="cel-art">${arte(c.art)}</td>
-            <td class="cel-ref" data-e="pecas.${i}.ref">${esc(c.ref)}</td>
-            <td class="cel-desc" data-e="pecas.${i}.desc">${esc(c.desc)}</td>
-            <td class="cel-qtd" data-e="pecas.${i}.qtd" data-num="1">${c.qtd}</td>
-            <td class="cel-med" data-e="pecas.${i}.med">${esc(c.med)}</td>
-          </tr>`).join('')}
-        </tbody>
+        <tbody>${DADOS.pecas.map((c, i) => `<tr>
+          <td>${i + 1}</td>
+          <td class="ref" data-e="pecas.${i}.ref">${esc(c.ref)}</td>
+          <td>${arte(c.art, BARRAS.includes(c.ref) ? 'barra-mad' : '')}</td>
+          <td class="desc" data-e="pecas.${i}.desc">${esc(c.desc)}</td>
+          <td class="qtd" data-e="pecas.${i}.qtd" data-num="1">${c.qtd}</td>
+          <td data-e="pecas.${i}.med">${esc(c.med)}</td>
+        </tr>`).join('')}</tbody>
       </table>
-    </section>
-
-    <section>
-      <div class="secao"><h2>O que vem na caixa</h2><span class="traco"></span>
-        <span class="nota">${DADOS.pecas.reduce((a, c) => a + c.qtd, 0)} peças no total.</span></div>
-      <div class="totais">
-        ${totais().map(t => `<div><div class="v">${t.v}</div><div class="r">${t.r}</div></div>`).join('')}
-      </div>
-    </section>
-
-    <div class="rodape">
-      <div class="video">
-        <div class="qr">QR do vídeo</div>
-        <div>
-          <h4 data-e="rodape.videoTitulo">${esc(DADOS.rodape.videoTitulo)}</h4>
-          ${campo('rodape.videoTxt', 'p')}
-        </div>
-      </div>
-      <div class="id"><span data-e="rodape.id">${esc(DADOS.rodape.id)}</span><br>Folha 1 de 2</div>
+      <p class="nota">Medidas das peças de madeira em centímetros.</p>
     </div>
+
+    <div class="direita">
+      <div class="conjunto">${arte('conjunto')}</div>
+      <section class="plasticas">
+        <h2>Peças plásticas</h2>
+        <table><tbody>${DADOS.pecas.filter(c => c.plastica).map(c => `<tr>
+          <td class="ref">${esc(c.ref)}</td>
+          <td style="width:16mm">${arte(c.art)}</td>
+          <td class="nome">${esc(c.plastica)}</td>
+          <td class="qtd">(${c.qtd} peça${c.qtd > 1 ? 's' : ''})</td>
+        </tr>`).join('')}</tbody></table>
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ---------- etapa 1: a conferência, no lugar da ilustração ---------- */
+function listaConferencia() {
+  const mad = DADOS.pecas.filter(c => !c.plastica);
+  const pla = DADOS.pecas.filter(c => c.plastica);
+  return `<div class="confere">
+      ${mad.map(c => `<b>${esc(c.ref)}</b><span class="med">${c.qtd} peças — ${esc(c.med)} cm</span>`).join('')}
+    </div>
+    <div class="icones">
+      ${pla.map(c => `<div class="um">${arte(c.art)}<div class="lab">${esc(c.ref)}</div></div>`).join('')}
+    </div>`;
+}
+
+function montagem() {
+  return `<section>
+    <h2>Montagem</h2>
+    <div class="montagem">${DADOS.passos.map((s, i) => `<article class="etapa">
+      <div class="etapa-topo">
+        <span class="numero">${i + 1}</span>
+        <h3 data-e="passos.${i}.titulo">${esc(s.titulo)}</h3>
+      </div>
+      <div class="fig">${s.fig ? arte(s.fig) : listaConferencia()}</div>
+      ${(s.usa && s.usa.length) ? `<div class="usadas">
+        <div class="rot">REF. usadas:</div>
+        <ul>${s.usa.map(([r, q]) => `<li>${q}× ${esc(r)}</li>`).join('')}</ul></div>` : ''}
+    </article>`).join('')}</div>
   </section>`;
 }
 
-function folhaDois() {
-  const e = DADOS.espelho;
-  return `
-  <section class="folha">
-    <header class="topo">
+function rodape() {
+  return `<div class="rodape">
+    <div class="aviso">
+      <svg class="triangulo" viewBox="0 0 34 30" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M17 2.5 32 28H2z"/><path d="M17 11v8.5" stroke-linecap="round"/>
+        <circle cx="17" cy="23.6" r="1.25" fill="currentColor" stroke="none"/>
+      </svg>
       <div>
-        <div class="sobrancelha">Passo a passo</div>
-        <h1>${esc(DADOS.produto.nome)}</h1>
+        <h2>Atenção</h2>
+        <ul>${DADOS.atencao.map((t, i) => `<li>${campo('atencao.' + i)}</li>`).join('')}</ul>
       </div>
-      <div class="ref-cartao"><div class="rot">Referência</div><div class="cod">${esc(DADOS.produto.ref)}</div></div>
-    </header>
-
-    <div class="passos">
-      ${DADOS.passos.map((s, i) => `<article class="passo">
-        <div class="passo-topo">
-          <span class="num">${i + 1}</span>
-          <h3 data-e="passos.${i}.titulo">${esc(s.titulo)}</h3>
-        </div>
-        ${campo('passos.' + i + '.txt', 'p', 'txt')}
-        <p class="conf"><b>Confira</b><br><span data-e="passos.${i}.conf">${esc(s.conf)}</span></p>
-        ${(s.usa && s.usa.length)
-          ? `<div class="usa">${s.usa.map(([r, q]) => `<span class="ficha"><b>${q}×</b> ${esc(r)}</span>`).join('')}</div>`
-          : ''}
-      </article>`).join('')}
     </div>
-
-    <section class="espelho">
-      <div class="par">
-        <div class="um">${arte('850TZ1')}<div class="lab">850TZ1</div></div>
-        <div class="um">${arte('850TZ2')}<div class="lab">850TZ2</div></div>
-      </div>
-      <div>
-        <h3 data-e="espelho.titulo">${esc(e.titulo)}</h3>
-        ${campo('espelho.txt', 'p')}
-      </div>
-    </section>
-
-    <section class="atencao">
-      <div class="faixa">⚠ Atenção</div>
-      <ul>${DADOS.atencao.map((t, i) => `<li>${campo('atencao.' + i)}</li>`).join('')}</ul>
-    </section>
-
-    <div class="rodape">
-      <div class="video">
-        <div class="qr">QR do vídeo</div>
-        <div><h4>${esc(DADOS.rodape.videoTitulo)}</h4><p>${esc(DADOS.rodape.videoTxt)}</p></div>
-      </div>
-      <div class="id">${esc(DADOS.rodape.id)}<br>Folha 2 de 2</div>
-    </div>
-  </section>`;
+    <div></div>
+    <div class="qr" data-e="rodape.qr">${esc(DADOS.rodape.qr)}</div>
+    <div class="tarja" data-e="rodape.video">${esc(DADOS.rodape.video)}</div>
+  </div>`;
 }
 
-function painelConferencia() {
-  const linhas = confere(), erros = linhas.filter(l => !l.ok);
-  return `
-  <section class="conferencia">
+function painel() {
+  const l = confere(), erros = l.filter(x => !x.ok);
+  return `<section class="conferencia">
     <h2>Conferência da lista</h2>
-    <p class="sub">Compara a quantidade declarada na lista de peças com a soma do que as etapas realmente pedem.
-       Esta seção é um instrumento de edição e não sai na impressão.</p>
-    <div class="conf-grade">
-      ${linhas.map(l => `<div class="conf-item ${l.ok ? '' : 'ruim'}">
-        <span class="r">${esc(l.ref)}</span>
-        <span class="v">${l.etapas} / ${l.lista}</span></div>`).join('')}
-    </div>
-    <p class="veredito ${erros.length ? 'ruim' : ''}">
-      ${erros.length
-        ? `${erros.length} referência${erros.length > 1 ? 's' : ''} não fecha${erros.length > 1 ? 'm' : ''}: `
-          + erros.map(l => `${esc(l.ref)} (etapas somam ${l.etapas}, a lista diz ${l.lista})`).join('; ') + '.'
-        : 'As 10 referências fecham: a soma das etapas bate com a lista de peças.'}
-    </p>
+    <p class="sub">Compara a quantidade declarada em PEÇAS INCLUSAS com a soma do que as 8 etapas
+       pedem. É um instrumento de edição — não sai na impressão.</p>
+    <div class="grade">${l.map(x => `<div class="item ${x.ok ? '' : 'ruim'}">
+      <span class="r">${esc(x.ref)}</span><span class="v">${x.etapas} / ${x.lista}</span></div>`).join('')}</div>
+    <p class="veredito ${erros.length ? 'ruim' : ''}">${erros.length
+      ? erros.map(x => `${esc(x.ref)}: etapas somam ${x.etapas}, a lista diz ${x.lista}`).join('; ') + '.'
+      : 'As 10 referências fecham: a soma das etapas bate com a lista de peças.'}</p>
     <div class="pendencia"><b>Pendência aberta</b><span data-e="pendencia">${esc(DADOS.pendencia)}</span></div>
   </section>`;
 }
@@ -514,57 +366,53 @@ function desenha() {
       <button class="btn" id="bt-imprimir">Imprimir / PDF</button>
       <button class="btn principal" id="bt-salvar" disabled>Salvar versão</button>
     </div>
-    <div class="folhas">${folhaUm()}${folhaDois()}${painelConferencia()}</div>`;
-
-  $('#bt-editar').addEventListener('click', alternaEdicao);
-  $('#bt-imprimir').addEventListener('click', () => { if (editando) alternaEdicao(); print(); });
+    <div class="folhas">
+      <section class="folha"><div class="moldura">
+        ${cabeca()}${montagem()}${rodape()}
+      </div></section>
+      ${painel()}
+    </div>`;
+  $('#bt-editar').addEventListener('click', alterna);
+  $('#bt-imprimir').addEventListener('click', () => { if (editando) alterna(); print(); });
   $('#bt-salvar').addEventListener('click', salva);
-  if (editando) ligaCampos();
-  atualizaBarra();
+  if (editando) liga();
+  barra();
 }
 
-function ligaCampos() {
-  document.querySelectorAll('[data-e]').forEach(el => {
-    el.contentEditable = 'true';
-    el.spellcheck = true;
-  });
-}
+const liga = () => document.querySelectorAll('[data-e]').forEach(el => {
+  el.contentEditable = 'true'; el.spellcheck = true;
+});
 
-function alternaEdicao() {
-  if (editando) {          // saindo: recolhe o que foi digitado
+function alterna() {
+  if (editando) {
     document.querySelectorAll('[data-e]').forEach(el => {
       const txt = el.innerText.replace(/\s+/g, ' ').trim();
       const val = el.dataset.num ? (parseInt(txt, 10) || 0) : txt;
       if (val !== leia(el.dataset.e)) { escreva(el.dataset.e, val); sujo = true; }
     });
-    editando = false;
-    document.body.classList.remove('editando');
-    desenha();             // redesenha para recalcular totais e conferência
+    editando = false; document.body.classList.remove('editando'); desenha();
   } else {
-    editando = true;
-    document.body.classList.add('editando');
-    ligaCampos();
-    atualizaBarra();
+    editando = true; document.body.classList.add('editando'); liga(); barra();
   }
 }
 
-function atualizaBarra() {
+function barra() {
   const b = $('#bt-editar');
-  if (b) { b.setAttribute('aria-pressed', String(editando)); b.textContent = editando ? 'Concluir edição' : 'Editar textos'; }
+  if (b) { b.setAttribute('aria-pressed', String(editando));
+           b.textContent = editando ? 'Concluir edição' : 'Editar textos'; }
   const s = $('#bt-salvar'); if (s) s.disabled = !sujo || editando;
   const r = $('#recado');
   if (r) r.textContent = editando ? 'Clique em qualquer texto para reescrever.'
         : sujo ? 'Há alterações não salvas.' : '';
 }
 
-/* --- documento publicado: o mesmo molde, só os dados mudam --- */
+/* o mesmo molde, só os dados mudam */
 function documento() {
   const css = $('#css').textContent, js = $('#js').textContent;
   const json = JSON.stringify(DADOS, null, 1).replace(/<\//g, '<\\/');
-  return '<!doctype html>\n<html lang="pt-BR">\n<head>\n'
-    + '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n'
-    + `<title>${esc(DADOS.produto.nome)}</title>\n`
-    + `<link rel="stylesheet" href="${FONTES}">\n`
+  return '<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
+    + '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+    + `<title>${esc(DADOS.produto.nome)}</title>\n<link rel="stylesheet" href="${FONTES}">\n`
     + `<style id="css">${css}</style>\n</head>\n<body>\n<div id="app"></div>\n`
     + `<script id="dados" type="application/json">\n${json}\n<\/script>\n`
     + `<script id="js">${js}<\/script>\n</body>\n</html>`;
@@ -582,10 +430,10 @@ async function salva() {
     bt.textContent = 'Salvar versão';
     const r = $('#recado');
     if (r) r.textContent = (err && err.code === 'conflict')
-      ? 'Outra pessoa salvou primeiro. A página vai recarregar na versão dela.'
-      : 'Não foi possível salvar aqui — use Imprimir / PDF para guardar esta versão.';
+      ? 'Outra pessoa salvou primeiro — a página vai recarregar na versão dela.'
+      : 'Não deu para salvar aqui. Use Imprimir / PDF para guardar esta versão.';
   }
-  atualizaBarra();
+  barra();
 }
 
 desenha();
