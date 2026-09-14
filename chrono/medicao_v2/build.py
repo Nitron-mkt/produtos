@@ -18,8 +18,11 @@ DIA_CAP, DIA_REL = 1.70, 0.25   # traco de 0,32: o relevo desce junto p/ o molde
 # os 31 numeros nasçam todos na mesma altura e a banda vire superficie de aperto
 MESA_RI, MESA_RE, MESA_H = 14.20, 18.75, 0.18
 CONCHA_A0, CONCHA_A1, CONCHA_Y0 = 55.0, 125.0, 36.15   # setor e fundo da concha
-POST_R, POST_TOP = 5.40, 38.90     # poste central: centra o aro e prende a travinha
-GOLA_R, GOLA_Y0, GOLA_Y1 = 4.70, 38.15, 38.55   # canaleta do estalo
+POST_R, POST_TOP = 5.40, 38.05     # poste reto, rente ao topo do aro: o cubo da
+                                   # travinha passa por cima dele, nao em volta
+CHAPA_Y0 = 35.40                   # face de BAIXO da valvula no eixo — medida no seu STL
+FURO_R   = 2.50                    # furo passante: sai por baixo da valvula
+FURO_CH  = 0.35                    # chanfro de entrada no topo do poste
 # indice FIXO do mes: fica na MESA (solida e plana em todo o giro), as 12h, e
 # aponta para dentro, para o aro. Tudo do conjunto le em pe as 12h.
 IDX_RI, IDX_RE, IDX_W, IDX_REL = 14.25, 15.30, 0.90, 0.30
@@ -30,13 +33,17 @@ ARO_RI, ARO_RE, ARO_ESP = 5.60, 12.90, 0.80
 ARO_Y0 = FACE+0.02; ARO_Y1 = ARO_Y0+ARO_ESP
 MES_R, MES_CAP, MES_REL, MES_XS = 10.80, 1.90, 0.30, 0.78
 # ---- M03 travinha com seta (gira livre no poste) ----
-CUBO_RI, CUBO_RE = 5.55, 6.90      # colar enxuto: parede de 1,35
-COL_Y0, COL_Y1   = 38.10, 38.95    # topo rente ao poste (38,90)
+CUBO_RI, CUBO_RE = 2.20, 6.90      # cubo: cobre o poste e segura o aro
+COL_Y0, COL_Y1   = 38.15, 38.95    # 0,10 acima do poste e do aro (o detente tem 0,16)
+PINO_RE          = 2.40            # 0,10 de folga radial no furo de 2,50 — gira solto
+PINO_Y1, PINO_Y0 = 34.00, CHAPA_Y0 # ponta do pino e ombro de retencao
+FARPA_R          = 2.90            # 0,40 de encaixe radial sobre o furo de 2,50
+FENDA_W, FENDAS  = 0.60, 4         # 4 pernas
 BRACO_Y0         = 38.45           # face de baixo do braco interno -> 0,50 de espessura
 EXT_Y0, EXT_Y1   = 37.95, 38.45    # braco externo, 0,50, rente aos numeros do dia
 RAMPA_R0, RAMPA_R1 = 13.90, 14.55
 MEIA_BR, MEIA_PT = 1.05, 0.70      # meia-largura do braco e da ponta (era 1,60)
-ESP_H, ESP_W     = 0.60, 0.80      # espigao de rigidez no dorso do braco
+ESP_H, ESP_W     = 0.50, 0.80      # espigao: para no mesmo 38,95 do cubo, topo raso
 
 _FP=FontProperties(family="FreeSans", weight="bold")
 def glyphs(txt, cap, xs=1.0):
@@ -68,11 +75,10 @@ corte=trimesh.creation.box(extents=[60,8,60]); corte.apply_translation([0,FACE+4
 base=boolean('difference',[valv,corte])          # <<< parte de baixo REPLICADA, intacta
 print('parte de baixo replicada: %.1f mm3, topo em Y %.2f'%(base.volume, base.bounds[1][1]))
 
-# poste: casca anular + nucleo (revolve ate o eixo gera faces degeneradas)
-casca=revolve([(POST_R,FACE),(POST_R,GOLA_Y0),(GOLA_R,GOLA_Y0+0.18),(GOLA_R,GOLA_Y1-0.18),
-               (POST_R,GOLA_Y1),(POST_R,POST_TOP-0.30),(POST_R-0.30,POST_TOP),
-               (3.00,POST_TOP),(3.00,FACE)])
-poste=boolean('union',[casca, cyl(3.10, FACE, POST_TOP, n=96)])
+# poste reto e VAZADO. O rebaixo da versao anterior era um undercut no lado de
+# fora do macho — pedia gaveta ou arranque forcado. Furo reto e pino de macho.
+poste=revolve([(POST_R,FACE),(POST_R,POST_TOP-0.30),(POST_R-0.30,POST_TOP),
+               (FURO_R,POST_TOP),(FURO_R,FACE)])
 # mesa: anel plano + enchimento da concha, so na cunha das 12h (a face de baixo
 # da valvula nessa cunha nao passa de Y 35,40, entao nada e acrescentado por baixo)
 mesa=revolve([(MESA_RI,FACE-0.60),(MESA_RE,FACE-0.60),(MESA_RE,FACE+MESA_H-0.10),
@@ -93,6 +99,13 @@ idx=place(idx, radians(IDX_ANG), 0.0, FACE+MESA_H+IDX_REL, IDX_REL)
 # 2 molas de detente (12 posicoes do aro => par a 180 deg fecha em 6 passos)
 mol=[ball(0.42, DET_R*cos(radians(a)), FACE+0.18-0.42, DET_R*sin(radians(a))) for a in (0,180)]
 m01=boolean('union',[base,mesa,ench,poste,idx]+dias+mol)
+# furo passante no eixo, com chanfro de entrada. Nao mexe na vedacao: a valvula
+# veda nos 12h contra o ressalto que cerca o respiro, e a cavidade debaixo dela
+# ja respira para fora pela folga de 0,22 mm em volta do disco.
+furo=boolean('union',[cyl(FURO_R, CHAPA_Y0-2.0, POST_TOP+0.5, n=144),
+                      revolve([(FURO_R,POST_TOP-FURO_CH),(FURO_R+FURO_CH,POST_TOP),
+                               (FURO_R+FURO_CH,POST_TOP+0.5),(FURO_R,POST_TOP+0.5)])])
+m01=boolean('difference',[m01,furo])
 print('M01 valvula+dias : faces=%6d  vol=%7.1f  massa=%.2f g'%(len(m01.faces),m01.volume,m01.volume*0.905/1000))
 
 # =================================================== MOLDE 02 — ARO DOS MESES
@@ -114,8 +127,20 @@ m02=boolean('difference',[boolean('union',[aro]+txt), trimesh.util.concatenate(e
 print('M02 aro dos meses: faces=%6d  vol=%7.1f  massa=%.2f g'%(len(m02.faces),m02.volume,m02.volume*0.905/1000))
 
 # =================================================== MOLDE 03 — TRAVINHA COM SETA
-colar=revolve([(CUBO_RI,COL_Y0),(CUBO_RE,COL_Y0),(CUBO_RE,COL_Y1),(CUBO_RI,COL_Y1),
-               (CUBO_RI,GOLA_Y1),(CUBO_RI-0.45,GOLA_Y1-0.10),(CUBO_RI-0.45,GOLA_Y0+0.10),(CUBO_RI,GOLA_Y0)])
+colar=revolve([(CUBO_RI,COL_Y0),(CUBO_RE,COL_Y0),(CUBO_RE,COL_Y1-0.20),
+               (CUBO_RE-0.20,COL_Y1),(CUBO_RI,COL_Y1)])
+# pino passante: tubo de parede 0,85 na raiz e 0,55 na farpa (perna afilada da
+# 1,6x mais flecha que perna reta), ombro de retencao a 90 graus e ponta a 30.
+pino=revolve([(1.55,COL_Y1),(PINO_RE,COL_Y1),(PINO_RE,PINO_Y0),(FARPA_R,PINO_Y0),
+              (2.05,PINO_Y1),(1.85,PINO_Y1),(1.85,PINO_Y0),(1.55,COL_Y1)])  # ombro a 90 graus
+fendas=[]
+for i in range(FENDAS):
+    a=radians(45+i*360.0/FENDAS)
+    pr=trimesh.creation.extrude_polygon(
+        SP([(-FENDA_W/2,0.0),(FENDA_W/2,0.0),(FENDA_W/2,3.60),(-FENDA_W/2,3.60)]),
+        height=COL_Y0-PINO_Y1+0.2)
+    fendas.append(place(pr, a, 0.0, COL_Y0, COL_Y0-PINO_Y1+0.2))
+pino=boolean('difference',[pino, trimesh.util.concatenate(fendas)])
 liga     =barra(6.4, 7.2, COL_Y0, COL_Y1, 1.30)
 braco_int=barra(6.4, RAMPA_R0, BRACO_Y0, COL_Y1, MEIA_BR)
 rampa    =trimesh.creation.extrude_polygon(
@@ -134,7 +159,7 @@ ext=place(ext, radians(90), 0.0, EXT_Y1, EXT_Y1-EXT_Y0)
 esp=trimesh.creation.extrude_polygon(
       SP([(-ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,RAMPA_R1-0.10),(0.0,15.30)]), height=ESP_H)
 esp=place(esp, radians(90), 0.0, EXT_Y1+ESP_H, ESP_H)
-m03=boolean('union',[colar,liga,braco_int,rampa,ext,esp])
+m03=boolean('union',[colar,pino,liga,braco_int,rampa,ext,esp])
 # corta a rampa em diagonal: de (RAMPA_R0, BRACO_Y0) ate (RAMPA_R1, EXT_Y0)
 corte_r=trimesh.creation.extrude_polygon(
     SP([(-2.5,RAMPA_R0-0.2),(2.5,RAMPA_R0-0.2),(2.5,RAMPA_R1+0.2),(-2.5,RAMPA_R1+0.2)]), height=3.0)

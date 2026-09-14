@@ -6,12 +6,12 @@ seu arquivo, e a prova disso é a interferência contra a tampa (abaixo).
 
 | Arquivo | Peça | Gira? | Massa PP |
 |---|---|---|---|
-| `Chrono_M01_Valvula_Dias.stl` | válvula + 31 dias em relevo | **não** — é a válvula | 2,25 g |
+| `Chrono_M01_Valvula_Dias.stl` | válvula + 31 dias, **furada no eixo** | **não** — é a válvula | 2,13 g |
 | `Chrono_M02_Aro_Meses.stl` | aro dos 12 meses | **sim** | 0,30 g |
-| `Chrono_M03_Travinha_Seta.stl` | travinha com a seta | **sim, solta no poste** | 0,05 g |
-| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,60 g |
+| `Chrono_M03_Travinha_Seta.stl` | travinha com seta e **pino passante** | **sim, solta no pino** | 0,14 g |
+| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,57 g |
 
-Válvula original: 2,04 g. O datador inteiro custa **+0,56 g de PP** por tampa.
+Válvula original: 2,04 g. O datador inteiro custa **+0,53 g de PP** por tampa.
 
 ## Como se lê — e por que a seta gira
 
@@ -70,9 +70,23 @@ VARREDURA (24 posicoes de giro)
   aro entre encaixes                      0.0580 mm3  <- o detente, e de projeto
 
 ALTURAS (aro de empilhamento da tampa em Y 39,72)
-  M01 valvula+dias     Y 32.57 .. 38.90   folga 0.82 mm
+  M01 valvula+dias     Y 32.57 .. 38.05   folga 1.67 mm
   M02 aro dos meses    Y 37.25 .. 38.35   folga 1.37 mm
-  M03 travinha/seta    Y 37.95 .. 39.05   folga 0.67 mm
+  M03 travinha/seta    Y 34.00 .. 38.95   folga 0.77 mm
+
+PINO PASSANTE
+  ponta do pino chega a Y 34.00  — passa 1.40 mm alem da chapa da valvula
+  raio do furo na saida 2.50  |  raio da farpa 2.90  ->  encaixe radial 0.40 mm
+  folga ate o fundo do poco da tampa (Y 32,15): 1.85 mm
+
+CURSO DO GANGORRA (pivo em Y 34,69, meia altura das orelhas)
+  graus   conjunto novo   valvula original
+  -3.60         0.236            0.236
+  -1.80         0.075            0.075
+  +0.00         1.636            1.636
+  +1.80        28.159           28.159
+  +3.60        77.038           77.038
+  -> curva IDENTICA: o pino nao rouba curso do gangorra
 ```
 
 **+0,0000 mm³** é o número que importa: a válvula nova aperta a tampa exatamente
@@ -89,7 +103,11 @@ como a que já está em linha. Nada mudou embaixo.
 | traço mais fino dos dias | **0,32 mm** |
 | grafia dos dias | **1 a 9 sem zero**, 10 a 31 com dois dígitos |
 | índice fixo do mês | 12 h · r 14,25–15,30 · relevo 0,30 |
-| poste central | r 5,40 · topo Y 38,90 · canaleta r 4,70 de 38,15 a 38,55 |
+| poste central | r 5,40 · topo Y 38,05 · **reto, sem rebaixo** |
+| furo passante na válvula | Ø5,00 · de Y 35,40 a 38,05 · chanfro 0,35 na entrada |
+| pino da travinha | Ø4,80 (folga radial 0,10) · canal interno Ø3,10 aberto nas duas pontas |
+| farpa | Ø5,80 · encaixe radial **0,40** · ombro a **90°** · ponta a 31° |
+| pernas do pino | 4 · vão 2,75 · parede 0,85 na raiz → 0,55 na farpa |
 | aro dos meses | r 5,60–12,90 · espessura 0,80 · Y 37,25→38,05 |
 | 12 meses | r 10,80 · caixa alta 1,90 condensada 0,78 · relevo 0,30 |
 | folga entre dois meses | **1,39 mm** (palavra 4,26 em passo 5,65) |
@@ -108,8 +126,9 @@ como a que já está em linha. Nada mudou embaixo.
   campo VDI 27-30), não de tampografia. Em impressão 3D com bico de 0,40 o traço é
   **menor que uma extrusão: o número não forma**. Para provar a leitura, bico de
   0,25 mm ou escala ≥ 2×.
-- **Fecho do colar da travinha.** A barbela interna de 0,45 mm tem de estalar na
-  canaleta do poste e ainda girar solta. Isso é ensaio de peça, não de CAD.
+- **Força de inserção do pino.** As quatro pernas flexionam 0,40 mm num vão de
+  2,75 — **2,6% de deformação** contra os 8% que o PP aceita numa montagem única.
+  A conta fecha com folga, mas quem decide é a prensa de montagem.
 - **A seta não tem detente.** O aro dos meses trava em 12 posições, mas o dia é
   posicionado a olho. Se quiser estalo também no dia, cabem 31 dentes no colar
   (passo de 1,12 mm em r 5,55) — é detalhe fino de molde, e não está desenhado.
@@ -129,3 +148,42 @@ python3 build.py     # gera os 4 STL em ../stl_v2
 python3 check.py     # interferencia entre as pecas, contra a tampa, e varredura de giro
 python3 mapa.py      # mapas de altura para conferir que os numeros formaram
 ```
+
+## O pino passante — por que ele existe e o que ele custa
+
+A travinha antiga estalava numa canaleta na lateral do poste. Numa pia, com o pote
+ensaboado, isso solta. Agora ela tem um **pino que atravessa a válvula** e abre do
+outro lado.
+
+O que o STL da sua válvula permitiu:
+
+| | |
+|---|---|
+| chapa maciça no eixo | **1,83 mm** (Y 35,40 → 37,23) |
+| ar livre embaixo, até o fundo do poço da tampa | **3,25 mm** |
+| o pino passa da chapa | 1,40 mm |
+| ainda sobra até a tampa | 1,85 mm |
+
+**O furo não estraga a vedação.** Medido no corte das 12 h: a válvula fecha contra um
+ressalto que cerca o respiro Ø8,12, com **0,20 mm** de folga em repouso. A cavidade
+debaixo da válvula já respira para fora pela folga de **0,22 mm** em volta do disco
+Ø38,09 dentro do alojamento Ø38,54, mais as fendas das orelhas. Ou seja: o espaço que
+o furo abre já era ligado ao lado de fora. A fronteira vedada é pote ↔ respiro ↔
+ressalto ↔ ponta de 12 h da válvula, e nada disso fica a menos de 8 mm do eixo.
+
+**O gangorra continua igual.** Basculando de −3,6° a +3,6° em torno do eixo das
+orelhas (pivô em Y 34,69, meia altura medida no seu STL), a curva de interferência
+contra a tampa do conjunto novo é **idêntica** à da válvula original em todos os
+ângulos. O eixo do pino fica **em cima** da linha de pivô, então ele gira mas não
+sobe nem desce.
+
+**É montagem única.** O ombro da farpa volta a **90°**. Empurra uma vez e não sai
+mais com a mão — que é o que "não perder na pia" quer dizer. Se quiser que seja
+desmontável, o ombro a 45° resolve, ao custo de soltar com um puxão firme.
+
+**Um undercut a menos no molde de M01.** O rebaixo de estalo ficava na *lateral de
+fora* do poste — undercut, pedia gaveta ou arranque forçado. O poste agora é reto e
+o furo é pino de macho reto. O molde ficou mais simples do que era antes do pino.
+
+**Higiene.** O canal de Ø3,10 no meio do pino fica **aberto em cima e embaixo**: água
+entra por cima, atravessa e escorre. Cavidade cega que junta água é o que não pode.

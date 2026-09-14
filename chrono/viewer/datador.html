@@ -148,11 +148,11 @@ dl.cotas dd b{font-weight:600}
     <div class="bloco">
       <span class="eyebrow">Peças</span>
       <button class="peca" id="p1" aria-pressed="true"><span class="sw" style="background:var(--m01)"></span>
-        <span class="nm">M01 Válvula + 31 dias<small>fixa — é a válvula</small></span><span class="g mono">2,24 g</span></button>
+        <span class="nm">M01 Válvula + 31 dias<small>fixa · furada no eixo em Ø5,00</small></span><span class="g mono">2,13 g</span></button>
       <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
         <span class="nm">M02 Aro dos meses<small>gira · 12 encaixes</small></span><span class="g mono">0,30 g</span></button>
       <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
-        <span class="nm">M03 Travinha com seta<small>gira solta no poste</small></span><span class="g mono">0,05 g</span></button>
+        <span class="nm">M03 Travinha com seta<small>gira solta · pino passante</small></span><span class="g mono">0,14 g</span></button>
       <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
         <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
     </div>
@@ -166,7 +166,8 @@ dl.cotas dd b{font-weight:600}
       <div class="linha">
         <button class="bt" id="gira" aria-pressed="true">Girar sozinho</button>
         <button class="bt" id="corte" aria-pressed="false">Meio corte</button>
-        <button class="bt" id="zerar" aria-pressed="false">Vista de topo</button>
+        <button class="bt" id="zerar" aria-pressed="false">Topo</button>
+        <button class="bt" id="vpino" aria-pressed="false">Ver o pino</button>
       </div>
     </div>
 
@@ -181,7 +182,10 @@ dl.cotas dd b{font-weight:600}
         <dt>Aro dos meses</dt><dd class="mono">r 5,60–12,90 × 0,80</dd>
         <dt>Folga entre dois meses</dt><dd class="mono">1,39</dd>
         <dt>Braço da seta</dt><dd class="mono">2,10 × 0,50</dd>
-        <dt>Altura total do conjunto</dt><dd class="mono">Y 39,05</dd>
+        <dt>Furo passante na válvula</dt><dd class="mono">Ø5,00</dd>
+        <dt>Pino · folga radial</dt><dd class="mono">Ø4,80 · 0,10</dd>
+        <dt>Farpa · encaixe radial</dt><dd class="mono">Ø5,80 · 0,40</dd>
+        <dt>Altura total do conjunto</dt><dd class="mono">Y 38,95</dd>
         <dt>Aro de empilhamento da tampa</dt><dd class="mono">Y 39,72</dd>
       </dl>
     </div>
@@ -193,6 +197,24 @@ dl.cotas dd b{font-weight:600}
         <b class="mono">1,6357 mm³</b>. Diferença <b class="mono">+0,0000</b> — a parte de baixo é a sua, sem aperto novo.</p>
       <p class="nota"><span class="selo ox">de projeto</span> Entre dois encaixes o aro monta <b class="mono">0,16 mm</b>
         sobre a mola. É o detente, não é colisão.</p>
+      <p class="nota">Basculando a válvula de <b class="mono">−3,6°</b> a <b class="mono">+3,6°</b> em torno do eixo das
+        orelhas, a curva de interferência contra a tampa é <b>idêntica</b> à da válvula original em todos os ângulos.
+        O pino não rouba curso do gangorra.</p>
+    </div>
+
+    <div class="bloco">
+      <span class="eyebrow">O pino passante</span>
+      <p class="nota">A válvula tem <b class="mono">1,83 mm</b> de chapa maciça no eixo (Y 35,40→37,23) e
+        <b class="mono">3,25 mm</b> de ar livre embaixo até o fundo do poço da tampa. O pino atravessa a chapa e
+        sobra <b class="mono">1,40 mm</b> do outro lado, com <b class="mono">1,85 mm</b> ainda livres até a tampa.</p>
+      <p class="nota">Quatro pernas afiladas de <b class="mono">2,75 mm</b> de vão flexionam <b class="mono">0,40 mm</b>
+        para passar — <b>2,6% de deformação</b>, contra os 8% que o PP aceita numa montagem única. O ombro volta a
+        <b>90°</b>: entra empurrando uma vez e <b>não sai mais com a mão</b>.</p>
+      <p class="nota">O furo <b>não</b> estraga a vedação: a válvula veda nos 12 h contra o ressalto que cerca o
+        respiro, e a cavidade debaixo dela já respira para fora pela folga de 0,22 mm em volta do disco. O canal
+        de Ø3,10 no meio do pino fica aberto em cima e embaixo — enxágua e escorre.</p>
+      <p class="nota">Some junto um <b>undercut do molde de M01</b>: o rebaixo de estalo que existia na lateral do
+        poste pedia gaveta. Furo reto é pino de macho.</p>
     </div>
 
     <div class="bloco">
@@ -320,6 +342,13 @@ el_('corte').addEventListener('click',ev=>{S.corte=!S.corte;
   ev.currentTarget.setAttribute('aria-pressed',S.corte?'true':'false');aplica()});
 el_('zerar').addEventListener('click',()=>{az=0;el=1.47;raio=104;auto=false;
   el_('gira').setAttribute('aria-pressed','false');poe()});
+el_('vpino').addEventListener('click',()=>{
+  az=0;el=0.05;raio=62;auto=false;
+  el_('gira').setAttribute('aria-pressed','false');
+  S.corte=true; el_('corte').setAttribute('aria-pressed','true');
+  S.exp=0; el_('exp').value=0;
+  alvo.set(0,35.9,0); aplica(); poe();
+});
 el_('gira').setAttribute('aria-pressed',auto?'true':'false');
 
 function tamanho(){

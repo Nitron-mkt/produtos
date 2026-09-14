@@ -2,7 +2,7 @@
   "pecas": [
     {"nome":"m01_valvula",  "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Valvula_Dias.stl"},
     {"nome":"m02_aro",      "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Aro_Meses.stl"},
-    {"nome":"m03_travinha", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Travinha_Seta.stl"}
+    {"nome":"m03_travinha", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Travinha_Seta.stl", "flip":true}
   ],
   "chapa": {"nome":"chapa", "itens":[
     {"peca":"m01_valvula",  "dx":-26, "dy": 10},

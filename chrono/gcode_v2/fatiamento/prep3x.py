@@ -8,7 +8,9 @@ ARQ={'disco':'Chrono_M01_Disco_Prova.stl','aro':'Chrono_M02_Aro_Meses.stl',
 cx={}
 for n,f in ARQ.items():
     m=trimesh.load(S+f)
-    m.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2,[1,0,0]))  # Y -> Z
+    # a travinha vai INVERTIDA: com o pino para baixo ela apoiaria na ponta dele
+    ang = -np.pi/2 if n=='travinha' else np.pi/2
+    m.apply_transform(trimesh.transformations.rotation_matrix(ang,[1,0,0]))  # Y -> Z
     m.apply_scale(K)
     c=(m.bounds[0]+m.bounds[1])/2
     m.apply_translation([-c[0]+POS[n][0], -c[1]+POS[n][1], -m.bounds[0][2]])

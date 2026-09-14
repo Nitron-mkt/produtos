@@ -8,11 +8,11 @@ firmware `klipper`, mesa 255×255, miniatura 230×110).
 
 | Arquivo | O que é | Tempo | PLA |
 |---|---|---|---|
-| `Chrono_v2_01_Valvula_Dias.gcode` | M01 sozinha, números para cima, com suporte | 55 min | 4,03 g |
+| `Chrono_v2_01_Valvula_Dias.gcode` | M01 sozinha, números para cima, com suporte | 54 min | 3,95 g |
 | `Chrono_v2_02_Aro_Meses.gcode` | M02, plano | 10 min | 0,49 g |
-| `Chrono_v2_03_Travinha_Seta.gcode` | M03, plano | 2 min | 0,10 g |
-| `Chrono_v2_04_Chapa_3_Pecas.gcode` | as três na mesma mesa, 1:1 | 1 h 07 | 4,62 g |
-| `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + travinha, **3×** | 7 h 10 | 33,67 g |
+| `Chrono_v2_03_Travinha_Seta.gcode` | M03, **invertida** (pino para cima) | 5 min | 0,23 g |
+| `Chrono_v2_04_Chapa_3_Pecas.gcode` | as três na mesma mesa, 1:1 | 1 h 10 | 4,68 g |
+| `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + travinha, **3×** | 7 h 42 | 34,50 g |
 
 ## Por que dois testes e não um
 
@@ -31,6 +31,16 @@ O 3× usa o `Chrono_M01_Disco_Prova.stl`: só o mostrador de M01 (o que está ac
 face, Y 37,23) sobre uma base chapada de 1,20 mm. A válvula inteira a 3× seria um
 casco de 19 mm de altura com 922 mm² de teto em balanço — horas de suporte para
 provar exatamente nada, porque o que interessa no teste de escala é o mostrador.
+
+## M03 vai invertida
+
+Com o pino passante, M03 na posição de projeto apoiaria **na ponta do pino**: 0,3 mm²
+de contato com a mesa e tudo o mais em balanço. Invertida (pino para cima) ela apoia
+pelo topo do cubo e do braço — **150,6 mm²**. Para isso o espigão do dorso foi
+nivelado com o cubo, os dois em Y 38,95: o topo da travinha virou um plano só.
+
+Invertida, o ombro da farpa vira um ressalto de 0,50 mm virado para baixo — um balanço
+de uma extrusão por camada. Forma com leve queda, e é o lado que não se vê.
 
 ## Orientação — e o problema de M01
 
@@ -60,6 +70,13 @@ de qualquer jeito.
 - Só comandos que o Klipper da Kobra 3 entende:
   `G1 G21 G90 G9111 G92 M82 M84 M104 M106 M107 M117 M140 M400 M900`.
   Sem `G28`, `M109`, `M190`, `M486`, `M73`.
+
+## O que o 1:1 **não** vai provar do pino
+
+O furo é Ø5,00 e o pino Ø4,80. Em FDM o furo sai sub-dimensionado e o pino
+sobre-dimensionado — tipicamente 0,1 a 0,3 mm cada. A folga de projeto é 0,10 mm no
+raio. **Se o pino não entrar na peça impressa, isso é tolerância de impressora, não
+de projeto.** Quem prova o encaixe é o 3×, onde a folga vira 0,30 e a farpa 1,20.
 
 ## Se quiser o traço certo no 1:1
 

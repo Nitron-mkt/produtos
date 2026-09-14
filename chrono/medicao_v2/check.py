@@ -45,3 +45,53 @@ print('\nALTURAS (aro de empilhamento da tampa em Y 39,72)')
 for n,m in (('M01 valvula+dias',M1),('M02 aro dos meses',M2),('M03 travinha/seta',M3)):
     b=m.bounds; print('  %-20s Y %6.2f .. %6.2f   O%5.2f   folga ate o aro da tampa: %5.2f mm'
         %(n,b[0][1],b[1][1],max(b[1][0]-b[0][0],b[1][2]-b[0][2]),39.72-b[1][1]))
+
+# ---------------------------------------------------------------- pino passante
+print('\nPINO PASSANTE')
+import numpy as np
+from math import radians
+v3=M3.vertices-np.array([CX,0,CZ]); r3=np.hypot(v3[:,0],v3[:,2])
+v1=M1.vertices-np.array([CX,0,CZ]); r1=np.hypot(v1[:,0],v1[:,2])
+print('  ponta do pino chega a Y %.2f  (face de baixo da valvula: 35,40)'%M3.bounds[0][1])
+print('  atravessa a chapa? %s  — passa %.2f mm alem dela'
+      %('SIM' if M3.bounds[0][1]<35.40 else 'NAO', 35.40-M3.bounds[0][1]))
+fur=v1[(r1<3.2)&(v1[:,1]>35.3)&(v1[:,1]<35.5)]
+print('  raio do furo na saida: %.2f'%np.hypot(fur[:,0],fur[:,2]).max() if len(fur) else '  furo nao encontrado')
+far=v3[(v3[:,1]>35.35)&(v3[:,1]<35.45)]
+print('  raio da farpa no ombro: %.2f  ->  encaixe radial %.2f mm'
+      %(np.hypot(far[:,0],far[:,2]).max(), np.hypot(far[:,0],far[:,2]).max()-2.50))
+print('  folga ate o fundo do poco da tampa (Y 32,15): %.2f mm'%(M3.bounds[0][1]-32.15))
+
+print('\nCURSO DO GANGORRA — a pergunta nao e "bate?", e "bate ANTES da original?"')
+print('  (eixo das orelhas em 3h-9h, pivo em Y 34,69 — meia altura medida no STL)')
+PIVO=34.69
+def bascula(ms,g):
+    out=[]
+    for m in ms:
+        n=m.copy(); n.apply_translation([-CX,-PIVO,-CZ])
+        n.apply_transform(trimesh.transformations.rotation_matrix(radians(g),[1,0,0]))
+        n.apply_translation([CX,PIVO,CZ]); out.append(n)
+    return out
+print('  %6s  %14s  %14s'%('graus','conjunto novo','valvula original'))
+lim_n=lim_o=None
+for g in [x*0.15 for x in range(-24,25)]:
+    a,b,c2=bascula([M1,M2,M3],g); (o,)=bascula([V0],g)
+    vn=max(vol(a,T),vol(b,T),vol(c2,T)); vo_=vol(o,T)
+    if lim_n is None and abs(g)>0.01 and vn>vo+0.05: lim_n=g if g>0 else lim_n
+    if abs(g) in (0.0,) or round(abs(g)/0.6,3)%1==0:
+        print('  %+6.2f  %12.3f    %12.3f'%(g,vn,vo_))
+print()
+for sinal,nome in ((+1,'fechando (12h para baixo)'),(-1,'abrindo  (12h para cima) ')):
+    gn=go=None
+    for k in range(1,60):
+        g=sinal*k*0.05
+        if gn is None:
+            a,b,c2=bascula([M1,M2,M3],g)
+            if max(vol(a,T),vol(b,T),vol(c2,T))>vo+0.05: gn=abs(g)
+        if go is None:
+            (o,)=bascula([V0],g)
+            if vol(o,T)>vo+0.05: go=abs(g)
+        if gn is not None and go is not None: break
+    print('  %s  novo trava em %s  |  original trava em %s  ->  %s'
+          %(nome, ('%.2f graus'%gn) if gn else '>2,95', ('%.2f graus'%go) if go else '>2,95',
+            'IGUAL' if (gn is None)==(go is None) and (gn is None or abs(gn-go)<1e-9) else 'DIFERENTE'))
