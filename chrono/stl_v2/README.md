@@ -8,10 +8,10 @@ seu arquivo, e a prova disso é a interferência contra a tampa (abaixo).
 |---|---|---|---|
 | `Chrono_M01_Valvula_Dias.stl` | válvula + 31 dias em relevo | **não** — é a válvula | 2,25 g |
 | `Chrono_M02_Aro_Meses.stl` | aro dos 12 meses | **sim** | 0,30 g |
-| `Chrono_M03_Travinha_Seta.stl` | travinha com a seta | **sim, solta no poste** | 0,11 g |
-| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,67 g |
+| `Chrono_M03_Travinha_Seta.stl` | travinha com a seta | **sim, solta no poste** | 0,06 g |
+| `Chrono_M04_Conjunto.stl` | os três montados, só para ver | — | 2,61 g |
 
-Válvula original: 2,04 g. O datador inteiro custa **+0,63 g de PP** por tampa.
+Válvula original: 2,04 g. O datador inteiro custa **+0,57 g de PP** por tampa.
 
 ## Como se lê — e por que a seta gira
 
@@ -72,7 +72,7 @@ VARREDURA (24 posicoes de giro)
 ALTURAS (aro de empilhamento da tampa em Y 39,72)
   M01 valvula+dias     Y 32.57 .. 38.90   folga 0.82 mm
   M02 aro dos meses    Y 37.25 .. 38.35   folga 1.37 mm
-  M03 travinha/seta    Y 37.95 .. 39.20   folga 0.52 mm
+  M03 travinha/seta    Y 37.95 .. 39.05   folga 0.67 mm
 ```
 
 **+0,0000 mm³** é o número que importa: a válvula nova aperta a tampa exatamente
@@ -85,6 +85,7 @@ como a que já está em linha. Nada mudou embaixo.
 | face de topo da válvula (datum) | Y 37,23 |
 | mesa dos dias | r 14,20–18,75 · Y 37,23→37,41 |
 | 31 dias | r 16,65 · caixa alta 2,00 · relevo 0,30 · passo **3,37 mm** de arco |
+| grafia dos dias | **1 a 9 sem zero**, 10 a 31 com dois dígitos |
 | índice fixo do mês | 12 h · r 14,25–15,30 · relevo 0,30 |
 | poste central | r 5,40 · topo Y 38,90 · canaleta r 4,70 de 38,15 a 38,55 |
 | aro dos meses | r 5,60–12,90 · espessura 0,80 · Y 37,25→38,05 |
@@ -93,7 +94,9 @@ como a que já está em linha. Nada mudou embaixo.
 | entalhes de unha | 12 · r 1,00 centrados em r 13,30 |
 | detente | 2 molas r 0,42 na válvula × 12 covinhas r 0,55 no aro, em r 7,50 |
 | curso do detente | **0,16 mm** de interferência entre encaixes |
-| travinha | colar r 5,55–7,60 · braço 3,20 de largura · ponta até r 20,30 |
+| travinha | colar r 5,55–**6,90** · braço **2,10** de largura, 0,50 de espessura |
+| ponta da seta | afina de 2,10 para **1,40** e fecha em ponta em r **19,90** |
+| espigão do dorso | 0,80 × 0,60, de r 14,45 a 19,50 · topo Y 39,05 |
 
 ## O que ainda não está resolvido
 
@@ -103,6 +106,10 @@ como a que já está em linha. Nada mudou embaixo.
   forma mas sai esfarrapado. Para provar a leitura, bico de 0,25 ou escala ≥ 2×.
 - **Fecho do colar da travinha.** A barbela interna de 0,45 mm tem de estalar na
   canaleta do poste e ainda girar solta. Isso é ensaio de peça, não de CAD.
+- **Rigidez do braço da seta.** O braço tem 0,50 mm de espessura num vão de 5,5 mm,
+  e só 0,24 mm de folga sobre os números. Por isso o **espigão de 0,60 mm no dorso**,
+  que triplica a inércia sem engrossar o desenho visto de cima. Se ainda raspar, a
+  correção é subir o braço externo (37,95 → 38,05), não engrossá-lo.
 - **Onde o detente trava.** 0,16 mm de interferência num aro de 0,80 mm de PP é
   firme; se ficar duro demais, a correção é a mola (0,42 → 0,35), não a covinha.
 

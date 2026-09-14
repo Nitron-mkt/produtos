@@ -30,11 +30,13 @@ ARO_RI, ARO_RE, ARO_ESP = 5.60, 12.90, 0.80
 ARO_Y0 = FACE+0.02; ARO_Y1 = ARO_Y0+ARO_ESP
 MES_R, MES_CAP, MES_REL, MES_XS = 10.80, 1.90, 0.30, 0.78
 # ---- M03 travinha com seta (gira livre no poste) ----
-CUBO_RI, CUBO_RE = 5.55, 7.60
-COL_Y0, COL_Y1   = 38.10, 39.20
-BRACO_Y0         = 38.45           # face de baixo do braco interno
-EXT_Y0, EXT_Y1   = 37.95, 38.55    # braco externo, rente aos numeros do dia
+CUBO_RI, CUBO_RE = 5.55, 6.90      # colar enxuto: parede de 1,35
+COL_Y0, COL_Y1   = 38.10, 38.95    # topo rente ao poste (38,90)
+BRACO_Y0         = 38.45           # face de baixo do braco interno -> 0,50 de espessura
+EXT_Y0, EXT_Y1   = 37.95, 38.45    # braco externo, 0,50, rente aos numeros do dia
 RAMPA_R0, RAMPA_R1 = 13.90, 14.55
+MEIA_BR, MEIA_PT = 1.05, 0.70      # meia-largura do braco e da ponta (era 1,60)
+ESP_H, ESP_W     = 0.60, 0.80      # espigao de rigidez no dorso do braco
 
 _FP=FontProperties(family="FreeSans", weight="bold")
 def glyphs(txt, cap, xs=1.0):
@@ -83,7 +85,7 @@ cunha.apply_transform(M)
 anel=boolean('difference',[cyl(18.80,CONCHA_Y0,FACE,n=192), cyl(MESA_RI,CONCHA_Y0-1,FACE+1,n=192)])
 ench=boolean('intersection',[cunha,anel])
 SD=360.0/31
-dias=relevo([(radians(90+(d-1)*SD), '%02d'%d) for d in range(1,32)], DIA_R, DIA_CAP, FACE+MESA_H, DIA_REL)
+dias=relevo([(radians(90+(d-1)*SD), '%d'%d) for d in range(1,32)], DIA_R, DIA_CAP, FACE+MESA_H, DIA_REL)
 # indice FIXO do mes: triangulo em relevo entre o aro e a mesa
 idx=trimesh.creation.extrude_polygon(
       SP([(-IDX_W,IDX_RE),(IDX_W,IDX_RE),(0.0,IDX_RI)]), height=IDX_REL)
@@ -114,17 +116,26 @@ print('M02 aro dos meses: faces=%6d  vol=%7.1f  massa=%.2f g'%(len(m02.faces),m0
 # =================================================== MOLDE 03 — TRAVINHA COM SETA
 colar=revolve([(CUBO_RI,COL_Y0),(CUBO_RE,COL_Y0),(CUBO_RE,COL_Y1),(CUBO_RI,COL_Y1),
                (CUBO_RI,GOLA_Y1),(CUBO_RI-0.45,GOLA_Y1-0.10),(CUBO_RI-0.45,GOLA_Y0+0.10),(CUBO_RI,GOLA_Y0)])
-liga     =barra(7.0, 7.6, COL_Y0, COL_Y1, 1.60)
-braco_int=barra(7.0, RAMPA_R0, BRACO_Y0, COL_Y1, 1.60)
+liga     =barra(6.4, 7.2, COL_Y0, COL_Y1, 1.30)
+braco_int=barra(6.4, RAMPA_R0, BRACO_Y0, COL_Y1, MEIA_BR)
 rampa    =trimesh.creation.extrude_polygon(
-             SP([(-1.60,RAMPA_R0),(1.60,RAMPA_R0),(1.60,RAMPA_R1),(-1.60,RAMPA_R1)]), height=1.0)
+             SP([(-MEIA_BR,RAMPA_R0),(MEIA_BR,RAMPA_R0),(MEIA_BR,RAMPA_R1),(-MEIA_BR,RAMPA_R1)]), height=1.0)
 rampa    =place(rampa, radians(90), 0.0, COL_Y1, 1.0)   # bloco; a rampa vem do corte abaixo
-cunha=trimesh.creation.extrude_polygon(
-        SP([(-2.0,RAMPA_R0-0.01),(2.0,RAMPA_R0-0.01),(2.0,RAMPA_R1+0.01),(-2.0,RAMPA_R1+0.01)]), height=1.2)
-braco_ext=barra(RAMPA_R1-0.10, 18.90, EXT_Y0, EXT_Y1, 1.60)
-ponta=trimesh.creation.extrude_polygon(SP([(-1.60,18.60),(1.60,18.60),(0.0,20.30)]), height=EXT_Y1-EXT_Y0)
-ponta=place(ponta, radians(90), 0.0, EXT_Y1, EXT_Y1-EXT_Y0)
-m03=boolean('union',[colar,liga,braco_int,rampa,braco_ext,ponta])
+# braco externo + ponta numa peca so, afinando ate a seta
+ext=trimesh.creation.extrude_polygon(
+      SP([(-MEIA_BR,RAMPA_R1-0.10),(MEIA_BR,RAMPA_R1-0.10),(MEIA_PT,18.80),
+          (0.0,19.90),(-MEIA_PT,18.80)]), height=EXT_Y1-EXT_Y0)
+ext=place(ext, radians(90), 0.0, EXT_Y1, EXT_Y1-EXT_Y0)
+# espigao: um braco de 0,50 e 12 mm em PP verga; a nervura no dorso segura,
+# e nao aparece de cima porque fica na linha de centro da seta
+# so no vao livre (r 14,45 a 19,50): o trecho interno ja e escorado pelo colar
+# e a rampa tem 1,0 mm de secao. No colar o espigao nao entra, senao come a
+# folga de 0,52 mm ate o aro de empilhamento da tampa.
+esp=trimesh.creation.extrude_polygon(
+      SP([(-ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,RAMPA_R1-0.10),(ESP_W/2,18.60),
+          (0.0,19.50),(-ESP_W/2,18.60)]), height=ESP_H)
+esp=place(esp, radians(90), 0.0, EXT_Y1+ESP_H, ESP_H)
+m03=boolean('union',[colar,liga,braco_int,rampa,ext,esp])
 # corta a rampa em diagonal: de (RAMPA_R0, BRACO_Y0) ate (RAMPA_R1, EXT_Y0)
 corte_r=trimesh.creation.extrude_polygon(
     SP([(-2.5,RAMPA_R0-0.2),(2.5,RAMPA_R0-0.2),(2.5,RAMPA_R1+0.2),(-2.5,RAMPA_R1+0.2)]), height=3.0)
