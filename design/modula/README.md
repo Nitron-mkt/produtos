@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.27** — **bolinhas no P.** O pattern da marca sai da parede do P e entram **furos redondos em rede hexagonal com o diâmetro em gradiente**: Ø 14 mm na fileira de cima, Ø 5 mm junto ao pé, alma constante de 4,2 mm, 5 fileiras, 89 bolinhas, só bolinhas inteiras (nada no canto, na frente nem nas ranhuras das colunas). A rede vive em coordenadas reais de cada face, então os furos saem redondos apesar dos 7,5° de saída. 325 g (era 281 com 58 % de vazado). M e G continuam com o pattern até a decisão sobre o P. O emissor de parede vazada ganhou o caso do furo tangente (pequeno demais para chegar ao meio da tira), que abria uma fenda de uma tira sob cada bolinha.
+
 **rev.26** — **3 moldes + 2 grades, e nada se perde.** As premissas fecham inteiras: P, M e G **ninham** (7,5°), **empilham** (rodapé no canal das colunas) e **acoplam** lado a lado (macho/fêmea proporcional: 4,5 / 5,5 / 6,5 mm). Dois P acoplados pousam **em cima** de um M e três em cima de um G — não pela boca do grande (geometricamente impossível numa peça que ninha), mas por uma **grade de encaixe** que descansa no aro: placa de 4 mm com bolsões cônicos onde os copos do P assentam. Grade M 240 g, grade G 335 g. De quebra, o teste de **trajeto do ninho** (a descida inteira, não só a posição final) achou uma colisão que existia desde a rev.20 — rodapé contra o topo das colunas — e ela foi corrigida com janelas no rodapé e na moldura.
 
 **rev.25** — **em cima, não dentro.** Dois P acoplados pousam **em cima** de um M e três P em cima de um G. O P vira uma **caixa de parede reta (0,5°)**, borda de 7 mm e **rodapé de 3 mm que cai na boca do grande** — caixa sobre caixa, sem pé, coluna ou pino. A frente do M ganha um **pilar** (dois vãos) e a do G dois (três vãos), um vão sob cada P; cantos na altura cheia nos três. **G encolhe para 582 × 295 × 360.** O P deixa de ninhar. A pendura da rev.21–24 sai.
@@ -25,9 +27,9 @@ https://claude.ai/code/artifact/a7b943a0-a481-40ef-9798-b0c76dc870f0
 
 | | Externo (mm) | Cesta + perna | Parede | Aba | Massa PP | Capacidade | Passo pilha | Passo ninho | Cubagem (10) | Fechamento |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 281 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
-| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 460 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
-| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 795 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
+| **P** | 192 × 289 × 179 | 129 + 50 | 1,8 mm | 12,9 | 325 g | 4,5 L | 137 mm | 15,7 mm | 5,6× | 170–226 tf |
+| **M** | 390 × 295 × 241 | 191 + 50 | 2,0 mm | 12,4 | 450 g | 15,2 L | 199 mm | 17,2 mm | 6,1× | 352–469 tf |
+| **G** | 582 × 295 × 360 | 310 + 50 | 2,3 mm | 12,4 | 787 g | 35,3 L | 318 mm | 19,5 mm | 6,7× | 525–700 tf |
 | grade M | 390 × 295 × 19 | placa 4 + aba 12 | 4,0 mm | — | 240 g | 8 bolsões | — | — | — | — |
 | grade G | 582 × 295 × 19 | placa 4 + aba 12 | 4,0 mm | — | 335 g | 12 bolsões | — | — | — | — |
 
@@ -1063,15 +1065,50 @@ bolsão dentro do anel e aba livre da guia.
 acoplados + grade + M é uma pilha de três coisas, não uma. A borda nua do mergulho (2 mm) segue pedindo
 raio no molde. Nada disso é geometria: é decisão da fábrica e do curador.
 
+### rev.27 — bolinhas em gradiente no P
+
+Pedido: trocar o pattern da Nitron por **bolinhas que começam grandes e vão diminuindo**; mexer só no P.
+
+**A rede.** Furos redondos em rede hexagonal (`grafismo.Bolinhas`), passo 18,2 mm entre centros e 15,8 entre
+fileiras, diâmetro caindo em linha reta de **14 mm** na fileira de cima a **5 mm** na de baixo; 5 fileiras, 89
+bolinhas, 13 % de área vazada nas faces furadas. A alma mínima entre furos é **4,2 mm** em toda a parede (o
+limite de moldagem), e é ela quem fixa o passo: passo = Ø máximo + alma.
+
+**Só bolinha inteira.** A rede é montada por face reta (as duas laterais e a traseira) em **coordenadas reais**
+— milímetros ao longo da parede na cota do furo — e não no comprimento de arco em z = 0 que o emissor usa: com
+7,5° de saída a face alarga 15 a 30 % do pé ao topo e o arco esticaria o círculo em elipse. Uma bolinha só nasce
+se cabe inteira, com a alma de folga, entre a faixa do aro, a faixa do pé, o canto e as ranhuras das colunas
+(que seguem inteiras: são poste de carga). A frente (vão, mergulho, etiqueta) fica lisa.
+
+**O emissor tinha um caso não previsto.** `perfurada()` encontra os trechos sólidos no meio de cada tira de
+1,3 mm e refina as bordas nas duas colunas vizinhas — mas assumia que um trecho sólido do meio corresponde a
+**um** trecho em cada coluna. Uma bolinha pequena, tangente à tira, corta só a coluna vizinha e parte o trecho
+dela em dois; o emissor ficava com o pedaço mais próximo do centro e descartava o outro. Resultado: uma **fenda
+de uma tira de largura sob cada bolinha**, do furo até o pé. Agora todos os pedaços entram (`_solidos`) e o vão
+tangente é fechado (`_consolida`): erro de meia tira na borda do furo, invisível. O pattern do M e do G passa
+pelo mesmo caminho — a massa do M mudou de 460 para 450 g e a do G de 795 para 787, sinal de que também havia fendas ali.
+
+**Custo.** O P passa de 281 para **325 g**: a parede fechada pesa. Se a fábrica quiser mais leve, o gradiente
+admite Ø maior ou uma fileira a mais — a alma continua governando. Ninho, trajeto, pilha e acopladores não mudam
+(o vazado é coplanar).
+
+**Em aberto: "sem a grade".** O pedido desta rodada também tira a grade do encaixe em cima. A geometria não
+mudou desde a rev.26: com o P ninhando a 7,5°, os copos caem 30 mm dentro da boca do M e do G, e nada pode
+haver ali numa peça que também ninha. Sem a grade há dois caminhos, e os dois custam uma premissa:
+(a) **o M e o G ganham a ponte fixa** (barras integradas ao aro, com os bolsões) — M e G deixam de ninhar;
+(b) **o P deixa de ninhar** e ganha pés na linha do aro (rev.25 sem a caixa) — o M e o G voltam a ter pilares na
+frente e nenhum molde a mais. Fica para a rodada do M e do G.
+
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
 | `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
 | `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `confere_trajeto()`, `encaixe_topo()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
+| `grafismo.py` | o vazado da parede: o pattern oficial da marca lido do .ai (`Padrao`) e, desde a rev.27, as bolinhas em gradiente (`Bolinhas`) |
 | `grade.py` | a grade de encaixe do M e do G — anel, aba, barras e um bolsão cônico por copo do P, gerada a partir da malha do P; `python3 grade.py` imprime massa e conta bolsões |
-| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, corte do bolsão da grade com o copo do P, grade sozinha, P por baixo, dez P ninhados, frente |
-| `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev26.pdf`) |
+| `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, corte do bolsão da grade com o copo do P, grade sozinha, P por baixo, a lateral do P com as bolinhas, dez P ninhados, frente |
+| `dossie_pdf.py` | o dossiê em PDF (`out/modula-rev27.pdf`) |
 | `render.py` | rasterizador próprio: z-buffer, sombreamento suave (Gouraud com crease), sombra de contato e base clara por luminância |
 | `exporta.py` | gera o JSON do visualizador, as vistas e os STL dos 3 cestos e das 2 grades (`python3 exporta.py stl` só o STL, `png` só as vistas) |
 | `celular.py` | GLB dos cestos e das grades (abre no celular), prancha de 6 vistas por tamanho e giro em GIF |

@@ -347,6 +347,46 @@ def _intervalo(f, zc, z0, z1, passo=0.4, alcance=9.0):
     return lo, hi
 
 
+def _solidos(f, iv, lo, hi, passo=0.4):
+    """Todos os trechos solidos de f em [lo, hi], sabendo que 'iv' e um deles
+    (ou degenerado). So varre o que sobra fora de iv — o caso comum nao varre."""
+    out = [iv]
+    for a, b in ((lo, iv[0] - 1e-6), (iv[1] + 1e-6, hi)):
+        if b - a < passo:
+            continue
+        z = a
+        dentro = False
+        ini = None
+        while z <= b + 1e-9:
+            s = f(min(z, b))
+            if s and not dentro:
+                ini, dentro = (z if z == a else _cruza(f, z - passo, z)), True
+            elif not s and dentro:
+                out.append((ini, _cruza(f, z - passo, z))); dentro = False
+            z += passo
+        if dentro:
+            out.append((ini, b))
+    out = [q for q in out if q[1] - q[0] > 0.05 or q == iv]
+    return sorted(out)
+
+
+def _consolida(pecas, fm, zc):
+    """Reduz os pedacos solidos de uma coluna a UM intervalo. Um vao entre dois
+    pedacos e (a) um furo TANGENTE, que nao chega ao meio da tira: fecha-se
+    (erro de meia tira na borda do furo, invisivel); ou (b) um furo que o meio
+    tambem tem — pertence a outra faixa: fica so o lado que contem zc."""
+    pecas = sorted(pecas)
+    while len(pecas) > 1:
+        k = next((q for q in range(len(pecas) - 1)
+                  if fm(0.5 * (pecas[q][1] + pecas[q + 1][0]))), None)
+        if k is not None:                       # tangente: funde
+            pecas[k:k + 2] = [(pecas[k][0], pecas[k + 1][1])]
+            continue
+        # so furos reais: fica o pedaco que contem zc (ou o mais proximo)
+        return min(pecas, key=lambda iv: 0.0 if iv[0] <= zc <= iv[1] else min(abs(iv[0] - zc), abs(iv[1] - zc)))
+    return pecas[0]
+
+
 def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
               cheio=None, passo=0.8):
     """Casca vazada por um grafismo de forma qualquer.
@@ -398,8 +438,14 @@ def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
                 if iv is None:
                     return (zc, zc)
                 return (max(iv[0], c_lo), min(iv[1], c_hi))
-            ia = clip(_intervalo(fa, zc, z0, z1))
-            ib = clip(_intervalo(fb, zc, z0, z1))
+            # rev.27: um furo pequeno pode pegar SO a coluna vizinha (tangente),
+            # partindo o trecho dela em dois enquanto o meio segue inteiro. Antes
+            # ficava so o pedaco mais proximo de zc e o outro sumia — uma fenda
+            # de uma tira de largura sob cada bolinha. Agora todos os pedacos
+            # solidos da coluna dentro do clip entram, pareados com a outra
+            # coluna partida na altura do furo.
+            ia = _consolida(_solidos(fa, clip(_intervalo(fa, zc, z0, z1)), c_lo, c_hi), fm, zc)
+            ib = _consolida(_solidos(fb, clip(_intervalo(fb, zc, z0, z1)), c_lo, c_hi), fm, zc)
             banda(malha, cont, i, i + 1, o_ext, o_int,
                   lambda q, p=(ia[0], ib[0]): p[0] if q == i else p[1],
                   lambda q, p=(ia[1], ib[1]): p[0] if q == i else p[1],

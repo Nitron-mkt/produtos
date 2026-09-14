@@ -1,9 +1,13 @@
 """
-MODULA rev.26 — familia de organizadores modulares Nitron (3 moldes + 2 grades).
+MODULA rev.27 — familia de organizadores modulares Nitron (3 moldes + 2 grades).
 
 FORMA
-  Planta de cantos arredondados; nenhuma quina viva. Parede vazada com o
-  PATTERN oficial da marca (grafismo/pattern-nitron.ai), reproduzido exato. Aro em perfil L (aba + saia) que e viga, apoio e pega ao
+  Planta de cantos arredondados; nenhuma quina viva. Parede vazada: no P
+  (rev.27) BOLINHAS em rede hexagonal com o diametro em gradiente, 14 mm no
+  alto a 5 mm junto ao pe (grafismo.Bolinhas; so bolinha inteira, nada no
+  canto, na frente nem nas ranhuras das colunas); no M e no G ainda o PATTERN
+  oficial da marca (grafismo/pattern-nitron.ai), reproduzido exato — a troca
+  espera a decisao sobre o P. Aro em perfil L (aba + saia) que e viga, apoio e pega ao
   mesmo tempo. Fundo em grelha diagonal de nervuras altas, sobre um vao de
   50 mm (a perna), fechado por um rodape recuado e quatro pes de canto.
 
@@ -83,6 +87,7 @@ TAMANHOS = {
     # referencia; os acopladores ficam nos lados longos e a fileira tem passo 192.
     "P": dict(nome="MODULA P", X=192.0, Y=289.0, H=179.0, perna=50.0, e=1.8, R=26.0, aba=12.9,
               barra=1.8, vao_fundo=9.0, graf_alma=4.2, graf_espelho=False, fundo_chapado=True,
+              graf_tipo="bolinhas", graf_bolinhas=(14.0, 5.0),      # rev.27: bolinhas em gradiente
               acoplador=True),
     "M": dict(nome="MODULA M", X=390.0, Y=295.0, H=241.0, perna=50.0, e=2.0, R=26.0, aba=12.4,
               barra=2.0, vao_fundo=18.0, graf_alma=4.0, graf_espelho=False, fundo_chapado=False,
@@ -326,9 +331,21 @@ def em_copo(s, x, y, z, folga=0.0):
     return True
 
 
-def grafismo(s, cont, zlo, zhi):
-    """O pattern oficial da marca (grafismo/pattern-nitron.ai), na escala em
-    que a alma minima entre furos vale 'graf_alma' — o limite de moldagem."""
+def grafismo(s, cont, zlo, zhi, faces=None):
+    """O vazado da parede. Dois tipos:
+    - 'pattern' (M, G): o pattern oficial da marca (grafismo/pattern-nitron.ai),
+      na escala em que a alma minima entre furos vale 'graf_alma';
+    - 'bolinhas' (P, rev.27): furos redondos em rede hexagonal por face, com o
+      diametro caindo do topo ao pe (graf_bolinhas = (d_max, d_min)), alma
+      constante = graf_alma. So bolinhas inteiras; nada no canto nem na frente."""
+    if s.get("graf_tipo") == "bolinhas":
+        d_max, d_min = s["graf_bolinhas"]
+        pad = G.Bolinhas(faces, d_max, d_min, s["graf_alma"])
+        info = pad.medidas()
+        s.update({"graf_" + q: v for q, v in info.items()})
+        s["graf_L"] = d_max
+        assert pad.n_furos > 0, f"{s['nome']}: nenhuma bolinha coube na parede"
+        return pad
     pad, info = G.monta_padrao(cont.perimetro, zlo, zhi, s["graf_alma"], s["graf_espelho"])
     s.update({"graf_" + q: v for q, v in info.items()})
     s["graf_L"] = s["graf_alt_elem"]
@@ -418,7 +435,26 @@ def construir(k):
     # tudo COPLANAR: nenhum relevo por fora, senao o ninho trava a meio caminho.
     z_g0 = hb
     z_g1 = h_geral - h_aro
-    gra = grafismo(s, cont, z_g0, z_g1)
+    # rev.27 (bolinhas): uma face por trecho reto, exceto a frente (vao,
+    # mergulho e etiqueta). Nas laterais a coordenada real e y, e as ranhuras
+    # das colunas (poste de carga, cheio) sao zonas proibidas.
+    inicio = {}
+    for i, (tr, _) in enumerate(cont.amostras):
+        inicio.setdefault(tr, i)
+    ordem = ["lat_d", "canto_fd", "frente", "canto_fe", "lat_e", "canto_te", "traseira", "canto_td"]
+    faces = []
+    for q, tr in enumerate(ordem):
+        if tr not in ("lat_d", "lat_e", "traseira"):
+            continue
+        i0 = inicio[tr]
+        i1 = inicio[ordem[(q + 1) % len(ordem)]]
+        s_a, s_b = cont.s[i0], (cont.s[i1] if i1 > i0 else cont.perimetro)
+        p0, p1 = cont.ponto(i0, 0.0), cont.ponto(i1 % n, 0.0)
+        eixo = 1 if tr in ("lat_d", "lat_e") else 0          # y nas laterais, x na traseira
+        proib = [(yc - (wc + rc), yc + (wc + rc)) for yc in yc_col] if eixo == 1 else []
+        faces.append(dict(s_a=s_a, s_b=s_b, c0=p0[eixo], c1=p1[eixo], cresce=s["tan"],
+                          zlo=z_g0, zhi=z_g1, proibido=proib, nome=tr))
+    gra = grafismo(s, cont, z_g0, z_g1, faces)
 
     def furo(sarc, z):
         return gra.dentro(sarc % cont.perimetro, z)

@@ -373,3 +373,118 @@ def monta_padrao(perimetro, zlo, zhi, alma_min, espelho=False, minimo=0.45):
                 eixo=round(math.degrees(math.atan2(116.26, -89.855)), 1),
                 area_el=0, celula=round(abs(TILE_A1[1] * TILE_A2[0]) * s * s, 1))
     return pad, info
+
+
+# =============================================================================
+# rev.27 — BOLINHAS: furos redondos em rede hexagonal, diametro em gradiente
+# =============================================================================
+class Bolinhas:
+    """Campo de furos redondos por FACE reta (laterais e traseira), em rede
+    hexagonal de passo constante, com o diametro caindo linearmente do topo
+    (d_max) ao pe (d_min). So entram bolinhas INTEIRAS: nenhuma cortada pela
+    faixa cheia do aro, pela do pe, pelo canto ou pelas ranhuras das colunas.
+
+    A rede vive em coordenadas REAIS da face (mm ao longo da parede na cota do
+    furo), nao no comprimento de arco em z=0 que o emissor usa: por isso os
+    furos saem redondos apesar dos 7,5 graus de saida (a face alarga 15-30 %
+    do pe ao topo, e o arco em z=0 esticaria o circulo em elipse).
+
+    faces: lista de dicts com
+      s_a, s_b   -> trecho do arco (em z=0) que a face ocupa
+      c0, c1     -> coordenada real dos extremos da face em z=0 (y nas
+                    laterais, x na traseira), na ordem dos samples
+      cresce     -> quanto cada extremo avanca por mm de altura (= tan)
+      zlo, zhi   -> faixa util em z
+      proibido   -> intervalos da coordenada real onde nao pode haver furo
+    """
+
+    def __init__(self, faces, d_max, d_min, alma, margem=None):
+        self.d_max, self.d_min, self.alma = d_max, d_min, alma
+        self.margem = alma if margem is None else margem
+        self.pu = d_max + alma                  # passo entre centros (real)
+        self.pz = self.pu * math.sqrt(3) / 2    # passo entre fileiras
+        self.faces = []
+        self.n_furos, self.area_furos, self.area_faces = 0, 0.0, 0.0
+        for f in faces:
+            self.faces.append(self._monta_face(f))
+        self.fileiras = max((len(f["linhas"]) for f in self.faces), default=0)
+
+    # -- coordenada real de um ponto (s em z=0, z) dentro de uma face --------
+    @staticmethod
+    def _coord(f, s, z):
+        t = (s - f["s_a"]) / (f["s_b"] - f["s_a"])
+        c0 = f["c0"] - math.copysign(z * f["cresce"], f["c1"] - f["c0"])
+        c1 = f["c1"] + math.copysign(z * f["cresce"], f["c1"] - f["c0"])
+        return c0 + t * (c1 - c0)
+
+    def _monta_face(self, f):
+        zlo, zhi, m = f["zlo"], f["zhi"], self.margem
+        z_top = zhi - m - self.d_max / 2                 # centro da 1a fileira
+        linhas = []
+        i = 0
+        while True:
+            zc = z_top - i * self.pz
+            if zc - self.d_min / 2 < zlo + m:
+                break
+            linhas.append(zc)
+            i += 1
+        if not linhas:
+            return dict(f, linhas=[], furos={}, area=0.0)
+        z_bot = linhas[-1]
+
+        def diam(zc):
+            if len(linhas) == 1:
+                return self.d_max
+            return self.d_min + (self.d_max - self.d_min) * (zc - z_bot) / (z_top - z_bot)
+
+        furos = {}                                        # (i, j) -> (uc, zc, r)
+        area = 0.0
+        L0 = abs(f["c1"] - f["c0"])
+        for i, zc in enumerate(linhas):
+            r = diam(zc) / 2
+            half = L0 / 2 + zc * f["cresce"]              # meia-face real na cota
+            desl = (self.pu / 2) if (i % 2) else 0.0
+            jmax = int(math.ceil(half / self.pu)) + 1
+            for j in range(-jmax, jmax + 1):
+                uc = j * self.pu + desl
+                if abs(uc) + r + m > half:
+                    continue
+                if any(uc + r + self.alma > a and uc - r - self.alma < b for a, b in f.get("proibido", ())):
+                    continue
+                furos[(i, j)] = (uc, zc, r)
+                area += math.pi * r * r
+        self.n_furos += len(furos)
+        self.area_furos += area
+        self.area_faces += (zhi - zlo) * (L0 + (zhi + zlo) * f["cresce"])
+        return dict(f, linhas=linhas, furos=furos, area=area)
+
+    def dentro(self, s, z):
+        for f in self.faces:
+            if not (f["s_a"] <= s < f["s_b"]) or not f["linhas"]:
+                continue
+            u = self._coord(f, s, z)
+            z_top = f["linhas"][0]
+            fi = (z_top - z) / self.pz
+            for i in (int(math.floor(fi)), int(math.floor(fi)) + 1):
+                if i < 0 or i >= len(f["linhas"]):
+                    continue
+                desl = (self.pu / 2) if (i % 2) else 0.0
+                fj = (u - desl) / self.pu
+                for j in (int(math.floor(fj)), int(math.floor(fj)) + 1):
+                    fur = f["furos"].get((i, j))
+                    if fur is None:
+                        continue
+                    uc, zc, r = fur
+                    if (u - uc) ** 2 + (z - zc) ** 2 < r * r:
+                        return True
+            return False
+        return False
+
+    def medidas(self):
+        return dict(esc=0.0, alma=round(self.alma, 2),
+                    vazado=round(self.area_furos / self.area_faces, 3) if self.area_faces else 0.0,
+                    largura=round(self.d_max, 1), colunas=self.n_furos, fileiras=self.fileiras,
+                    pu=round(self.pu, 1), pz=round(self.pz, 1),
+                    alt_elem=round(self.d_max, 1), alt_longo=round(self.d_min, 1),
+                    eixo=90.0, area_el=round(math.pi * (self.d_max / 2) ** 2, 1),
+                    celula=round(self.pu * self.pz, 1))

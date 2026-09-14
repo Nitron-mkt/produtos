@@ -82,6 +82,11 @@ def main(k="M"):
     salva("grade", [(mg.triangulos(), cinza_g, None)], 1200, 900, 38, 32)
     # o P por baixo: copos, rodape com as janelas, fundo chapado
     salva("pe-canto", [(solP.triangulos(), paleta(COR_CORPO["P"]), None)], 1100, 900, 35, -25)
+    # rev.27: a lateral do P com as bolinhas em gradiente, de frente e de perto
+    XbP = sP["Xb"] / 2
+    latP = [tt for tt in solP.triangulos() if all(p[0] > XbP - 45 and p[2] > 55 for p in tt[:3])]
+    salva("bolinhas", [(latP, paleta(COR_CORPO["P"]), None)], 1600, 900, 0, 0)
+    salva("P-iso", [(solP.triangulos(), paleta(COR_CORPO["P"]), solP.normais_suaves(42))], 1600, 1150, 42, 23, True)
     # dez P ninhados
     salva("pilha-P", [(solP.triangulos(offset=(0, 0, i * sP["passo_ninho"]), giro180=bool(i % 2)),
                        paleta(COR_CORPO["P"]), None) for i in range(10)], 1000, 900, 44, 17, True)

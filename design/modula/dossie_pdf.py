@@ -38,7 +38,7 @@ def fmt(v, casas=1):
 class Dossie:
     def __init__(self, caminho):
         self.c = canvas.Canvas(caminho, pagesize=(W, H))
-        self.c.setTitle("MODULA rev.26 — dossiê 3D")
+        self.c.setTitle("MODULA rev.27 — dossiê 3D")
         self.c.setAuthor("Nitron — Desenvolvimento de Produtos")
         self.pag = 0
 
@@ -50,7 +50,7 @@ class Dossie:
         c.setFillColorRGB(*TINTA); c.setFont("DVB", 15)
         c.drawString(M, H - M - 20, titulo)
         c.setFillColorRGB(*CINZA); c.setFont("DV", 8.5)
-        c.drawRightString(W - M, H - M - 20, "MODULA · rev.26 · Nitron")
+        c.drawRightString(W - M, H - M - 20, "MODULA · rev.27 · Nitron")
         c.drawRightString(W - M, M - 14, str(self.pag))
         c.drawString(M, M - 14, "Estudo de geometria e mecânica — não é desenho de molde. Malha para forma, medida e impressão 3D.")
 
@@ -134,7 +134,7 @@ def main():
     modelo.AMOSTRA = [1.3, 20]           # a mesma malha do STL: a cota tem de bater
     F = {k: ficha(k)[1] for k in "PMG"}
     hoje = datetime.date.today().strftime("%d/%m/%Y")
-    saida = os.path.join(OUT, "modula-rev26.pdf")
+    saida = os.path.join(OUT, "modula-rev27.pdf")
     d = Dossie(saida)
     c = d.c
 
@@ -146,10 +146,10 @@ def main():
     c.drawString(M, H - 178, "Família de organizadores modulares")
     c.drawString(M, H - 198, "de frente aberta — 3 moldes + 2 grades")
     c.setFillColorRGB(*TERRA); c.setFont("DVB", 12)
-    c.drawString(M, H - 240, "rev.26 — modelo 3D paramétrico")
+    c.drawString(M, H - 240, "rev.27 — modelo 3D paramétrico")
     y = d.texto(M, H - 268, [
         "M e G ninham quase colados no transporte (17 mm no M) e plugam um sobre o outro no uso (pilha com canal e guia). "
-        "Fundo chapado no P e vazado no M e no G, parede com o pattern oficial da marca, acopladores macho/fêmea nas laterais dos três. "
+        "Fundo chapado no P e vazado no M e no G; parede do P com BOLINHAS em gradiente (rev.27: 14 → 5 mm, do aro ao pé), M e G ainda com o pattern da marca; acopladores macho/fêmea nas laterais dos três. "
         "P, M e G acoplam lado a lado, empilham um sobre o outro e ninham um dentro do outro. Dois P acoplados pousam sobre um M e três "
         "sobre um G através de uma GRADE DE ENCAIXE que se apoia no aro do grande e recebe os copos do P — o 4º e o 5º molde, planos.",
     ], tam=10.5, larg=W * 0.40 - M)
@@ -273,7 +273,28 @@ def main():
     d.nova()
 
     # ---------------- o grafismo ----------------
-    d.rodape("O grafismo — o pattern oficial da marca, furo a furo")
+    d.rodape("O vazado do P — bolinhas em gradiente (rev.27)")
+    sP = F["P"]
+    d.imagem(os.path.join(OUT, "det-P-iso.png"), M, H - M - 330, (W - 2 * M) * 0.46, 290,
+             "O P: bolinhas grandes no alto, pequenas junto ao pé; cantos, frente e ranhuras das colunas inteiros")
+    d.imagem(os.path.join(OUT, "det-bolinhas.png"), M + (W - 2 * M) * 0.50, H - M - 330, (W - 2 * M) * 0.50, 290,
+             f"A lateral do P de frente: {sP['graf_fileiras']} fileiras, Ø {fmt(sP['graf_largura'])} → {fmt(sP['graf_alt_longo'])} mm, alma {fmt(sP['graf_alma'])} mm")
+    d.texto(M, H - M - 365, [
+        f"**A rede.** Furos redondos em rede hexagonal de passo {fmt(sP['graf_pu'])} mm (fileiras a {fmt(sP['graf_pz'])} mm), "
+        f"diâmetro caindo linearmente de {fmt(sP['graf_largura'])} mm na fileira de cima a {fmt(sP['graf_alt_longo'])} mm na de baixo — "
+        f"{sP['graf_colunas']} bolinhas, {sP['graf_vazado']*100:.0f} % de área vazada nas faces furadas (o pattern da marca dava 58 %). "
+        f"A alma mínima entre furos vizinhos é {fmt(sP['graf_alma'])} mm em toda a parede, o limite de moldagem.",
+        "**Só bolinha inteira.** A rede vive em coordenadas reais de cada face (não no comprimento de arco em z = 0, que esticaria o círculo em elipse "
+        "com os 7,5° de saída). Nenhuma bolinha cortada pela faixa do aro, pela do pé, pelo canto ou pelas ranhuras das colunas: onde não cabe inteira, não nasce. "
+        "A frente (vão, mergulho e etiqueta) fica lisa.",
+        "**Por que o pé fecha.** Menos vazado embaixo é onde a coisa pequena escapa e onde a parede trabalha mais (o rodapé e o canal recebem a pilha). "
+        f"Custo: {fmt(sP['massa_g'],0)} g contra 281 g com o pattern — a parede fechada pesa. Se a fábrica preferir mais leve, o gradiente admite Ø maior "
+        "ou uma fileira a mais; a alma continua governando.",
+        "**M e G** ainda carregam o pattern oficial da marca (página seguinte); a troca por bolinhas nos dois espera a decisão sobre o P.",
+    ], larg=W - 2 * M)
+    d.nova()
+
+    d.rodape("O grafismo do M e do G — o pattern oficial da marca, furo a furo")
     d.imagem(os.path.join(AQUI, "grafismo", "pattern-tile.png"), M, H - M - 300, (W - 2 * M) * 0.38, 250,
              "O ladrilho do arquivo da marca: célula de 230 × 280 pt")
     d.imagem(os.path.join(OUT, "det-parede.png"), M + (W - 2 * M) * 0.40, H - M - 300, (W - 2 * M) * 0.60, 250,
@@ -324,8 +345,8 @@ def main():
         ["Coluna: largura / janela (mm)"] + [f"{fmt(F[k]['w_col'])} / {fmt(F[k]['w_col'] + 2*F[k]['rampa_col'])}" for k in "PMG"],
         ["Degrau da pilha: ponte / canal (mm)"] + [f"{fmt(F[k]['larg_ponte'])} / {fmt(F[k]['larg_canal'])}" for k in "PMG"],
         ["Fundo: nervura (larg × alt) / vão (mm)"] + [f"{fmt(F[k]['larg_nerv'])} × {fmt(F[k]['alt_nerv'])} / {fmt(F[k]['vao_fundo'],0)}" for k in "PMG"],
-        ["Grafismo: largura do furo / alma (mm)"] + [f"{fmt(F[k]['graf_largura'])} / {fmt(F[k]['graf_alma'])}" for k in "PMG"],
-        ["Grafismo: fração vazada"] + [f"{F[k]['graf_vazado']*100:.0f} %" for k in "PMG"],
+        ["Vazado: Ø máx. ou largura do furo / alma (mm)"] + [f"{fmt(F[k]['graf_largura'])} / {fmt(F[k]['graf_alma'])}" for k in "PMG"],
+        ["Vazado: fração vazada (faces furadas)"] + [f"{F[k]['graf_vazado']*100:.0f} %" for k in "PMG"],
         r("Área projetada (cm²)", lambda s: s["area_projetada_cm2"], 0),
         ["Fechamento 300–400 bar (tf)"] + [f"{fmt(F[k]['ton_min'],0)} – {fmt(F[k]['ton_max'],0)}" for k in "PMG"],
         ["Ninho: vértices conferidos / violações"] + [f"{F[k]['ninho_pts']} / {F[k]['ninho_viol']}" for k in "PMG"],
