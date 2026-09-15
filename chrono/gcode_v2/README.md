@@ -10,9 +10,25 @@ firmware `klipper`, mesa 255×255, miniatura 230×110).
 |---|---|---|---|
 | `Chrono_v2_01_Valvula_Dias.gcode` | M01 sozinha, números para cima, com suporte | 54 min | 3,95 g |
 | `Chrono_v2_02_Aro_Meses.gcode` | M02, plano | 10 min | 0,49 g |
-| `Chrono_v2_03_Travinha_Seta.gcode` | M03, **invertida** (pino para cima) | 5 min | 0,23 g |
-| `Chrono_v2_04_Chapa_3_Pecas.gcode` | as três na mesma mesa, 1:1 | 1 h 10 | 4,68 g |
-| `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + travinha, **3×** | 7 h 42 | 34,50 g |
+| `Chrono_v2_03a_Ponteira_MD.gcode` | M03a, **invertida** (pino para cima) | 5 min | 0,23 g |
+| `Chrono_v2_03b_Ponteira_Janela.gcode` | M03b, **invertida** | 6 min | 0,25 g |
+| **`Chrono_v2_04_Todas_As_Pecas_1x.gcode`** | **as quatro peças numa mesa só, 1:1** | **1 h 15** | **4,95 g** |
+| `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + ponteira do rasgo, **3×** | 7 h 48 | 35,26 g |
+
+## O arquivo único
+
+`Chrono_v2_04_Todas_As_Pecas_1x.gcode` traz **as quatro peças já fatiadas na mesma
+mesa**: válvula, aro dos meses e as duas ponteiras. É um arquivo só, manda para a
+impressora e sai o datador inteiro com as duas opções de ponteira para comparar na mão.
+
+Conferido no percurso da primeira camada (`../stl_v2/chapa_primeira_camada.png`): as
+quatro peças aparecem, separadas, dentro da mesa, com o ícone da Nitron já visível nos
+dois cubos e o rasgo retangular visível na `M03b` — as ponteiras vão invertidas, então
+a primeira camada é justamente a face de topo delas.
+
+> Cuidado ao medir sobreposição pelo `; printing object` do gcode: com `--merge` o
+> rótulo não particiona os deslocamentos, e as caixas saem maiores que as peças. Quem
+> decide é o desenho da camada, ou a checagem de colisão em `preparar.py` antes de fatiar.
 
 ## Por que dois testes e não um
 
