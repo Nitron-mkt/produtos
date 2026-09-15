@@ -15,20 +15,39 @@ firmware `klipper`, mesa 255×255, miniatura 230×110).
 | **`Chrono_v2_04_Todas_As_Pecas_1x.gcode`** | **as quatro peças numa mesa só, 1:1** | **1 h 15** | **4,95 g** |
 | `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + ponteira do rasgo, **3×** | 7 h 48 | 35,26 g |
 
-## O arquivo único
+## Quatro arquivos, uma peça em cada
 
-`Chrono_v2_04_Todas_As_Pecas_1x.gcode` traz **as quatro peças já fatiadas na mesma
-mesa**: válvula, aro dos meses e as duas ponteiras. É um arquivo só, manda para a
-impressora e sai o datador inteiro com as duas opções de ponteira para comparar na mão.
+Um arquivo por peça, cada um com **um único objeto centrado na mesa**. Foi assim que
+ficou depois que a mesa com as quatro juntas não deu certo.
 
-Conferido no percurso da primeira camada (`../stl_v2/chapa_primeira_camada.png`): as
-quatro peças aparecem, separadas, dentro da mesa, com o ícone da Nitron já visível nos
-dois cubos e o rasgo retangular visível na `M03b` — as ponteiras vão invertidas, então
-a primeira camada é justamente a face de topo delas.
+| Arquivo | Peça | Tempo | PLA |
+|---|---|---|---|
+| `Chrono_1_de_4_Valvula_Dias.gcode` | M01 válvula + 31 dias, números para cima, com suporte | 55 min | 4,02 g |
+| `Chrono_2_de_4_Aro_Meses.gcode` | M02 aro dos meses, 1 a 12 | 11 min | 0,61 g |
+| `Chrono_3_de_4_Ponteira_MD.gcode` | M03a ponteira M / D, **invertida** | 6 min | 0,29 g |
+| `Chrono_4_de_4_Ponteira_Janela.gcode` | M03b ponteira com rasgo, **invertida** | 6 min | 0,31 g |
 
-> Cuidado ao medir sobreposição pelo `; printing object` do gcode: com `--merge` o
-> rótulo não particiona os deslocamentos, e as caixas saem maiores que as peças. Quem
-> decide é o desenho da camada, ou a checagem de colisão em `preparar.py` antes de fatiar.
+`Chrono_extra_Mecanismo_3x.gcode` continua à parte: disco de prova + aro + ponteira do
+rasgo em **3×**, para provar leitura e giro (7 h 48, 35,3 g).
+
+### Aba maior que antes
+
+A aba subiu de 3 mm para **8 mm na válvula** e **6 mm nas outras três**. A válvula é a
+que pede: o corpo é um disco com saia e encosta na mesa por só **11 mm²** de face plana
+— o resto de quem segura a peça é o próprio suporte. Peça pequena que descola no meio
+da impressão é o modo de falha mais comum aqui, e aba custa menos de um minuto.
+
+### O que foi conferido em cada um
+
+- **um objeto só** por arquivo, centrado em X 127,5 Y 127,5;
+- `G9111 bedTemp=60 extruderTemp=210` presente;
+- percurso dentro da mesa 255 × 255, Z começando em 0,20;
+- miniatura 230 × 110 PNG decodificada;
+- percurso da primeira camada desenhado e olhado — o ícone da Nitron aparece nos dois
+  cubos e o rasgo aparece na `M03b` (as ponteiras vão invertidas, então a primeira
+  camada é a face de topo delas);
+- só comandos que o Klipper da Kobra 3 entende:
+  `G1 G21 G90 G9111 G92 M82 M84 M104 M106 M107 M117 M140 M400 M900`.
 
 ## Por que dois testes e não um
 
