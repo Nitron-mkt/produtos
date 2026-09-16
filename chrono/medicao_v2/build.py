@@ -145,12 +145,19 @@ FENDA_W, FENDAS  = 0.70, 4
 MARCA_REL, ICONE_H = 0.25, 8.00
 import icone
 
-def cunha(m0, m1, r_bico, r0=6.00, bico=0.90):
-    """meia-largura cai linearmente de m0 (no eixo) ate m1 na ponta"""
-    k=(m1-m0)/r_bico
-    hw=lambda r: m0+k*r
-    r1=r_bico-0.90
-    return [(-hw(r0),r0),(hw(r0),r0),(hw(r1),r1),(bico,r_bico),(-bico,r_bico),(-hw(r1),r1)], hw
+# --- GOTA: fecho convexo de dois circulos no eixo radial. Cabeca redonda que
+# passa atras do eixo, afinando ate o nariz. Desenho do cliente.
+BULBO_R, BULBO_OFF = 8.20, 1.00    # cabeca: centro 1,00 atras do eixo
+NARIZ_R, NARIZ_Y   = 2.10, 16.80   # ponta em r 18,90
+# O desenho trazia ponta em agulha. Medido: com nariz de 0,70 a borda do rasgo
+# vai a -0,11 mm em r 17,50 — o rasgo fica mais largo que a lamina. Com 2,10 a
+# borda segura 0,73 do comeco ao fim, e a gota continua gota.
+def gota(rb=BULBO_R, off=BULBO_OFF, rn=NARIZ_R, yn=NARIZ_Y, n=180):
+    import numpy as _np
+    t=_np.linspace(0,2*pi,n,endpoint=False)
+    pa=[(rb*cos(a), -off+rb*sin(a)) for a in t]
+    pb=[(rn*cos(a),  yn+rn*sin(a)) for a in t]
+    return SP(pa).union(SP(pb)).convex_hull
 
 def lam(r0,r1,meia,y0,y1):
     pr=trimesh.creation.extrude_polygon(SP([(-meia,r0),(meia,r0),(meia,r1),(-meia,r1)]), height=y1-y0)
@@ -165,9 +172,9 @@ def grava(itens, R, cap):
     return out
 
 def ponteira(variante):
-    cubo=boolean('union',[
-        revolve([(3.20,CUBO_Y0),(CUBO_RE,CUBO_Y0),(CUBO_RE,TOPO-0.25),(CUBO_RE-0.25,TOPO),(3.20,TOPO)]),
-        cyl(3.30, CUBO_Y0, TOPO, n=96)])
+    # nao ha mais cubo separado: a cabeca da gota E o cubo. So o nucleo que
+    # tampa o canal do pino continua sendo revolucao.
+    cubo=cyl(3.30, CUBO_Y0, TOPO, n=96)
     pino=revolve([(2.05,CUBO_Y0),(PINO_RE,CUBO_Y0),(PINO_RE,PINO_Y0),(FARPA_R,PINO_Y0),
                   (2.55,PINO_Y1),(2.35,PINO_Y1),(2.35,PINO_Y0),(2.05,CUBO_Y0)])
     fendas=[]; drenos=[]
@@ -181,15 +188,12 @@ def ponteira(variante):
             SP([(-0.35,2.60),(0.35,2.60),(0.35,CUBO_RE+0.20),(-0.35,CUBO_RE+0.20)]), height=0.30)
         drenos.append(place(dr, a, 0.0, CUBO_Y0+0.30, 0.30))
 
+    perfil=gota()
     if variante=='md':
-        R_BICO=15.65
-        pol,hw=cunha(2.90, 1.10, R_BICO)
         vazio=[lam(8.60,10.90,0.50,CUBO_Y0-0.3,TOPO+0.3)]   # cintura: deixa ver o mes
-        marcas=grava([(radians(90),'M')], 7.90, 1.10)+grava([(radians(90),'D')], 13.40, 1.10)
+        marcas=grava([(radians(90),'M')], 8.60, 1.10)+grava([(radians(90),'D')], 14.20, 1.10)
     else:
-        R_BICO=19.10
-        pol,hw=cunha(3.60, 1.90, R_BICO)
-        JR0,JR1,JM0,JM1 = 9.00, 17.70, 2.00, 1.25         # rasgo, tambem em cunha
+        JR0,JR1,JM0,JM1 = 9.40, 17.50, 2.00, 1.25         # rasgo afina junto com a gota
         jan=trimesh.creation.extrude_polygon(
               SP([(-JM0,JR0),(JM0,JR0),(JM1,JR1),(-JM1,JR1)]), height=TOPO-CUBO_Y0+0.6)
         jan=place(jan, radians(90), 0.0, TOPO+0.3, TOPO-CUBO_Y0+0.6)
@@ -200,9 +204,9 @@ def ponteira(variante):
               height=0.75)
         ch=place(ch, radians(90), 0.0, TOPO+0.35, 0.75)
         vazio=[jan,ch]
-        marcas=grava([(radians(90),'M')], 8.25, 1.10)+grava([(radians(90),'D')], 18.35, 1.10)
+        marcas=grava([(radians(90),'M')], 8.55, 1.10)+grava([(radians(90),'D')], 18.15, 1.10)
 
-    lamina=place(trimesh.creation.extrude_polygon(SP(pol), height=TOPO-CUBO_Y0),
+    lamina=place(trimesh.creation.extrude_polygon(perfil, height=TOPO-CUBO_Y0),
                  radians(90), 0.0, TOPO, TOPO-CUBO_Y0)
 
     ico=[]

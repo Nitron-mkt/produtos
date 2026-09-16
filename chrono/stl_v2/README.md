@@ -244,11 +244,23 @@ O numeral do mês passou de relevo para **gravado**, o que devolve mais 0,30. S�
 o dobro coube. Os entalhes de unha ficaram **0,75 mm de fundo** e agora a rodinha
 sobra **1,02 mm** acima da face da válvula — dá para girar com a unha de verdade.
 
-### Ponteira: 0,80 → **1,60 mm** (o dobro), lâmina em **cunha**
+### Ponteira: 0,80 → **1,60 mm** (o dobro), lâmina em **gota**
 
-A lâmina de lados paralelos deixava a borda do rasgo fina demais perto do cubo. Agora
-ela sai larga do meio do ícone (**5,7 mm**) e afina até a ponta (**1,8 mm**), e o rasgo
-afina junto — a borda fica em **0,8 mm constante** do começo ao fim.
+Desenho do cliente. A lâmina é o **fecho convexo de dois círculos** no eixo radial:
+uma cabeça de **Ø16,40** com centro **1,00 mm atrás** do eixo, e um nariz de **Ø4,20**
+com centro em r 16,80 — ponta em **r 18,90**. O rasgo afina junto com ela.
+
+**Uma cota do desenho não fechou.** O esboço trazia ponta em agulha. Medindo:
+
+| ponta | borda do rasgo em r 15,00 | em r 16,65 | em r 17,50 |
+|---|---|---|---|
+| agulha (Ø1,4) | 0,70 | 0,16 | **−0,11** |
+| nariz Ø2,8 | 1,01 | 0,51 | 0,15 |
+| **nariz Ø4,20** | **1,41** | **0,96** | **0,73** |
+
+Com ponta em agulha o rasgo fica **mais largo que a própria lâmina** em r 17,50 — a
+borda deixa de existir, que é exatamente o defeito que a gota veio corrigir. Nariz de
+Ø4,20 segura 0,73 mm de borda do começo ao fim e a silhueta continua sendo uma gota.
 
 ### Circunferência central: Ø10,80 → **Ø13,20**
 

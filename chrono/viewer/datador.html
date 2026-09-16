@@ -1,7 +1,7 @@
 <title>Datador Chrono</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="malhas_v3.js"></script>
+<script src="malhas_v4.js"></script>
 <style>
 :root{
   --ground:#e8eaed; --surface:#f6f7f8; --sunk:#dcdfe3; --canvas:#c9ced4;
@@ -152,7 +152,7 @@ dl.cotas dd b{font-weight:600}
       <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
         <span class="nm">M02 Rodinha dos meses<small>gira · 1,60 de espessura · 12 encaixes</small></span><span class="g mono">0,57 g</span></button>
       <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
-        <span class="nm">M03 Ponteira<small>gira solta · 1,60 de espessura · lâmina em cunha</small></span><span class="g mono" id="gm03">0,32 g</span></button>
+        <span class="nm">M03 Ponteira<small>gira solta · 1,60 · lâmina em gota</small></span><span class="g mono" id="gm03">0,43 g</span></button>
       <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
         <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
     </div>
@@ -193,10 +193,12 @@ dl.cotas dd b{font-weight:600}
         <dt>Meses · numeral 1 a 12</dt><dd class="mono">r 10,00 · <b>gravado</b> 0,30</dd>
         <dt>Entalhes de unha</dt><dd class="mono">12 · 0,75 de fundo</dd>
         <dt>Circunferência central</dt><dd class="mono">Ø10,80 → <b>Ø13,20</b></dd>
-        <dt>Cubo da ponteira</dt><dd class="mono">Ø12,60 → <b>Ø15,20</b></dd>
+        <dt>Cabeça da ponteira</dt><dd class="mono">Ø12,60 → <b>Ø16,40</b></dd>
         <dt>Espessura da ponteira</dt><dd class="mono">0,80 → <b>1,60</b></dd>
-        <dt>Lâmina em cunha</dt><dd class="mono">5,7 no cubo → 1,8 na ponta</dd>
-        <dt>Rasgo</dt><dd class="mono">r 9,00–17,70 · 4,00 → 2,50</dd>
+        <dt>Lâmina em gota</dt><dd class="mono">cabeça Ø16,40 · nariz Ø4,20</dd>
+        <dt>Ponta da gota</dt><dd class="mono">r 18,90 · cabeça 1,00 atrás do eixo</dd>
+        <dt>Rasgo</dt><dd class="mono">r 9,40–17,50 · 4,00 → 2,50</dd>
+        <dt>Borda do rasgo</dt><dd class="mono">2,93 → <b>0,73</b> mm</dd>
         <dt>Ícone Nitron no cubo</dt><dd class="mono">8,00 alt · gravado 0,25</dd>
         <dt>Furo passante na válvula</dt><dd class="mono">Ø6,00</dd>
         <dt>Pino · folga radial</dt><dd class="mono">Ø5,80 · 0,10</dd>
@@ -356,7 +358,7 @@ function aplica(){
   if(obj.tampa) obj.tampa.position.y=-e*6;
   ['m01','m02','tampa'].forEach(k=>{ if(obj[k]) obj[k].visible=!!S.ver[k]; });
   for(const k in obj) obj[k].material.clippingPlanes=S.corte?[plano]:null;
-  el_('gm03').textContent='0,32 g';
+  el_('gm03').textContent=(S.vers==='m03a'?'0,47 g':'0,43 g');
   el_('notaV').innerHTML = S.vers==='m03b'
     ? 'O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.'
     : 'A <b>lâmina M / D</b> indexa o dia pela ponta. No mês ela cobre o numeral — '
