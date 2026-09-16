@@ -1,7 +1,7 @@
 <title>Datador Chrono</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="malhas.js"></script>
+<script src="malhas_v3.js"></script>
 <style>
 :root{
   --ground:#e8eaed; --surface:#f6f7f8; --sunk:#dcdfe3; --canvas:#c9ced4;
@@ -148,11 +148,11 @@ dl.cotas dd b{font-weight:600}
     <div class="bloco">
       <span class="eyebrow">Peças</span>
       <button class="peca" id="p1" aria-pressed="true"><span class="sw" style="background:var(--m01)"></span>
-        <span class="nm">M01 Válvula + 31 dias<small>fixa · furada no eixo em Ø5,00</small></span><span class="g mono">2,13 g</span></button>
+        <span class="nm">M01 Válvula + 31 dias<small>fixa · furo Ø6,00 · rebaixo da rodinha</small></span><span class="g mono">1,94 g</span></button>
       <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
-        <span class="nm">M02 Aro dos meses<small>gira · 12 encaixes</small></span><span class="g mono">0,30 g</span></button>
+        <span class="nm">M02 Rodinha dos meses<small>gira · 1,60 de espessura · 12 encaixes</small></span><span class="g mono">0,57 g</span></button>
       <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
-        <span class="nm">M03 Ponteira<small>gira solta · pino passante · ícone Nitron</small></span><span class="g mono" id="gm03">0,13 g</span></button>
+        <span class="nm">M03 Ponteira<small>gira solta · 1,60 de espessura · lâmina em cunha</small></span><span class="g mono" id="gm03">0,32 g</span></button>
       <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
         <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
     </div>
@@ -188,15 +188,20 @@ dl.cotas dd b{font-weight:600}
         <dt>Caixa alta dos dias · relevo</dt><dd class="mono">1,70 · 0,25</dd>
         <dt>Traço mais fino</dt><dd class="mono">0,32</dd>
         <dt>Folga entre dois dias</dt><dd class="mono">0,98</dd>
-        <dt>Aro dos meses</dt><dd class="mono">r 5,60–12,90 × 0,80</dd>
-        <dt>Meses · numeral 1 a 12</dt><dd class="mono">r 9,60 · caixa alta 2,00</dd>
-        <dt>Lâmina M / D</dt><dd class="mono">3,20, cintura 0,90</dd>
-        <dt>Lâmina do rasgo</dt><dd class="mono">5,40 · rasgo 3,40 × 9,40</dd>
-        <dt>Ícone Nitron no cubo</dt><dd class="mono">7,00 alt · gravado 0,25</dd>
-        <dt>Furo passante na válvula</dt><dd class="mono">Ø5,00</dd>
-        <dt>Pino · folga radial</dt><dd class="mono">Ø4,80 · 0,10</dd>
-        <dt>Farpa · encaixe radial</dt><dd class="mono">Ø5,80 · 0,40</dd>
-        <dt>Altura total do conjunto</dt><dd class="mono">Y 38,95</dd>
+        <dt>Rodinha dos meses</dt><dd class="mono">r 6,80–13,40 × <b>1,60</b></dd>
+        <dt>Rebaixo onde ela afunda</dt><dd class="mono">0,60 · até r 13,60</dd>
+        <dt>Meses · numeral 1 a 12</dt><dd class="mono">r 10,00 · <b>gravado</b> 0,30</dd>
+        <dt>Entalhes de unha</dt><dd class="mono">12 · 0,75 de fundo</dd>
+        <dt>Circunferência central</dt><dd class="mono">Ø10,80 → <b>Ø13,20</b></dd>
+        <dt>Cubo da ponteira</dt><dd class="mono">Ø12,60 → <b>Ø15,20</b></dd>
+        <dt>Espessura da ponteira</dt><dd class="mono">0,80 → <b>1,60</b></dd>
+        <dt>Lâmina em cunha</dt><dd class="mono">5,7 no cubo → 1,8 na ponta</dd>
+        <dt>Rasgo</dt><dd class="mono">r 9,00–17,70 · 4,00 → 2,50</dd>
+        <dt>Ícone Nitron no cubo</dt><dd class="mono">8,00 alt · gravado 0,25</dd>
+        <dt>Furo passante na válvula</dt><dd class="mono">Ø6,00</dd>
+        <dt>Pino · folga radial</dt><dd class="mono">Ø5,80 · 0,10</dd>
+        <dt>Farpa · encaixe radial</dt><dd class="mono">Ø6,80 · 0,40</dd>
+        <dt>Altura total do conjunto</dt><dd class="mono">Y <b>39,95</b></dd>
         <dt>Aro de empilhamento da tampa</dt><dd class="mono">Y 39,72</dd>
       </dl>
     </div>
@@ -206,8 +211,12 @@ dl.cotas dd b{font-weight:600}
       <p class="nota"><span class="selo">0,0000 mm³</span> de interferência entre as três peças, e zero contra a tampa.</p>
       <p class="nota">Válvula <b>nova</b> × tampa = <b class="mono">1,6357 mm³</b>. Válvula <b>original</b> × tampa =
         <b class="mono">1,6357 mm³</b>. Diferença <b class="mono">+0,0000</b> — a parte de baixo é a sua, sem aperto novo.</p>
-      <p class="nota"><span class="selo ox">de projeto</span> Entre dois encaixes o aro monta <b class="mono">0,16 mm</b>
+      <p class="nota"><span class="selo ox">de projeto</span> Entre dois encaixes a rodinha monta <b class="mono">0,16 mm</b>
         sobre a mola. É o detente, não é colisão.</p>
+      <p class="nota"><span class="selo ox">decidir</span> Com rodinha e ponteira no dobro da espessura, o conjunto
+        chega a <b class="mono">Y 39,95</b> — <b>0,23 mm acima</b> do aro de empilhamento da tampa (39,72). Afundar a
+        rodinha 0,60 e gravar o numeral já devolveram 0,90 mm; os últimos 0,23 só saem tirando espessura de alguma
+        das duas peças.</p>
       <p class="nota">Basculando a válvula de <b class="mono">−3,6°</b> a <b class="mono">+3,6°</b> em torno do eixo das
         orelhas, a curva de interferência contra a tampa é <b>idêntica</b> à da válvula original em todos os ângulos.
         O pino não rouba curso do gangorra.</p>
@@ -347,7 +356,7 @@ function aplica(){
   if(obj.tampa) obj.tampa.position.y=-e*6;
   ['m01','m02','tampa'].forEach(k=>{ if(obj[k]) obj[k].visible=!!S.ver[k]; });
   for(const k in obj) obj[k].material.clippingPlanes=S.corte?[plano]:null;
-  el_('gm03').textContent=(S.vers==='m03a'?'0,12 g':'0,13 g');
+  el_('gm03').textContent='0,32 g';
   el_('notaV').innerHTML = S.vers==='m03b'
     ? 'O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.'
     : 'A <b>lâmina M / D</b> indexa o dia pela ponta. No mês ela cobre o numeral — '

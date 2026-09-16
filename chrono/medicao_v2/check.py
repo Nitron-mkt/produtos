@@ -58,10 +58,11 @@ print('  ponta do pino chega a Y %.2f  (face de baixo da valvula: 35,40)'%M3.bou
 print('  atravessa a chapa? %s  — passa %.2f mm alem dela'
       %('SIM' if M3.bounds[0][1]<35.40 else 'NAO', 35.40-M3.bounds[0][1]))
 fur=v1[(r1<3.2)&(v1[:,1]>35.3)&(v1[:,1]<35.5)]
-print('  raio do furo na saida: %.2f'%np.hypot(fur[:,0],fur[:,2]).max() if len(fur) else '  furo nao encontrado')
+rfuro=np.hypot(fur[:,0],fur[:,2]).max() if len(fur) else 0.0
+print('  raio do furo na saida: %.2f'%rfuro)
 far=v3[(v3[:,1]>35.35)&(v3[:,1]<35.45)]
 print('  raio da farpa no ombro: %.2f  ->  encaixe radial %.2f mm'
-      %(np.hypot(far[:,0],far[:,2]).max(), np.hypot(far[:,0],far[:,2]).max()-2.50))
+      %(np.hypot(far[:,0],far[:,2]).max(), np.hypot(far[:,0],far[:,2]).max()-rfuro))
 print('  folga ate o fundo do poco da tampa (Y 32,15): %.2f mm'%(M3.bounds[0][1]-32.15))
 
 print('\nCURSO DO GANGORRA — a pergunta nao e "bate?", e "bate ANTES da original?"')

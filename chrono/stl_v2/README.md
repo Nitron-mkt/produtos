@@ -232,3 +232,46 @@ sombra em vez de pegar pancada.
 O cubo é **maciço**: ele fecha o topo do canal do pino. A água que entra pelas fendas
 sai pelos **quatro drenos radiais de 0,30 × 0,25** na face de baixo do cubo e pelo
 fundo aberto do pino. Não há cavidade cega.
+
+## Revisão depois do primeiro protótipo montado
+
+Três coisas mudaram por causa da peça na mão, e uma quarta apareceu na conta.
+
+### Rodinha do mês: 0,80 → **1,60 mm** (o dobro)
+
+E para caber, ela **afunda 0,60 mm num rebaixo** aberto na válvula (r 6,80–13,60).
+O numeral do mês passou de relevo para **gravado**, o que devolve mais 0,30. Só assim
+o dobro coube. Os entalhes de unha ficaram **0,75 mm de fundo** e agora a rodinha
+sobra **1,02 mm** acima da face da válvula — dá para girar com a unha de verdade.
+
+### Ponteira: 0,80 → **1,60 mm** (o dobro), lâmina em **cunha**
+
+A lâmina de lados paralelos deixava a borda do rasgo fina demais perto do cubo. Agora
+ela sai larga do meio do ícone (**5,7 mm**) e afina até a ponta (**1,8 mm**), e o rasgo
+afina junto — a borda fica em **0,8 mm constante** do começo ao fim.
+
+### Circunferência central: Ø10,80 → **Ø13,20**
+
+O poste cresceu, o furo passante foi de Ø5,00 para **Ø6,00**, o pino de Ø4,80 para
+**Ø5,80** e o cubo da ponteira de Ø12,60 para **Ø15,20**. Encaixe mais folgado de
+montar e pino bem mais rígido, com o mesmo 0,40 de encaixe radial da farpa.
+
+### ⚠️ O conjunto ficou 0,23 mm acima do aro de empilhamento
+
+Da face da válvula (Y 37,23) até o aro de empilhamento da tampa (**Y 39,72**) existem
+**2,49 mm**. Rodinha e ponteira no dobro pedem 1,60 + 1,60 + folgas = **3,4 mm**.
+
+Rebaixo de 0,60 + numeral gravado de 0,30 devolveram **0,90 mm**. Sobrou faltando
+**0,23 mm**: o conjunto termina em **Y 39,95**.
+
+Na prática isso significa que o datador vira o ponto mais alto da tampa por 0,23 mm.
+Se a base do pote que empilha em cima tiver qualquer rebaixo central — e quase toda
+base tem — não muda nada. Se tiver que ficar rente, as saídas são:
+
+| Saída | Custo |
+|---|---|
+| ponteira 1,60 → **1,35** | continua 69% mais grossa que a original |
+| rodinha 1,60 → **1,35** | idem |
+| rebaixo 0,60 → **0,85** | chapa da válvula cai de 1,83 para 0,98 mm no anel r 6,8–13,6 |
+
+Eu não escolhi sozinho porque quem sabe como o seu pote empilha é você.
