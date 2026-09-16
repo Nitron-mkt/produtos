@@ -15,20 +15,26 @@ firmware `klipper`, mesa 255×255, miniatura 230×110).
 | **`Chrono_v2_04_Todas_As_Pecas_1x.gcode`** | **as quatro peças numa mesa só, 1:1** | **1 h 15** | **4,95 g** |
 | `Chrono_v2_05_Mecanismo_3x.gcode` | disco de prova + aro + ponteira do rasgo, **3×** | 7 h 48 | 35,26 g |
 
-## Quatro arquivos, uma peça em cada
+## Três arquivos, uma peça em cada
 
-Um arquivo por peça, cada um com **um único objeto centrado na mesa**. Foi assim que
-ficou depois que a mesa com as quatro juntas não deu certo.
+Um arquivo por molde, cada um com **um único objeto centrado em X 127,5 Y 127,5**.
 
 | Arquivo | Peça | Tempo | PLA |
 |---|---|---|---|
-| `Chrono_1_de_4_Valvula_Dias.gcode` | M01 válvula + 31 dias, números para cima, com suporte | 55 min | 4,02 g |
-| `Chrono_2_de_4_Aro_Meses.gcode` | M02 aro dos meses, 1 a 12 | 11 min | 0,61 g |
-| `Chrono_3_de_4_Ponteira_MD.gcode` | M03a ponteira M / D, **invertida** | 6 min | 0,29 g |
-| `Chrono_4_de_4_Ponteira_Janela.gcode` | M03b ponteira com rasgo, **invertida** | 6 min | 0,31 g |
+| `Chrono_1_de_3_Valvula_Dias.gcode` | M01 válvula + 31 dias, números para cima, com suporte | 54 min | 3,82 g |
+| `Chrono_2_de_3_Rodinha_Meses.gcode` | M02 rodinha, 1,60 de espessura, numerais gravados | 17 min | 1,04 g |
+| `Chrono_3_de_3_Ponteira.gcode` | M03 ponteira em gota, **invertida** (pino para cima) | 13 min | 0,81 g |
 
-`Chrono_extra_Mecanismo_3x.gcode` continua à parte: disco de prova + aro + ponteira do
-rasgo em **3×**, para provar leitura e giro (7 h 48, 35,3 g).
+**1 h 25 min e 5,67 g** o datador inteiro.
+
+Quatro extras ficam à parte, cada um com seu motivo:
+
+| Extra | Para quê |
+|---|---|
+| `Chrono_0_Teste_Primeira_Camada.gcode` | acertar o Z offset antes de gastar peça (10 min) |
+| `Chrono_extra_Valvula_COM_RAFT.gcode` | rede de segurança se a válvula ainda descolar |
+| `Chrono_extra_Ponteira_MD.gcode` | a versão de lâmina cheia com M e D, para comparar |
+| `Chrono_extra_Mecanismo_3x.gcode` | disco de prova + rodinha + ponteira em 3×, prova leitura e giro |
 
 ### Aba maior que antes
 
