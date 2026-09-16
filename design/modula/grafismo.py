@@ -488,3 +488,72 @@ class Bolinhas:
                     alt_elem=round(self.d_max, 1), alt_longo=round(self.d_min, 1),
                     eixo=90.0, area_el=round(math.pi * (self.d_max / 2) ** 2, 1),
                     celula=round(self.pu * self.pz, 1))
+
+
+class BolinhasEscala(Bolinhas):
+    """rev.28: gradiente de ESCALA — o diametro cai do topo ao pe e o passo
+    cai junto (passo = d + alma), de modo que a alma e constante e a fracao
+    vazada nao despenca embaixo. Fileiras centradas na face; cada fileira e
+    empurrada para baixo ate que nenhum furo fique a menos de 'alma' de um furo
+    da fileira de cima."""
+
+    def _monta_face(self, f):
+        zlo, zhi, m, alma = f["zlo"], f["zhi"], self.margem, self.alma
+        L0 = abs(f["c1"] - f["c0"])
+        z_top = zhi - m - self.d_max / 2
+        z_bot = zlo + m + self.d_min / 2
+        if z_top <= z_bot:
+            return dict(f, linhas=[], furos={}, area=0.0)
+
+        def diam(zc):
+            return self.d_min + (self.d_max - self.d_min) * (zc - z_bot) / (z_top - z_bot)
+
+        linhas, furos, area = [], {}, 0.0
+        prev = []
+        zc = z_top
+        i = 0
+        while zc - diam(zc) / 2 >= zlo + m - 1e-6:
+            d = diam(zc); r = d / 2; pu = d + alma
+            half = L0 / 2 + zc * f["cresce"]
+            nmax = int((2 * (half - m) + alma) // pu)
+            fila = []
+            for j in range(nmax):
+                uc = (j - (nmax - 1) / 2) * pu
+                if abs(uc) + r + m > half:
+                    continue
+                if any(uc + r + alma > a and uc - r - alma < b for a, b in f.get("proibido", ())):
+                    continue
+                fila.append((uc, zc, r))
+            # empurra a fileira para baixo ate respeitar a alma contra a de cima
+            if prev:
+                for _ in range(60):
+                    pior = min((math.hypot(u - u2, zc - z2) - r - r2 for (u, _, r) in fila for (u2, z2, r2) in prev), default=alma)
+                    if pior >= alma - 1e-6:
+                        break
+                    zc -= (alma - pior) * 0.6
+                    fila = [(u, zc, r) for (u, _, r) in fila]
+                if zc - r < zlo + m - 1e-6:
+                    break
+            for j, fur in enumerate(fila):
+                furos[(i, j)] = fur
+                area += math.pi * fur[2] ** 2
+            linhas.append(zc)
+            prev = fila
+            i += 1
+            d_next = diam(zc - (d + alma) * math.sqrt(3) / 2)
+            zc -= ((d + d_next) / 2 + alma) * math.sqrt(3) / 2
+        self.n_furos += len(furos)
+        self.area_furos += area
+        self.area_faces += (zhi - zlo) * (L0 + (zhi + zlo) * f["cresce"])
+        return dict(f, linhas=linhas, furos=furos, area=area, por_linha={})
+
+    def dentro(self, s, z):
+        for f in self.faces:
+            if not (f["s_a"] <= s < f["s_b"]) or not f["linhas"]:
+                continue
+            u = self._coord(f, s, z)
+            for (uc, zc, r) in f["furos"].values():
+                if abs(z - zc) < r and (u - uc) ** 2 + (z - zc) ** 2 < r * r:
+                    return True
+            return False
+        return False

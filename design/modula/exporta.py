@@ -14,7 +14,7 @@ COR_GRADE = (150, 158, 165)
 
 
 def paleta(base, destaque=False):
-    c = dict.fromkeys(["faixa", "ripa", "aro", "fundo", "pe", "crista", "saia"], base)
+    c = dict.fromkeys(["faixa", "ripa", "aro", "fundo", "pe", "crista", "saia", "rodape", "grade"], base)
     c["pe"] = R.PALETA["destaque"] if destaque else base
     c["saia"] = R.PALETA["destaque"] if destaque else base
     c["crista"] = R.PALETA["critico"] if destaque else tuple(

@@ -1,5 +1,7 @@
 # Família MODULA — organizador modular encaixável/empilhável
 
+**rev.28** — **o P recomeçado do zero, e a regra que faltava.** Ao testar o ninho de três peças descobri que a terceira (mesma orientação da primeira) para no assento de empilhamento da primeira: **qualquer assento coaxial que segura a peça empilhada segura também a terceira peça ninhada**. Logo `2 × passo de ninho = passo de pilha`. O "10 P ninhados" das revisões 09 a 27 nunca existiu. O P novo (`p28.py`) assume a regra: pé na borda, passo de pilha 171, passo de ninho 85,5 (10 P = 949 mm, 1,9×). Isso libera a saída para **2°**: caixa quase reta, 192 × 289 × 179, **6,9 L e 201 g** (eram 4,5 L e 281 g). Quatro pés com **lingueta de 4 mm** caem em **entalhes de 8 mm na borda** (pilha) ou descem por **rasgos** na posição espelhada (ninho a 180°). Parede interna lisa, sem coluna. Bolinhas em **gradiente de escala** (Ø 10 → 4, alma 3, 33 % vazado) só nas laterais e na traseira; base fechada. Acoplador macho/fêmea na saia. Descida da peça 2 (girada) e da peça 3 (não girada) conferidas em toda build.
+
 **rev.27** — **bolinhas no P.** O pattern da marca sai da parede do P e entram **furos redondos em rede hexagonal com o diâmetro em gradiente**: Ø 14 mm na fileira de cima, Ø 5 mm junto ao pé, alma constante de 4,2 mm, 5 fileiras, 89 bolinhas, só bolinhas inteiras (nada no canto, na frente nem nas ranhuras das colunas). A rede vive em coordenadas reais de cada face, então os furos saem redondos apesar dos 7,5° de saída. 325 g (era 281 com 58 % de vazado). M e G continuam com o pattern até a decisão sobre o P. O emissor de parede vazada ganhou o caso do furo tangente (pequeno demais para chegar ao meio da tira), que abria uma fenda de uma tira sob cada bolinha.
 
 **rev.26** — **3 moldes + 2 grades, e nada se perde.** As premissas fecham inteiras: P, M e G **ninham** (7,5°), **empilham** (rodapé no canal das colunas) e **acoplam** lado a lado (macho/fêmea proporcional: 4,5 / 5,5 / 6,5 mm). Dois P acoplados pousam **em cima** de um M e três em cima de um G — não pela boca do grande (geometricamente impossível numa peça que ninha), mas por uma **grade de encaixe** que descansa no aro: placa de 4 mm com bolsões cônicos onde os copos do P assentam. Grade M 240 g, grade G 335 g. De quebra, o teste de **trajeto do ninho** (a descida inteira, não só a posição final) achou uma colisão que existia desde a rev.20 — rodapé contra o topo das colunas — e ela foi corrigida com janelas no rodapé e na moldura.
@@ -1099,12 +1101,53 @@ haver ali numa peça que também ninha. Sem a grade há dois caminhos, e os dois
 (b) **o P deixa de ninhar** e ganha pés na linha do aro (rev.25 sem a caixa) — o M e o G voltam a ter pilares na
 frente e nenhum molde a mais. Fica para a rodada do M e do G.
 
+### rev.28 — o P do zero: a regra do terceiro, lingueta e entalhe
+
+Pedido: recomeçar o P com quatro premissas — acopla lado a lado (macho/fêmea discreto), **empilha com o pé
+num buraco da borda**, ninha a 180° para cubagem, parede em bolinhas maiores em cima e menores embaixo, base
+fechada, mais leve.
+
+**A regra do terceiro.** Empilhar (0°) e ninhar (180°) alternam a orientação, mas a **terceira** peça do ninho
+tem a orientação da primeira. O que quer que segure o pé da peça empilhada — entalhe, canal, coluna — está no
+caminho do pé da terceira peça ninhada, no mesmo x, y. Não há geometria rígida que escape: só bail arm ou peça
+móvel. Consequência: `2 pn = passo_pilha = H − profundidade do assento`. Com o pé na borda (8 mm), **pn = 85,5**.
+Cada 2 mm que a pilha afundar compram 1 mm de passo de ninho. Testei a família anterior contra essa regra: a
+terceira peça batia no canal da primeira com 4 mm de descida (188 vértices). O teste de ninho só olhava a
+posição final e a trajetória só da peça diretamente acima. **As imagens de "10 P ninhados" das rev.09–27 eram
+fisicamente inválidas.**
+
+**O que a regra libera.** Com pn = 85,5 a parede não precisa de 7,5°: **2°** bastam (folga parede-parede no
+ninho 1,4 mm). A caixa fica quase reta (base 156 × 253, boca 168 × 265), o volume vai de 4,5 para **6,9 L**, e o
+pé fica a 6 mm da linha da borda — o "buraco na borda" vira um entalhe de 5,2 × 8 mm, não uma coluna.
+
+**Mecânica.** Quatro pés de 14 × 10 × 6 mm sob o fundo, cada um com uma **lingueta** de 4 mm de largura que sai
+5,4 mm para fora da linha da base. Posições assimétricas S: dois pés nas laterais junto à frente (y = +103), dois
+na traseira (x = ±40). Pilha (0°): a lingueta cai no **entalhe** do topo da parede em S e apoia em 1 mm da
+espessura da parede cortada. Ninho (180°): a lingueta chega em R(S) — na frente é o vão, nada a cortar; no fundo
+das laterais (y = −103) é um **rasgo** de 5,2 mm da borda até 79,5 mm do fundo, cujo fundo é o assento da peça
+girada. A terceira peça desce pelo rasgo da segunda e para no entalhe da primeira: o ninho é uma pilha das
+ímpares com as pares no meio. Parede interna **lisa**; a aba e a saia seguem inteiras (só a faixa da aba sobre a
+parede é recortada nos entalhes e rasgos).
+
+**Bolinhas em gradiente de escala** (`grafismo.BolinhasEscala`): Ø 10 na fileira de cima a Ø 4 na de baixo, e o
+passo cai junto (passo = Ø + alma), com alma constante de 3 mm — 777 furos, 14 fileiras, **33 % vazado**, contra
+13 % do gradiente de passo fixo da rev.27. Só nas laterais e na traseira; frente e base lisas. Parede 1,6, fundo
+1,8 com duas nervuras longitudinais e uma transversal, rodapé de 3 mm. **201 g.**
+
+**Conferências em toda build** (`p28.confere_descida`): peça 2 girada descendo da borda até pn, e peça 3 não
+girada até o entalhe, contra parede, placa da aba, fundo, entalhes e rasgos da peça 1. Zero violações.
+
+**Custo e aberto.** Cubagem 1,9× (era prometido 5,6×, que não existia). Os dois rasgos de 93 mm nas laterais são
+visíveis — ficam no fundo da lateral, junto ao canto de trás. O acoplador é o mesmo T da rev.22, na saia. M e G
+ainda não foram tocados; quando forem, seguem a mesma regra.
+
 ## Arquivos
 
 | Arquivo | O que é |
 |---|---|
 | `geometria.py` | núcleo: contorno de cantos arredondados avaliável em qualquer altura, emissor de bandas da casca, casca perfurada, viga afunilada, prisma e normais suaves com crease |
 | `modelo.py` | a peça — parâmetros dos 3 tamanhos, construção, `confere_ninho()`, `confere_aro_ninho()`, `confere_trajeto()`, `encaixe_topo()`; `python3 modelo.py` imprime a ficha e quebra se algo colidir |
+| `p28.py`, `p28_saidas.py` | **o P rev.28** (peça, conferências de descida) e suas saídas (`out/p28-*.png`, `out/modula-P28-vistas.png`, `out/modula-P28.stl/.glb`) |
 | `grafismo.py` | o vazado da parede: o pattern oficial da marca lido do .ai (`Padrao`) e, desde a rev.27, as bolinhas em gradiente (`Bolinhas`) |
 | `grade.py` | a grade de encaixe do M e do G — anel, aba, barras e um bolsão cônico por copo do P, gerada a partir da malha do P; `python3 grade.py` imprime massa e conta bolsões |
 | `detalhes.py` | vistas de inspeção e cortes (`out/det-*.png`): copo, canal, ninho, pilha, corte do bolsão da grade com o copo do P, grade sozinha, P por baixo, a lateral do P com as bolinhas, dez P ninhados, frente |

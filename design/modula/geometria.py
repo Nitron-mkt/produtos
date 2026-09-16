@@ -388,7 +388,7 @@ def _consolida(pecas, fm, zc):
 
 
 def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
-              cheio=None, passo=0.8):
+              cheio=None, passo=0.8, tiras=None):
     """Casca vazada por um grafismo de forma qualquer.
 
     'furo(s, z)' devolve True dentro do furo; s e o comprimento de arco medido
@@ -400,7 +400,7 @@ def perfurada(malha, cont, o_ext, o_int, z_de, z_ate, furo, tag,
     isso que faz a borda do furo sair curva em vez de escadinha.
     """
     n = cont.n
-    for i in range(n):
+    for i in (range(n) if tiras is None else tiras):
         z0 = max(z_de(i), z_de(i + 1))
         z1 = min(z_ate(i), z_ate(i + 1))
         if z1 - z0 < 0.4:
