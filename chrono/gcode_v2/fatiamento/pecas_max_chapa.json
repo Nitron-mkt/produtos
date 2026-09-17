@@ -1,0 +1,12 @@
+{ "mesa": [420,420], "eixo_vertical_do_stl": "Y", "saida": "prep_chapa_max",
+  "pecas": [
+    {"nome":"m01_valvula", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Valvula_Dias.stl"},
+    {"nome":"m02_rodinha", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Rodinha_Meses.stl"},
+    {"nome":"m03_ponteira","stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Ponteira.stl", "flip":true}
+  ],
+  "chapa": {"nome":"chapa", "itens":[
+    {"peca":"m01_valvula", "dx":-30, "dy": 25},
+    {"peca":"m02_rodinha", "dx": 35, "dy": 25},
+    {"peca":"m03_ponteira","dx":  0, "dy":-30}
+  ]}
+}

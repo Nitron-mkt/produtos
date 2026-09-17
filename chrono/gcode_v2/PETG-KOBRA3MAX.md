@@ -57,3 +57,28 @@ diga que eu recentro; a peça tem 45 mm, então ela cabe em qualquer caso, o que
 
 Nessa ordem: mesa para **85 °C** · Z offset **0,02 mais baixo** · e só então o arquivo
 com raft. Mas com mesa a 80 e ventoinha a 30% a chance de precisar é pequena.
+
+## Tudo numa mesa só
+
+`Kobra3Max_PETG_TUDO_numa_mesa.gcode` — **1 h 25 min, 5,40 g**. As três peças na
+mesma mesa, com aba de 8 mm em cada.
+
+Sobra bem de espaço na Max: o conjunto ocupa **X 149,9 a 266,4 · Y 159,6 a 262,0**,
+centro em (208, 211) — ou seja, tudo no terço central da mesa, que é onde ela aquece
+e nivela melhor. Folgas entre as peças **já contando a aba**: 13,5 · 7,6 · 13,2 mm.
+
+Conferido pelo percurso da primeira camada (`../stl_v2/chapa_max_primeira_camada.png`),
+não pelo rótulo de objeto do gcode: as três aparecem separadas, com os 12 entalhes da
+rodinha e o ícone na ponteira já visíveis.
+
+### Duas ressalvas honestas
+
+**PETG faz fio entre peças.** Com três peças, o bico viaja entre elas a cada camada e
+vai deixar teia. Não estraga nada — sai com pinça e um sopro de ar quente — mas
+imprimindo separado não acontece.
+
+**Se uma soltar, pode derrubar as outras.** É o risco de qualquer mesa cheia. Como a
+causa de descolar era o perfil de PLA e não o arranjo, com mesa a 80 °C e ventoinha a
+30% isso deixa de ser provável — mas na primeira rodada com o perfil novo eu imprimiria
+**a válvula sozinha** primeiro. Ela é a peça de risco (toca a chapa por só 11 mm² de
+face plana) e é a mais demorada. Se ela sair limpa, a mesa cheia sai.
