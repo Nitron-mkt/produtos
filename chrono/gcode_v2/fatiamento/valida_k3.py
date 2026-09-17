@@ -1,8 +1,8 @@
 import re, glob, os, base64, io
 from collections import Counter
 from PIL import Image
-BEDX=BEDY=255.0
-for fn in sorted(glob.glob('../*.gcode')):
+BEDX=BEDY=420.0
+for fn in sorted(glob.glob('../max/*.gcode')):
     txt=open(fn,errors='ignore').read()
     body=txt.split('; ---- fim ----')[0]
     X=[];Y=[];zmax=-1e9;zmin=1e9
@@ -30,7 +30,7 @@ for fn in sorted(glob.glob('../*.gcode')):
     objs=sorted(set(re.findall(r'; printing object (\S+)',txt)))
     print('=== %-22s %5.2f MB'%(os.path.basename(fn), os.path.getsize(fn)/1e6))
     print('    G9111 presente:      %s'%('SIM  ->  '+g(r'(G9111 [^\n]+)') if 'G9111' in txt else '*** NAO ***'))
-    print('    mesa 255x255:        X %.1f..%.1f  Y %.1f..%.1f  -> %s'%(min(X),max(X),min(Y),max(Y),
+    print('    mesa %.0fx%.0f:        X %.1f..%.1f  Y %.1f..%.1f  -> %s'%(BEDX,BEDY,min(X),max(X),min(Y),max(Y),
           'DENTRO' if (min(X)>=0 and max(X)<=BEDX and min(Y)>=0 and max(Y)<=BEDY) else '*** FORA ***'))
     print('    Z %.2f..%.2f   camadas %d   1a camada %.2f'%(zmin,zmax,len(Zl),min(Zl)))
     print('    miniatura:           %s'%mini)
