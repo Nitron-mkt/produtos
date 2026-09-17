@@ -22,6 +22,14 @@ uma mesa com vários, quando pedido).
 | Material | PETG (rótulo CR-PETG: 1,75 mm, 230–250 °C) |
 | Fatiador | PrusaSlicer 2.7.2 por linha de comando, sem interface |
 
+> ⚠️ **Confirme a mesa ANTES de fatiar, e confirme também onde o `end_gcode`
+> estaciona o bico.** O firmware da Anycubic valida o arquivo antes de imprimir: uma
+> coordenada fora do curso da máquina — inclusive a do estacionamento final — faz ele
+> **recusar o arquivo sem mensagem nenhuma**, e o sintoma é "coloco e não acontece
+> nada". Isso já aconteceu neste projeto: o `end_gcode` mandava o bico para `X400 Y400`
+> e nenhum dos cinco arquivos rodou. Na dúvida, fatie para **255 × 255 com o
+> estacionamento em X250 Y220**, que cabe nas duas máquinas.
+
 > **Se a impressora for a Kobra 3 comum e não a Max**, troque no `.ini`:
 > `bed_shape = 0x0,255x0,255x255,0x255`, `max_print_height = 260`, e centre as peças em
 > **127,5 / 127,5** em vez de 210 / 210. Todo o resto vale igual.

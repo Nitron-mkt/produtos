@@ -1,0 +1,7 @@
+{ "mesa": [255,255], "eixo_vertical_do_stl": "Y", "saida": "prep_seguro",
+  "pecas": [
+    {"nome":"valvula", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M01_Valvula_Dias.stl"},
+    {"nome":"rodinha", "stl":"/home/user/produtos/chrono/stl_v2/Chrono_M02_Rodinha_Meses.stl"},
+    {"nome":"ponteira","stl":"/home/user/produtos/chrono/stl_v2/Chrono_M03_Ponteira.stl", "flip":true}
+  ]
+}
