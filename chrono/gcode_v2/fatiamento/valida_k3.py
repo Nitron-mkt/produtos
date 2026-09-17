@@ -1,7 +1,8 @@
 import re, glob, os, sys, base64, io
 from collections import Counter
 from PIL import Image
-BEDX=BEDY=420.0
+import sys as _s
+BEDX=BEDY=float(_s.argv[2]) if len(_s.argv)>2 else 420.0   # python3 valida_k3.py <dir> [lado da mesa]
 DIR = sys.argv[1] if len(sys.argv) > 1 else 'saida'   # python3 valida.py [diretorio]
 for fn in sorted(glob.glob(os.path.join(DIR,'*.gcode'))):
     txt=open(fn,errors='ignore').read()

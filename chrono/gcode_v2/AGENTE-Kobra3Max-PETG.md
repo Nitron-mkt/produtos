@@ -100,8 +100,8 @@ first_layer_bed_temperature = 80
 
 cooling = 1
 fan_always_on = 1
-min_fan_speed = 30
-max_fan_speed = 45
+min_fan_speed = 40
+max_fan_speed = 40
 bridge_fan_speed = 60
 disable_fan_first_layers = 4
 full_fan_speed_layer = 8
@@ -180,7 +180,7 @@ thumbnails = 230x110
 thumbnails_format = PNG
 pause_print_gcode = M601
 start_gcode = ; ---- Chrono datador · Anycubic Kobra 3 MAX · bico 0,40 · PETG ----\nG9111 bedTemp={first_layer_bed_temperature[0]} extruderTemp={first_layer_temperature[0]}\nM117\nM900 K0.051 ; pressure advance
-end_gcode = ; ---- fim ----\nM400\nG92 E0\nG1 E-2 F3600\n{if max_layer_z < max_print_height - 1}G1 Z{max_layer_z + 2} F900{endif}\nG1 X400 Y400 F12000 ; apresenta a peca\nM140 S0\nM104 S0\nM107\nM84
+end_gcode = ; ---- fim ----\nM400\nG92 E0\nG1 E-2 F3600\n{if max_layer_z < max_print_height - 1}G1 Z{max_layer_z + 2} F900{endif}\nG1 X250 Y220 F12000 ; apresenta a peca\nM140 S0\nM104 S0\nM107\nM84
 autoemit_temperature_commands = 0
 ```
 
@@ -204,8 +204,9 @@ Trabalhe tudo num diretório só, com esta estrutura:
 ├── kobra3max_petg.ini      seção 2
 ├── pecas.json              abaixo
 ├── preparar.py             abaixo
-├── miniatura.py            seção 5
-├── valida.py               seção 6
+├── inteiros.py             seção 5
+├── miniatura.py            seção 6
+├── valida.py               seção 7
 ├── camada.py               seção 6
 ├── stl/                    os .stl que você recebeu
 ├── prep/                   criado por preparar.py
@@ -352,7 +353,54 @@ joga fora o centramento que o `preparar.py` fez.
 
 ---
 
-## 5. Injetar a miniatura
+## 5. Pós-processar: arredondar `M106 S`
+
+`M106` é a velocidade do cooler, numa escala de 0 a 255. Quando `min_fan_speed`
+difere de `max_fan_speed`, **ou** quando `full_fan_speed_layer > 0`, o PrusaSlicer
+interpola e escreve valores com casa decimal — `M106 S28.05`, `M106 S76.5`.
+
+O Klipper aceita float sem reclamar. Mas os .gcode que a Kobra 3 deste cliente
+imprimiu de fato **só tinham inteiros** (51/102/153/204/255). A impressora valida o
+arquivo antes de imprimir, e não vale a pena introduzir um formato que os arquivos
+bons nunca tiveram. Arredonde.
+
+Grave `inteiros.py`:
+
+```python
+#!/usr/bin/env python3
+"""Arredonda para inteiro a velocidade do cooler (M106 S...).
+
+CUIDADO: mexe SO em M106 S. Nao generalize para "todo parametro M com decimal" —
+M900 K0.051 (pressure advance) tambem casa nesse padrao e arredonda para K0, o que
+desliga o pressure advance sem nenhum aviso. Ja aconteceu.
+
+Uso:  python3 inteiros.py arquivo.gcode [...]   (reescreve no lugar)
+"""
+import re, sys
+
+RE = re.compile(r'^(M106\s+S)(\d+\.\d+)', re.M)
+
+for fn in sys.argv[1:]:
+    txt = open(fn, errors='ignore').read()
+    n = len(RE.findall(txt))
+    if n:
+        open(fn, 'w').write(RE.sub(lambda m: '%s%d' % (m.group(1), round(float(m.group(2)))), txt))
+        txt = open(fn, errors='ignore').read()
+    fan = sorted({float(v) for v in re.findall(r'^M106 S([\d.]+)', txt, re.M)})
+    pa  = re.findall(r'^M900 [^\n]*', txt, re.M)
+    print('%-44s %3d arredondados | M106 S: %s | %s'
+          % (fn.split('/')[-1], n, [int(v) for v in fan], pa[0] if pa else 'sem M900'))
+```
+
+Rode em **todos** os arquivos, sempre antes da miniatura:
+
+```bash
+python3 inteiros.py saida/*.gcode
+```
+
+Aceite só se a saída mostrar `M900 K0.051` intacto em cada arquivo.
+
+## 6. Injetar a miniatura
 
 O CLI do PrusaSlicer **não gera miniatura sem interface gráfica**, mesmo com
 `thumbnails` configurado. Sem miniatura o painel da impressora mostra um quadrado
@@ -442,7 +490,7 @@ Passe **os mesmos STL** que foram fatiados, na mesma ordem.
 
 ---
 
-## 6. Validar — e este passo não é opcional
+## 7. Validar — e este passo não é opcional
 
 Grave `valida.py`:
 
@@ -558,7 +606,7 @@ finos (números, janelas, ícones) aparecem no percurso.
 
 ---
 
-## 7. As armadilhas — todas já custaram retrabalho
+## 8. As armadilhas — todas já custaram retrabalho
 
 **Não meça sobreposição pelo `; printing object` do gcode.** Com `--merge` esse rótulo
 não particiona os deslocamentos entre peças, e as caixas por peça saem **maiores que as
@@ -589,7 +637,7 @@ antes de subtrair.
 
 ---
 
-## 8. PETG — o que muda em relação a PLA
+## 9. PETG — o que muda em relação a PLA
 
 Se alguém pedir para "usar o perfil de PLA", **não use**. Três valores, sozinhos,
 descolam a peça:
@@ -613,14 +661,14 @@ jeito:
 
 ---
 
-## 9. Antes de entregar
+## 10. Antes de entregar
 
 Antes de dizer que terminou, confirme que você realmente:
 
 1. rodou `preparar.py` e ele não acusou nada;
 2. fatiou com `--dont-arrange` (e `--merge`, se for mesa com várias);
 3. injetou a miniatura em **cada** arquivo;
-4. rodou `valida.py` e **todos** os itens da tabela passaram;
+4. rodou `inteiros.py` (e conferiu que `M900 K0.051` sobreviveu) e `valida.py`, e **todos** os itens da tabela passaram;
 5. desenhou pelo menos uma camada e **olhou** o PNG.
 
 Se algum falhou, diga qual e por quê, em vez de entregar assim mesmo.
