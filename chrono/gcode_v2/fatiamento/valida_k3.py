@@ -1,8 +1,9 @@
-import re, glob, os, base64, io
+import re, glob, os, sys, base64, io
 from collections import Counter
 from PIL import Image
 BEDX=BEDY=420.0
-for fn in sorted(glob.glob('../max/*.gcode')):
+DIR = sys.argv[1] if len(sys.argv) > 1 else 'saida'   # python3 valida.py [diretorio]
+for fn in sorted(glob.glob(os.path.join(DIR,'*.gcode'))):
     txt=open(fn,errors='ignore').read()
     body=txt.split('; ---- fim ----')[0]
     X=[];Y=[];zmax=-1e9;zmin=1e9
