@@ -1,7 +1,7 @@
 <title>Datador Chrono</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="malhas_v4.js"></script>
+<script src="malhas_v5.js"></script>
 <style>
 :root{
   --ground:#e8eaed; --surface:#f6f7f8; --sunk:#dcdfe3; --canvas:#c9ced4;
@@ -152,18 +152,9 @@ dl.cotas dd b{font-weight:600}
       <button class="peca" id="p2" aria-pressed="true"><span class="sw" style="background:var(--m02)"></span>
         <span class="nm">M02 Rodinha dos meses<small>gira · 1,60 de espessura · 12 encaixes</small></span><span class="g mono">0,57 g</span></button>
       <button class="peca" id="p3" aria-pressed="true"><span class="sw" style="background:var(--m03)"></span>
-        <span class="nm">M03 Ponteira<small>gira solta · 1,60 · lâmina em gota</small></span><span class="g mono" id="gm03">0,43 g</span></button>
+        <span class="nm">M03 Ponteira<small>gira solta · 1,60 · gota de nariz redondo</small></span><span class="g mono">0,40 g</span></button>
       <button class="peca" id="p0" aria-pressed="true"><span class="sw" style="background:var(--ink3)"></span>
         <span class="nm">Tampa<small>recortada em Ø58 · não foi tocada</small></span><span class="g mono">—</span></button>
-    </div>
-
-    <div class="bloco">
-      <span class="eyebrow">Versão da ponteira</span>
-      <div class="linha">
-        <button class="bt" id="vA" aria-pressed="false">M / D</button>
-        <button class="bt" id="vB" aria-pressed="true">Rasgo</button>
-      </div>
-      <p class="nota" id="notaV">O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.</p>
     </div>
 
     <div class="bloco">
@@ -195,10 +186,11 @@ dl.cotas dd b{font-weight:600}
         <dt>Circunferência central</dt><dd class="mono">Ø10,80 → <b>Ø13,20</b></dd>
         <dt>Cabeça da ponteira</dt><dd class="mono">Ø12,60 → <b>Ø16,40</b></dd>
         <dt>Espessura da ponteira</dt><dd class="mono">0,80 → <b>1,60</b></dd>
-        <dt>Lâmina em gota</dt><dd class="mono">cabeça Ø16,40 · nariz Ø4,20</dd>
-        <dt>Ponta da gota</dt><dd class="mono">r 18,90 · cabeça 1,00 atrás do eixo</dd>
-        <dt>Rasgo</dt><dd class="mono">r 9,40–17,50 · 4,00 → 2,50</dd>
-        <dt>Borda do rasgo</dt><dd class="mono">2,93 → <b>0,73</b> mm</dd>
+        <dt>Lâmina em gota</dt><dd class="mono">cabeça Ø16,40 · nariz <b>Ø2,40</b></dd>
+        <dt>Ponta da gota</dt><dd class="mono">r 15,55 · rente ao dia (15,80)</dd>
+        <dt>Janela — só o mês</dt><dd class="mono">r 8,70–11,30 · 3,60 · canto R0,70</dd>
+        <dt>Borda da janela</dt><dd class="mono"><b>1,23</b> mm</dd>
+        <dt>Menor raio do contorno</dt><dd class="mono">1,20 mm — nada de ponta viva</dd>
         <dt>Ícone Nitron no cubo</dt><dd class="mono">8,00 alt · gravado 0,25</dd>
         <dt>Furo passante na válvula</dt><dd class="mono">Ø6,00</dd>
         <dt>Pino · folga radial</dt><dd class="mono">Ø5,80 · 0,10</dd>
@@ -290,7 +282,7 @@ cv.addEventListener('wheel',e=>{e.preventDefault(); raio*=Math.exp(e.deltaY*.001
 
 /* ---- malhas ---- */
 const ESP={m01:{cor:'--m01',rug:.55,met:.18},m02:{cor:'--m02',rug:.42,met:.10},
-           m03a:{cor:'--m03',rug:.42,met:.10},m03b:{cor:'--m03',rug:.42,met:.10},
+           m03:{cor:'--m03',rug:.42,met:.10},
            tampa:{cor:'--ink3',rug:.72,met:.02,op:.30}};
 const obj={};
 function geo(p){
@@ -336,7 +328,7 @@ ren.localClippingEnabled=true;
 
 /* ---- estado ---- */
 const el_=id=>document.getElementById(id);
-const S={dia:9,mes:3,exp:0,corte:false,vers:'m03b',ver:{m01:1,m02:1,m03:1,tampa:1}};
+const S={dia:9,mes:3,exp:0,corte:false,ver:{m01:1,m02:1,m03:1,tampa:1}};
 let auto=!matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 function aplica(){
@@ -351,18 +343,13 @@ function aplica(){
   // do dia também — não há mais índice fixo na válvula.
   const aD=-(S.dia-1)*SD, aM=(S.mes-1)*30-(S.dia-1)*SD;
   if(obj.m02){ obj.m02.rotation.y=THREE.MathUtils.degToRad(aM); obj.m02.position.y=e*9; }
-  ['m03a','m03b'].forEach(k=>{ if(obj[k]){
-    obj[k].rotation.y=THREE.MathUtils.degToRad(aD); obj[k].position.y=e*20;
-    obj[k].visible=!!S.ver.m03 && k===S.vers; } });
+  if(obj.m03){ obj.m03.rotation.y=THREE.MathUtils.degToRad(aD); obj.m03.position.y=e*20;
+               obj.m03.visible=!!S.ver.m03; }
   if(obj.m01) obj.m01.position.y=e*2.5;
   if(obj.tampa) obj.tampa.position.y=-e*6;
   ['m01','m02','tampa'].forEach(k=>{ if(obj[k]) obj[k].visible=!!S.ver[k]; });
   for(const k in obj) obj[k].material.clippingPlanes=S.corte?[plano]:null;
-  el_('gm03').textContent=(S.vers==='m03a'?'0,47 g':'0,43 g');
-  el_('notaV').innerHTML = S.vers==='m03b'
-    ? 'O <b>rasgo</b> enquadra os dois numerais: mês na ponta de dentro, dia na de fora.'
-    : 'A <b>lâmina M / D</b> indexa o dia pela ponta. No mês ela cobre o numeral — '
-      +'a cintura de 0,90 mm deixa ver os vizinhos, e você lê como ponteiro de relógio.';
+
 }
 el_('dia').addEventListener('input',e=>{S.dia=+e.target.value;aplica()});
 el_('mes').addEventListener('input',e=>{S.mes=+e.target.value;aplica()});
@@ -384,10 +371,7 @@ el_('vpino').addEventListener('click',()=>{
   alvo.set(0,35.9,0); aplica(); poe();
 });
 el_('gira').setAttribute('aria-pressed',auto?'true':'false');
-el_('vA').addEventListener('click',()=>{S.vers='m03a';
-  el_('vA').setAttribute('aria-pressed','true'); el_('vB').setAttribute('aria-pressed','false'); aplica();});
-el_('vB').addEventListener('click',()=>{S.vers='m03b';
-  el_('vB').setAttribute('aria-pressed','true'); el_('vA').setAttribute('aria-pressed','false'); aplica();});
+
 
 function tamanho(){
   const w=palco.clientWidth,h=palco.clientHeight;

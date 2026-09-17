@@ -4,10 +4,8 @@ from lib3d import boolean, CX, CZ
 from math import radians
 D='/home/user/produtos/chrono/stl_v2/'
 M1=trimesh.load(D+'Chrono_M01_Valvula_Dias.stl')
-M2=trimesh.load(D+'Chrono_M02_Aro_Meses.stl')
-M3a=trimesh.load(D+'Chrono_M03a_Ponteira_MD.stl')
-M3b=trimesh.load(D+'Chrono_M03b_Ponteira_Janela.stl')
-M3=M3a
+M2=trimesh.load(D+'Chrono_M02_Rodinha_Meses.stl')
+M3=trimesh.load(D+'Chrono_M03_Ponteira.stl')
 T =trimesh.load('/root/.claude/uploads/25a64868-b28d-5a69-b1c3-502a4891561f/1c50a47b-Mont_pote_com_valvula__Tampa_Pote_025_Pequeno_Cav1.STL')
 V0=trimesh.load('/root/.claude/uploads/25a64868-b28d-5a69-b1c3-502a4891561f/5882c071-Mont_pote_com_valvula__prova_valvula1.STL')
 def vol(a,b):
@@ -99,14 +97,25 @@ for sinal,nome in ((+1,'fechando (12h para baixo)'),(-1,'abrindo  (12h para cima
           %(nome, ('%.2f graus'%gn) if gn else '>2,95', ('%.2f graus'%go) if go else '>2,95',
             'IGUAL' if (gn is None)==(go is None) and (gn is None or abs(gn-go)<1e-9) else 'DIFERENTE'))
 
-# --------------------------------------------- as duas versoes da ponteira
-print('\nAS DUAS VERSOES DA PONTEIRA')
-for nome,m in (('M03a  M / D ',M3a),('M03b  janela',M3b)):
-    b=m.bounds
-    print('  %s  Y %6.2f..%6.2f  O%5.2f  massa %.2f g  folga ate o aro da tampa %.2f'
-          %(nome,b[0][1],b[1][1],max(b[1][0]-b[0][0],b[1][2]-b[0][2]),m.volume*0.905/1000,39.72-b[1][1]))
-    print('     x valvula %7.4f  x aro %7.4f  x tampa %7.4f mm3'%(vol(m,M1),vol(m,M2),vol(m,T)))
-    pior=0.0
-    for d in range(0,360,15):
-        r=gira(m,d); pior=max(pior,vol(r,M1),vol(r,M2),vol(r,T))
-    print('     varredura de 24 posicoes: pior caso %7.4f mm3  %s'%(pior,'ok' if pior<0.01 else '*** COLIDE ***'))
+# ------------------------------------------- nada de ponta viva (lavagem)
+# medido no CONTORNO analitico (shapely), nao amostrando a malha: amostrar a
+# malha mistura o contorno externo com a janela e as letras gravadas.
+print('\nARESTAS VIVAS — o que a bucha pode enganchar')
+import sys as _s; _s.path.insert(0,'.')
+import numpy as np
+from shapely.geometry import Polygon as _SP
+import build as B   # reusa gota() e o retangulo arredondado do proprio modelo
+def raio_min(poly):
+    p=np.array(poly.exterior.coords[:-1]); m=[]
+    for i in range(len(p)):
+        a,b,c=p[i-3],p[i],p[(i+3)%len(p)]
+        A=np.linalg.norm(b-a); Bl=np.linalg.norm(c-b); C=np.linalg.norm(c-a)
+        ar=abs(np.cross(b-a,c-a))/2
+        if ar>1e-7: m.append(A*Bl*C/(4*ar))
+    return min(m)
+g=B.gota(); j=B.retangulo_arredondado(B.JAN_R0,B.JAN_R1,B.JAN_M,B.JAN_RC)
+print('  contorno externo — menor raio: %.2f mm   (nariz projetado O%.2f)'%(raio_min(g), 2*B.NARIZ_R))
+print('  janela           — menor raio: %.2f mm   (canto projetado R%.2f)'%(raio_min(j), B.JAN_RC))
+print('  borda entre a janela e o contorno: %.2f mm'%g.exterior.distance(j))
+print('  %s'%('nenhuma ponta viva: tudo acima de 0,5 mm de raio'
+      if min(raio_min(g),raio_min(j))>0.5 else '*** ainda ha canto vivo ***'))

@@ -148,10 +148,11 @@ import icone
 # --- GOTA: fecho convexo de dois circulos no eixo radial. Cabeca redonda que
 # passa atras do eixo, afinando ate o nariz. Desenho do cliente.
 BULBO_R, BULBO_OFF = 8.20, 1.00    # cabeca: centro 1,00 atras do eixo
-NARIZ_R, NARIZ_Y   = 2.10, 16.80   # ponta em r 18,90
-# O desenho trazia ponta em agulha. Medido: com nariz de 0,70 a borda do rasgo
-# vai a -0,11 mm em r 17,50 — o rasgo fica mais largo que a lamina. Com 2,10 a
-# borda segura 0,73 do comeco ao fim, e a gota continua gota.
+NARIZ_R, NARIZ_Y   = 1.20, 14.35   # ponta ARREDONDADA O2,40 em r 15,55
+# A janela agora enquadra SO o mes e para em r 11,30, entao nao ha mais rasgo
+# la na frente obrigando nariz grosso. O nariz de O2,40 e por LAVAGEM: ponta
+# viva engancha na bucha. Somado ao canto R0,70 da janela, a borda no canto
+# externo dela vai de 0,76 para 1,23 mm.
 def gota(rb=BULBO_R, off=BULBO_OFF, rn=NARIZ_R, yn=NARIZ_Y, n=180):
     import numpy as _np
     t=_np.linspace(0,2*pi,n,endpoint=False)
@@ -171,9 +172,11 @@ def grava(itens, R, cap):
             out.append(place(pr, phi, R, TOPO+0.2, MARCA_REL+0.2))
     return out
 
-def ponteira(variante):
-    # nao ha mais cubo separado: a cabeca da gota E o cubo. So o nucleo que
-    # tampa o canal do pino continua sendo revolucao.
+JAN_R0, JAN_R1, JAN_M, JAN_RC = 8.70, 11.30, 1.80, 0.70   # janela SO do mes
+def retangulo_arredondado(r0,r1,meia,rc):
+    return SP([(-meia+rc,r0+rc),(meia-rc,r0+rc),(meia-rc,r1-rc),(-meia+rc,r1-rc)]).buffer(rc, join_style=1)
+
+def ponteira():
     cubo=cyl(3.30, CUBO_Y0, TOPO, n=96)
     pino=revolve([(2.05,CUBO_Y0),(PINO_RE,CUBO_Y0),(PINO_RE,PINO_Y0),(FARPA_R,PINO_Y0),
                   (2.55,PINO_Y1),(2.35,PINO_Y1),(2.35,PINO_Y0),(2.05,CUBO_Y0)])
@@ -185,29 +188,18 @@ def ponteira(variante):
             height=CUBO_Y0-PINO_Y1+0.2)
         fendas.append(place(pr, a, 0.0, CUBO_Y0, CUBO_Y0-PINO_Y1+0.2))
         dr=trimesh.creation.extrude_polygon(
-            SP([(-0.35,2.60),(0.35,2.60),(0.35,CUBO_RE+0.20),(-0.35,CUBO_RE+0.20)]), height=0.30)
+            SP([(-0.35,2.60),(0.35,2.60),(0.35,8.20),(-0.35,8.20)]), height=0.30)
         drenos.append(place(dr, a, 0.0, CUBO_Y0+0.30, 0.30))
 
-    perfil=gota()
-    if variante=='md':
-        vazio=[lam(8.60,10.90,0.50,CUBO_Y0-0.3,TOPO+0.3)]   # cintura: deixa ver o mes
-        marcas=grava([(radians(90),'M')], 8.60, 1.10)+grava([(radians(90),'D')], 14.20, 1.10)
-    else:
-        JR0,JR1,JM0,JM1 = 9.40, 17.50, 2.00, 1.25         # rasgo afina junto com a gota
-        jan=trimesh.creation.extrude_polygon(
-              SP([(-JM0,JR0),(JM0,JR0),(JM1,JR1),(-JM1,JR1)]), height=TOPO-CUBO_Y0+0.6)
-        jan=place(jan, radians(90), 0.0, TOPO+0.3, TOPO-CUBO_Y0+0.6)
-        # chanfro no bordo de cima do rasgo: abre o cone de visao do numeral,
-        # que agora esta no fundo de uma janela de 1,60
-        ch=trimesh.creation.extrude_polygon(
-              SP([(-JM0-0.45,JR0-0.45),(JM0+0.45,JR0-0.45),(JM1+0.45,JR1+0.45),(-JM1-0.45,JR1+0.45)]),
-              height=0.75)
-        ch=place(ch, radians(90), 0.0, TOPO+0.35, 0.75)
-        vazio=[jan,ch]
-        marcas=grava([(radians(90),'M')], 8.55, 1.10)+grava([(radians(90),'D')], 18.15, 1.10)
-
-    lamina=place(trimesh.creation.extrude_polygon(perfil, height=TOPO-CUBO_Y0),
+    lamina=place(trimesh.creation.extrude_polygon(gota(), height=TOPO-CUBO_Y0),
                  radians(90), 0.0, TOPO, TOPO-CUBO_Y0)
+    jp=retangulo_arredondado(JAN_R0,JAN_R1,JAN_M,JAN_RC)
+    jan=place(trimesh.creation.extrude_polygon(jp, height=TOPO-CUBO_Y0+0.6),
+              radians(90), 0.0, TOPO+0.3, TOPO-CUBO_Y0+0.6)
+    # chanfro no bordo de cima: abre o cone de visao do numeral no fundo de 1,60
+    ch=place(trimesh.creation.extrude_polygon(jp.buffer(0.45, join_style=1), height=0.75),
+             radians(90), 0.0, TOPO+0.35, 0.75)
+    marcas=grava([(radians(90),'M')], 7.40, 1.10)+grava([(radians(90),'D')], 13.60, 1.10)
 
     ico=[]
     for sp in icone.poligonos(ICONE_H, xflip=True):
@@ -217,26 +209,20 @@ def ponteira(variante):
         pr.apply_transform(Mi); ico.append(pr)
 
     corpo=boolean('union',[cubo,pino,lamina])
-    # UNIAO, nao concatenacao: cortadores que se cruzam (janela x chanfro, fenda x
-    # dreno) viram malha auto-intersectante, e o booleano deixa material justamente
-    # onde os dois se sobrepoem. Foi o que escondeu o numeral do mes na janela.
-    corte=boolean('union', fendas+drenos+marcas+ico+vazio)
+    corte=boolean('union', fendas+drenos+marcas+ico+[jan,ch])
     return boolean('difference',[corpo, corte])
 
-m03a=ponteira('md')
-m03b=ponteira('janela')
-for n,m in (('M03a M / D  ',m03a),('M03b janela ',m03b)):
-    print('%s: faces=%6d  vol=%7.1f  massa=%.2f g  Ymax %.2f  Omax %.2f'
-          %(n,len(m.faces),m.volume,m.volume*0.905/1000,m.bounds[1][1],
-            max(m.bounds[1][0]-m.bounds[0][0], m.bounds[1][2]-m.bounds[0][2])))
+m03=ponteira()
+print('M03 ponteira     : faces=%6d  vol=%7.1f  massa=%.2f g  Ymax %.2f  Omax %.2f'
+      %(len(m03.faces),m03.volume,m03.volume*0.905/1000,m03.bounds[1][1],
+        max(m03.bounds[1][0]-m03.bounds[0][0], m03.bounds[1][2]-m03.bounds[0][2])))
 
-for nome,m in [('Chrono_M01_Valvula_Dias',m01),('Chrono_M02_Aro_Meses',m02),
-               ('Chrono_M03a_Ponteira_MD',m03a),('Chrono_M03b_Ponteira_Janela',m03b)]:
+for nome,m in [('Chrono_M01_Valvula_Dias',m01),('Chrono_M02_Rodinha_Meses',m02),
+               ('Chrono_M03_Ponteira',m03)]:
     toC(m).export(f'{OUT}/{nome}.stl')
-trimesh.util.concatenate([toC(m01),toC(m02),toC(m03a)]).export(f'{OUT}/Chrono_M04a_Conjunto_MD.stl')
-trimesh.util.concatenate([toC(m01),toC(m02),toC(m03b)]).export(f'{OUT}/Chrono_M04b_Conjunto_Janela.stl')
-print('\nmassa do datador: %.2f g (M/D)  ·  %.2f g (janela)  ·  valvula original 2,04 g'
-      %((m01.volume+m02.volume+m03a.volume)*0.905/1000,(m01.volume+m02.volume+m03b.volume)*0.905/1000))
+trimesh.util.concatenate([toC(m01),toC(m02),toC(m03)]).export(f'{OUT}/Chrono_M04_Conjunto.stl')
+print('\nmassa do datador: %.2f g   (valvula original 2,04 g)'
+      %((m01.volume+m02.volume+m03.volume)*0.905/1000))
 
 print('\nlimpeza dos arquivos gravados:')
 for f in sorted(glob.glob(OUT+'/*.stl')):

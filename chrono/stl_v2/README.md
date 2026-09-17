@@ -244,23 +244,39 @@ O numeral do mês passou de relevo para **gravado**, o que devolve mais 0,30. S�
 o dobro coube. Os entalhes de unha ficaram **0,75 mm de fundo** e agora a rodinha
 sobra **1,02 mm** acima da face da válvula — dá para girar com a unha de verdade.
 
-### Ponteira: 0,80 → **1,60 mm** (o dobro), lâmina em **gota**
+### Ponteira: 0,80 → **1,60 mm**, lâmina em **gota**
 
 Desenho do cliente. A lâmina é o **fecho convexo de dois círculos** no eixo radial:
-uma cabeça de **Ø16,40** com centro **1,00 mm atrás** do eixo, e um nariz de **Ø4,20**
-com centro em r 16,80 — ponta em **r 18,90**. O rasgo afina junto com ela.
+cabeça de **Ø16,40** com centro **1,00 mm atrás** do eixo e nariz de **Ø2,40** com
+centro em r 14,35 — ponta em **r 15,55**.
 
-**Uma cota do desenho não fechou.** O esboço trazia ponta em agulha. Medindo:
+**A janela enquadra só o MÊS** (r 8,70 a 11,30, 3,60 de largura, canto **R0,70**).
+O **dia** é indicado pela **ponta**, que para 0,25 mm antes do numeral sem cobri-lo.
+`M` e `D` gravados marcam cada leitura.
 
-| ponta | borda do rasgo em r 15,00 | em r 16,65 | em r 17,50 |
-|---|---|---|---|
-| agulha (Ø1,4) | 0,70 | 0,16 | **−0,11** |
-| nariz Ø2,8 | 1,01 | 0,51 | 0,15 |
-| **nariz Ø4,20** | **1,41** | **0,96** | **0,73** |
+Foi essa separação que soltou o desenho: enquanto a janela ia até r 17,50, a borda
+dela obrigava um nariz de Ø4,20 (com agulha ela ia a **−0,11 mm**, o rasgo ficava mais
+largo que a própria lâmina). Com a janela parando em 11,30, a frente fica livre.
 
-Com ponta em agulha o rasgo fica **mais largo que a própria lâmina** em r 17,50 — a
-borda deixa de existir, que é exatamente o defeito que a gota veio corrigir. Nariz de
-Ø4,20 segura 0,73 mm de borda do começo ao fim e a silhueta continua sendo uma gota.
+### Nada de ponta viva — o critério é a lavagem
+
+Ponta viva engancha na bucha e lasca a peça. Medido no contorno analítico, não
+amostrando a malha:
+
+| | raio |
+|---|---|
+| menor raio do contorno externo | **1,20 mm** (é o nariz) |
+| canto da janela | **0,70 mm** |
+| borda entre janela e contorno | **1,23 mm** |
+
+O ganho da borda veio dos dois arredondamentos juntos:
+
+| | borda no canto externo da janela |
+|---|---|
+| nariz Ø1,20 · canto vivo | 0,76 mm |
+| só arredondar o canto R0,70 | 1,01 mm |
+| só arredondar o nariz para Ø2,40 | 0,99 mm |
+| **os dois** | **1,23 mm** |
 
 ### Circunferência central: Ø10,80 → **Ø13,20**
 
