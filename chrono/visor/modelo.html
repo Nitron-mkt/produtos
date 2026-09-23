@@ -1,0 +1,714 @@
+<title>Chrono datador</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #f4f1ec;
+    --surface: #fffdfa;
+    --surface-2: #ebe6de;
+    --ink: #1d1813;
+    --muted: #6d645a;
+    --line: #ddd5c9;
+    --pp: #c8561a;
+    --pp-soft: #f0e0d2;
+    --ok: #2c6f4a;
+    --shadow: 0 1px 2px rgba(29, 24, 19, .06), 0 8px 24px -12px rgba(29, 24, 19, .18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16130f; --surface: #201c16; --surface-2: #2b251e;
+      --ink: #f2ede6; --muted: #a29889; --line: #383028;
+      --pp: #e8813c; --pp-soft: #3a2415; --ok: #6cc08d;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #16130f; --surface: #201c16; --surface-2: #2b251e;
+    --ink: #f2ede6; --muted: #a29889; --line: #383028;
+    --pp: #e8813c; --pp-soft: #3a2415; --ok: #6cc08d;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app { display: flex; flex-direction: column; height: 100%; }
+
+  header {
+    display: flex; align-items: baseline; gap: 10px 14px; flex-wrap: wrap;
+    padding: 14px 16px 12px; border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  h1 { font-size: 16px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
+  .sub {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px;
+    color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--pp);
+  }
+
+  #stage { position: relative; flex: 1 1 auto; min-height: 340px; }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+  #modos {
+    position: absolute; left: 0; right: 0; top: 12px;
+    display: flex; gap: 6px; justify-content: center;
+    padding-inline: 16px; overflow-x: auto; scrollbar-width: none;
+  }
+  #modos::-webkit-scrollbar { display: none; }
+  .modo {
+    flex: 0 0 auto; appearance: none; cursor: pointer;
+    font: 600 12.5px/1 Archivo, sans-serif; letter-spacing: .01em;
+    padding: 9px 13px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    box-shadow: var(--shadow);
+  }
+  .modo:hover { color: var(--ink); }
+  .modo[aria-pressed="true"] { background: var(--pp); border-color: var(--pp); color: #fff; }
+  .modo:focus-visible, .tool:focus-visible, .passo:focus-visible, #btHoje:focus-visible {
+    outline: 2px solid var(--pp); outline-offset: 2px;
+  }
+
+  /* barra de data ------------------------------------------------------ */
+  #relogio {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 58px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 7px 9px; box-shadow: var(--shadow);
+  }
+  #relogio[hidden] { display: none; }
+  .campo { display: flex; align-items: center; gap: 4px; }
+  .campo > .rot {
+    font-size: 9.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-right: 2px;
+  }
+  .passo {
+    appearance: none; cursor: pointer; width: 26px; height: 26px; padding: 0;
+    border: 1px solid var(--line); border-radius: 7px;
+    background: var(--surface-2); color: var(--ink);
+    font: 600 15px/1 Archivo, sans-serif; display: grid; place-items: center;
+  }
+  .passo:hover { border-color: var(--pp); color: var(--pp); }
+  .valor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 15px; font-weight: 500;
+    font-variant-numeric: tabular-nums; min-width: 2.2ch; text-align: center;
+  }
+  #btHoje {
+    appearance: none; cursor: pointer; border: 1px solid var(--line); border-radius: 7px;
+    background: var(--surface); color: var(--muted);
+    font: 600 11px/1 Archivo, sans-serif; padding: 7px 9px;
+  }
+  #btHoje:hover { color: var(--pp); border-color: var(--pp); }
+
+  #ferramentas {
+    position: absolute; right: 16px; bottom: 16px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .tool {
+    appearance: none; cursor: pointer; width: 40px; height: 34px;
+    border: 1px solid var(--line); border-radius: 9px;
+    background: var(--surface); color: var(--muted); box-shadow: var(--shadow);
+    display: grid; place-items: center; padding: 0;
+  }
+  .tool svg { width: 17px; height: 17px; display: block; }
+  .tool[aria-pressed="true"] { color: var(--pp); border-color: var(--pp); background: var(--pp-soft); }
+
+  #ficha {
+    position: absolute; left: 16px; bottom: 16px; max-width: min(320px, calc(100% - 32px));
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px 13px; box-shadow: var(--shadow);
+  }
+  #ficha h2 { font-size: 13px; font-weight: 700; margin: 4px 0 2px; }
+  #ficha p { margin: 0 0 9px; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
+  dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; }
+  dt { font-size: 11.5px; color: var(--muted); }
+  dd {
+    margin: 0; text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px; font-weight: 500; font-variant-numeric: tabular-nums;
+  }
+  .medido {
+    margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--line);
+    font-size: 10px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase;
+  }
+  .medido b { color: var(--ok); font-weight: 600; }
+
+  /* legenda das cores --------------------------------------------------- */
+  #legenda {
+    position: absolute; right: 16px; top: 58px;
+    display: flex; flex-direction: column; gap: 5px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 9px 11px; box-shadow: var(--shadow);
+  }
+  .item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); }
+  .bolinha { width: 9px; height: 9px; border-radius: 3px; flex: 0 0 auto; }
+
+  #dica {
+    position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px;
+    font-size: 11px; color: var(--muted); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
+    box-shadow: var(--shadow); white-space: nowrap;
+  }
+  /* o #carregando e posicionado, e `display: grid` venceria o display:none
+     que o atributo hidden traz -- por isso a regra explicita abaixo. */
+  #carregando[hidden] { display: none; }
+  #carregando {
+    position: absolute; inset: 0; display: grid; place-content: center;
+    gap: 8px; justify-items: center; text-align: center; padding: 16px;
+    background: var(--paper);
+  }
+  .barra { width: 180px; height: 3px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+  .barra i { display: block; height: 100%; width: 30%; background: var(--pp); border-radius: 2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .barra i { animation: corre 1.1s ease-in-out infinite; }
+    @keyframes corre { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
+  }
+  @media (max-width: 760px) {
+    #legenda { display: none; }
+  }
+  @media (max-width: 620px) {
+    #ficha { left: 16px; right: 16px; bottom: 16px; max-width: none; }
+    #dica { display: none; }
+    #ferramentas { bottom: auto; top: 104px; }
+    #relogio { top: 54px; }
+  }
+</style>
+
+<div id="app">
+  <header>
+    <span class="eyebrow">Nitron · Chrono</span>
+    <h1>Datador para tampa de pote</h1>
+    <span class="sub">Ø37,5 mm de mostrador · PP · 3 peças · 2,91 g · a tampa não muda</span>
+  </header>
+
+  <div id="stage">
+    <div id="modos" role="group" aria-label="O que mostrar">
+      <button class="modo" data-modo="peca" aria-pressed="true">O conjunto</button>
+      <button class="modo" data-modo="data" aria-pressed="false">Como marca a data</button>
+      <button class="modo" data-modo="moldes" aria-pressed="false">Os 3 moldes</button>
+      <button class="modo" data-modo="tampa" aria-pressed="false">Na tampa</button>
+    </div>
+
+    <div id="relogio" hidden>
+      <div class="campo">
+        <span class="rot">dia</span>
+        <button class="passo" data-passo="dia" data-d="-1" aria-label="Um dia para trás">−</button>
+        <span class="valor" id="vDia">1</span>
+        <button class="passo" data-passo="dia" data-d="1" aria-label="Um dia para a frente">+</button>
+      </div>
+      <div class="campo">
+        <span class="rot">mês</span>
+        <button class="passo" data-passo="mes" data-d="-1" aria-label="Um mês para trás">−</button>
+        <span class="valor" id="vMes">1</span>
+        <button class="passo" data-passo="mes" data-d="1" aria-label="Um mês para a frente">+</button>
+      </div>
+      <button id="btHoje">hoje</button>
+    </div>
+
+    <div id="legenda">
+      <div class="item"><span class="bolinha" style="background:#b8b0a4"></span>M01 válvula · 31 dias · fixa</div>
+      <div class="item"><span class="bolinha" style="background:#8a8075"></span>M02 rodinha · 12 meses · gira</div>
+      <div class="item"><span class="bolinha" style="background:#c8561a"></span>M03 ponteira · seta e janela · gira</div>
+    </div>
+
+    <div id="ferramentas">
+      <button class="tool" id="btGira" aria-pressed="true" title="Girar sozinho" aria-label="Girar sozinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 3v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tool" id="btArestas" aria-pressed="true" title="Mostrar arestas" aria-label="Mostrar arestas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 3v18M4 7.5l8 4.5 8-4.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tool" id="btTopo" title="Ver de cima" aria-label="Ver de cima">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 5.5v6.5l4.2 2.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tool" id="btReset" title="Enquadrar de novo" aria-label="Enquadrar de novo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+      </button>
+    </div>
+
+    <div id="ficha">
+      <h2 id="fTitulo">O conjunto</h2>
+      <p id="fTexto"></p>
+      <dl id="fDados"></dl>
+      <div class="medido">medido no sólido · <b id="fSelo"></b></div>
+    </div>
+
+    <div id="dica">arraste para girar · rolar para aproximar · dois dedos para mover</div>
+
+    <div id="carregando">
+      <span class="eyebrow">carregando os sólidos</span>
+      <div class="barra"><i></i></div>
+      <span class="sub" id="cTexto">__TRIANGULOS__ triângulos</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// =========================================================================
+// Visor do Chrono datador. Sem biblioteca externa: os solidos vem embutidos
+// (vertices unificados, posicoes quantizadas em uint16 e indices em uint16) e
+// o desenho e WebGL2 escrito aqui. A pagina nao depende de CDN nenhum e pode
+// ser conferida antes de ir para o cliente.
+//
+// Sistema de coordenadas: o dos STL originais da tampa. Y e a vertical, o eixo
+// do poco da valvula esta em X 61,97 / Z 102,68. Nada foi recentrado, entao a
+// tampa e o datador caem um no outro sem alinhamento nenhum.
+// =========================================================================
+
+var MALHAS = __MALHAS__;
+var stage = document.getElementById('stage');
+var carregando = document.getElementById('carregando');
+
+// ---- cotas medidas nos solidos -----------------------------------------
+var CX = 61.97, CZ = 102.68;          // eixo do poco da valvula
+var SD = 360 / 31;                    // passo do dia: 11,613 graus
+var SM = 30;                          // passo do mes
+
+var hoje = new Date();
+var dia = hoje.getDate(), mes = hoje.getMonth() + 1;
+
+// Quem gira e quanto. A janela do mes vive NA ponteira, entao a rodinha tem de
+// acompanhar o giro da ponteira e ainda somar o deslocamento do mes.
+//   ponteira: -(dia-1)*SD          (negativo porque rotacao em +Y diminui o
+//                                   angulo medido de +X para +Z)
+//   rodinha : (mes-1)*SM - (dia-1)*SD
+function anguloDe(peca, d) {
+  if (d && d.semGiro) return 0;          // vista explodida: tudo alinhado
+  if (peca === 'm03') return -(dia - 1) * SD;
+  if (peca === 'm02') return (mes - 1) * SM - (dia - 1) * SD;
+  return 0;
+}
+
+var MODOS = {
+  peca: {
+    titulo: 'O conjunto',
+    texto: 'Três peças em PP. A válvula com os 31 dias não gira — ela é a válvula que já é injetada hoje, com acréscimos. A rodinha dos meses e a ponteira giram no poste central.',
+    dados: [['mostrador', 'Ø37,5 mm'], ['altura do conjunto', '2,72 mm'],
+            ['peso', '2,91 g'], ['peças', '3'], ['graus de liberdade', '2']],
+    selo: '0,0000 mm³ de interferência entre as peças',
+    mostra: ['m01', 'm02', 'm03'], sobe: {}, relogio: true
+  },
+  data: {
+    titulo: 'Como marca a data',
+    texto: 'A ponta da gota aponta o dia na escala externa. A janela recortada nela enquadra o mês na rodinha de baixo. Duas leituras no mesmo lugar, uma em cada giro.',
+    dados: [['dias', '31 · passo 11,613°'], ['meses', '12 · passo 30,000°'],
+            ['detentes da rodinha', '12'], ['janela', 'r 8,70 – 11,30 mm'],
+            ['combinações', '372']],
+    selo: 'um giro ajusta o dia, o outro ajusta o mês',
+    mostra: ['m01', 'm02', 'm03'], sobe: {}, relogio: true
+  },
+  moldes: {
+    titulo: 'Os 3 moldes',
+    texto: 'M01 não é peça nova: é o que o Chrono acrescenta à válvula que já roda — poste, mesa, os 31 dias em relevo e duas molas de detente. M02 e M03 são peças novas.',
+    dados: [['M01 válvula + dias', '1,935 g'], ['M02 rodinha dos meses', '0,575 g'],
+            ['M03 ponteira', '0,398 g'], ['soma', '2,908 g'],
+            ['válvula original', '2,044 g']],
+    selo: 'a metade de baixo da válvula é réplica do STL injetado',
+    mostra: ['m01', 'm02', 'm03'], sobe: { m02: 7.0, m03: 15.0 }, relogio: false, semGiro: true
+  },
+  tampa: {
+    titulo: 'Na tampa',
+    texto: 'O datador mora no poço da válvula. Recorte de Ø60 mm da tampa Pote 025 Pequeno, na posição real. Nenhuma cota da tampa foi tocada.',
+    dados: [['topo do conjunto', 'Y 39,95'], ['ponto mais alto da tampa', 'Y 39,76'],
+            ['diferença', '+0,19 mm'], ['folga do poste', '0,20 mm'],
+            ['folga do pino', '0,10 mm']],
+    selo: 'balancim conferido: curva idêntica à da válvula original',
+    mostra: ['tampa', 'm01', 'm02', 'm03'], sobe: {}, relogio: true
+  }
+};
+
+var CORES = {
+  m01:   [0.722, 0.690, 0.643],
+  m02:   [0.541, 0.502, 0.459],
+  m03:   [0.784, 0.337, 0.102],
+  tampa: [0.855, 0.835, 0.800]
+};
+
+function falha(msg) {
+  carregando.hidden = false;
+  carregando.innerHTML = '<span class="eyebrow">' + msg + '</span>' +
+    '<span class="sub">tente recarregar a página</span>';
+}
+
+// ---- decodifica uma malha embutida -------------------------------------
+function decodifica(b64) {
+  var bin = atob(b64), buf = new ArrayBuffer(bin.length), u8 = new Uint8Array(buf), i;
+  for (i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  var dv = new DataView(buf);
+  var mn = [dv.getFloat32(0, true), dv.getFloat32(4, true), dv.getFloat32(8, true)];
+  var sc = [dv.getFloat32(12, true), dv.getFloat32(16, true), dv.getFloat32(20, true)];
+  var nv = dv.getUint32(24, true), nf = dv.getUint32(28, true);
+  var q = new Uint16Array(buf, 32, nv * 3);
+  var idx = new Uint16Array(buf.slice(32 + nv * 6, 32 + nv * 6 + nf * 6));
+  var pos = new Float32Array(nv * 3);
+  for (i = 0; i < nv; i++) {
+    pos[i*3]   = mn[0] + q[i*3]   * sc[0];
+    pos[i*3+1] = mn[1] + q[i*3+1] * sc[1];
+    pos[i*3+2] = mn[2] + q[i*3+2] * sc[2];
+  }
+  var bb = [Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity];
+  for (i = 0; i < nv; i++) for (var k = 0; k < 3; k++) {
+    if (pos[i*3+k] < bb[k]) bb[k] = pos[i*3+k];
+    if (pos[i*3+k] > bb[k+3]) bb[k+3] = pos[i*3+k];
+  }
+  return { pos: pos, idx: idx, nv: nv, nf: nf, bb: bb };
+}
+
+// ---- arestas de verdade: angulo diedro entre faces vizinhas -------------
+function arestasDe(m, grausLim) {
+  var cos = Math.cos(grausLim * Math.PI / 180);
+  var nrm = new Float32Array(m.nf * 3), p = m.pos, idx = m.idx, f;
+  for (f = 0; f < m.nf; f++) {
+    var a = idx[f*3]*3, b = idx[f*3+1]*3, c = idx[f*3+2]*3;
+    var ux = p[b]-p[a], uy = p[b+1]-p[a+1], uz = p[b+2]-p[a+2];
+    var vx = p[c]-p[a], vy = p[c+1]-p[a+1], vz = p[c+2]-p[a+2];
+    var nx = uy*vz-uz*vy, ny = uz*vx-ux*vz, nz = ux*vy-uy*vx;
+    var L = Math.hypot(nx, ny, nz) || 1;
+    nrm[f*3] = nx/L; nrm[f*3+1] = ny/L; nrm[f*3+2] = nz/L;
+  }
+  var mapa = new Map(), fora = [];
+  for (f = 0; f < m.nf; f++) {
+    var i0 = idx[f*3], i1 = idx[f*3+1], i2 = idx[f*3+2];
+    var pares = [[i0,i1],[i1,i2],[i2,i0]];
+    for (var e = 0; e < 3; e++) {
+      var A = pares[e][0], B = pares[e][1];
+      var key = A < B ? A * 65536 + B : B * 65536 + A;
+      var v = mapa.get(key);
+      if (v === undefined) { mapa.set(key, f); }
+      else {
+        mapa.set(key, -1);
+        var d = nrm[f*3]*nrm[v*3] + nrm[f*3+1]*nrm[v*3+1] + nrm[f*3+2]*nrm[v*3+2];
+        if (d < cos) { fora.push(A, B); }
+      }
+    }
+  }
+  return new Uint16Array(fora);
+}
+
+// ---- matrizes -----------------------------------------------------------
+function perspectiva(fov, asp, n, f) {
+  var t = 1 / Math.tan(fov * Math.PI / 360);
+  return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];
+}
+function olhar(eye, cen, up) {
+  var zx = eye[0]-cen[0], zy = eye[1]-cen[1], zz = eye[2]-cen[2];
+  var L = Math.hypot(zx,zy,zz)||1; zx/=L; zy/=L; zz/=L;
+  var xx = up[1]*zz-up[2]*zy, xy = up[2]*zx-up[0]*zz, xz = up[0]*zy-up[1]*zx;
+  L = Math.hypot(xx,xy,xz)||1; xx/=L; xy/=L; xz/=L;
+  var yx = zy*xz-zz*xy, yy = zz*xx-zx*xz, yz = zx*xy-zy*xx;
+  return [xx,yx,zx,0, xy,yy,zy,0, xz,yz,zz,0,
+          -(xx*eye[0]+xy*eye[1]+xz*eye[2]),
+          -(yx*eye[0]+yy*eye[1]+yz*eye[2]),
+          -(zx*eye[0]+zy*eye[1]+zz*eye[2]), 1];
+}
+function mul(a, b) {
+  var o = new Float32Array(16);
+  for (var i = 0; i < 4; i++) for (var j = 0; j < 4; j++) {
+    o[i*4+j] = a[j]*b[i*4] + a[4+j]*b[i*4+1] + a[8+j]*b[i*4+2] + a[12+j]*b[i*4+3];
+  }
+  return o;
+}
+// gira em torno do eixo do poco e sobe em y — coluna-maior, como o WebGL quer
+function modelo(graus, sobe) {
+  var a = graus * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+  return new Float32Array([
+    c, 0, -s, 0,
+    0, 1,  0, 0,
+    s, 0,  c, 0,
+    CX - c*CX - s*CZ, sobe, CZ + s*CX - c*CZ, 1
+  ]);
+}
+
+// ---- programas ----------------------------------------------------------
+var VS_SOL = `#version 300 es
+in vec3 a_pos; uniform mat4 u_vp; uniform mat4 u_mdl; out vec3 v_w;
+void main(){ vec3 p = (u_mdl * vec4(a_pos,1.0)).xyz; v_w = p; gl_Position = u_vp * vec4(p,1.0); }`;
+var FS_SOL = `#version 300 es
+precision highp float;
+in vec3 v_w; out vec4 o; uniform vec3 u_cor; uniform vec3 u_eye;
+void main(){
+  vec3 N = normalize(cross(dFdx(v_w), dFdy(v_w)));
+  vec3 V = normalize(u_eye - v_w);
+  if (dot(N, V) < 0.0) N = -N;
+  vec3 L1 = normalize(vec3(-0.42, 0.78, 0.46));
+  vec3 L2 = normalize(vec3(0.62, 0.34, -0.48));
+  float d = 0.34 + 0.72*max(dot(N,L1),0.0) + 0.20*max(dot(N,L2),0.0);
+  float rim = pow(1.0 - max(dot(N,V),0.0), 2.6) * 0.30;
+  o = vec4(clamp(u_cor*d + vec3(rim*0.9, rim*0.8, rim*0.7), 0.0, 1.0), 1.0);
+}`;
+var VS_LIN = `#version 300 es
+in vec3 a_pos; uniform mat4 u_vp; uniform mat4 u_mdl;
+void main(){ gl_Position = u_vp * u_mdl * vec4(a_pos, 1.0); }`;
+var FS_LIN = `#version 300 es
+precision highp float; out vec4 o; uniform vec4 u_cor;
+void main(){ o = u_cor; }`;
+
+function prog(gl, vs, fs) {
+  function sh(t, src) {
+    var s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  var p = gl.createProgram();
+  gl.attachShader(p, sh(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  return p;
+}
+
+function comeca() {
+  var cv = document.createElement('canvas');
+  stage.appendChild(cv);
+  var gl = cv.getContext('webgl2', { antialias: true, alpha: true });
+  if (!gl) { falha('este navegador não tem WebGL2'); return; }
+
+  var PECAS = {}, nome;
+  for (nome in MALHAS) {
+    var m = decodifica(MALHAS[nome]);
+    var ar = arestasDe(m, 26);
+    var vbo = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo); gl.bufferData(gl.ARRAY_BUFFER, m.pos, gl.STATIC_DRAW);
+    var ibo = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, m.idx, gl.STATIC_DRAW);
+    var abo = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, abo); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, ar, gl.STATIC_DRAW);
+    PECAS[nome] = { m: m, vbo: vbo, ibo: ibo, abo: abo, nAr: ar.length };
+  }
+
+  var pSol = prog(gl, VS_SOL, FS_SOL), pLin = prog(gl, VS_LIN, FS_LIN);
+
+  // grade de 10 mm no plano do piso (y do fundo da valvula)
+  var g = [], N = 12, P = 10, Y = 32.0;
+  for (var i = -N; i <= N; i++) {
+    g.push(CX - N*P, Y, CZ + i*P,  CX + N*P, Y, CZ + i*P,
+           CX + i*P, Y, CZ - N*P,  CX + i*P, Y, CZ + N*P);
+  }
+  var gbo = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, gbo);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(g), gl.STATIC_DRAW);
+  var nGrade = g.length / 3;
+  var IDENT = modelo(0, 0);
+
+  var escuro = matchMedia('(prefers-color-scheme: dark)').matches ||
+               document.documentElement.getAttribute('data-theme') === 'dark';
+  var corGrade = escuro ? [0.62, 0.57, 0.50, 0.24] : [0.42, 0.38, 0.33, 0.20];
+  var corAresta = escuro ? [0.08, 0.06, 0.04, 0.50] : [0.13, 0.10, 0.07, 0.38];
+
+  var modo = 'peca', mostraArestas = true, gira = true;
+  var alvo = [CX, 36, CZ], theta = 0.92, phi = 1.02, raio = 90, minR = 12, maxR = 600;
+  var eye = [0, 0, 0];
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gira = false; document.getElementById('btGira').setAttribute('aria-pressed', 'false');
+  }
+
+  function posiciona() {
+    var s = Math.sin(phi);
+    eye = [alvo[0] + raio*s*Math.cos(theta), alvo[1] + raio*Math.cos(phi),
+           alvo[2] + raio*s*Math.sin(theta)];
+  }
+
+  function enquadra() {
+    var d = MODOS[modo], b = [Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+    d.mostra.forEach(function (n) {
+      var bb = PECAS[n].m.bb, sobe = d.sobe[n] || 0;
+      // o giro nao muda a envoltoria de forma util: uso a caixa crua, subida em y
+      for (var k = 0; k < 3; k++) {
+        var lo = bb[k] + (k === 1 ? sobe : 0), hi = bb[k+3] + (k === 1 ? sobe : 0);
+        if (lo < b[k]) b[k] = lo;
+        if (hi > b[k+3]) b[k+3] = hi;
+      }
+    });
+    alvo = [(b[0]+b[3])/2, (b[1]+b[4])/2, (b[2]+b[5])/2];
+    var r = 0.5 * Math.hypot(b[3]-b[0], b[4]-b[1], b[5]-b[2]);
+    raio = r / Math.sin(34 * Math.PI / 360) * 1.12;
+    minR = r * 0.45; maxR = raio * 3.4;
+    posiciona();
+  }
+
+  function relogio() {
+    document.getElementById('vDia').textContent = dia;
+    document.getElementById('vMes').textContent = mes;
+    document.getElementById('relogio').hidden = !MODOS[modo].relogio;
+  }
+
+  function ficha() {
+    var d = MODOS[modo];
+    document.getElementById('fTitulo').textContent = d.titulo;
+    document.getElementById('fTexto').textContent = d.texto;
+    document.getElementById('fSelo').textContent = d.selo;
+    document.getElementById('fDados').innerHTML = d.dados.map(function (x) {
+      return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>';
+    }).join('');
+    var bs = document.querySelectorAll('.modo');
+    for (var i = 0; i < bs.length; i++) {
+      bs[i].setAttribute('aria-pressed', bs[i].getAttribute('data-modo') === modo ? 'true' : 'false');
+    }
+    relogio();
+  }
+
+  var W = 1, H = 1;
+  function ajusta() {
+    var r = stage.getBoundingClientRect();
+    var dpr = Math.min(devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  }
+  addEventListener('resize', ajusta);
+
+  function desenha() {
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.DEPTH_TEST);
+    gl.disable(gl.CULL_FACE);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    var vp = mul(perspectiva(34, W / H, Math.max(raio/400, 0.2), raio*8),
+                 olhar(eye, alvo, [0, 1, 0]));
+    var d = MODOS[modo];
+
+    gl.useProgram(pSol);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pSol, 'u_vp'), false, vp);
+    gl.uniform3fv(gl.getUniformLocation(pSol, 'u_eye'), new Float32Array(eye));
+    var aP = gl.getAttribLocation(pSol, 'a_pos');
+    var uMdl = gl.getUniformLocation(pSol, 'u_mdl');
+    var uCor = gl.getUniformLocation(pSol, 'u_cor');
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(1.2, 2.0);
+    d.mostra.forEach(function (n) {
+      var P = PECAS[n];
+      gl.bindBuffer(gl.ARRAY_BUFFER, P.vbo);
+      gl.enableVertexAttribArray(aP);
+      gl.vertexAttribPointer(aP, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, P.ibo);
+      gl.uniformMatrix4fv(uMdl, false, modelo(anguloDe(n, d), d.sobe[n] || 0));
+      gl.uniform3fv(uCor, new Float32Array(CORES[n]));
+      gl.drawElements(gl.TRIANGLES, P.m.nf * 3, gl.UNSIGNED_SHORT, 0);
+    });
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+
+    gl.useProgram(pLin);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pLin, 'u_vp'), false, vp);
+    var lP = gl.getAttribLocation(pLin, 'a_pos');
+    var lMdl = gl.getUniformLocation(pLin, 'u_mdl');
+    var lCor = gl.getUniformLocation(pLin, 'u_cor');
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gbo);
+    gl.enableVertexAttribArray(lP);
+    gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
+    gl.uniformMatrix4fv(lMdl, false, IDENT);
+    gl.uniform4fv(lCor, new Float32Array(corGrade));
+    gl.drawArrays(gl.LINES, 0, nGrade);
+    if (mostraArestas) {
+      gl.uniform4fv(lCor, new Float32Array(corAresta));
+      d.mostra.forEach(function (n) {
+        var P = PECAS[n];
+        if (!P.nAr) return;
+        gl.bindBuffer(gl.ARRAY_BUFFER, P.vbo);
+        gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, P.abo);
+        gl.uniformMatrix4fv(lMdl, false, modelo(anguloDe(n, d), d.sobe[n] || 0));
+        gl.drawElements(gl.LINES, P.nAr, gl.UNSIGNED_SHORT, 0);
+      });
+    }
+    gl.disable(gl.BLEND);
+  }
+
+  // ---- interacao --------------------------------------------------------
+  var pts = {}, ultimo = null, dist0 = 0;
+  cv.style.cursor = 'grab';
+  cv.style.touchAction = 'none';
+  cv.addEventListener('pointerdown', function (e) {
+    cv.setPointerCapture(e.pointerId);
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    ultimo = { x: e.clientX, y: e.clientY };
+    cv.style.cursor = 'grabbing';
+    var ks = Object.keys(pts);
+    if (ks.length === 2) dist0 = Math.hypot(pts[ks[0]].x - pts[ks[1]].x, pts[ks[0]].y - pts[ks[1]].y);
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!pts[e.pointerId]) return;
+    var ks = Object.keys(pts);
+    var dx = e.clientX - ultimo.x, dy = e.clientY - ultimo.y;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    ultimo = { x: e.clientX, y: e.clientY };
+    if (ks.length >= 2) {
+      var dd = Math.hypot(pts[ks[0]].x - pts[ks[1]].x, pts[ks[0]].y - pts[ks[1]].y);
+      if (dist0 > 0 && dd > 0) { raio = Math.max(minR, Math.min(maxR, raio * dist0 / dd)); dist0 = dd; }
+      var k = raio * 0.0016;
+      alvo[0] -= Math.cos(theta + Math.PI/2) * dx * k;
+      alvo[2] -= Math.sin(theta + Math.PI/2) * dx * k;
+      alvo[1] += dy * k;
+      posiciona();
+    } else {
+      theta -= dx * 0.0062;
+      phi = Math.max(0.10, Math.min(Math.PI - 0.10, phi - dy * 0.0062));
+      if (gira) { gira = false; document.getElementById('btGira').setAttribute('aria-pressed', 'false'); }
+      posiciona();
+    }
+  });
+  function solta(e) {
+    delete pts[e.pointerId];
+    if (!Object.keys(pts).length) { cv.style.cursor = 'grab'; dist0 = 0; }
+  }
+  cv.addEventListener('pointerup', solta);
+  cv.addEventListener('pointercancel', solta);
+  cv.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    raio = Math.max(minR, Math.min(maxR, raio * Math.exp(e.deltaY * 0.0011)));
+    posiciona();
+  }, { passive: false });
+
+  var bs = document.querySelectorAll('.modo');
+  for (var i = 0; i < bs.length; i++) {
+    bs[i].addEventListener('click', function (ev) {
+      modo = ev.currentTarget.getAttribute('data-modo');
+      theta = 0.92; phi = 1.02;
+      ficha(); enquadra();
+    });
+  }
+  var ps = document.querySelectorAll('.passo');
+  for (var j = 0; j < ps.length; j++) {
+    ps[j].addEventListener('click', function (ev) {
+      var q = ev.currentTarget.getAttribute('data-passo');
+      var dd = parseInt(ev.currentTarget.getAttribute('data-d'), 10);
+      if (q === 'dia') dia = ((dia - 1 + dd) % 31 + 31) % 31 + 1;
+      else mes = ((mes - 1 + dd) % 12 + 12) % 12 + 1;
+      relogio();
+    });
+  }
+  document.getElementById('btHoje').addEventListener('click', function () {
+    var h = new Date(); dia = h.getDate(); mes = h.getMonth() + 1; relogio();
+  });
+  var btGira = document.getElementById('btGira');
+  btGira.addEventListener('click', function () {
+    gira = !gira; btGira.setAttribute('aria-pressed', gira ? 'true' : 'false');
+  });
+  var btA = document.getElementById('btArestas');
+  btA.addEventListener('click', function () {
+    mostraArestas = !mostraArestas;
+    btA.setAttribute('aria-pressed', mostraArestas ? 'true' : 'false');
+  });
+  document.getElementById('btTopo').addEventListener('click', function () {
+    theta = -Math.PI / 2; phi = 0.14;
+    gira = false; btGira.setAttribute('aria-pressed', 'false');
+    enquadra();
+  });
+  document.getElementById('btReset').addEventListener('click', function () {
+    theta = 0.92; phi = 1.02; enquadra();
+  });
+
+  ajusta(); ficha(); enquadra();
+  carregando.hidden = true;
+  (function loop() {
+    if (gira) { theta += 0.0032; posiciona(); }
+    desenha();
+    requestAnimationFrame(loop);
+  })();
+}
+
+try { comeca(); } catch (e) { falha('não deu para montar a cena 3D'); }
+</script>
