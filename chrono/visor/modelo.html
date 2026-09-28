@@ -180,7 +180,7 @@
   <header>
     <span class="eyebrow">Nitron · Chrono</span>
     <h1>Datador para tampa de pote</h1>
-    <span class="sub">Ø37,5 mm de mostrador · PP · 3 peças · 2,91 g · a tampa não muda</span>
+    <span class="sub">v3 · Ø37,5 mm de mostrador · PP · 3 peças · 2,91 g · saída 1,5° · a tampa não muda</span>
   </header>
 
   <div id="stage">
@@ -263,8 +263,11 @@ var carregando = document.getElementById('carregando');
 
 // ---- cotas medidas nos solidos -----------------------------------------
 var CX = 61.97, CZ = 102.68;          // eixo do poco da valvula
-var SD = 360 / 31;                    // passo do dia: 11,613 graus
 var SM = 30;                          // passo do mes
+// Angulo de cada dia. NAO e passo constante: na v3 o vao entre as BORDAS dos
+// numeros e que ficou igual, entao 1..9 (um digito) ocupam menos arco e os
+// centros andam menos. Quem le a escala e o olho, e o olho le o vao.
+var DIAS = __DIAS__;
 
 var hoje = new Date();
 var dia = hoje.getDate(), mes = hoje.getMonth() + 1;
@@ -276,8 +279,9 @@ var dia = hoje.getDate(), mes = hoje.getMonth() + 1;
 //   rodinha : (mes-1)*SM - (dia-1)*SD
 function anguloDe(peca, d) {
   if (d && d.semGiro) return 0;          // vista explodida: tudo alinhado
-  if (peca === 'm03') return -(dia - 1) * SD;
-  if (peca === 'm02') return (mes - 1) * SM - (dia - 1) * SD;
+  var ad = DIAS[dia - 1] - DIAS[0];      // giro a partir do dia 1
+  if (peca === 'm03') return -ad;
+  if (peca === 'm02') return (mes - 1) * SM - ad;
   return 0;
 }
 
@@ -287,14 +291,14 @@ var MODOS = {
     texto: 'Três peças em PP. A válvula com os 31 dias não gira — ela é a válvula que já é injetada hoje, com acréscimos. A rodinha dos meses e a ponteira giram no poste central.',
     dados: [['mostrador', 'Ø37,5 mm'], ['altura do conjunto', '2,72 mm'],
             ['peso', '2,91 g'], ['peças', '3'], ['graus de liberdade', '2']],
-    selo: '0,0000 mm³ de interferência entre as peças',
+    selo: 'saída de 1,5° · 0 mm² de parede vertical nas 3 peças',
     mostra: ['m01', 'm02', 'm03'], sobe: {}, relogio: true
   },
   data: {
     titulo: 'Como marca a data',
-    texto: 'A ponta da gota aponta o dia na escala externa. A janela recortada nela enquadra o mês na rodinha de baixo. Duas leituras no mesmo lugar, uma em cada giro.',
-    dados: [['dias', '31 · passo 11,613°'], ['meses', '12 · passo 30,000°'],
-            ['detentes da rodinha', '12'], ['janela', 'r 8,70 – 11,30 mm'],
+    texto: 'A ponta da gota aponta o dia na escala externa. A janela recortada nela enquadra o mês na rodinha de baixo. Os 31 dias não têm passo constante: o que ficou igual é o vão entre os números.',
+    dados: [['dias', '31 · vão igual de 5,81°'], ['meses', '12 · passo 30,000°'],
+            ['detentes', '12 · calota Ø2,00'], ['janela', 'r 8,70 – 11,30 mm'],
             ['combinações', '372']],
     selo: 'um giro ajusta o dia, o outro ajusta o mês',
     mostra: ['m01', 'm02', 'm03'], sobe: {}, relogio: true
@@ -302,8 +306,8 @@ var MODOS = {
   moldes: {
     titulo: 'Os 3 moldes',
     texto: 'M01 não é peça nova: é o que o Chrono acrescenta à válvula que já roda — poste, mesa, os 31 dias em relevo e duas molas de detente. M02 e M03 são peças novas.',
-    dados: [['M01 válvula + dias', '1,935 g'], ['M02 rodinha dos meses', '0,575 g'],
-            ['M03 ponteira', '0,398 g'], ['soma', '2,908 g'],
+    dados: [['M01 válvula + dias', '1,985 g'], ['M02 rodinha dos meses', '0,541 g'],
+            ['M03 ponteira', '0,381 g'], ['soma', '2,907 g'],
             ['válvula original', '2,044 g']],
     selo: 'a metade de baixo da válvula é réplica do STL injetado',
     mostra: ['m01', 'm02', 'm03'], sobe: { m02: 7.0, m03: 15.0 }, relogio: false, semGiro: true

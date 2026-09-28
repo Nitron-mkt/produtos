@@ -8,10 +8,10 @@ peca de 44 mm, uma ordem de grandeza abaixo da tesselacao do STL.
 
   python3 gera.py
 """
-import base64, os, struct, numpy as np, trimesh
+import base64, os, sys, struct, numpy as np, trimesh
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-STL  = os.path.join(AQUI, '..', 'stl_v2')
+STL  = os.path.join(AQUI, '..', 'v3', 'stl')
 UP   = '/root/.claude/uploads/25a64868-b28d-5a69-b1c3-502a4891561f/'
 TAMPA = UP + '1c50a47b-Mont_pote_com_valvula__Tampa_Pote_025_Pequeno_Cav1.STL'
 CX, CZ = 61.97, 102.68
@@ -37,9 +37,9 @@ def limpa(m):
 
 print('carregando os solidos')
 pecas = {}
-for k, arq in [('m01','Chrono_M01_Valvula_Dias.stl'),
-               ('m02','Chrono_M02_Rodinha_Meses.stl'),
-               ('m03','Chrono_M03_Ponteira.stl')]:
+for k, arq in [('m01','Chrono_v3_M01_Valvula_Dias.stl'),
+               ('m02','Chrono_v3_M02_Rodinha_Meses.stl'),
+               ('m03','Chrono_v3_M03_Ponteira.stl')]:
     pecas[k] = limpa(trimesh.load(os.path.join(STL, arq)))
 
 # tampa: recorte de O60 em volta do poco, para dar contexto sem carregar 148 k
@@ -65,7 +65,11 @@ for k, m in pecas.items():
     print('  %-6s %6d vert  %6d faces  %7.0f KB em base64' % (k, len(m.vertices), nf, len(b64)/1024))
 
 html = open(os.path.join(AQUI, 'modelo.html'), encoding='utf-8').read()
+sys.path.insert(0, os.path.join(AQUI, '..', 'v3'))
+from lib_v3 import angulos_dias
+ang, _, _ = angulos_dias()
 html = html.replace('__MALHAS__', '{\n' + ',\n'.join(partes) + '\n}')
+html = html.replace('__DIAS__', '[' + ', '.join('%.4f' % a for a in ang) + ']')
 html = html.replace('__TRIANGULOS__', '{:,}'.format(total).replace(',', '.'))
 open(SAIDA, 'w', encoding='utf-8').write(html)
 print('\n%s  ->  %.2f MB, %s triangulos' % (os.path.basename(SAIDA),
