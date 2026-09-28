@@ -20,7 +20,7 @@ Logo, parede externa ESTREITA para cima e furo ALARGA para cima.
 """
 import sys, os, numpy as np, cadquery as cq
 from math import pi, radians, degrees, cos, sin
-from shapely.geometry import Polygon as SP
+from shapely.geometry import Polygon as SP, LineString as SL
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'medicao_v2'))
 import params as P
@@ -164,12 +164,15 @@ def m03():
     fendas, drenos = [], []
     for i in range(P.FENDAS):
         a = radians(45 + i*360.0/P.FENDAS)
-        # a fenda tambem sai do molde: alarga para baixo, junto com o pino
-        fendas.append(place(prisma(SP([(-P.FENDA_W/2, 0.0), (P.FENDA_W/2, 0.0),
-                                       (P.FENDA_W/2, 4.20), (-P.FENDA_W/2, 4.20)]),
+        # Fenda com a RAIZ EM MEIA-CANA, nao em canto vivo. A perna do snap
+        # flexiona na montagem e a raiz da fenda e onde a tensao se concentra:
+        # canto vivo ali e onde perna de encaixe trinca. Meia-cana de 0,35
+        # (= meia largura) e o alivio classico e nao custa nada.
+        fendas.append(place(prisma(SL([(0.0, 0.0), (0.0, 4.20 - P.FENDA_W/2)]).buffer(P.FENDA_W/2),
                                    P.CUBO_Y0 - P.PINO_Y1 + 0.2, P.SAIDA),
                             a, 0.0, P.CUBO_Y0, P.CUBO_Y0 - P.PINO_Y1 + 0.2))
-        drenos.append(place(prisma(SP([(-0.35, 2.60), (0.35, 2.60), (0.35, 8.20), (-0.35, 8.20)]),
+        # dreno tambem em meia-cana nas duas pontas
+        drenos.append(place(prisma(SL([(0.0, 2.60 + 0.35), (0.0, 8.20 - 0.35)]).buffer(0.35),
                                    0.30, P.SAIDA),
                             a, 0.0, P.CUBO_Y0 + 0.30, 0.30))
     jp = ret_arred(P.JAN_R0, P.JAN_R1, P.JAN_M, P.JAN_RC)
@@ -177,13 +180,14 @@ def m03():
     jan = place(prisma_wire(jp, h + 0.6, -P.SAIDA), radians(90), 0.0, P.TOPO + 0.3, h + 0.6)
     chw = ret_wire(P.JAN_R0 - 0.45, P.JAN_R1 + 0.45, P.JAN_M + 0.45, P.JAN_RC + 0.45)
     ch  = place(prisma_wire(chw, 0.60, -P.SAIDA), radians(90), 0.0, P.TOPO + 0.30, 0.60)
-    corpo = tirar(corpo, fendas + drenos + [jan, ch])
-    # a janela por ultimo, e so ela: o encontro gota/cubo e as fendas do pino
-    # nao aceitam raio sem o OCC devolver solido invalido
+    # Os drenos entram DEPOIS do raio da janela. Com a ponta em meia-cana eles
+    # caem na mesma faixa de raio do filtro da janela, e o OCC recusa o conjunto.
+    corpo = tirar(corpo, fendas + [jan, ch])
     def borda_janela(e):
         c = e.Center(); r = (c.x**2 + c.z**2) ** 0.5
         return abs(c.y - P.CUBO_Y0) < 1e-6 and 7.5 < r < 12.5
     corpo = arred(corpo, P.RAIO_FINO, borda_janela, 'janela: borda de baixo')
+    corpo = tirar(corpo, drenos)
 
     # "D" saiu; "M" virou "MES"; icone de gravado para AUTO RELEVO
     corpo = aplica_letras(corpo, [(radians(90), 'MÊS')], P.MES_TXT_R, P.TOPO, nome='ponteira: MÊS')
