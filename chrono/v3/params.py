@@ -12,11 +12,20 @@ RAIO       = 0.30    # raio de abaulamento das arestas estruturais
 RAIO_FINO  = 0.15    # onde a parede nao comporta 0,30
 LETRA_CAP  = 1.50    # altura de caixa alta de TODA letra e numero
 LETRA_REL  = 0.10    # relevo de TODA letra e numero (auto relevo, nunca gravado)
-LETRA_RC   = 0.06    # raio de canto no contorno do caractere (plano)
-# Saida do caractere. Com 0,10 de relevo, 1,5 grau da 2,6 MICRA de recuo — o aco
-# nao guarda isso. Letra rasa se tira do molde com saida generosa: 15 graus
-# custam 0,027 mm por lado num traco de 0,28 e a letra continua legivel.
-LETRA_SAIDA = 15.0
+LETRA_RC   = 0.04    # raio de canto no contorno do caractere (plano)
+# Saida do caractere: ZERO, e por medida, nao por preguica.
+#
+# A extrusao conica do OpenCASCADE (LocOpe_DPrism) degenera nos cantos de um
+# contorno de letra: com 15 graus saem 700 arestas abaixo de 0,05 mm (a menor
+# com 0,00065) e 205 faces de area praticamente nula. Com 7 graus, 529. Com 3
+# graus, 367. Com ZERO: aresta minima de 0,10 mm e NENHUMA micro-face. Foi
+# exatamente esse lixo que fez a peca abrir "fatiada e pontinhada" no SolidWorks.
+#
+# E nao faz falta: o que solta uma letra de 0,10 mm de relevo do aco nao e a
+# saida da parede lateral, e a propria altura de 0,10. Se a ferramentaria quiser
+# saida nos caracteres, o caminho limpo e aplicar no CAD dela, com a operacao de
+# draft nativa — o kernel do SolidWorks resolve isso sem gerar lasca.
+LETRA_SAIDA = 0.0
 
 def rec(h):
     """quanto o raio recua em h mm de altura, com a saida padrao"""

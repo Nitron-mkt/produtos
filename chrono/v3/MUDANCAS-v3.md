@@ -16,9 +16,13 @@ reto (tem de reprovar) e um cone de 1,5° (tem de passar):
 
 | | parede vertical antes | depois |
 |---|---|---|
-| M01 (só o que o Chrono acrescenta) | 45,6 mm² | **0,0 mm²** |
-| M02 rodinha | 234,5 mm² · 21,8% | **0,0 mm²** |
-| M03 ponteira | 234,7 mm² · 29,0% | **0,0 mm²** |
+| M01 (só o que o Chrono acrescenta) | 45,6 mm² | **~20 mm², só a lateral dos numerais** |
+| M02 rodinha | 234,5 mm² · 21,8% | **8,1 mm² · 0,8%**, só a lateral dos numerais |
+| M03 ponteira | 234,7 mm² · 29,0% | **6,6 mm² · 0,8%**, só MÊS e o ícone |
+
+**Toda parede estrutural está com 1,5°.** A única parede vertical que sobrou é o
+flanco de 0,10 mm dos caracteres em auto relevo — ver a seção 9a: com saída, o
+STEP não abria.
 
 Os 167 mm² de parede vertical que sobram na M01 são **do corpo da válvula
 original**, que já está ferramentado e não é nosso.
@@ -132,7 +136,64 @@ os mesmos +0,188 mm sobre o ponto mais alto da tampa. Mesma coisa na rodinha
 | massa | 2,907 g (v2: 2,908 g) |
 | B-rep dos 6 arquivos | válido no BRepCheck |
 
-## 9. Os arquivos
+## 9. Correção de 29/09 — o STEP abria "fatiado" no SolidWorks
+
+Duas coisas, e a segunda é grave.
+
+### a) Aresta curta demais
+
+O arquivo **já era sólido** (`MANIFOLD_SOLID_BREP` + `CLOSED_SHELL`). O que
+quebrava a importação era **aresta de micra**: 763 arestas abaixo de 0,01 mm, a
+menor com **0,0015 mm**. Todo importador de STEP colapsa aresta nessa ordem, e
+aí a costura do sólido se desfaz e a peça abre como superfície solta — "toda
+fatiada, pontinhada".
+
+A origem: **a extrusão cônica do OpenCASCADE degenera no canto de um contorno de
+letra.** Medido, fundindo os 12 numerais da rodinha:
+
+| saída do caractere | arestas < 0,05 mm | menor aresta | micro-faces |
+|---|---|---|---|
+| 15° | 700 | 0,00065 | 205 |
+| 7° | 529 | 0,00006 | 212 |
+| 3° | 367 | 0,00032 | 177 |
+| **0°** | **0** | **0,100** | **0** |
+
+Tentei curar depois (`ShapeUpgrade_UnifySameDomain`, `ShapeFix_Wireframe`):
+derruba de 700 para 75, mas devolve o sólido **inválido**, com face de área
+negativa. Não serve.
+
+**Decisão: saída ZERO na parede lateral dos caracteres.** E não faz falta — o
+que solta uma letra de 0,10 mm de relevo do aço não é a saída da parede
+lateral, é a própria altura de 0,10. Se a ferramentaria quiser saída nos
+caracteres, o caminho limpo é aplicar no CAD dela, com a operação de draft
+nativa; o kernel do SolidWorks faz isso sem gerar lasca.
+
+Também entraram: segmento mínimo de 0,10 mm em todo contorno de letra; raio da
+mesa de 0,15 para 0,08 (0,15 comia 0,15 dos 0,18 de parede e sobrava aresta de
+0,034); pé do poste com 5 pontos de arco em vez de 10; e fenda e dreno da
+ponteira com a meia-cana em **arco exato** em vez de polígono.
+
+**Porteiro novo: `qualidade.py`.** Reprova qualquer arquivo com mais de um
+sólido, com aresta < 0,05 mm ou face < 0,002 mm². Os seis passam.
+
+### b) ⚠️ Duas bolhas penduradas embaixo da válvula
+
+Na estrutura antiga a mola do detente era uma **esfera inteira somada** à peça
+depois do corte do rebaixo. A calota de 0,25 acima do piso era o que eu queria —
+mas os outros **72% da esfera (28,9 mm³ cada, 57,8 mm³ no total)** ficavam
+pendurados **abaixo** da chapa da válvula, em r 10,10, descendo até Y 32,63
+contra os 35,40 da face de baixo. Material solto dentro do pote, bem onde a
+válvula balança.
+
+Estava no STEP que eu entreguei. Foi erro meu de estrutura, não de cota.
+
+**Corrigido invertendo a ordem:** as duas esferas agora são **subtraídas do
+cortador do rebaixo**. O corte já deixa as duas molas de pé e nada mais. Medido
+na peça montada: superfície em Y 36,873 nas duas posições (piso 36,63 + 0,243) e
+**ponto mais baixo da peça igual ao da válvula original, 32,570** — nada
+acrescentado por baixo.
+
+## 10. Os arquivos
 
 STEP em `v3/step/`. A M01 continua em receita, agora com 4 passos **e a ordem
 importa**:

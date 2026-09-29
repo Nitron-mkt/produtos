@@ -23,12 +23,50 @@ _FP = FontProperties(family="FreeSans", weight="bold")
 SEM_SAIDA = {'reto': 0, 'tol': {}}   # contador: quantos contornos o OCC recusou
 
 # ---------------------------------------------------------------- 2D
+MIN_SEG = 0.10   # menor segmento admitido num contorno, em mm
+
+def limpa_contorno(poly, min_seg=None):
+    """Garante que nenhum segmento do contorno fique abaixo de min_seg.
+
+    POR QUE ISTO EXISTE: o SolidWorks (e todo importador de STEP) tem um limite
+    de aresta curta. Aresta de 0,0015 mm — que era o que o buffer de arredondar
+    canto deixava no contorno das letras — ele colapsa na importacao, a costura
+    do solido se desfaz e a peca abre como um monte de superficie solta. Foi
+    exatamente o que o projetista viu: 'toda fatiada, pontinhada'.
+
+    0,05 mm num traco de 0,28 e numa letra de 1,50 nao muda nada visivel."""
+    min_seg = MIN_SEG if min_seg is None else min_seg
+    def anel(cs):
+        pts = [tuple(map(float, c)) for c in cs]
+        if pts[0] == pts[-1]: pts = pts[:-1]
+        out = [pts[0]]
+        for p in pts[1:]:
+            if (p[0]-out[-1][0])**2 + (p[1]-out[-1][1])**2 >= min_seg*min_seg:
+                out.append(p)
+        # o fechamento tambem nao pode ser curto
+        while len(out) > 3 and ((out[0][0]-out[-1][0])**2 + (out[0][1]-out[-1][1])**2) < min_seg*min_seg:
+            out.pop()
+        return out
+    try:
+        q = SP(anel(poly.exterior.coords), [anel(r.coords) for r in poly.interiors
+                                            if len(anel(r.coords)) >= 3])
+        if not q.is_valid: q = q.buffer(0)
+        if q.geom_type == 'MultiPolygon': q = max(q.geoms, key=lambda g: g.area)
+        if q.is_valid and q.geom_type == 'Polygon' and q.area > 0.6*poly.area:
+            return q
+    except Exception:
+        pass
+    return poly
+
 def arredonda(poly, r):
     """tira os cantos vivos do contorno em planta, por fora e por dentro."""
     if r <= 0: return poly
-    q = poly.buffer(-r, join_style=1).buffer(2*r, join_style=1).buffer(-r, join_style=1)
+    # quad_segs baixo de proposito: cada canto vira 2 segmentos, nao 8. Canto de
+    # 0,06 mm partido em 8 gera aresta de micra, que e o que quebra a importacao.
+    k = dict(join_style=1, quad_segs=2)
+    q = poly.buffer(-r, **k).buffer(2*r, **k).buffer(-r, **k)
     if q.is_empty or q.geom_type != 'Polygon':
-        q = poly.buffer(r, join_style=1).buffer(-r, join_style=1)
+        q = poly.buffer(r, **k).buffer(-r, **k)
     return q if (not q.is_empty and q.geom_type == 'Polygon') else poly
 
 def glifos(txt, cap=None, xs=1.0, rc=None):
@@ -41,7 +79,7 @@ def glifos(txt, cap=None, xs=1.0, rc=None):
     k = cap / h
     allp = np.vstack(polys); c = (allp.min(0) + allp.max(0)) / 2
     brutos = [(p - c) * k * np.array([xs, 1.0]) for p in polys]
-    return [arredonda(s, rc) for s in polys_to_shapely(brutos)]
+    return [limpa_contorno(arredonda(s, rc)) for s in polys_to_shapely(brutos)]
 
 def largura(txt, **kw):
     ps = glifos(txt, **kw)
@@ -133,6 +171,16 @@ def gota_wire(rb, off, rn, yn):
             .threePointArc((A[0], A[1] - rb), Pl)     # volta do bulbo
             .lineTo(*Ql)                              # tangente do lado +x
             .threePointArc((B[0], B[1] + rn), Q)      # ponta do nariz
+            .close().val())
+
+def estadio_wire(y0, y1, meia):
+    """Estadio ANALITICO: duas retas e dois arcos exatos. Feito com buffer de
+    LineString, cada meia-cana virava 8+ segmentos de 0,14 mm; a extrusao com
+    saida recua 0,115 mm ao longo da fenda e engole esses segmentos, deixando
+    aresta de micra. Com arco de verdade isso nao acontece."""
+    return (cq.Workplane("XY").moveTo(-meia, y0)
+            .lineTo(-meia, y1).threePointArc((0.0, y1 + meia), (meia, y1))
+            .lineTo(meia, y0).threePointArc((0.0, y0 - meia), (-meia, y0))
             .close().val())
 
 def ret_wire(r0, r1, meia, rc):

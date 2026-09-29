@@ -24,34 +24,13 @@ print('== 1. monta a valvula pela receita dos 4 arquivos')
 valv = trimesh.load(VALV)
 corte = trimesh.creation.box(extents=[60, 8, 60]); corte.apply_translation([P.CX, P.FACE+4, P.CZ])
 base = B('difference', [valv, corte])
-a = tessela(f'{STEP}/v3_M01a_SOMAR_1_enchimento_e_mesa.step')
-b = tessela(f'{STEP}/v3_M01b_SUBTRAIR_2_rebaixo.step')
-# Os 53 solidinhos de numeral nao fecham na tesselacao do OCC (T-junction entre
-# faces vizinhas; a malha fica com 56 arestas abertas e o booleano recusa). Para
-# o STL — que serve para ver e imprimir, nao para fabricar — os numerais sao
-# remontados em prisma reto a partir dos MESMOS poligonos. A saida de 15 graus
-# vale 0,027 mm e vive no STEP, que e o que vai para a ferramentaria.
-import cadquery as _cq
-from math import radians as _rad
-from lib_v3 import glifos as _gl, angulos_dias as _ad
-from lib3d import place as _place
-_sh = _cq.importers.importStep(f'{STEP}/v3_M01c_SOMAR_3_poste_detentes_dias.step').val()
-_gr = [tessela_solido(x) for x in _sh.Solids() if x.Volume() > 1.0]
-_ang, _, _ = _ad()
-_let = []
-for _d in range(1, 32):
-    for _sp in _gl(str(_d)):
-        _pr = trimesh.creation.extrude_polygon(_sp, height=P.LETRA_REL)
-        _let.append(_place(_pr, _rad(_ang[_d-1]), P.DIA_R,
-                           P.FACE + P.MESA_H + P.LETRA_REL, P.LETRA_REL))
-for _m in _let: _m.apply_translation([P.CX, 0, P.CZ])
-print('   numerais remontados: %d solidos, todos fechados: %s'
-      % (len(_let), all(m.is_volume for m in _let)))
-c = trimesh.util.concatenate(_gr + _let)
-d = tessela(f'{STEP}/v3_M01d_SUBTRAIR_4_furo_passante.step')
+a = tessela(f'{STEP}/Chrono_v3_M01_1_SOMAR_enchimento_mesa_dias.step')
+b = tessela(f'{STEP}/Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes.step')
+c = tessela(f'{STEP}/Chrono_v3_M01_3_SOMAR_poste.step')
+d = tessela(f'{STEP}/Chrono_v3_M01_4_SUBTRAIR_furo_passante.step')
 m01 = B('difference', [B('union', [B('difference', [B('union', [base, a]), b]), c]), d])
-m02 = tessela(f'{STEP}/v3_M02_Rodinha_Meses.step')
-m03 = tessela(f'{STEP}/v3_M03_Ponteira.step')
+m02 = tessela(f'{STEP}/Chrono_v3_M02_Rodinha_Meses.step')
+m03 = tessela(f'{STEP}/Chrono_v3_M03_Ponteira.step')
 for n, m in [('Chrono_v3_M01_Valvula_Dias', m01), ('Chrono_v3_M02_Rodinha_Meses', m02),
              ('Chrono_v3_M03_Ponteira', m03)]:
     m.export(f'{STL}/{n}.stl')

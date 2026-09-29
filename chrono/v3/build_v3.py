@@ -24,7 +24,8 @@ from shapely.geometry import Polygon as SP, LineString as SL
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'medicao_v2'))
 import params as P
-from lib_v3 import (arredonda, glifos, largura, prisma, prisma_wire, gota_wire, ret_wire,
+from lib_v3 import (arredonda, limpa_contorno, glifos, largura, prisma, prisma_wire, gota_wire,
+                    ret_wire, estadio_wire,
                     place, deitado, rev, cil, cone,
                     esfera, fundir, tirar, letras, aplica_letras, angulos_dias, arred,
                     valido, face_sp, VARIANTES, mergulha)
@@ -53,8 +54,12 @@ def m01():
                 (P.MESA_RI + r_(P.MESA_H), mesa_topo),
                 (P.MESA_RI,           P.FACE)])
     somar1 = fundir([ench, mesa])
-    somar1 = arred(somar1, P.RAIO_FINO,
+    # 0,08 e nao 0,15: a mesa tem 0,18 de parede e o raio de 0,15 deixava so
+    # 0,03 de aresta reta — aresta curta que trava a importacao
+    somar1 = arred(somar1, 0.08,
                    lambda e: e.Center().y > P.FACE + 0.01, 'mesa: aresta de topo')
+    # os 31 numerais entram AQUI, fundidos na mesa: assim o arquivo abre como UM
+    # solido no CAD do cliente, e nao como 53 corpinhos soltos boiando
 
     # --- SUBTRAIR 2: o rebaixo, com saida (alarga para cima) -----------------
     piso = P.FACE - P.REB_H
@@ -69,15 +74,23 @@ def m01():
     # o canto piso/parede do rebaixo e concavo: abaula para o fluxo e a extracao
     reb = arred(reb, P.RAIO_FINO, lambda e: abs(e.Center().y - piso) < 1e-6, 'rebaixo: canto do piso')
 
-    # --- SOMAR 3: poste + 2 detentes + 31 dias -------------------------------
+    ang, arco, folga = angulos_dias()
+    somar1 = aplica_letras(somar1, [(radians(ang[d-1]), str(d)) for d in range(1, 32)],
+                           P.DIA_R, mesa_topo, nome='mesa: 31 numerais')
+
+    # --- SUBTRAIR 2 leva as 2 covinhas do detente descontadas: assim o corte do
+    # rebaixo JA deixa as duas molas de pe, e some um passo da receita ---------
+    # --- SOMAR 3: so o poste -------------------------------------------------
     # pe do poste com concordancia, nao canto vivo. O raio nao e o padrao de
     # 0,30: a folga radial para a rodinha e de 0,20 e a face de baixo dela passa
     # a 0,02 do piso, entao um raio de 0,30 encostaria nela. 0,15 deixa 0,125 de
     # folga no ponto critico — medido, nao arbitrado.
     rc = P.RAIO_FINO
     cx, cy = P.POST_R + rc, piso + rc
+    # 5 pontos, nao 10: com 10 o segmento do arco cai para 0,026 mm e entra na
+    # faixa de aresta curta que trava a importacao
     arco = [(cx + rc*cos(radians(t)), cy + rc*sin(radians(t)))
-            for t in np.linspace(270, 180, 10)]
+            for t in np.linspace(270, 180, 5)]
     topo_r = P.POST_R - r_(P.POST_TOP - cy)
     poste = rev([(P.POST_R + rc, P.CHAPA_Y0)] + arco +
                 [(topo_r,        P.POST_TOP - 0.30),
@@ -87,10 +100,9 @@ def m01():
     yc = piso + P.DET_ALT - P.DET_ESF
     det = [esfera(P.DET_ESF, P.DET_R*cos(radians(a)), yc, P.DET_R*sin(radians(a)))
            for a in (0, 180)]
-    ang, arco, folga = angulos_dias()
-    dias = letras([(radians(ang[d-1]), str(d)) for d in range(1, 32)], P.DIA_R, mesa_topo)
+    reb = tirar(reb, det)          # o cortador guarda as molas
+    somar3 = poste
     print('      dias: vao igual de %.2f graus entre as bordas dos 31 numeros' % folga)
-    somar3 = fundir([poste] + det + dias)
 
     # --- SUBTRAIR 4: furo passante, alargando para cima ----------------------
     # UM perfil so. Montado como cone + chanfro separados, as duas superficies
@@ -168,12 +180,15 @@ def m03():
         # flexiona na montagem e a raiz da fenda e onde a tensao se concentra:
         # canto vivo ali e onde perna de encaixe trinca. Meia-cana de 0,35
         # (= meia largura) e o alivio classico e nao custa nada.
-        fendas.append(place(prisma(SL([(0.0, 0.0), (0.0, 4.20 - P.FENDA_W/2)]).buffer(P.FENDA_W/2),
-                                   P.CUBO_Y0 - P.PINO_Y1 + 0.2, P.SAIDA),
+        fendas.append(place(prisma_wire(estadio_wire(0.0, 4.20 - P.FENDA_W/2, P.FENDA_W/2),
+                                        P.CUBO_Y0 - P.PINO_Y1 + 0.2, P.SAIDA),
                             a, 0.0, P.CUBO_Y0, P.CUBO_Y0 - P.PINO_Y1 + 0.2))
         # dreno tambem em meia-cana nas duas pontas
-        drenos.append(place(prisma(SL([(0.0, 2.60 + 0.35), (0.0, 8.20 - 0.35)]).buffer(0.35),
-                                   0.30, P.SAIDA),
+        # ate r 9,50 e nao 8,20: em duas das quatro direcoes a borda da gota
+        # fica em r 8,88, entao o dreno terminava DENTRO da peca — sulco fechado,
+        # que nao drena nada, e ainda tangenciava o contorno gerando aresta de
+        # 0,012 mm. Agora os quatro saem pela borda.
+        drenos.append(place(prisma_wire(estadio_wire(2.60 + 0.35, 9.50 - 0.35, 0.35), 0.30, P.SAIDA),
                             a, 0.0, P.CUBO_Y0 + 0.30, 0.30))
     jp = ret_arred(P.JAN_R0, P.JAN_R1, P.JAN_M, P.JAN_RC)
     # janela passante: alarga para cima, como todo furo
@@ -192,7 +207,7 @@ def m03():
     # "D" saiu; "M" virou "MES"; icone de gravado para AUTO RELEVO
     corpo = aplica_letras(corpo, [(radians(90), 'MÊS')], P.MES_TXT_R, P.TOPO, nome='ponteira: MÊS')
     for sp in icone.poligonos(P.ICONE_H, xflip=True):
-        q = arredonda(sp, 0.10)
+        q = limpa_contorno(arredonda(sp, 0.10))
         for ov, sa in VARIANTES:
             sa = P.LETRA_SAIDA if sa is None else sa
             try:
@@ -219,9 +234,9 @@ if __name__ == '__main__':
     alvo = sys.argv[1] if len(sys.argv) > 1 else 'tudo'
     if alvo in ('m01', 'tudo'):
         a, b, c, d = m01()
-        grava(a, 'v3_M01a_SOMAR_1_enchimento_e_mesa')
-        grava(b, 'v3_M01b_SUBTRAIR_2_rebaixo')
-        grava(c, 'v3_M01c_SOMAR_3_poste_detentes_dias')
-        grava(d, 'v3_M01d_SUBTRAIR_4_furo_passante')
-    if alvo in ('m02', 'tudo'): grava(m02(), 'v3_M02_Rodinha_Meses')
-    if alvo in ('m03', 'tudo'): grava(m03(), 'v3_M03_Ponteira')
+        grava(a, 'Chrono_v3_M01_1_SOMAR_enchimento_mesa_dias')
+        grava(b, 'Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes')
+        grava(c, 'Chrono_v3_M01_3_SOMAR_poste')
+        grava(d, 'Chrono_v3_M01_4_SUBTRAIR_furo_passante')
+    if alvo in ('m02', 'tudo'): grava(m02(), 'Chrono_v3_M02_Rodinha_Meses')
+    if alvo in ('m03', 'tudo'): grava(m03(), 'Chrono_v3_M03_Ponteira')
