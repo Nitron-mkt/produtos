@@ -57,3 +57,49 @@ recortada em Ø60 e decimada para 24.000 faces para caber.
 
 108.967 triângulos, 4 modos, sem erro de console (só o aviso de certificado da
 fonte, que é do sandbox). As fotos de cada modo estão em `prova/`.
+
+---
+
+# Chrono_Detalhes.html — visor de inspeção
+
+Segundo visor, para **olhar a peça**, não para apresentar. Mesmo princípio:
+arquivo único, sem CDN, WebGL2 escrito à mão.
+
+| | apresentação | inspeção |
+|---|---|---|
+| malha | 0,020 mm de flecha | **0,008 mm** |
+| peças | sempre o conjunto | **isoladas** ou montadas |
+| data | botões de dia e mês | fixa (é geometria, não uso) |
+
+## O que ele tem a mais
+
+- **Mapa de altura em faixas de 0,50 mm.** É a ferramenta que resolve o problema
+  de fundo: um relevo de 0,10 mm **não aparece** em sombreamento plano, porque a
+  face do relevo e a face de fundo têm a mesma normal e portanto a mesma cor. E
+  também não aparece numa rampa esticada sobre os 6 mm do pino — vira 1,7% da
+  escala. Em faixa de 0,50, um relevo de 0,10 desloca a cor em 20% e um dreno de
+  0,30 em 60%. Os dois saltam.
+- **Corte** que acompanha a direção do olhar: orbite até onde quer cortar e
+  empurre o cursor. A face interna sai em tom próprio.
+- **Ver por baixo** num clique — é onde moram os drenos, as covinhas, o pino e a
+  farpa.
+- **Campo em mm** e grade de 1 mm, para ter noção de escala sem adivinhar.
+- Lista **"o que olhar"** por peça.
+
+## A M01 aqui é a chapa, não a válvula
+
+O STL da válvula original não vive no repositório (só derivados) e o container
+foi recriado. A M01 do visor de inspeção é a receita dos 4 STEP aplicada a uma
+**chapa lisa**. Não faz falta: o que está em revisão são os acréscimos do Chrono,
+e a chapa mostra todos — mesa, 31 numerais, rebaixo, as 2 molas, poste e furo. O
+modo **Conjunto** usa a válvula completa, na malha de apresentação (0,020 mm).
+
+## Como refazer
+
+```bash
+python3 ../v3/malhas_detalhe.py   # tessela os STEP a 0,008 mm
+python3 gera_detalhe.py           # embute no modelo_detalhe.html
+python3 prova_detalhe.py          # abre no Chromium e fotografa cada modo
+```
+
+`stl_detalhe/` não é versionado — sai dos STEP em 10 s.

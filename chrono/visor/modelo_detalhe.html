@@ -1,0 +1,598 @@
+<title>Chrono v3 · inspeção</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper:#f4f1ec; --surface:#fffdfa; --surface-2:#ebe6de; --ink:#1d1813;
+    --muted:#6d645a; --line:#ddd5c9; --pp:#c8561a; --pp-soft:#f0e0d2; --ok:#2c6f4a;
+    --shadow:0 1px 2px rgba(29,24,19,.06), 0 8px 24px -12px rgba(29,24,19,.18);
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --paper:#16130f; --surface:#201c16; --surface-2:#2b251e; --ink:#f2ede6;
+    --muted:#a29889; --line:#383028; --pp:#e8813c; --pp-soft:#3a2415; --ok:#6cc08d;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7); } }
+  :root[data-theme="dark"] {
+    --paper:#16130f; --surface:#201c16; --surface-2:#2b251e; --ink:#f2ede6;
+    --muted:#a29889; --line:#383028; --pp:#e8813c; --pp-soft:#3a2415; --ok:#6cc08d;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7); }
+  html, body { height:100%; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:Archivo,"Helvetica Neue",Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  #app { display:flex; flex-direction:column; height:100%; }
+  header { display:flex; align-items:baseline; gap:10px 14px; flex-wrap:wrap;
+           padding:14px 16px 12px; border-bottom:1px solid var(--line); background:var(--surface); }
+  h1 { font-size:16px; font-weight:700; letter-spacing:-.01em; margin:0; }
+  .sub { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+         color:var(--muted); font-variant-numeric:tabular-nums; }
+  .eyebrow { font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--pp); }
+
+  #stage { position:relative; flex:1 1 auto; min-height:360px; }
+  canvas { display:block; width:100%; height:100%; touch-action:none; }
+
+  #modos { position:absolute; left:0; right:0; top:12px; display:flex; gap:6px;
+           justify-content:center; padding-inline:16px; overflow-x:auto; scrollbar-width:none; }
+  #modos::-webkit-scrollbar { display:none; }
+  .modo { flex:0 0 auto; appearance:none; cursor:pointer; font:600 12.5px/1 Archivo,sans-serif;
+          padding:9px 13px; border-radius:999px; border:1px solid var(--line);
+          background:var(--surface); color:var(--muted); box-shadow:var(--shadow); }
+  .modo:hover { color:var(--ink); }
+  .modo[aria-pressed="true"] { background:var(--pp); border-color:var(--pp); color:#fff; }
+  .modo:focus-visible, .tool:focus-visible { outline:2px solid var(--pp); outline-offset:2px; }
+
+  #ferramentas { position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; gap:6px; }
+  .tool { appearance:none; cursor:pointer; width:40px; height:34px; border:1px solid var(--line);
+          border-radius:9px; background:var(--surface); color:var(--muted); box-shadow:var(--shadow);
+          display:grid; place-items:center; padding:0; }
+  .tool svg { width:17px; height:17px; display:block; }
+  .tool[aria-pressed="true"] { color:var(--pp); border-color:var(--pp); background:var(--pp-soft); }
+
+  #corteBarra { position:absolute; right:68px; bottom:16px; display:flex; align-items:center; gap:9px;
+                background:var(--surface); border:1px solid var(--line); border-radius:12px;
+                padding:9px 12px; box-shadow:var(--shadow); }
+  #corteBarra[hidden] { display:none; }
+  #corteBarra label { font-size:10px; font-weight:600; letter-spacing:.12em;
+                      text-transform:uppercase; color:var(--muted); }
+  #corteBarra input { width:170px; accent-color:var(--pp); }
+  #corteVal { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+              font-variant-numeric:tabular-nums; min-width:6.5ch; text-align:right; }
+
+  #ficha { position:absolute; left:16px; bottom:16px; max-width:min(330px, calc(100% - 32px));
+           background:var(--surface); border:1px solid var(--line); border-radius:12px;
+           padding:12px 14px 13px; box-shadow:var(--shadow); }
+  #ficha h2 { font-size:13px; font-weight:700; margin:4px 0 2px; }
+  #ficha p { margin:0 0 9px; font-size:11.5px; line-height:1.5; color:var(--muted); }
+  dl { margin:0; display:grid; grid-template-columns:1fr auto; gap:3px 12px; }
+  dt { font-size:11.5px; color:var(--muted); }
+  dd { margin:0; text-align:right; font-family:"IBM Plex Mono",ui-monospace,monospace;
+       font-size:11.5px; font-weight:500; font-variant-numeric:tabular-nums; }
+  .medido { margin-top:9px; padding-top:8px; border-top:1px solid var(--line);
+            font-size:10px; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; }
+  .medido b { color:var(--ok); font-weight:600; }
+
+  #olhar { position:absolute; right:16px; top:58px; max-width:260px;
+           background:var(--surface); border:1px solid var(--line); border-radius:10px;
+           padding:10px 12px; box-shadow:var(--shadow); }
+  #olhar .eyebrow { display:block; margin-bottom:6px; }
+  #olhar ul { margin:0; padding-left:15px; }
+  #olhar li { font-size:11px; line-height:1.55; color:var(--muted); margin-bottom:3px; }
+  #olhar li b { color:var(--ink); font-weight:600; }
+
+  #escala { position:absolute; left:50%; transform:translateX(-50%); bottom:16px;
+            font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; color:var(--muted);
+            background:var(--surface); border:1px solid var(--line); border-radius:999px;
+            padding:6px 12px; box-shadow:var(--shadow); white-space:nowrap;
+            font-variant-numeric:tabular-nums; }
+  #carregando[hidden] { display:none; }
+  #carregando { position:absolute; inset:0; display:grid; place-content:center; gap:8px;
+                justify-items:center; text-align:center; padding:16px; background:var(--paper); }
+  .barra { width:180px; height:3px; border-radius:2px; background:var(--surface-2); overflow:hidden; }
+  .barra i { display:block; height:100%; width:30%; background:var(--pp); border-radius:2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .barra i { animation:corre 1.1s ease-in-out infinite; }
+    @keyframes corre { 0%{margin-left:-30%;} 100%{margin-left:100%;} } }
+  @media (max-width: 900px) { #olhar { display:none; } }
+  @media (max-width: 620px) {
+    #ficha { left:16px; right:16px; bottom:16px; max-width:none; }
+    #escala { display:none; }
+    #corteBarra { left:16px; right:16px; bottom:auto; top:104px; }
+    #corteBarra input { width:100%; }
+    #ferramentas { bottom:auto; top:58px; }
+  }
+</style>
+
+<div id="app">
+  <header>
+    <span class="eyebrow">Nitron · Chrono v3</span>
+    <h1>Inspeção das peças</h1>
+    <span class="sub">malha de 0,008 mm · saída 1,5° · relevo 0,10 · raio 0,15 e 0,30</span>
+  </header>
+
+  <div id="stage">
+    <div id="modos" role="group" aria-label="Que peça mostrar">
+      <button class="modo" data-modo="m01" aria-pressed="true">M01 · o que entra na válvula</button>
+      <button class="modo" data-modo="m02" aria-pressed="false">M02 · rodinha</button>
+      <button class="modo" data-modo="m03" aria-pressed="false">M03 · ponteira</button>
+      <button class="modo" data-modo="conjunto" aria-pressed="false">Conjunto montado</button>
+    </div>
+
+    <div id="olhar">
+      <span class="eyebrow">o que olhar</span>
+      <ul id="olharLista"></ul>
+    </div>
+
+    <div id="corteBarra" hidden>
+      <label for="corteSlider">corte</label>
+      <input id="corteSlider" type="range" min="-100" max="100" value="0" step="0.5">
+      <span id="corteVal">0,00 mm</span>
+    </div>
+
+    <div id="ferramentas">
+      <button class="tool" id="btGira" aria-pressed="false" title="Girar sozinho" aria-label="Girar sozinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 3v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tool" id="btArestas" aria-pressed="true" title="Mostrar arestas" aria-label="Mostrar arestas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 3v18M4 7.5l8 4.5 8-4.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tool" id="btCorte" aria-pressed="false" title="Cortar na direção do olhar" aria-label="Cortar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20L20 4M9 4h11v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9v11h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.6 2.6"/></svg>
+      </button>
+      <button class="tool" id="btMapa" aria-pressed="false" title="Mapa de altura" aria-label="Mapa de altura">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 4 3-4 6 6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 20.5h18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17.5" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <button class="tool" id="btVirar" title="Ver por baixo" aria-label="Ver por baixo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 9l7-6 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 15l-7 6-7-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".45"/></svg>
+      </button>
+      <button class="tool" id="btTopo" title="Ver de cima" aria-label="Ver de cima">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 5.5v6.5l4.2 2.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tool" id="btReset" title="Enquadrar de novo" aria-label="Enquadrar de novo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+      </button>
+    </div>
+
+    <div id="ficha">
+      <h2 id="fTitulo"></h2>
+      <p id="fTexto"></p>
+      <dl id="fDados"></dl>
+      <div class="medido">medido no sólido · <b id="fSelo"></b></div>
+    </div>
+
+    <div id="escala">campo —</div>
+
+    <div id="carregando">
+      <span class="eyebrow">carregando os sólidos</span>
+      <div class="barra"><i></i></div>
+      <span class="sub">__TRIANGULOS__ triângulos</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// =========================================================================
+// Visor de INSPECAO do Chrono v3. Sem biblioteca externa; WebGL2 escrito aqui.
+// Diferencas para o visor de apresentacao: malha ~2,5x mais fina, peca isolada,
+// plano de corte que acompanha a direcao do olhar, e leitura do campo em mm.
+//
+// Coordenadas: as do STL da tampa. Y e a vertical, eixo do poco em X 61,97 /
+// Z 102,68. Nada foi recentrado.
+// =========================================================================
+var MALHAS = __MALHAS__;
+var stage = document.getElementById('stage'), carregando = document.getElementById('carregando');
+var CX = 61.97, CZ = 102.68;
+
+var MODOS = {
+  m01: {
+    titulo: 'M01 · o que o Chrono acrescenta',
+    texto: 'Montado sobre uma chapa lisa que faz as vezes da válvula — o STL da válvula original não vive neste repositório, e o que está em revisão são os acréscimos. Aqui estão todos eles.',
+    dados: [['mesa dos dias', 'r 14,20 – 18,75'], ['numerais', '31 · relevo 0,10'],
+            ['vão entre numerais', '5,81°'], ['rebaixo', '0,60 fundo · r até 13,60'],
+            ['molas de detente', '2 · Ø2,00 × 0,25'], ['poste', 'Ø13,20 → Ø13,11'],
+            ['furo passante', 'Ø6,00 → Ø6,15']],
+    selo: 'sem parede vertical fora do flanco das letras',
+    mostra: ['m01'],
+    olhar: ['O piso do rebaixo está <b>plano</b> — a concha das 12 h foi enchida.',
+            'As duas <b>molas Ø2,00</b> ficam no meio da faixa, em r 10,10.',
+            'O pé do poste tem <b>concordância R0,15</b>, não canto vivo.',
+            'O furo <b>alarga para cima</b> (Ø6,00 embaixo, Ø6,15 no topo).',
+            'Use o <b>corte</b> para ver a parede de 1,83 mm da chapa.']
+  },
+  m02: {
+    titulo: 'M02 · rodinha dos meses',
+    texto: 'Corpo de 1,50 mm mais 0,10 de numeral em auto relevo. Gira no poste e é travada pelas 12 covinhas contra as 2 molas da válvula.',
+    dados: [['corpo', '1,50 mm'], ['numerais', '12 · relevo 0,10'],
+            ['furo', 'Ø13,60 → Ø13,68'], ['externo', 'Ø26,80 → Ø26,72'],
+            ['entalhes de unha', '12 · r 1,10'], ['covinhas', '12 · Ø2,00 × 0,25'],
+            ['peso', '0,541 g']],
+    selo: '0,0 mm² de parede vertical fora das letras',
+    mostra: ['m02'],
+    olhar: ['Vire a peça: as <b>12 covinhas</b> ficam na face de baixo, em r 10,10.',
+            'O furo <b>alarga para cima</b> e o externo <b>estreita</b> — 1,5° nos dois.',
+            'Os 12 <b>entalhes de unha</b> também têm saída: são cones, não cilindros.',
+            'Arestas de face abauladas em <b>R0,15</b>.']
+  },
+  m03: {
+    titulo: 'M03 · ponteira',
+    texto: 'Lâmina em gota de 1,50 mm mais 0,10 de MÊS e do ícone em auto relevo. Gira livre no poste, presa pela farpa do pino.',
+    dados: [['corpo', '1,50 mm'], ['janela do mês', 'r 8,70 – 11,30'],
+            ['nariz', 'Ø2,40 em r 15,55'], ['pino', 'Ø5,80 · farpa Ø6,80'],
+            ['fendas', '4 · raiz em meia-cana'], ['drenos', '4 · 0,30 fundo'],
+            ['peso', '0,381 g']],
+    selo: 'contorno da gota: 2 arcos e 2 tangentes, não 180 facetas',
+    mostra: ['m03'],
+    olhar: ['Vire a peça: os <b>4 drenos</b> saem pela borda da gota.',
+            'A <b>raiz das 4 fendas</b> é meia-cana — é onde a perna do snap trinca.',
+            'A <b>farpa Ø6,80</b> sobre o furo Ø6,00 dá 0,40 de encaixe. É undercut de projeto.',
+            'Topo da gota com <b>R0,30</b>, base e janela com R0,15.',
+            'MÊS e o ícone em <b>auto relevo</b>, não gravados.']
+  },
+  conjunto: {
+    titulo: 'Conjunto montado',
+    texto: 'As três peças na posição real, sobre a válvula completa. A válvula aqui vem da malha de apresentação (0,020 mm), por isso o corpo dela é menos fino que o resto.',
+    dados: [['topo do conjunto', 'Y 39,950'], ['mais alto da tampa', 'Y 39,762'],
+            ['diferença', '+0,188 mm'], ['folga do detente', '0,017 mm'],
+            ['ponteira × rodinha', '0,100 mm'], ['massa', '2,907 g']],
+    selo: '0,0000 mm³ de interferência entre as três peças',
+    mostra: ['m01c', 'm02', 'm03'],
+    olhar: ['Corte pelo eixo para ver a <b>pilha inteira</b>: válvula, rodinha, ponteira.',
+            'A ponteira flutua <b>0,100 mm</b> acima dos numerais do mês.',
+            'O conjunto passa <b>0,188 mm</b> do ponto mais alto da tampa.']
+  }
+};
+var CORES = { m01:[0.722,0.690,0.643], m01c:[0.722,0.690,0.643],
+              m02:[0.541,0.502,0.459], m03:[0.784,0.337,0.102] };
+
+function falha(msg) {
+  carregando.hidden = false;
+  carregando.innerHTML = '<span class="eyebrow">' + msg + '</span><span class="sub">tente recarregar a página</span>';
+}
+function decodifica(b64) {
+  var bin = atob(b64), buf = new ArrayBuffer(bin.length), u8 = new Uint8Array(buf), i;
+  for (i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  var dv = new DataView(buf);
+  var mn = [dv.getFloat32(0,true), dv.getFloat32(4,true), dv.getFloat32(8,true)];
+  var sc = [dv.getFloat32(12,true), dv.getFloat32(16,true), dv.getFloat32(20,true)];
+  var nv = dv.getUint32(24,true), nf = dv.getUint32(28,true);
+  var q = new Uint16Array(buf, 32, nv*3);
+  var idx = new Uint16Array(buf.slice(32+nv*6, 32+nv*6+nf*6));
+  var pos = new Float32Array(nv*3);
+  for (i = 0; i < nv; i++) {
+    pos[i*3]   = mn[0] + q[i*3]  *sc[0];
+    pos[i*3+1] = mn[1] + q[i*3+1]*sc[1];
+    pos[i*3+2] = mn[2] + q[i*3+2]*sc[2];
+  }
+  var bb = [Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+  for (i = 0; i < nv; i++) for (var k = 0; k < 3; k++) {
+    if (pos[i*3+k] < bb[k]) bb[k] = pos[i*3+k];
+    if (pos[i*3+k] > bb[k+3]) bb[k+3] = pos[i*3+k];
+  }
+  return { pos:pos, idx:idx, nv:nv, nf:nf, bb:bb };
+}
+function arestasDe(m, grausLim) {
+  var cos = Math.cos(grausLim*Math.PI/180);
+  var nrm = new Float32Array(m.nf*3), p = m.pos, idx = m.idx, f;
+  for (f = 0; f < m.nf; f++) {
+    var a = idx[f*3]*3, b = idx[f*3+1]*3, c = idx[f*3+2]*3;
+    var ux=p[b]-p[a], uy=p[b+1]-p[a+1], uz=p[b+2]-p[a+2];
+    var vx=p[c]-p[a], vy=p[c+1]-p[a+1], vz=p[c+2]-p[a+2];
+    var nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx;
+    var Lp = Math.hypot(nx,ny,nz)||1;
+    nrm[f*3]=nx/Lp; nrm[f*3+1]=ny/Lp; nrm[f*3+2]=nz/Lp;
+  }
+  var mapa = new Map(), fora = [];
+  for (f = 0; f < m.nf; f++) {
+    var i0=idx[f*3], i1=idx[f*3+1], i2=idx[f*3+2];
+    var pares = [[i0,i1],[i1,i2],[i2,i0]];
+    for (var e = 0; e < 3; e++) {
+      var A = pares[e][0], Bv = pares[e][1];
+      var key = A < Bv ? A*65536+Bv : Bv*65536+A;
+      var v = mapa.get(key);
+      if (v === undefined) { mapa.set(key, f); }
+      else {
+        mapa.set(key, -1);
+        var d = nrm[f*3]*nrm[v*3] + nrm[f*3+1]*nrm[v*3+1] + nrm[f*3+2]*nrm[v*3+2];
+        if (d < cos) fora.push(A, Bv);
+      }
+    }
+  }
+  return new Uint16Array(fora);
+}
+function perspectiva(fov, asp, n, f) {
+  var t = 1/Math.tan(fov*Math.PI/360);
+  return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];
+}
+function olhar(eye, cen, up) {
+  var zx=eye[0]-cen[0], zy=eye[1]-cen[1], zz=eye[2]-cen[2];
+  var L=Math.hypot(zx,zy,zz)||1; zx/=L; zy/=L; zz/=L;
+  var xx=up[1]*zz-up[2]*zy, xy=up[2]*zx-up[0]*zz, xz=up[0]*zy-up[1]*zx;
+  L=Math.hypot(xx,xy,xz)||1; xx/=L; xy/=L; xz/=L;
+  var yx=zy*xz-zz*xy, yy=zz*xx-zx*xz, yz=zx*xy-zy*xx;
+  return [xx,yx,zx,0, xy,yy,zy,0, xz,yz,zz,0,
+          -(xx*eye[0]+xy*eye[1]+xz*eye[2]),
+          -(yx*eye[0]+yy*eye[1]+yz*eye[2]),
+          -(zx*eye[0]+zy*eye[1]+zz*eye[2]), 1];
+}
+function mul(a,b) {
+  var o = new Float32Array(16);
+  for (var i=0;i<4;i++) for (var j=0;j<4;j++)
+    o[i*4+j] = a[j]*b[i*4] + a[4+j]*b[i*4+1] + a[8+j]*b[i*4+2] + a[12+j]*b[i*4+3];
+  return o;
+}
+// corte: descarta o fragmento do lado de ca do plano. Face interna sai em tom
+// proprio (gl_FrontFacing), senao o corte nao se le como corte.
+var VS_SOL = `#version 300 es
+in vec3 a_pos; uniform mat4 u_vp; out vec3 v_w;
+void main(){ v_w = a_pos; gl_Position = u_vp * vec4(a_pos,1.0); }`;
+var FS_SOL = `#version 300 es
+precision highp float;
+in vec3 v_w; out vec4 o;
+uniform vec3 u_cor, u_eye; uniform vec4 u_corte; uniform float u_cortando;
+uniform float u_mapa, u_passo; uniform vec2 u_faixa;
+// Mapa de altura em FAIXAS, nao na altura total. Degrau de 0,10 mm nao aparece
+// em sombreamento plano (relevo e fundo tem a mesma normal, logo a mesma cor), e
+// tambem nao aparece numa rampa esticada sobre os 6 mm do pino: vira 1,7% da
+// escala. Em faixa de 0,50 mm, 0,10 de relevo desloca a cor em 20% e um dreno de
+// 0,30 em 60% — os dois saltam.
+vec3 rampa(float t){
+  t = clamp(t, 0.0, 1.0);
+  vec3 a = vec3(0.09,0.22,0.33), b = vec3(0.13,0.52,0.52),
+       c = vec3(0.85,0.62,0.22), d = vec3(0.97,0.93,0.86);
+  if (t < 0.34) return mix(a, b, t/0.34);
+  if (t < 0.70) return mix(b, c, (t-0.34)/0.36);
+  return mix(c, d, (t-0.70)/0.30);
+}
+void main(){
+  if (u_cortando > 0.5 && dot(v_w, u_corte.xyz) > u_corte.w) discard;
+  vec3 N = normalize(cross(dFdx(v_w), dFdy(v_w)));
+  vec3 V = normalize(u_eye - v_w);
+  bool dentro = dot(N, V) < 0.0;
+  if (dentro) N = -N;
+  vec3 L1 = normalize(vec3(-0.42, 0.78, 0.46));
+  vec3 L2 = normalize(vec3(0.62, 0.34, -0.48));
+  float d = 0.34 + 0.72*max(dot(N,L1),0.0) + 0.20*max(dot(N,L2),0.0);
+  float rim = pow(1.0 - max(dot(N,V),0.0), 2.6) * 0.30;
+  vec3 c = u_cor;
+  if (u_mapa > 0.5) c = rampa(fract((v_w.y - u_faixa.x) / u_passo));
+  if (dentro && u_cortando > 0.5) c = mix(c, vec3(0.86,0.42,0.16), 0.55);
+  float lum = mix(d, 0.55 + 0.45*d, u_mapa);
+  o = vec4(clamp(c*lum + vec3(rim*0.9, rim*0.8, rim*0.7)*(1.0 - u_mapa*0.7), 0.0, 1.0), 1.0);
+}`;
+var VS_LIN = `#version 300 es
+in vec3 a_pos; uniform mat4 u_vp; out vec3 v_w;
+void main(){ v_w = a_pos; gl_Position = u_vp * vec4(a_pos,1.0); }`;
+var FS_LIN = `#version 300 es
+precision highp float; in vec3 v_w; out vec4 o;
+uniform vec4 u_cor; uniform vec4 u_corte; uniform float u_cortando;
+void main(){ if (u_cortando > 0.5 && dot(v_w, u_corte.xyz) > u_corte.w) discard; o = u_cor; }`;
+
+function prog(gl, vs, fs) {
+  function sh(t, src) {
+    var s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  var p = gl.createProgram();
+  gl.attachShader(p, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  return p;
+}
+
+function comeca() {
+  var cv = document.createElement('canvas'); stage.appendChild(cv);
+  var gl = cv.getContext('webgl2', { antialias:true, alpha:true });
+  if (!gl) { falha('este navegador não tem WebGL2'); return; }
+
+  var PECAS = {}, nome;
+  for (nome in MALHAS) {
+    var m = decodifica(MALHAS[nome]), ar = arestasDe(m, 24);
+    var vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    gl.bufferData(gl.ARRAY_BUFFER, m.pos, gl.STATIC_DRAW);
+    var ibo = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, m.idx, gl.STATIC_DRAW);
+    var abo = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, abo);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, ar, gl.STATIC_DRAW);
+    PECAS[nome] = { m:m, vbo:vbo, ibo:ibo, abo:abo, nAr:ar.length };
+  }
+  var pSol = prog(gl, VS_SOL, FS_SOL), pLin = prog(gl, VS_LIN, FS_LIN);
+
+  // grade fina de 1 mm, com linha cheia a cada 5
+  var g = [], gf = [], N = 30, Y = 31.8;
+  for (var i = -N; i <= N; i++) {
+    var alvoG = (i % 5 === 0) ? g : gf;
+    alvoG.push(CX-N, Y, CZ+i, CX+N, Y, CZ+i, CX+i, Y, CZ-N, CX+i, Y, CZ+N);
+  }
+  function buf(arr) {
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW); return b;
+  }
+  var gbo = buf(g), gfbo = buf(gf), nG = g.length/3, nGF = gf.length/3;
+
+  var escuro = matchMedia('(prefers-color-scheme: dark)').matches ||
+               document.documentElement.getAttribute('data-theme') === 'dark';
+  var corGrade  = escuro ? [0.62,0.57,0.50,0.26] : [0.42,0.38,0.33,0.22];
+  var corGradeF = escuro ? [0.62,0.57,0.50,0.10] : [0.42,0.38,0.33,0.09];
+  var corAresta = escuro ? [0.08,0.06,0.04,0.55] : [0.13,0.10,0.07,0.45];
+
+  var modo = 'm01', mostraArestas = true, gira = false, cortando = false, corteT = 0, mapa = false;
+  var PASSO_MAPA = 0.50;   // altura de cada faixa de cor, em mm
+  var alvo = [CX, 37, CZ], theta = 0.92, phi = 1.02, raio = 60, minR = 3, maxR = 400;
+  var eye = [0,0,0], W = 1, H = 1;
+
+  function posiciona() {
+    var s = Math.sin(phi);
+    eye = [alvo[0]+raio*s*Math.cos(theta), alvo[1]+raio*Math.cos(phi), alvo[2]+raio*s*Math.sin(theta)];
+  }
+  function enquadra() {
+    var d = MODOS[modo], b = [Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+    d.mostra.forEach(function (n) {
+      var bb = PECAS[n].m.bb;
+      for (var k = 0; k < 3; k++) { if (bb[k] < b[k]) b[k] = bb[k]; if (bb[k+3] > b[k+3]) b[k+3] = bb[k+3]; }
+    });
+    alvo = [(b[0]+b[3])/2, (b[1]+b[4])/2, (b[2]+b[5])/2];
+    var r = 0.5*Math.hypot(b[3]-b[0], b[4]-b[1], b[5]-b[2]);
+    raio = r/Math.sin(30*Math.PI/360)*1.12;
+    minR = r*0.06; maxR = raio*4; posiciona();
+  }
+  function ficha() {
+    var d = MODOS[modo];
+    document.getElementById('fTitulo').textContent = d.titulo;
+    document.getElementById('fTexto').textContent = d.texto;
+    document.getElementById('fSelo').textContent = d.selo;
+    document.getElementById('fDados').innerHTML = d.dados.map(function (x) {
+      return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('');
+    document.getElementById('olharLista').innerHTML = d.olhar.map(function (t) {
+      return '<li>' + t + '</li>'; }).join('');
+    var bs = document.querySelectorAll('.modo');
+    for (var i = 0; i < bs.length; i++)
+      bs[i].setAttribute('aria-pressed', bs[i].getAttribute('data-modo') === modo ? 'true' : 'false');
+  }
+  function ajusta() {
+    var r = stage.getBoundingClientRect(), dpr = Math.min(devicePixelRatio||1, 2);
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  }
+  addEventListener('resize', ajusta);
+
+  function desenha() {
+    gl.viewport(0,0,cv.width,cv.height);
+    gl.clearColor(0,0,0,0); gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    var vp = mul(perspectiva(30, W/H, Math.max(raio/600, 0.05), raio*8), olhar(eye, alvo, [0,1,0]));
+    var d = MODOS[modo];
+    // plano de corte: normal = direcao do olhar, deslocado pelo cursor
+    var nx = alvo[0]-eye[0], ny = alvo[1]-eye[1], nz = alvo[2]-eye[2];
+    var nl = Math.hypot(nx,ny,nz)||1; nx/=nl; ny/=nl; nz/=nl;
+    var meio = alvo[0]*nx + alvo[1]*ny + alvo[2]*nz;
+    var corte = new Float32Array([nx, ny, nz, meio + corteT]);
+    var cortaF = cortando ? 1 : 0;
+
+    gl.useProgram(pSol);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pSol,'u_vp'), false, vp);
+    gl.uniform3fv(gl.getUniformLocation(pSol,'u_eye'), new Float32Array(eye));
+    gl.uniform4fv(gl.getUniformLocation(pSol,'u_corte'), corte);
+    gl.uniform1f(gl.getUniformLocation(pSol,'u_cortando'), cortaF);
+    gl.uniform1f(gl.getUniformLocation(pSol,'u_mapa'), mapa ? 1 : 0);
+    // a faixa do mapa e so a altura do que esta na tela, senao os 0,10 mm do
+    // relevo somem dentro de uma escala de 8 mm
+    var fy0 = Infinity, fy1 = -Infinity;
+    d.mostra.forEach(function (n) {
+      var bb = PECAS[n].m.bb; if (bb[1] < fy0) fy0 = bb[1]; if (bb[4] > fy1) fy1 = bb[4];
+    });
+    gl.uniform2f(gl.getUniformLocation(pSol,'u_faixa'), fy0, fy1);
+    gl.uniform1f(gl.getUniformLocation(pSol,'u_passo'), PASSO_MAPA);
+    var aP = gl.getAttribLocation(pSol,'a_pos'), uCor = gl.getUniformLocation(pSol,'u_cor');
+    gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1.2, 2.0);
+    d.mostra.forEach(function (n) {
+      var Pc = PECAS[n];
+      gl.bindBuffer(gl.ARRAY_BUFFER, Pc.vbo); gl.enableVertexAttribArray(aP);
+      gl.vertexAttribPointer(aP, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Pc.ibo);
+      gl.uniform3fv(uCor, new Float32Array(CORES[n]));
+      gl.drawElements(gl.TRIANGLES, Pc.m.nf*3, gl.UNSIGNED_SHORT, 0);
+    });
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+
+    gl.useProgram(pLin);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pLin,'u_vp'), false, vp);
+    gl.uniform4fv(gl.getUniformLocation(pLin,'u_corte'), corte);
+    gl.uniform1f(gl.getUniformLocation(pLin,'u_cortando'), cortaF);
+    var lP = gl.getAttribLocation(pLin,'a_pos'), lCor = gl.getUniformLocation(pLin,'u_cor');
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.uniform1f(gl.getUniformLocation(pLin,'u_cortando'), 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gfbo); gl.enableVertexAttribArray(lP);
+    gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
+    gl.uniform4fv(lCor, new Float32Array(corGradeF)); gl.drawArrays(gl.LINES, 0, nGF);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gbo); gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
+    gl.uniform4fv(lCor, new Float32Array(corGrade)); gl.drawArrays(gl.LINES, 0, nG);
+    gl.uniform1f(gl.getUniformLocation(pLin,'u_cortando'), cortaF);
+    if (mostraArestas) {
+      gl.uniform4fv(lCor, new Float32Array(corAresta));
+      d.mostra.forEach(function (n) {
+        var Pc = PECAS[n]; if (!Pc.nAr) return;
+        gl.bindBuffer(gl.ARRAY_BUFFER, Pc.vbo); gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Pc.abo);
+        gl.drawElements(gl.LINES, Pc.nAr, gl.UNSIGNED_SHORT, 0);
+      });
+    }
+    gl.disable(gl.BLEND);
+    var campo = 2*raio*Math.tan(30*Math.PI/360)*(W/H);
+    document.getElementById('escala').textContent =
+      'campo ' + campo.toFixed(1).replace('.', ',') + ' mm · grade 1 mm'
+      + (mapa ? ' · faixas de altura de ' + PASSO_MAPA.toFixed(2).replace('.',',') + ' mm' : '');
+  }
+
+  var pts = {}, ultimo = null, dist0 = 0;
+  cv.style.cursor = 'grab'; cv.style.touchAction = 'none';
+  cv.addEventListener('pointerdown', function (e) {
+    cv.setPointerCapture(e.pointerId);
+    pts[e.pointerId] = { x:e.clientX, y:e.clientY };
+    ultimo = { x:e.clientX, y:e.clientY }; cv.style.cursor = 'grabbing';
+    var ks = Object.keys(pts);
+    if (ks.length === 2) dist0 = Math.hypot(pts[ks[0]].x-pts[ks[1]].x, pts[ks[0]].y-pts[ks[1]].y);
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!pts[e.pointerId]) return;
+    var ks = Object.keys(pts);
+    var dx = e.clientX-ultimo.x, dy = e.clientY-ultimo.y;
+    pts[e.pointerId] = { x:e.clientX, y:e.clientY }; ultimo = { x:e.clientX, y:e.clientY };
+    if (ks.length >= 2) {
+      var dd = Math.hypot(pts[ks[0]].x-pts[ks[1]].x, pts[ks[0]].y-pts[ks[1]].y);
+      if (dist0 > 0 && dd > 0) { raio = Math.max(minR, Math.min(maxR, raio*dist0/dd)); dist0 = dd; }
+      var k = raio*0.0016;
+      alvo[0] -= Math.cos(theta+Math.PI/2)*dx*k;
+      alvo[2] -= Math.sin(theta+Math.PI/2)*dx*k;
+      alvo[1] += dy*k; posiciona();
+    } else {
+      theta -= dx*0.0062;
+      phi = Math.max(0.06, Math.min(Math.PI-0.06, phi - dy*0.0062));
+      if (gira) { gira = false; document.getElementById('btGira').setAttribute('aria-pressed','false'); }
+      posiciona();
+    }
+  });
+  function solta(e) { delete pts[e.pointerId];
+    if (!Object.keys(pts).length) { cv.style.cursor = 'grab'; dist0 = 0; } }
+  cv.addEventListener('pointerup', solta); cv.addEventListener('pointercancel', solta);
+  cv.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    raio = Math.max(minR, Math.min(maxR, raio*Math.exp(e.deltaY*0.0011))); posiciona();
+  }, { passive:false });
+
+  var bs = document.querySelectorAll('.modo');
+  for (var i = 0; i < bs.length; i++) bs[i].addEventListener('click', function (ev) {
+    modo = ev.currentTarget.getAttribute('data-modo');
+    theta = 0.92; phi = 1.02; ficha(); enquadra();
+  });
+  var btGira = document.getElementById('btGira');
+  btGira.addEventListener('click', function () {
+    gira = !gira; btGira.setAttribute('aria-pressed', gira ? 'true':'false'); });
+  var btA = document.getElementById('btArestas');
+  btA.addEventListener('click', function () {
+    mostraArestas = !mostraArestas; btA.setAttribute('aria-pressed', mostraArestas ? 'true':'false'); });
+  var btM = document.getElementById('btMapa');
+  btM.addEventListener('click', function () {
+    mapa = !mapa; btM.setAttribute('aria-pressed', mapa ? 'true':'false'); });
+  var btC = document.getElementById('btCorte'), barra = document.getElementById('corteBarra');
+  var sld = document.getElementById('corteSlider'), val = document.getElementById('corteVal');
+  function mostraCorte() {
+    btC.setAttribute('aria-pressed', cortando ? 'true':'false');
+    barra.hidden = !cortando;
+    val.textContent = corteT.toFixed(2).replace('.', ',') + ' mm';
+  }
+  btC.addEventListener('click', function () { cortando = !cortando; mostraCorte(); });
+  sld.addEventListener('input', function () {
+    corteT = parseFloat(sld.value)*raio/100*0.9; mostraCorte(); });
+  document.getElementById('btVirar').addEventListener('click', function () {
+    phi = Math.PI - phi; gira = false;
+    btGira.setAttribute('aria-pressed','false'); posiciona(); });
+  document.getElementById('btTopo').addEventListener('click', function () {
+    theta = -Math.PI/2; phi = 0.10; gira = false;
+    btGira.setAttribute('aria-pressed','false'); posiciona(); });
+  document.getElementById('btReset').addEventListener('click', function () {
+    theta = 0.92; phi = 1.02; corteT = 0; sld.value = 0; mostraCorte(); enquadra(); });
+
+  ajusta(); ficha(); enquadra(); mostraCorte();
+  carregando.hidden = true;
+  (function loop() { if (gira) { theta += 0.0032; posiciona(); } desenha(); requestAnimationFrame(loop); })();
+}
+try { comeca(); } catch (e) { falha('não deu para montar a cena 3D'); }
+</script>

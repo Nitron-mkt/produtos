@@ -5,3 +5,5 @@ node_modules/
 chrono/pdf/dossie.build.html
 __pycache__/
 *.pyc
+chrono/v3/stl_detalhe/
+chrono/visor/prova_det/
