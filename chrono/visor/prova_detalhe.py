@@ -15,7 +15,7 @@ async def main():
         await pg.goto(ARQ.as_uri()); await pg.wait_for_timeout(5000)
         print('WebGL2:', await pg.evaluate("!!document.createElement('canvas').getContext('webgl2')"))
         print('carregou:', await pg.evaluate("document.getElementById('carregando').hidden"))
-        for modo in ('m01','m02','m03','conjunto'):
+        for modo in ('conjunto','explodido','m01','m02','m03'):
             await pg.click('.modo[data-modo="%s"]'%modo); await pg.wait_for_timeout(900)
             print('  %-9s %s | %s'%(modo, await pg.inner_text('#fTitulo'), await pg.inner_text('#escala')))
             await pg.screenshot(path=str(OUT/('%s.png'%modo)))

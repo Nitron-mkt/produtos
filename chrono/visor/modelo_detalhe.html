@@ -102,16 +102,17 @@
 <div id="app">
   <header>
     <span class="eyebrow">Nitron · Chrono v3</span>
-    <h1>Inspeção das peças</h1>
-    <span class="sub">malha de 0,008 mm · todo ângulo redondo: 1,500° · 5,000° · 30,000° · 45,000°</span>
+    <h1>As três peças</h1>
+    <span class="sub">um sólido cada · malha de 0,008 mm · todo ângulo redondo: 1,500° · 5,000° · 30,000° · 45,000°</span>
   </header>
 
   <div id="stage">
     <div id="modos" role="group" aria-label="Que peça mostrar">
-      <button class="modo" data-modo="m01" aria-pressed="true">M01 · o que entra na válvula</button>
-      <button class="modo" data-modo="m02" aria-pressed="false">M02 · rodinha</button>
+      <button class="modo" data-modo="conjunto" aria-pressed="true">As 3 montadas</button>
+      <button class="modo" data-modo="explodido" aria-pressed="false">As 3 explodidas</button>
+      <button class="modo" data-modo="m01" aria-pressed="false">M01 · válvula</button>
+      <button class="modo" data-modo="m02" aria-pressed="false">M02 · mês</button>
       <button class="modo" data-modo="m03" aria-pressed="false">M03 · ponteira</button>
-      <button class="modo" data-modo="conjunto" aria-pressed="false">Conjunto montado</button>
     </div>
 
     <div id="olhar">
@@ -181,8 +182,8 @@ var CX = 61.97, CZ = 102.68;
 
 var MODOS = {
   m01: {
-    titulo: 'M01 · o que o Chrono acrescenta',
-    texto: 'Montado sobre uma chapa lisa que faz as vezes da válvula — o STL da válvula original não vive neste repositório, e o que está em revisão são os acréscimos. Aqui estão todos eles.',
+    titulo: 'M01 · válvula com os dias',
+    texto: 'Peça inteira, um sólido só. O corpo abaixo da face de topo é uma CHAPA DE PROVA de Ø38: o STL da válvula injetada saiu da sessão quando o container foi recriado. Os datums estão certos e tudo o que o Chrono acrescenta está exato; a saia e os pés da válvula não estão.',
     dados: [['mesa dos dias', 'r 14,20 – 18,75'], ['numerais', '31 · 2,40 mm · relevo 0,10'],
             ['vão entre numerais', '0,69 mm'], ['rebaixo', '0,60 fundo · r até 13,60'],
             ['molas de detente', '2 · Ø2,00 × 0,25'], ['poste', 'Ø13,20 · saída 1,500°'],
@@ -196,7 +197,7 @@ var MODOS = {
             'Use o <b>corte</b> para ver a parede de 1,83 mm da chapa.']
   },
   m02: {
-    titulo: 'M02 · rodinha dos meses',
+    titulo: 'M02 · rodinha do mês',
     texto: 'Corpo de 1,50 mm mais 0,10 de numeral em auto relevo. Gira no poste e é travada pelas 12 covinhas contra as 2 molas da válvula.',
     dados: [['corpo', '1,50 mm'], ['numerais', '12 · 2,20 mm · relevo 0,10'],
             ['furo', 'Ø13,60 · saída 1,500°'], ['externo', 'Ø26,80 · saída 1,500°'],
@@ -225,8 +226,8 @@ var MODOS = {
             'A <b>farpa Ø6,80</b> sobre o furo Ø6,00 dá 0,40 de encaixe. É undercut de projeto.']
   },
   conjunto: {
-    titulo: 'Conjunto montado',
-    texto: 'As três peças na posição real. A válvula continua representada pela chapa lisa — o STL da peça injetada saiu da sessão, e misturar o corpo antigo com a rodinha e a ponteira novas seria juntar duas versões.',
+    titulo: 'As 3 montadas',
+    texto: 'As três na posição real. A válvula aparece com a chapa de prova no lugar do corpo injetado — o STL dele saiu da sessão. Tudo o que o Chrono acrescenta, e todo o encaixe entre as três, está exato.',
     dados: [['topo do conjunto', 'Y 39,950'], ['mais alto da tampa', 'Y 39,762'],
             ['diferença', '+0,188 mm'], ['folga do detente', '0,017 mm'],
             ['ponteira × rodinha', '0,100 mm'], ['interferência', '0,0000 mm³']],
@@ -236,8 +237,25 @@ var MODOS = {
             'A ponteira flutua <b>0,100 mm</b> acima dos numerais do mês.',
             'O mês sobra <b>0,45 mm</b> por lado dentro da janela.',
             'O conjunto passa <b>0,188 mm</b> do ponto mais alto da tampa.']
+  },
+  explodido: {
+    titulo: 'As 3 explodidas',
+    texto: 'A mesma pilha aberta no eixo, para ver as faces que se encostam: as 2 molas da válvula contra as 12 covinhas da rodinha, e a farpa da ponteira dentro do furo do poste.',
+    dados: [['M01 · válvula', '1.951 mm³ · 1,766 g'], ['M02 · mês', '599 mm³ · 0,542 g'],
+            ['M03 · ponteira', '421 mm³ · 0,381 g'], ['ordem de montagem', 'rodinha, depois ponteira'],
+            ['trava da rodinha', '2 molas × 12 covinhas'], ['trava da ponteira', 'farpa Ø6,80 no furo Ø6,00']],
+    selo: 'cada peça sai de um molde só, sem gaveta',
+    mostra: ['m01c', 'm02', 'm03'],
+    desloca: { m01c:[0,0,0], m02:[0,8,0], m03:[0,18,0] },
+    olhar: ['A rodinha desce no <b>rebaixo</b> e gira no poste Ø13,20.',
+            'Vire para baixo: as <b>12 covinhas</b> da rodinha caem nas 2 molas da válvula.',
+            'A ponteira entra por cima; a <b>farpa</b> estala dentro do furo do poste.',
+            'Nenhuma das três tem recorte lateral — <b>molde sem gaveta</b>.']
   }
 };
+// cada peca pode ser deslocada no modo explodido; sem entrada, fica no lugar
+var ZERO = [0,0,0];
+function desloc(d, n) { return (d.desloca && d.desloca[n]) || ZERO; }
 var CORES = { m01:[0.722,0.690,0.643], m01c:[0.722,0.690,0.643],
               m02:[0.541,0.502,0.459], m03:[0.784,0.337,0.102] };
 
@@ -320,8 +338,8 @@ function mul(a,b) {
 // corte: descarta o fragmento do lado de ca do plano. Face interna sai em tom
 // proprio (gl_FrontFacing), senao o corte nao se le como corte.
 var VS_SOL = `#version 300 es
-in vec3 a_pos; uniform mat4 u_vp; out vec3 v_w;
-void main(){ v_w = a_pos; gl_Position = u_vp * vec4(a_pos,1.0); }`;
+in vec3 a_pos; uniform mat4 u_vp; uniform vec3 u_desloc; out vec3 v_w;
+void main(){ v_w = a_pos + u_desloc; gl_Position = u_vp * vec4(v_w,1.0); }`;
 var FS_SOL = `#version 300 es
 precision highp float;
 in vec3 v_w; out vec4 o;
@@ -357,8 +375,8 @@ void main(){
   o = vec4(clamp(c*lum + vec3(rim*0.9, rim*0.8, rim*0.7)*(1.0 - u_mapa*0.7), 0.0, 1.0), 1.0);
 }`;
 var VS_LIN = `#version 300 es
-in vec3 a_pos; uniform mat4 u_vp; out vec3 v_w;
-void main(){ v_w = a_pos; gl_Position = u_vp * vec4(a_pos,1.0); }`;
+in vec3 a_pos; uniform mat4 u_vp; uniform vec3 u_desloc; out vec3 v_w;
+void main(){ v_w = a_pos + u_desloc; gl_Position = u_vp * vec4(v_w,1.0); }`;
 var FS_LIN = `#version 300 es
 precision highp float; in vec3 v_w; out vec4 o;
 uniform vec4 u_cor; uniform vec4 u_corte; uniform float u_cortando;
@@ -413,7 +431,7 @@ function comeca() {
   var corGradeF = escuro ? [0.62,0.57,0.50,0.10] : [0.42,0.38,0.33,0.09];
   var corAresta = escuro ? [0.08,0.06,0.04,0.55] : [0.13,0.10,0.07,0.45];
 
-  var modo = 'm01', mostraArestas = true, gira = false, cortando = false, corteT = 0, mapa = false;
+  var modo = 'conjunto', mostraArestas = true, gira = false, cortando = false, corteT = 0, mapa = false;
   var PASSO_MAPA = 0.50;   // altura de cada faixa de cor, em mm
   var alvo = [CX, 37, CZ], theta = 0.92, phi = 1.02, raio = 60, minR = 3, maxR = 400;
   var eye = [0,0,0], W = 1, H = 1;
@@ -425,8 +443,11 @@ function comeca() {
   function enquadra() {
     var d = MODOS[modo], b = [Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
     d.mostra.forEach(function (n) {
-      var bb = PECAS[n].m.bb;
-      for (var k = 0; k < 3; k++) { if (bb[k] < b[k]) b[k] = bb[k]; if (bb[k+3] > b[k+3]) b[k+3] = bb[k+3]; }
+      var bb = PECAS[n].m.bb, o = desloc(d, n);
+      for (var k = 0; k < 3; k++) {
+        if (bb[k]+o[k] < b[k]) b[k] = bb[k]+o[k];
+        if (bb[k+3]+o[k] > b[k+3]) b[k+3] = bb[k+3]+o[k];
+      }
     });
     alvo = [(b[0]+b[3])/2, (b[1]+b[4])/2, (b[2]+b[5])/2];
     var r = 0.5*Math.hypot(b[3]-b[0], b[4]-b[1], b[5]-b[2]);
@@ -477,11 +498,13 @@ function comeca() {
     // relevo somem dentro de uma escala de 8 mm
     var fy0 = Infinity, fy1 = -Infinity;
     d.mostra.forEach(function (n) {
-      var bb = PECAS[n].m.bb; if (bb[1] < fy0) fy0 = bb[1]; if (bb[4] > fy1) fy1 = bb[4];
+      var bb = PECAS[n].m.bb, o = desloc(d, n)[1];
+      if (bb[1]+o < fy0) fy0 = bb[1]+o; if (bb[4]+o > fy1) fy1 = bb[4]+o;
     });
     gl.uniform2f(gl.getUniformLocation(pSol,'u_faixa'), fy0, fy1);
     gl.uniform1f(gl.getUniformLocation(pSol,'u_passo'), PASSO_MAPA);
     var aP = gl.getAttribLocation(pSol,'a_pos'), uCor = gl.getUniformLocation(pSol,'u_cor');
+    var uDeS = gl.getUniformLocation(pSol,'u_desloc');
     gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1.2, 2.0);
     d.mostra.forEach(function (n) {
       var Pc = PECAS[n];
@@ -489,8 +512,10 @@ function comeca() {
       gl.vertexAttribPointer(aP, 3, gl.FLOAT, false, 0, 0);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Pc.ibo);
       gl.uniform3fv(uCor, new Float32Array(CORES[n]));
+      gl.uniform3fv(uDeS, new Float32Array(desloc(d, n)));
       gl.drawElements(gl.TRIANGLES, Pc.m.nf*3, gl.UNSIGNED_SHORT, 0);
     });
+    gl.uniform3fv(uDeS, new Float32Array(ZERO));
     gl.disable(gl.POLYGON_OFFSET_FILL);
 
     gl.useProgram(pLin);
@@ -498,6 +523,8 @@ function comeca() {
     gl.uniform4fv(gl.getUniformLocation(pLin,'u_corte'), corte);
     gl.uniform1f(gl.getUniformLocation(pLin,'u_cortando'), cortaF);
     var lP = gl.getAttribLocation(pLin,'a_pos'), lCor = gl.getUniformLocation(pLin,'u_cor');
+    var uDeL = gl.getUniformLocation(pLin,'u_desloc');
+    gl.uniform3fv(uDeL, new Float32Array(ZERO));
     gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.uniform1f(gl.getUniformLocation(pLin,'u_cortando'), 0);
     gl.bindBuffer(gl.ARRAY_BUFFER, gfbo); gl.enableVertexAttribArray(lP);
@@ -512,8 +539,10 @@ function comeca() {
         var Pc = PECAS[n]; if (!Pc.nAr) return;
         gl.bindBuffer(gl.ARRAY_BUFFER, Pc.vbo); gl.vertexAttribPointer(lP, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Pc.abo);
+        gl.uniform3fv(uDeL, new Float32Array(desloc(d, n)));
         gl.drawElements(gl.LINES, Pc.nAr, gl.UNSIGNED_SHORT, 0);
       });
+      gl.uniform3fv(uDeL, new Float32Array(ZERO));
     }
     gl.disable(gl.BLEND);
     var campo = 2*raio*Math.tan(30*Math.PI/360)*(W/H);

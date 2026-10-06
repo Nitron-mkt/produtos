@@ -20,7 +20,10 @@ from OCP.BRepGProp import BRepGProp
 from OCP.BRepCheck import BRepCheck_Analyzer
 
 MIN_ARESTA, MIN_FACE = 0.05, 0.002
-D = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'step')
+AQUI = os.path.dirname(os.path.abspath(__file__))
+# sem argumento, confere a receita de 4 passos; 'completo' confere as pecas inteiras
+SUB = sys.argv[1] if len(sys.argv) > 1 else 'step'
+D = os.path.join(AQUI, SUB)
 
 def medir(arq):
     sh = cq.importers.importStep(arq).val()
@@ -35,7 +38,7 @@ def medir(arq):
 
 ruim = 0
 print('%-52s %6s %9s %7s %9s %7s' % ('arquivo', 'sol.', 'aresta min', 'curtas', 'face min', 'micro'))
-for arq in sorted(glob.glob(os.path.join(D, 'Chrono_v3_*.step'))):
+for arq in sorted(glob.glob(os.path.join(D, 'Chrono_*.step'))):
     sh, L, A = medir(arq)
     ns, nc, nm = len(sh.Solids()), int((L < MIN_ARESTA).sum()), int((A < MIN_FACE).sum())
     ok = (ns == 1 and nc == 0 and nm == 0 and BRepCheck_Analyzer(sh.wrapped).IsValid())

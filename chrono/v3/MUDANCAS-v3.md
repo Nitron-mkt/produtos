@@ -346,3 +346,33 @@ Montagem:
 O ícone da Nitron, que vinha do PDF e também sumiu com a pasta, foi **recuperado
 de uma seção do STEP anterior e está versionado no repositório** (`icone_nitron.json`).
 Não some mais.
+
+---
+
+## 18. "Não veio a válvula" — as 3 peças inteiras
+
+O projetista abriu a M01 e achou só o que o Chrono acrescenta, sem corpo. Era o
+esperado pela estrutura do arquivo, mas receita não se abre — e ele tem razão em
+querer ver a peça. Agora existem **duas pastas**:
+
+| pasta | o que tem | para quê |
+|---|---|---|
+| `v3/step/` | a receita de 4 passos da M01, mais M02 e M03 | **vai para a ferramenta** |
+| `v3/step_completo/` | **3 arquivos, 1 sólido cada** | abrir, medir, ver |
+
+A M01 completa é montada sobre uma **chapa de prova** — disco de Ø38,00 com a
+mesma saída, de Y 35,40 a 37,23 — porque o STL da válvula injetada saiu da sessão
+quando o container foi recriado. **Os datums e tudo o que o Chrono acrescenta
+estão exatos**; a saia e os pés da válvula, abaixo de Y 35,40, não estão. O nome
+do arquivo diz isso (`__CHAPA_DE_PROVA`) para ninguém mandar cortar aço por ele.
+
+Com o STL da válvula de volta, `completas.py` gera a peça inteira de verdade sem
+mais nenhuma mudança. E, de todo modo, **o certo é aplicar a receita no CAD mestre
+da válvula**: é o único jeito de a geometria já ferramentada sair bit a bit igual.
+
+Os três passam no mesmo portão: 1 sólido, B-rep válido, aresta mínima 0,0500 /
+0,0710 / 0,1000 mm, nenhuma face abaixo de 0,002 mm².
+
+O visor ganhou dois modos novos — **As 3 montadas** (agora o modo de entrada) e
+**As 3 explodidas**, com as peças separadas no eixo para ver as faces que se
+encostam. Os cinco modos continuam com corte, arestas e mapa de altura.
