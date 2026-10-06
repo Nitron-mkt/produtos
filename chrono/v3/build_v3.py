@@ -19,17 +19,17 @@ Logo, parede externa ESTREITA para cima e furo ALARGA para cima.
   python3 build_v3.py
 """
 import sys, os, numpy as np, cadquery as cq
-from math import pi, radians, degrees, cos, sin
+from math import pi, radians, degrees, cos, sin, tan
 from shapely.geometry import Polygon as SP, LineString as SL
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'medicao_v2'))
 import params as P
 from lib_v3 import (arredonda, limpa_contorno, glifos, largura, prisma, prisma_wire, gota_wire,
-                    ret_wire, estadio_wire,
+                    ret_wire, estadio_wire, rev_perfil,
                     place, deitado, rev, cil, cone,
                     esfera, fundir, tirar, letras, aplica_letras, angulos_dias, arred,
                     valido, face_sp, VARIANTES, mergulha)
-import icone
+import icone_v3
 
 STEP = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'step')
 os.makedirs(STEP, exist_ok=True)
@@ -74,9 +74,9 @@ def m01():
     # o canto piso/parede do rebaixo e concavo: abaula para o fluxo e a extracao
     reb = arred(reb, P.RAIO_FINO, lambda e: abs(e.Center().y - piso) < 1e-6, 'rebaixo: canto do piso')
 
-    ang, arco, folga = angulos_dias()
+    ang, arco, folga = angulos_dias(cap=P.DIA_CAP)
     somar1 = aplica_letras(somar1, [(radians(ang[d-1]), str(d)) for d in range(1, 32)],
-                           P.DIA_R, mesa_topo, nome='mesa: 31 numerais')
+                           P.DIA_R, mesa_topo, cap=P.DIA_CAP, nome='mesa: 31 numerais')
 
     # --- SUBTRAIR 2 leva as 2 covinhas do detente descontadas: assim o corte do
     # rebaixo JA deixa as duas molas de pe, e some um passo da receita ---------
@@ -87,33 +87,41 @@ def m01():
     # folga no ponto critico — medido, nao arbitrado.
     rc = P.RAIO_FINO
     cx, cy = P.POST_R + rc, piso + rc
-    # 5 pontos, nao 10: com 10 o segmento do arco cai para 0,026 mm e entra na
-    # faixa de aresta curta que trava a importacao
-    arco = [(cx + rc*cos(radians(t)), cy + rc*sin(radians(t)))
-            for t in np.linspace(270, 180, 5)]
-    topo_r = P.POST_R - r_(P.POST_TOP - cy)
-    poste = rev([(P.POST_R + rc, P.CHAPA_Y0)] + arco +
-                [(topo_r,        P.POST_TOP - 0.30),
-                 (topo_r - 0.30, P.POST_TOP),
-                 (P.FURO_R,      P.POST_TOP),
-                 (P.FURO_R,      P.CHAPA_Y0)])
+    # r(y) LINEAR. Antes o recuo era calculado ate POST_TOP e aplicado em
+    # POST_TOP-0,30: o cone saia com 1,884 grau em vez de 1,500. Era esse o
+    # "angulo quebrado" — e bem na parede onde a rodinha gira.
+    rp = lambda y: P.POST_R - r_(y - cy)
+    rtop = rp(P.POST_TOP - P.CHANFRO)
+    meia = (cx - rc*0.7071067811865476, cy - rc*0.7071067811865476)
+    poste = rev_perfil(cq.Workplane("XY")
+        .moveTo(P.POST_R + rc, P.CHAPA_Y0)
+        .lineTo(P.POST_R + rc, piso)
+        .threePointArc(meia, (P.POST_R, piso + rc))          # pe em ARCO R0,15
+        .lineTo(rtop, P.POST_TOP - P.CHANFRO)
+        .lineTo(rtop - P.CHANFRO, P.POST_TOP)                # chanfro de 45,000
+        .lineTo(P.FURO_R, P.POST_TOP)
+        .lineTo(P.FURO_R, P.CHAPA_Y0))
     yc = piso + P.DET_ALT - P.DET_ESF
     det = [esfera(P.DET_ESF, P.DET_R*cos(radians(a)), yc, P.DET_R*sin(radians(a)))
            for a in (0, 180)]
     reb = tirar(reb, det)          # o cortador guarda as molas
     somar3 = poste
-    print('      dias: vao igual de %.2f graus entre as bordas dos 31 numeros' % folga)
+    print('      dias: cap %.2f mm · vao igual de %.2f graus = %.2f mm entre bordas'
+          % (P.DIA_CAP, folga, radians(folga)*P.DIA_R))
 
     # --- SUBTRAIR 4: furo passante, alargando para cima ----------------------
     # UM perfil so. Montado como cone + chanfro separados, as duas superficies
     # coincidiam no mesmo raio, o fuse recusava, saia composto de 2 solidos — e
     # cortar com esse composto virava a peca do avesso (volume negativo).
-    rt = P.FURO_R + r_(P.POST_TOP - P.CHAPA_Y0)
+    # r(y) LINEAR aqui tambem: calculado ate POST_TOP e aplicado em
+    # POST_TOP-FURO_CH, o furo saia com 1,617 grau em vez de 1,500.
+    rf = lambda y: P.FURO_R + r_(y - P.CHAPA_Y0)
     y0 = P.CHAPA_Y0 - 2.0
+    rt = rf(P.POST_TOP - P.FURO_CH)
     furo = rev([(0.0,            y0),
-                (P.FURO_R + r_(y0 - P.CHAPA_Y0), y0),
+                (rf(y0),         y0),
                 (rt,             P.POST_TOP - P.FURO_CH),
-                (rt + P.FURO_CH, P.POST_TOP),
+                (rt + P.FURO_CH, P.POST_TOP),                 # chanfro de 45,000
                 (rt + P.FURO_CH, P.POST_TOP + 0.5),
                 (0.0,            P.POST_TOP + 0.5)])
     return somar1, reb, somar3, furo
@@ -142,7 +150,7 @@ def m02():
                   lambda e: abs(e.Center().y - y1) < 1e-6 or abs(e.Center().y - y0) < 1e-6,
                   'rodinha: arestas de face')
     return aplica_letras(corpo, [(radians(90 + i*30), str(i + 1)) for i in range(12)],
-                         P.MES_R, y1, nome='rodinha: 12 numerais')
+                         P.MES_R, y1, cap=P.MES_CAP, nome='rodinha: 12 numerais')
 
 # ===================================================== M03 — ponteira
 def gota():
@@ -161,10 +169,14 @@ def m03():
                 (P.PINO_RE,                  P.CUBO_Y0),
                 (P.PINO_RE - r_(P.CUBO_Y0 - P.CHAPA_Y0), P.CHAPA_Y0),
                 (P.FARPA_R,                  P.CHAPA_Y0),
-                (2.55,                       P.PINO_Y1),
+                (P.FARPA_R - tan(radians(30.0))*(P.CHAPA_Y0 - P.PINO_Y1), P.PINO_Y1),  # rampa de 30,000
                 (2.35,                       P.PINO_Y1),
                 (2.35 - r_(P.CHAPA_Y0 - P.PINO_Y1), P.CHAPA_Y0),   # furo interno tambem sai
-                (2.05,                       P.CUBO_Y0)])
+                # fecho do furo interno sob o cubo: 5,00 graus redondos. Antes
+                # saia 5,101 — angulo quebrado, que e justo o que a ferramentaria
+                # pediu para nao existir.
+                (2.35 - r_(P.CHAPA_Y0 - P.PINO_Y1) - tan(radians(5.0))*(P.CUBO_Y0 - P.CHAPA_Y0),
+                 P.CUBO_Y0)])
     # abaula o contorno da gota ANTES de furar: depois da janela e dos drenos o
     # OCC ja nao aceita o conjunto de arestas de uma vez
     lam = prisma_wire(gota(), h, P.SAIDA)
@@ -173,7 +185,7 @@ def m03():
     lamina = place(lam, radians(90), 0.0, P.TOPO, h)
     corpo = fundir([cubo, pino, lamina])
 
-    fendas, drenos = [], []
+    fendas = []
     for i in range(P.FENDAS):
         a = radians(45 + i*360.0/P.FENDAS)
         # Fenda com a RAIZ EM MEIA-CANA, nao em canto vivo. A perna do snap
@@ -183,31 +195,26 @@ def m03():
         fendas.append(place(prisma_wire(estadio_wire(0.0, 4.20 - P.FENDA_W/2, P.FENDA_W/2),
                                         P.CUBO_Y0 - P.PINO_Y1 + 0.2, P.SAIDA),
                             a, 0.0, P.CUBO_Y0, P.CUBO_Y0 - P.PINO_Y1 + 0.2))
-        # dreno tambem em meia-cana nas duas pontas
-        # ate r 9,50 e nao 8,20: em duas das quatro direcoes a borda da gota
-        # fica em r 8,88, entao o dreno terminava DENTRO da peca — sulco fechado,
-        # que nao drena nada, e ainda tangenciava o contorno gerando aresta de
-        # 0,012 mm. Agora os quatro saem pela borda.
-        drenos.append(place(prisma_wire(estadio_wire(2.60 + 0.35, 9.50 - 0.35, 0.35), 0.30, P.SAIDA),
-                            a, 0.0, P.CUBO_Y0 + 0.30, 0.30))
     jp = ret_arred(P.JAN_R0, P.JAN_R1, P.JAN_M, P.JAN_RC)
     # janela passante: alarga para cima, como todo furo
     jan = place(prisma_wire(jp, h + 0.6, -P.SAIDA), radians(90), 0.0, P.TOPO + 0.3, h + 0.6)
-    chw = ret_wire(P.JAN_R0 - 0.45, P.JAN_R1 + 0.45, P.JAN_M + 0.45, P.JAN_RC + 0.45)
-    ch  = place(prisma_wire(chw, 0.60, -P.SAIDA), radians(90), 0.0, P.TOPO + 0.30, 0.60)
-    # Os drenos entram DEPOIS do raio da janela. Com a ponta em meia-cana eles
-    # caem na mesma faixa de raio do filtro da janela, e o OCC recusa o conjunto.
-    corpo = tirar(corpo, fendas + [jan, ch])
-    def borda_janela(e):
-        c = e.Center(); r = (c.x**2 + c.z**2) ** 0.5
-        return abs(c.y - P.CUBO_Y0) < 1e-6 and 7.5 < r < 12.5
-    corpo = arred(corpo, P.RAIO_FINO, borda_janela, 'janela: borda de baixo')
-    corpo = tirar(corpo, drenos)
+    # O chanfro postico de 0,45 em volta da janela SAIU: ele aparecia como um
+    # ressalto em volta do furo, que e o que incomodou. No lugar dele, raio de
+    # 0,30 nas duas arestas da janela — a de cima e a de baixo.
+    corpo = tirar(corpo, fendas + [jan])
+    def borda(y):
+        def f(e):
+            c = e.Center(); r = (c.x**2 + c.z**2) ** 0.5
+            return abs(c.y - y) < 1e-6 and 7.0 < r < 13.0
+        return f
+    corpo = arred(corpo, P.JAN_RAIO, borda(P.TOPO),    'janela: aresta de cima')
+    corpo = arred(corpo, P.JAN_RAIO, borda(P.CUBO_Y0), 'janela: aresta de baixo')
 
     # "D" saiu; "M" virou "MES"; icone de gravado para AUTO RELEVO
     corpo = aplica_letras(corpo, [(radians(90), 'MÊS')], P.MES_TXT_R, P.TOPO, nome='ponteira: MÊS')
-    for sp in icone.poligonos(P.ICONE_H, xflip=True):
-        q = limpa_contorno(arredonda(sp, 0.10))
+    # contorno ja vem com o canto de 0,10 arredondado (ver icone_v3)
+    for sp in icone_v3.laminas():
+        q = limpa_contorno(sp)
         for ov, sa in VARIANTES:
             sa = P.LETRA_SAIDA if sa is None else sa
             try:

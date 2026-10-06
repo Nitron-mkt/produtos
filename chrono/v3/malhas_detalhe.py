@@ -31,7 +31,10 @@ assert BRepCheck_Analyzer(r.wrapped).IsValid(), 'M01 montada saiu invalida'
 pecas = {'M01': _malha(r.Solids()[0].wrapped, LIN, ANG)}
 for k, n in [('M02', 'Chrono_v3_M02_Rodinha_Meses'), ('M03', 'Chrono_v3_M03_Ponteira')]:
     pecas[k] = _malha(L(n).Solids()[0].wrapped, LIN, ANG)
-pecas['M01c'] = trimesh.load(os.path.join(AQUI, 'stl', 'Chrono_v3_M01_Valvula_Dias.stl'))
+# O modo "conjunto" usa a MESMA M01 sobre chapa. O STL da valvula completa que
+# estava aqui e de antes desta revisao — mostra-lo junto com a rodinha e a
+# ponteira novas seria misturar duas versoes.
+pecas['M01c'] = pecas['M01']
 
 for k, m in pecas.items():
     m.export('%s/%s.stl' % (SAI, k))

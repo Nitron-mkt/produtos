@@ -232,6 +232,13 @@ def rev(prof):
     return (cq.Workplane("XY").polyline([(float(r), float(y)) for r, y in lim])
               .close().revolve(360, (0, 0, 0), (0, 1, 0)).val())
 
+def rev_perfil(wp):
+    """Revolve em Y um perfil montado num Workplane XY (r em x, altura em y).
+    Serve para perfil com ARCO: o rev() de polilinha so sabe reta, e um raio
+    aproximado por 4 segmentos nao e um raio — sai como 4 cones de angulo
+    quebrado, que e justo o que a ferramentaria pediu para nao existir."""
+    return wp.close().revolve(360, (0, 0, 0), (0, 1, 0)).val()
+
 def cil(r, y0, y1, cx=0.0, cz=0.0):
     return cq.Solid.makeCylinder(r, y1-y0, cq.Vector(cx, y0, cz), cq.Vector(0, 1, 0))
 

@@ -103,7 +103,7 @@
   <header>
     <span class="eyebrow">Nitron · Chrono v3</span>
     <h1>Inspeção das peças</h1>
-    <span class="sub">malha de 0,008 mm · saída 1,5° · relevo 0,10 · raio 0,15 e 0,30</span>
+    <span class="sub">malha de 0,008 mm · todo ângulo redondo: 1,500° · 5,000° · 30,000° · 45,000°</span>
   </header>
 
   <div id="stage">
@@ -183,57 +183,58 @@ var MODOS = {
   m01: {
     titulo: 'M01 · o que o Chrono acrescenta',
     texto: 'Montado sobre uma chapa lisa que faz as vezes da válvula — o STL da válvula original não vive neste repositório, e o que está em revisão são os acréscimos. Aqui estão todos eles.',
-    dados: [['mesa dos dias', 'r 14,20 – 18,75'], ['numerais', '31 · relevo 0,10'],
-            ['vão entre numerais', '5,81°'], ['rebaixo', '0,60 fundo · r até 13,60'],
-            ['molas de detente', '2 · Ø2,00 × 0,25'], ['poste', 'Ø13,20 → Ø13,11'],
-            ['furo passante', 'Ø6,00 → Ø6,15']],
+    dados: [['mesa dos dias', 'r 14,20 – 18,75'], ['numerais', '31 · 2,40 mm · relevo 0,10'],
+            ['vão entre numerais', '0,69 mm'], ['rebaixo', '0,60 fundo · r até 13,60'],
+            ['molas de detente', '2 · Ø2,00 × 0,25'], ['poste', 'Ø13,20 · saída 1,500°'],
+            ['furo passante', 'Ø6,00 · saída 1,500°']],
     selo: 'sem parede vertical fora do flanco das letras',
     mostra: ['m01'],
-    olhar: ['O piso do rebaixo está <b>plano</b> — a concha das 12 h foi enchida.',
-            'As duas <b>molas Ø2,00</b> ficam no meio da faixa, em r 10,10.',
-            'O pé do poste tem <b>concordância R0,15</b>, não canto vivo.',
-            'O furo <b>alarga para cima</b> (Ø6,00 embaixo, Ø6,15 no topo).',
+    olhar: ['Os 31 numerais foram de 1,50 para <b>2,40 mm</b>, com vão de 0,69.',
+            'O pé do poste agora é um <b>toro R0,15 de verdade</b>, não 4 facetas.',
+            'O poste saiu de 1,884° para <b>1,500°</b> — era o ângulo quebrado.',
+            'O furo passante saiu de 1,617° para <b>1,500°</b>.',
             'Use o <b>corte</b> para ver a parede de 1,83 mm da chapa.']
   },
   m02: {
     titulo: 'M02 · rodinha dos meses',
     texto: 'Corpo de 1,50 mm mais 0,10 de numeral em auto relevo. Gira no poste e é travada pelas 12 covinhas contra as 2 molas da válvula.',
-    dados: [['corpo', '1,50 mm'], ['numerais', '12 · relevo 0,10'],
-            ['furo', 'Ø13,60 → Ø13,68'], ['externo', 'Ø26,80 → Ø26,72'],
+    dados: [['corpo', '1,50 mm'], ['numerais', '12 · 2,20 mm · relevo 0,10'],
+            ['furo', 'Ø13,60 · saída 1,500°'], ['externo', 'Ø26,80 · saída 1,500°'],
             ['entalhes de unha', '12 · r 1,10'], ['covinhas', '12 · Ø2,00 × 0,25'],
-            ['peso', '0,541 g']],
+            ['peso', '0,542 g']],
     selo: '0,0 mm² de parede vertical fora das letras',
     mostra: ['m02'],
-    olhar: ['Vire a peça: as <b>12 covinhas</b> ficam na face de baixo, em r 10,10.',
-            'O furo <b>alarga para cima</b> e o externo <b>estreita</b> — 1,5° nos dois.',
-            'Os 12 <b>entalhes de unha</b> também têm saída: são cones, não cilindros.',
-            'Arestas de face abauladas em <b>R0,15</b>.']
+    olhar: ['Os numerais foram de 1,50 para <b>2,20 mm</b> — 47% maiores.',
+            'Vire a peça: as <b>12 covinhas</b> ficam na face de baixo, em r 10,10.',
+            'Furo e externo medem <b>1,500°</b> exatos — conferido no sólido.',
+            'Os 12 <b>entalhes de unha</b> também têm saída: são cones, não cilindros.']
   },
   m03: {
     titulo: 'M03 · ponteira',
     texto: 'Lâmina em gota de 1,50 mm mais 0,10 de MÊS e do ícone em auto relevo. Gira livre no poste, presa pela farpa do pino.',
-    dados: [['corpo', '1,50 mm'], ['janela do mês', 'r 8,70 – 11,30'],
+    dados: [['corpo', '1,50 mm'], ['janela do mês', 'r 8,25 – 11,35 · R0,30'],
+            ['borda da janela', '1,09 mm'], ['MÊS', 'r 4,97 – 6,83'],
             ['nariz', 'Ø2,40 em r 15,55'], ['pino', 'Ø5,80 · farpa Ø6,80'],
-            ['fendas', '4 · raiz em meia-cana'], ['drenos', '4 · 0,30 fundo'],
-            ['peso', '0,381 g']],
+            ['peso', '0,383 g']],
     selo: 'contorno da gota: 2 arcos e 2 tangentes, não 180 facetas',
     mostra: ['m03'],
-    olhar: ['Vire a peça: os <b>4 drenos</b> saem pela borda da gota.',
-            'A <b>raiz das 4 fendas</b> é meia-cana — é onde a perna do snap trinca.',
-            'A <b>farpa Ø6,80</b> sobre o furo Ø6,00 dá 0,40 de encaixe. É undercut de projeto.',
-            'Topo da gota com <b>R0,30</b>, base e janela com R0,15.',
-            'MÊS e o ícone em <b>auto relevo</b>, não gravados.']
+    olhar: ['O <b>ressalto em volta da janela saiu</b>. No lugar, R0,30 nas duas arestas.',
+            'Os <b>4 drenos saíram</b> — o projetista não viu necessidade.',
+            '<b>MÊS</b> recuou 1,50 mm: o acento parava em r 8,33 e a janela começa em 8,25.',
+            'Ponta do pino: parede foi de 0,242 para <b>0,444 mm</b>. Era gume.',
+            'A <b>farpa Ø6,80</b> sobre o furo Ø6,00 dá 0,40 de encaixe. É undercut de projeto.']
   },
   conjunto: {
     titulo: 'Conjunto montado',
-    texto: 'As três peças na posição real, sobre a válvula completa. A válvula aqui vem da malha de apresentação (0,020 mm), por isso o corpo dela é menos fino que o resto.',
+    texto: 'As três peças na posição real. A válvula continua representada pela chapa lisa — o STL da peça injetada saiu da sessão, e misturar o corpo antigo com a rodinha e a ponteira novas seria juntar duas versões.',
     dados: [['topo do conjunto', 'Y 39,950'], ['mais alto da tampa', 'Y 39,762'],
             ['diferença', '+0,188 mm'], ['folga do detente', '0,017 mm'],
-            ['ponteira × rodinha', '0,100 mm'], ['massa', '2,907 g']],
+            ['ponteira × rodinha', '0,100 mm'], ['interferência', '0,0000 mm³']],
     selo: '0,0000 mm³ de interferência entre as três peças',
     mostra: ['m01c', 'm02', 'm03'],
-    olhar: ['Corte pelo eixo para ver a <b>pilha inteira</b>: válvula, rodinha, ponteira.',
+    olhar: ['Corte pelo eixo para ver a <b>pilha inteira</b>.',
             'A ponteira flutua <b>0,100 mm</b> acima dos numerais do mês.',
+            'O mês sobra <b>0,45 mm</b> por lado dentro da janela.',
             'O conjunto passa <b>0,188 mm</b> do ponto mais alto da tampa.']
   }
 };

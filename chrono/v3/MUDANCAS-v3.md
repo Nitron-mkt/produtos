@@ -212,6 +212,137 @@ O enchimento entra antes do rebaixo (senão o rebaixo não tem o que cortar) e o
 detentes entram depois (senão o rebaixo raspa as molas).
 
 `v3_M02_Rodinha_Meses` e `v3_M03_Ponteira` são peças inteiras, um sólido cada.
-Os STL em `v3/stl/` são para ver e imprimir — neles os numerais da M01 são
-prisma reto, porque a tesselação do OCC não fecha nesses 53 sólidos de 0,2 mm.
-**A saída de 15° dos caracteres vive no STEP**, que é o que vai para a ferramenta.
+Os STL em `v3/stl/` são para ver e imprimir, não para ferramenta.
+
+---
+
+# Revisão de 06/10 — os 5 apontamentos (IMG01 a IMG05)
+
+## 11. IMG01 — a janela do mês
+
+**Tirado o relevo em volta do furo.** O que aparecia como moldura era um chanfro
+postiço que eu tinha somado para "marcar" a janela. Saiu. O furo agora é só furo.
+
+**Raio nas duas arestas, R0,30** — em cima (Y 39,85) e embaixo (Y 38,35), as
+duas de uma vez. Antes só a de cima tinha quebra, e era chanfro, não raio.
+
+**"MÊS" desceu 1,50 mm**, de r 7,40 para **r 5,90**. O acento chegava a r 8,33 e
+a janela começa em 8,25 — ele era cortado pela borda do furo, por 0,08 mm. Agora
+o texto ocupa **r 4,97 a 6,83**: sobra **1,42 mm** até a janela e **1,07 mm** até
+o ícone. Nada mais se toca.
+
+## 12. IMG02 — as 4 cavas
+
+**Retiradas.** Eram drenos que eu tinha posto para o ar sair da fenda do cubo.
+O projetista não vê necessidade e ele tem a palavra: na prática a fenda já respira
+pela folga de 0,10 mm do encaixe com a M02.
+
+Sobre a suspeita de que estavam **vazando o pino**: o projetista leu certo a
+imagem. As cavas desciam a r 9,50 e o pino de encaixe vive em r ≤ 3,40 — no
+sólido elas não se cruzavam —, **mas** a renderização ficava ambígua porque as
+duas coisas apareciam na mesma silhueta. Medido agora sem as cavas:
+**interferência M01×M03 = 0,0000 mm³** e **M02×M03 = 0,0000 mm³**. Sem perfil
+negativo em lugar nenhum.
+
+## 13. IMG03 — numeral do mês e janela maiores
+
+Os dois cresceram **juntos**, senão não adianta:
+
+| | antes | agora |
+|---|---|---|
+| altura de caixa alta do mês | 1,50 | **2,20** (+47%) |
+| janela, raio | 8,60 – 11,00 | **8,25 – 11,35** |
+| janela, meia-largura | 1,55 | **1,93** |
+| raio de canto da janela | 0,70 | 0,70 |
+
+Folga do numeral dentro da janela, medida no pior caso (**mês 9**, o mais largo):
+**0,45 mm** em volta. Da borda da janela até o contorno da gota da ponteira:
+**1,09 mm** — a janela cresceu sem comer a parede.
+
+## 14. IMG04 — os dias juntos e maiores
+
+Altura de caixa alta dos dias: **1,50 → 2,40 mm (+60%)**.
+
+O espaçamento não é mais por centro, é **por borda**: cada numeral recebe o arco
+que ele realmente ocupa, e o vão entre dois vizinhos é o mesmo nos 31 —
+**0,69 mm**. É por isso que o "1" e o "11" não ficam mais com buraco de um lado.
+2,40 é o maior valor em que os 31 ainda fecham a volta com vão positivo; acima
+disso o "28" encosta no "29".
+
+## 15. IMG05 — o 1,33° quebrado
+
+**Não consigo reproduzir esse valor.** Auditei todas as faces cônicas dos seis
+STEP, uma a uma, pelo ângulo do cone no B-rep:
+
+```
+M01_1  1,500° (2 faces)
+M01_2  1,500° (1)
+M01_3  1,500° (1) · 45,000° (1, chanfro de topo do poste)
+M01_4  1,500° (1) · 45,000° (1, chanfro do furo)
+M02    1,500° (25)
+M03    1,500° (14) · 5,000° (4) · 30,000° (4, rampa da farpa)
+ângulos quebrados: 0
+```
+
+O furo da M02 — que é o candidato mais provável ao que ele mediu — dá
+**1,500° exatos**. Duas coisas que de fato estavam quebradas no arquivo anterior
+e foram corrigidas nesta rodada:
+
+- **saída do poste em 1,884°** e do furo passante em 1,617°: o recuo era calculado
+  sobre a altura até o topo e aplicado 0,30 mm abaixo dele. Agora o raio é função
+  linear de Y, dá 1,500° em qualquer corte.
+- **a concordância do pé do poste eram 4 facetas de cone** (11,25° / 33,75° /
+  56,25° / 78,75°), não um raio. Virou toro de verdade (R0,15 revolucionado).
+
+Se o 1,33° saiu de uma **medição de face** no SolidWorks, pode ser isso: medir o
+ângulo entre duas faces adjacentes de um sólido **com raio de concordância** dá o
+ângulo da tangente no ponto clicado, não a saída. **Me diga qual face ele cotou**
+que eu confiro essa específica — mas pelo B-rep não há 1,33° em lugar nenhum.
+
+## 16. O que foi verificado nesta rodada
+
+**Os seis STEP passam no portão de qualidade** (o mesmo que pegou o problema do
+"fatiado"):
+
+```
+arquivo                                        sol.  aresta min  curtas  face min
+M01_1 SOMAR enchimento+mesa+dias                 1     0,0500      0      0,01005
+M01_2 SUBTRAIR rebaixo com detentes              1     0,2317      0      3,33794
+M01_3 SOMAR poste                                1     0,2356      0      9,85160
+M01_4 SUBTRAIR furo passante                     1     0,4950      0     10,07790
+M02   Rodinha Meses                              1     0,0710      0      0,01002
+M03   Ponteira                                   1     0,1000      0      0,01001
+```
+
+Um sólido por arquivo, B-rep válido, **nenhuma aresta abaixo de 0,05 mm** e
+nenhuma face abaixo de 0,002 mm². Era aresta de 0,0015 mm que desmanchava a
+costura na importação.
+
+Montagem:
+
+| | |
+|---|---|
+| interferência M01×M02, M01×M03, M02×M03 | **0,0000 mm³** |
+| folga do detente | 0,0174 mm |
+| folga ponteira × rodinha | 0,100 mm |
+| contato da farpa | 0,0000 (é o encaixe, por projeto) |
+| parede na ponta do pino | **0,444 mm** (era 0,242 — fio de faca que rebarba) |
+| topo do conjunto | Y 39,950 |
+
+## 17. O que continua aberto
+
+1. **O conjunto fica 0,188 mm acima do ponto mais alto da tampa.** Isso nunca foi
+   decidido. Ou aceita (a tampa empilha com 0,19 mm de desencontro), ou eu rebaixo
+   a ponteira 0,20 mm — o que come 0,20 dos 1,50 de espessura dela. Preciso da
+   decisão.
+2. **Qual face deu 1,33°** — seção 15.
+3. **O STL do conjunto completo não dá para regerar** sem o
+   `Mont_pote_com_valvula__prova_valvula1.STL` e o STL da tampa. O container foi
+   recriado e a pasta de uploads foi junto. A **M01 destes STEP continua correta**
+   — ela é receita de somar/subtrair sobre o CAD original, não depende do STL —,
+   mas para eu conferir de novo contra a válvula real, ou regerar o visor de
+   apresentação, os dois arquivos precisam voltar.
+
+O ícone da Nitron, que vinha do PDF e também sumiu com a pasta, foi **recuperado
+de uma seção do STEP anterior e está versionado no repositório** (`icone_nitron.json`).
+Não some mais.
