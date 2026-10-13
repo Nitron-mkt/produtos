@@ -14,7 +14,7 @@ G = lambda n: cq.importers.importStep('%s/%s.step' % (STEP, n)).val()
 
 chapa = L.cone(19.0, 19.0 - P.rec(P.FACE - P.CHAPA_Y0), P.CHAPA_Y0, P.FACE
                ).moved(cq.Location(cq.Vector(P.CX, 0, P.CZ)))
-m01b = chapa.fuse(G('Chrono_v3_M01_1_SOMAR_enchimento_mesa_dias')) \
+m01b = chapa.fuse(G('Chrono_v3_M01_1_SOMAR_enchimento_e_dias')) \
             .cut(G('Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes')) \
             .fuse(G('Chrono_v3_M01_3_SOMAR_poste')) \
             .cut(G('Chrono_v3_M01_4_SUBTRAIR_furo_passante'))

@@ -11,7 +11,9 @@ SAIDA      = 1.5     # graus de saida em TODA parede vertical (pedido: 1 a 3)
 RAIO       = 0.30    # raio de abaulamento das arestas estruturais
 RAIO_FINO  = 0.15    # onde a parede nao comporta 0,30
 LETRA_CAP  = 1.50    # altura de caixa alta padrao (MES)
-DIA_CAP    = 2.40    # dias: o maior que cabe com os numeros juntos (vao de 0,69 mm)
+DIA_CAP    = 2.00    # dias: 2,40 encostava os numeros (vao de 0,69). A 2,00, com
+                     # o raio em 17,20, o vao vai a 1,22 mm — 76% mais — e o
+                     # numeral ainda e 33% maior que o 1,50 original.
 MES_CAP    = 2.20    # meses: 47% maior, e a janela foi aberta junto
 LETRA_REL  = 0.10    # relevo de TODA letra e numero (auto relevo, nunca gravado)
 LETRA_RC   = 0.04    # raio de canto no contorno do caractere (plano)
@@ -39,13 +41,32 @@ FACE      = 37.23    # face de topo da valvula
 CHAPA_Y0  = 35.40    # face de baixo da chapa, no eixo
 
 # ---- M01 ---------------------------------------------------------------
-MESA_RI, MESA_RE, MESA_H = 14.20, 18.75, 0.18       # mesa dos dias -> topo 37,41
+# A MESA DOS DIAS SAIU. Era um anel de 0,18 mm de altura em r 14,20..18,75 que
+# servia de pedestal para os numerais, e criava dois degraus estreitos que a
+# ferramentaria pediu para tirar: 0,60 mm de largura entre a parede do rebaixo
+# (13,60) e a borda de dentro, e 0,25 mm entre a borda de fora e o fim da chapa.
+# Degrau estreito e nervura fina no aco — fragil de usinar e de polir.
+# Medido no STL da valvula: a face de topo e plana em Y 37,227..37,230 de
+# r 13,60 ate 18,75, e so depois de 18,75 ela cai (36,81 em r 19,50). Ou seja,
+# os numerais nao precisavam de pedestal: a face ja e plana onde eles vivem.
 CUNHA_A0, CUNHA_A1, CUNHA_RE = 55.0, 125.0, 18.80   # a concha das 12 h
-REB_H, REB_RE   = 0.60, 13.60                        # rebaixo onde a rodinha afunda
+# No lugar da mesa entra um PORTADOR ENTERRADO: anel de r 13,00 a 18,75 que
+# comeca 0,30 mm ABAIXO da face e termina NA face. Ele nao aparece na peca —
+# topo coplanar com a face, parede toda dentro dos 1,83 mm da chapa —, mas
+# costura os 31 numerais num solido so. Sem ele os numerais fora da cunha das
+# 12 h ficam boiando soltos (44 corpos no arquivo), que e o que o projetista
+# nao quer abrir.
+PORTA_RI, PORTA_RE, PORTA_H = 13.00, 18.60, 0.30
+# 0,70 e nao 0,60: afunda a rodinha 0,10 e com isso DOBRA a folga entre os
+# numerais do mes e a face de baixo da ponteira — de 0,10 para 0,20 — sem subir
+# nada (o conjunto ja passa 0,188 mm do ponto mais alto da tampa).
+REB_H, REB_RE   = 0.70, 13.60                        # rebaixo onde a rodinha afunda
 POST_R, POST_TOP = 6.60, 38.25
 FURO_R, FURO_CH  = 3.00, 0.35
 CHANFRO          = 0.30    # chanfro de topo do poste, a 45,000 graus
-DIA_R            = 16.85                             # raio da escala dos dias
+DIA_R            = 17.20   # saiu de 16,85: sem a mesa da para ir para fora e
+                           # ainda sobrar margem ate 18,75, onde a face deixa de
+                           # ser plana. Mais circunferencia = mais vao entre numeros.
 
 # detente: agora centrado na faixa do rebaixo e com 2,00 de base
 DET_R    = (POST_R + REB_RE) / 2                     # 10,10 — meio da faixa
@@ -73,6 +94,11 @@ TOPO     = CUBO_Y0 + PONT_ESP       # 39,85 ; relevo chega a 39,95
 # 34,30 sao 0,448 e o pino ainda desce 1,10 abaixo da chapa para a farpa pegar.
 PINO_RE, PINO_Y1, FARPA_R = 2.90, 34.30, 3.40
 FENDA_W, FENDAS = 0.70, 4
+# Fase das 4 fendas do pino. Estava em 45 graus (fendas nas diagonais da
+# ponteira); a ferramentaria pediu 45 graus de giro para facilitar a usinagem,
+# entao agora uma fenda aponta para o nariz, outra para a cauda e duas para os
+# lados — alinhadas com os eixos da peca.
+FENDA_FASE = 0.0
 ICONE_H  = 8.00
 BULBO_R, BULBO_OFF = 8.20, 1.00
 NARIZ_R, NARIZ_Y   = 1.20, 14.35

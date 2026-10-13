@@ -376,3 +376,117 @@ Os três passam no mesmo portão: 1 sólido, B-rep válido, aresta mínima 0,050
 O visor ganhou dois modos novos — **As 3 montadas** (agora o modo de entrada) e
 **As 3 explodidas**, com as peças separadas no eixo para ver as faces que se
 encostam. Os cinco modos continuam com corte, arestas e mapa de altura.
+
+---
+
+# Revisão de 13/10 — os degraus, a folga, o espaçamento e as fendas
+
+## 19. A mesa dos dias saiu (os "rebaixos desnecessários")
+
+Os dois pontos circulados no anexo 01 eram as duas bordas da **mesa**, o anel de
+0,18 mm de altura em r 14,20–18,75 que servia de pedestal para os 31 numerais:
+
+| onde | o que era | largura |
+|---|---|---|
+| r 13,60 → 14,20 | degrau entre a parede do rebaixo e a borda de dentro da mesa | **0,60 mm** |
+| r 18,75 → 19,00 | degrau entre a borda de fora da mesa e o fim da chapa | **0,25 mm** |
+
+Degrau de 0,18 mm de altura e meio milímetro de largura vira **nervura fina no
+aço** — frágil de usinar, pior de polir, e não servia para nada.
+
+**A mesa saiu inteira.** Os numerais assentam direto na face de topo da válvula.
+Medido no STL da peça injetada, a face é plana em **Y 37,227–37,230 de r 13,60
+até 18,80** — ela não precisava de pedestal. Conferido no sólido novo: entre
+r 13,70 e 18,70 a face mede **37,2300 em todo ponto**, degrau zero.
+
+No lugar da mesa entra um **portador enterrado**: um anel de r 13,00 a 18,60 que
+começa 0,30 mm abaixo da face e termina **na** face. Ele não aparece na peça — o
+topo é coplanar com a face e a parede fica dentro dos 1,83 mm da chapa —, mas
+costura os 31 numerais num sólido só. Sem ele os numerais fora da concha das 12 h
+ficam boiando soltos: o arquivo abriu com **44 corpos** no primeiro teste.
+
+Conferido que ele está mesmo enterrado, cortando a válvula real em 5 alturas:
+
+```
+0,28 abaixo da face → 0,000% fora do material
+0,20 abaixo da face → 0,000%
+0,10 abaixo da face → 0,000%
+0,03 abaixo da face → 0,11% (aparas de borda do próprio teste)
+```
+
+## 20. A folga da ponteira dobrou — 0,10 → 0,20 mm
+
+Como pedido no anexo 01. Em vez de **subir** a ponteira (o conjunto já passa
+0,188 mm do ponto mais alto da tampa, e subir piora isso), **afundei a rodinha**:
+o rebaixo foi de 0,60 para **0,70 mm** de profundidade.
+
+| | antes | agora |
+|---|---|---|
+| piso do rebaixo | Y 36,63 | **36,53** |
+| topo dos numerais do mês | 38,25 | **38,15** |
+| face de baixo da ponteira | 38,35 | 38,35 |
+| **folga** | 0,100 | **0,200 mm** |
+| topo do conjunto | 39,950 | **39,950** (não mudou) |
+| parede sob o rebaixo | 1,23 | **1,13 mm** |
+
+## 21. Os dias com mais espaço
+
+2,40 mm de caixa alta encostava os números. Duas mudanças ao mesmo tempo:
+
+| | antes | agora |
+|---|---|---|
+| altura do numeral | 2,40 | **2,00 mm** |
+| raio da escala | 16,85 | **17,20** |
+| **vão entre números** | 0,69 | **1,22 mm** (+76%) |
+
+O raio pôde ir para fora porque a mesa saiu. Os numerais ocupam r 16,18–18,22, e
+a faixa plana da válvula vai até 18,80 — sobram **0,58 mm** de face plana além do
+último numeral. O numeral continua **33% maior** que o 1,50 original.
+
+Se ainda estiver apertado, é um número só: a 1,80 de altura o vão vai a 1,37 mm.
+
+## 22. As 4 fendas do pino giraram 45°
+
+Como pedido, para facilitar a usinagem. Estavam nas diagonais da ponteira
+(45°/135°/225°/315°); agora **uma fenda aponta para o nariz, outra para a cauda e
+duas para os lados**, alinhadas com os eixos da peça. Conferido no sólido: a ponta
+da gota está em 0,3° e as fendas em 0° / 90° / 180° / 270°.
+
+A raiz em meia-cana de 0,35 continua: é onde a perna do snap concentra tensão.
+
+## 23. Conferido depois de tudo
+
+```
+os 6 STEP da receita e os 3 inteiros: 1 sólido, B-rep válido, 0 aresta < 0,05 mm
+ângulos quebrados: 0  (só 1,500° · 5,000° · 30,000° · 45,000°)
+interferência M01×M02, M01×M03, M02×M03 : 0,0000 mm³
+folga do detente        0,0174 mm
+ponteira × rodinha      0,2000 mm
+topo do conjunto        Y 39,950  (+0,188 do ponto mais alto da tampa)
+face de topo entre r 13,70 e 18,70: 37,2300 em todo ponto
+```
+
+## 24. A válvula original — o que falta, e por quê
+
+**Não dá para recuperar daqui.** O STL `Mont_pote_com_valvula__prova_valvula1.STL`
+vivia na pasta de uploads da sessão, que sumiu quando o container foi recriado.
+Procurei no repositório e no histórico do git: só existem derivados.
+
+O que eu **consigo** medir, do STL antigo que tem válvula + Chrono v3:
+
+- a válvula desce até **Y 32,570** e tem corpo abaixo da chapa de r 7,85 a 22,10
+  — 14.350 vértices lá embaixo, não é uma chapa lisa;
+- a silhueta **não é circular**: r máximo 22,09 em alguns setores e 19,04 em
+  outros;
+- a face de topo é plana em 37,23 até r 18,80 e cai depois (36,89 em r 19,05).
+
+É informação suficiente para **posicionar** o Chrono com segurança — e é por isso
+que todas as cotas acima valem. Não é suficiente para **reconstruir** a válvula:
+a saia, os pés e os lóbulos eu teria de inventar, e aí o arquivo mentiria.
+
+Dois caminhos, qualquer um resolve:
+
+1. **Mandar o STL de volta.** Rodo `completas.py` e a M01 sai inteira de verdade.
+2. **Aplicar a receita de 4 passos no CAD mestre da válvula**, que o projetista já
+   tem. É o caminho certo de qualquer jeito: o molde da tampa não pode ser mexido,
+   e só assim a geometria já ferramentada sai bit a bit igual.

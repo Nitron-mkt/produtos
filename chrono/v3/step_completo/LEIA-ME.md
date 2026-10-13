@@ -30,7 +30,8 @@ Lá a M01 é uma **receita de 4 passos** sobre o CAD da válvula que já existe:
 válvula final = (((CAD da válvula + 1_SOMAR) − 2_SUBTRAIR) + 3_SOMAR) − 4_SUBTRAIR
 ```
 
-1. `Chrono_v3_M01_1_SOMAR_enchimento_mesa_dias`
+1. `Chrono_v3_M01_1_SOMAR_enchimento_e_dias` — o enchimento da concha das 12 h,
+   o portador enterrado dos numerais e os 31 numerais, num sólido só
 2. `Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes`
 3. `Chrono_v3_M01_3_SOMAR_poste`
 4. `Chrono_v3_M01_4_SUBTRAIR_furo_passante`
@@ -45,3 +46,16 @@ receita produz exatamente esta peça, com o corpo certo no lugar da chapa de pro
 
 Para a M02 e a M03 não há essa distinção: as duas são peças novas inteiras, e os
 arquivos das duas pastas são o mesmo sólido.
+
+## O portador enterrado
+
+O arquivo `1_SOMAR` tem, além do enchimento da concha das 12 h, um **anel de
+r 13,00 a 18,60 que começa 0,30 mm abaixo da face de topo e termina na face**.
+
+Ele não aparece na peça: o topo é coplanar com a face da válvula e a parede fica
+dentro dos 1,83 mm da chapa. Serve só para os 31 numerais saírem costurados num
+sólido só — sem ele, os numerais fora da concha das 12 h ficam como 44 corpos
+soltos no arquivo.
+
+Por isso esse anel **não tem ângulo de saída**: ele nunca é superfície de molde.
+Depois de somado à válvula, some.

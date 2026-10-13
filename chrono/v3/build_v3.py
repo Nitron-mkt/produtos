@@ -46,20 +46,19 @@ def m01():
     pol = [(0.0, 0.0)] + [(P.CUNHA_RE*cos(radians(a)), P.CUNHA_RE*sin(radians(a)))
                           for a in np.linspace(P.CUNHA_A0, P.CUNHA_A1, 96)]
     ench = deitado(SP(pol), P.FACE - P.CHAPA_Y0, P.CHAPA_Y0)
-    mesa_topo = P.FACE + P.MESA_H
-    mesa = rev([(P.MESA_RI,           P.FACE - 0.60),
-                (P.MESA_RE,           P.FACE - 0.60),
-                (P.MESA_RE,           P.FACE),
-                (P.MESA_RE - r_(P.MESA_H), mesa_topo),
-                (P.MESA_RI + r_(P.MESA_H), mesa_topo),
-                (P.MESA_RI,           P.FACE)])
-    somar1 = fundir([ench, mesa])
-    # 0,08 e nao 0,15: a mesa tem 0,18 de parede e o raio de 0,15 deixava so
-    # 0,03 de aresta reta — aresta curta que trava a importacao
-    somar1 = arred(somar1, 0.08,
-                   lambda e: e.Center().y > P.FACE + 0.01, 'mesa: aresta de topo')
-    # os 31 numerais entram AQUI, fundidos na mesa: assim o arquivo abre como UM
-    # solido no CAD do cliente, e nao como 53 corpinhos soltos boiando
+    # A MESA SAIU (ver params): era pedestal de 0,18 para os numerais e deixava
+    # dois degraus estreitos, de 0,60 e de 0,25 mm de largura, que viram nervura
+    # fina no aco. Os numerais agora assentam direto na face de topo da valvula,
+    # que esta medida plana em Y 37,227..37,230 de r 13,60 ate 18,75.
+    # No lugar dela, um portador ENTERRADO: some dentro da chapa e so serve para
+    # os 31 numerais sairem num solido so. Nao aparece na peca.
+    porta = rev([(P.PORTA_RI, P.FACE - P.PORTA_H),
+                 (P.PORTA_RE, P.FACE - P.PORTA_H),
+                 (P.PORTA_RE, P.FACE),
+                 (P.PORTA_RI, P.FACE)])
+    somar1 = fundir([ench, porta])
+    # os 31 numerais entram AQUI, fundidos no enchimento: assim o arquivo abre
+    # como UM solido no CAD do cliente, e nao como 53 corpinhos soltos boiando
 
     # --- SUBTRAIR 2: o rebaixo, com saida (alarga para cima) -----------------
     piso = P.FACE - P.REB_H
@@ -76,7 +75,7 @@ def m01():
 
     ang, arco, folga = angulos_dias(cap=P.DIA_CAP)
     somar1 = aplica_letras(somar1, [(radians(ang[d-1]), str(d)) for d in range(1, 32)],
-                           P.DIA_R, mesa_topo, cap=P.DIA_CAP, nome='mesa: 31 numerais')
+                           P.DIA_R, P.FACE, cap=P.DIA_CAP, nome='dias: 31 numerais')
 
     # --- SUBTRAIR 2 leva as 2 covinhas do detente descontadas: assim o corte do
     # rebaixo JA deixa as duas molas de pe, e some um passo da receita ---------
@@ -187,7 +186,7 @@ def m03():
 
     fendas = []
     for i in range(P.FENDAS):
-        a = radians(45 + i*360.0/P.FENDAS)
+        a = radians(P.FENDA_FASE + i*360.0/P.FENDAS)
         # Fenda com a RAIZ EM MEIA-CANA, nao em canto vivo. A perna do snap
         # flexiona na montagem e a raiz da fenda e onde a tensao se concentra:
         # canto vivo ali e onde perna de encaixe trinca. Meia-cana de 0,35
@@ -241,7 +240,7 @@ if __name__ == '__main__':
     alvo = sys.argv[1] if len(sys.argv) > 1 else 'tudo'
     if alvo in ('m01', 'tudo'):
         a, b, c, d = m01()
-        grava(a, 'Chrono_v3_M01_1_SOMAR_enchimento_mesa_dias')
+        grava(a, 'Chrono_v3_M01_1_SOMAR_enchimento_e_dias')
         grava(b, 'Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes')
         grava(c, 'Chrono_v3_M01_3_SOMAR_poste')
         grava(d, 'Chrono_v3_M01_4_SUBTRAIR_furo_passante')
