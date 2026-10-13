@@ -2,16 +2,15 @@
 """Malhas finas para o visor de inspecao (flecha 0,008 mm contra os 0,020 do
 visor de apresentacao: a 0,020 a calota de O2,00 do detente sai facetada).
 
-M01 e montada sobre uma CHAPA LISA que faz as vezes da valvula. O STL da valvula
-original nao esta no repositorio (so derivados) e o container foi recriado. Nao
-faz falta para inspecao: o que esta em revisao sao os acrescimos do Chrono, e a
-chapa mostra todos eles — mesa, 31 numerais, rebaixo, as 2 molas, poste e furo.
+A M01 e montada sobre a VALVULA REAL, recuperada do STL antigo — ver
+valvula_real.py para como e por que isso e exato.
 """
 import sys, os, numpy as np, trimesh, cadquery as cq
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import params as P
 from tess import _malha
 from lib_v3 import cone
+from valvula_real import valvula, m01_inteira
 from OCP.BRepCheck import BRepCheck_Analyzer
 
 LIN, ANG = 0.008, 0.18
@@ -20,21 +19,15 @@ STEP, SAI = os.path.join(AQUI, 'step'), os.path.join(AQUI, 'stl_detalhe')
 os.makedirs(SAI, exist_ok=True)
 L = lambda n: cq.importers.importStep('%s/%s.step' % (STEP, n)).val()
 
-chapa = cone(19.0, 19.0 - P.rec(P.FACE - P.CHAPA_Y0), P.CHAPA_Y0, P.FACE
-             ).moved(cq.Location(cq.Vector(P.CX, 0, P.CZ)))
-r = chapa.fuse(L('Chrono_v3_M01_1_SOMAR_enchimento_e_dias'))
-r = r.cut(L('Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes'))
-r = r.fuse(L('Chrono_v3_M01_3_SOMAR_poste'))
-r = r.cut(L('Chrono_v3_M01_4_SUBTRAIR_furo_passante'))
-assert BRepCheck_Analyzer(r.wrapped).IsValid(), 'M01 montada saiu invalida'
+# A M01 agora e montada sobre a VALVULA REAL, recuperada do STL antigo (ver
+# valvula_real.py). O indice do visor e u16, entao a peca inteira nao pode
+# passar de 65.536 vertices — a valvula sozinha ja traz 46.848 triangulos.
+r = m01_inteira()
 
-pecas = {'M01': _malha(r.Solids()[0].wrapped, LIN, ANG)}
+pecas = {'M01': r}
 for k, n in [('M02', 'Chrono_v3_M02_Rodinha_Meses'), ('M03', 'Chrono_v3_M03_Ponteira')]:
     pecas[k] = _malha(L(n).Solids()[0].wrapped, LIN, ANG)
-# O modo "conjunto" usa a MESMA M01 sobre chapa. O STL da valvula completa que
-# estava aqui e de antes desta revisao — mostra-lo junto com a rodinha e a
-# ponteira novas seria misturar duas versoes.
-pecas['M01c'] = pecas['M01']
+pecas['M01c'] = pecas['M01']   # o modo conjunto usa a mesma peca
 
 for k, m in pecas.items():
     m.export('%s/%s.stl' % (SAI, k))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Confere a revisao sem depender do STL da valvula (que saiu da sessao): a M01
-e montada sobre a chapa lisa. Tudo o que importa aqui — interferencia, folga,
-orcamento de altura e a janela contra o numeral — vive acima da face da valvula.
+"""Confere a revisao com a VALVULA REAL, recuperada do STL antigo (ver
+valvula_real.py). Interferencia, folga, orcamento de altura e a janela contra o
+numeral, tudo medido na peca que vai existir.
 """
 import sys, os, itertools, numpy as np, trimesh, cadquery as cq
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -12,14 +12,8 @@ STEP = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'step')
 SAI  = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stl'); os.makedirs(SAI, exist_ok=True)
 G = lambda n: cq.importers.importStep('%s/%s.step' % (STEP, n)).val()
 
-chapa = L.cone(19.0, 19.0 - P.rec(P.FACE - P.CHAPA_Y0), P.CHAPA_Y0, P.FACE
-               ).moved(cq.Location(cq.Vector(P.CX, 0, P.CZ)))
-m01b = chapa.fuse(G('Chrono_v3_M01_1_SOMAR_enchimento_e_dias')) \
-            .cut(G('Chrono_v3_M01_2_SUBTRAIR_rebaixo_com_detentes')) \
-            .fuse(G('Chrono_v3_M01_3_SOMAR_poste')) \
-            .cut(G('Chrono_v3_M01_4_SUBTRAIR_furo_passante'))
-assert BRepCheck_Analyzer(m01b.wrapped).IsValid(), 'M01 sobre chapa saiu invalida'
-pec = {'M01': _malha(m01b.Solids()[0].wrapped, 0.012, 0.20),
+from valvula_real import m01_inteira
+pec = {'M01': m01_inteira(),
        'M02': _malha(G('Chrono_v3_M02_Rodinha_Meses').Solids()[0].wrapped, 0.012, 0.20),
        'M03': _malha(G('Chrono_v3_M03_Ponteira').Solids()[0].wrapped, 0.012, 0.20)}
 print('== 1. pecas')

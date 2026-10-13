@@ -490,3 +490,77 @@ Dois caminhos, qualquer um resolve:
 2. **Aplicar a receita de 4 passos no CAD mestre da válvula**, que o projetista já
    tem. É o caminho certo de qualquer jeito: o molde da tampa não pode ser mexido,
    e só assim a geometria já ferramentada sai bit a bit igual.
+
+---
+
+# 25. A válvula voltou
+
+Eu estava errado ao dizer que não dava. O STL de upload sumiu mesmo, mas a
+**válvula injetada está dentro do `stl/Chrono_v3_M01_Valvula_Dias.stl`**, que é
+do repositório — e dá para separá-la, de forma exata, não aproximada.
+
+## Por que o corte em Y 37,23 devolve a válvula limpa
+
+Tudo o que o Chrono v3 acrescentou vive **acima da face de topo**, ou coincide
+com material que a válvula já tem:
+
+| | o que era | abaixo de Y 37,23 |
+|---|---|---|
+| mesa | 36,63 → 37,41 em r 14,20–18,75 | é a própria válvula (face medida plana em 37,230 nessa faixa) |
+| numerais | assentavam em 37,41 | acima do corte |
+| poste | sobe até 38,25 | abaixo de 36,63 é cilindro dentro da chapa |
+| rebaixo | v3 cortava r ≤ 13,60 a partir de 36,63 | o v4 corta pelo **mesmo cone** a partir de 36,53 — o corte novo contém o velho |
+| furo | — | idêntico nas duas versões |
+| molas | calota em 36,63 → 36,88 | fica dentro do corte do rebaixo v4, que as refaz |
+
+E confirmei que esse STL **não** tem o bug das duas bolhas penduradas: abaixo de
+Y 35,35, em r 7,5–12,5, só existe material entre 60° e 120° (a concha das 12 h) —
+**zero** em 0° e 180°, que é exatamente onde as bolhas estariam.
+
+Logo `válvula = STL antigo cortado em Y ≤ 37,23`, e a peça inteira é a mesma
+receita de quatro passos aplicada em malha. Está em `valvula_real.py`.
+
+```
+válvula recuperada :  46.848 faces  fechada  vol 1.944,61 mm³  Y 32,570..37,230  r máx 22,10
+M01 inteira        :  62.128 faces  fechada  vol 2.012,11 mm³  Y 32,570..38,250
+conjunto montado   : 132.902 faces                             Y 32,570..39,950
+```
+
+**O visor agora mostra a válvula de verdade** — saia, pés, lóbulos e a orelha —, e
+`confere_v4.py` passou a medir contra ela em vez da chapa de prova:
+
+```
+interferência M01×M02, M01×M03, M02×M03 : 0,0000 mm³
+folga do detente        0,0133 mm
+ponteira × rodinha      0,2000 mm
+topo do conjunto        Y 39,950   (+0,188 do ponto mais alto da tampa)
+```
+
+## Por que isso **não** virou um .step
+
+Testado, medido e descartado. Malha vira STEP como sólido facetado:
+
+| triângulos | erro máximo | arquivo |
+|---|---|---|
+| 6.000 | **1,04 mm** | 15,2 MB |
+| 12.000 | **0,15 mm** | 30,6 MB |
+| 62.128 (sem perda) | 0 | ~150 MB |
+
+O relevo dos numerais tem **0,10 mm**. Um arquivo com 0,15 mm de erro apaga o
+que está em revisão, e os 150 MB sem perda abrem no SolidWorks como **corpo
+importado**: sem face cilíndrica, sem plano, sem aresta que se possa selecionar
+para fechar molde. Seria pior do que o CAD da válvula que a ferramentaria já tem.
+
+**Então o STEP continua assim:**
+
+| arquivo | o que é |
+|---|---|
+| `step/` — 4 passos da M01 | a receita, para aplicar no CAD mestre da válvula |
+| `step/` M02, M03 | peças inteiras, superfície exata |
+| `step_completo/` M01 chapa de prova | para medir a geometria do Chrono com exatidão |
+| **`stl/Chrono_v4_M01_COM_VALVULA.stl`** | **a peça inteira, com a válvula de verdade** |
+| **`stl/Chrono_v4_CONJUNTO_COM_VALVULA.stl`** | as três montadas |
+| `stl/Chrono_v4_M00_Valvula_recuperada.stl` | só a válvula, como eu a recuperei |
+
+O SolidWorks abre STL. A válvula chegou como STL desde o começo — nessa parte não
+se perde nada por não ser STEP, porque nunca houve superfície exata dela.
