@@ -564,3 +564,64 @@ para fechar molde. Seria pior do que o CAD da válvula que a ferramentaria já t
 
 O SolidWorks abre STL. A válvula chegou como STL desde o começo — nessa parte não
 se perde nada por não ser STEP, porque nunca houve superfície exata dela.
+
+---
+
+# 26. Os 3 arquivos finais, e o fechamento conferido
+
+`step_completo/` tem os três, um sólido cada:
+
+```
+Chrono_M01_Valvula_Dias__CORPO_DE_PROVA.step   1730 faces   1.820,27 mm3
+Chrono_M02_Rodinha_Meses.step                   565 faces     598,95 mm3
+Chrono_M03_Ponteira.step                        241 faces     421,22 mm3
+```
+
+## O porteiro novo: `fechamento.py`
+
+O `qualidade.py` olhava o **tamanho** das arestas e das faces. Faltava olhar se a
+peça **fecha** — são coisas diferentes: o arquivo da v3 que abriu "fatiado" já
+tinha `MANIFOLD_SOLID_BREP` no cabeçalho e mesmo assim não costurava.
+
+Dez checagens por arquivo, e os três passam em todas:
+
+| | |
+|---|---|
+| 1 | o texto declara `MANIFOLD_SOLID_BREP` e `CLOSED_SHELL`, sem `OPEN_SHELL` nem `SHELL_BASED_SURFACE_MODEL` |
+| 2 | exatamente 1 sólido e 1 casca |
+| 3 | casca fechada, nenhuma aresta livre |
+| 4 | **toda aresta usada por exatamente 2 faces** |
+| 5 | `BRepCheck_Analyzer` válido |
+| 6 | volume positivo (peça do avesso daria negativo) |
+| 7 | sem auto-intersecção |
+| 8 | malha a 0,01 mm é watertight e bate com o volume do B-rep |
+| 9 | ida e volta: volume e caixa iguais a **1,4·10⁻¹⁴ mm** |
+| 10 | o **leitor de STEP** devolve `TopAbs_SOLID` |
+
+A 10 é a que responde direto ao que aconteceu no SolidWorks: o mesmo motor de
+importação, carregando o arquivo, devolve **1 raiz, 1 forma transferida, e a
+forma é SOLID**. Não composto, não casca, não modelo de superfície.
+
+Uma armadilha que apareceu escrevendo esse teste e que vale anotar: **tesselar
+muda o `BoundingBox`**. O OCC pendura a triangulação no `TopoDS` e daí em diante
+a caixa sai dela, não da superfície exata — a checagem de ida e volta acusou uma
+diferença que não existia. A medição tem de vir antes da malha.
+
+## Nome dentro do arquivo
+
+Cada STEP leva o próprio nome em `FILE_NAME`, `FILE_DESCRIPTION` e **`PRODUCT`**.
+O SolidWorks mostra o `PRODUCT` na árvore, então o projetista lê
+"Chrono M01 - valvula com os dias" e, na descrição, que o corpo é de prova — e
+não "Open CASCADE STEP translator 7.9". É no `PRODUCT` que a informação sobrevive
+a um "salvar como".
+
+## A válvula facetada: tentada e descartada
+
+Além dos números de 25, tentei o caminho menos ruim: **só o corpo da válvula
+facetado, com o Chrono exato por cima**, num sólido só. Decimando a válvula
+sozinha o erro é bom (10.000 triângulos → 0,073 mm; 16.000 → 0,016 mm), mas a
+costura falha: a casca de 10.000 triângulos sai **inválida** do
+`BRepBuilderAPI_Sewing`, e os quatro booleanos contra ela colapsam para 15 faces
+e volume zero.
+
+Então não é só caro — **não fecha**. E o item 1 deste capítulo é fechar.
