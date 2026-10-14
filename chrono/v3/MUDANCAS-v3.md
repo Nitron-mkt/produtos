@@ -625,3 +625,138 @@ costura falha: a casca de 10.000 triângulos sai **inválida** do
 e volume zero.
 
 Então não é só caro — **não fecha**. E o item 1 deste capítulo é fechar.
+
+---
+
+# Revisão de 14/10 — a válvula entra no STEP, e a ponteira engorda
+
+## 27. A válvula no .step: o que estava errado na minha conclusão
+
+Eu disse que não dava. Dava — eu tinha errado o diagnóstico em dois pontos, e os
+dois foram medidos agora.
+
+**Erro 1: a malha estava suja, não o método.** A primeira tentativa costurou a
+malha decimada crua. Decimação deixa triângulo degenerado e orientação trocada;
+com isso o `BRepBuilderAPI_Sewing` devolve casca inválida e todo booleano depois
+dela colapsa (foi o que deu 15 faces e volume zero). Limpando antes — tirar face
+degenerada, soldar vértice coincidente, normalizar orientação — a casca fecha de
+primeira: **0 arestas livres, 0 arestas múltiplas, sólido válido com o volume
+exato da malha.**
+
+**Erro 2: eu não tinha olhado a tolerância do booleano.** Com tolerância
+difusa zero, o `fuse` da válvula facetada com a receita exata devolvia
+**535,83 mm³** — só a receita, com a válvula descartada em silêncio — e ainda
+assim 1 sólido válido. Resultado errado que passa em toda checagem. Com
+`SetFuzzyValue(1e-5)` devolve **2.003,68 mm³**, que é o esperado. A causa é a
+diferença de tolerância entre a casca costurada e as faces exatas do STEP.
+
+Varredura, para deixar registrado onde está o fio da navalha:
+
+```
+fuzzy 0      vol   723,85   1.919 faces   errado
+fuzzy 1e-7   vol   723,85   1.921 faces   errado
+fuzzy 1e-6   vol   310,41       8 faces   errado
+fuzzy 3e-6   vol 2.003,68   8.740 faces   certo
+fuzzy 1e-5   vol 2.003,68   8.730 faces   certo
+fuzzy 3e-5   vol 2.003,68   8.724 faces   certo
+```
+
+## 28. Como a válvula vira sólido sem virar 150 MB
+
+Três passos, cada um resolvendo um defeito medido:
+
+1. **o corte na face de topo por BOOLEANO contra uma caixa**, não por
+   `slice_plane`: o cap do `slice_plane` triangula com sliver e deixa aresta de
+   **4,6·10⁻⁷ mm** — exatamente o defeito que fez o arquivo abrir "fatiado";
+2. **`Manifold.simplify(0,025)`**: 46.118 → 7.730 faces, preservando a variedade;
+3. **colapso de arestas curtas** com a condição do elo, que leva a menor aresta
+   a **0,0502 mm** — acima do limite de 0,05 do porteiro.
+
+Erro do corpo facetado contra a malha exata da válvula: **máximo 0,043 mm, médio
+0,007 mm**. O corpo da válvula é corpo de referência; o que está em revisão — os
+31 numerais, o rebaixo, as molas, o poste, o furo — entra por cima com
+**superfície exata**, cilindro e cone de verdade, selecionável.
+
+Resultado: `Chrono_M01_Valvula_Dias_COM_VALVULA.step`, **25,5 MB**, 1 sólido.
+
+## 29. A ponteira: a gota passou de dois círculos para três
+
+O pedido: janela de **6,00 mm** e **2,50 mm** de parede em volta, e a ponta mais
+gorda.
+
+A gota era o casco convexo de dois círculos — bulbo R8,20 e nariz R1,20. Com
+isso a meia-largura em r 11,35 era **2,89 mm**, e com a janela de 1,93 de
+meia-largura a parede ficava em **1,09 mm** (o 1,11 que o projetista cotou).
+
+Entrou um terceiro círculo, a **barriga: R5,80 em r 9,55**. O casco agora é
+bulbo → barriga → nariz, com oito arestas exatas (três arcos e as tangentes),
+não polígono.
+
+| | antes | agora |
+|---|---|---|
+| largura da janela | 3,86 | **6,00 mm** |
+| parede em volta da janela | 1,09 | **2,55 mm** |
+| meia-largura em r 8,25 | 4,48 | **6,26** |
+| meia-largura em r 9,80 | 3,68 | **5,90** |
+| meia-largura em r 11,35 | 2,89 | **5,51** |
+| envelope da peça | y −9,20…15,55 · x ±8,20 | **igual** |
+| peso | 0,381 g | 0,430 g |
+
+**O bulbo e a ponta não mudaram.** A peça continua indo de r −9,20 a 15,55 e
+parando antes dos dias, que começam em r 16,18 — ela ainda aponta.
+
+**O mês vizinho não aparece pela janela**, e isso é medido: o passo dos meses em
+r 9,80 é 5,13 mm e o numeral tem 2,96 de largura, então a borda do vizinho fica
+a 3,65 mm do centro — **0,65 mm fora** da janela, que vai até 3,00.
+
+### A leitura dos 6 mm
+
+"O vão precisa ter 6 mm" tem duas leituras, e elas dão peças diferentes. Adotei
+**6,00 mm na largura** (a cota horizontal no desenho do projetista, que é a
+mesma direção do 1,11 que ele cotou). A outra leitura — 6,00 mm no comprimento
+radial — não cabe: a janela iria de r 8,25 a 14,25 e, com 2,50 de parede, a
+ponteira teria de chegar a r 16,75, por cima dos dias, que começam em 16,18.
+
+Se ele quis a outra, é um número só — me diga e eu refaço.
+
+## 30. O preço da válvula no STEP, medido
+
+O portão pegou um defeito real antes da entrega, e vale registrar.
+
+O booleano entre as facetas da válvula e as superfícies exatas do Chrono cria
+**aresta curta onde uma faceta tangencia uma superfície de corte**:
+
+```
+Chrono_M01_Valvula_Dias_COM_VALVULA.step   231 arestas < 0,05 mm, a menor 0,0023
+                                            93 faces   < 0,002 mm2
+Chrono_M01_Valvula_Dias__CORPO_DE_PROVA    0 e 0, menor aresta 0,1000
+```
+
+É a mesma ordem de grandeza do arquivo que abriu "fatiado" (763 abaixo de
+0,01 mm, a menor 0,0015). Tentativas de limpar:
+
+| | arestas < 0,05 | sólido |
+|---|---|---|
+| como está | 231 | válido |
+| `FixSmallEdges` 0,02 | 189 | válido |
+| `FixSmallEdges` 0,06 | 18 | **inválido** (face de área negativa) |
+| `FixSmallEdges` 0,12 | 6 | **inválido** |
+
+Não há conserto que mantenha a peça válida — o mesmo beco do "healing" de
+setembro. E a auto-intersecção só aparece **depois da ida e volta pelo STEP**: em
+memória o resultado carrega a tolerância do booleano difuso, e o arquivo não;
+`write.precision` e `ShapeFix_Shape` não mudam isso.
+
+A geometria, porém, está certa, e isso também é medido — contra uma montagem
+independente feita só com booleano de malha:
+
+```
+desvio maximo    0,0485 mm   (= a tolerancia da simplificacao da valvula)
+desvio medio     0,0046 mm
+volume           2.003,93 contra 2.012,11  (0,41%)
+fechada, orientacao coerente
+```
+
+**Por isso os dois arquivos vão juntos.** O com válvula é o que ele pediu e está
+geométricamente correto; o corpo de prova é o que passa nas dez e não tem uma
+faceta sequer. Se o primeiro abrir fatiado, não é o projeto — é esse defeito.

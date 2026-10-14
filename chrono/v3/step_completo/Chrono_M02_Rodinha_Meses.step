@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('peca nova inteira - PP - 0,542 g'),'2;1');
-FILE_NAME('Chrono M02 - rodinha do mes','2026-10-13T20:22:22',('Author'),(
+FILE_NAME('Chrono M02 - rodinha do mes','2026-10-14T18:41:56',('Author'),(
     'Open CASCADE'),'Open CASCADE STEP processor 7.9','Open CASCADE 7.9'
   ,'Unknown');
 FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));

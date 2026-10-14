@@ -25,6 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'medicao_v2'))
 import params as P
 from lib_v3 import (arredonda, limpa_contorno, glifos, largura, prisma, prisma_wire, gota_wire,
+                    perfil_circulos,
                     ret_wire, estadio_wire, rev_perfil,
                     place, deitado, rev, cil, cone,
                     esfera, fundir, tirar, letras, aplica_letras, angulos_dias, arred,
@@ -153,7 +154,10 @@ def m02():
 
 # ===================================================== M03 — ponteira
 def gota():
-    return gota_wire(P.BULBO_R, P.BULBO_OFF, P.NARIZ_R, P.NARIZ_Y)
+    # bulbo + BARRIGA + nariz: o casco de tres circulos (ver params)
+    return perfil_circulos([(P.BULBO_R,  -P.BULBO_OFF),
+                            (P.BARRIGA_R, P.BARRIGA_Y),
+                            (P.NARIZ_R,   P.NARIZ_Y)])
 
 def ret_arred(r0, r1, meia, rc):
     return ret_wire(r0, r1, meia, rc)

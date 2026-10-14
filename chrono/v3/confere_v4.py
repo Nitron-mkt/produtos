@@ -44,8 +44,10 @@ print('\n== 5. a janela contra o numeral do mes')
 from shapely.geometry import Polygon as SP
 import math
 t = np.linspace(0, 2*math.pi, 1440, endpoint=False)
-gota = SP([(P.BULBO_R*math.cos(a), -P.BULBO_OFF+P.BULBO_R*math.sin(a)) for a in t]).union(
-       SP([(P.NARIZ_R*math.cos(a),  P.NARIZ_Y+P.NARIZ_R*math.sin(a)) for a in t])).convex_hull
+from shapely.ops import unary_union
+gota = unary_union([SP([(r*math.cos(a), y + r*math.sin(a)) for a in t])
+                    for r, y in [(P.BULBO_R, -P.BULBO_OFF), (P.BARRIGA_R, P.BARRIGA_Y),
+                                 (P.NARIZ_R, P.NARIZ_Y)]]).convex_hull
 jan = SP([(-P.JAN_M+P.JAN_RC, P.JAN_R0+P.JAN_RC), (P.JAN_M-P.JAN_RC, P.JAN_R0+P.JAN_RC),
           (P.JAN_M-P.JAN_RC, P.JAN_R1-P.JAN_RC), (-P.JAN_M+P.JAN_RC, P.JAN_R1-P.JAN_RC)]
          ).buffer(P.JAN_RC, join_style=1)

@@ -173,6 +173,49 @@ def gota_wire(rb, off, rn, yn):
             .threePointArc((B[0], B[1] + rn), Q)      # ponta do nariz
             .close().val())
 
+def perfil_circulos(cs):
+    """Contorno convexo de N circulos alinhados no eixo Y, com ARCO e RETA
+    exatos — a generalizacao de gota_wire para mais de dois circulos.
+
+    `cs` = [(raio, y), ...] em y crescente. Entre cada par consecutivo entra a
+    tangente externa; em cada circulo, o arco que vai de uma tangencia a outra.
+    Os circulos das pontas levam o arco de volta (o de baixo por baixo, o de
+    cima por cima).
+
+    POR QUE NAO POLIGONO: em poligono de 180 lados o OCC recusa abaular a
+    aresta, e o STEP sai com 180 faces planas onde deveria haver dois cilindros.
+    """
+    import math
+    tang = []
+    for (r0, y0), (r1, y1) in zip(cs, cs[1:]):
+        d = y1 - y0
+        b = -(r0 - r1) / d
+        a = (1.0 - b*b) ** 0.5
+        tang.append(((-r0*a, y0 - r0*b), (-r1*a, y1 - r1*b)))   # lado -x
+    ang = lambda p, y: math.atan2(p[1] - y, p[0])
+    pt  = lambda r, y, t: (r*math.cos(t), y + r*math.sin(t))
+    esp = lambda p: (-p[0], p[1])
+
+    r0, y0 = cs[0]
+    n = len(cs)
+    w = cq.Workplane("XY").moveTo(*tang[0][0])
+    w = w.threePointArc((0.0, y0 - r0), esp(tang[0][0]))        # volta do de baixo
+    for i in range(n - 1):                                      # sobe pelo lado +x
+        w = w.lineTo(*esp(tang[i][1]))                          # tangente
+        if i + 1 < n - 1:                                       # arco do circulo do meio
+            r, y = cs[i+1]
+            a0, a1 = ang(esp(tang[i][1]), y), ang(esp(tang[i+1][0]), y)
+            w = w.threePointArc(pt(r, y, (a0 + a1)/2), esp(tang[i+1][0]))
+    r, y = cs[-1]
+    w = w.threePointArc((0.0, y + r), tang[-1][1])              # ponta, por cima
+    for i in range(n - 2, -1, -1):                              # desce pelo lado -x
+        w = w.lineTo(*tang[i][0])                               # tangente
+        if i > 0:
+            r, y = cs[i]
+            a0, a1 = ang(tang[i][0], y), ang(tang[i-1][1], y)
+            w = w.threePointArc(pt(r, y, (a0 + a1)/2), tang[i-1][1])
+    return w.close().val()
+
 def estadio_wire(y0, y1, meia):
     """Estadio ANALITICO: duas retas e dois arcos exatos. Feito com buffer de
     LineString, cada meia-cana virava 8+ segmentos de 0,14 mm; a extrusao com

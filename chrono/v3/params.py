@@ -100,12 +100,23 @@ FENDA_W, FENDAS = 0.70, 4
 # lados — alinhadas com os eixos da peca.
 FENDA_FASE = 0.0
 ICONE_H  = 8.00
-BULBO_R, BULBO_OFF = 8.20, 1.00
+# A gota deixou de ser o casco de DOIS circulos (bulbo + nariz) e passou a ser o
+# de TRES: entrou a BARRIGA. Motivo: a janela foi a 6,00 mm de largura e a
+# ferramentaria pediu 2,50 mm de parede em volta dela; com dois circulos a
+# meia-largura em r 11,35 era 2,89 e a parede ficava em 1,09 mm. Com a barriga
+# a meia-largura ali vai a 5,50 e a parede a 2,53 mm.
+# O bulbo e a ponta NAO mudaram: a peca continua indo de r -9,20 a 15,55 e
+# parando antes dos dias, que comecam em r 16,18.
+BULBO_R, BULBO_OFF  = 8.20, 1.00
+BARRIGA_R, BARRIGA_Y = 5.80, 9.55
 NARIZ_R, NARIZ_Y   = 1.20, 14.35
 # Janela do mes, dimensionada a partir do numeral: 0,45 mm de folga em volta do
 # maior deles ("10", 2,96 de largura a cap 2,20). A borda ate o contorno da gota
 # fica em 1,09 mm — medida, nao estimada.
-JAN_R0, JAN_R1, JAN_M, JAN_RC = 8.25, 11.35, 1.93, 0.70
+# Janela de 6,00 mm de largura (meia-largura 3,00), como pedido. O numeral do
+# mes vizinho nao aparece: o passo em r 9,80 e 5,13 mm e o numeral tem 2,96,
+# entao a borda do vizinho fica em 3,65 — 0,65 mm fora da janela.
+JAN_R0, JAN_R1, JAN_M, JAN_RC = 8.25, 11.35, 3.00, 0.70
 JAN_RAIO = 0.30                     # raio das arestas da janela, em cima e embaixo
 # MES recuou 1,50 mm: a 7,40 o acento do E chegava a r 8,33 e era cortado pela
 # janela, que comeca em 8,25. A 5,90 ele para em 6,83 — 1,42 mm de folga.
