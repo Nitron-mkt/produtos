@@ -841,3 +841,44 @@ quebra de 0,10 a face plana chega a 18,94 e sobra folga para os dois. Custo:
 
 **O visor agora lê os próprios STEP entregues**, e não mais uma montagem
 paralela. O que se vê na tela é o que está no arquivo.
+
+---
+
+# 36. As quatro tentativas de pôr a válvula inteira no STEP, e o que cada uma mediu
+
+Isto fica registrado para ninguém refazer o caminho.
+
+| tentativa | válvula inteira? | facetas | o portão disse |
+|---|---|---|---|
+| **1. malha inteira virada em sólido** | sim | **8.730 triângulos** | 231 arestas < 0,05 mm · auto-intersecção |
+| **2. refazer tudo com superfície exata** | — | — | **impossível**: a seção varia continuamente com o ângulo (21,08 a 48,17 mm²); desvio de 0,9 mm |
+| **3. híbrido: chapa exata engolindo a malha** | sim | 5.069 | **575 arestas < 0,05 · 326 faces de área NEGATIVA** |
+| **4. chapa + orelhas exatas, sem a saia** | não (falta abaixo de Y 35,40) | **3** | **passa nas 11** |
+
+A tentativa 3 era a mais promissora e a ideia continua certa: numa união de
+sólidos, onde A contém B a fronteira é a de A, então a chapa exata e as esferas
+*engolem* as facetas dessas regiões — e engoliram mesmo (8.730 → 5.069). Mas a
+costura entre as faces exatas e as facetas da saia produz geometria degenerada:
+575 arestas de comprimento zero e 326 faces de área negativa. Arquivo pior do
+que o da tentativa 1.
+
+Ela também fecharia uma cava real da válvula: o disco exato tapa **66 mm³** num
+rebaixo da face de baixo, perto de 270°.
+
+Então a tentativa 4 é a que vai, e o que falta está declarado: **a saia e os
+pinos, tudo abaixo de Y 35,400**.
+
+## A conclusão, de uma vez
+
+A válvula só existe aqui como **malha**. Malha em STEP é triângulo — não há
+conversão que mude isso, só remodelagem. E remodelar a válvula a partir da malha
+é inventar a peça do cliente: medido, a melhor reconstrução por revolução erra
+0,9 mm, porque a peça não é de revolução.
+
+**O único arquivo que tem a válvula inteira E nenhuma faceta é o que a
+ferramentaria monta em dois minutos**, aplicando os 4 booleanos da pasta
+`step/` sobre o CAD da válvula que ela já tem. Não é desvio meu: é o único
+caminho em que a superfície exata da válvula existe.
+
+Para ver e conferir a válvula inteira, `stl/Chrono_v4_CONJUNTO_COM_VALVULA.stl`
+tem as três peças montadas sobre ela.

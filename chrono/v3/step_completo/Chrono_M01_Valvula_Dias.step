@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('corpo da valvula medido e refeito com superficie exata - sem a saia e os pinos, que ficam abaixo de Y 35,40'),'2;1');
-FILE_NAME('Chrono M01 - valvula com os dias','2026-10-15T15:43:16',('Author'),(
+FILE_NAME('Chrono M01 - valvula com os dias','2026-10-15T16:47:59',('Author'),(
     'Open CASCADE'),'Open CASCADE STEP processor 7.9','Open CASCADE 7.9'
   ,'Unknown');
 FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));
