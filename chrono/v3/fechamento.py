@@ -21,6 +21,10 @@ O que e conferido, arquivo por arquivo:
 10. o LEITOR de STEP (o mesmo motor que o SolidWorks usa na importacao) devolve
     1 raiz, 1 forma transferida, e a forma e TopAbs_SOLID — nao composto, nao
     casca, nao modelo de superficie
+11. NAO E SOPA DE TRIANGULO: conta as faces planas de 3 arestas. Malha virada
+    em STEP abre como solido e passa em tudo acima, mas aparece FACETADA na
+    tela — foi o que o projetista viu no aro e nas orelhas da valvula. Acima de
+    100 triangulos o arquivo reprova.
 
   python3 fechamento.py [pasta]
 """
@@ -33,6 +37,8 @@ from OCP.ShapeAnalysis import ShapeAnalysis_Shell
 from OCP.TopExp import TopExp
 from OCP.TopAbs import TopAbs_ShapeEnum
 from OCP.TopTools import TopTools_IndexedDataMapOfShapeListOfShape
+from OCP.BRepAdaptor import BRepAdaptor_Surface
+from OCP.GeomAbs import GeomAbs_SurfaceType
 from OCP.STEPControl import STEPControl_Reader
 from OCP.IFSelect import IFSelect_ReturnStatus
 from OCP.TopAbs import TopAbs_ShapeEnum as TS
@@ -86,7 +92,15 @@ def confere(arq):
     mp = TopTools_IndexedDataMapOfShapeListOfShape()
     TopExp.MapShapesAndAncestors_s(s.wrapped, TopAbs_ShapeEnum.TopAbs_EDGE,
                                    TopAbs_ShapeEnum.TopAbs_FACE, mp)
-    impar = sum(1 for i in range(1, mp.Extent()+1) if mp.FindFromIndex(i).Extent() != 2)
+    # ARESTA DEGENERADA nao conta: o polo de uma esfera e uma aresta de
+    # comprimento zero com uma face so, e e geometria legitima, nao costura solta.
+    from OCP.BRep import BRep_Tool
+    from OCP.TopoDS import TopoDS
+    impar = 0
+    for i in range(1, mp.Extent()+1):
+        if mp.FindFromIndex(i).Extent() == 2: continue
+        if BRep_Tool.Degenerated_s(TopoDS.Edge_s(mp.FindKey(i))): continue
+        impar += 1
     if impar: falhas.append('%d arestas com != 2 faces' % impar)
 
     # 5. validade
@@ -123,6 +137,13 @@ def confere(arq):
         falhas.append('volume malha %.2f x B-rep %.2f' % (m.volume, v))
     notas.append('malha %s' % ('fecha' if m.is_volume else 'ABERTA'))
 
+    # 11. sopa de triangulo
+    tri = sum(1 for f in s.Faces()
+              if len(f.Edges()) == 3
+              and BRepAdaptor_Surface(f.wrapped).GetType() == GeomAbs_SurfaceType.GeomAbs_Plane)
+    if tri > 100: falhas.append('%d faces triangulares — a peca vai aparecer FACETADA' % tri)
+    notas.append('%d triangulos' % tri)
+
     notas.append('%d faces · %d arestas · vol %.2f mm3' % (len(s.Faces()), mp.Extent(), v))
     return nome, falhas, notas, s
 
@@ -138,8 +159,8 @@ if __name__ == '__main__':
         if falhas:
             for f in falhas: print('   *** %s' % f)
         else:
-            print('   FECHA: leitor devolve 1 SOLID · 1 casca · sem aresta livre · toda aresta')
-            print('          com 2 faces · B-rep valido · sem auto-interseccao · malha watertight')
+            print('   FECHA: leitor devolve 1 SOLID · 1 casca · sem aresta livre · toda aresta com')
+            print('          2 faces · B-rep valido · sem auto-interseccao · malha watertight · sem facetas')
         print()
     print('REPROVADOS: %d' % ruim if ruim else 'os %d arquivos fecham' % len(arqs))
     sys.exit(1 if ruim else 0)

@@ -760,3 +760,84 @@ fechada, orientacao coerente
 **Por isso os dois arquivos vão juntos.** O com válvula é o que ele pediu e está
 geométricamente correto; o corpo de prova é o que passa nas dez e não tem uma
 faceta sequer. Se o primeiro abrir fatiado, não é o projeto — é esse defeito.
+
+---
+
+# Revisão de 15/10 — "fatiado" era faceta, e agora o arquivo não tem nenhuma
+
+## 31. O diagnóstico, enfim certo
+
+As duas fotos do SolidWorks responderam a pergunta que eu vinha errando. **A
+peça abriu como sólido** — o rebaixo, os numerais, o poste, as molas, tudo lá e
+liso. O que aparecia "fatiado" eram os **triângulos do corpo da válvula**, no
+aro e nas orelhas.
+
+Ou seja: não era costura solta (o problema de setembro), era **faceta**. E
+faceta é o que uma malha é. A válvula chegou como STL; levá-la para STEP produz
+sólido facetado por definição, e nenhum ajuste de tolerância muda isso.
+
+Contagem do arquivo anterior: **8.730 faces triangulares**.
+
+## 32. O corpo da válvula, medido e refeito com superfície exata
+
+| | |
+|---|---|
+| face de baixo | Y 35,400 |
+| face de topo | Y 37,230 |
+| diâmetro externo | Ø38,09 (r 19,042, medido em 9 ângulos) |
+| quebra do aro | 0,10 a 45,000° na aresta de cima |
+| orelhas | 2 esferas **R1,878** em r 20,22, Y 34,69, a 0° e 180° |
+
+As orelhas serem esferas não é chute: a largura tangencial medida bate com 2R em
+todas as nove alturas conferidas — 1,587 em Y 32,50, 3,756 no equador (Y 34,50),
+0,972 em Y 36,50 —, e o intervalo em Y (32,811 a 36,568) dá exatamente 2×1,878.
+
+Resultado: **3 faces triangulares no arquivo inteiro**, contra 8.730.
+
+## 33. O que não deu, e por quê
+
+**A saia e os pinos, abaixo de Y 35,400.** Testei se a válvula era uma união de
+setores de revolução, cortando-a em 144 ângulos e comparando as seções: não é.
+A área da seção varia **continuamente** com o ângulo, de 21,08 a 48,17 mm².
+
+(De quebra, o teste mostrou que a válvula tem **simetria de 2 ordens**: a curva
+de 0 a 180° se repete exatamente de 180 a 360°.)
+
+Minha melhor tentativa de revolução desviou **0,9 mm** da peça real, concentrado
+na rampa dos setores 240–300°. Refazer aquilo com superfície exata seria
+inventar a peça do cliente.
+
+Então a escolha foi: **o que está no arquivo é exato, e o que falta está
+declarado** — em vez de um arquivo "completo" todo facetado.
+
+## 34. Checagem nova: sopa de triângulo
+
+O portão ganhou o item 11. Malha virada em STEP **abre como sólido e passa em
+tudo o que havia antes** — 1 sólido, casca fechada, leitor devolve SOLID — e
+mesmo assim aparece facetada na tela. Faltava contar as faces planas de três
+arestas. Acima de 100, reprova.
+
+```
+Chrono_M01_Valvula_Dias.step      3 triangulos
+Chrono_M02_Rodinha_Meses.step     1 triangulo
+Chrono_M03_Ponteira.step          0 triangulos
+(o arquivo anterior)          8.730 triangulos
+```
+
+O item 4 também foi afinado: **aresta degenerada não conta**. O polo de uma
+esfera é uma aresta de comprimento zero com uma face só — geometria legítima, e
+as orelhas trouxeram quatro delas.
+
+## 35. Uma armadilha que custou duas horas
+
+A quebra do aro ia ser **R0,50**, que é o que o ajuste de círculo dava. Com ela,
+a face plana de topo acabaria em r 18,54 — e o enchimento da concha vai até
+18,80 e o portador até 18,60. Os dois passariam da face, deixando **aresta de
+0,0034 mm em 55° e 125°**, exatamente nos limites da cunha.
+
+É o mesmo defeito do arquivo fatiado de setembro, chegando por outra porta. Com
+quebra de 0,10 a face plana chega a 18,94 e sobra folga para os dois. Custo:
+0,25 mm de desvio numa faixa de 0,5 mm do aro — contra uma aresta de micra.
+
+**O visor agora lê os próprios STEP entregues**, e não mais uma montagem
+paralela. O que se vê na tela é o que está no arquivo.
