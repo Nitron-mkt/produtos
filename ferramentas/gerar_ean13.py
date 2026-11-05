@@ -5,7 +5,12 @@ Saídas em codigos_barras/<referencia>_<ean>.{tif,pdf}
   - .tif : raster CMYK, 300 dpi, sem anti-alias (barras 0/100% K)
   - .pdf : vetorial CMYK (preferir este para a gráfica)
 
-Uso: python3 ferramentas/gerar_ean13.py 062.012.002 7896779606245 [largura_mm altura_mm dpi]
+Uso:
+  python3 ferramentas/gerar_ean13.py 062.012.002 7896779606245 [largura_mm altura_mm dpi]
+  python3 ferramentas/gerar_ean13.py --lote lista.xlsx      (ou .csv)
+     -> só JPG CMYK 300 dpi, nome <referencia sem pontos>_<ean>.jpg,
+        em codigos_barras/jpg/ + um .zip com todos + relatório de erros.
+     A planilha precisa de uma coluna com "ref" e outra com "ean" no cabeçalho.
 """
 import os, sys
 from PIL import Image, ImageDraw, ImageFont
@@ -90,7 +95,70 @@ def pdf(ean, bits, g, larg, alt, saida):
     c.drawCentredString((QZ_E + 71) * x_mm * mm, y, ean[7:])
     c.showPage(); c.save()
 
+def jpg(ean, bits, g, larg, alt, dpi, saida):
+    tmp = saida + ".tmp.tif"
+    tif(ean, bits, g, larg, alt, dpi, tmp)
+    Image.open(tmp).save(saida, "JPEG", quality=100, subsampling=0, dpi=(dpi, dpi))
+    os.remove(tmp)
+
+def ler_lista(arq):
+    if arq.lower().endswith(".csv"):
+        import csv
+        with open(arq, newline="", encoding="utf-8-sig") as f:
+            texto = f.read()
+        sep = ";" if texto.splitlines()[0].count(";") >= texto.splitlines()[0].count(",") else ","
+        linhas = list(csv.reader(texto.splitlines(), delimiter=sep))
+    else:
+        import openpyxl
+        ws = openpyxl.load_workbook(arq, data_only=True, read_only=True).active
+        linhas = [list(r) for r in ws.iter_rows(values_only=True)]
+    cab = [str(c or "").strip().lower() for c in linhas[0]]
+    i_ref = next(i for i, c in enumerate(cab) if "ref" in c)
+    i_ean = next(i for i, c in enumerate(cab) if "ean" in c or "barra" in c)
+    for n, r in enumerate(linhas[1:], start=2):
+        if r[i_ref] is None and r[i_ean] is None:
+            continue
+        yield n, str(r[i_ref] or "").strip(), r[i_ean]
+
+def lote(arq):
+    import zipfile
+    pasta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "codigos_barras", "jpg")
+    os.makedirs(pasta, exist_ok=True)
+    ok, erros, vistos = [], [], set()
+    for n, ref, ean in ler_lista(arq):
+        if isinstance(ean, float):
+            ean = f"{ean:.0f}"
+        ean = "".join(ch for ch in str(ean or "") if ch.isdigit())
+        nome_ref = ref.replace(".", "").replace("/", "-").strip()
+        if not nome_ref:
+            erros.append((n, ref, ean, "referência vazia")); continue
+        if len(ean) != 13:
+            erros.append((n, ref, ean, f"EAN com {len(ean)} dígitos")); continue
+        if digito(ean[:12]) != ean[12]:
+            erros.append((n, ref, ean, f"dígito verificador errado (esperado {digito(ean[:12])})")); continue
+        nome = f"{nome_ref}_{ean}.jpg"
+        if nome in vistos:
+            erros.append((n, ref, ean, "linha duplicada")); continue
+        vistos.add(nome)
+        bits, g = modulos(ean)
+        jpg(ean, bits, g, 30.0, 8.0, 300, os.path.join(pasta, nome))
+        ok.append(nome)
+    base = os.path.splitext(os.path.basename(arq))[0]
+    zp = os.path.join(pasta, "..", f"{base}_jpg.zip")
+    with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
+        for nome in ok:
+            z.write(os.path.join(pasta, nome), nome)
+    rel = os.path.join(pasta, "..", f"{base}_erros.csv")
+    with open(rel, "w", encoding="utf-8-sig") as f:
+        f.write("linha;referencia;ean;problema\n")
+        for e in erros:
+            f.write(";".join(map(str, e)) + "\n")
+    print(f"gerados: {len(ok)}  erros: {len(erros)}")
+    print(os.path.abspath(zp)); print(os.path.abspath(rel))
+
 def main():
+    if sys.argv[1] == "--lote":
+        return lote(sys.argv[2])
     ref, ean = sys.argv[1], sys.argv[2]
     larg = float(sys.argv[3]) if len(sys.argv) > 3 else 30.0
     alt = float(sys.argv[4]) if len(sys.argv) > 4 else 8.0
