@@ -7,7 +7,8 @@ Saídas em codigos_barras/<referencia>_<ean>.{tif,pdf}
 
 Uso:
   python3 ferramentas/gerar_ean13.py 062.012.002 7896779606245 [largura_mm altura_mm dpi]
-  python3 ferramentas/gerar_ean13.py --lote lista.xlsx      (ou .csv)
+  python3 ferramentas/gerar_ean13.py --lote lista.xlsx [--escala 1.3] [--fonte 2]
+     --escala: multiplica 30x8 mm (1.3 -> 39 x 10,4 mm); --fonte: soma pontos ao texto
      -> só JPG CMYK 300 dpi, nome <referencia sem pontos>_<ean>.jpg,
         em codigos_barras/jpg/ + um .zip com todos + relatório de erros.
      A planilha precisa de uma coluna com "ref" e outra com "ean" no cabeçalho.
@@ -42,10 +43,13 @@ def modulos(ean):
     g = set(range(0, 3)) | set(range(45, 50)) | set(range(92, 95))
     return bits, g
 
+FONTE_PT_EXTRA = 0.0  # pontos somados ao corpo padrão (--fonte +2)
+
 def geometria(alt):
-    # alturas em mm a partir do topo
-    texto = alt * 0.30
-    return alt - texto, alt - texto * 0.55, texto * 0.80  # barra normal, barra de guarda, corpo do texto
+    """alturas em mm a partir do topo: barra normal, barra de guarda, corpo do texto (mm)"""
+    corpo = alt * 0.24 + FONTE_PT_EXTRA * 25.4 / 72
+    zona = corpo * 0.74 + 0.45          # altura do algarismo + respiro
+    return alt - zona, alt - zona * 0.5, corpo
 
 def tif(ean, bits, g, larg, alt, dpi, saida):
     px = lambda v: round(v / 25.4 * dpi)
@@ -58,14 +62,18 @@ def tif(ean, bits, g, larg, alt, dpi, saida):
         if b == "1":
             x0 = px((QZ_E + i) * x_mm); x1 = px((QZ_E + i + 1) * x_mm)
             dr.rectangle([x0, 0, x1 - 1, px(b_guarda if i in g else b_norm) - 1], fill=0)
-    f = ImageFont.truetype(FONTE, max(8, px(corpo)))
+    # texto em camada própria, com anti-alias (não binariza: senão serrilha)
+    f = ImageFont.truetype(FONTE, corpo / 25.4 * dpi)
+    tx = Image.new("L", (W, H), 255)
+    dt = ImageDraw.Draw(tx)
+    base_y = alt * dpi / 25.4 - 0.15 / 25.4 * dpi
     def txt(s, cx_mod):
-        w = dr.textlength(s, font=f)
-        dr.text((px(cx_mod * x_mm) - w / 2, px(alt) - 1), s, font=f, fill=0, anchor="ls")
+        dt.text((cx_mod * x_mm / 25.4 * dpi, base_y), s, font=f, fill=0, anchor="ms")
     txt(ean[0], QZ_E / 2)
     txt(ean[1:7], QZ_E + 3 + 21)
     txt(ean[7:], QZ_E + 50 + 21)
-    img = img.point(lambda v: 0 if v < 128 else 255)  # binariza (sem cinza)
+    from PIL import ImageChops
+    img = ImageChops.darker(img, tx)
     k = img.point(lambda v: 255 - v)
     zero = Image.new("L", (W, H), 0)
     Image.merge("CMYK", (zero, zero, zero, k)).save(saida, dpi=(dpi, dpi), compression="tiff_lzw")
@@ -89,7 +97,7 @@ def pdf(ean, bits, g, larg, alt, saida):
         else:
             i += 1
     c.setFont("Mono", corpo / 25.4 * 72)
-    y = 0.35 * mm
+    y = 0.15 * mm
     c.drawCentredString(QZ_E / 2 * x_mm * mm, y, ean[0])
     c.drawCentredString((QZ_E + 24) * x_mm * mm, y, ean[1:7])
     c.drawCentredString((QZ_E + 71) * x_mm * mm, y, ean[7:])
@@ -120,7 +128,7 @@ def ler_lista(arq):
             continue
         yield n, str(r[i_ref] or "").strip(), r[i_ean]
 
-def lote(arq):
+def lote(arq, larg=30.0, alt=8.0):
     import zipfile
     pasta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "codigos_barras", "jpg")
     os.makedirs(pasta, exist_ok=True)
@@ -141,7 +149,7 @@ def lote(arq):
             erros.append((n, ref, ean, "linha duplicada")); continue
         vistos.add(nome)
         bits, g = modulos(ean)
-        jpg(ean, bits, g, 30.0, 8.0, 300, os.path.join(pasta, nome))
+        jpg(ean, bits, g, larg, alt, 300, os.path.join(pasta, nome))
         ok.append(nome)
     base = os.path.splitext(os.path.basename(arq))[0]
     zp = os.path.join(pasta, "..", f"{base}_jpg.zip")
@@ -157,8 +165,16 @@ def lote(arq):
     print(os.path.abspath(zp)); print(os.path.abspath(rel))
 
 def main():
+    global FONTE_PT_EXTRA
+    args = sys.argv[1:]
+    escala = 1.0
+    if "--escala" in args:
+        i = args.index("--escala"); escala = float(args[i + 1]); del args[i:i + 2]
+    if "--fonte" in args:
+        i = args.index("--fonte"); FONTE_PT_EXTRA = float(args[i + 1]); del args[i:i + 2]
+    sys.argv = [sys.argv[0]] + args
     if sys.argv[1] == "--lote":
-        return lote(sys.argv[2])
+        return lote(sys.argv[2], 30.0 * escala, 8.0 * escala)
     ref, ean = sys.argv[1], sys.argv[2]
     larg = float(sys.argv[3]) if len(sys.argv) > 3 else 30.0
     alt = float(sys.argv[4]) if len(sys.argv) > 4 else 8.0
