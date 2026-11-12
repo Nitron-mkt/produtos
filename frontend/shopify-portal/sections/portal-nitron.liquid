@@ -1,0 +1,162 @@
+{%- comment -%}
+  Portal Nitron — seção de tema Shopify.
+  Reproduz o artefato "Portal Nitron": hero dividido (Institucional | Loja),
+  frase de contato e faixa de contatos por área.
+  Cabeçalho e rodapé ficam com o tema (não são duplicados aqui).
+  As imagens vêm do editor de temas; sem imagem escolhida, usa os arquivos
+  portal-institucional.jpg / portal-loja.jpg da pasta assets do tema.
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id
+  assign left_img = section.settings.left_image
+  assign right_img = section.settings.right_image
+-%}
+
+<style>
+  #pn-{{ sid }}{--pn-cream:#fbfaf6;--pn-ink:#151515;--pn-muted:#6c7278;--pn-line:#e4e2dc;--pn-brand:#009fa3;
+    background:var(--pn-cream);color:var(--pn-ink);font-family:"Nunito Sans",var(--font-body-family,system-ui),sans-serif}
+  #pn-{{ sid }} *{box-sizing:border-box}
+  #pn-{{ sid }} .pn-hero{display:grid;grid-template-columns:1fr 1fr}
+  #pn-{{ sid }} .pn-panel{position:relative;display:block;min-height:clamp(440px,62vw,640px);overflow:hidden;color:#fff;text-decoration:none;background:#333}
+  #pn-{{ sid }} .pn-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+  #pn-{{ sid }} .pn-panel:hover img{transform:scale(1.04)}
+  #pn-{{ sid }} .pn-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.72) 100%),linear-gradient(90deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 60%)}
+  #pn-{{ sid }} .pn-txt{position:absolute;z-index:1;left:0;right:0;bottom:0;padding:0 32px 44px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  #pn-{{ sid }} .pn-kicker{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  #pn-{{ sid }} .pn-kicker svg{width:13px;height:13px}
+  #pn-{{ sid }} .pn-panel h2{margin:0;color:#fff;font-weight:300;font-size:clamp(34px,4.6vw,64px);line-height:1;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+  #pn-{{ sid }} .pn-panel p{margin:0;max-width:34ch;font-size:14px;letter-spacing:.02em;opacity:.92;color:#fff}
+  #pn-{{ sid }} .pn-btn{display:inline-block;margin-top:6px;padding:13px 26px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:#fff;color:var(--pn-ink);border:1px solid #fff;transition:background .25s,color .25s}
+  #pn-{{ sid }} .pn-panel:hover .pn-btn{background:transparent;color:#fff}
+  #pn-{{ sid }} .pn-panel:focus-visible{outline:3px solid var(--pn-brand);outline-offset:-3px}
+  #pn-{{ sid }} .pn-statement{text-align:center;padding:56px 16px 20px}
+  #pn-{{ sid }} .pn-statement small{display:block;font-size:13px;font-weight:600;margin-bottom:12px}
+  #pn-{{ sid }} .pn-statement h2{margin:0 auto;max-width:900px;font-weight:400;font-size:clamp(20px,2.4vw,28px);line-height:1.45;text-transform:uppercase;letter-spacing:.04em;text-wrap:balance}
+  #pn-{{ sid }} .pn-contacts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px;margin:40px auto 0;padding:0 16px 72px}
+  #pn-{{ sid }} .pn-c{padding:28px 24px;border-top:1px solid var(--pn-line);border-right:1px solid var(--pn-line);display:flex;flex-direction:column;gap:6px;min-width:0;text-align:center;align-items:center}
+  #pn-{{ sid }} .pn-c:last-child{border-right:0}
+  #pn-{{ sid }} .pn-c svg{width:34px;height:34px;stroke:var(--pn-ink);fill:none;stroke-width:1.1;margin-bottom:8px}
+  #pn-{{ sid }} .pn-area{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--pn-muted)}
+  #pn-{{ sid }} .pn-c h3{margin:0;font-size:16px;font-weight:400;letter-spacing:.02em}
+  #pn-{{ sid }} .pn-c a{font-size:13px;color:var(--pn-muted);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+  #pn-{{ sid }} .pn-c a:hover{color:var(--pn-brand)}
+  @media (max-width:820px){
+    #pn-{{ sid }} .pn-hero{grid-template-columns:1fr}
+    #pn-{{ sid }} .pn-panel{min-height:480px}
+    #pn-{{ sid }} .pn-txt{padding:0 20px 32px}
+    #pn-{{ sid }} .pn-contacts{grid-template-columns:1fr 1fr}
+    #pn-{{ sid }} .pn-c:nth-child(2n){border-right:0}
+  }
+  @media (max-width:420px){#pn-{{ sid }} .pn-c{padding:22px 10px}}
+  @media (prefers-reduced-motion:reduce){#pn-{{ sid }} *{transition:none!important}}
+</style>
+
+<div id="pn-{{ sid }}">
+  <section class="pn-hero" aria-label="Escolha por onde começar">
+    <a class="pn-panel" href="{{ section.settings.left_link | default: '/pages/sobre-nos' }}">
+      {%- if left_img != blank -%}
+        {{ left_img | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '(max-width: 820px) 100vw, 50vw', alt: left_img.alt, style: 'object-position:60% 50%' }}
+      {%- else -%}
+        <img src="{{ 'portal-institucional.jpg' | asset_url }}" alt="Casal organizando a sala com caixas Nitron" style="object-position:60% 50%">
+      {%- endif -%}
+      <div class="pn-txt">
+        <span class="pn-kicker"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.6 3 5 6.5 5c2 0 3.5 1.1 4.3 2.6h2.4C14 6.1 15.5 5 17.5 5 21 5 23.1 8.6 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>{{ section.settings.left_kicker }}</span>
+        <h2>{{ section.settings.left_title }}</h2>
+        <p>{{ section.settings.left_text }}</p>
+        <span class="pn-btn">{{ section.settings.left_button }}</span>
+      </div>
+    </a>
+    <a class="pn-panel" href="{{ section.settings.right_link | default: routes.all_products_collection_url }}">
+      {%- if right_img != blank -%}
+        {{ right_img | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '(max-width: 820px) 100vw, 50vw', alt: right_img.alt, style: 'object-position:50% 30%' }}
+      {%- else -%}
+        <img src="{{ 'portal-loja.jpg' | asset_url }}" alt="Mulher segurando um pote Nitron na cozinha" style="object-position:50% 30%">
+      {%- endif -%}
+      <div class="pn-txt">
+        <span class="pn-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>{{ section.settings.right_kicker }}</span>
+        <h2>{{ section.settings.right_title }}</h2>
+        <p>{{ section.settings.right_text }}</p>
+        <span class="pn-btn">{{ section.settings.right_button }}</span>
+      </div>
+    </a>
+  </section>
+
+  <section class="pn-statement" id="contato">
+    <small>{{ section.settings.contact_kicker }}</small>
+    <h2>{{ section.settings.contact_title }}</h2>
+  </section>
+
+  <section class="pn-contacts" aria-label="Contatos por área">
+    {%- for block in section.blocks -%}
+      <div class="pn-c" {{ block.shopify_attributes }}>
+        {%- case block.settings.icon -%}
+          {%- when 'comercial' -%}<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="12" width="28" height="20" rx="2"/><path d="M15 12V9h10v3M6 20h28"/></svg>
+          {%- when 'marketing' -%}<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 17v6h5l11 7V10L13 17H8z"/><path d="M29 15c2 2 2 8 0 10"/></svg>
+          {%- when 'compras' -%}<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 9h4l4 16h15l3-11H13"/><circle cx="17" cy="30" r="2"/><circle cx="28" cy="30" r="2"/></svg>
+          {%- else -%}<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="14" r="5"/><path d="M10 32c0-6 4.5-10 10-10s10 4 10 10"/></svg>
+        {%- endcase -%}
+        <span class="pn-area">{{ block.settings.area }}</span>
+        <h3>{{ block.settings.title }}</h3>
+        <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+      </div>
+    {%- endfor -%}
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Portal Nitron",
+  "tag": "section",
+  "class": "section-portal-nitron",
+  "settings": [
+    { "type": "header", "content": "Painel esquerdo (Institucional)" },
+    { "type": "image_picker", "id": "left_image", "label": "Imagem" },
+    { "type": "text", "id": "left_kicker", "label": "Chamada", "default": "Institucional" },
+    { "type": "text", "id": "left_title", "label": "Título", "default": "Conheça a Nitron" },
+    { "type": "textarea", "id": "left_text", "label": "Texto", "default": "Há 40 anos criando soluções que organizam a vida real da casa brasileira." },
+    { "type": "text", "id": "left_button", "label": "Botão", "default": "Sobre nós" },
+    { "type": "url", "id": "left_link", "label": "Link" },
+    { "type": "header", "content": "Painel direito (Loja)" },
+    { "type": "image_picker", "id": "right_image", "label": "Imagem" },
+    { "type": "text", "id": "right_kicker", "label": "Chamada", "default": "Loja oficial" },
+    { "type": "text", "id": "right_title", "label": "Título", "default": "Que toda casa tem!" },
+    { "type": "textarea", "id": "right_text", "label": "Texto", "default": "Potes, organizadores, lixeiras e utilidades para todos os cantos da casa." },
+    { "type": "text", "id": "right_button", "label": "Botão", "default": "Ir para a loja" },
+    { "type": "url", "id": "right_link", "label": "Link" },
+    { "type": "header", "content": "Contato" },
+    { "type": "text", "id": "contact_kicker", "label": "Chamada", "default": "Fale com a Nitron" },
+    { "type": "text", "id": "contact_title", "label": "Título", "default": "Escolha a área certa e fale direto com quem resolve" }
+  ],
+  "blocks": [
+    {
+      "type": "contato",
+      "name": "Contato por área",
+      "limit": 8,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Ícone", "default": "comercial",
+          "options": [
+            { "value": "comercial", "label": "Maleta" },
+            { "value": "marketing", "label": "Megafone" },
+            { "value": "compras", "label": "Carrinho" },
+            { "value": "rh", "label": "Pessoa" }
+          ] },
+        { "type": "text", "id": "area", "label": "Área", "default": "Venda B2B" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Comercial" },
+        { "type": "text", "id": "email", "label": "E-mail", "default": "comercial@nitron.com.br" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portal Nitron",
+      "blocks": [
+        { "type": "contato", "settings": { "icon": "comercial", "area": "Venda B2B", "title": "Comercial", "email": "comercial@nitron.com.br" } },
+        { "type": "contato", "settings": { "icon": "marketing", "area": "Parcerias e imprensa", "title": "Marketing", "email": "marketing@nitron.com.br" } },
+        { "type": "contato", "settings": { "icon": "compras", "area": "Fornecedores", "title": "Compras", "email": "compras@nitron.com.br" } },
+        { "type": "contato", "settings": { "icon": "rh", "area": "Trabalhe conosco", "title": "RH", "email": "rh@nitron.com.br" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
