@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "portal": {
+      "type": "portal-nitron",
+      "blocks": {
+        "c1": { "type": "contato", "settings": { "icon": "comercial", "area": "Venda B2B", "title": "Comercial", "email": "comercial@nitron.com.br" } },
+        "c2": { "type": "contato", "settings": { "icon": "marketing", "area": "Parcerias e imprensa", "title": "Marketing", "email": "marketing@nitron.com.br" } },
+        "c3": { "type": "contato", "settings": { "icon": "compras", "area": "Fornecedores", "title": "Compras", "email": "compras@nitron.com.br" } },
+        "c4": { "type": "contato", "settings": { "icon": "rh", "area": "Trabalhe conosco", "title": "RH", "email": "rh@nitron.com.br" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {}
+    }
+  },
+  "order": ["portal"]
+}
