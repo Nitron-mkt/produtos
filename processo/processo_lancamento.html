@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Processo de Lançamento Nitron</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+:root{
+  --ink:#1b1f24; --muted:#5b6470; --line:#d9dee4; --soft:#f3f5f7;
+  --brand:#0b4f8a; --brand2:#e8f0f8; --warn:#b5530b; --warnbg:#fdf1e6;
+  --a:#0b4f8a; --b:#2f7d6d; --c:#8a5a0b; --d:#6b4c9a; --e:#a03a52; --f:#3d4a5c;
+}
+*{box-sizing:border-box}
+body{font-family:Inter,"DejaVu Sans",sans-serif;color:var(--ink);font-size:9.2pt;line-height:1.4;margin:0;background:#fff}
+h1{font-size:24pt;line-height:1.1;margin:0 0 6px;letter-spacing:-.4px}
+h2{font-size:15pt;margin:0 0 8px;color:var(--brand);letter-spacing:-.2px;break-after:avoid}
+h3{font-size:11pt;margin:14px 0 5px;break-after:avoid}
+p{margin:0 0 7px}
+ul{margin:0 0 7px;padding-left:16px} li{margin:0 0 2px}
+.page{break-before:page}
+.kicker{font-size:8.5pt;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:600}
+.lead{font-size:11pt;color:#333;max-width:165mm}
+.muted{color:var(--muted)}
+table{border-collapse:collapse;width:100%;margin:5px 0 8px;font-size:8.4pt;break-inside:auto}
+th,td{border:1px solid var(--line);padding:3px 5px;vertical-align:top;text-align:left}
+th{background:var(--soft);font-weight:600}
+tr{break-inside:avoid}
+td.c,th.c{text-align:center}
+.box{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin:6px 0 10px;break-inside:avoid}
+.warn{background:var(--warnbg);border-color:#efc9a5}
+.warn b:first-child{color:var(--warn)}
+.note{background:var(--brand2);border-color:#c4d7ea}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tag{display:inline-block;font-weight:700;color:#fff;border-radius:4px;padding:1px 6px;font-size:8.5pt;margin-right:4px}
+.tA{background:var(--a)}.tB{background:var(--b)}.tC{background:var(--c)}.tD{background:var(--d)}.tE{background:var(--e)}.tF{background:var(--f)}
+.trk{border-left:5px solid var(--line);padding:6px 10px;margin:0 0 8px;background:#fafbfc;break-inside:avoid;border-radius:0 6px 6px 0}
+.trk.A{border-color:var(--a)}.trk.B{border-color:var(--b)}.trk.C{border-color:var(--c)}.trk.D{border-color:var(--d)}.trk.E{border-color:var(--e)}.trk.F{border-color:var(--f)}
+.trk h3{margin:0 0 3px}
+.full{font-weight:700;color:var(--ink)} .opt{color:#888}
+.flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:6px 0 4px}
+.st{border:1px solid var(--line);border-radius:5px;padding:4px 6px;font-size:8pt;background:#fff;text-align:center;min-width:70px}
+.st b{display:block;font-size:8.6pt}
+.gt{background:var(--ink);color:#fff;border-radius:50%;width:24px;height:24px;font-size:7.5pt;font-weight:700;display:flex;align-items:center;justify-content:center}
+.gt.big{background:var(--warn)}
+.arr{color:#999;font-size:9pt}
+.skip{opacity:.28;border-style:dashed}
+.cover{height:255mm;display:flex;flex-direction:column;justify-content:space-between}
+.cover .bar{height:6px;background:linear-gradient(90deg,var(--a),var(--b),var(--c),var(--d),var(--e),var(--f));border-radius:3px}
+.small{font-size:8pt}
+.dec td:first-child{width:46%}
+footer{display:none}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="cover">
+  <div>
+    <div class="bar"></div>
+    <div style="height:40mm"></div>
+    <div class="kicker">Nitron · Desenvolvimento de Produtos</div>
+    <h1>Processo de Criação e Lançamento de Produtos</h1>
+    <p class="lead">Um fluxo único com seis trilhas, para tudo o que vira SKU novo no ERP: molde novo, alteração de molde, cor e pigmento, sublinha, embalagem, kit e nova categoria.</p>
+    <div style="height:10mm"></div>
+    <div class="grid3">
+      <div class="trk A"><span class="tag tA">A</span><b>Produto novo</b><br><span class="small muted">molde novo do zero</span></div>
+      <div class="trk B"><span class="tag tB">B</span><b>Derivação de molde</b><br><span class="small muted">alterar ou adaptar molde existente</span></div>
+      <div class="trk C"><span class="tag tC">C</span><b>Cor, pigmento e sublinha</b><br><span class="small muted">mesmo molde, nova aparência</span></div>
+      <div class="trk D"><span class="tag tD">D</span><b>Embalagem</b><br><span class="small muted">nova embalagem ou apresentação</span></div>
+      <div class="trk E"><span class="tag tE">E</span><b>Kit e multipack</b><br><span class="small muted">combinação de itens existentes</span></div>
+      <div class="trk F"><span class="tag tF">F</span><b>Nova categoria</b><br><span class="small muted">decisão estratégica que abre A, B ou Revenda</span></div>
+    </div>
+  </div>
+  <div class="small muted">Versão 1.0 · novembro de 2026 · documento para discussão com as áreas<br>
+  Dono do processo: Marketing de Produto</div>
+</section>
+
+<!-- 1. PRINCÍPIOS -->
+<section class="page">
+  <div class="kicker">1 · Por que este processo existe</div>
+  <h2>Princípios</h2>
+  <div class="box warn"><b>O problema.</b> A taxa de acerto de lançamento (SKU que acumula R$ 500 mil na vida, só marca própria) caiu de <b>28,0% em 2021</b> para <b>0,7% em 2025</b> (2 de 278). Dos 357 SKUs lançados em 2024, 304 não passaram de R$ 100 mil em dois anos. O processo serve para <b>lançar menos e melhor</b>, e não só para organizar as entregas entre as áreas.</div>
+
+  <h3>As 8 regras do processo</h3>
+  <table>
+    <tr><th style="width:4%">#</th><th style="width:34%">Regra</th><th>O que significa na prática</th></tr>
+    <tr><td>1</td><td><b>Todo SKU novo entra pelo processo</b></td><td>Molde novo, cor nova, embalagem nova e kit criam código, EAN, estoque e custo de carregamento. Todos passam pelo processo, cada um na sua trilha. Nenhum código é criado no ERP fora dele.</td></tr>
+    <tr><td>2</td><td><b>Cada trilha tem só as áreas de que precisa</b></td><td>Cor, embalagem e kit não passam por Projetos. Molde novo passa por todas as áreas. A trilha é escolhida no Portão 0.</td></tr>
+    <tr><td>3</td><td><b>Já existe?</b> é a primeira pergunta</td><td>Busca obrigatória no cadastro com 3 palavras diferentes. Sete ideias "novas" já existiam no catálogo, e duas delas foram publicadas como recomendação.</td></tr>
+    <tr><td>4</td><td><b>Cor divide demanda; produto novo cria demanda</b></td><td>Toda variação (cor, embalagem, kit) declara se <b>troca</b> um SKU existente ou se <b>soma</b> um SKU. Se somar, precisa justificar a demanda nova. Cor nova entra só pela linha Coloratto.</td></tr>
+    <tr><td>5</td><td><b>Uma ficha única por projeto</b></td><td>O "dossiê do produto" nasce no Portão 0 e acompanha o projeto até a revisão de 12 meses. Cada área preenche a sua parte nele, em vez de mandar e-mail.</td></tr>
+    <tr><td>6</td><td><b>Cadastro em paralelo, não em série</b></td><td>Fiscal, preço, EAN e embalagem começam assim que o molde ou a cor é liberado, e não quando a peça fica pronta.</td></tr>
+    <tr><td>7</td><td><b>Bloqueado para venda até o Portão 4</b></td><td>O produto pode ser cadastrado cedo no ERP, mas só é liberado para pedido quando há estoque, preço e nota fiscal testados.</td></tr>
+    <tr><td>8</td><td><b>Meta e critério de corte antes de lançar</b></td><td>No Portão 1 são definidos a meta de 12 meses e o número abaixo do qual o SKU sai. Sem esse número, nada é descontinuado.</td></tr>
+  </table>
+
+  <h3>As áreas envolvidas</h3>
+  <table class="small">
+    <tr><th style="width:24%">Área</th><th>Papel no processo</th></tr>
+    <tr><td>Marketing de Produto</td><td>Dono do processo e de cada projeto. Ideia, conceito, concorrência, dossiê, EAN, arte e foto. Conduz o acompanhamento pós-lançamento.</td></tr>
+    <tr><td>Projetos (inclui ferramentaria)</td><td>Desenho, protótipo 3D, molde novo ou alteração de molde, tryout. <b>Só nas trilhas A e B.</b></td></tr>
+    <tr><td>Comercial: precificação</td><td>Preço-alvo, preço em cada tabela, política de desconto, regra de preço de kit.</td></tr>
+    <tr><td>PCP</td><td>Cadastro do PA e dos PIs no ERP, estrutura, roteiro, lote mínimo, programação (inclusive sequência de cores).</td></tr>
+    <tr><td>Fiscal</td><td>NCM, CEST, tributação, CFOP, substituição tributária por UF, enquadramento de kit.</td></tr>
+    <tr><td>Qualidade</td><td>Aprovação de amostra, padrão de cor, embalagem individual, pacote e master, DUN-14, amarração, paletização, testes de queda e empilhamento, prova de claim.</td></tr>
+    <tr><td>Compras <span class="muted">(sugerida)</span></td><td>Pigmento ou masterbatch, embalagem, insumos de kit, itens de revenda. Consumo do saldo da embalagem antiga.</td></tr>
+    <tr><td>Injeção</td><td>Tryout, teste de dosagem de pigmento, purga, ciclo real, lote piloto.</td></tr>
+    <tr><td>Montagem</td><td>Instrução de trabalho, gabarito, tempo-padrão; posto de kitting nos kits.</td></tr>
+    <tr><td>Estoque e Expedição</td><td>Local de armazenagem, endereçamento, estoque inicial, teste real de expedição.</td></tr>
+    <tr><td>Comercial: vendas</td><td>Previsão de volume, apresentação à força de vendas, amostras, metas por canal.</td></tr>
+    <tr><td>Marketing: campanha</td><td>Campanha de lançamento, catálogo, marketplace, redes.</td></tr>
+  </table>
+</section>
+
+<!-- 2. CLASSIFICAÇÃO -->
+<section class="page">
+  <div class="kicker">2 · Portão 0</div>
+  <h2>Qual trilha? Classificação no Portão 0</h2>
+  <p>A primeira decisão sobre qualquer ideia é a trilha. Responda às perguntas na ordem; a primeira resposta "sim" define a trilha. <b>Se o projeto mistura tipos</b> (por exemplo, uma sublinha com cor nova <i>e</i> embalagem nova), vale a trilha mais pesada envolvida, somada às áreas específicas da outra.</p>
+
+  <table class="dec">
+    <tr><th>Pergunta</th><th>Se sim</th></tr>
+    <tr><td>1. O produto é de uma categoria em que a Nitron <b>não atua hoje</b>?</td><td><span class="tag tF">F</span> <b>Nova categoria.</b> Decisão estratégica da diretoria. Depois do portão estratégico, cada SKU segue pela trilha A, B ou Revenda.</td></tr>
+    <tr><td>2. Precisa de <b>molde novo</b> (peça que não existe)?</td><td><span class="tag tA">A</span> <b>Produto novo.</b> Fluxo completo.</td></tr>
+    <tr><td>3. Precisa <b>alterar um molde existente</b>: inserto, gravação, nova tampa num corpo existente, mudança de geometria, adaptação de um produto interno para outro uso?</td><td><span class="tag tB">B</span> <b>Derivação de molde.</b> Passa por Projetos, sem o ciclo completo de conceito.</td></tr>
+    <tr><td>4. O produto físico é o mesmo e muda <b>cor, pigmento, efeito</b> (perolado, translúcido) ou cria uma <b>sublinha</b> sobre moldes existentes?</td><td><span class="tag tC">C</span> <b>Cor, pigmento e sublinha.</b> Não passa por Projetos.</td></tr>
+    <tr><td>5. O produto é o mesmo e muda <b>embalagem, quantidade por pacote ou por master</b>, ou a apresentação?</td><td><span class="tag tD">D</span> <b>Embalagem.</b> Não passa por Projetos.</td></tr>
+    <tr><td>6. Junta <b>dois ou mais itens existentes</b> num código vendável único?</td><td><span class="tag tE">E</span> <b>Kit e multipack.</b> Não passa por Projetos.</td></tr>
+  </table>
+
+  <div class="box note"><b>Sublinha.</b> Sublinha é um novo agrupamento comercial (nome, cor, embalagem) aplicado a moldes que já existem. Ela entra na trilha C. A embalagem segue as regras da trilha D e o cadastro cria o agrupamento no ERP (grupo ou linha). Se algum item da sublinha exigir alteração de molde, <b>aquele item</b> vai para a trilha B.</div>
+
+  <h3>Mesmas perguntas, respostas diferentes por trilha</h3>
+  <table class="small">
+    <tr><th style="width:22%">Pergunta do Portão 0</th><th class="c"><span class="tag tA">A</span></th><th class="c"><span class="tag tB">B</span></th><th class="c"><span class="tag tC">C</span></th><th class="c"><span class="tag tD">D</span></th><th class="c"><span class="tag tE">E</span></th></tr>
+    <tr><td>Já existe no catálogo? (3 palavras)</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Cria demanda ou divide demanda?</td><td>Cria: qual público novo?</td><td>Qual função nova a alteração entrega?</td><td><b>Troca ou soma?</b> Se somar, qual SKU sai?</td><td>Substitui a embalagem atual ou é uma apresentação a mais?</td><td>Os componentes já giram? O kit abre canal novo?</td></tr>
+    <tr><td>Faixa de litragem (potes)</td><td>Nada novo abaixo de 1 L</td><td>Idem</td><td>—</td><td>—</td><td>Kits em litragens que crescem</td></tr>
+    <tr><td>Clientes por SKU da linha</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">○</td><td class="c">○</td></tr>
+  </table>
+  <p class="small muted">● obrigatório · ○ quando aplicável · — não se aplica</p>
+</section>
+
+<!-- 3. FLUXO MESTRE -->
+<section class="page">
+  <div class="kicker">3 · Fluxo-mestre</div>
+  <h2>Fases e portões por trilha</h2>
+  <p>As fases são as mesmas para todos. Cada trilha <b>pula</b> as fases que não se aplicam a ela. Os portões G0 a G5 são pontos de decisão com dono e critério; sem aprovação, o projeto não passa para a fase seguinte.</p>
+
+  <table class="small">
+    <tr><th style="width:24%">Fase / Portão</th><th class="c"><span class="tag tA">A</span></th><th class="c"><span class="tag tB">B</span></th><th class="c"><span class="tag tC">C</span></th><th class="c"><span class="tag tD">D</span></th><th class="c"><span class="tag tE">E</span></th></tr>
+    <tr><td><b>F0</b> Ideia e triagem</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td><b>G0</b> Vale estudar? Qual trilha?</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td><b>F1</b> Conceito e business case</td><td class="c">completo</td><td class="c">simplificado</td><td class="c">simplificado</td><td class="c">simplificado</td><td class="c">simplificado</td></tr>
+    <tr><td><b>G1</b> Vale investir?</td><td class="c">comitê</td><td class="c">comitê</td><td class="c">comitê</td><td class="c">Mkt + Comercial</td><td class="c">Mkt + Comercial</td></tr>
+    <tr><td><b>F2</b> Projeto e protótipo</td><td class="c">●</td><td class="c">● (alteração)</td><td class="c">amostra de cor</td><td class="c">mock-up de embalagem</td><td class="c">montagem-piloto do kit</td></tr>
+    <tr><td><b>G2</b> Libera o investimento?</td><td class="c">libera o aço</td><td class="c">libera a alteração</td><td class="c">aprova padrão de cor</td><td class="c">aprova a embalagem</td><td class="c">aprova o kit</td></tr>
+    <tr><td><b>F3</b> Ferramentaria e tryout</td><td class="c">●</td><td class="c">●</td><td class="c">teste de dosagem</td><td class="c">—</td><td class="c">—</td></tr>
+    <tr><td><b>F4</b> Industrialização e cadastro</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td><b>G3</b> Pronto para produzir?</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td><b>F5</b> Lote piloto e estoque</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">1º lote</td><td class="c">1º lote</td></tr>
+    <tr><td><b>G4</b> Libera a venda?</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td><b>F6</b> Lançamento</td><td class="c">campanha</td><td class="c">campanha ou comunicado</td><td class="c">comunicação da linha</td><td class="c">comunicado</td><td class="c">comunicado ou campanha</td></tr>
+    <tr><td><b>F7 / G5</b> Acompanhamento: 90 · 180 · 365 dias</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+  </table>
+
+  <div class="box warn"><b>O portão mais caro.</b> Na trilha A, o G2 libera o aço. Antes dele o custo é de horas de trabalho e impressão 3D; depois dele vêm molde, estoque, embalagem e gôndola. O G2 da trilha A é sempre decisão de comitê.</div>
+
+  <h3>Quem decide cada portão</h3>
+  <table class="small">
+    <tr><th style="width:12%">Portão</th><th>Decide</th><th>Critério mínimo</th></tr>
+    <tr><td>G0</td><td>Marketing de Produto</td><td>Não existe no catálogo; trilha definida; hipótese de demanda escrita; resposta "troca ou soma" nas trilhas C, D e E.</td></tr>
+    <tr><td>G1</td><td>Comitê de Produto (A, B, C) · Mkt + Comercial (D, E)</td><td>Preço-alvo, margem-alvo, volume de 12 meses, investimento, payback, <b>meta e critério de corte</b>.</td></tr>
+    <tr><td>G2</td><td>Comitê (A, B) · Qualidade + Mkt (C, D, E)</td><td>Desenho ou padrão congelado; orçamento fechado; máquina, pigmento ou embalagem definidos.</td></tr>
+    <tr><td>G3</td><td>PCP</td><td>Checklist de cadastro 100% fechado (seção 5) e embalagem aprovada pela Qualidade.</td></tr>
+    <tr><td>G4</td><td>Comercial + Qualidade</td><td>Estoque disponível, preço ativo nas tabelas, nota fiscal de teste emitida sem erro, material de marketing pronto.</td></tr>
+    <tr><td>G5</td><td>Comitê de Produto</td><td>Resultado contra a meta do G1: <b>manter, ajustar ou descontinuar</b>.</td></tr>
+  </table>
+</section>
+
+<!-- 4. TRILHAS DETALHADAS -->
+<section class="page">
+  <div class="kicker">4 · Trilhas em detalhe</div>
+  <h2>O que cada trilha exige</h2>
+
+  <div class="trk A">
+    <h3><span class="tag tA">A</span>Produto novo: molde novo do zero</h3>
+    <ul>
+      <li><b>F1 Mkt:</b> concorrência (preço, marcas, avaliações), argumento de venda, clientes por SKU da linha. <b>Comercial:</b> preço-alvo a partir do teto da tabela padrão (CODTAB 0), já com o desconto de canal descontado. <b>Projetos:</b> faixa de injetora, capacidade livre, material (PP, para não contaminar o ciclo de moído), necessidade de montagem. <b>Qualidade:</b> como provar cada claim de desempenho.</li>
+      <li><b>F2 Projetos:</b> desenho 3D, impressão 3D, validação de forma, ergonomia, encaixe e empilhamento, de preferência na frente do cliente. A impressão 3D <b>não valida o material</b>: vedação, trava e fluência do PP só aparecem no tryout. A embalagem já é desenhada nesta fase.</li>
+      <li><b>F3:</b> molde, tryout, ajustes, amostra aprovada pela Qualidade. Definição de ciclo, cavidades, tonelagem e peso real.</li>
+      <li><b>F4 a F7:</b> fluxo completo (seção 5), com campanha de lançamento.</li>
+    </ul>
+  </div>
+
+  <div class="trk B">
+    <h3><span class="tag tB">B</span>Derivação de molde: alterar ou adaptar o que existe</h3>
+    <p class="small">Exemplos: inserto trocável na tampa, nova gravação, tampa nova sobre um corpo existente, adaptação de um produto interno para outro uso, mudança de litragem por inserto.</p>
+    <ul>
+      <li><b>F1 simplificado:</b> qual função nova a alteração entrega e se o produto original continua no catálogo.</li>
+      <li><b>F2 e F3 Projetos:</b> avaliar se o molde aceita a alteração, custo e prazo da ferramentaria, risco ao molde original e tempo de máquina parada.</li>
+      <li><b>Atenção:</b> se o molde for compartilhado com o produto original, PCP planeja a troca de inserto como setup.</li>
+    </ul>
+  </div>
+
+  <div class="trk C">
+    <h3><span class="tag tC">C</span>Cor, pigmento e sublinha: <i>sem Projetos</i></h3>
+    <ul>
+      <li><b>G0, a pergunta que decide:</b> esta cor <b>troca</b> uma cor que sai ou <b>soma</b> uma cor? Partir a mesma demanda em N cores eleva o estoque de segurança total em √N: três cores no lugar de uma pedem <b>+73% de estoque</b> para vender o mesmo volume. Por isso aparecem saldo e ruptura ao mesmo tempo, como em 2022. Cor nova entra <b>só pela linha Coloratto</b>.</li>
+      <li><b>Marketing:</b> justificativa da cor. Das 16 cores, só chumbo e laranja cresceram, e o laranja vende por <b>função</b> (sinaliza ferramenta), não por decoração.</li>
+      <li><b>Compras:</b> homologação do pigmento ou masterbatch e do fornecedor; laudo de conformidade para contato com alimento quando o produto for de cozinha ou de alimento.</li>
+      <li><b>Qualidade:</b> padrão físico de cor com tolerância, aprovação da primeira peça, verificação de desbotamento e de migração quando aplicável.</li>
+      <li><b>Injeção:</b> teste de dosagem, perda na purga, ciclo. <b>PCP:</b> sequência de cores na programação (claro para escuro), lote mínimo por cor, destino do refugo colorido (só volta como moído na mesma cor ou em cor mais escura).</li>
+      <li><b>Sublinha:</b> cria o agrupamento comercial no ERP; se tiver embalagem própria, aplica também as regras da trilha D.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="page">
+  <div class="trk D">
+    <h3><span class="tag tD">D</span>Embalagem: nova embalagem ou nova apresentação, <i>sem Projetos</i></h3>
+    <ul>
+      <li><b>Marketing:</b> arte, informações obrigatórias, claim. <b>Compras:</b> fornecedor, custo, <b>consumo do saldo da embalagem antiga</b> antes da virada.</li>
+      <li><b>Qualidade:</b> embalagem individual, pacote e master; amarração; paletização (camadas, altura, peso); testes de queda, compressão e empilhamento; teste real de transporte.</li>
+      <li><b>PCP:</b> troca do componente de embalagem na estrutura e data de virada. <b>Estoque e Expedição:</b> endereçamento e dimensões da master.</li>
+      <li><b>Regra de código:</b> se mudar <b>só a arte</b>, o produto mantém CODPROD e EAN. Se mudar a <b>quantidade</b> no pacote ou na master, é código novo: EAN novo quando muda a unidade vendida, DUN-14 novo quando muda a quantidade na master. O Fiscal valida se a unidade comercial muda.</li>
+    </ul>
+  </div>
+
+  <div class="trk E">
+    <h3><span class="tag tE">E</span>Kit e multipack: <i>sem Projetos</i></h3>
+    <ul>
+      <li><b>G0:</b> os componentes já vendem bem? Kit de SKU parado não vende o SKU parado. O kit precisa abrir canal ou ocasião nova (presente, marketplace, geladeira). O Kit Geladeira (4 referências) e o kit de potes com válvula (R$ 2.919, 13 clientes, em 460 ml) já existiram e não pegaram.</li>
+      <li><b>Comercial:</b> preço do kit contra a soma dos itens e risco de canibalizar os itens avulsos.</li>
+      <li><b>Fiscal:</b> NCM do kit (mercadorias apresentadas em sortido), tributação e CFOP.</li>
+      <li><b>PCP:</b> estrutura com os componentes e a embalagem do kit, baixa de estoque dos componentes. Definir se o kit é montado para estoque ou sob pedido.</li>
+      <li><b>Montagem:</b> posto de kitting, instrução de trabalho, tempo-padrão. <b>Qualidade:</b> embalagem do kit e teste de transporte (itens soltos dentro da caixa).</li>
+    </ul>
+  </div>
+
+  <div class="trk F">
+    <h3><span class="tag tF">F</span>Nova categoria: decisão estratégica</h3>
+    <ul>
+      <li><b>Portão estratégico (diretoria), antes do G0 dos SKUs:</b> clientes por SKU esperados, saturação competitiva (quantos concorrentes Tier A já disputam), lucro absoluto possível, canal, capacidade de máquina e compatibilidade de material (fábrica 98% PP; silicone e PET não rodam).</li>
+      <li><b>Rota:</b> fabricar (trilha A ou B) ou <b>revenda</b>. Na revenda entram Compras (fornecedor), Qualidade (homologação do fornecedor e inspeção de recebimento) e Fiscal (importação e substituição tributária). Projetos não participa.</li>
+      <li><b>Entrada pequena:</b> lançar 3 a 5 SKUs-âncora, e não a linha inteira. Revisar em 180 dias antes de ampliar.</li>
+      <li>Exemplo de referência: Banheiro foi escolhida por clientes por SKU (104, contra 37 em Cozinha e 12 em Organização), não por faturamento.</li>
+    </ul>
+  </div>
+
+  <h3>Matriz: quem participa em cada trilha</h3>
+  <table class="small">
+    <tr><th style="width:26%">Área</th><th class="c"><span class="tag tA">A</span></th><th class="c"><span class="tag tB">B</span></th><th class="c"><span class="tag tC">C</span></th><th class="c"><span class="tag tD">D</span></th><th class="c"><span class="tag tE">E</span></th><th class="c"><span class="tag tF">F</span> revenda</th></tr>
+    <tr><td>Marketing de Produto</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Projetos / Ferramentaria</td><td class="c">●</td><td class="c">●</td><td class="c">—</td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+    <tr><td>Comercial: precificação</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">○</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>PCP: cadastro e estrutura</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Fiscal</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">○</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Qualidade</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Compras</td><td class="c">○</td><td class="c">○</td><td class="c">●</td><td class="c">●</td><td class="c">○</td><td class="c">●</td></tr>
+    <tr><td>Injeção</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+    <tr><td>Montagem</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">●</td><td class="c">○</td></tr>
+    <tr><td>Estoque e Expedição</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Comercial: vendas</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">●</td></tr>
+    <tr><td>Marketing: campanha</td><td class="c">●</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">●</td></tr>
+  </table>
+  <p class="small muted">● participa obrigatoriamente · ○ quando aplicável · — não participa</p>
+</section>
+
+<!-- 5. CADASTRO ERP -->
+<section class="page">
+  <div class="kicker">5 · Industrialização (F4)</div>
+  <h2>O cadastro no ERP por trilha</h2>
+  <p>A F4 começa <b>logo depois do G2</b>, em paralelo com a ferramentaria ou com o teste de cor. Esta é a fase em que os lançamentos costumam travar: a peça fica pronta, mas falta EAN, preço ou NCM. O produto é criado <b>bloqueado para venda</b> e só é liberado no G4.</p>
+
+  <table class="small">
+    <tr><th style="width:20%">Item de cadastro</th><th><span class="tag tA">A</span><span class="tag tB">B</span></th><th><span class="tag tC">C</span> cor / sublinha</th><th><span class="tag tD">D</span> embalagem</th><th><span class="tag tE">E</span> kit</th><th>Responsável</th></tr>
+    <tr><td>CODPROD novo</td><td>Sim</td><td>Sim, um por cor</td><td>Só se mudar a quantidade ou a unidade vendida</td><td>Sim</td><td>PCP</td></tr>
+    <tr><td>Referência (NNN.XXX.XXX)</td><td>Nova</td><td>Segue a regra de formação vigente</td><td>Mantém, se for o mesmo código</td><td>Nova</td><td>PCP</td></tr>
+    <tr><td>EAN-13 (GS1)</td><td>Novo</td><td>Novo por cor</td><td>Novo se mudar a unidade vendida</td><td>Novo</td><td>Marketing</td></tr>
+    <tr><td>DUN-14 (caixa master)</td><td>Novo</td><td>Novo</td><td>Novo se mudar a quantidade na master</td><td>Novo</td><td>Qualidade</td></tr>
+    <tr><td>NCM, CEST, tributação</td><td>Definir</td><td>Herdar e validar</td><td>Herdar</td><td>Definir (sortido)</td><td>Fiscal</td></tr>
+    <tr><td>Estrutura PA → PI</td><td>Nova</td><td>PI na nova cor + pigmento</td><td>Troca o componente de embalagem</td><td>Componentes + embalagem do kit</td><td>PCP</td></tr>
+    <tr><td>Roteiro e tempo-padrão</td><td>Novo</td><td>Herda; setup de cor</td><td>Herda</td><td>Kitting</td><td>PCP</td></tr>
+    <tr><td>Campos técnicos (tonelagem, cavidades, cor)</td><td>Preencher todos</td><td>Preencher cor</td><td>—</td><td>—</td><td>PCP</td></tr>
+    <tr><td>Embalagem: pacote, master, palete</td><td>Nova</td><td>Herda ou nova</td><td>Nova</td><td>Nova</td><td>Qualidade</td></tr>
+    <tr><td>Preço em todas as tabelas</td><td>Sim</td><td>Sim</td><td>Revisar</td><td>Sim (regra do kit)</td><td>Comercial</td></tr>
+    <tr><td>Foto, arte, ficha técnica</td><td>Novas</td><td>Foto nova</td><td>Arte nova</td><td>Foto e arte</td><td>Marketing</td></tr>
+    <tr><td>Local de estoque e endereço</td><td>Sim</td><td>Sim</td><td>Revisar dimensões</td><td>Sim</td><td>Estoque</td></tr>
+    <tr><td><b>SKU que sai</b></td><td>Avaliar</td><td><b>Obrigatório declarar</b></td><td>Esgotar a embalagem antiga</td><td>—</td><td>Mkt de Produto</td></tr>
+  </table>
+
+  <div class="box warn"><b>Campos que hoje estão vazios no ERP.</b> Tonelagem mínima e máxima estão preenchidas em 10 de 4.252 produtos, cavidades em 52, cor em campo próprio em <b>0</b>, e o roteiro tem 0 linhas. Sem esses dados não dá para medir capacidade nem desempenho por cor. A partir deste processo, eles passam a ser <b>obrigatórios para fechar o G3</b>.</div>
+
+  <h3>Checklist de G3: pronto para produzir</h3>
+  <div class="grid2 small">
+    <div class="box">
+      <b>Cadastro e fiscal</b>
+      <ul>
+        <li>CODPROD, referência e descrição padronizada</li>
+        <li>NCM, CEST, tributação e CFOP validados</li>
+        <li>EAN-13 e DUN-14 registrados</li>
+        <li>Estrutura e roteiro completos</li>
+        <li>Campos técnicos preenchidos</li>
+      </ul>
+    </div>
+    <div class="box">
+      <b>Produto e embalagem</b>
+      <ul>
+        <li>Amostra ou padrão de cor aprovado pela Qualidade</li>
+        <li>Pacote, master e palete especificados e testados</li>
+        <li>Instrução de montagem ou kitting (se houver)</li>
+        <li>Insumos (pigmento, embalagem) comprados</li>
+        <li>Preço cadastrado em todas as tabelas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PÓS-LANÇAMENTO -->
+<section class="page">
+  <div class="kicker">6 · Lançamento e acompanhamento (F5 a F7)</div>
+  <h2>Do lote piloto à decisão de manter</h2>
+
+  <h3>F5 · Lote piloto e estoque</h3>
+  <ul>
+    <li><b>Injeção e Montagem:</b> lote piloto com inspeção de primeira peça.</li>
+    <li><b>Qualidade:</b> aprovação do lote; <b>teste real de expedição</b> (a master resiste ao transporte?).</li>
+    <li><b>Estoque e Expedição:</b> endereçamento e estoque inicial dimensionado pela previsão do Comercial.</li>
+    <li><b>G4, libera a venda:</b> estoque disponível + preço ativo + nota fiscal de teste sem erro + material de marketing pronto. Só então o produto é desbloqueado para pedido.</li>
+  </ul>
+
+  <h3>F6 · Lançamento</h3>
+  <table class="small">
+    <tr><th style="width:22%">Trilha</th><th>Comercial</th><th>Marketing</th></tr>
+    <tr><td><span class="tag tA">A</span><span class="tag tF">F</span></td><td>Apresentação à força de vendas, amostras, metas por canal</td><td>Campanha de lançamento, catálogo, marketplace, redes</td></tr>
+    <tr><td><span class="tag tB">B</span><span class="tag tE">E</span></td><td>Comunicado e amostra para os principais clientes</td><td>Comunicado ou campanha, conforme o porte</td></tr>
+    <tr><td><span class="tag tC">C</span></td><td>Comunicação da linha (Coloratto ou sublinha)</td><td>Foto da linha, catálogo, marketplace</td></tr>
+    <tr><td><span class="tag tD">D</span></td><td>Aviso de troca de embalagem e de mudança de código, se houver</td><td>Atualização de fotos e de anúncios</td></tr>
+  </table>
+
+  <h3>F7 · Acompanhamento e G5</h3>
+  <p>Revisões em <b>90, 180 e 365 dias</b>, conduzidas pelo Marketing de Produto, comparando o resultado com a meta definida no G1:</p>
+  <table class="small">
+    <tr><th style="width:28%">Indicador</th><th>Por que importa</th></tr>
+    <tr><td>Faturamento acumulado</td><td>Critério de acerto: o SKU chega a R$ 500 mil na vida?</td></tr>
+    <tr><td>Número de clientes</td><td>Separa demanda real de um cliente grande que concentra a venda.</td></tr>
+    <tr><td>Margem real contra a orçada</td><td>Pega erro de custeio cedo. Há casos de margem de 11% a 29% contra 50% das irmãs.</td></tr>
+    <tr><td>Devolução</td><td>Devolução concentrada em poucos clientes é sinal de problema específico, não de qualidade difusa.</td></tr>
+    <tr><td>Ruptura e saldo</td><td>Principal sinal de que cor ou variação dividiu demanda (trilhas C e E).</td></tr>
+    <tr><td>Efeito no SKU irmão</td><td>A variação cresceu tirando venda do original? Se sim, não somou nada.</td></tr>
+  </table>
+
+  <div class="box warn"><b>G5: manter, ajustar ou descontinuar.</b> Abaixo do critério de corte definido no G1, o SKU é descontinuado, e o PCP programa o esgotamento do estoque. Variações das trilhas C, D e E que não atingem a meta voltam ao SKU original.</div>
+
+  <h3>Status do projeto</h3>
+  <p class="small">Sugestão para o ERP e para a tabela <code>pdp_lancamento</code>: proposto → em estudo (G0) → aprovado (G1) → em desenvolvimento (G2) → em industrialização (G3) → liberado para venda (G4) → lançado → em acompanhamento → mantido / descontinuado. O campo <b>trilha</b> (A a F) entra no registro.</p>
+</section>
+
+<!-- 7. PENDÊNCIAS -->
+<section class="page">
+  <div class="kicker">7 · Para fechar a versão 1.0</div>
+  <h2>Decisões em aberto</h2>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:45%">Decisão</th><th>Quem define</th></tr>
+    <tr><td>1</td><td>Composição e frequência do Comitê de Produto (sugestão: mensal, com Mkt de Produto, Projetos, Comercial, PCP e diretoria)</td><td>Diretoria</td></tr>
+    <tr><td>2</td><td>Prazo-alvo de cada fase por trilha (SLA)</td><td>Cada área, consolidado pelo Mkt de Produto</td></tr>
+    <tr><td>3</td><td>Critério de corte padrão para o G5 (faturamento e clientes em 12 meses por trilha)</td><td>Comitê</td></tr>
+    <tr><td>4</td><td>Inclusão formal de Compras no processo</td><td>Diretoria</td></tr>
+    <tr><td>5</td><td>Quem gera o EAN e o DUN-14 hoje (Marketing ou Qualidade?)</td><td>Mkt + Qualidade</td></tr>
+    <tr><td>6</td><td>Regra de formação da referência para cor, sublinha e kit</td><td>PCP</td></tr>
+    <tr><td>7</td><td>Bloqueio de venda no ERP até o G4: qual campo ou parâmetro usar</td><td>PCP + TI</td></tr>
+    <tr><td>8</td><td>Ferramenta de acompanhamento do dia a dia (ClickUp: um template por trilha)</td><td>Mkt de Produto</td></tr>
+  </table>
+
+  <div class="box note small"><b>Resumo em uma linha.</b> Todo SKU novo entra pelo mesmo processo; a trilha define quais áreas trabalham; o cadastro corre em paralelo; e cada lançamento nasce com uma meta e um critério de corte.</div>
+</section>
+
+</body>
+</html>
