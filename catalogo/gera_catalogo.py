@@ -5,7 +5,8 @@ Monta a base do catálogo Nitron a partir da extração do Sankhya.
 Entrada (nesta pasta):
   dados/sankhya_raw.txt   extração da tabela padrão (CODTAB 0), ativos e não suspensos — ver sql/extrai_tabela_padrao.sql
   traducoes.csv           nome-base -> PT / EN / ES   (o marketing edita)
-  cores.csv               cor -> PT / EN / ES
+  cores.csv               cor escrita no nome -> PT / EN / ES
+  cores_codigo.csv        3ª parte da referência (REF.EMB.COR) -> cor; usado quando o nome não diz a cor
   linhas.csv              grupo do Sankhya -> seção do catálogo, ordem e tradução
   lancamentos.csv         produtos ainda não cadastrados (o marketing preenche)
   excluir.csv             (opcional) CODPROD ou REFERENCIA a tirar do catálogo
@@ -30,6 +31,15 @@ def ler_csv(nome):
     with open(p, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f, delimiter=";"))
 
+def ean_dv(doze):
+    s = sum(int(d) * (3 if i % 2 else 1) for i, d in enumerate(doze))
+    return str((10 - s % 10) % 10)
+
+def ean_completa(e):
+    """Aceita 12 dígitos (calcula o verificador) ou 13 (devolve como veio). Ignora espaços e pontos."""
+    e = re.sub(r"\D", "", e or "")
+    return e + ean_dv(e) if len(e) == 12 else e
+
 def ean_ok(e):
     if not (len(e) == 13 and e.isdigit()):
         return False
@@ -40,6 +50,7 @@ CORES = {sem_acento(r["CHAVE"]).upper(): r for r in ler_csv("cores.csv")}
 COR_RE = "|".join(sorted(map(re.escape, CORES), key=len, reverse=True))
 TRAD = {sem_acento(r["CHAVE"]).upper(): r for r in ler_csv("traducoes.csv")}
 LINHAS = {r["GRUPO"]: r for r in ler_csv("linhas.csv")}
+COR_COD = {r["CODIGO_COR"]: r for r in ler_csv("cores_codigo.csv")}
 EXCLUIR = {r.get("CHAVE", "").strip() for r in ler_csv("excluir.csv")}
 
 def formata_volume(qtd, uni):
@@ -77,6 +88,20 @@ def decompor(nome):
     n = re.sub(r"\s+", " ", n).strip(" -")
     return n, cor, vol, tam
 
+REF_RE = re.compile(r"^(\d{3,4})\.(\d{3})\.([0-9A-Z]{3})$")
+
+def partes_ref(ref):
+    """REF.EMB.COR -> (macro, embalagem master, código de cor) ou None."""
+    m = REF_RE.match(ref)
+    return m.groups() if m else None
+
+def volume_ml(v):
+    m = re.match(r"([\d,]+)\s*(ml|L|kg|g)", v or "")
+    if not m:
+        return 0
+    n = float(m.group(1).replace(",", "."))
+    return n * 1000 if m.group(2) in ("L", "kg") else n
+
 def preco_br(v):
     if v in ("", None):
         return ""
@@ -97,9 +122,15 @@ for l in open(BASE / "dados" / "sankhya_raw.txt", encoding="utf-8"):
     chave, cor, vol, tam = decompor(prod)
     t = TRAD.get(chave)
     c = CORES.get(cor, {})
+    pr = partes_ref(ref)
+    cor_do_codigo = COR_COD.get(pr[2], {}) if pr else {}
+    cor_inferida = False
+    if not c and cor_do_codigo:
+        c, cor_inferida = cor_do_codigo, True
     ln = LINHAS.get(grupo, {})
     item = {
         "TIPO": "CATALOGO", "CODPROD": cod, "REFERENCIA": ref, "PRODUTO_SANKHYA": prod,
+        "REF_MACRO": pr[0] if pr else ref, "REF_EMB": pr[1] if pr else "", "REF_COR": pr[2] if pr else "",
         "ORDEM_LINHA": ln.get("ORDEM", "999"), "LINHA_PT": ln.get("LINHA_PT", grupo),
         "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""),
         "NOME_PT": t["NOME_PT"] if t else prod.title(),
@@ -117,8 +148,15 @@ for l in open(BASE / "dados" / "sankhya_raw.txt", encoding="utf-8"):
         pendencia(item, "EAN13", f"sem EAN no Sankhya ({ean_sit})")
     elif not ean_ok(ean):
         pendencia(item, "EAN13", f"EAN com dígito verificador inválido: {ean}")
-    if not re.fullmatch(r"\d{3,4}\.\d{3}\.[0-9A-Z]{3}", ref):
-        pendencia(item, "REFERENCIA", "referência fora do padrão NNN.NNN.NNN — conferir se é private label / OEM")
+    if not pr:
+        pendencia(item, "REFERENCIA", "referência fora do padrão REF.EMB.COR — conferir se é duplicata ou private label")
+    else:
+        if pr[1].isdigit() and cx and int(pr[1]) != int(cx):
+            pendencia(item, "EMBALAGEM", f"referência diz {int(pr[1])} por caixa (…{pr[1]}…), cadastro diz QTD_CAIXA={cx}")
+        if cor_do_codigo and c and not cor_inferida and cor_do_codigo["COR_PT"] not in c["COR_PT"]:
+            pendencia(item, "COR", f"nome diz '{c['COR_PT']}', código de cor {pr[2]} diz '{cor_do_codigo['COR_PT']}'")
+        if cor_inferida:
+            pendencia(item, "COR", f"nome sem cor — usei o código {pr[2]} = {c['COR_PT']}; confirmar")
     if not cx or cx == "0":
         pendencia(item, "QTD_CAIXA", "sem quantidade por caixa")
     if not ln:
@@ -131,9 +169,12 @@ for r in ler_csv("lancamentos.csv"):
     if not ref or ref.startswith("EXEMPLO"):
         continue
     ln = LINHAS.get(r.get("LINHA_SANKHYA", ""), {})
-    ean = (r.get("EAN13") or "").strip()
+    ean_digitado = re.sub(r"\D", "", r.get("EAN13") or "")
+    ean = ean_completa(ean_digitado)
+    pr = partes_ref(ref)
     item = {
         "TIPO": "LANCAMENTO", "CODPROD": "", "REFERENCIA": ref, "PRODUTO_SANKHYA": "",
+        "REF_MACRO": pr[0] if pr else ref, "REF_EMB": pr[1] if pr else "", "REF_COR": pr[2] if pr else "",
         "ORDEM_LINHA": ln.get("ORDEM", "999"), "LINHA_PT": ln.get("LINHA_PT", r.get("LINHA_SANKHYA", "")),
         "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""),
         "NOME_PT": r["NOME_PT"], "NOME_EN": r["NOME_EN"], "NOME_ES": r["NOME_ES"],
@@ -142,23 +183,25 @@ for r in ler_csv("lancamentos.csv"):
         "EAN13": ean, "PRECO": preco_br(r["PRECO"].replace(",", ".")) if r.get("PRECO") else "",
         "LANCAMENTO": "S", "FOTO": ref,
     }
+    if len(ean_digitado) == 12:
+        pendencia(item, "EAN13", f"digitaram 12 dígitos — calculei o verificador: {ean}")
     if ean and not ean_ok(ean):
-        pendencia(item, "EAN13", f"EAN do lançamento inválido: {ean}")
+        pendencia(item, "EAN13", f"EAN do lançamento inválido (dígito verificador não confere): {ean}")
     if not ean:
         pendencia(item, "EAN13", "lançamento sem EAN — o card sai com 'EAN em cadastro'")
     linhas_saida.append(item)
 
 # ---------- 3. ordenação: seção, depois referência-mãe, depois cor
 def chave_ord(i):
-    mae = i["REFERENCIA"].split(".")[0]
-    return (int(i["ORDEM_LINHA"]), i["NOME_PT"], mae.zfill(4), i["VOLUME"], i["COR_PT"])
+    # seção > produto > tamanho (ml crescente) > macro da referência > cor: as cores do mesmo SKU ficam lado a lado
+    return (int(i["ORDEM_LINHA"]), i["NOME_PT"], volume_ml(i["VOLUME"]), i["REF_MACRO"].zfill(4), i["REF_COR"])
 linhas_saida.sort(key=chave_ord)
 
 for i in linhas_saida:
     if not i["TAMANHO"]:
         pendencia(i, "TAMANHO", "dimensões não existem na view do Sankhya — preencher ou pedir ao TI")
 
-CAMPOS = ["TIPO", "LINHA_PT", "LINHA_EN", "LINHA_ES", "REFERENCIA", "CODPROD", "NOME_PT", "NOME_EN",
+CAMPOS = ["TIPO", "LINHA_PT", "LINHA_EN", "LINHA_ES", "REFERENCIA", "REF_MACRO", "REF_EMB", "REF_COR", "CODPROD", "NOME_PT", "NOME_EN",
           "NOME_ES", "COR_PT", "COR_EN", "COR_ES", "VOLUME", "TAMANHO", "QTD_CAIXA", "EAN13", "PRECO",
           "LANCAMENTO", "FOTO", "PRODUTO_SANKHYA"]
 with open(OUT / "catalogo_indesign.csv", "w", encoding="utf-8", newline="") as f:

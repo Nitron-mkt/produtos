@@ -16,11 +16,29 @@ lancamentos.csv          ─┘                      saida/catalogo_mestre.xlsx 
 | `sql/extrai_tabela_padrao.sql` | — | Consulta do Sankhya: tabela padrão (**CODTAB 0**; o 3 é exportação), ativos e não suspensos |
 | `dados/sankhya_raw.txt` | gerado | Resultado da consulta (620 itens em 23/11/2026, conferido por soma de controle) |
 | `traducoes.csv` | **marketing** | Nome-base → nome PT limpo, EN e ES. Coluna `REVISAR=S` = nome ambíguo no cadastro |
-| `cores.csv` / `linhas.csv` | marketing | Tradução de cor e seção do catálogo, com a ordem das seções |
+| `cores.csv` / `linhas.csv` | marketing | Tradução da cor escrita no nome e seção do catálogo, com a ordem das seções |
+| `cores_codigo.csv` | marketing | Código de cor (3ª parte de REF.EMB.COR) → cor. Usado quando o nome não diz a cor |
 | `lancamentos.csv` | **marketing** | Produtos que ainda não existem no Sankhya. Saem com selo "LANÇAMENTO" |
 | `excluir.csv` | marketing | CODPROD ou referência que não entram (o item Avon/OEM já está fora) |
 | `gera_catalogo.py` | — | Junta tudo, valida e gera o CSV para o InDesign e a planilha de pendências |
 | `indesign/monta_catalogo.jsx` | — | Monta o documento inteiro no InDesign e exporta os 2 PDFs |
+| `indesign/codigo_barras_avulso.jsx` | — | Você digita o número e ele desenha o código na página aberta (embalagem, etiqueta, qualquer peça) |
+
+## A referência: REF.EMB.COR
+
+`233.012.001` = **233** (referência macro do SKU) · **012** (peças por embalagem master) · **001** (código da cor).
+O script usa cada parte:
+
+- **REF** agrupa o mesmo produto: as cores do mesmo SKU saem lado a lado na página.
+- **EMB** é conferida contra a `QTD_CAIXA` do cadastro. Se divergir, vai para Pendências.
+- **COR** preenche a cor quando o nome não diz (pendência "confirmar") e acusa quando o nome diz uma cor e o código diz outra.
+
+## Código de barras
+
+O script desenha o EAN-13 em vetor a partir dos números. Aceita **12 dígitos** (calcula o
+verificador sozinho) ou 13 (confere o verificador e recusa se estiver errado). Espaços,
+pontos e traços são ignorados. Isso vale para o catálogo (coluna `EAN13` de `lancamentos.csv`)
+e para o script avulso.
 
 ## Como gerar o catálogo
 
@@ -45,9 +63,12 @@ reexportar, ligue ou desligue a camada no painel *Camadas* e exporte.
 ## Diagramação: o que vem pronto e o que ajustar
 
 - Grade de 9 produtos por página (3×3) em A4. Cada seção começa numa página nova, com faixa de título em PT/EN/ES.
+- Fonte: **Gotham Book e Gotham Bold** em tudo, sem itálico. O inglês e o espanhol vão em Book
+  cinza. O script acha a Gotham tanto instalada como família "Gotham" (estilos Book/Bold) quanto como
+  "Gotham Book" / "Gotham Bold". Se não achar, avisa antes de montar.
 - Tudo usa **estilos de parágrafo** (`NomePT`, `NomeEN`, `NomeES`, `Specs`, `Preco`...). Para trocar
   fonte ou cor do catálogo inteiro, edite o estilo e não o texto.
-- Cores e fonte da marca ficam no bloco `CFG` no topo do `.jsx` (`corMarca`, `fonte`, grade, margens).
+- Cores da marca ficam no bloco `CFG` no topo do `.jsx` (`corMarca`, `fonte`, grade, margens).
 - O código de barras é desenhado em **vetor** a partir do EAN (EAN-13 a 80%, com dígito
   verificador conferido). Não depende de plugin nem de fonte de código de barras.
 - Nome que não cabe tem o corpo reduzido automaticamente e é listado no relatório.

@@ -24,8 +24,8 @@ var CFG = {
     corSuave: [0, 0, 0, 55],
     corBorda: [0, 0, 0, 15],
     corSelo:  [0, 90, 100, 0],
-    fonte:    "Arial",                        // troque pela fonte da marca
-    fonteEAN: "OCR-B",                        // se não existir, usa a fonte acima
+    // fonte da marca: Gotham Book e Gotham Bold em tudo (sem itálico)
+    fonte:    { familia: "Gotham", book: "Book", bold: "Bold" },
     eanModulo: 0.264,                          // mm (80% do tamanho nominal EAN-13)
     eanAltura: 14,                             // mm
     extensoesFoto: [".psd", ".tif", ".tiff", ".png", ".jpg", ".jpeg", ".ai", ".eps", ".pdf"],
@@ -79,6 +79,15 @@ function eanValido(e) {
     return (10 - s % 10) % 10 === parseInt(e.charAt(12), 10);
 }
 
+// aceita 12 dígitos (calcula o verificador) ou 13; ignora espaços, pontos e traços
+function eanCompleta(e) {
+    e = String(e || "").replace(/\D/g, "");
+    if (e.length !== 12) return e;
+    var s = 0;
+    for (var i = 0; i < 12; i++) s += parseInt(e.charAt(i), 10) * (i % 2 ? 3 : 1);
+    return e + String((10 - s % 10) % 10);
+}
+
 function eanBits(e) {
     var p = EAN_P[parseInt(e.charAt(0), 10)], b = "101", i, d;
     for (i = 1; i <= 6; i++) {
@@ -121,11 +130,25 @@ function cor(doc, nome, cmyk) {
     return c;
 }
 
+// acha a Gotham como estiver instalada: família "Gotham" + estilo "Book"/"Bold",
+// ou famílias separadas "Gotham Book" / "Gotham Bold" (instalações antigas)
+var FONTE_FALTANDO = [];
+function fonteGotham(peso) {
+    var fam = CFG.fonte.familia, sty = CFG.fonte[peso];
+    var tentativas = [fam + "\t" + sty, fam + " " + sty + "\tRegular", fam + " " + sty + "\t" + sty, fam + "-" + sty + "\tRegular"];
+    for (var i = 0; i < tentativas.length; i++) {
+        var f = app.fonts.itemByName(tentativas[i]);
+        if (f.isValid) return f;
+    }
+    FONTE_FALTANDO.push(fam + " " + sty);
+    return null;
+}
+
 function estilo(doc, nome, props) {
     var s = doc.paragraphStyles.itemByName(nome);
     if (!s.isValid) s = doc.paragraphStyles.add({ name: nome });
-    try { s.appliedFont = props.fonte || CFG.fonte; } catch (e) {}
-    try { if (props.fontStyle) s.fontStyle = props.fontStyle; } catch (e) {}
+    var f = fonteGotham(props.peso || "book");
+    if (f) s.appliedFont = f;
     s.pointSize = props.size;
     s.leading = props.leading || props.size * 1.15;
     s.fillColor = props.cor;
@@ -157,11 +180,7 @@ function encaixa(t) {
     return !t.overflows;
 }
 
-function fonteExiste(familia) {
-    var fs = app.fonts.everyItem().fontFamily;
-    for (var i = 0; i < fs.length; i++) if (fs[i] === familia) return true;
-    return false;
-}
+
 
 function achaFoto(pasta, ref) {
     if (!pasta) return null;
@@ -201,19 +220,19 @@ function main() {
         cSuave = cor(doc, "Nitron Suave", CFG.corSuave), cBorda = cor(doc, "Nitron Borda", CFG.corBorda),
         cSelo = cor(doc, "Nitron Selo", CFG.corSelo);
 
-    estilo(doc, "Secao",  { size: 16, cor: cMarca, fontStyle: "Bold" });
-    estilo(doc, "SecaoIdiomas", { size: 8, cor: cSuave, fontStyle: "Italic" });
-    estilo(doc, "NomePT", { size: 8, cor: cTexto, fontStyle: "Bold", after: 0.6 });
-    estilo(doc, "NomeEN", { size: 6.2, cor: cSuave, fontStyle: "Italic" });
-    estilo(doc, "NomeES", { size: 6.2, cor: cSuave, fontStyle: "Italic", after: 0.8 });
-    estilo(doc, "Specs",  { size: 6.2, cor: cTexto });
-    estilo(doc, "Preco",  { size: 11, cor: cMarca, fontStyle: "Bold", just: Justification.RIGHT_ALIGN });
-    estilo(doc, "EAN",    { size: 6.5, cor: doc.colors.itemByName("Black"), fonte: CFG.fonteEAN });
-    estilo(doc, "Selo",   { size: 6, cor: doc.swatches.itemByName("Paper"), fontStyle: "Bold", just: Justification.CENTER_ALIGN });
+    estilo(doc, "Secao",  { size: 16, cor: cMarca, peso: "bold" });
+    estilo(doc, "SecaoIdiomas", { size: 8, cor: cSuave });
+    estilo(doc, "NomePT", { size: 7.5, cor: cTexto, peso: "bold", after: 0.6 });
+    estilo(doc, "NomeEN", { size: 6, cor: cSuave });
+    estilo(doc, "NomeES", { size: 6, cor: cSuave, after: 0.8 });
+    estilo(doc, "Specs",  { size: 6, cor: cTexto });
+    estilo(doc, "Preco",  { size: 11, cor: cMarca, peso: "bold", just: Justification.RIGHT_ALIGN });
+    estilo(doc, "EAN",    { size: 6, cor: doc.colors.itemByName("Black") });
+    estilo(doc, "Selo",   { size: 6, cor: doc.swatches.itemByName("Paper"), peso: "bold", just: Justification.CENTER_ALIGN });
     estilo(doc, "Rodape", { size: 6, cor: cSuave });
     estilo(doc, "SemFoto", { size: 6, cor: cSuave, just: Justification.CENTER_ALIGN });
-    // se a fonte do EAN não existir, cai na fonte padrão sem quebrar
-    if (!fonteExiste(CFG.fonteEAN)) doc.paragraphStyles.itemByName("EAN").appliedFont = CFG.fonte;
+    if (FONTE_FALTANDO.length &&
+        !confirm("Não achei instalada: " + FONTE_FALTANDO.join(", ") + ".\nContinuar com a fonte padrão? (depois é só trocar nos estilos de parágrafo)")) return;
 
     var lyFundo = doc.layers[0]; lyFundo.name = "Fundo";
     var lyProd = doc.layers.add({ name: "Produtos" });
@@ -294,8 +313,9 @@ function main() {
 
         // código de barras
         var by = y + ch - CFG.eanAltura - 5;
-        if (it.EAN13 && eanValido(it.EAN13)) {
-            desenhaEAN(pg, lyProd, it.EAN13, x + 1, by);
+        var ean = eanCompleta(it.EAN13);
+        if (ean && eanValido(ean)) {
+            desenhaEAN(pg, lyProd, ean, x + 1, by);
         } else {
             txt(pg, lyProd, [by + 4, x + 3, by + 9, x + cw / 2], it.EAN13 ? "EAN inválido" : "EAN em cadastro", "Specs");
             eanRuim.push(it.REFERENCIA + " — " + (it.EAN13 || "sem EAN"));
