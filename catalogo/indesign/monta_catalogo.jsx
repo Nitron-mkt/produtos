@@ -17,7 +17,15 @@
 var CFG = {
     pagina:   { w: 210, h: 297 },            // mm (A4)
     margem:   { top: 30, bottom: 16, left: 12, right: 12 },
-    grade:    { cols: 3, rows: 3, gutter: 4 },
+    gutter:   4,                               // mm entre cards (igual nas 3 grades)
+    // três grades: 3, 4 ou 5 produtos por linha. Cada uma vira uma página-mestre com as colunas.
+    // corpo em pt; ean = altura das barras em mm; texto = altura reservada ao bloco de texto em mm
+    grades: {
+        3: { rows: 3, nome: 7.5, idioma: 6,   specs: 6,   preco: 11,  ean: 8,   texto: 19 },
+        4: { rows: 4, nome: 6.5, idioma: 5.3, specs: 5.3, preco: 9.5, ean: 7,   texto: 17 },
+        5: { rows: 5, nome: 6,   idioma: 4.8, specs: 4.8, preco: 8.5, ean: 6.5, texto: 19 }
+    },
+    gradePadrao: 4,                            // usada quando a seção não define POR_LINHA
     // cores da marca (CMYK) — ajuste para o manual da Nitron
     corMarca: [100, 70, 0, 30],
     corTexto: [0, 0, 0, 90],
@@ -27,7 +35,6 @@ var CFG = {
     // fonte da marca: Gotham Book e Gotham Bold em tudo (sem itálico)
     fonte:    { familia: "Gotham", book: "Book", bold: "Bold" },
     eanModulo: 0.264,                          // mm (80% do tamanho nominal EAN-13)
-    eanAltura: 14,                             // mm
     extensoesFoto: [".psd", ".tif", ".tiff", ".png", ".jpg", ".jpeg", ".ai", ".eps", ".pdf"],
     rodapePreco: "Preços da tabela padrão, sujeitos a alteração sem aviso prévio."
 };
@@ -100,8 +107,11 @@ function eanBits(e) {
 }
 
 // desenha o código como vetor (retângulos) — não depende de fonte nem plugin
-function desenhaEAN(pg, camada, ean, x, y) {
-    var m = CFG.eanModulo, h = CFG.eanAltura, bits = eanBits(ean);
+// largura total do símbolo com as margens de silêncio (9 + 95 + 7 módulos) — nunca reduzir
+function larguraEAN() { return 111 * CFG.eanModulo; }
+
+function desenhaEAN(pg, camada, ean, x, y, h, est) {
+    var m = CFG.eanModulo, bits = eanBits(ean);
     var quiet = 9 * m, itens = [], i = 0, ini, guarda, r;
     while (i < 95) {
         if (bits.charAt(i) === "1") {
@@ -109,17 +119,17 @@ function desenhaEAN(pg, camada, ean, x, y) {
             while (i < 95 && bits.charAt(i) === "1") i++;
             guarda = (ini <= 2) || (ini >= 45 && ini <= 49) || (ini >= 92);
             r = pg.rectangles.add(camada, undefined, undefined, {
-                geometricBounds: [y, x + quiet + ini * m, y + h + (guarda ? 1.6 : 0), x + quiet + i * m],
+                geometricBounds: [y, x + quiet + ini * m, y + h + (guarda ? 1.2 : 0), x + quiet + i * m],
                 fillColor: "Black", strokeWeight: 0
             });
             itens.push(r);
         } else i++;
     }
     // dígitos legíveis
-    var ty = y + h + 0.2, th = 2.6;
-    itens.push(txt(pg, camada, [ty, x, ty + th, x + quiet - 0.3], ean.charAt(0), "EAN", Justification.RIGHT_ALIGN));
-    itens.push(txt(pg, camada, [ty, x + quiet + 3 * m, ty + th, x + quiet + 45 * m], ean.substr(1, 6), "EAN", Justification.CENTER_ALIGN));
-    itens.push(txt(pg, camada, [ty, x + quiet + 50 * m, ty + th, x + quiet + 92 * m], ean.substr(7, 6), "EAN", Justification.CENTER_ALIGN));
+    var ty = y + h + 0.15, th = 2.4;
+    itens.push(txt(pg, camada, [ty, x, ty + th, x + quiet - 0.3], ean.charAt(0), est, Justification.RIGHT_ALIGN));
+    itens.push(txt(pg, camada, [ty, x + quiet + 3 * m, ty + th, x + quiet + 45 * m], ean.substr(1, 6), est, Justification.CENTER_ALIGN));
+    itens.push(txt(pg, camada, [ty, x + quiet + 50 * m, ty + th, x + quiet + 92 * m], ean.substr(7, 6), est, Justification.CENTER_ALIGN));
     return pg.groups.add(itens, camada);
 }
 
@@ -222,17 +232,26 @@ function main() {
 
     estilo(doc, "Secao",  { size: 16, cor: cMarca, peso: "bold" });
     estilo(doc, "SecaoIdiomas", { size: 8, cor: cSuave });
-    estilo(doc, "NomePT", { size: 7.5, cor: cTexto, peso: "bold", after: 0.6 });
-    estilo(doc, "NomeEN", { size: 6, cor: cSuave });
-    estilo(doc, "NomeES", { size: 6, cor: cSuave, after: 0.8 });
-    estilo(doc, "Specs",  { size: 6, cor: cTexto });
-    estilo(doc, "Preco",  { size: 11, cor: cMarca, peso: "bold", just: Justification.RIGHT_ALIGN });
-    estilo(doc, "EAN",    { size: 6, cor: doc.colors.itemByName("Black") });
-    estilo(doc, "Selo",   { size: 6, cor: doc.swatches.itemByName("Paper"), peso: "bold", just: Justification.CENTER_ALIGN });
+    estilo(doc, "Selo",   { size: 5.5, cor: doc.swatches.itemByName("Paper"), peso: "bold", just: Justification.CENTER_ALIGN });
     estilo(doc, "Rodape", { size: 6, cor: cSuave });
-    estilo(doc, "SemFoto", { size: 6, cor: cSuave, just: Justification.CENTER_ALIGN });
+    estilo(doc, "SemFoto", { size: 5.5, cor: cSuave, just: Justification.CENTER_ALIGN });
+    // um jogo de estilos por grade (NomePT-3, NomePT-4, NomePT-5...): ajuste o corpo de cada um no painel
+    for (var gk in CFG.grades) {
+        var G = CFG.grades[gk];
+        estilo(doc, "NomePT-" + gk, { size: G.nome, cor: cTexto, peso: "bold", after: 0.5 });
+        estilo(doc, "NomeEN-" + gk, { size: G.idioma, cor: cSuave });
+        estilo(doc, "NomeES-" + gk, { size: G.idioma, cor: cSuave, after: 0.6 });
+        estilo(doc, "Specs-" + gk,  { size: G.specs, cor: cTexto });
+        estilo(doc, "Preco-" + gk,  { size: G.preco, cor: cMarca, peso: "bold", just: Justification.RIGHT_ALIGN });
+        estilo(doc, "EAN-" + gk,    { size: 5.5, cor: doc.colors.itemByName("Black") });
+    }
     if (FONTE_FALTANDO.length &&
         !confirm("Não achei instalada: " + FONTE_FALTANDO.join(", ") + ".\nContinuar com a fonte padrão? (depois é só trocar nos estilos de parágrafo)")) return;
+
+    var resp = prompt("Produtos por linha nas seções sem definição em linhas.csv (3, 4 ou 5):", String(CFG.gradePadrao));
+    if (resp === null) return;
+    var padrao = parseInt(resp, 10);
+    if (!CFG.grades[padrao]) padrao = CFG.gradePadrao;
 
     var lyFundo = doc.layers[0]; lyFundo.name = "Fundo";
     var lyProd = doc.layers.add({ name: "Produtos" });
@@ -240,14 +259,36 @@ function main() {
 
     var areaW = CFG.pagina.w - CFG.margem.left - CFG.margem.right;
     var areaH = CFG.pagina.h - CFG.margem.top - CFG.margem.bottom;
-    var g = CFG.grade, cw = (areaW - (g.cols - 1) * g.gutter) / g.cols, ch = (areaH - (g.rows - 1) * g.gutter) / g.rows;
-    var porPagina = g.cols * g.rows;
+
+    // páginas-mestre: mesmas margens e medianiz, só muda o número de colunas (e as guias de linha)
+    var mestres = {}, letras = { 3: "A", 4: "B", 5: "C" };
+    for (var mk in CFG.grades) {
+        var ms = doc.masterSpreads.add(1, { namePrefix: letras[mk], baseName: mk + " por linha" });
+        var mp = ms.pages[0];
+        with (mp.marginPreferences) {
+            top = CFG.margem.top; bottom = CFG.margem.bottom; left = CFG.margem.left; right = CFG.margem.right;
+            columnCount = parseInt(mk, 10); columnGutter = CFG.gutter;
+        }
+        var nr = CFG.grades[mk].rows, chm = (areaH - (nr - 1) * CFG.gutter) / nr;
+        for (var rr = 1; rr < nr; rr++) {
+            var gy = CFG.margem.top + rr * chm + (rr - 1) * CFG.gutter;
+            mp.guides.add(undefined, { orientation: HorizontalOrVertical.HORIZONTAL, location: gy });
+            mp.guides.add(undefined, { orientation: HorizontalOrVertical.HORIZONTAL, location: gy + CFG.gutter });
+        }
+        mestres[mk] = ms;
+    }
 
     var semFoto = [], estouro = [], eanRuim = [];
-    var pg = null, pos = porPagina, secaoAtual = null, nPag = 0;
+    var pg = null, pos = 0, porPagina = 0, secaoAtual = null, nPag = 0, cols = padrao, G = CFG.grades[padrao], cw = 0, ch = 0;
 
     function novaPagina(it) {
+        cols = CFG.grades[parseInt(it.POR_LINHA, 10)] ? parseInt(it.POR_LINHA, 10) : padrao;
+        G = CFG.grades[cols];
+        cw = (areaW - (cols - 1) * CFG.gutter) / cols;
+        ch = (areaH - (G.rows - 1) * CFG.gutter) / G.rows;
+        porPagina = cols * G.rows;
         pg = (nPag === 0) ? doc.pages[0] : doc.pages.add();
+        pg.appliedMaster = mestres[cols];
         nPag++; pos = 0;
         // cabeçalho da seção
         pg.rectangles.add(lyFundo, undefined, undefined, { geometricBounds: [0, 0, 22, CFG.pagina.w], fillColor: cMarca, strokeWeight: 0 });
@@ -262,25 +303,32 @@ function main() {
             CFG.rodapePreco, "Rodape", Justification.RIGHT_ALIGN);
     }
 
+    var PAD = 1.6, PT_MM = 0.3528;
     for (var n = 0; n < itens.length; n++) {
         var it = itens[n];
         if (it.LINHA_PT !== secaoAtual || pos >= porPagina) {
             novaPagina(it);
             secaoAtual = it.LINHA_PT;
         }
-        var col = pos % g.cols, row = Math.floor(pos / g.cols);
-        var x = CFG.margem.left + col * (cw + g.gutter), y = CFG.margem.top + row * (ch + g.gutter);
+        var col = pos % cols, row = Math.floor(pos / cols);
+        var x = CFG.margem.left + col * (cw + CFG.gutter), y = CFG.margem.top + row * (ch + CFG.gutter), yb = y + ch;
         pos++;
+
+        // card estreito (4 e 5 por linha): o preço não cabe ao lado do código, vai em cima dele
+        var estreito = (cw - 2 * PAD) < larguraEAN() + G.preco * PT_MM * 5.5;
+        var eanH = G.ean, by = yb - PAD - (eanH + 2.6);
+        var precoH = G.preco * PT_MM * 1.2;
+        var textoFim = estreito ? by - precoH - 1.2 : by - 1.2;
+        var textoIni = textoFim - G.texto;
 
         // moldura do card
         pg.rectangles.add(lyFundo, undefined, undefined, {
-            geometricBounds: [y, x, y + ch, x + cw], fillColor: "None", strokeColor: cBorda, strokeWeight: 0.5
+            geometricBounds: [y, x, yb, x + cw], fillColor: "None", strokeColor: cBorda, strokeWeight: 0.5
         });
 
-        // foto
-        var fotoH = ch * 0.47;
+        // foto: ocupa todo o espaço que sobra acima do texto
         var fr = pg.rectangles.add(lyProd, undefined, undefined, {
-            geometricBounds: [y + 2, x + 2, y + fotoH, x + cw - 2], strokeWeight: 0, fillColor: "None", label: "foto:" + it.FOTO
+            geometricBounds: [y + PAD, x + PAD, textoIni - 1, x + cw - PAD], strokeWeight: 0, fillColor: "None", label: "foto:" + it.FOTO
         });
         var f = achaFoto(pastaFotos, it.FOTO);
         if (f) {
@@ -288,41 +336,47 @@ function main() {
             catch (e) { semFoto.push(it.REFERENCIA + " (erro ao colocar: " + e + ")"); }
         } else {
             fr.fillColor = cBorda; fr.fillTint = 40;
-            txt(pg, lyProd, [y + fotoH / 2 - 3, x + 2, y + fotoH / 2 + 4, x + cw - 2], "SEM FOTO\r" + it.FOTO, "SemFoto");
+            var my = (y + PAD + textoIni - 1) / 2;
+            txt(pg, lyProd, [my - 2.5, x + PAD, my + 3, x + cw - PAD], "SEM FOTO\r" + it.FOTO, "SemFoto");
             semFoto.push(it.REFERENCIA);
         }
         if (it.LANCAMENTO === "S") {
-            pg.rectangles.add(lyProd, undefined, undefined, { geometricBounds: [y + 2, x + 2, y + 6, x + 20], fillColor: cSelo, strokeWeight: 0 });
-            txt(pg, lyProd, [y + 2.7, x + 2, y + 6, x + 20], "LANÇAMENTO", "Selo");
+            pg.rectangles.add(lyProd, undefined, undefined, { geometricBounds: [y + PAD, x + PAD, y + PAD + 3.6, x + PAD + 16], fillColor: cSelo, strokeWeight: 0 });
+            txt(pg, lyProd, [y + PAD + 0.7, x + PAD, y + PAD + 3.6, x + PAD + 16], "LANÇAMENTO", "Selo");
         }
 
         // textos
         var specs1 = juntaNaoVazios([
             juntaNaoVazios([it.COR_PT, it.COR_EN, it.COR_ES], " / "),
             it.VOLUME, it.TAMANHO], "  ·  ");
-        var specs2 = "Ref. " + it.REFERENCIA + (it.QTD_CAIXA ? "   ·   Cx " + it.QTD_CAIXA + " un" : "");
+        var specs2 = "Ref. " + it.REFERENCIA + (it.QTD_CAIXA ? " · Cx " + it.QTD_CAIXA + " un" : "");
         var conteudo = it.NOME_PT + "\r" + it.NOME_EN + "\r" + it.NOME_ES + "\r" + (specs1 ? specs1 + "\r" : "") + specs2;
         var tf = pg.textFrames.add(lyProd, undefined, undefined, {
-            geometricBounds: [y + fotoH + 1.5, x + 3, y + ch - CFG.eanAltura - 6, x + cw - 3], contents: conteudo
+            geometricBounds: [textoIni, x + PAD, textoFim, x + cw - PAD], contents: conteudo
         });
         tf.textFramePreferences.insetSpacing = [0, 0, 0, 0];
-        var ps = tf.parentStory.paragraphs, k, nomes = ["NomePT", "NomeEN", "NomeES"];
+        tf.textFramePreferences.verticalJustification = VerticalJustification.BOTTOM_ALIGN;
+        var ps = tf.parentStory.paragraphs, k, nomes = ["NomePT-", "NomeEN-", "NomeES-"];
         for (k = 0; k < ps.length; k++)
-            ps[k].appliedParagraphStyle = doc.paragraphStyles.itemByName(k < 3 ? nomes[k] : "Specs");
+            ps[k].appliedParagraphStyle = doc.paragraphStyles.itemByName((k < 3 ? nomes[k] : "Specs-") + cols);
         if (!encaixa(tf)) estouro.push(it.REFERENCIA + " — " + it.NOME_PT);
 
-        // código de barras
-        var by = y + ch - CFG.eanAltura - 5;
+        // código de barras: largura fixa (80%), só a altura muda por grade
+        var bx = estreito ? x + (cw - larguraEAN()) / 2 : x + PAD - 0.6;
         var ean = eanCompleta(it.EAN13);
         if (ean && eanValido(ean)) {
-            desenhaEAN(pg, lyProd, ean, x + 1, by);
+            desenhaEAN(pg, lyProd, ean, bx, by, eanH, "EAN-" + cols);
         } else {
-            txt(pg, lyProd, [by + 4, x + 3, by + 9, x + cw / 2], it.EAN13 ? "EAN inválido" : "EAN em cadastro", "Specs");
+            txt(pg, lyProd, [by + 2, x + PAD, by + 6, x + cw - PAD], it.EAN13 ? "EAN inválido" : "EAN em cadastro", "Specs-" + cols);
             eanRuim.push(it.REFERENCIA + " — " + (it.EAN13 || "sem EAN"));
         }
 
         // preço (camada própria)
-        if (it.PRECO) txt(pg, lyPreco, [y + ch - 9, x + cw / 2, y + ch - 2, x + cw - 3], it.PRECO, "Preco");
+        if (it.PRECO) {
+            var pgb = estreito ? [by - precoH - 0.8, x + PAD, by - 0.8, x + cw - PAD]
+                               : [yb - PAD - precoH, x + PAD + larguraEAN(), yb - PAD, x + cw - PAD];
+            txt(pg, lyPreco, pgb, it.PRECO, "Preco-" + cols);
+        }
     }
 
     // ---------------------------------------------------- relatório

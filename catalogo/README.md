@@ -62,11 +62,25 @@ reexportar, ligue ou desligue a camada no painel *Camadas* e exporte.
 
 ## Diagramação: o que vem pronto e o que ajustar
 
-- Grade de 9 produtos por página (3×3) em A4. Cada seção começa numa página nova, com faixa de título em PT/EN/ES.
+- **Três grades**, com as mesmas margens e a mesma medianiz de 4 mm. Cada uma vira uma página-mestre:
+
+  | Mestra | Por linha | Card (mm) | Linhas | Por página | Código de barras |
+  |---|---|---|---|---|---|
+  | A-3 por linha | 3 | 59,33 × 80,3 | 3 | 9 | 8 mm de altura, preço ao lado |
+  | B-4 por linha | 4 | 43,50 × 59,8 | 4 | 16 | 7 mm, preço em cima |
+  | C-5 por linha | 5 | 34,00 × 47,0 | 5 | 25 | 6,5 mm, preço em cima |
+
+  A grade de cada seção vem da coluna `POR_LINHA` de `linhas.csv` (Teca e Nitron Mob = 3). As seções
+  em branco usam a grade escolhida ao rodar o script. Prévia das três: `saida/opcoes_de_grade.pdf`
+  (gerada por `previa/grade.py`; usa Montserrat no lugar da Gotham).
+- O código de barras tem **largura fixa** em 80% do nominal (29,3 mm com as margens de silêncio). Só a
+  altura foi reduzida. Num catálogo isso é aceitável, mas na embalagem que passa no caixa não se corta a altura.
+  Imprimam uma página e testem a leitura antes de rodar.
+- Cada seção começa numa página nova, com faixa de título em PT/EN/ES.
 - Fonte: **Gotham Book e Gotham Bold** em tudo, sem itálico. O inglês e o espanhol vão em Book
   cinza. O script acha a Gotham tanto instalada como família "Gotham" (estilos Book/Bold) quanto como
   "Gotham Book" / "Gotham Bold". Se não achar, avisa antes de montar.
-- Tudo usa **estilos de parágrafo** (`NomePT`, `NomeEN`, `NomeES`, `Specs`, `Preco`...). Para trocar
+- Tudo usa **estilos de parágrafo**, um jogo por grade (`NomePT-4`, `Specs-4`, `Preco-4`...). Para trocar
   fonte ou cor do catálogo inteiro, edite o estilo e não o texto.
 - Cores da marca ficam no bloco `CFG` no topo do `.jsx` (`corMarca`, `fonte`, grade, margens).
 - O código de barras é desenhado em **vetor** a partir do EAN (EAN-13 a 80%, com dígito

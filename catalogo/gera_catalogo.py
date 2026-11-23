@@ -132,7 +132,7 @@ for l in open(BASE / "dados" / "sankhya_raw.txt", encoding="utf-8"):
         "TIPO": "CATALOGO", "CODPROD": cod, "REFERENCIA": ref, "PRODUTO_SANKHYA": prod,
         "REF_MACRO": pr[0] if pr else ref, "REF_EMB": pr[1] if pr else "", "REF_COR": pr[2] if pr else "",
         "ORDEM_LINHA": ln.get("ORDEM", "999"), "LINHA_PT": ln.get("LINHA_PT", grupo),
-        "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""),
+        "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""), "POR_LINHA": ln.get("POR_LINHA", ""),
         "NOME_PT": t["NOME_PT"] if t else prod.title(),
         "NOME_EN": t["NOME_EN"] if t else "", "NOME_ES": t["NOME_ES"] if t else "",
         "COR_PT": c.get("COR_PT", ""), "COR_EN": c.get("COR_EN", ""), "COR_ES": c.get("COR_ES", ""),
@@ -176,7 +176,7 @@ for r in ler_csv("lancamentos.csv"):
         "TIPO": "LANCAMENTO", "CODPROD": "", "REFERENCIA": ref, "PRODUTO_SANKHYA": "",
         "REF_MACRO": pr[0] if pr else ref, "REF_EMB": pr[1] if pr else "", "REF_COR": pr[2] if pr else "",
         "ORDEM_LINHA": ln.get("ORDEM", "999"), "LINHA_PT": ln.get("LINHA_PT", r.get("LINHA_SANKHYA", "")),
-        "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""),
+        "LINHA_EN": ln.get("LINHA_EN", ""), "LINHA_ES": ln.get("LINHA_ES", ""), "POR_LINHA": ln.get("POR_LINHA", ""),
         "NOME_PT": r["NOME_PT"], "NOME_EN": r["NOME_EN"], "NOME_ES": r["NOME_ES"],
         "COR_PT": r["COR_PT"], "COR_EN": r["COR_EN"], "COR_ES": r["COR_ES"],
         "VOLUME": r["VOLUME"], "TAMANHO": r["TAMANHO"], "QTD_CAIXA": r["QTD_CAIXA"],
@@ -201,7 +201,7 @@ for i in linhas_saida:
     if not i["TAMANHO"]:
         pendencia(i, "TAMANHO", "dimensões não existem na view do Sankhya — preencher ou pedir ao TI")
 
-CAMPOS = ["TIPO", "LINHA_PT", "LINHA_EN", "LINHA_ES", "REFERENCIA", "REF_MACRO", "REF_EMB", "REF_COR", "CODPROD", "NOME_PT", "NOME_EN",
+CAMPOS = ["TIPO", "LINHA_PT", "LINHA_EN", "LINHA_ES", "POR_LINHA", "REFERENCIA", "REF_MACRO", "REF_EMB", "REF_COR", "CODPROD", "NOME_PT", "NOME_EN",
           "NOME_ES", "COR_PT", "COR_EN", "COR_ES", "VOLUME", "TAMANHO", "QTD_CAIXA", "EAN13", "PRECO",
           "LANCAMENTO", "FOTO", "PRODUTO_SANKHYA"]
 with open(OUT / "catalogo_indesign.csv", "w", encoding="utf-8", newline="") as f:

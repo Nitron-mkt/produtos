@@ -1,22 +1,22 @@
-GRUPO;ORDEM;LINHA_PT;LINHA_EN;LINHA_ES
-Linha Potes;10;Potes;Food Storage;Recipientes
-POP;11;Kits POP;POP Kits;Kits POP
-Linha Coloratto;12;Coloratto;Coloratto;Coloratto
-Linha Micro-ondas;20;Micro-ondas;Microwave;Microondas
-Linha Cozinha;30;Cozinha;Kitchen;Cocina
-Linha Jarras;31;Jarras;Pitchers;Jarras
-Decor-Chef;32;Decor Chef;Decor Chef;Decor Chef
-Decor-Confeitaria;33;Confeitaria;Baking;Repostería
-Linha Geladeira;40;Geladeira;Fridge;Heladera
-Linha Organização;50;Organização;Home Organization;Organización
-Linha Frasqueiras;51;Frasqueiras;Storage Cases;Organizadores
-Linha Banheiro;60;Banheiro;Bathroom;Baño
-Linha Limpeza;70;Limpeza e Lavanderia;Cleaning & Laundry;Limpieza y Lavandería
-Linha Lixeiras;71;Lixeiras;Trash Cans;Papeleras
-Linha Infantil;80;Infantil;Kids;Infantil
-Linha Realce;81;Realce;Realce;Realce
-Teca Cozinha;90;Teca Cozinha;Teak Kitchen;Teca Cocina
-Teca Petisqueira;91;Teca Servir;Teak Serveware;Teca para Servir
-Teca Tábuas;92;Teca Tábuas;Teak Boards;Teca Tablas
-Teca Organização;93;Teca Organização;Teak Organization;Teca Organización
-Nitron Mob;99;Nitron Mob;Nitron Mob;Nitron Mob
+GRUPO;ORDEM;POR_LINHA;LINHA_PT;LINHA_EN;LINHA_ES
+Linha Potes;10;;Potes;Food Storage;Recipientes
+POP;11;;Kits POP;POP Kits;Kits POP
+Linha Coloratto;12;;Coloratto;Coloratto;Coloratto
+Linha Micro-ondas;20;;Micro-ondas;Microwave;Microondas
+Linha Cozinha;30;;Cozinha;Kitchen;Cocina
+Linha Jarras;31;;Jarras;Pitchers;Jarras
+Decor-Chef;32;;Decor Chef;Decor Chef;Decor Chef
+Decor-Confeitaria;33;;Confeitaria;Baking;Repostería
+Linha Geladeira;40;;Geladeira;Fridge;Heladera
+Linha Organização;50;;Organização;Home Organization;Organización
+Linha Frasqueiras;51;;Frasqueiras;Storage Cases;Organizadores
+Linha Banheiro;60;;Banheiro;Bathroom;Baño
+Linha Limpeza;70;;Limpeza e Lavanderia;Cleaning & Laundry;Limpieza y Lavandería
+Linha Lixeiras;71;;Lixeiras;Trash Cans;Papeleras
+Linha Infantil;80;;Infantil;Kids;Infantil
+Linha Realce;81;;Realce;Realce;Realce
+Teca Cozinha;90;3;Teca Cozinha;Teak Kitchen;Teca Cocina
+Teca Petisqueira;91;3;Teca Servir;Teak Serveware;Teca para Servir
+Teca Tábuas;92;3;Teca Tábuas;Teak Boards;Teca Tablas
+Teca Organização;93;3;Teca Organização;Teak Organization;Teca Organización
+Nitron Mob;99;3;Nitron Mob;Nitron Mob;Nitron Mob
